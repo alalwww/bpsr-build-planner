@@ -1,0 +1,5944 @@
+{
+  "1001": [
+    {
+      "id": 1024001,
+      "quality": 1,
+      "icon": "red_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024002,
+      "quality": 1,
+      "icon": "blue_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024003,
+      "quality": 1,
+      "icon": "green_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024004,
+      "quality": 1,
+      "icon": "yellow_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024031,
+      "quality": 2,
+      "icon": "red_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024032,
+      "quality": 2,
+      "icon": "red_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024033,
+      "quality": 2,
+      "icon": "red_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024034,
+      "quality": 2,
+      "icon": "red_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024051,
+      "quality": 3,
+      "icon": "red_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024052,
+      "quality": 3,
+      "icon": "red_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024053,
+      "quality": 3,
+      "icon": "red_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024054,
+      "quality": 3,
+      "icon": "red_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024131,
+      "quality": 2,
+      "icon": "blue_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024132,
+      "quality": 2,
+      "icon": "blue_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024133,
+      "quality": 2,
+      "icon": "blue_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024134,
+      "quality": 2,
+      "icon": "blue_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024151,
+      "quality": 3,
+      "icon": "blue_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024152,
+      "quality": 3,
+      "icon": "blue_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024153,
+      "quality": 3,
+      "icon": "blue_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024154,
+      "quality": 3,
+      "icon": "blue_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024231,
+      "quality": 2,
+      "icon": "green_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024232,
+      "quality": 2,
+      "icon": "green_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024233,
+      "quality": 2,
+      "icon": "green_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024234,
+      "quality": 2,
+      "icon": "green_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024251,
+      "quality": 3,
+      "icon": "green_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024252,
+      "quality": 3,
+      "icon": "green_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024253,
+      "quality": 3,
+      "icon": "green_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024254,
+      "quality": 3,
+      "icon": "green_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024331,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024332,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024333,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024334,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024351,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024352,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024353,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024354,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    }
+  ],
+  "1002": [
+    {
+      "id": 1024001,
+      "quality": 1,
+      "icon": "red_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024002,
+      "quality": 1,
+      "icon": "blue_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024003,
+      "quality": 1,
+      "icon": "green_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024004,
+      "quality": 1,
+      "icon": "yellow_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024031,
+      "quality": 2,
+      "icon": "red_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024032,
+      "quality": 2,
+      "icon": "red_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024033,
+      "quality": 2,
+      "icon": "red_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024034,
+      "quality": 2,
+      "icon": "red_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024051,
+      "quality": 3,
+      "icon": "red_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024052,
+      "quality": 3,
+      "icon": "red_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024053,
+      "quality": 3,
+      "icon": "red_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024054,
+      "quality": 3,
+      "icon": "red_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024131,
+      "quality": 2,
+      "icon": "blue_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024132,
+      "quality": 2,
+      "icon": "blue_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024133,
+      "quality": 2,
+      "icon": "blue_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024134,
+      "quality": 2,
+      "icon": "blue_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024151,
+      "quality": 3,
+      "icon": "blue_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024152,
+      "quality": 3,
+      "icon": "blue_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024153,
+      "quality": 3,
+      "icon": "blue_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024154,
+      "quality": 3,
+      "icon": "blue_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024231,
+      "quality": 2,
+      "icon": "green_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024232,
+      "quality": 2,
+      "icon": "green_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024233,
+      "quality": 2,
+      "icon": "green_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024234,
+      "quality": 2,
+      "icon": "green_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024251,
+      "quality": 3,
+      "icon": "green_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024252,
+      "quality": 3,
+      "icon": "green_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024253,
+      "quality": 3,
+      "icon": "green_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024254,
+      "quality": 3,
+      "icon": "green_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024331,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024332,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024333,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024334,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024351,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024352,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024353,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024354,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    }
+  ],
+  "1003": [
+    {
+      "id": 1024001,
+      "quality": 1,
+      "icon": "red_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024002,
+      "quality": 1,
+      "icon": "blue_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024003,
+      "quality": 1,
+      "icon": "green_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024004,
+      "quality": 1,
+      "icon": "yellow_crystal_stone_basic",
+      "level": 1,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          10
+        ]
+      ],
+      "fightValue": 6
+    },
+    {
+      "id": 1024031,
+      "quality": 2,
+      "icon": "red_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024032,
+      "quality": 2,
+      "icon": "red_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024033,
+      "quality": 2,
+      "icon": "red_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024034,
+      "quality": 2,
+      "icon": "red_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024051,
+      "quality": 3,
+      "icon": "red_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024052,
+      "quality": 3,
+      "icon": "red_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024053,
+      "quality": 3,
+      "icon": "red_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024054,
+      "quality": 3,
+      "icon": "red_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024131,
+      "quality": 2,
+      "icon": "blue_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024132,
+      "quality": 2,
+      "icon": "blue_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024133,
+      "quality": 2,
+      "icon": "blue_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024134,
+      "quality": 2,
+      "icon": "blue_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024151,
+      "quality": 3,
+      "icon": "blue_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024152,
+      "quality": 3,
+      "icon": "blue_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024153,
+      "quality": 3,
+      "icon": "blue_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024154,
+      "quality": 3,
+      "icon": "blue_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024231,
+      "quality": 2,
+      "icon": "green_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024232,
+      "quality": 2,
+      "icon": "green_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024233,
+      "quality": 2,
+      "icon": "green_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024234,
+      "quality": 2,
+      "icon": "green_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024251,
+      "quality": 3,
+      "icon": "green_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024252,
+      "quality": 3,
+      "icon": "green_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024253,
+      "quality": 3,
+      "icon": "green_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024254,
+      "quality": 3,
+      "icon": "green_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024331,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_triangle_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11012,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024332,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_square_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11042,
+          20
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024333,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_special_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11032,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024334,
+      "quality": 2,
+      "icon": "yellow_crystal_stone_pear_2",
+      "level": 3,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          30
+        ],
+        [
+          11022,
+          8
+        ]
+      ],
+      "fightValue": 36
+    },
+    {
+      "id": 1024351,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_triangle_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11012,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024352,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_square_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11042,
+          50
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024353,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_special_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11032,
+          16
+        ]
+      ],
+      "fightValue": 66
+    },
+    {
+      "id": 1024354,
+      "quality": 3,
+      "icon": "yellow_crystal_stone_pear_4",
+      "level": 5,
+      "cost": [
+        [
+          10008,
+          5000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          50
+        ],
+        [
+          11022,
+          16
+        ]
+      ],
+      "fightValue": 66
+    }
+  ],
+  "2001": [
+    {
+      "id": 1024601,
+      "quality": 3,
+      "icon": "item_icons_enchantformula21",
+      "level": 3,
+      "cost": [
+        [
+          1024385,
+          10
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          20
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024602,
+        "cost": [
+          [
+            1024385,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            25
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024603,
+        "cost": [
+          [
+            1024385,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            30
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024611,
+      "quality": 3,
+      "icon": "item_icons_enchantformula29",
+      "level": 3,
+      "cost": [
+        [
+          1024383,
+          6
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          80
+        ],
+        [
+          11012,
+          25
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024612,
+        "cost": [
+          [
+            1024383,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            90
+          ],
+          [
+            11012,
+            30
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024613,
+        "cost": [
+          [
+            1024383,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            100
+          ],
+          [
+            11012,
+            35
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024621,
+      "quality": 3,
+      "icon": "item_icons_enchantformula26",
+      "level": 3,
+      "cost": [
+        [
+          1024387,
+          6
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          80
+        ],
+        [
+          11022,
+          25
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024622,
+        "cost": [
+          [
+            1024387,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            90
+          ],
+          [
+            11022,
+            30
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024623,
+        "cost": [
+          [
+            1024387,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            100
+          ],
+          [
+            11022,
+            35
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024631,
+      "quality": 3,
+      "icon": "item_icons_enchantformula28",
+      "level": 3,
+      "cost": [
+        [
+          1024381,
+          6
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          80
+        ],
+        [
+          11032,
+          25
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024632,
+        "cost": [
+          [
+            1024381,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            90
+          ],
+          [
+            11032,
+            30
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024633,
+        "cost": [
+          [
+            1024381,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            100
+          ],
+          [
+            11032,
+            35
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024691,
+      "quality": 4,
+      "icon": "item_icons_enchantformula30",
+      "level": 7,
+      "cost": [
+        [
+          1024385,
+          15
+        ],
+        [
+          10008,
+          50000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ]
+      ],
+      "fightValue": 179,
+      "refined": {
+        "id": 1024692,
+        "cost": [
+          [
+            1024385,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ]
+        ],
+        "fightValue": 193
+      },
+      "perfect": {
+        "id": 1024693,
+        "cost": [
+          [
+            1024385,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ]
+        ],
+        "fightValue": 203
+      }
+    },
+    {
+      "id": 1024751,
+      "quality": 5,
+      "icon": "item_icons_enchantformula36",
+      "level": 8,
+      "cost": [
+        [
+          1024384,
+          8
+        ],
+        [
+          1024386,
+          10
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ],
+        [
+          11012,
+          50
+        ]
+      ],
+      "fightValue": 193,
+      "refined": {
+        "id": 1024752,
+        "cost": [
+          [
+            1024384,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ],
+          [
+            11012,
+            60
+          ]
+        ],
+        "fightValue": 203
+      },
+      "perfect": {
+        "id": 1024753,
+        "cost": [
+          [
+            1024384,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ],
+          [
+            11012,
+            70
+          ]
+        ],
+        "fightValue": 210
+      }
+    },
+    {
+      "id": 1024761,
+      "quality": 5,
+      "icon": "item_icons_enchantformula37",
+      "level": 8,
+      "cost": [
+        [
+          1024388,
+          8
+        ],
+        [
+          1024386,
+          10
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ],
+        [
+          11022,
+          50
+        ]
+      ],
+      "fightValue": 193,
+      "refined": {
+        "id": 1024762,
+        "cost": [
+          [
+            1024388,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ],
+          [
+            11022,
+            60
+          ]
+        ],
+        "fightValue": 203
+      },
+      "perfect": {
+        "id": 1024763,
+        "cost": [
+          [
+            1024388,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ],
+          [
+            11022,
+            70
+          ]
+        ],
+        "fightValue": 210
+      }
+    },
+    {
+      "id": 1024771,
+      "quality": 5,
+      "icon": "item_icons_enchantformula38",
+      "level": 8,
+      "cost": [
+        [
+          1024382,
+          8
+        ],
+        [
+          1024386,
+          10
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ],
+        [
+          11032,
+          50
+        ]
+      ],
+      "fightValue": 193,
+      "refined": {
+        "id": 1024772,
+        "cost": [
+          [
+            1024382,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ],
+          [
+            11032,
+            60
+          ]
+        ],
+        "fightValue": 203
+      },
+      "perfect": {
+        "id": 1024773,
+        "cost": [
+          [
+            1024382,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ],
+          [
+            11032,
+            70
+          ]
+        ],
+        "fightValue": 210
+      }
+    }
+  ],
+  "2002": [
+    {
+      "id": 1024401,
+      "quality": 2,
+      "icon": "item_icons_enchantformula09",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          200
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024402,
+        "cost": [
+          [
+            1024383,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            250
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024403,
+        "cost": [
+          [
+            1024383,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            300
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024411,
+      "quality": 2,
+      "icon": "item_icons_enchantformula18",
+      "level": 1,
+      "cost": [
+        [
+          1024387,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          200
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024412,
+        "cost": [
+          [
+            1024387,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            250
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024413,
+        "cost": [
+          [
+            1024387,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            300
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024421,
+      "quality": 2,
+      "icon": "item_icons_enchantformula11",
+      "level": 1,
+      "cost": [
+        [
+          1024381,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          200
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024422,
+        "cost": [
+          [
+            1024381,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            250
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024423,
+        "cost": [
+          [
+            1024381,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            300
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024431,
+      "quality": 2,
+      "icon": "item_icons_enchantformula20",
+      "level": 1,
+      "cost": [
+        [
+          1024385,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          200
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024432,
+        "cost": [
+          [
+            1024385,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            250
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024433,
+        "cost": [
+          [
+            1024385,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            300
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024441,
+      "quality": 2,
+      "icon": "item_icons_enchantformula12",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          1
+        ],
+        [
+          1024387,
+          1
+        ],
+        [
+          1024381,
+          1
+        ],
+        [
+          1024385,
+          1
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11152,
+          200
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024442,
+        "cost": [
+          [
+            1024383,
+            1
+          ],
+          [
+            1024387,
+            1
+          ],
+          [
+            1024381,
+            1
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            250
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024443,
+        "cost": [
+          [
+            1024383,
+            1
+          ],
+          [
+            1024387,
+            1
+          ],
+          [
+            1024381,
+            1
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            300
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024701,
+      "quality": 4,
+      "icon": "item_icons_enchantformula31",
+      "level": 7,
+      "cost": [
+        [
+          1024383,
+          15
+        ],
+        [
+          10008,
+          50000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          500
+        ]
+      ],
+      "fightValue": 179,
+      "refined": {
+        "id": 1024702,
+        "cost": [
+          [
+            1024383,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            560
+          ]
+        ],
+        "fightValue": 193
+      },
+      "perfect": {
+        "id": 1024703,
+        "cost": [
+          [
+            1024383,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            600
+          ]
+        ],
+        "fightValue": 203
+      }
+    },
+    {
+      "id": 1024711,
+      "quality": 4,
+      "icon": "item_icons_enchantformula34",
+      "level": 7,
+      "cost": [
+        [
+          1024387,
+          15
+        ],
+        [
+          10008,
+          50000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          500
+        ]
+      ],
+      "fightValue": 179,
+      "refined": {
+        "id": 1024712,
+        "cost": [
+          [
+            1024387,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            560
+          ]
+        ],
+        "fightValue": 193
+      },
+      "perfect": {
+        "id": 1024713,
+        "cost": [
+          [
+            1024387,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            600
+          ]
+        ],
+        "fightValue": 203
+      }
+    },
+    {
+      "id": 1024721,
+      "quality": 4,
+      "icon": "item_icons_enchantformula32",
+      "level": 7,
+      "cost": [
+        [
+          1024381,
+          15
+        ],
+        [
+          10008,
+          50000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          500
+        ]
+      ],
+      "fightValue": 179,
+      "refined": {
+        "id": 1024722,
+        "cost": [
+          [
+            1024381,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            560
+          ]
+        ],
+        "fightValue": 193
+      },
+      "perfect": {
+        "id": 1024723,
+        "cost": [
+          [
+            1024381,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            600
+          ]
+        ],
+        "fightValue": 203
+      }
+    },
+    {
+      "id": 1024731,
+      "quality": 4,
+      "icon": "item_icons_enchantformula33",
+      "level": 7,
+      "cost": [
+        [
+          1024385,
+          15
+        ],
+        [
+          10008,
+          50000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          500
+        ]
+      ],
+      "fightValue": 179,
+      "refined": {
+        "id": 1024732,
+        "cost": [
+          [
+            1024385,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            560
+          ]
+        ],
+        "fightValue": 193
+      },
+      "perfect": {
+        "id": 1024733,
+        "cost": [
+          [
+            1024385,
+            15
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            600
+          ]
+        ],
+        "fightValue": 203
+      }
+    },
+    {
+      "id": 1024741,
+      "quality": 4,
+      "icon": "item_icons_enchantformula35",
+      "level": 7,
+      "cost": [
+        [
+          1024383,
+          3
+        ],
+        [
+          1024387,
+          3
+        ],
+        [
+          1024381,
+          3
+        ],
+        [
+          1024385,
+          3
+        ],
+        [
+          10008,
+          50000
+        ]
+      ],
+      "effects": [
+        [
+          11152,
+          500
+        ]
+      ],
+      "fightValue": 179,
+      "refined": {
+        "id": 1024742,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024387,
+            3
+          ],
+          [
+            1024381,
+            3
+          ],
+          [
+            1024385,
+            3
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            560
+          ]
+        ],
+        "fightValue": 193
+      },
+      "perfect": {
+        "id": 1024743,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024387,
+            3
+          ],
+          [
+            1024381,
+            3
+          ],
+          [
+            1024385,
+            3
+          ],
+          [
+            10008,
+            50000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            600
+          ]
+        ],
+        "fightValue": 203
+      }
+    }
+  ],
+  "2003": [
+    {
+      "id": 1024451,
+      "quality": 2,
+      "icon": "item_icons_enchantformula19",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          3
+        ],
+        [
+          1024385,
+          1
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          50
+        ],
+        [
+          11012,
+          15
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024452,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            60
+          ],
+          [
+            11012,
+            20
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024453,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            80
+          ],
+          [
+            11012,
+            25
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024461,
+      "quality": 2,
+      "icon": "item_icons_enchantformula10",
+      "level": 1,
+      "cost": [
+        [
+          1024387,
+          3
+        ],
+        [
+          1024385,
+          1
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          50
+        ],
+        [
+          11022,
+          15
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024462,
+        "cost": [
+          [
+            1024387,
+            3
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            60
+          ],
+          [
+            11022,
+            20
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024463,
+        "cost": [
+          [
+            1024387,
+            3
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            80
+          ],
+          [
+            11022,
+            25
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024471,
+      "quality": 2,
+      "icon": "item_icons_enchantformula17",
+      "level": 1,
+      "cost": [
+        [
+          1024381,
+          3
+        ],
+        [
+          1024385,
+          1
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          50
+        ],
+        [
+          11032,
+          15
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024472,
+        "cost": [
+          [
+            1024381,
+            3
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            60
+          ],
+          [
+            11032,
+            20
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024473,
+        "cost": [
+          [
+            1024381,
+            3
+          ],
+          [
+            1024385,
+            1
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            80
+          ],
+          [
+            11032,
+            25
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024611,
+      "quality": 3,
+      "icon": "item_icons_enchantformula29",
+      "level": 3,
+      "cost": [
+        [
+          1024383,
+          6
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          80
+        ],
+        [
+          11012,
+          25
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024612,
+        "cost": [
+          [
+            1024383,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            90
+          ],
+          [
+            11012,
+            30
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024613,
+        "cost": [
+          [
+            1024383,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            100
+          ],
+          [
+            11012,
+            35
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024621,
+      "quality": 3,
+      "icon": "item_icons_enchantformula26",
+      "level": 3,
+      "cost": [
+        [
+          1024387,
+          6
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          80
+        ],
+        [
+          11022,
+          25
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024622,
+        "cost": [
+          [
+            1024387,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            90
+          ],
+          [
+            11022,
+            30
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024623,
+        "cost": [
+          [
+            1024387,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            100
+          ],
+          [
+            11022,
+            35
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024631,
+      "quality": 3,
+      "icon": "item_icons_enchantformula28",
+      "level": 3,
+      "cost": [
+        [
+          1024381,
+          6
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          80
+        ],
+        [
+          11032,
+          25
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024632,
+        "cost": [
+          [
+            1024381,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            90
+          ],
+          [
+            11032,
+            30
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024633,
+        "cost": [
+          [
+            1024381,
+            6
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            100
+          ],
+          [
+            11032,
+            35
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024751,
+      "quality": 5,
+      "icon": "item_icons_enchantformula36",
+      "level": 8,
+      "cost": [
+        [
+          1024384,
+          8
+        ],
+        [
+          1024386,
+          10
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ],
+        [
+          11012,
+          50
+        ]
+      ],
+      "fightValue": 193,
+      "refined": {
+        "id": 1024752,
+        "cost": [
+          [
+            1024384,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ],
+          [
+            11012,
+            60
+          ]
+        ],
+        "fightValue": 203
+      },
+      "perfect": {
+        "id": 1024753,
+        "cost": [
+          [
+            1024384,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ],
+          [
+            11012,
+            70
+          ]
+        ],
+        "fightValue": 210
+      }
+    },
+    {
+      "id": 1024761,
+      "quality": 5,
+      "icon": "item_icons_enchantformula37",
+      "level": 8,
+      "cost": [
+        [
+          1024388,
+          8
+        ],
+        [
+          1024386,
+          10
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ],
+        [
+          11022,
+          50
+        ]
+      ],
+      "fightValue": 193,
+      "refined": {
+        "id": 1024762,
+        "cost": [
+          [
+            1024388,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ],
+          [
+            11022,
+            60
+          ]
+        ],
+        "fightValue": 203
+      },
+      "perfect": {
+        "id": 1024763,
+        "cost": [
+          [
+            1024388,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ],
+          [
+            11022,
+            70
+          ]
+        ],
+        "fightValue": 210
+      }
+    },
+    {
+      "id": 1024771,
+      "quality": 5,
+      "icon": "item_icons_enchantformula38",
+      "level": 8,
+      "cost": [
+        [
+          1024382,
+          8
+        ],
+        [
+          1024386,
+          10
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          40
+        ],
+        [
+          11032,
+          50
+        ]
+      ],
+      "fightValue": 193,
+      "refined": {
+        "id": 1024772,
+        "cost": [
+          [
+            1024382,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            45
+          ],
+          [
+            11032,
+            60
+          ]
+        ],
+        "fightValue": 203
+      },
+      "perfect": {
+        "id": 1024773,
+        "cost": [
+          [
+            1024382,
+            8
+          ],
+          [
+            1024386,
+            10
+          ],
+          [
+            10008,
+            60000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            50
+          ],
+          [
+            11032,
+            70
+          ]
+        ],
+        "fightValue": 210
+      }
+    }
+  ],
+  "2004": [
+    {
+      "id": 1024481,
+      "quality": 2,
+      "icon": "item_icons_enchantformula01",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11012,
+          12
+        ],
+        [
+          11112,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024482,
+        "cost": [
+          [
+            1024383,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            16
+          ],
+          [
+            11112,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024483,
+        "cost": [
+          [
+            1024383,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            20
+          ],
+          [
+            11112,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024491,
+      "quality": 2,
+      "icon": "item_icons_enchantformula02",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          2
+        ],
+        [
+          1024387,
+          3
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11012,
+          12
+        ],
+        [
+          11122,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024492,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024387,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            16
+          ],
+          [
+            11122,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024493,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024387,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            20
+          ],
+          [
+            11122,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024501,
+      "quality": 2,
+      "icon": "item_icons_enchantformula03",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          2
+        ],
+        [
+          1024381,
+          3
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11012,
+          12
+        ],
+        [
+          11132,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024502,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024381,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            16
+          ],
+          [
+            11132,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024503,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024381,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            20
+          ],
+          [
+            11132,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024511,
+      "quality": 2,
+      "icon": "item_icons_enchantformula04",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          2
+        ],
+        [
+          1024385,
+          3
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11012,
+          12
+        ],
+        [
+          11142,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024512,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024385,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            16
+          ],
+          [
+            11142,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024513,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024385,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            20
+          ],
+          [
+            11142,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024521,
+      "quality": 2,
+      "icon": "item_icons_enchantformula13",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          3
+        ],
+        [
+          1024387,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11022,
+          12
+        ],
+        [
+          11112,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024522,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024387,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            16
+          ],
+          [
+            11112,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024523,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024387,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            20
+          ],
+          [
+            11112,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024531,
+      "quality": 2,
+      "icon": "item_icons_enchantformula14",
+      "level": 1,
+      "cost": [
+        [
+          1024387,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11022,
+          12
+        ],
+        [
+          11122,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024532,
+        "cost": [
+          [
+            1024387,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            16
+          ],
+          [
+            11122,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024533,
+        "cost": [
+          [
+            1024387,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            20
+          ],
+          [
+            11122,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024541,
+      "quality": 2,
+      "icon": "item_icons_enchantformula15",
+      "level": 1,
+      "cost": [
+        [
+          1024387,
+          2
+        ],
+        [
+          1024381,
+          3
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11022,
+          12
+        ],
+        [
+          11132,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024542,
+        "cost": [
+          [
+            1024387,
+            2
+          ],
+          [
+            1024381,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            16
+          ],
+          [
+            11132,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024543,
+        "cost": [
+          [
+            1024387,
+            2
+          ],
+          [
+            1024381,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            20
+          ],
+          [
+            11132,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024551,
+      "quality": 2,
+      "icon": "item_icons_enchantformula16",
+      "level": 1,
+      "cost": [
+        [
+          1024387,
+          2
+        ],
+        [
+          1024385,
+          3
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11022,
+          12
+        ],
+        [
+          11142,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024552,
+        "cost": [
+          [
+            1024387,
+            2
+          ],
+          [
+            1024385,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            16
+          ],
+          [
+            11142,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024553,
+        "cost": [
+          [
+            1024387,
+            2
+          ],
+          [
+            1024385,
+            3
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            20
+          ],
+          [
+            11142,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024561,
+      "quality": 2,
+      "icon": "item_icons_enchantformula05",
+      "level": 1,
+      "cost": [
+        [
+          1024383,
+          3
+        ],
+        [
+          1024381,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11032,
+          12
+        ],
+        [
+          11112,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024562,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            16
+          ],
+          [
+            11112,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024563,
+        "cost": [
+          [
+            1024383,
+            3
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            20
+          ],
+          [
+            11112,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024571,
+      "quality": 2,
+      "icon": "item_icons_enchantformula06",
+      "level": 1,
+      "cost": [
+        [
+          1024387,
+          3
+        ],
+        [
+          1024381,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11032,
+          12
+        ],
+        [
+          11122,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024572,
+        "cost": [
+          [
+            1024387,
+            3
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            16
+          ],
+          [
+            11122,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024573,
+        "cost": [
+          [
+            1024387,
+            3
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            20
+          ],
+          [
+            11122,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024581,
+      "quality": 2,
+      "icon": "item_icons_enchantformula07",
+      "level": 1,
+      "cost": [
+        [
+          1024381,
+          5
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11032,
+          12
+        ],
+        [
+          11132,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024582,
+        "cost": [
+          [
+            1024381,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            16
+          ],
+          [
+            11132,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024583,
+        "cost": [
+          [
+            1024381,
+            5
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            20
+          ],
+          [
+            11132,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024591,
+      "quality": 2,
+      "icon": "item_icons_enchantformula08",
+      "level": 1,
+      "cost": [
+        [
+          1024385,
+          3
+        ],
+        [
+          1024381,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11032,
+          12
+        ],
+        [
+          11142,
+          140
+        ]
+      ],
+      "fightValue": 110,
+      "refined": {
+        "id": 1024592,
+        "cost": [
+          [
+            1024385,
+            3
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            16
+          ],
+          [
+            11142,
+            175
+          ]
+        ],
+        "fightValue": 121
+      },
+      "perfect": {
+        "id": 1024593,
+        "cost": [
+          [
+            1024385,
+            3
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            20
+          ],
+          [
+            11142,
+            210
+          ]
+        ],
+        "fightValue": 133
+      }
+    },
+    {
+      "id": 1024641,
+      "quality": 3,
+      "icon": "item_icons_enchantformula24",
+      "level": 3,
+      "cost": [
+        [
+          1024383,
+          10
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          300
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024642,
+        "cost": [
+          [
+            1024383,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            360
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024643,
+        "cost": [
+          [
+            1024383,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            420
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024651,
+      "quality": 3,
+      "icon": "item_icons_enchantformula27",
+      "level": 3,
+      "cost": [
+        [
+          1024387,
+          10
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          300
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024652,
+        "cost": [
+          [
+            1024387,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            360
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024653,
+        "cost": [
+          [
+            1024387,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            420
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024661,
+      "quality": 3,
+      "icon": "item_icons_enchantformula25",
+      "level": 3,
+      "cost": [
+        [
+          1024381,
+          10
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          300
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024662,
+        "cost": [
+          [
+            1024381,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            360
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024663,
+        "cost": [
+          [
+            1024381,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            420
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024671,
+      "quality": 3,
+      "icon": "item_icons_enchantformula22",
+      "level": 3,
+      "cost": [
+        [
+          1024385,
+          10
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          300
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024672,
+        "cost": [
+          [
+            1024385,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            360
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024673,
+        "cost": [
+          [
+            1024385,
+            10
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            420
+          ]
+        ],
+        "fightValue": 161
+      }
+    },
+    {
+      "id": 1024681,
+      "quality": 3,
+      "icon": "item_icons_enchantformula23",
+      "level": 3,
+      "cost": [
+        [
+          1024383,
+          2
+        ],
+        [
+          1024387,
+          2
+        ],
+        [
+          1024381,
+          2
+        ],
+        [
+          1024385,
+          2
+        ],
+        [
+          10008,
+          20000
+        ]
+      ],
+      "effects": [
+        [
+          11152,
+          300
+        ]
+      ],
+      "fightValue": 133,
+      "refined": {
+        "id": 1024682,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024387,
+            2
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            360
+          ]
+        ],
+        "fightValue": 147
+      },
+      "perfect": {
+        "id": 1024683,
+        "cost": [
+          [
+            1024383,
+            2
+          ],
+          [
+            1024387,
+            2
+          ],
+          [
+            1024381,
+            2
+          ],
+          [
+            1024385,
+            2
+          ],
+          [
+            10008,
+            20000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            420
+          ]
+        ],
+        "fightValue": 161
+      }
+    }
+  ]
+}

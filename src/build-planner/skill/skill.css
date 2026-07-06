@@ -1,0 +1,575 @@
+/* Skill panel */
+
+.skill-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #1c1c24;
+  border: 1px solid #2a2a33;
+  border-radius: 8px;
+  padding: 14px;
+  overflow-y: auto;
+}
+
+.skill-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skill-section__separator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #8a8a96;
+  padding: 2px 0;
+  border-top: 1px solid #2a2a33;
+}
+
+.skill-section__separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #2a2a33;
+}
+
+.skill-section__equipped-count {
+  font-size: 10px;
+  color: #f4a13a;
+}
+
+/* 3列グリッド (固定スキル/マスタリー共通) */
+.skill-grid--3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* circular icon */
+.skill-circle {
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #16161e;
+  border: 2px solid #38384e;
+}
+
+.skill-circle--sm {
+  width: 36px;
+  height: 36px;
+}
+
+.skill-circle--md {
+  width: 64px;
+  height: 64px;
+}
+
+/* imaginary rarity border frame wrapper */
+.skill-circle-frame {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+.skill-circle-frame--sm {
+  width: 36px;
+  height: 36px;
+}
+
+.skill-circle-frame--md {
+  width: 64px;
+  height: 64px;
+}
+
+.skill-circle__border {
+  position: absolute;
+  margin: 1px 2px;
+  inset: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.skill-circle__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.skill-circle__fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1e2a3a 0%, #2a1a3a 100%);
+}
+
+/* skill-card: pill/stadium shape */
+.skill-card {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: #18181f;
+  border: 1px solid #2a2a38;
+  border-radius: 9999px;
+  padding: 4px 12px 4px 4px;
+  position: relative;
+}
+
+.skill-circle-zone {
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.skill-card__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 4px 10px;
+}
+
+.skill-card__name {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8e6e1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+/* bottom row: steppers + equipped btn */
+.skill-card__foot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.skill-card__steppers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+}
+
+.skill-card__sep {
+  font-size: 10px;
+  color: #484860;
+}
+
+/* Stepper: value + stacked ▲/▼ */
+.skill-stepper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.skill-stepper__label {
+  font-size: 10px;
+  color: #8a8a96;
+}
+
+.skill-stepper__value {
+  font-size: 11px;
+  color: #e8e6e1;
+  min-width: 20px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.skill-stepper__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.skill-stepper__btn {
+  background: #252530;
+  border: 1px solid #38384a;
+  border-radius: 2px;
+  color: #a0a0b0;
+  font-size: 6px;
+  width: 14px;
+  height: 9px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+}
+
+.skill-stepper__btn:hover:not(:disabled) {
+  background: #383848;
+  color: #e8e6e1;
+}
+
+.skill-stepper__btn:disabled {
+  color: #383848;
+  cursor: default;
+}
+
+/* Equipped button — checkbox style */
+.skill-equipped-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #555565;
+  border-radius: 3px;
+  background: transparent;
+  padding: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: 0;
+  transition:
+    border-color 0.12s,
+    background 0.12s;
+}
+
+.skill-equipped-btn::before {
+  font-size: 11px;
+  line-height: 1;
+  content: '';
+}
+
+.skill-equipped-btn--always,
+.skill-equipped-btn--on {
+  border-color: #f4a13a;
+  background: rgba(244, 161, 58, 0.1);
+}
+
+.skill-equipped-btn--always::before,
+.skill-equipped-btn--on::before {
+  content: '✓';
+  color: #f4a13a;
+}
+
+.skill-equipped-btn--always {
+  cursor: default;
+}
+
+.skill-equipped-btn:not(.skill-equipped-btn--always):not(.skill-equipped-btn--on) {
+  opacity: 0.35;
+}
+
+.skill-equipped-btn--disabled {
+  opacity: 0.15 !important;
+  cursor: not-allowed !important;
+}
+
+/* Fixed skill */
+.skill-card--fixed {
+  border-color: #3a3a50;
+}
+
+/* Mastery skill */
+.skill-card--mastery-on {
+  border-color: #4a3a28;
+  background: #1e1a10;
+}
+
+/* Imaginary: マスタリースキル(3col grid)と同じ幅になるよう同じグリッドレイアウトを使用 */
+.imaginary-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.skill-card--imaginary {
+  min-height: 74px;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  padding-right: 5px;
+}
+
+.skill-card--imaginary:hover {
+  border-color: #3a3a55;
+}
+
+.skill-card__name--clickable {
+  cursor: pointer;
+}
+
+.skill-card__name--clickable:hover {
+  color: #f4a13a;
+  text-decoration: underline;
+}
+
+.skill-card--drag-over {
+  border-color: #f59e0b !important;
+  background: #201a10 !important;
+}
+
+/* Role skills */
+.role-skill-row {
+  display: flex;
+  gap: 8px;
+}
+
+.skill-card--role {
+  flex: 1;
+  min-width: 120px;
+  opacity: 0.8;
+}
+
+/* empty / clear buttons */
+.skill-slot__empty-btn {
+  flex: 1;
+  background: none;
+  border: 1px dashed #3a3a55;
+  border-radius: 9999px;
+  color: #8a8a96;
+  font-size: 11px;
+  padding: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.skill-slot__empty-btn:hover {
+  border-color: #f4a13a;
+  color: #f4a13a;
+}
+
+.skill-slot__clear-btn {
+  background: none;
+  border: none;
+  color: #5a5a66;
+  font-size: 11px;
+  padding: 2px 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s;
+  position: absolute;
+  top: 5px;
+  right: 20px;
+}
+
+.skill-slot__clear-btn:hover {
+  color: #ef4444;
+}
+
+/* skill picker dialog (DraggableDialogをベースに拡張) */
+.skill-picker-dialog {
+  width: min(560px, 90vw);
+}
+
+.skill-picker-dialog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  padding: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.skill-picker-dialog__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: #1a1a22;
+  border: 1px solid #2a2a33;
+  border-radius: 8px;
+  padding: 10px 6px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.skill-picker-dialog__item:hover {
+  border-color: #f4a13a;
+  background: #1e1a10;
+}
+
+.skill-picker-dialog__item--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.skill-picker-dialog__item-name {
+  font-size: 10px;
+  color: #c8c6d1;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* スキルカードツールチップ(FloatingTooltip共通ベースの拡張) */
+.skill-tooltip {
+  max-width: 380px;
+}
+
+.skill-tooltip--pinned {
+  border-color: #5a5a8a;
+  box-shadow: 0 4px 20px rgba(90, 90, 160, 0.45);
+}
+
+.skill-tooltip__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.skill-tooltip__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #1c1c2e;
+}
+
+.skill-tooltip__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f4e8c1;
+}
+
+.skill-tooltip__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.skill-tooltip__tag {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: #2a3a4e;
+  color: #7ab8d8;
+  border: 1px solid #3a5a6e;
+}
+
+.skill-tooltip__active-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6dd49a;
+  margin-bottom: 4px;
+}
+
+.skill-tooltip__desc {
+  color: #a0a0b8;
+  font-size: 13px;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.skill-tooltip__passive {
+  margin: 4px 0;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  border-left: 2px solid #4a6a8e;
+}
+
+.skill-tooltip__passive-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.skill-tooltip__passive-name {
+  color: #a0c0d8;
+}
+
+.skill-tooltip__passive-val {
+  color: #4ade80;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.skill-tooltip__dialogue {
+  color: #7a7a96;
+  font-size: 12px;
+  font-style: italic;
+  margin: 4px 0 0;
+}
+
+.skill-tooltip__hr {
+  border: none;
+  border-top: 1px solid #2a2a3e;
+  margin: 6px 0;
+}
+
+.skill-tooltip__effect-list {
+  list-style: none;
+  margin: 4px 0;
+  padding: 0;
+}
+
+.skill-tooltip__effect-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.skill-tooltip__effect-item::before {
+  content: '•';
+  color: #6a6a8e;
+  flex-shrink: 0;
+}
+
+.skill-tooltip__effect-label {
+  color: #a0a0b8;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.skill-tooltip__effect-val {
+  color: #f4c462;
+  font-weight: 600;
+  flex: 1;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.skill-tooltip__passive-buf {
+  font-size: 12px;
+  color: #a0c0d8;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.skill-tooltip__score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.skill-tooltip__score-label {
+  color: #c8c6d1;
+}
+
+.skill-tooltip__score-value {
+  color: #f4a13a;
+  font-weight: 700;
+}

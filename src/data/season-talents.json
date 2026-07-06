@@ -1,0 +1,10533 @@
+{
+  "templates": {
+    "1": {
+      "sortId": 5,
+      "advancedEffectId": 100,
+      "rootNodeId": 1001,
+      "icon": "ui/textures/season_talent/s2talent01_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          17
+        ]
+      ]
+    },
+    "2": {
+      "sortId": 6,
+      "advancedEffectId": 101,
+      "rootNodeId": 1101,
+      "icon": "ui/textures/season_talent/s2talent02_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          24
+        ]
+      ]
+    },
+    "3": {
+      "sortId": 7,
+      "advancedEffectId": 102,
+      "rootNodeId": 1201,
+      "icon": "ui/textures/season_talent/s2talent03_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          28
+        ]
+      ]
+    },
+    "4": {
+      "sortId": 8,
+      "advancedEffectId": 103,
+      "rootNodeId": 1301,
+      "icon": "ui/textures/season_talent/s2talent04_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ]
+    },
+    "5": {
+      "sortId": 1,
+      "advancedEffectId": 104,
+      "rootNodeId": 1401,
+      "icon": "ui/textures/season_talent/s2talent05_01",
+      "unlockCondition": []
+    },
+    "6": {
+      "sortId": 4,
+      "advancedEffectId": 105,
+      "rootNodeId": 1501,
+      "icon": "ui/textures/season_talent/s2talent06_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ]
+    },
+    "7": {
+      "sortId": 2,
+      "advancedEffectId": 106,
+      "rootNodeId": 1601,
+      "icon": "ui/textures/season_talent/s2talent07_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ]
+    },
+    "8": {
+      "sortId": 3,
+      "advancedEffectId": 107,
+      "rootNodeId": 1701,
+      "icon": "ui/textures/season_talent/s2talent08_01",
+      "unlockCondition": [
+        [
+          93,
+          2,
+          9
+        ]
+      ]
+    },
+    "20001": {
+      "sortId": 1,
+      "advancedEffectId": 0,
+      "rootNodeId": 5001,
+      "icon": "ui/textures/season_talent/s2talent051_01",
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ]
+    },
+    "20002": {
+      "sortId": 2,
+      "advancedEffectId": 0,
+      "rootNodeId": 5101,
+      "icon": "ui/textures/season_talent/s2talent052_01",
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ]
+    },
+    "20003": {
+      "sortId": 3,
+      "advancedEffectId": 0,
+      "rootNodeId": 5201,
+      "icon": "ui/textures/season_talent/s2talent053_01",
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ]
+    },
+    "20004": {
+      "sortId": 4,
+      "advancedEffectId": 0,
+      "rootNodeId": 5301,
+      "icon": "ui/textures/season_talent/s2talent054_01",
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ]
+    }
+  },
+  "treeNodes": {
+    "100": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 100,
+      "preNodes": [],
+      "nextNodes": [
+        103
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "101": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 101,
+      "preNodes": [
+        1004,
+        1005
+      ],
+      "nextNodes": [
+        104,
+        109
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "102": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 102,
+      "preNodes": [
+        1007
+      ],
+      "nextNodes": [
+        105
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 102
+    },
+    "103": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 103,
+      "preNodes": [
+        100
+      ],
+      "nextNodes": [
+        106
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "104": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 104,
+      "preNodes": [
+        101
+      ],
+      "nextNodes": [
+        107
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 109
+    },
+    "105": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 105,
+      "preNodes": [
+        108,
+        102
+      ],
+      "nextNodes": [
+        1008,
+        1009
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "106": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 106,
+      "preNodes": [
+        103
+      ],
+      "nextNodes": [
+        1004,
+        1005
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "107": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 107,
+      "preNodes": [
+        109,
+        104
+      ],
+      "nextNodes": [
+        1006,
+        1007
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "108": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 108,
+      "preNodes": [
+        1006
+      ],
+      "nextNodes": [
+        105
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 102
+    },
+    "109": {
+      "templateId": 1,
+      "nodeType": 2,
+      "groupId": 109,
+      "preNodes": [
+        101
+      ],
+      "nextNodes": [
+        107
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 109
+    },
+    "110": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 110,
+      "preNodes": [
+        1103,
+        1102
+      ],
+      "nextNodes": [
+        113
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "111": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 111,
+      "preNodes": [
+        1104,
+        1105
+      ],
+      "nextNodes": [
+        114,
+        119
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "112": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 112,
+      "preNodes": [
+        1107
+      ],
+      "nextNodes": [
+        115
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 118
+    },
+    "113": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 113,
+      "preNodes": [
+        110
+      ],
+      "nextNodes": [
+        116
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "114": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 114,
+      "preNodes": [
+        111
+      ],
+      "nextNodes": [
+        117
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 119
+    },
+    "115": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 115,
+      "preNodes": [
+        112,
+        118
+      ],
+      "nextNodes": [
+        1108,
+        1109
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "116": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 116,
+      "preNodes": [
+        113
+      ],
+      "nextNodes": [
+        1104,
+        1105
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "117": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 117,
+      "preNodes": [
+        119,
+        114
+      ],
+      "nextNodes": [
+        1106,
+        1107
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "118": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 118,
+      "preNodes": [
+        1106
+      ],
+      "nextNodes": [
+        115
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 118
+    },
+    "119": {
+      "templateId": 2,
+      "nodeType": 2,
+      "groupId": 119,
+      "preNodes": [
+        111
+      ],
+      "nextNodes": [
+        117
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 119
+    },
+    "120": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 120,
+      "preNodes": [
+        1203,
+        1202
+      ],
+      "nextNodes": [
+        123
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "121": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 121,
+      "preNodes": [
+        1204,
+        1205
+      ],
+      "nextNodes": [
+        124,
+        129
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "122": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 122,
+      "preNodes": [
+        1207
+      ],
+      "nextNodes": [
+        125
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 128
+    },
+    "123": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 123,
+      "preNodes": [
+        120
+      ],
+      "nextNodes": [
+        126
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "124": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 124,
+      "preNodes": [
+        121
+      ],
+      "nextNodes": [
+        127
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 129
+    },
+    "125": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 125,
+      "preNodes": [
+        122,
+        128
+      ],
+      "nextNodes": [
+        1208,
+        1209
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "126": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 126,
+      "preNodes": [
+        123
+      ],
+      "nextNodes": [
+        1204,
+        1205
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "127": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 127,
+      "preNodes": [
+        129,
+        124
+      ],
+      "nextNodes": [
+        1206,
+        1207
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "128": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 128,
+      "preNodes": [
+        1206
+      ],
+      "nextNodes": [
+        125
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 128
+    },
+    "129": {
+      "templateId": 3,
+      "nodeType": 2,
+      "groupId": 129,
+      "preNodes": [
+        121
+      ],
+      "nextNodes": [
+        127
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 129
+    },
+    "130": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 130,
+      "preNodes": [
+        1302,
+        1303
+      ],
+      "nextNodes": [
+        133
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "131": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 131,
+      "preNodes": [
+        1304,
+        1305
+      ],
+      "nextNodes": [
+        139,
+        134
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "132": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 132,
+      "preNodes": [
+        1306
+      ],
+      "nextNodes": [
+        135
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 138
+    },
+    "133": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 133,
+      "preNodes": [
+        130
+      ],
+      "nextNodes": [
+        136
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "134": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 134,
+      "preNodes": [
+        131
+      ],
+      "nextNodes": [
+        137
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 139
+    },
+    "135": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 135,
+      "preNodes": [
+        132,
+        138
+      ],
+      "nextNodes": [
+        1308,
+        1309
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "136": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 136,
+      "preNodes": [
+        133
+      ],
+      "nextNodes": [
+        1304,
+        1305
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "137": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 137,
+      "preNodes": [
+        134,
+        139
+      ],
+      "nextNodes": [
+        1306,
+        1307
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "138": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 138,
+      "preNodes": [
+        1307
+      ],
+      "nextNodes": [
+        135
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 138
+    },
+    "139": {
+      "templateId": 4,
+      "nodeType": 2,
+      "groupId": 139,
+      "preNodes": [
+        131
+      ],
+      "nextNodes": [
+        137
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 139
+    },
+    "140": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 140,
+      "preNodes": [
+        1403,
+        1402
+      ],
+      "nextNodes": [
+        143
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "141": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 141,
+      "preNodes": [
+        1405,
+        1404
+      ],
+      "nextNodes": [
+        144,
+        149
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "142": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 142,
+      "preNodes": [
+        1406
+      ],
+      "nextNodes": [
+        145
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 148
+    },
+    "143": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 143,
+      "preNodes": [
+        140
+      ],
+      "nextNodes": [
+        146
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "144": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 144,
+      "preNodes": [
+        141
+      ],
+      "nextNodes": [
+        147
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 149
+    },
+    "145": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 145,
+      "preNodes": [
+        142,
+        148
+      ],
+      "nextNodes": [
+        1408,
+        1409
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "146": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 146,
+      "preNodes": [
+        143
+      ],
+      "nextNodes": [
+        1404,
+        1405
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "147": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 147,
+      "preNodes": [
+        144,
+        149
+      ],
+      "nextNodes": [
+        1406,
+        1407
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "148": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 148,
+      "preNodes": [
+        1407
+      ],
+      "nextNodes": [
+        145
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 148
+    },
+    "149": {
+      "templateId": 5,
+      "nodeType": 2,
+      "groupId": 149,
+      "preNodes": [
+        141
+      ],
+      "nextNodes": [
+        147
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 149
+    },
+    "150": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 150,
+      "preNodes": [
+        1503,
+        1502
+      ],
+      "nextNodes": [
+        155
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "151": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 151,
+      "preNodes": [
+        1505,
+        1504
+      ],
+      "nextNodes": [
+        159,
+        153
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "152": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 152,
+      "preNodes": [
+        1507
+      ],
+      "nextNodes": [
+        154
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 158
+    },
+    "153": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 153,
+      "preNodes": [
+        151
+      ],
+      "nextNodes": [
+        157
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 159
+    },
+    "154": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 154,
+      "preNodes": [
+        158,
+        152
+      ],
+      "nextNodes": [
+        1509,
+        1508
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "155": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 155,
+      "preNodes": [
+        150
+      ],
+      "nextNodes": [
+        156
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "156": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 156,
+      "preNodes": [
+        155
+      ],
+      "nextNodes": [
+        1504,
+        1505
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "157": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 157,
+      "preNodes": [
+        153,
+        159
+      ],
+      "nextNodes": [
+        1506,
+        1507
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "158": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 158,
+      "preNodes": [
+        1506
+      ],
+      "nextNodes": [
+        154
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 158
+    },
+    "159": {
+      "templateId": 6,
+      "nodeType": 2,
+      "groupId": 159,
+      "preNodes": [
+        151
+      ],
+      "nextNodes": [
+        157
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 159
+    },
+    "160": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 160,
+      "preNodes": [
+        1602
+      ],
+      "nextNodes": [
+        163
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "161": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 161,
+      "preNodes": [
+        1604,
+        1603
+      ],
+      "nextNodes": [
+        164,
+        169
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "162": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 162,
+      "preNodes": [
+        1605,
+        1606
+      ],
+      "nextNodes": [
+        165
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 168
+    },
+    "163": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 163,
+      "preNodes": [
+        160
+      ],
+      "nextNodes": [
+        166
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "164": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 164,
+      "preNodes": [
+        161
+      ],
+      "nextNodes": [
+        167
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 169
+    },
+    "165": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 165,
+      "preNodes": [
+        168,
+        162
+      ],
+      "nextNodes": [
+        1608,
+        1609
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "166": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 166,
+      "preNodes": [
+        163
+      ],
+      "nextNodes": [
+        1603,
+        1604
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "167": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 167,
+      "preNodes": [
+        169,
+        164
+      ],
+      "nextNodes": [
+        1606,
+        1605,
+        1607
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "168": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 168,
+      "preNodes": [
+        1607,
+        1606
+      ],
+      "nextNodes": [
+        165
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 168
+    },
+    "169": {
+      "templateId": 7,
+      "nodeType": 2,
+      "groupId": 169,
+      "preNodes": [
+        161
+      ],
+      "nextNodes": [
+        167
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 169
+    },
+    "170": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 170,
+      "preNodes": [
+        1703,
+        1702
+      ],
+      "nextNodes": [
+        173
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          5
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "171": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 171,
+      "preNodes": [
+        1705,
+        1704
+      ],
+      "nextNodes": [
+        174,
+        179
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "172": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 172,
+      "preNodes": [
+        1707
+      ],
+      "nextNodes": [
+        175
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 177
+    },
+    "173": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 173,
+      "preNodes": [
+        170
+      ],
+      "nextNodes": [
+        176
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "174": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 174,
+      "preNodes": [
+        171
+      ],
+      "nextNodes": [
+        178
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 179
+    },
+    "175": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 175,
+      "preNodes": [
+        177,
+        172
+      ],
+      "nextNodes": [
+        1708,
+        1709
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          50
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "176": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 176,
+      "preNodes": [
+        173
+      ],
+      "nextNodes": [
+        1704,
+        1705
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          15
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "177": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 177,
+      "preNodes": [
+        1706
+      ],
+      "nextNodes": [
+        175
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          45
+        ]
+      ],
+      "sameGroupId": 177
+    },
+    "178": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 178,
+      "preNodes": [
+        179,
+        174
+      ],
+      "nextNodes": [
+        1706,
+        1707
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          35
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "179": {
+      "templateId": 8,
+      "nodeType": 2,
+      "groupId": 179,
+      "preNodes": [
+        171
+      ],
+      "nextNodes": [
+        178
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          30
+        ]
+      ],
+      "sameGroupId": 179
+    },
+    "180": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 180,
+      "preNodes": [
+        5001
+      ],
+      "nextNodes": [
+        5002,
+        5003
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "181": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 181,
+      "preNodes": [
+        5003,
+        5002
+      ],
+      "nextNodes": [
+        5007
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "182": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 182,
+      "preNodes": [
+        5007
+      ],
+      "nextNodes": [
+        5004
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 182
+    },
+    "183": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 183,
+      "preNodes": [
+        5007
+      ],
+      "nextNodes": [
+        5005
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 182
+    },
+    "184": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 184,
+      "preNodes": [
+        5004,
+        5005
+      ],
+      "nextNodes": [
+        5009,
+        188
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "185": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 185,
+      "preNodes": [
+        188
+      ],
+      "nextNodes": [
+        5006
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 185
+    },
+    "186": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 186,
+      "preNodes": [
+        188
+      ],
+      "nextNodes": [
+        5006
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 185
+    },
+    "187": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 187,
+      "preNodes": [
+        5006
+      ],
+      "nextNodes": [
+        5008
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "188": {
+      "templateId": 20001,
+      "nodeType": 2,
+      "groupId": 188,
+      "preNodes": [
+        184
+      ],
+      "nextNodes": [
+        185,
+        186
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40223
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "189": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 189,
+      "preNodes": [
+        5101
+      ],
+      "nextNodes": [
+        5102,
+        5103
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "190": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 190,
+      "preNodes": [
+        5102,
+        5103
+      ],
+      "nextNodes": [
+        5107
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "191": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 191,
+      "preNodes": [
+        5107
+      ],
+      "nextNodes": [
+        5104
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 191
+    },
+    "192": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 192,
+      "preNodes": [
+        5107
+      ],
+      "nextNodes": [
+        5105
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 191
+    },
+    "193": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 193,
+      "preNodes": [
+        5105,
+        5104
+      ],
+      "nextNodes": [
+        5109
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "194": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 194,
+      "preNodes": [
+        197
+      ],
+      "nextNodes": [
+        5106
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 194
+    },
+    "195": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 195,
+      "preNodes": [
+        197
+      ],
+      "nextNodes": [
+        5106
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 194
+    },
+    "196": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 196,
+      "preNodes": [
+        5106
+      ],
+      "nextNodes": [
+        5108
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "197": {
+      "templateId": 20002,
+      "nodeType": 2,
+      "groupId": 197,
+      "preNodes": [
+        5109
+      ],
+      "nextNodes": [
+        194,
+        195
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40223
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "198": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 198,
+      "preNodes": [
+        5201
+      ],
+      "nextNodes": [
+        5202,
+        5203
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "199": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 199,
+      "preNodes": [
+        5203,
+        5202
+      ],
+      "nextNodes": [
+        5207
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "200": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 200,
+      "preNodes": [
+        5207
+      ],
+      "nextNodes": [
+        5204
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 200
+    },
+    "201": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 201,
+      "preNodes": [
+        5207
+      ],
+      "nextNodes": [
+        5205
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 200
+    },
+    "202": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 202,
+      "preNodes": [
+        5204,
+        5205
+      ],
+      "nextNodes": [
+        5209
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "203": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 203,
+      "preNodes": [
+        206
+      ],
+      "nextNodes": [
+        5206
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 203
+    },
+    "204": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 204,
+      "preNodes": [
+        206
+      ],
+      "nextNodes": [
+        5206
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 203
+    },
+    "205": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 205,
+      "preNodes": [
+        5206
+      ],
+      "nextNodes": [
+        5208
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "206": {
+      "templateId": 20003,
+      "nodeType": 2,
+      "groupId": 206,
+      "preNodes": [
+        5209
+      ],
+      "nextNodes": [
+        203,
+        204
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40223
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "207": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 207,
+      "preNodes": [
+        5301
+      ],
+      "nextNodes": [
+        5302,
+        5303
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "208": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 208,
+      "preNodes": [
+        5303,
+        5302
+      ],
+      "nextNodes": [
+        5307
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "209": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 209,
+      "preNodes": [
+        5307
+      ],
+      "nextNodes": [
+        5304
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 209
+    },
+    "210": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 210,
+      "preNodes": [
+        5307
+      ],
+      "nextNodes": [
+        5305
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40220
+        ]
+      ],
+      "sameGroupId": 209
+    },
+    "211": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 211,
+      "preNodes": [
+        5305,
+        5304
+      ],
+      "nextNodes": [
+        5309
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "212": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 212,
+      "preNodes": [
+        215
+      ],
+      "nextNodes": [
+        5306
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 212
+    },
+    "213": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 213,
+      "preNodes": [
+        215
+      ],
+      "nextNodes": [
+        5306
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40224
+        ]
+      ],
+      "sameGroupId": 212
+    },
+    "214": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 214,
+      "preNodes": [
+        5306
+      ],
+      "nextNodes": [
+        5308
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "215": {
+      "templateId": 20004,
+      "nodeType": 2,
+      "groupId": 215,
+      "preNodes": [
+        5309
+      ],
+      "nextNodes": [
+        212,
+        213
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40223
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1001": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1001,
+      "preNodes": [],
+      "nextNodes": [],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1002": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1002,
+      "preNodes": [
+        1001
+      ],
+      "nextNodes": [
+        100
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1002
+    },
+    "1003": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1003,
+      "preNodes": [
+        1001
+      ],
+      "nextNodes": [
+        100
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1002
+    },
+    "1004": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1004,
+      "preNodes": [
+        106
+      ],
+      "nextNodes": [
+        101
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1005
+    },
+    "1005": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1005,
+      "preNodes": [
+        106
+      ],
+      "nextNodes": [
+        101
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1005
+    },
+    "1006": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1006,
+      "preNodes": [
+        107
+      ],
+      "nextNodes": [
+        108
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1007
+    },
+    "1007": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1007,
+      "preNodes": [
+        107
+      ],
+      "nextNodes": [
+        102
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1007
+    },
+    "1008": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1008,
+      "preNodes": [
+        105
+      ],
+      "nextNodes": [
+        1010
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1009
+    },
+    "1009": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1009,
+      "preNodes": [
+        105
+      ],
+      "nextNodes": [
+        1010
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1009
+    },
+    "1010": {
+      "templateId": 1,
+      "nodeType": 1,
+      "groupId": 1010,
+      "preNodes": [
+        1009,
+        1008
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1101": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1101,
+      "preNodes": [],
+      "nextNodes": [
+        1102,
+        1103
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1102": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1102,
+      "preNodes": [
+        1101
+      ],
+      "nextNodes": [
+        110
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1103
+    },
+    "1103": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1103,
+      "preNodes": [
+        1101
+      ],
+      "nextNodes": [
+        110
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1103
+    },
+    "1104": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1104,
+      "preNodes": [
+        116
+      ],
+      "nextNodes": [
+        111
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1105
+    },
+    "1105": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1105,
+      "preNodes": [
+        116
+      ],
+      "nextNodes": [
+        111
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1105
+    },
+    "1106": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1106,
+      "preNodes": [
+        117
+      ],
+      "nextNodes": [
+        118
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1107
+    },
+    "1107": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1107,
+      "preNodes": [
+        117
+      ],
+      "nextNodes": [
+        112
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1107
+    },
+    "1108": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1108,
+      "preNodes": [
+        115
+      ],
+      "nextNodes": [
+        1110
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1109
+    },
+    "1109": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1109,
+      "preNodes": [
+        115
+      ],
+      "nextNodes": [
+        1110
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1109
+    },
+    "1110": {
+      "templateId": 2,
+      "nodeType": 1,
+      "groupId": 1110,
+      "preNodes": [
+        1109,
+        1108
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1201": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1201,
+      "preNodes": [],
+      "nextNodes": [
+        1202,
+        1203
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1202": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1202,
+      "preNodes": [
+        1201
+      ],
+      "nextNodes": [
+        120
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1203
+    },
+    "1203": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1203,
+      "preNodes": [
+        1201
+      ],
+      "nextNodes": [
+        120
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1203
+    },
+    "1204": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1204,
+      "preNodes": [
+        126
+      ],
+      "nextNodes": [
+        121
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1205
+    },
+    "1205": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1205,
+      "preNodes": [
+        126
+      ],
+      "nextNodes": [
+        121
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1205
+    },
+    "1206": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1206,
+      "preNodes": [
+        127
+      ],
+      "nextNodes": [
+        128
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1207
+    },
+    "1207": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1207,
+      "preNodes": [
+        127
+      ],
+      "nextNodes": [
+        122
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1207
+    },
+    "1208": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1208,
+      "preNodes": [
+        125
+      ],
+      "nextNodes": [
+        1210
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1209
+    },
+    "1209": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1209,
+      "preNodes": [
+        125
+      ],
+      "nextNodes": [
+        1210
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1209
+    },
+    "1210": {
+      "templateId": 3,
+      "nodeType": 1,
+      "groupId": 1210,
+      "preNodes": [
+        1209,
+        1208
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1301": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1301,
+      "preNodes": [],
+      "nextNodes": [
+        1302,
+        1303
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1302": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1302,
+      "preNodes": [
+        1301
+      ],
+      "nextNodes": [
+        130
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1303
+    },
+    "1303": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1303,
+      "preNodes": [
+        1301
+      ],
+      "nextNodes": [
+        130
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1303
+    },
+    "1304": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1304,
+      "preNodes": [
+        136
+      ],
+      "nextNodes": [
+        131
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1305
+    },
+    "1305": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1305,
+      "preNodes": [
+        136
+      ],
+      "nextNodes": [
+        131
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1305
+    },
+    "1306": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1306,
+      "preNodes": [
+        137
+      ],
+      "nextNodes": [
+        132
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1307
+    },
+    "1307": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1307,
+      "preNodes": [
+        137
+      ],
+      "nextNodes": [
+        138
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1307
+    },
+    "1308": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1308,
+      "preNodes": [
+        135
+      ],
+      "nextNodes": [
+        1310
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1309
+    },
+    "1309": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1309,
+      "preNodes": [
+        135
+      ],
+      "nextNodes": [
+        1310
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1309
+    },
+    "1310": {
+      "templateId": 4,
+      "nodeType": 1,
+      "groupId": 1310,
+      "preNodes": [
+        1308,
+        1309
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1401": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1401,
+      "preNodes": [],
+      "nextNodes": [
+        1402,
+        1403
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1402": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1402,
+      "preNodes": [
+        1401
+      ],
+      "nextNodes": [
+        140
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1403
+    },
+    "1403": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1403,
+      "preNodes": [
+        1401
+      ],
+      "nextNodes": [
+        140
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1403
+    },
+    "1404": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1404,
+      "preNodes": [
+        146
+      ],
+      "nextNodes": [
+        141
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1405
+    },
+    "1405": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1405,
+      "preNodes": [
+        146
+      ],
+      "nextNodes": [
+        141
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1405
+    },
+    "1406": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1406,
+      "preNodes": [
+        147
+      ],
+      "nextNodes": [
+        142
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1407
+    },
+    "1407": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1407,
+      "preNodes": [
+        147
+      ],
+      "nextNodes": [
+        148
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1407
+    },
+    "1408": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1408,
+      "preNodes": [
+        145
+      ],
+      "nextNodes": [
+        1410
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1409
+    },
+    "1409": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1409,
+      "preNodes": [
+        145
+      ],
+      "nextNodes": [
+        1410
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1409
+    },
+    "1410": {
+      "templateId": 5,
+      "nodeType": 1,
+      "groupId": 1410,
+      "preNodes": [
+        1409,
+        1408
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1501": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1501,
+      "preNodes": [],
+      "nextNodes": [
+        1502,
+        1503
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1502": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1502,
+      "preNodes": [
+        1501
+      ],
+      "nextNodes": [
+        150
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1503
+    },
+    "1503": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1503,
+      "preNodes": [
+        1501
+      ],
+      "nextNodes": [
+        150
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1503
+    },
+    "1504": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1504,
+      "preNodes": [
+        156
+      ],
+      "nextNodes": [
+        151
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1505
+    },
+    "1505": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1505,
+      "preNodes": [
+        156
+      ],
+      "nextNodes": [
+        151
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1505
+    },
+    "1506": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1506,
+      "preNodes": [
+        157
+      ],
+      "nextNodes": [
+        158
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1507
+    },
+    "1507": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1507,
+      "preNodes": [
+        157
+      ],
+      "nextNodes": [
+        152
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1507
+    },
+    "1508": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1508,
+      "preNodes": [
+        154
+      ],
+      "nextNodes": [
+        1510
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1509
+    },
+    "1509": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1509,
+      "preNodes": [
+        154
+      ],
+      "nextNodes": [
+        1510
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1509
+    },
+    "1510": {
+      "templateId": 6,
+      "nodeType": 1,
+      "groupId": 1510,
+      "preNodes": [
+        1509,
+        1508
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1601": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1601,
+      "preNodes": [],
+      "nextNodes": [
+        1602
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1602": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1602,
+      "preNodes": [
+        1601
+      ],
+      "nextNodes": [
+        160
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1603": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1603,
+      "preNodes": [
+        166
+      ],
+      "nextNodes": [
+        161
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1604
+    },
+    "1604": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1604,
+      "preNodes": [
+        166
+      ],
+      "nextNodes": [
+        161
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1604
+    },
+    "1605": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1605,
+      "preNodes": [
+        167
+      ],
+      "nextNodes": [
+        162
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1607
+    },
+    "1606": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1606,
+      "preNodes": [
+        167
+      ],
+      "nextNodes": [
+        162,
+        168
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1607
+    },
+    "1607": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1607,
+      "preNodes": [
+        167
+      ],
+      "nextNodes": [
+        168
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1607
+    },
+    "1608": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1608,
+      "preNodes": [
+        165
+      ],
+      "nextNodes": [
+        1610
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1609
+    },
+    "1609": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1609,
+      "preNodes": [
+        165
+      ],
+      "nextNodes": [
+        1610
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1609
+    },
+    "1610": {
+      "templateId": 7,
+      "nodeType": 1,
+      "groupId": 1610,
+      "preNodes": [
+        1609,
+        1608
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "1701": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1701,
+      "preNodes": [],
+      "nextNodes": [
+        1702,
+        1703
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 0
+    },
+    "1702": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1702,
+      "preNodes": [
+        1701
+      ],
+      "nextNodes": [
+        170
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1703
+    },
+    "1703": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1703,
+      "preNodes": [
+        1701
+      ],
+      "nextNodes": [
+        170
+      ],
+      "unlockCondition": [],
+      "sameGroupId": 1703
+    },
+    "1704": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1704,
+      "preNodes": [
+        176
+      ],
+      "nextNodes": [
+        171
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1705
+    },
+    "1705": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1705,
+      "preNodes": [
+        176
+      ],
+      "nextNodes": [
+        171
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          20
+        ]
+      ],
+      "sameGroupId": 1705
+    },
+    "1706": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1706,
+      "preNodes": [
+        178
+      ],
+      "nextNodes": [
+        177
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1707
+    },
+    "1707": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1707,
+      "preNodes": [
+        178
+      ],
+      "nextNodes": [
+        172
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ],
+      "sameGroupId": 1707
+    },
+    "1708": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1708,
+      "preNodes": [
+        175
+      ],
+      "nextNodes": [
+        1710
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1709
+    },
+    "1709": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1709,
+      "preNodes": [
+        175
+      ],
+      "nextNodes": [
+        1710
+      ],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          55
+        ]
+      ],
+      "sameGroupId": 1709
+    },
+    "1710": {
+      "templateId": 8,
+      "nodeType": 1,
+      "groupId": 1710,
+      "preNodes": [
+        1709,
+        1708
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5001": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5001,
+      "preNodes": [],
+      "nextNodes": [
+        180
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5002": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5002,
+      "preNodes": [
+        180
+      ],
+      "nextNodes": [
+        181
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5002
+    },
+    "5003": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5003,
+      "preNodes": [
+        180
+      ],
+      "nextNodes": [
+        181
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5002
+    },
+    "5004": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5004,
+      "preNodes": [
+        182
+      ],
+      "nextNodes": [
+        184
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5004
+    },
+    "5005": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5005,
+      "preNodes": [
+        183
+      ],
+      "nextNodes": [
+        184
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5004
+    },
+    "5006": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5006,
+      "preNodes": [
+        185,
+        186
+      ],
+      "nextNodes": [
+        187
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40225
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5007": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5007,
+      "preNodes": [
+        181
+      ],
+      "nextNodes": [
+        182,
+        183
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5008": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5008,
+      "preNodes": [
+        187
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5009": {
+      "templateId": 20001,
+      "nodeType": 1,
+      "groupId": 5009,
+      "preNodes": [
+        184
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5101": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5101,
+      "preNodes": [],
+      "nextNodes": [
+        189
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5102": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5102,
+      "preNodes": [
+        189
+      ],
+      "nextNodes": [
+        190
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5102
+    },
+    "5103": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5103,
+      "preNodes": [
+        189
+      ],
+      "nextNodes": [
+        190
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5102
+    },
+    "5104": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5104,
+      "preNodes": [
+        191
+      ],
+      "nextNodes": [
+        193
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5104
+    },
+    "5105": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5105,
+      "preNodes": [
+        192
+      ],
+      "nextNodes": [
+        193
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5104
+    },
+    "5106": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5106,
+      "preNodes": [
+        194,
+        195
+      ],
+      "nextNodes": [
+        196
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40225
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5107": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5107,
+      "preNodes": [
+        190
+      ],
+      "nextNodes": [
+        191,
+        192
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5108": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5108,
+      "preNodes": [
+        196
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5109": {
+      "templateId": 20002,
+      "nodeType": 1,
+      "groupId": 5109,
+      "preNodes": [
+        193
+      ],
+      "nextNodes": [
+        197
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5201": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5201,
+      "preNodes": [],
+      "nextNodes": [
+        198
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5202": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5202,
+      "preNodes": [
+        198
+      ],
+      "nextNodes": [
+        199
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5202
+    },
+    "5203": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5203,
+      "preNodes": [
+        198
+      ],
+      "nextNodes": [
+        199
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5202
+    },
+    "5204": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5204,
+      "preNodes": [
+        200
+      ],
+      "nextNodes": [
+        202
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5204
+    },
+    "5205": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5205,
+      "preNodes": [
+        201
+      ],
+      "nextNodes": [
+        202
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5204
+    },
+    "5206": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5206,
+      "preNodes": [
+        204,
+        203
+      ],
+      "nextNodes": [
+        205
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40225
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5207": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5207,
+      "preNodes": [
+        199
+      ],
+      "nextNodes": [
+        200,
+        201
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5208": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5208,
+      "preNodes": [
+        205
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5209": {
+      "templateId": 20003,
+      "nodeType": 1,
+      "groupId": 5209,
+      "preNodes": [
+        202
+      ],
+      "nextNodes": [
+        206
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5301": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5301,
+      "preNodes": [],
+      "nextNodes": [
+        207
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40201
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5302": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5302,
+      "preNodes": [
+        207
+      ],
+      "nextNodes": [
+        208
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5302
+    },
+    "5303": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5303,
+      "preNodes": [
+        207
+      ],
+      "nextNodes": [
+        208
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40218
+        ]
+      ],
+      "sameGroupId": 5302
+    },
+    "5304": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5304,
+      "preNodes": [
+        209
+      ],
+      "nextNodes": [
+        211
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5304
+    },
+    "5305": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5305,
+      "preNodes": [
+        210
+      ],
+      "nextNodes": [
+        211
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40221
+        ]
+      ],
+      "sameGroupId": 5304
+    },
+    "5306": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5306,
+      "preNodes": [
+        212,
+        213
+      ],
+      "nextNodes": [
+        214
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40225
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5307": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5307,
+      "preNodes": [
+        208
+      ],
+      "nextNodes": [
+        209,
+        210
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40219
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5308": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5308,
+      "preNodes": [
+        214
+      ],
+      "nextNodes": [],
+      "unlockCondition": [
+        [
+          9,
+          40226
+        ]
+      ],
+      "sameGroupId": 0
+    },
+    "5309": {
+      "templateId": 20004,
+      "nodeType": 1,
+      "groupId": 5309,
+      "preNodes": [
+        211
+      ],
+      "nextNodes": [
+        215
+      ],
+      "unlockCondition": [
+        [
+          9,
+          40222
+        ]
+      ],
+      "sameGroupId": 0
+    }
+  },
+  "ordinaryEffects": {
+    "1001": {
+      "id": 1001,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002010,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent01_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1002": {
+      "id": 1002,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002020,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1003": {
+      "id": 1003,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002030,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1004": {
+      "id": 1004,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002040,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1005": {
+      "id": 1005,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002050,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1006": {
+      "id": 1006,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002060,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1007": {
+      "id": 1007,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002070,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1008": {
+      "id": 1008,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1009": {
+      "id": 1009,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002090,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_09",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1010": {
+      "id": 1010,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002100,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_10",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1101": {
+      "id": 1101,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002210,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent02_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1102": {
+      "id": 1102,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002220,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1103": {
+      "id": 1103,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002230,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1104": {
+      "id": 1104,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002240,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1105": {
+      "id": 1105,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002250,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1106": {
+      "id": 1106,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002260,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1107": {
+      "id": 1107,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002270,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1108": {
+      "id": 1108,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1109": {
+      "id": 1109,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002090,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_09",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1110": {
+      "id": 1110,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002280,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent02_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1201": {
+      "id": 1201,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002410,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent03_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1202": {
+      "id": 1202,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002420,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1203": {
+      "id": 1203,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002430,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1204": {
+      "id": 1204,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002440,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1205": {
+      "id": 1205,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1206": {
+      "id": 1206,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1207": {
+      "id": 1207,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002470,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1208": {
+      "id": 1208,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1209": {
+      "id": 1209,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002090,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_09",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1210": {
+      "id": 1210,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002480,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1301": {
+      "id": 1301,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent04_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1302": {
+      "id": 1302,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1303": {
+      "id": 1303,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1304": {
+      "id": 1304,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1305": {
+      "id": 1305,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1306": {
+      "id": 1306,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002660,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1307": {
+      "id": 1307,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1308": {
+      "id": 1308,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002670,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1309": {
+      "id": 1309,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1310": {
+      "id": 1310,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002680,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent04_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1401": {
+      "id": 1401,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002810,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent05_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1402": {
+      "id": 1402,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent05_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1403": {
+      "id": 1403,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002830,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent05_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1404": {
+      "id": 1404,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002840,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent05_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1405": {
+      "id": 1405,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002850,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent05_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1406": {
+      "id": 1406,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002860,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent05_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1407": {
+      "id": 1407,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1408": {
+      "id": 1408,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1409": {
+      "id": 1409,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002090,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_09",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1410": {
+      "id": 1410,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002870,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent05_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1501": {
+      "id": 1501,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003010,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent06_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1502": {
+      "id": 1502,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003020,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1503": {
+      "id": 1503,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003070,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1504": {
+      "id": 1504,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1505": {
+      "id": 1505,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003040,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1506": {
+      "id": 1506,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003050,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1507": {
+      "id": 1507,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003060,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1508": {
+      "id": 1508,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003030,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1509": {
+      "id": 1509,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent03_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1510": {
+      "id": 1510,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent06_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1601": {
+      "id": 1601,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003210,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent07_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1602": {
+      "id": 1602,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003220,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1603": {
+      "id": 1603,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003230,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1604": {
+      "id": 1604,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003240,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1605": {
+      "id": 1605,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003250,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1606": {
+      "id": 1606,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003260,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1607": {
+      "id": 1607,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1608": {
+      "id": 1608,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003270,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1609": {
+      "id": 1609,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003280,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1610": {
+      "id": 1610,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003290,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent07_09",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1701": {
+      "id": 1701,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003410,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent08_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 650
+    },
+    "1702": {
+      "id": 1702,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003420,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1703": {
+      "id": 1703,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003430,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1704": {
+      "id": 1704,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003440,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1705": {
+      "id": 1705,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1706": {
+      "id": 1706,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1707": {
+      "id": 1707,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003470,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_07",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1708": {
+      "id": 1708,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002080,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1709": {
+      "id": 1709,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3002090,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent01_09",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "1710": {
+      "id": 1710,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003480,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent08_08",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 260
+    },
+    "5001": {
+      "id": 5001,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004410,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent051_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5002": {
+      "id": 5002,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004420,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5003": {
+      "id": 5003,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004430,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5004": {
+      "id": 5004,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004440,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5005": {
+      "id": 5005,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5006": {
+      "id": 5006,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5007": {
+      "id": 5007,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004420,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5008": {
+      "id": 5008,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004420,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5009": {
+      "id": 5009,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5101": {
+      "id": 5101,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003810,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent052_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5102": {
+      "id": 5102,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5103": {
+      "id": 5103,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003830,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5104": {
+      "id": 5104,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003840,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5105": {
+      "id": 5105,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5106": {
+      "id": 5106,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5107": {
+      "id": 5107,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5108": {
+      "id": 5108,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5109": {
+      "id": 5109,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5201": {
+      "id": 5201,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004010,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent053_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5202": {
+      "id": 5202,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004020,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent053_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5203": {
+      "id": 5203,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004030,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent053_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5204": {
+      "id": 5204,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004040,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent053_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5205": {
+      "id": 5205,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5206": {
+      "id": 5206,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5207": {
+      "id": 5207,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004020,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent053_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5208": {
+      "id": 5208,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004020,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent053_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5209": {
+      "id": 5209,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5301": {
+      "id": 5301,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004210,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent054_01",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5302": {
+      "id": 5302,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004220,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5303": {
+      "id": 5303,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004230,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_03",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5304": {
+      "id": 5304,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004240,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_04",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5305": {
+      "id": 5305,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5306": {
+      "id": 5306,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_06",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5307": {
+      "id": 5307,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004220,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5308": {
+      "id": 5308,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004220,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_02",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5309": {
+      "id": 5309,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220004,
+          1
+        ]
+      ],
+      "fightValue": 0
+    }
+  },
+  "intermediateSlots": {
+    "100": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "101": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "102": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "103": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "104": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "105": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "106": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "107": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "108": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "109": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "110": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "111": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "112": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "113": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "114": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "115": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "116": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "117": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "118": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "119": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "120": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "121": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "122": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "123": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "124": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "125": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "126": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "127": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "128": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "129": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "130": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "131": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "132": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "133": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "134": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "135": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "136": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "137": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "138": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "139": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "140": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "141": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "142": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "143": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "144": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "145": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "146": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "147": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "148": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "149": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "150": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "151": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "152": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "153": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "154": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "155": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "156": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "157": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "158": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "159": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "160": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "161": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "162": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "163": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "164": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "165": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "166": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "167": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "168": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "169": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "170": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "171": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "172": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "173": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "174": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "175": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "176": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "177": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "178": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "179": {
+      "factorTypes": [
+        4
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality3"
+    },
+    "180": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "181": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "182": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "183": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "184": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "185": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "186": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "187": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "188": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "189": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "190": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "191": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "192": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "193": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "194": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "195": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "196": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "197": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "198": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "199": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "200": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "201": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "202": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "203": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "204": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "205": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "206": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "207": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "208": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "209": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "210": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "211": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "212": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "213": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "214": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "215": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    }
+  },
+  "advancedEffects": {
+    "101": {
+      "effectId": 100,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "102": {
+      "effectId": 100,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "103": {
+      "effectId": 100,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao144",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "104": {
+      "effectId": 100,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "105": {
+      "effectId": 100,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "106": {
+      "effectId": 100,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003660,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao144",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "107": {
+      "effectId": 101,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "108": {
+      "effectId": 101,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao136",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "109": {
+      "effectId": 101,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "110": {
+      "effectId": 101,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "111": {
+      "effectId": 101,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao136",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "112": {
+      "effectId": 101,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003670,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "113": {
+      "effectId": 102,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "114": {
+      "effectId": 102,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "115": {
+      "effectId": 102,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "116": {
+      "effectId": 102,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "117": {
+      "effectId": 102,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "118": {
+      "effectId": 102,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003680,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "119": {
+      "effectId": 103,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "120": {
+      "effectId": 103,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "121": {
+      "effectId": 103,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "122": {
+      "effectId": 103,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "123": {
+      "effectId": 103,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "124": {
+      "effectId": 103,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003690,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "125": {
+      "effectId": 104,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "126": {
+      "effectId": 104,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "127": {
+      "effectId": 104,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao144",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "128": {
+      "effectId": 104,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "129": {
+      "effectId": 104,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "130": {
+      "effectId": 104,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003700,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao144",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "131": {
+      "effectId": 105,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "132": {
+      "effectId": 105,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao136",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "133": {
+      "effectId": 105,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "134": {
+      "effectId": 105,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "135": {
+      "effectId": 105,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/taidao136",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "136": {
+      "effectId": 105,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003710,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "137": {
+      "effectId": 106,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "138": {
+      "effectId": 106,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "139": {
+      "effectId": 106,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "140": {
+      "effectId": 106,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "141": {
+      "effectId": 106,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "142": {
+      "effectId": 106,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003720,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
+      "unlockFraction": 35,
+      "fightValue": 800
+    },
+    "143": {
+      "effectId": 107,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3003610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
+      "unlockFraction": 2,
+      "fightValue": 100
+    },
+    "144": {
+      "effectId": 107,
+      "level": 2,
+      "effects": [
+        [
+          3,
+          3003620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
+      "unlockFraction": 5,
+      "fightValue": 200
+    },
+    "145": {
+      "effectId": 107,
+      "level": 3,
+      "effects": [
+        [
+          3,
+          3003630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
+      "unlockFraction": 12,
+      "fightValue": 350
+    },
+    "146": {
+      "effectId": 107,
+      "level": 4,
+      "effects": [
+        [
+          3,
+          3003640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
+      "unlockFraction": 20,
+      "fightValue": 450
+    },
+    "147": {
+      "effectId": 107,
+      "level": 5,
+      "effects": [
+        [
+          3,
+          3003650,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
+      "unlockFraction": 25,
+      "fightValue": 600
+    },
+    "148": {
+      "effectId": 107,
+      "level": 6,
+      "effects": [
+        [
+          3,
+          3003730,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
+      "unlockFraction": 35,
+      "fightValue": 800
+    }
+  },
+  "bondSlots": {
+    "1": {
+      "templateId": 5,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "2": {
+      "templateId": 5,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "3": {
+      "templateId": 5,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "4": {
+      "templateId": 5,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "5": {
+      "templateId": 5,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "6": {
+      "templateId": 2,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "7": {
+      "templateId": 2,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "8": {
+      "templateId": 2,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "9": {
+      "templateId": 2,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "10": {
+      "templateId": 2,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "11": {
+      "templateId": 3,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "12": {
+      "templateId": 3,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "13": {
+      "templateId": 3,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "14": {
+      "templateId": 3,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "15": {
+      "templateId": 3,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "16": {
+      "templateId": 4,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "17": {
+      "templateId": 4,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "18": {
+      "templateId": 4,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "19": {
+      "templateId": 4,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "20": {
+      "templateId": 4,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "21": {
+      "templateId": 1,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "22": {
+      "templateId": 1,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "23": {
+      "templateId": 1,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "24": {
+      "templateId": 1,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "25": {
+      "templateId": 1,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "26": {
+      "templateId": 6,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "27": {
+      "templateId": 6,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "28": {
+      "templateId": 6,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "29": {
+      "templateId": 6,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "30": {
+      "templateId": 6,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "31": {
+      "templateId": 7,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "32": {
+      "templateId": 7,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "33": {
+      "templateId": 7,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "34": {
+      "templateId": 7,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "35": {
+      "templateId": 7,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    },
+    "36": {
+      "templateId": 8,
+      "slotIndex": 1,
+      "unlockCondition": []
+    },
+    "37": {
+      "templateId": 8,
+      "slotIndex": 2,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          10
+        ]
+      ]
+    },
+    "38": {
+      "templateId": 8,
+      "slotIndex": 3,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          25
+        ]
+      ]
+    },
+    "39": {
+      "templateId": 8,
+      "slotIndex": 4,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          40
+        ]
+      ]
+    },
+    "40": {
+      "templateId": 8,
+      "slotIndex": 5,
+      "unlockCondition": [
+        [
+          93,
+          2,
+          60
+        ]
+      ]
+    }
+  }
+}

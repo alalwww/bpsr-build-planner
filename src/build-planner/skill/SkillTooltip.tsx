@@ -1,0 +1,162 @@
+import { useTranslation } from 'react-i18next';
+import FloatingTooltip from '../components/FloatingTooltip';
+import { renderMarkup } from '../components/renderMarkup';
+import {
+  type BattleImaginaryData,
+  getBattleImaginaryData,
+  getImagineIconUrl,
+  getSkillData,
+  getSkillIconUrl,
+  type SkillData,
+} from './skillData';
+
+export interface SkillTooltipState {
+  skillId: number;
+  isImagine?: boolean;
+  rank?: number;
+  /** そのスキル/イマジンによる能力スコア寄与。ロールスキル等、算出不可の場合は undefined。 */
+  score?: number;
+  /** 'right'(既定): アイコンの右側に表示。'left': パネル右側寄りのアイコン用に左側へ表示。 */
+  align?: 'right' | 'left';
+  x: number;
+  y: number;
+  pinned: boolean;
+}
+
+function SkillTooltip({
+  state,
+  onMouseEnter,
+  onMouseLeave,
+  onRequestClose,
+}: {
+  state: SkillTooltipState;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  onRequestClose?: () => void;
+}) {
+  const { t } = useTranslation('game-data');
+  const { t: tUi } = useTranslation();
+  const { skillId, isImagine, rank = 0, score } = state;
+  const sd = isImagine ? getBattleImaginaryData(skillId) : getSkillData(skillId);
+  const ns = isImagine ? 'battleImaginaries' : 'skills';
+  const name = t(`${ns}.${skillId}.name`, { defaultValue: String(skillId) });
+  const desc = t(`${ns}.${skillId}.description`, { defaultValue: '' });
+  const activeSkillName = isImagine
+    ? t(`battleImaginaries.${skillId}.activeSkillName`, { defaultValue: '' })
+    : '';
+  const skillLabel = t(`${ns}.${skillId}.skillLabel`, {
+    returnObjects: true,
+    defaultValue: [],
+  }) as string[];
+  const dialogue = isImagine
+    ? t(`battleImaginaries.${skillId}.dialogue`, { defaultValue: '' })
+    : '';
+  const passiveEffects = isImagine
+    ? ((sd as BattleImaginaryData | undefined)?.passiveEffects ?? [])
+    : [];
+  const passiveBufDescs = isImagine
+    ? (t(`battleImaginaries.${skillId}.passiveBufDescriptions`, {
+        returnObjects: true,
+        defaultValue: [],
+      }) as string[][])
+    : [];
+  const allActiveEffectParams = isImagine
+    ? (t(`battleImaginaries.${skillId}.activeEffectParams`, {
+        returnObjects: true,
+        defaultValue: [],
+      }) as [string, string[]][])
+    : [];
+  const activeEffectParams = allActiveEffectParams.filter(([, vals]) => vals[rank] !== '');
+  const iconUrl = isImagine
+    ? getImagineIconUrl((sd as BattleImaginaryData | undefined)?.icon ?? '')
+    : getSkillIconUrl((sd as SkillData | undefined)?.icon ?? '');
+
+  const hasPassive = passiveEffects.length > 0 || passiveBufDescs.length > 0;
+  const hasActiveContent = !!(activeSkillName || desc || activeEffectParams.length > 0);
+
+  return (
+    <FloatingTooltip
+      x={state.x}
+      y={state.y}
+      clamp
+      align={state.align}
+      className={`skill-tooltip${state.pinned ? ' skill-tooltip--pinned' : ''}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={state.pinned ? undefined : onMouseLeave}
+      onRequestClose={state.pinned ? onRequestClose : undefined}
+    >
+      <div className="skill-tooltip__header">
+        {iconUrl && <img className="skill-tooltip__icon" src={iconUrl} alt="" />}
+        <span className="skill-tooltip__name">{name}</span>
+      </div>
+      {!isImagine && skillLabel.length > 0 && (
+        <div className="skill-tooltip__tags">
+          {skillLabel.map((tag, i) => (
+            <span key={i} className="skill-tooltip__tag">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {/* イマジン: フレーバーテキスト → hr → タグ → アクティブ効果 → hr → パッシブ */}
+      {dialogue && <p className="skill-tooltip__dialogue">{dialogue}</p>}
+      {(dialogue || !isImagine) && hasActiveContent && <hr className="skill-tooltip__hr" />}
+      {isImagine && skillLabel.length > 0 && (
+        <div className="skill-tooltip__tags">
+          {skillLabel.map((tag, i) => (
+            <span key={i} className="skill-tooltip__tag">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {activeSkillName && <div className="skill-tooltip__active-name">{activeSkillName}</div>}
+      {desc && <p className="skill-tooltip__desc">{renderMarkup(desc)}</p>}
+      {activeEffectParams.length > 0 && (
+        <ul className="skill-tooltip__effect-list">
+          {activeEffectParams.map(([label, vals], i) => (
+            <li key={i} className="skill-tooltip__effect-item">
+              <span className="skill-tooltip__effect-label">{label}</span>
+              <span className="skill-tooltip__effect-val">{vals[rank] ?? vals[0]}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {hasActiveContent && hasPassive && <hr className="skill-tooltip__hr" />}
+      {hasPassive && (
+        <div className="skill-tooltip__passive">
+          {passiveEffects.map((eff) => {
+            const value = eff[rank + 1] ?? eff[1];
+            return (
+              <div key={eff[0]} className="skill-tooltip__passive-row">
+                <span className="skill-tooltip__passive-name">
+                  {t(`attributes.${eff[0]}`, { defaultValue: String(eff[0]) })}
+                </span>
+                <span className="skill-tooltip__passive-val">+{(value / 100).toFixed(0)}%</span>
+              </div>
+            );
+          })}
+          {passiveBufDescs.map((rankTexts, i) => {
+            const text = Array.isArray(rankTexts) ? (rankTexts[rank] ?? rankTexts[0]) : '';
+            return text ? (
+              <div key={`buf${i}`} className="skill-tooltip__passive-buf">
+                {renderMarkup(text)}
+              </div>
+            ) : null;
+          })}
+        </div>
+      )}
+      {score !== undefined && (
+        <>
+          <hr className="skill-tooltip__hr" />
+          <div className="skill-tooltip__score-row">
+            <span className="skill-tooltip__score-label">{tUi('buildPlanner.abilityScore')}</span>
+            <span className="skill-tooltip__score-value">{score.toLocaleString()}</span>
+          </div>
+        </>
+      )}
+    </FloatingTooltip>
+  );
+}
+
+export default SkillTooltip;

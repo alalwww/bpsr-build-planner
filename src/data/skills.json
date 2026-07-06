@@ -1,0 +1,1118 @@
+{
+  "1201": {
+    "id": 1201,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1210": {
+    "id": 1210,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx06",
+    "skillType": 1,
+    "maxRank": 4
+  },
+  "1211": {
+    "id": 1211,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx05",
+    "skillType": 5,
+    "maxRank": 2
+  },
+  "1239": {
+    "id": 1239,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx07",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "1240": {
+    "id": 1240,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx08",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "1241": {
+    "id": 1241,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1242": {
+    "id": 1242,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1243": {
+    "id": 1243,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx01",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "1244": {
+    "id": 1244,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx03",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "1245": {
+    "id": 1245,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx02",
+    "skillType": 5,
+    "maxRank": 8
+  },
+  "1246": {
+    "id": 1246,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_kx04",
+    "skillType": 1,
+    "maxRank": 7
+  },
+  "1248": {
+    "id": 1248,
+    "icon": "ui/textures/skill_weapon_mz/weapon_mz-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1401": {
+    "id": 1401,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1407": {
+    "id": 1407,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq_skill_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1409": {
+    "id": 1409,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_ult_01",
+    "skillType": 3,
+    "maxRank": 0
+  },
+  "1410": {
+    "id": 1410,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_ult_02",
+    "skillType": 3,
+    "maxRank": 0
+  },
+  "1411": {
+    "id": 1411,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq_skill_atk",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1418": {
+    "id": 1418,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1419": {
+    "id": 1419,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1420": {
+    "id": 1420,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx01",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "1421": {
+    "id": 1421,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx02",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "1422": {
+    "id": 1422,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx03",
+    "skillType": 3,
+    "maxRank": 3
+  },
+  "1423": {
+    "id": 1423,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx04",
+    "skillType": 1,
+    "maxRank": 8
+  },
+  "1424": {
+    "id": 1424,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx05",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "1425": {
+    "id": 1425,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx06",
+    "skillType": 5,
+    "maxRank": 4
+  },
+  "1426": {
+    "id": 1426,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_ult_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1427": {
+    "id": 1427,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx03",
+    "skillType": 3,
+    "maxRank": 0
+  },
+  "1430": {
+    "id": 1430,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx07",
+    "skillType": 4,
+    "maxRank": 6
+  },
+  "1431": {
+    "id": 1431,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_kx08",
+    "skillType": 5,
+    "maxRank": 7
+  },
+  "1433": {
+    "id": 1433,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_tf01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1434": {
+    "id": 1434,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_tf02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1435": {
+    "id": 1435,
+    "icon": "ui/textures/skill_weapon_cq/weapon_cq-01_tf03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1501": {
+    "id": 1501,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1507": {
+    "id": 1507,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh_skill_passive",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1509": {
+    "id": 1509,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1518": {
+    "id": 1518,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1519": {
+    "id": 1519,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx09",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "1520": {
+    "id": 1520,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx01",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "1521": {
+    "id": 1521,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx02",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "1522": {
+    "id": 1522,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx04",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "1523": {
+    "id": 1523,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx05",
+    "skillType": 1,
+    "maxRank": 4
+  },
+  "1524": {
+    "id": 1524,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx06",
+    "skillType": 1,
+    "maxRank": 8
+  },
+  "1525": {
+    "id": 1525,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_tg01_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1527": {
+    "id": 1527,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_ult02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1528": {
+    "id": 1528,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_ult03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1529": {
+    "id": 1529,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx07",
+    "skillType": 5,
+    "maxRank": 7
+  },
+  "1530": {
+    "id": 1530,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1531": {
+    "id": 1531,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_kx08",
+    "skillType": 5,
+    "maxRank": 6
+  },
+  "1541": {
+    "id": 1541,
+    "icon": "ui/textures/skill_weapon_fh/weapon_fh-01_tg01",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "1601": {
+    "id": 1601,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk01",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1605": {
+    "id": 1605,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk101",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1606": {
+    "id": 1606,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk101",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1607": {
+    "id": 1607,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk101",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "1608": {
+    "id": 1608,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk101",
+    "skillType": 3,
+    "maxRank": 2
+  },
+  "1612": {
+    "id": 1612,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill02_01",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "1613": {
+    "id": 1613,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_103",
+    "skillType": 1,
+    "maxRank": 4
+  },
+  "1614": {
+    "id": 1614,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_104",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "1615": {
+    "id": 1615,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_skill_atk01",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "1616": {
+    "id": 1616,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk01",
+    "skillType": 5,
+    "maxRank": 7
+  },
+  "1617": {
+    "id": 1617,
+    "icon": "ui/textures/skill_weapon_sf/weapon_sf-01_skill_atk01",
+    "skillType": 1,
+    "maxRank": 8
+  },
+  "1618": {
+    "id": 1618,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_skill_atk01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1701": {
+    "id": 1701,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_skill_atk01",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1705": {
+    "id": 1705,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx01_01",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "1713": {
+    "id": 1713,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1714": {
+    "id": 1714,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1715": {
+    "id": 1715,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1717": {
+    "id": 1717,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx02",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "1718": {
+    "id": 1718,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx03",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "1719": {
+    "id": 1719,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx04",
+    "skillType": 1,
+    "maxRank": 4
+  },
+  "1720": {
+    "id": 1720,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx05",
+    "skillType": 1,
+    "maxRank": 8
+  },
+  "1721": {
+    "id": 1721,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_skill_03_a",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1724": {
+    "id": 1724,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx06",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "1728": {
+    "id": 1728,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1729": {
+    "id": 1729,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_skill_atk01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1730": {
+    "id": 1730,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx07",
+    "skillType": 5,
+    "maxRank": 6
+  },
+  "1731": {
+    "id": 1731,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_kx08",
+    "skillType": 1,
+    "maxRank": 7
+  },
+  "1733": {
+    "id": 1733,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_skill_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1734": {
+    "id": 1734,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tf05",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1735": {
+    "id": 1735,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tf03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1736": {
+    "id": 1736,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tf04",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1737": {
+    "id": 1737,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tf01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1738": {
+    "id": 1738,
+    "icon": "ui/textures/skill_weapon_tdl/weapon_tdl-01_tf02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1801": {
+    "id": 1801,
+    "icon": "ui/textures/skill_weapon_cannongun/weapon_cannongun_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1806": {
+    "id": 1806,
+    "icon": "ui/textures/skill_weapon_cannongun/weapon_cannongun_skill_01",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "1807": {
+    "id": 1807,
+    "icon": "ui/textures/skill_weapon_cannongun/weapon_cannongun_skill_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1808": {
+    "id": 1808,
+    "icon": "ui/textures/skill_weapon_cannongun/weapon_cannongun_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1901": {
+    "id": 1901,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1907": {
+    "id": 1907,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1917": {
+    "id": 1917,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx07",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "1922": {
+    "id": 1922,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1923": {
+    "id": 1923,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx06",
+    "skillType": 1,
+    "maxRank": 8
+  },
+  "1924": {
+    "id": 1924,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx01",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "1925": {
+    "id": 1925,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx03",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "1926": {
+    "id": 1926,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx05",
+    "skillType": 5,
+    "maxRank": 4
+  },
+  "1927": {
+    "id": 1927,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx02",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "1928": {
+    "id": 1928,
+    "icon": "",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1930": {
+    "id": 1930,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_tg01_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1932": {
+    "id": 1932,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1933": {
+    "id": 1933,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "1936": {
+    "id": 1936,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx04",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "1937": {
+    "id": 1937,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx07",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "1938": {
+    "id": 1938,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx08",
+    "skillType": 5,
+    "maxRank": 7
+  },
+  "1939": {
+    "id": 1939,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx07",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1940": {
+    "id": 1940,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx03",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "1941": {
+    "id": 1941,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx01_01",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "1942": {
+    "id": 1942,
+    "icon": "ui/textures/skill_weapon_wr/weaponn-wr_sikll_atk_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1943": {
+    "id": 1943,
+    "icon": "ui/textures/skill_weapon_wr/weaponn-wr_sikll_atk_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "1944": {
+    "id": 1944,
+    "icon": "ui/textures/skill_weapon_wr/weapon_wr-01_kx03_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2101": {
+    "id": 2101,
+    "icon": "",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2105": {
+    "id": 2105,
+    "icon": "",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2107": {
+    "id": 2107,
+    "icon": "",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2108": {
+    "id": 2108,
+    "icon": "",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2201": {
+    "id": 2201,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2207": {
+    "id": 2207,
+    "icon": "",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2208": {
+    "id": 2208,
+    "icon": "",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2209": {
+    "id": 2209,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2220": {
+    "id": 2220,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_tg01",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "2221": {
+    "id": 2221,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_tg01_01",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "2222": {
+    "id": 2222,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_tg02",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "2223": {
+    "id": 2223,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2224": {
+    "id": 2224,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_tg03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2230": {
+    "id": 2230,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx01",
+    "skillType": 1,
+    "maxRank": 1
+  },
+  "2231": {
+    "id": 2231,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx02",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "2232": {
+    "id": 2232,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx03",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "2233": {
+    "id": 2233,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx05",
+    "skillType": 5,
+    "maxRank": 4
+  },
+  "2234": {
+    "id": 2234,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx04",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "2235": {
+    "id": 2235,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx06",
+    "skillType": 5,
+    "maxRank": 8
+  },
+  "2236": {
+    "id": 2236,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2237": {
+    "id": 2237,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx07",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "2238": {
+    "id": 2238,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx08",
+    "skillType": 1,
+    "maxRank": 7
+  },
+  "2239": {
+    "id": 2239,
+    "icon": "",
+    "skillType": 3,
+    "maxRank": 0
+  },
+  "2240": {
+    "id": 2240,
+    "icon": "ui/textures/skill_weapon_gj/weapon_gj-01_kx01_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2301": {
+    "id": 2301,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2306": {
+    "id": 2306,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2307": {
+    "id": 2307,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2308": {
+    "id": 2308,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx01",
+    "skillType": 5,
+    "maxRank": 1
+  },
+  "2309": {
+    "id": 2309,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx02",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "2310": {
+    "id": 2310,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx03",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "2311": {
+    "id": 2311,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx04",
+    "skillType": 4,
+    "maxRank": 4
+  },
+  "2312": {
+    "id": 2312,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx05",
+    "skillType": 1,
+    "maxRank": 5
+  },
+  "2313": {
+    "id": 2313,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx06",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "2314": {
+    "id": 2314,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_ult",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2315": {
+    "id": 2315,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx07",
+    "skillType": 1,
+    "maxRank": 7
+  },
+  "2316": {
+    "id": 2316,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx08",
+    "skillType": 5,
+    "maxRank": 8
+  },
+  "2317": {
+    "id": 2317,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_kx03_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2321": {
+    "id": 2321,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2332": {
+    "id": 2332,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_tf03_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2335": {
+    "id": 2335,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_ult01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2336": {
+    "id": 2336,
+    "icon": "ui/textures/skill_weapon_jt/weapon_jt-01_ult02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2401": {
+    "id": 2401,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2405": {
+    "id": 2405,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_tg01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2406": {
+    "id": 2406,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_tg02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2407": {
+    "id": 2407,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_ult_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2408": {
+    "id": 2408,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx01",
+    "skillType": 1,
+    "maxRank": 3
+  },
+  "2409": {
+    "id": 2409,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx02",
+    "skillType": 1,
+    "maxRank": 8
+  },
+  "2410": {
+    "id": 2410,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx03",
+    "skillType": 1,
+    "maxRank": 1
+  },
+  "2411": {
+    "id": 2411,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx03_ex",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2412": {
+    "id": 2412,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx04",
+    "skillType": 1,
+    "maxRank": 2
+  },
+  "2413": {
+    "id": 2413,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx04_ex",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2415": {
+    "id": 2415,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx06",
+    "skillType": 1,
+    "maxRank": 6
+  },
+  "2416": {
+    "id": 2416,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_atk",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2417": {
+    "id": 2417,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_atk_ex",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2419": {
+    "id": 2419,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx07",
+    "skillType": 1,
+    "maxRank": 7
+  },
+  "2420": {
+    "id": 2420,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx08",
+    "skillType": 5,
+    "maxRank": 5
+  },
+  "2421": {
+    "id": 2421,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx09",
+    "skillType": 1,
+    "maxRank": 4
+  },
+  "2425": {
+    "id": 2425,
+    "icon": "ui/textures/skill_weapon_jd/weapon_jd-01_kx01",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "2501": {
+    "id": 2501,
+    "icon": "ui/textures/skill_ip004x02/ip004x02_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2504": {
+    "id": 2504,
+    "icon": "ui/textures/skill_ip004x02/ip004x02_skill_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2505": {
+    "id": 2505,
+    "icon": "ui/textures/skill_ip004x02/ip004x02_skill_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2506": {
+    "id": 2506,
+    "icon": "ui/textures/skill_ip004x02/ip004x02_skill_03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2601": {
+    "id": 2601,
+    "icon": "ui/textures/skill_ip004x01/ip004x01_skill_atk",
+    "skillType": 0,
+    "maxRank": 0
+  },
+  "2604": {
+    "id": 2604,
+    "icon": "ui/textures/skill_ip004x01/ip004x01_skill_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2605": {
+    "id": 2605,
+    "icon": "ui/textures/skill_ip004x01/ip004x01_skill_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "2606": {
+    "id": 2606,
+    "icon": "ui/textures/skill_ip004x01/ip004x01_skill_03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3011": {
+    "id": 3011,
+    "icon": "ui/textures/dutyskill/skill_sc_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3012": {
+    "id": 3012,
+    "icon": "ui/textures/dutyskill/skill_sc_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3013": {
+    "id": 3013,
+    "icon": "ui/textures/dutyskill/skill_sc_03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3014": {
+    "id": 3014,
+    "icon": "ui/textures/dutyskill/skill_sc_04",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3311": {
+    "id": 3311,
+    "icon": "ui/textures/dutyskill/skill_fz_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3312": {
+    "id": 3312,
+    "icon": "ui/textures/dutyskill/skill_fz_02",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3313": {
+    "id": 3313,
+    "icon": "ui/textures/dutyskill/skill_fz_03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3314": {
+    "id": 3314,
+    "icon": "ui/textures/dutyskill/skill_fz_04",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3611": {
+    "id": 3611,
+    "icon": "ui/textures/dutyskill/skill_gj_01",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3612": {
+    "id": 3612,
+    "icon": "ui/textures/dutyskill/skill_gj_02",
+    "skillType": 5,
+    "maxRank": 0
+  },
+  "3613": {
+    "id": 3613,
+    "icon": "ui/textures/dutyskill/skill_gj_03",
+    "skillType": 1,
+    "maxRank": 0
+  },
+  "3614": {
+    "id": 3614,
+    "icon": "ui/textures/dutyskill/skill_gj_04",
+    "skillType": 1,
+    "maxRank": 0
+  }
+}

@@ -1,0 +1,671 @@
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import './character.css';
+import ProfessionPicker from './ProfessionPicker';
+import PlanListDropdown from './PlanListDropdown';
+import AbilityScoreDialog from './AbilityScoreDialog';
+import BuffEffectDialog from './BuffEffectDialog';
+import ConfirmDialog from '../components/ConfirmDialog';
+import DraggableDialog from '../components/DraggableDialog';
+import FloatingTooltip from '../components/FloatingTooltip';
+import Stepper from '../components/Stepper';
+import { getClassIconUrl } from './classIcons';
+import type { Profession, ProfessionKey, ProfessionTypeKey } from '../profession';
+import { PROFESSIONS } from '../profession';
+import type { AbilityScoreBreakdown, CookingBuffState, StatDefinition, StatId } from '../types';
+import type { BuildPlanData } from '../buildPlan';
+import classesData from '../../data/classes.json';
+import saveIconUrl from '../../assets/ui/weap_save_icon.png';
+
+interface CharacterPanelProps {
+  stats: Record<StatId, number>;
+  rawStats: Record<StatId, number>;
+  abilityScore: AbilityScoreBreakdown;
+  professionKey: ProfessionKey;
+  professionTypeKey: ProfessionTypeKey;
+  onSelectProfession: (key: ProfessionKey) => void;
+  onSelectProfessionType: (key: ProfessionTypeKey) => void;
+  onOpenTalentTree?: () => void;
+  adventurerLevel: number;
+  onAdventurerLevelChange: (level: number) => void;
+  phantomLevel: number;
+  planName: string;
+  onPlanNameChange: (name: string) => void;
+  buildPlans: BuildPlanData[];
+  onSavePlan: (name: string) => void;
+  onOverwritePlan: (id: string, name: string) => void;
+  onRenamePlan: (id: string, newName: string) => void;
+  onLoadPlan: (id: string) => void;
+  onDeletePlan: (id: string) => void;
+  onResetPlan: () => void;
+  onExportPlanCode: () => string;
+  onImportPlanCode: (code: string) => boolean;
+  onOpenStatsDetail?: () => void;
+  cookingBuff: CookingBuffState;
+  onCookingBuffChange: (patch: Partial<CookingBuffState>) => void;
+}
+
+// 浮動小数点演算の誤差(例: 15%のつもりが14.999999...%になる)を吸収するため、
+// 十分な精度で四捨五入してから使う。
+function cleanRound(value: number): number {
+  return Math.round(value * 1e6) / 1e6;
+}
+
+// 小数点第三位を切り捨てて第二位までに丸める。value*100の時点でも浮動小数点誤差
+// (例: 4.6*100が459.999...になる)が起きうるため、floorする直前にもcleanRoundで丸める。
+function truncate2(value: number): number {
+  return Math.floor(cleanRound(value * 100)) / 100;
+}
+
+// 小数点第三位を切り捨てて第二位まで表示する。
+function truncate2Str(value: number): string {
+  const truncated = truncate2(value);
+  return truncated.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function formatStatValue(value: number, isPercent?: boolean): string {
+  if (isPercent) {
+    return `${truncate2Str(value)}%`;
+  }
+  return truncate2Str(value);
+}
+
+// 選択中クラスに応じて表示するステータス列を返す。
+// 攻撃力列(atk/matk)とメインステータス列(strength/agility/intellect)がクラス依存で変わる。
+function getStatDefinitions(profession: Profession): StatDefinition[] {
+  const atkStat: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
+  return [
+    { id: 'maxHp', column: 'left' },
+    { id: atkStat, column: 'left' },
+    { id: profession.mainStat, column: 'left' },
+    { id: 'endurance', column: 'left' },
+    { id: 'illusionPower', column: 'right' },
+    { id: 'crit', column: 'right', isPercent: true },
+    { id: 'haste', column: 'right', isPercent: true },
+    { id: 'luck', column: 'right', isPercent: true },
+    { id: 'mastery', column: 'right', isPercent: true },
+    { id: 'versatility', column: 'right', isPercent: true },
+    { id: 'resist', column: 'right', isPercent: true },
+  ];
+}
+
+interface ClassEntry {
+  showTalentStage: number[];
+  talentColor?: string;
+}
+
+const clsData = classesData as Record<string, ClassEntry>;
+
+function CharacterPanel({
+  stats,
+  rawStats,
+  abilityScore,
+  professionKey,
+  professionTypeKey,
+  onSelectProfession,
+  onSelectProfessionType,
+  onOpenTalentTree,
+  adventurerLevel,
+  onAdventurerLevelChange,
+  phantomLevel,
+  planName,
+  onPlanNameChange,
+  buildPlans,
+  onSavePlan,
+  onOverwritePlan,
+  onRenamePlan,
+  onLoadPlan,
+  onDeletePlan,
+  onResetPlan,
+  onExportPlanCode,
+  onImportPlanCode,
+  onOpenStatsDetail,
+  cookingBuff,
+  onCookingBuffChange,
+}: CharacterPanelProps) {
+  const { t } = useTranslation();
+  const { t: tGame } = useTranslation('game-data');
+  const [isProfessionPickerOpen, setProfessionPickerOpen] = useState(false);
+  const [isPlanListOpen, setIsPlanListOpen] = useState(false);
+  const [hoveredStatId, setHoveredStatId] = useState<StatId | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [saveConflictPlanId, setSaveConflictPlanId] = useState<string | null>(null);
+  const [confirmNewSaveName, setConfirmNewSaveName] = useState<string | null>(null);
+  const [loadConfirmTarget, setLoadConfirmTarget] = useState<{ id: string; name: string } | null>(
+    null,
+  );
+  const [confirmNewPlan, setConfirmNewPlan] = useState(false);
+  const [renameTarget, setRenameTarget] = useState<{ id: string; currentName: string } | null>(
+    null,
+  );
+  const [renameInput, setRenameInput] = useState('');
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportedCode, setExportedCode] = useState('');
+  const [copied, setCopied] = useState(false);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const [importInput, setImportInput] = useState('');
+  const [importError, setImportError] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [levelPickerOpen, setLevelPickerOpen] = useState(false);
+  const [abilityScoreOpen, setAbilityScoreOpen] = useState(false);
+  const [buffEffectOpen, setBuffEffectOpen] = useState(false);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const toggleGroup = (key: string) =>
+    setExpandedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  const planListRef = useRef<HTMLDivElement>(null);
+  const renameInputRef = useRef<HTMLInputElement>(null);
+
+  // プランリスト外クリックで閉じる
+  useEffect(() => {
+    if (!isPlanListOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (planListRef.current && !planListRef.current.contains(e.target as Node)) {
+        setIsPlanListOpen(false);
+        setDeleteConfirmId(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [isPlanListOpen]);
+
+  // リネームモーダル open 時に input にフォーカス
+  useEffect(() => {
+    if (renameTarget) renameInputRef.current?.focus();
+  }, [renameTarget]);
+
+  const statDefinitions = getStatDefinitions(PROFESSIONS[professionKey]);
+  const leftStats = statDefinitions.filter((def) => def.column === 'left');
+  const rightStats = statDefinitions.filter((def) => def.column === 'right');
+
+  const professionId = PROFESSIONS[professionKey].professionId;
+  const classIconUrl = getClassIconUrl(professionId);
+  const clsEntry = clsData[String(professionId)];
+  const showTalentStage = clsEntry?.showTalentStage ?? [];
+  const typeStageId = showTalentStage[professionTypeKey === 'type1' ? 0 : 1];
+  const roleBg = clsEntry?.talentColor ? `${clsEntry.talentColor}1a` : undefined;
+
+  const getDefaultName = () => {
+    const className = tGame(`classes.${professionId}.name`, { defaultValue: professionKey });
+    const typeName = typeStageId
+      ? tGame(`talentStages.${typeStageId}.typeName`, { defaultValue: professionTypeKey })
+      : professionTypeKey;
+    return `${className}(${typeName})`;
+  };
+
+  const handleSave = () => {
+    const name = planName.trim() || getDefaultName();
+    if (!planName.trim()) onPlanNameChange(name);
+    const conflict = buildPlans.find((p) => p.name === name);
+    if (conflict) {
+      setSaveConflictPlanId(conflict.id);
+    } else {
+      setConfirmNewSaveName(name);
+    }
+  };
+
+  const handleConfirmNewSave = () => {
+    if (!confirmNewSaveName) return;
+    onSavePlan(confirmNewSaveName);
+    setConfirmNewSaveName(null);
+  };
+
+  const handleSaveConflictOverwrite = () => {
+    if (!saveConflictPlanId) return;
+    onOverwritePlan(saveConflictPlanId, planName.trim());
+    setSaveConflictPlanId(null);
+  };
+
+  const handleLoadPlanConfirmed = (id: string) => {
+    onLoadPlan(id);
+    setLoadConfirmTarget(null);
+    setIsPlanListOpen(false);
+    setDeleteConfirmId(null);
+  };
+
+  const handleLoadPlan = (id: string) => {
+    const plan = buildPlans.find((p) => p.id === id);
+    if (!plan) return;
+    setLoadConfirmTarget({ id, name: plan.name });
+  };
+
+  const handleNewPlanConfirmed = () => {
+    onResetPlan();
+    setConfirmNewPlan(false);
+    setIsPlanListOpen(false);
+    setDeleteConfirmId(null);
+  };
+
+  const handleNewPlan = () => {
+    setConfirmNewPlan(true);
+  };
+
+  const handleOpenExportDialog = () => {
+    setExportedCode(onExportPlanCode());
+    setCopied(false);
+    setExportDialogOpen(true);
+    setIsPlanListOpen(false);
+  };
+
+  const handleCopyExportedCode = async () => {
+    try {
+      await navigator.clipboard.writeText(exportedCode);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  const handleOpenImportDialog = () => {
+    setImportInput('');
+    setImportError(false);
+    setImportDialogOpen(true);
+    setIsPlanListOpen(false);
+  };
+
+  const handleConfirmImport = () => {
+    if (onImportPlanCode(importInput)) {
+      setImportDialogOpen(false);
+      setImportInput('');
+      setImportError(false);
+    } else {
+      setImportError(true);
+    }
+  };
+
+  const openRenameDialog = (plan: BuildPlanData) => {
+    setRenameTarget({ id: plan.id, currentName: plan.name });
+    setRenameInput(plan.name);
+  };
+
+  const handleRenameConfirm = () => {
+    if (!renameTarget) return;
+    const newName = renameInput.trim();
+    if (!newName) return;
+    const isDuplicate = buildPlans.some((p) => p.id !== renameTarget.id && p.name === newName);
+    if (isDuplicate) return;
+    onRenamePlan(renameTarget.id, newName); // 入力欄の追従は useBuildState.renamePlan 内で行う
+    setRenameTarget(null);
+  };
+
+  const renameInputIsValid = () => {
+    const newName = renameInput.trim();
+    if (!newName) return false;
+    return !buildPlans.some((p) => p.id !== renameTarget?.id && p.name === newName);
+  };
+
+  const saveConflictPlan = saveConflictPlanId
+    ? buildPlans.find((p) => p.id === saveConflictPlanId)
+    : null;
+
+  return (
+    <section className="character-panel">
+      {/* Header: plan name + expand + save */}
+      <div className="character-panel__header" ref={planListRef}>
+        <input
+          className="character-panel__name-input"
+          value={planName}
+          onChange={(e) => onPlanNameChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSave();
+          }}
+          placeholder={t('buildPlanner.buildPlanPlaceholder')}
+        />
+        <button
+          type="button"
+          className={`character-panel__plan-expand${isPlanListOpen ? ' character-panel__plan-expand--open' : ''}`}
+          title={t('buildPlanner.planList', { defaultValue: 'Plan List' })}
+          onClick={() => {
+            setIsPlanListOpen((v) => !v);
+            setDeleteConfirmId(null);
+          }}
+        >
+          ▼
+        </button>
+        <button
+          type="button"
+          className="character-panel__plan-save"
+          title={t('buildPlanner.savePlan', { defaultValue: 'Save Plan' })}
+          onClick={handleSave}
+        >
+          <img src={saveIconUrl} className="character-panel__save-icon" alt="" />
+        </button>
+
+        {/* プランドロップダウン */}
+        {isPlanListOpen && (
+          <PlanListDropdown
+            buildPlans={buildPlans}
+            deleteConfirmId={deleteConfirmId}
+            onSetDeleteConfirmId={setDeleteConfirmId}
+            onLoadPlan={handleLoadPlan}
+            onOpenRenameDialog={openRenameDialog}
+            onDeletePlan={onDeletePlan}
+            onNewPlan={handleNewPlan}
+            onOpenExportDialog={handleOpenExportDialog}
+            onOpenImportDialog={handleOpenImportDialog}
+          />
+        )}
+      </div>
+
+      {/* Summary */}
+      <div className="character-panel__summary">
+        <button
+          type="button"
+          className="character-panel__summary-item character-panel__summary-item--clickable"
+          onClick={() => setAbilityScoreOpen(true)}
+        >
+          <span className="character-panel__label">{t('buildPlanner.abilityScore')}</span>
+          <span className="character-panel__value">{abilityScore.total.toLocaleString()}</span>
+        </button>
+        <button
+          type="button"
+          className="character-panel__summary-item character-panel__summary-item--clickable"
+          onClick={() => setLevelPickerOpen(true)}
+        >
+          <span className="character-panel__label">{t('buildPlanner.adventurerLevel')}</span>
+          <span className="character-panel__value">
+            {adventurerLevel}(+{phantomLevel})
+          </span>
+        </button>
+      </div>
+
+      {/* Class + Type selectors */}
+      <div className="character-panel__selectors">
+        <button
+          type="button"
+          className="character-panel__selector--class"
+          style={roleBg ? { backgroundColor: roleBg } : undefined}
+          onClick={() => setProfessionPickerOpen(true)}
+        >
+          {classIconUrl && (
+            <span
+              className="character-panel__selector-icon-bg"
+              style={{ backgroundImage: `url(${classIconUrl})` }}
+              aria-hidden="true"
+            />
+          )}
+          <span className="character-panel__selector-name">
+            {tGame(`classes.${professionId}.name`, { defaultValue: professionKey })}
+          </span>
+          <span className="character-panel__selector-label">{t('buildPlanner.classLabel')}</span>
+        </button>
+        <button
+          type="button"
+          className="character-panel__selector--type"
+          style={roleBg ? { backgroundColor: roleBg } : undefined}
+          onClick={onOpenTalentTree}
+        >
+          <span className="character-panel__selector-name">
+            {typeStageId
+              ? tGame(`talentStages.${typeStageId}.typeName`, { defaultValue: professionTypeKey })
+              : professionTypeKey}
+          </span>
+          <span className="character-panel__selector-label">{t('buildPlanner.talentLabel')}</span>
+        </button>
+      </div>
+
+      <div className="character-panel__stats">
+        <div className="character-panel__stats-column">
+          {leftStats.map((def) => (
+            <div className="character-panel__stat-row" key={def.id}>
+              <span className="character-panel__stat-label">
+                {t(`buildPlanner.stats.${def.id}`)}
+              </span>
+              <span className="character-panel__stat-value">
+                {formatStatValue(stats[def.id], def.isPercent)}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="character-panel__stats-column">
+          {rightStats.map((def) => (
+            <div className="character-panel__stat-row" key={def.id}>
+              <span className="character-panel__stat-label">
+                {t(`buildPlanner.stats.${def.id}`)}
+              </span>
+              <span
+                className={`character-panel__stat-value${def.isPercent ? ' character-panel__stat-value--tip' : ''}`}
+                onMouseEnter={(e) => {
+                  if (def.isPercent) {
+                    setHoveredStatId(def.id);
+                    setTooltipPos({ x: e.clientX, y: e.clientY });
+                  }
+                }}
+                onMouseMove={(e) => {
+                  if (def.isPercent) setTooltipPos({ x: e.clientX, y: e.clientY });
+                }}
+                onMouseLeave={() => setHoveredStatId(null)}
+              >
+                {formatStatValue(stats[def.id], def.isPercent)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <button type="button" className="character-panel__detail-button" onClick={onOpenStatsDetail}>
+        {t('buildPlanner.attributes')}
+      </button>
+      <button
+        type="button"
+        className="character-panel__detail-button character-panel__detail-button--secondary"
+        onClick={() => setBuffEffectOpen(true)}
+      >
+        {t('buildPlanner.buffDialog.openButton')}
+      </button>
+
+      {hoveredStatId !== null && (
+        <FloatingTooltip
+          x={tooltipPos.x + 10}
+          y={tooltipPos.y - 32}
+          className="character-panel__stat-tooltip"
+        >
+          {truncate2Str(rawStats[hoveredStatId])}
+        </FloatingTooltip>
+      )}
+
+      {isProfessionPickerOpen && (
+        <ProfessionPicker
+          professionKey={professionKey}
+          professionTypeKey={professionTypeKey}
+          onSelectProfession={onSelectProfession}
+          onSelectProfessionType={onSelectProfessionType}
+          onClose={() => setProfessionPickerOpen(false)}
+        />
+      )}
+
+      {/* プラン読み込み確認モーダル */}
+      {loadConfirmTarget && (
+        <ConfirmDialog
+          message={t('buildPlanner.confirmLoadMsg', {
+            defaultValue: `「${loadConfirmTarget.name}」を読み込みます。現在の変更はリセットされます。`,
+            name: loadConfirmTarget.name,
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={() => handleLoadPlanConfirmed(loadConfirmTarget.id)}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setLoadConfirmTarget(null)}
+        />
+      )}
+
+      {/* 新規プラン確認モーダル */}
+      {confirmNewPlan && (
+        <ConfirmDialog
+          message={t('buildPlanner.confirmNewPlanMsg', {
+            defaultValue: '新しいビルドプランを作成します。現在の変更はリセットされます。',
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={handleNewPlanConfirmed}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setConfirmNewPlan(false)}
+        />
+      )}
+
+      {/* 新規保存確認モーダル */}
+      {confirmNewSaveName && (
+        <ConfirmDialog
+          message={t('buildPlanner.confirmNewSaveMsg', {
+            defaultValue: `「${confirmNewSaveName}」で新規保存しますか？`,
+            name: confirmNewSaveName,
+          })}
+          confirmLabel={t('buildPlanner.confirmSave', { defaultValue: '保存' })}
+          onConfirm={handleConfirmNewSave}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setConfirmNewSaveName(null)}
+        />
+      )}
+
+      {/* 同名保存確認モーダル */}
+      {saveConflictPlanId && saveConflictPlan && (
+        <ConfirmDialog
+          message={t('buildPlanner.confirmOverwriteMsg', {
+            defaultValue: `「${saveConflictPlan.name}」は既に存在します。上書きしますか？`,
+            name: saveConflictPlan.name,
+          })}
+          confirmLabel={t('buildPlanner.overwrite', { defaultValue: '上書き' })}
+          onConfirm={handleSaveConflictOverwrite}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setSaveConflictPlanId(null)}
+        />
+      )}
+
+      {/* リネームモーダル */}
+      {renameTarget && (
+        <ConfirmDialog
+          title={t('buildPlanner.renamePlan', { defaultValue: 'リネーム' })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={handleRenameConfirm}
+          confirmDisabled={!renameInputIsValid()}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setRenameTarget(null)}
+        >
+          <input
+            ref={renameInputRef}
+            className="confirm-dialog__input"
+            value={renameInput}
+            onChange={(e) => setRenameInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && renameInputIsValid()) handleRenameConfirm();
+            }}
+          />
+          {renameInput.trim() && !renameInputIsValid() && (
+            <p className="confirm-dialog__error">
+              {t('buildPlanner.nameDuplicate', { defaultValue: '同名のプランが既に存在します' })}
+            </p>
+          )}
+        </ConfirmDialog>
+      )}
+      {/* プランエクスポートダイアログ */}
+      {exportDialogOpen && (
+        <ConfirmDialog
+          className="confirm-dialog--wide"
+          title={t('buildPlanner.exportPlan', { defaultValue: 'エクスポート' })}
+          message={t('buildPlanner.exportPlanMsg', {
+            defaultValue: '現在編集中のビルドプランをコードとして出力しました。',
+          })}
+          confirmLabel={t('buildPlanner.close', { defaultValue: '閉じる' })}
+          onConfirm={() => setExportDialogOpen(false)}
+        >
+          <textarea
+            className="confirm-dialog__textarea"
+            readOnly
+            value={exportedCode}
+            onFocus={(e) => e.currentTarget.select()}
+          />
+          <div className="confirm-dialog__secondary-row">
+            <button
+              type="button"
+              className="confirm-dialog__btn confirm-dialog__btn--cancel"
+              onClick={handleCopyExportedCode}
+            >
+              {copied
+                ? t('buildPlanner.copied', { defaultValue: 'コピーしました' })
+                : t('buildPlanner.copyCode', { defaultValue: 'コピー' })}
+            </button>
+          </div>
+        </ConfirmDialog>
+      )}
+
+      {/* プランインポートダイアログ */}
+      {importDialogOpen && (
+        <ConfirmDialog
+          className="confirm-dialog--wide"
+          title={t('buildPlanner.importPlan', { defaultValue: 'インポート' })}
+          message={t('buildPlanner.importPlanMsg', {
+            defaultValue: 'コードからビルドプランを読み込みます。現在の変更はリセットされます。',
+          })}
+          confirmLabel={t('buildPlanner.importConfirm', { defaultValue: 'インポート' })}
+          onConfirm={handleConfirmImport}
+          confirmDisabled={!importInput.trim()}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setImportDialogOpen(false)}
+        >
+          <textarea
+            className="confirm-dialog__textarea"
+            value={importInput}
+            onChange={(e) => {
+              setImportInput(e.target.value);
+              setImportError(false);
+            }}
+            placeholder={t('buildPlanner.importPlaceholder', {
+              defaultValue: 'エクスポートしたコードを貼り付け',
+            })}
+          />
+          {importError && (
+            <p className="confirm-dialog__error">
+              {t('buildPlanner.importErrorMsg', {
+                defaultValue: 'コードを読み込めませんでした。正しいコードか確認してください。',
+              })}
+            </p>
+          )}
+        </ConfirmDialog>
+      )}
+
+      {/* 冒険者レベル選択ダイアログ */}
+      {levelPickerOpen && (
+        <DraggableDialog
+          title={t('buildPlanner.adventurerLevel')}
+          onClose={() => setLevelPickerOpen(false)}
+          className="level-picker-dialog"
+        >
+          <Stepper
+            className="phantom-stepper"
+            modifierClassName="level-dialog__stepper"
+            layout="inline"
+            value={adventurerLevel}
+            min={1}
+            max={60}
+            onChange={onAdventurerLevelChange}
+          />
+        </DraggableDialog>
+      )}
+      {/* 能力スコア内訳ダイアログ */}
+      {abilityScoreOpen && (
+        <AbilityScoreDialog
+          abilityScore={abilityScore}
+          expandedGroups={expandedGroups}
+          onToggleGroup={toggleGroup}
+          onClose={() => setAbilityScoreOpen(false)}
+        />
+      )}
+      {/* バフ効果ダイアログ */}
+      {buffEffectOpen && (
+        <BuffEffectDialog
+          cookingBuff={cookingBuff}
+          onChange={onCookingBuffChange}
+          profession={PROFESSIONS[professionKey]}
+          onClose={() => setBuffEffectOpen(false)}
+        />
+      )}
+    </section>
+  );
+}
+
+export default CharacterPanel;

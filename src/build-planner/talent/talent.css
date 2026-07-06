@@ -1,0 +1,301 @@
+/* Talent tree panel */
+
+.talent-tree-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #1c1c24;
+  border: 1px solid #2a2a33;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.talent-tree-panel--empty {
+  align-items: center;
+  justify-content: center;
+  color: #8a8a96;
+  font-size: 13px;
+}
+
+.talent-tree-panel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid #2a2a33;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.talent-tree-panel__stage-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.talent-tree-panel__stage-btn {
+  background: transparent;
+  border: 1px solid #3a3a45;
+  color: #8a8a96;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.talent-tree-panel__stage-btn:hover {
+  border-color: #f4a13a;
+  color: #c8c6d1;
+}
+
+.talent-tree-panel__stage-btn--active {
+  border-color: #f4a13a;
+  color: #f4a13a;
+  background: #1e1a12;
+  cursor: default;
+}
+
+.talent-tree-panel__sep {
+  color: #3a3a45;
+  font-size: 14px;
+  padding: 0 2px;
+  user-select: none;
+}
+
+.talent-tree-panel__type-btn {
+  background: #1e1e28;
+  border: 1px solid #2a2a38;
+  color: #4a4a60;
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.talent-tree-panel__type-btn:hover {
+  border-color: #6060a0;
+  color: #a8a8c8;
+}
+
+.talent-tree-panel__type-btn--active {
+  background: #1e2a3a;
+  border-color: #3b82f6;
+  color: #60a5fa;
+  cursor: default;
+}
+
+.talent-tree-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.talent-tree-panel__recommend,
+.talent-tree-panel__reset {
+  background: transparent;
+  border: 1px solid #3a3a45;
+  color: #8a8a96;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.talent-tree-panel__recommend:hover {
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+.talent-tree-panel__reset:hover {
+  border-color: #f4a13a;
+  color: #f4a13a;
+}
+
+.talent-tree-panel__zoom {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.talent-tree-panel__zoom-btn {
+  background: transparent;
+  border: none;
+  color: #8a8a96;
+  font-size: 13px;
+  padding: 2px 7px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.talent-tree-panel__zoom-btn:hover:not(:disabled) {
+  background: #2a2a35;
+  color: #e8e6e1;
+}
+
+.talent-tree-panel__zoom-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.talent-tree-panel__zoom-pct {
+  background: transparent;
+  border: none;
+  border-left: 1px solid #3a3a45;
+  border-right: 1px solid #3a3a45;
+  color: #6a6a80;
+  font-size: 11px;
+  padding: 2px 6px;
+  cursor: pointer;
+  min-width: 38px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.talent-tree-panel__zoom-pct:hover {
+  color: #e8e6e1;
+  background: #1e1e2a;
+}
+
+.talent-tree-panel__canvas-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.talent-tree-panel__glow-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 85% at 50% 112%,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.06) 40%,
+    transparent 70%
+  );
+}
+
+.talent-tree-panel__bg-side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  aspect-ratio: 1 / 1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.talent-tree-panel__bg-side--left {
+  left: 0;
+  transform: translateX(-30%);
+}
+
+.talent-tree-panel__bg-side--right {
+  right: 0;
+  transform: translateX(30%);
+}
+
+.talent-tree-panel__scroll {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a35 transparent;
+}
+
+.talent-tree-panel__points-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 6px;
+  padding: 5px;
+  pointer-events: auto;
+  cursor: default;
+}
+
+.talent-tree-panel__points-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(90, 90, 110, 0.45);
+  border-radius: 9999px;
+  padding: 3px 10px 3px 5px;
+}
+
+.talent-tree-panel__points-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.talent-tree-panel__points-value {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.talent-tree-panel__svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ノードツールチップ(FloatingTooltip共通ベースの拡張) */
+.talent-tree-panel__tooltip {
+  max-width: 300px;
+}
+
+.talent-tree-panel__tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.talent-tree-panel__tooltip-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #1c1c2e;
+}
+
+.talent-tree-panel__tooltip-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f4e8c1;
+}
+
+.talent-tree-panel__tooltip-unlock {
+  color: #f59e0b;
+  font-size: 12px;
+  margin: 0 0 6px;
+  padding: 4px 6px;
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 2px solid #f59e0b;
+  border-radius: 2px;
+}
+
+.talent-tree-panel__tooltip-desc {
+  color: #a0a0b8;
+  font-size: 13px;
+  margin: 0;
+  white-space: pre-wrap;
+}

@@ -1,0 +1,952 @@
+/* Equipped item hover popup (FloatingTooltip共通ベースの拡張) */
+.equip-item-popup {
+  max-width: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  pointer-events: none;
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent;
+}
+
+.equip-item-popup__name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.equip-item-popup__section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.equip-item-popup__section .equip-details-section__heading {
+  margin-bottom: 2px;
+}
+
+.equip-item-popup__heading--underline {
+  padding-bottom: 3px;
+  border-bottom: 1px solid #2a2a33;
+}
+
+.equip-item-popup .equip-stat-row,
+.equip-item-popup .suit-effects__tier {
+  padding-left: 6px;
+}
+
+.equip-item-popup__affix-row .equip-stat-row__name,
+.equip-item-popup__affix-row .equip-stat-row__value {
+  color: #c084fc;
+}
+
+/* 装着効果ドロップダウンの各項目ホバー時の性能プレビュー(FloatingTooltip共通ベースの拡張) */
+.equip-enchant-tooltip {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+}
+
+/* Suit effects */
+
+.suit-effects {
+  padding: 8px 12px;
+  border-top: 1px solid #2a2a3a;
+}
+
+.suit-effects__suit {
+  margin-bottom: 8px;
+}
+
+.suit-effects__suit:last-child {
+  margin-bottom: 0;
+}
+
+.suit-effects__suit-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: #c0c0d0;
+}
+
+.suit-effects__suit-count {
+  font-size: 10px;
+  color: #888;
+}
+
+.suit-effects__tier {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 0;
+  border-top: 1px solid #1e1e2a;
+  opacity: 0.45;
+}
+
+.suit-effects__tier--active {
+  opacity: 1;
+}
+
+.suit-effects__tier-label {
+  flex-shrink: 0;
+  font-size: 10px;
+  color: #6a8aaa;
+  font-weight: 500;
+}
+
+.suit-effects__tier-desc {
+  flex: 1;
+  font-size: 10px;
+  color: #a0a0b8;
+  line-height: 1.4;
+}
+
+.suit-effects__tier-fv {
+  flex-shrink: 0;
+  font-size: 10px;
+  color: #7ec8e3;
+}
+
+.suit-effects__tier--active .suit-effects__tier-desc {
+  color: #c8c8e0;
+}
+
+.suit-effects__suit-count-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.equip-suit-section .suit-effects__suit-count {
+  font-size: 10px;
+  color: #888;
+}
+
+/* Equipment panel */
+
+.equipment-panel {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  background: #1c1c24;
+  border: 1px solid #2a2a33;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.equipment-panel__weapon {
+  position: relative;
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.equipment-panel__weapon .equipment-slot {
+  flex: 1;
+}
+
+.equipment-panel__grids {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.equipment-panel__grid {
+  display: grid;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.equipment-panel__grid--top {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr;
+}
+
+.equipment-panel__grid--bottom {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.equipment-panel__grid--bottom .equipment-slot__icon--gear {
+  inset: auto;
+  top: 50%;
+  right: 5%;
+  height: 90%;
+  width: auto;
+  transform: translateY(-50%);
+}
+
+.equipment-panel__grid--bottom .equipment-slot__icon--empty {
+  left: 62%;
+  width: 48%;
+}
+
+.equipment-panel__grid--bottom .equipment-slot__refine {
+  width: 50%;
+}
+
+.equipment-slot {
+  position: relative;
+  height: 100%;
+}
+
+.equipment-slot__bg {
+  position: absolute;
+  inset: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  height: 101%;
+}
+
+.equipment-slot__bg--bottom {
+  height: 103%;
+}
+
+.equipment-slot__button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  background: #22222b;
+  border: 1px solid #3a3a45;
+  border-radius: 6px;
+  padding: 0;
+  color: #e8e6e1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  container-type: size;
+}
+
+.equipment-slot__button:hover {
+  border-color: #f4a13a;
+}
+
+.equipment-slot__remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  line-height: 16px;
+  padding: 0;
+  border: 1px solid #3a3a45;
+  border-radius: 50%;
+  background: #22222bcc;
+  color: #c8c4bc;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.equipment-slot__remove:hover {
+  border-color: #e05a5a;
+  color: #ffffff;
+  background: #a83a3acc;
+}
+
+.equipment-slot__top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+.equipment-slot__label {
+  padding: 10px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #c8c6d1;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.equipment-slot__item-level {
+  margin-left: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #c8c6d1;
+  text-shadow:
+    0 0 4px #000000,
+    0 0 8px #000000,
+    0 0 12px #000000;
+}
+
+.equipment-slot__name {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #a8a8b8;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  line-height: 1.2;
+  text-shadow:
+    0 0 4px #000000,
+    0 0 8px #000000,
+    0 0 12px #000000;
+}
+
+.equipment-slot__icon {
+  position: absolute;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.equipment-slot__icon--empty {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  max-width: 110px;
+  opacity: 0.55;
+}
+
+.equipment-slot__icon--gear {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+}
+
+.equipment-slot__icon--gear--bottom {
+  padding: 0;
+  margin: 0;
+  clip-path: rect(0 83% 100% 0);
+  translate: 20% 10%;
+}
+
+.equipment-panel__weapon .equipment-slot__icon--gear {
+  transform: scale(1.15);
+  transform-origin: center;
+}
+
+.equipment-panel__weapon .equipment-slot__refine {
+  padding-bottom: 20px;
+}
+
+.equipment-slot__refine {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #3a3a45;
+  padding: 4px 5px 10px;
+  background: #22222b60;
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+}
+
+.equipment-slot__refine-label {
+  padding: 0 5px;
+  font-size: 15px;
+  text-align: left;
+  color: #ffffff;
+}
+
+.equipment-slot__refine-value {
+  padding: 0 5px;
+  font-size: 25px;
+  font-weight: 700;
+  color: #e8e6e1;
+  text-align: right;
+}
+
+/* Equipment slot picker dialog (DraggableDialogをベースに拡張) */
+.equipment-dialog.equipment-dialog--wide {
+  min-width: min(1000px, 100%);
+  max-width: min(1200px, 100%);
+  min-height: 65vh;
+  max-height: 92vh;
+  overflow: hidden;
+}
+
+.equipment-dialog__columns {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.equipment-dialog__col-left,
+.equipment-dialog__col-center,
+.equipment-dialog__col-enchant,
+.equipment-dialog__col-right {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 2px 14px 2px 0;
+}
+
+.equipment-dialog__col-left {
+  gap: 6px;
+  overflow-x: hidden;
+}
+
+.equipment-dialog__col-center {
+  border-left: 1px solid #2a2a33;
+  padding: 2px 14px;
+}
+
+.equipment-dialog__col-enchant {
+  border-left: 1px solid #2a2a33;
+  border-right: 1px solid #2a2a33;
+  padding: 2px 14px;
+  overflow: hidden;
+}
+
+.equipment-dialog__col-right {
+  padding: 2px 0 2px 14px;
+}
+
+/* Refine level: select + ±1 buttons */
+
+.equip-refine-level-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.equip-refine-level-control__select {
+  flex: 1;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  color: #e8e6e1;
+  padding: 6px 2px;
+  border-radius: 4px;
+  font-size: 13px;
+  text-align: center;
+  min-width: 0;
+}
+
+.equip-refine-level-control__btn {
+  flex-shrink: 0;
+  width: 28px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  color: #c8c6d1;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.equip-refine-level-control__btn:hover:not(:disabled) {
+  border-color: #f4a13a;
+  color: #f4a13a;
+}
+
+.equip-refine-level-control__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.equipment-dialog__label {
+  font-size: 11px;
+  color: #8a8a96;
+}
+
+.equipment-dialog__select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  color: #e8e6e1;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.equipment-dialog__slider-value {
+  margin-left: 8px;
+  color: #e8e6e1;
+  font-size: 12px;
+}
+
+.equipment-dialog__slider {
+  width: 100%;
+  accent-color: #f4a13a;
+  cursor: pointer;
+}
+
+.equipment-dialog__slider:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Equipment detail sections */
+
+.equip-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.equip-details-section__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a2a33;
+  margin: 0 0 2px 0;
+}
+
+.equip-details-section__heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8a8a96;
+  padding-bottom: 0;
+  border-bottom: none;
+  margin: 0;
+}
+
+/* heading-row を使わない場合の単体 heading はボーダーを維持 */
+.equip-details-section > .equip-details-section__heading {
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a2a33;
+  margin: 0 0 2px 0;
+}
+
+.equip-bt-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.equip-bt-selector__label {
+  font-size: 11px;
+  color: #8a8a96;
+  white-space: nowrap;
+}
+
+.equip-bt-selector__select {
+  background: #1e1e28;
+  color: #e8e6e1;
+  border: 1px solid #3a3a4a;
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
+.equip-details-section__placeholder {
+  font-size: 12px;
+  margin: 0;
+  padding: 2px 0;
+}
+
+.equip-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  font-size: 12px;
+}
+
+.equip-stat-row__name {
+  color: #c8c6d1;
+}
+
+.equip-stat-row__value {
+  color: #e8e6e1;
+  font-weight: 600;
+}
+
+.equip-stat-row__value--placeholder {
+  color: #4a4a55;
+}
+
+.equip-ability-score-row--total {
+  padding-top: 6px;
+  margin-top: 4px;
+  border-top: 1px solid #2a2a33;
+}
+
+.equip-ability-score-row--total .equip-stat-row__name,
+.equip-ability-score-row--total .equip-stat-row__value {
+  font-weight: 700;
+  color: #f4a13a;
+}
+
+/* Evolution stat selection */
+
+.equip-evo-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 固定進化ステータス表示(シリーズ武器): equip-stat-row の積み重ね */
+.equip-evo-fixed {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Evo1/Evo2 固定 + 改鋳選択の混合表示(通常装備 type=1) */
+.equip-evo-mixed {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.equip-evo-reforge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.equip-evo-slot {
+  position: relative;
+}
+
+.equip-evo-slot__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+}
+
+.equip-evo-slot__btn:hover {
+  border-color: #5a5a65;
+}
+
+.equip-evo-slot__btn--set {
+  border-color: #4a4a55;
+}
+
+.equip-evo-slot__tag {
+  font-size: 10px;
+  color: #c9a227;
+  flex-shrink: 0;
+  min-width: 52px;
+  background: #2a2a35;
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.equip-evo-slot__stat {
+  flex: 1;
+  color: #c8c6d1;
+}
+
+.equip-evo-slot__btn--set .equip-evo-slot__stat {
+  color: #e8e6e1;
+}
+
+.equip-evo-slot__value {
+  color: #a0d8a0;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.equip-evo-slot__arrow {
+  color: #5a5a6a;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.equip-evo-picker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: #1e1e27;
+  border: 1px solid #3a3a45;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.equip-evo-option {
+  background: transparent;
+  border: none;
+  border-top: 1px solid #25252e;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #c8c6d1;
+  text-align: left;
+  cursor: pointer;
+}
+
+.equip-evo-option:first-child {
+  border-top: none;
+}
+
+.equip-evo-option:hover {
+  background: #2a2a35;
+  color: #e8e6e1;
+}
+
+.equip-evo-option--selected {
+  color: #f4a13a;
+  background: #27271f;
+}
+
+/* 伝説刻印ピッカー */
+.equip-affix-unset {
+  color: #c084fc;
+}
+
+.equip-affix-slot {
+  margin-bottom: 4px;
+}
+
+.equip-affix-slot .equip-evo-slot__value {
+  color: #c084fc;
+}
+
+.equip-affix-slot .equip-evo-slot__btn--set .equip-evo-slot__stat {
+  color: #c084fc;
+}
+
+.equip-affix-slot__stat {
+  color: #c084fc;
+}
+
+.equip-affix-picker {
+  padding: 4px 0;
+}
+
+.equip-affix-option-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 10px;
+}
+
+.equip-affix-option-row__name {
+  font-size: 11px;
+  color: #c084fc;
+}
+
+.equip-affix-option-row__tiers {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding-left: 4px;
+}
+
+.equip-affix-tier-btn {
+  background: #2a2a22;
+  border: 1px solid #4a4a3a;
+  color: #c8c4bc;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition:
+    background 0.1s,
+    border-color 0.1s;
+}
+
+.equip-affix-tier-btn:hover {
+  background: #3a3a2a;
+  border-color: #7a5a8a;
+}
+
+.equip-affix-tier-btn--selected {
+  background: #3a2a4a;
+  border-color: #c084fc;
+  color: #c084fc;
+}
+
+/* Refine level effects */
+
+.equip-refine-row {
+  font-size: 12px;
+  color: #4a4a55;
+  padding: 2px 0;
+}
+
+.equip-refine-row--active {
+  color: #f4a13a;
+}
+
+.equip-refine-row__placeholder {
+  color: #3a3a45;
+  margin-left: 2px;
+}
+
+.equip-refine-row--active .equip-refine-row__placeholder {
+  color: #c07a30;
+}
+
+/* ---- 装備プレビューボックス ---- */
+.equip-preview-box {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* 1:1 正方形 */
+  height: 0;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #1a1a22;
+  flex-shrink: 0;
+}
+
+.equip-preview-box__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.equip-preview-box__icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- 装着効果カスタムドロップダウン ---- */
+.equip-enchant-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.equip-enchant-trigger {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 8px;
+  background: #1a1a22;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  color: #c8c4bc;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  min-width: 0;
+}
+
+.equip-enchant-trigger:hover {
+  border-color: #5a5a6a;
+}
+
+.equip-enchant-trigger--set {
+  border-color: #4a5a4a;
+  color: #e8e6e1;
+}
+
+.equip-enchant-trigger__name {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.equip-enchant-list {
+  background: #1e1e27;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.equip-enchant-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  color: #c8c4bc;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.equip-enchant-option:hover {
+  background: #2a2a35;
+}
+
+.equip-enchant-option--selected {
+  background: #2a3040;
+  color: #e8e6e1;
+}
+
+.equip-enchant-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.equip-enchant-details {
+  min-width: 0;
+}
+
+.equip-enchant-cost {
+  font-size: 11px;
+  color: #9090a8;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid #2a2a33;
+  line-height: 1.5;
+}
+
+.equip-enchant-cost__row {
+  word-break: break-word;
+}

@@ -1,0 +1,126 @@
+.build-planner {
+  background: #15151b;
+  color: #e8e6e1;
+  border-radius: 0 0 8px 8px;
+  padding: 0;
+  font-family: inherit;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.build-planner__right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.build-planner__tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid #2a2a33;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+.nav-lang {
+  margin-left: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.build-planner__nav-lang {
+  background: none;
+  border: none;
+  color: #5a5a70;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px 10px;
+  line-height: 1;
+  border-radius: 4px;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.build-planner__nav-lang:hover {
+  color: #a0a0c0;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.nav-lang__dropdown {
+  background: #1e1e28;
+  border: 1px solid #3a3a50;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  padding: 4px 0;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 140px;
+  z-index: 200;
+}
+
+.nav-lang__item {
+  display: block;
+  width: 100%;
+  padding: 7px 14px;
+  background: none;
+  border: none;
+  color: #c8c6d1;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-lang__item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f4f0e8;
+}
+
+.nav-lang__item--active {
+  color: #f4a13a;
+}
+
+.nav-lang__item--active::before {
+  content: '✓ ';
+}
+
+.build-planner__tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #8a8a96;
+  padding: 10px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.build-planner__tab:hover {
+  color: #c8c6d1;
+}
+
+.build-planner__tab--active {
+  color: #f4a13a;
+  border-bottom-color: #f4a13a;
+  cursor: default;
+}
+
+.build-planner__content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.build-planner__content--phantom {
+  padding: 0;
+}

@@ -1,0 +1,245 @@
+import type { StatId } from '../types';
+
+// ZTableのAttrId/BuffId → アプリ内 StatId・効果のマッピング定義。
+// calculateRawStats.ts / calculateAbilityScore.ts から参照される。
+
+// アビリティ type=1 効果 (平坦加算) の AttrId → StatId マッピング
+export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11012: 'strength',
+  11022: 'intellect',
+  11032: 'agility',
+  11042: 'endurance',
+  11112: 'crit',
+  11122: 'haste',
+  11132: 'luck',
+  11142: 'mastery',
+  11152: 'versatility',
+  11332: 'atk',
+  11342: 'matk',
+  11352: 'physicalDef',
+};
+
+// アビリティ type=3 効果(BuffId参照)のうち、型(ProfessionTypeKey)によって内容が変わるもの。
+// ZTable側に型別のパラメータテーブルがないため、説明文(game-data.json)から手動で値を確定している。
+export interface TalentType1OnlyFinalPct {
+  stat: StatId;
+  value: number; // 単位: 1/10000 (2000 → 20%)
+}
+
+// ビートパフォーマーR1アビリティ「変奏」: 響奏型では効果内容が変わる(通常攻撃の変更)ため、
+// 最大HP+20%は狂音型(type1)使用時のみ適用する。
+export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1OnlyFinalPct>> = {
+  2207340: { stat: 'maxHp', value: 2000 },
+};
+
+export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11012: 'strength',
+  11022: 'intellect',
+  11032: 'agility',
+  11042: 'endurance',
+};
+
+// 絆レベル effectType=3 BuffId → ステータス効果マッピング
+export type BondBuffStatEffect =
+  | { type: 'static'; stat: StatId; value: number }
+  | { type: 'highest_of'; stats: StatId[]; value: number };
+
+export const BOND_BUFF_STAT_EFFECTS: Partial<Record<number, BondBuffStatEffect[]>> = {
+  // 幻夢強度+100。耐久力+500
+  3003610: [
+    { type: 'static', stat: 'illusionPower', value: 100 },
+    { type: 'static', stat: 'endurance', value: 500 },
+  ],
+  3003620: [
+    { type: 'static', stat: 'illusionPower', value: 100 },
+    { type: 'static', stat: 'endurance', value: 500 },
+  ],
+  3003640: [
+    { type: 'static', stat: 'illusionPower', value: 100 },
+    { type: 'static', stat: 'endurance', value: 500 },
+  ],
+  // 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+300。耐久力+500
+  3003630: [
+    {
+      type: 'highest_of',
+      stats: ['crit', 'haste', 'luck', 'mastery', 'versatility'],
+      value: 300,
+    },
+    { type: 'static', stat: 'endurance', value: 500 },
+  ],
+  // 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+500。耐久力+500
+  3003650: [
+    {
+      type: 'highest_of',
+      stats: ['crit', 'haste', 'luck', 'mastery', 'versatility'],
+      value: 500,
+    },
+    { type: 'static', stat: 'endurance', value: 500 },
+  ],
+};
+
+// 潜在因子 effectType=1 AttrId → StatId マッピング（平坦加算値。末尾が2のIDは加算、4のIDは%乗算のため別扱い）
+export const PHANTOM_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11012: 'strength',
+  11022: 'intellect',
+  11032: 'agility',
+  11042: 'endurance',
+  11322: 'maxHp',
+  11352: 'physicalDef',
+  11442: 'illusionPower',
+  13002: 'allAttrStr',
+  13202: 'allAttrResist',
+  11802: 'receivedRecovery',
+  11812: 'barrierStrength',
+};
+
+// 潜在因子 effectType=3 極性バフ (BuffId → boost/penalty stat, pars index)
+// pars 単位: 100 = 1% (renderEffectDesc の pAsPercent と同様)
+// 効果: boost_stat *= (1 + pars[boostIdx] / 10000), penalty_stat *= (1 - pars[penaltyIdx] / 10000)
+export interface PolarityEffect {
+  boostStat: StatId;
+  boostIdx: number;
+  penaltyStat: StatId;
+  penaltyIdx: number;
+}
+
+export const FACTOR_POLARITY_EFFECTS: Partial<Record<number, PolarityEffect>> = {
+  3058050: { boostStat: 'crit', boostIdx: 1, penaltyStat: 'mastery', penaltyIdx: 0 }, // 会心+, 器用さ(mastery)-
+  3058060: { boostStat: 'luck', boostIdx: 1, penaltyStat: 'haste', penaltyIdx: 0 }, // 幸運+, ファスト-
+  3058070: { boostStat: 'mastery', boostIdx: 1, penaltyStat: 'luck', penaltyIdx: 0 }, // 器用さ(mastery)+, 幸運-
+  3058080: { boostStat: 'haste', boostIdx: 1, penaltyStat: 'crit', penaltyIdx: 0 }, // ファスト+, 会心-
+};
+
+// 潜在レベルアップ AttrId → StatId マッピング
+export const PHANTOM_LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11442: 'illusionPower',
+  11042: 'endurance',
+};
+
+// モジュールエフェクト EffectType=1 AttrId → StatId マッピング
+export const MOD_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11012: 'strength',
+  11022: 'intellect',
+  11032: 'agility',
+  11042: 'endurance',
+  11112: 'crit',
+  11122: 'haste',
+  11132: 'luck',
+  11142: 'mastery',
+  11152: 'versatility',
+  11322: 'maxHp',
+  11332: 'atk',
+  11342: 'matk',
+  11352: 'physicalDef',
+};
+
+// モジュール専用の「適応」効果 (EffectType=5)。クラスのメインステータス/攻撃タイプに
+// 応じて実際のステータスへ加算する。値は数値そのもの(%ではない)。
+export const MOD_ADAPTIVE_MAIN_STAT_ATTR_ID = 99005; // 適応筋力/知力/敏捷 → profession.mainStat
+export const MOD_ADAPTIVE_ATK_ATTR_ID = 99006; // 適応物理/魔法攻撃力 → profession.attackTypeに応じ atk/matk
+
+// EquipAttrLibTable の AttrId → StatId マッピング。
+export const EQUIP_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11442: 'illusionPower',
+  11332: 'atk',
+  11342: 'matk',
+  11352: 'physicalDef',
+  11012: 'strength',
+  11022: 'intellect',
+  11032: 'agility',
+  11042: 'endurance',
+};
+
+// 装着効果(エンチャント) AttrId → StatId マッピング。
+// 11502(全属性攻撃力)は atk/matk 両方に加算するため、このマップには含めず別途処理。
+export const ENCHANT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11012: 'strength',
+  11022: 'intellect',
+  11032: 'agility',
+  11042: 'endurance',
+  11112: 'crit',
+  11122: 'haste',
+  11132: 'luck',
+  11142: 'mastery',
+  11152: 'versatility',
+};
+
+// 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=false エントリ用)
+export const EVO_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11112: 'crit',
+  11122: 'haste',
+  11132: 'luck',
+  11142: 'mastery',
+  11152: 'versatility',
+};
+
+// 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリ用。
+// 蒼海武器シリーズ等)。isPercent=trueだが、対象ステータスは収益減少曲線の入力実数値
+// (会心/幸運/ファスト/器用さ/物理・魔法増強)か、固定基礎%への直接加算(会心ダメージ/
+// 幸運の一撃ダメージ率/会心回復)のいずれかであり、単純な%乗算ではないため実数値の
+// 平坦加算として扱う。
+export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11712: 'crit',
+  11782: 'luck',
+  11932: 'haste',
+  11942: 'mastery',
+  11812: 'barrierStrength',
+  12552: 'physicalEnhance',
+  12572: 'magicalEnhance',
+  12512: 'critDamageBonus',
+  12532: 'luckyHitDamageBonus',
+  12742: 'critRecoveryBonus',
+};
+
+// 刻印(伝説刻印) AttrId → 最終ステータスへの%乗算(武器/アクセサリのみ・isPercent=true)。
+// 2400001/2400002はeffectType=3の特殊関数効果(物理/魔法攻撃力ボーナス)で、意味的には
+// 11334/11344と同じ物理/魔法攻撃力%ボーナスのため同じバケツに集約する。
+export const AFFIX_STAT_EFFECTS: Record<number, { statId: StatId; mode: 'mult' }> = {
+  11334: { statId: 'atk', mode: 'mult' },
+  11344: { statId: 'matk', mode: 'mult' },
+  2400001: { statId: 'atk', mode: 'mult' },
+  2400002: { statId: 'matk', mode: 'mult' },
+};
+
+// 刻印(伝説刻印) AttrId → rawStatsへの平坦加算(防具のみ・isPercent=false)。
+// 筋力/知力/敏捷(11014/11024/11034)は防具でも%扱いのため IMAGINARY_PCT_BASE 側で処理する。
+export const LEGENDARY_AFFIX_FLAT_STAT: Partial<Record<number, StatId>> = {
+  11322: 'maxHp',
+  11352: 'physicalDef',
+  13202: 'allAttrResist',
+};
+
+// Base stat (strength/intellect/agility/endurance) percentage bonuses applied to rawStats before deriveStats.
+// Unit: 1/10000 (value 600 → 6%).
+export const IMAGINARY_PCT_BASE: Partial<Record<number, StatId>> = {
+  11014: 'strength',
+  11024: 'intellect',
+  11034: 'agility',
+  11044: 'endurance',
+};
+
+// Final stat percentage bonuses applied after deriveStats + affix multipliers.
+// Unit: 1/10000 (value 3584 → 35.84%).
+export const IMAGINARY_PCT_FINAL = {
+  11122: 'haste',
+  11142: 'mastery',
+  11152: 'versatility',
+  11324: 'maxHp',
+  11334: 'atk',
+  11344: 'matk',
+  11354: 'physicalDef',
+} as const;
+export type ImaginaryFinalStatId = keyof typeof IMAGINARY_PCT_FINAL;
+
+// 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
+// (このアプリの静的ステータスモデルでは表現不可)だが、一部は単純なステータスボーナスとして
+// 表現できる。BuffId(effectType=3の第2要素)ごとに手動で対応付ける。
+export type OrdinaryEffectBonus =
+  { kind: 'flat'; stat: StatId; value: number } | { kind: 'finalPct'; stat: StatId; value: number };
+
+export const ORDINARY_EFFECT_BONUS: Partial<Record<number, OrdinaryEffectBonus>> = {
+  // 瞬間ブレス: 戦闘中のスタミナ回復+35pt/秒(移動速度+10%は対応するStatIdが無いため対象外)
+  3002090: { kind: 'flat', stat: 'staminaRegen', value: 35 },
+  // 物理防御力+15%(無条件の固定ノード)
+  3003280: { kind: 'finalPct', stat: 'physicalDef', value: 1500 },
+};

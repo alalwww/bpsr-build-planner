@@ -1,0 +1,766 @@
+{
+  "1": {
+    "id": 1,
+    "element": 3,
+    "talent": 1,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11030
+      ],
+      [
+        1,
+        11030
+      ]
+    ],
+    "icon": "profession_horizontal_03",
+    "normalAttackSkill": [
+      1701
+    ],
+    "specialSkill": [
+      1714
+    ],
+    "ultimateSkill": [
+      1713
+    ],
+    "normalSkill": [
+      1705,
+      1717,
+      1718,
+      1719,
+      1724,
+      1730,
+      1731,
+      1720
+    ],
+    "talentSkill": [
+      1715,
+      1728,
+      1733,
+      1734,
+      1735,
+      1736,
+      1737,
+      1738
+    ],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [
+      101,
+      102
+    ],
+    "talentColor": "#db8787"
+  },
+  "2": {
+    "id": 2,
+    "element": 2,
+    "talent": 1,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11340
+      ],
+      [
+        1,
+        11340
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11020
+      ],
+      [
+        1,
+        11020
+      ]
+    ],
+    "icon": "profession_horizontal_05",
+    "normalAttackSkill": [
+      1201
+    ],
+    "specialSkill": [
+      1242
+    ],
+    "ultimateSkill": [
+      1248
+    ],
+    "normalSkill": [
+      1239,
+      1211,
+      1244,
+      1210,
+      1240,
+      1243,
+      1246,
+      1245
+    ],
+    "talentSkill": [
+      1241
+    ],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [
+      104,
+      105
+    ],
+    "talentColor": "#db8787"
+  },
+  "3": {
+    "id": 3,
+    "element": 1,
+    "talent": 1,
+    "isOpen": false,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11010
+      ],
+      [
+        1,
+        11010
+      ]
+    ],
+    "icon": "profession_horizontal_01",
+    "normalAttackSkill": [
+      1601
+    ],
+    "specialSkill": [
+      1605
+    ],
+    "ultimateSkill": [
+      1618
+    ],
+    "normalSkill": [
+      1607,
+      1608,
+      1612,
+      1613,
+      1614,
+      1615,
+      1616,
+      1617
+    ],
+    "talentSkill": [],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [
+      124,
+      125
+    ],
+    "talentColor": "#db8787"
+  },
+  "4": {
+    "id": 4,
+    "element": 5,
+    "talent": 1,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11010
+      ],
+      [
+        1,
+        11010
+      ]
+    ],
+    "icon": "profession_horizontal_02",
+    "normalAttackSkill": [
+      1401
+    ],
+    "specialSkill": [
+      1418
+    ],
+    "ultimateSkill": [
+      1426
+    ],
+    "normalSkill": [
+      1420,
+      1421,
+      1422,
+      1425,
+      1424,
+      1430,
+      1431,
+      1423
+    ],
+    "talentSkill": [
+      1409,
+      1410,
+      1411,
+      1419,
+      1433,
+      1434,
+      1435
+    ],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [
+      107,
+      108
+    ],
+    "talentColor": "#db8787"
+  },
+  "5": {
+    "id": 5,
+    "element": 4,
+    "talent": 2,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11340
+      ],
+      [
+        1,
+        11340
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11020
+      ],
+      [
+        1,
+        11020
+      ]
+    ],
+    "icon": "profession_horizontal_04",
+    "normalAttackSkill": [
+      1501
+    ],
+    "specialSkill": [
+      1518
+    ],
+    "ultimateSkill": [
+      1509
+    ],
+    "normalSkill": [
+      1519,
+      1520,
+      1522,
+      1523,
+      1521,
+      1531,
+      1529,
+      1524
+    ],
+    "talentSkill": [
+      1507,
+      1525,
+      1527,
+      1528,
+      1541
+    ],
+    "roleSkill": [
+      3311,
+      3312,
+      3313,
+      3314
+    ],
+    "showTalentStage": [
+      110,
+      111
+    ],
+    "talentColor": "#83c49a"
+  },
+  "8": {
+    "id": 8,
+    "element": 3,
+    "talent": 1,
+    "isOpen": false,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11030
+      ],
+      [
+        1,
+        11030
+      ]
+    ],
+    "icon": "profession_horizontal_01",
+    "normalAttackSkill": [
+      1801
+    ],
+    "specialSkill": [
+      1806
+    ],
+    "ultimateSkill": [
+      1808
+    ],
+    "normalSkill": [
+      1807
+    ],
+    "talentSkill": [],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [],
+    "talentColor": "#db8787"
+  },
+  "9": {
+    "id": 9,
+    "element": 6,
+    "talent": 3,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11010
+      ],
+      [
+        1,
+        11010
+      ]
+    ],
+    "icon": "profession_horizontal_06",
+    "normalAttackSkill": [
+      1901
+    ],
+    "specialSkill": [
+      1922
+    ],
+    "ultimateSkill": [
+      1907
+    ],
+    "normalSkill": [
+      1924,
+      1927,
+      1936,
+      1926,
+      1937,
+      1925,
+      1938,
+      1923
+    ],
+    "talentSkill": [
+      1932,
+      1933,
+      1939,
+      1940,
+      1941,
+      1942,
+      1943,
+      1944
+    ],
+    "roleSkill": [
+      3611,
+      3612,
+      3613,
+      3614
+    ],
+    "showTalentStage": [
+      113,
+      114
+    ],
+    "talentColor": "#68a6cd"
+  },
+  "10": {
+    "id": 10,
+    "element": 8,
+    "talent": 1,
+    "isOpen": false,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11030
+      ],
+      [
+        1,
+        11030
+      ]
+    ],
+    "icon": "profession_horizontal_01",
+    "normalAttackSkill": [
+      2101
+    ],
+    "specialSkill": [
+      2105
+    ],
+    "ultimateSkill": [
+      2108
+    ],
+    "normalSkill": [
+      2107
+    ],
+    "talentSkill": [],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [],
+    "talentColor": "#db8787"
+  },
+  "11": {
+    "id": 11,
+    "element": 7,
+    "talent": 1,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11030
+      ],
+      [
+        1,
+        11030
+      ]
+    ],
+    "icon": "profession_horizontal_07",
+    "normalAttackSkill": [
+      2201
+    ],
+    "specialSkill": [
+      2220
+    ],
+    "ultimateSkill": [
+      2209
+    ],
+    "normalSkill": [
+      2230,
+      2232,
+      2237,
+      2233,
+      2234,
+      2231,
+      2238,
+      2235
+    ],
+    "talentSkill": [
+      2224,
+      2240
+    ],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [
+      116,
+      117
+    ],
+    "talentColor": "#db8787"
+  },
+  "12": {
+    "id": 12,
+    "element": 7,
+    "talent": 3,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11010
+      ],
+      [
+        1,
+        11010
+      ]
+    ],
+    "icon": "profession_horizontal_01",
+    "normalAttackSkill": [
+      2401
+    ],
+    "specialSkill": [
+      2405
+    ],
+    "ultimateSkill": [
+      2407
+    ],
+    "normalSkill": [
+      2410,
+      2412,
+      2408,
+      2421,
+      2420,
+      2415,
+      2419,
+      2409
+    ],
+    "talentSkill": [
+      2406,
+      2411,
+      2413,
+      2416,
+      2417,
+      2425
+    ],
+    "roleSkill": [
+      3611,
+      3612,
+      3613,
+      3614
+    ],
+    "showTalentStage": [
+      122,
+      123
+    ],
+    "talentColor": "#68a6cd"
+  },
+  "13": {
+    "id": 13,
+    "element": 1,
+    "talent": 2,
+    "isOpen": true,
+    "attackShow": [
+      [
+        0,
+        11340
+      ],
+      [
+        1,
+        11340
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11020
+      ],
+      [
+        1,
+        11020
+      ]
+    ],
+    "icon": "profession_horizontal_08",
+    "normalAttackSkill": [
+      2321
+    ],
+    "specialSkill": [
+      2306
+    ],
+    "ultimateSkill": [
+      2314
+    ],
+    "normalSkill": [
+      2308,
+      2309,
+      2310,
+      2311,
+      2312,
+      2313,
+      2315,
+      2316
+    ],
+    "talentSkill": [
+      2307,
+      2317,
+      2332,
+      2335,
+      2336
+    ],
+    "roleSkill": [
+      3311,
+      3312,
+      3313,
+      3314
+    ],
+    "showTalentStage": [
+      119,
+      120
+    ],
+    "talentColor": "#83c49a"
+  },
+  "14": {
+    "id": 14,
+    "element": 7,
+    "talent": 1,
+    "isOpen": false,
+    "attackShow": [
+      [
+        0,
+        11340
+      ],
+      [
+        1,
+        11340
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11030
+      ],
+      [
+        1,
+        11030
+      ]
+    ],
+    "icon": "profession_horizontal_01",
+    "normalAttackSkill": [
+      2501
+    ],
+    "specialSkill": [
+      2504
+    ],
+    "ultimateSkill": [
+      2506
+    ],
+    "normalSkill": [
+      2505
+    ],
+    "talentSkill": [],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [],
+    "talentColor": "#db8787"
+  },
+  "15": {
+    "id": 15,
+    "element": 1,
+    "talent": 1,
+    "isOpen": false,
+    "attackShow": [
+      [
+        0,
+        11330
+      ],
+      [
+        1,
+        11330
+      ]
+    ],
+    "strOrIntOrDexShow": [
+      [
+        0,
+        11030
+      ],
+      [
+        1,
+        11030
+      ]
+    ],
+    "icon": "profession_horizontal_01",
+    "normalAttackSkill": [
+      2601
+    ],
+    "specialSkill": [
+      2604
+    ],
+    "ultimateSkill": [
+      2606
+    ],
+    "normalSkill": [
+      2605
+    ],
+    "talentSkill": [],
+    "roleSkill": [
+      3011,
+      3012,
+      3013,
+      3014
+    ],
+    "showTalentStage": [],
+    "talentColor": "#db8787"
+  }
+}
