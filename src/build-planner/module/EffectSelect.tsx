@@ -1,5 +1,6 @@
 import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import Chevron from '../components/Chevron';
 import Dropdown from '../components/Dropdown';
 import {
   getEffectCategory,
@@ -51,13 +52,13 @@ function EffectSelect({
           `mod-effect-select-trigger${isOpen ? ' mod-effect-select-trigger--open' : ''}`
         }
         panelClassName="mod-effect-select-dropdown"
-        renderTrigger={() => (
+        renderTrigger={(isOpen) => (
           <>
             {selIconSrc && <img src={selIconSrc} className="mod-effect-select-sel-icon" alt="" />}
             <span className={value == null ? 'mod-effect-select-placeholder' : ''}>
               {selName ?? placeholder}
             </span>
-            <span className="mod-effect-select-arrow">▾</span>
+            <Chevron open={isOpen} className="mod-effect-select-arrow" />
           </>
         )}
       >

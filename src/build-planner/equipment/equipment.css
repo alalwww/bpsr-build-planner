@@ -13,8 +13,6 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   z-index: 9999;
   pointer-events: none;
-  scrollbar-width: thin;
-  scrollbar-color: #444 transparent;
 }
 
 .equip-item-popup__name {
@@ -484,16 +482,68 @@
   color: #8a8a96;
 }
 
-.equipment-dialog__select {
+.equipment-dialog__select-trigger {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: #1c1c24;
   border: 1px solid #3a3a45;
   color: #e8e6e1;
   padding: 8px;
   border-radius: 4px;
   font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.equipment-dialog__select-trigger:hover,
+.equipment-dialog__select-trigger--open {
+  border-color: #5a5a6a;
+}
+
+.equipment-dialog__select-trigger-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.equipment-dialog__select-list {
+  max-height: 320px;
+  overflow-y: auto;
+  background: #1e1e27;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.equipment-dialog__select-option {
+  background: none;
+  border: none;
+  border-top: 1px solid #2a2a33;
+  padding: 6px 8px;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  color: #e8e6e1;
+}
+
+.equipment-dialog__select-option:first-child {
+  border-top: none;
+}
+
+.equipment-dialog__select-option:hover {
+  background: #2a2a35;
+}
+
+.equipment-dialog__select-option--selected {
+  background: #2a3040;
 }
 
 .equipment-dialog__slider-value {
@@ -690,9 +740,7 @@
 }
 
 .equip-evo-slot__arrow {
-  color: #5a5a6a;
-  font-size: 10px;
-  flex-shrink: 0;
+  color: #8a8a9a;
 }
 
 .equip-evo-picker {
@@ -863,7 +911,7 @@
 
 .equip-enchant-trigger {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 6px;
   width: 100%;
   padding: 5px 8px;

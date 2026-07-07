@@ -91,8 +91,6 @@
   overflow-y: auto;
   overflow-x: auto;
   padding: 4px 0 4px;
-  scrollbar-width: thin;
-  scrollbar-color: #333 transparent;
   background:
     radial-gradient(ellipse 80% 45% at 50% 100%, rgba(255, 210, 230, 0.22) 0%, transparent 70%),
     linear-gradient(to bottom, #2a0e1c 0%, #6b2845 100%);
@@ -210,10 +208,6 @@
   color: #9090a8;
 }
 
-.phantom-bond-effects-toggle-arrow {
-  font-size: 8px;
-}
-
 .phantom-bond-effects-list {
   display: flex;
   flex-direction: column;
@@ -275,11 +269,6 @@
 .phantom-desc-toggle:hover {
   color: #c0c0d0;
   background: #22222e;
-}
-
-.phantom-desc-toggle-arrow {
-  font-size: 9px;
-  margin-left: 4px;
 }
 
 .phantom-desc-content {
@@ -347,8 +336,6 @@
   flex: 1;
   overflow-y: auto;
   padding: 4px 8px 300px;
-  scrollbar-width: thin;
-  scrollbar-color: #333 transparent;
 }
 
 .phantom-config-row {
@@ -549,9 +536,7 @@
 }
 
 .phantom-dropdown__arrow {
-  font-size: 9px;
   color: #666;
-  flex-shrink: 0;
   margin-left: auto;
 }
 
@@ -569,8 +554,6 @@
   border: 1px solid #4a4a5a;
   border-radius: 3px;
   z-index: 200;
-  scrollbar-width: thin;
-  scrollbar-color: #444 transparent;
   margin-top: 2px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }

@@ -6,12 +6,22 @@ interface DropdownProps {
   renderTrigger: (isOpen: boolean) => ReactNode;
   panelClassName: string;
   children: (close: () => void) => ReactNode;
+  autoFocus?: boolean;
+  /** パネル幅 = トリガー幅 × この値(既定1)。改行を減らしたい時などにトリガーより広げる。 */
+  panelWidthScale?: number;
 }
 
 // 「トリガーボタン → document.bodyへportalした固定位置の選択肢パネル」という
 // ドロップダウン系UIの共通シェル。開閉state・位置計算・外側クリックでの close を担う。
 // パネルの中身(グルーピング・アイコン・説明ツールチップ等)は呼び出し側が children で描画する。
-function Dropdown({ triggerClassName, renderTrigger, panelClassName, children }: DropdownProps) {
+function Dropdown({
+  triggerClassName,
+  renderTrigger,
+  panelClassName,
+  children,
+  autoFocus,
+  panelWidthScale = 1,
+}: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -22,7 +32,7 @@ function Dropdown({ triggerClassName, renderTrigger, panelClassName, children }:
   const toggle = () => {
     if (!isOpen && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width });
+      setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width * panelWidthScale });
     }
     setIsOpen((v) => !v);
   };
@@ -46,7 +56,13 @@ function Dropdown({ triggerClassName, renderTrigger, panelClassName, children }:
 
   return (
     <>
-      <button ref={triggerRef} type="button" className={resolvedTriggerClassName} onClick={toggle}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={resolvedTriggerClassName}
+        onClick={toggle}
+        autoFocus={autoFocus}
+      >
         {renderTrigger(isOpen)}
       </button>
       {isOpen &&

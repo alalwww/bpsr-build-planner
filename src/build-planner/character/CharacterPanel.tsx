@@ -5,6 +5,7 @@ import ProfessionPicker from './ProfessionPicker';
 import PlanListDropdown from './PlanListDropdown';
 import AbilityScoreDialog from './AbilityScoreDialog';
 import BuffEffectDialog from './BuffEffectDialog';
+import Chevron from '../components/Chevron';
 import ConfirmDialog from '../components/ConfirmDialog';
 import DraggableDialog from '../components/DraggableDialog';
 import FloatingTooltip from '../components/FloatingTooltip';
@@ -327,7 +328,7 @@ function CharacterPanel({
             setDeleteConfirmId(null);
           }}
         >
-          ▼
+          <Chevron open={isPlanListOpen} />
         </button>
         <button
           type="button"

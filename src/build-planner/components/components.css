@@ -1,3 +1,21 @@
+/* ドロップダウン/折り畳みトグル共通の開閉記号(下向きV字、開状態で180度回転)。
+   色は currentColor 継承のため呼び出し側の color 指定に追従する。 */
+.dropdown-chevron {
+  width: 9px;
+  height: 6px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.15s ease;
+}
+
+.dropdown-chevron--open {
+  transform: rotate(180deg);
+}
+
 /* Confirm dialog (共通確認モーダル: プラン保存/削除/読込確認・タレントリセット確認等) */
 .confirm-dialog {
   padding: 20px 24px;

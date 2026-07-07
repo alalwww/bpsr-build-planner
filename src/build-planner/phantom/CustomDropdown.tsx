@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Chevron from '../components/Chevron';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
 
@@ -44,7 +45,7 @@ function CustomDropdown({
             ) : (
               <span className="phantom-dropdown__placeholder">{placeholder ?? '選択'}</span>
             )}
-            <span className="phantom-dropdown__arrow">{isOpen ? '▲' : '▼'}</span>
+            <Chevron open={isOpen} className="phantom-dropdown__arrow" />
           </>
         )}
       >

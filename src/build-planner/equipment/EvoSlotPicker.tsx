@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import Chevron from '../components/Chevron';
 import type { EvolutionStatId } from '../types';
 
 interface EvoSlotPickerProps {
@@ -38,7 +39,7 @@ function EvoSlotPicker({
             : t('buildPlanner.evolutionStatUnset')}
         </span>
         {valueLabel !== undefined && <span className="equip-evo-slot__value">{valueLabel}</span>}
-        <span className="equip-evo-slot__arrow">{isEditing ? '▴' : '▾'}</span>
+        <Chevron open={isEditing} className="equip-evo-slot__arrow" />
       </button>
       {isEditing && (
         <div className="equip-evo-picker">

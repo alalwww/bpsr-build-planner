@@ -40,6 +40,9 @@
 .character-panel__plan-expand,
 .character-panel__plan-save {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #5a5a70;
@@ -599,8 +602,6 @@
 
 .stats-detail {
   user-select: none;
-  scrollbar-width: thin;
-  scrollbar-color: #2a2a35 transparent;
 }
 
 .stats-detail__body {

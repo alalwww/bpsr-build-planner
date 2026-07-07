@@ -1,9 +1,16 @@
+/* scrollbar-color は継承されるが scrollbar-width は継承されないため、
+   全要素に対して個別に thin を指定する(色は body の scrollbar-color を継承させる)。 */
+* {
+  scrollbar-width: thin;
+}
+
 html,
 body {
   height: 100%;
   margin: 0;
   overflow: hidden;
   background: #1c1c24;
+  scrollbar-color: #4a4a5a transparent;
 }
 
 #root {

@@ -11,6 +11,7 @@ import {
 } from './phantomData';
 import type { ProfessionKey } from '../profession';
 import { PROFESSIONS } from '../profession';
+import Chevron from '../components/Chevron';
 import Stepper from '../components/Stepper';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import FactorSlot from './FactorSlot'; // ---- Asset loading ----
@@ -884,9 +885,7 @@ export default function PhantomPanel({
                     onClick={() => setBondEffectsOpen((v) => !v)}
                   >
                     <span>{t('buildPlanner.phantom.bondEffects')}</span>
-                    <span className="phantom-bond-effects-toggle-arrow">
-                      {bondEffectsOpen ? '▲' : '▼'}
-                    </span>
+                    <Chevron open={bondEffectsOpen} />
                   </button>
                   {bondEffectsOpen && (
                     <div className="phantom-bond-effects-list">
@@ -927,7 +926,7 @@ export default function PhantomPanel({
                 onClick={() => setDescOpen((v) => !v)}
               >
                 <span>{t('buildPlanner.phantom.nodeEffect')}</span>
-                <span className="phantom-desc-toggle-arrow">{descOpen ? '▲' : '▼'}</span>
+                <Chevron open={descOpen} />
               </button>
               {descOpen && <div className="phantom-desc-content">{renderNodeEffect()}</div>}
             </div>

@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import Chevron from '../components/Chevron';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
@@ -97,16 +98,6 @@ function EquipmentSlotPicker({
   };
   const hideEnchantTooltip = () => {
     enchantTooltipHideTimer.current = setTimeout(() => setEnchantTooltip(null), 80);
-  };
-
-  const handleItemChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    if (value === '') {
-      onUnequip();
-    } else {
-      const selected = candidates.find((c) => String(c.id) === value);
-      if (selected) onSelect(selected);
-    }
   };
 
   const equippedItem =
@@ -363,27 +354,59 @@ function EquipmentSlotPicker({
 
             <div className="equip-details-section">
               <label className="equipment-dialog__label">{slotLabel}</label>
-              <select
-                className="equipment-dialog__select"
-                style={equippedItem ? { color: getItemNameColor(equippedItem) } : undefined}
-                value={equippedId !== undefined ? String(equippedId) : ''}
-                onChange={handleItemChange}
+              <Dropdown
                 autoFocus
-              >
-                <option value="">{t('buildPlanner.emptySlot')}</option>
-                {sortedCandidates.map((candidate) => {
-                  const name = t(`items.${candidate.id}.name`, { ns: 'game-data' });
-                  return (
-                    <option
-                      key={candidate.id}
-                      value={String(candidate.id)}
-                      style={{ color: getItemNameColor(candidate) }}
+                panelWidthScale={1.3}
+                triggerClassName={(isOpen) =>
+                  `equipment-dialog__select-trigger${isOpen ? ' equipment-dialog__select-trigger--open' : ''}`
+                }
+                panelClassName="equipment-dialog__select-list"
+                renderTrigger={(isOpen) => (
+                  <>
+                    <span
+                      className="equipment-dialog__select-trigger-name"
+                      style={equippedItem ? { color: getItemNameColor(equippedItem) } : undefined}
                     >
-                      {`${candidate.equipGs} ${name}`}
-                    </option>
-                  );
-                })}
-              </select>
+                      {equippedItem
+                        ? `${equippedItem.equipGs} ${t(`items.${equippedItem.id}.name`, { ns: 'game-data' })}`
+                        : t('buildPlanner.emptySlot')}
+                    </span>
+                    <Chevron open={isOpen} />
+                  </>
+                )}
+              >
+                {(close) => (
+                  <>
+                    <button
+                      type="button"
+                      className={`equipment-dialog__select-option${equippedId === undefined ? ' equipment-dialog__select-option--selected' : ''}`}
+                      onClick={() => {
+                        onUnequip();
+                        close();
+                      }}
+                    >
+                      {t('buildPlanner.emptySlot')}
+                    </button>
+                    {sortedCandidates.map((candidate) => {
+                      const name = t(`items.${candidate.id}.name`, { ns: 'game-data' });
+                      return (
+                        <button
+                          key={candidate.id}
+                          type="button"
+                          className={`equipment-dialog__select-option${candidate.id === equippedId ? ' equipment-dialog__select-option--selected' : ''}`}
+                          style={{ color: getItemNameColor(candidate) }}
+                          onClick={() => {
+                            onSelect(candidate);
+                            close();
+                          }}
+                        >
+                          {`${candidate.equipGs} ${name}`}
+                        </button>
+                      );
+                    })}
+                  </>
+                )}
+              </Dropdown>
             </div>
 
             <div className="equip-details-section">
@@ -680,6 +703,7 @@ function EquipmentSlotPicker({
               {enchantsList.length > 0 ? (
                 <div className="equip-enchant-section">
                   <Dropdown
+                    panelWidthScale={1.3}
                     triggerClassName={`equip-enchant-trigger${selectedEnchantData ? ' equip-enchant-trigger--set' : ''}`}
                     panelClassName="equip-enchant-list"
                     renderTrigger={(isOpen) => (
@@ -703,7 +727,7 @@ function EquipmentSlotPicker({
                             ? t(`items.${selectedEnchant}.name`, { ns: 'game-data' })
                             : t('buildPlanner.evolutionStatUnset')}
                         </span>
-                        <span className="equip-evo-slot__arrow">{isOpen ? '▴' : '▾'}</span>
+                        <Chevron open={isOpen} className="equip-evo-slot__arrow" />
                       </>
                     )}
                   >

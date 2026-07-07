@@ -211,8 +211,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  scrollbar-width: thin;
-  scrollbar-color: #2a2a35 transparent;
 }
 
 .talent-tree-panel__points-badge {

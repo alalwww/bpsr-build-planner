@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import Chevron from '../components/Chevron';
 import type { LegendaryAffixEntry, LegendaryAffixSelection } from '../types';
 
 interface LegendaryAffixPickerProps {
@@ -42,7 +43,7 @@ function LegendaryAffixPicker({
         {selectedAffixDisplayValue && (
           <span className="equip-evo-slot__value">{selectedAffixDisplayValue}</span>
         )}
-        <span className="equip-evo-slot__arrow">{isOpen ? '▴' : '▾'}</span>
+        <Chevron open={isOpen} className="equip-evo-slot__arrow" />
       </button>
       {isOpen && (
         <div className="equip-evo-picker equip-affix-picker">
