@@ -1,19 +1,27 @@
 import { useTranslation } from 'react-i18next';
 import DraggableDialog from '../components/DraggableDialog';
-import type { CookingBuffState } from '../types';
+import Stepper from '../components/Stepper';
+import type { CookingBuffState, ModuleSlots } from '../types';
 import { ELEMENT_IDS } from '../types';
 import type { Profession } from '../profession';
 import {
+  ADAPTABILITY_VALUES,
+  calcLuckyCritBonus,
   calcResonanceBonus,
+  DAMAGE_BOOST_PER_STACK,
+  HP_SHIFT_VALUES,
   MORALE_BOOST_VALUES,
+  POWER_CORE_EFFECT_IDS,
   RESONANCE_MULTIPLIER_OPTIONS,
 } from '../stats/cookingBuff';
+import { getPowerCoreLevel } from '../stats/gameData';
 
 interface BuffEffectDialogProps {
   cookingBuff: CookingBuffState;
   onChange: (patch: Partial<CookingBuffState>) => void;
   profession: Profession;
   onClose: () => void;
+  moduleSlots: ModuleSlots;
 }
 
 // number入力の共通ヘルパー: 0は空欄表示にし、入力値はNumberでパースする(NaNは0扱い)。
@@ -27,7 +35,13 @@ function toNumberInputProps(value: number, onChange: (v: number) => void) {
   };
 }
 
-function BuffEffectDialog({ cookingBuff, onChange, profession, onClose }: BuffEffectDialogProps) {
+function BuffEffectDialog({
+  cookingBuff,
+  onChange,
+  profession,
+  onClose,
+  moduleSlots,
+}: BuffEffectDialogProps) {
   const { t } = useTranslation();
 
   const atkLabel = t(`buildPlanner.stats.${profession.attackType === 'physical' ? 'atk' : 'matk'}`);
@@ -37,6 +51,20 @@ function BuffEffectDialog({ cookingBuff, onChange, profession, onClose }: BuffEf
   const mainStatLabel = t(`buildPlanner.stats.${profession.mainStat}`);
   const moraleBoostEffect = MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant];
   const resonanceBonus = calcResonanceBonus(cookingBuff);
+
+  // モジュールパネルで該当モジュールのパワーコア効果Lv5以上を発動しているか(0=未発動)。
+  const luckyCritOwnLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.luckyCrit);
+  const hpShiftLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.hpShift);
+  const damageBoostLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.damageBoost);
+  const adaptabilityLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.adaptability);
+
+  const luckyCritBonus = calcLuckyCritBonus(cookingBuff, luckyCritOwnLevel);
+  const hpShiftBonus = hpShiftLevel !== 0 ? HP_SHIFT_VALUES[hpShiftLevel] : 0;
+  const damageBoostPercent =
+    damageBoostLevel !== 0
+      ? DAMAGE_BOOST_PER_STACK[damageBoostLevel] * cookingBuff.damageBoostStacks
+      : 0;
+  const adaptabilityEffect = adaptabilityLevel !== 0 ? ADAPTABILITY_VALUES[adaptabilityLevel] : null;
 
   return (
     <DraggableDialog
@@ -223,6 +251,130 @@ function BuffEffectDialog({ cookingBuff, onChange, profession, onClose }: BuffEf
               stat: mainStatLabel,
               value: resonanceBonus.toLocaleString(),
             })}
+          </span>
+        </div>
+
+        {/* 幸運会心(モジュールパワーコア効果): 自分(2倍・Lv5以上発動時のみ)/被Lv5/被Lv6 */}
+        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
+          <div className="buff-effect-dialog__row-main">
+            <label className="buff-effect-dialog__checkbox-label">
+              <input
+                type="checkbox"
+                checked={cookingBuff.luckyCritEnabled}
+                onChange={(e) => onChange({ luckyCritEnabled: e.target.checked })}
+              />
+              <span>{t('buildPlanner.buffDialog.luckyCrit')}</span>
+            </label>
+            <label className="buff-effect-dialog__radio-label">
+              <input
+                type="radio"
+                name="luckyCritVariant"
+                disabled={!cookingBuff.luckyCritEnabled || luckyCritOwnLevel === 0}
+                checked={cookingBuff.luckyCritVariant === 'self'}
+                onChange={() => onChange({ luckyCritVariant: 'self' })}
+              />
+              <span>{t('buildPlanner.buffDialog.luckyCritSelf')}</span>
+            </label>
+            <label className="buff-effect-dialog__radio-label">
+              <input
+                type="radio"
+                name="luckyCritVariant"
+                disabled={!cookingBuff.luckyCritEnabled}
+                checked={cookingBuff.luckyCritVariant === 'receivedLv5'}
+                onChange={() => onChange({ luckyCritVariant: 'receivedLv5' })}
+              />
+              <span>{t('buildPlanner.buffDialog.luckyCritReceivedLv5')}</span>
+            </label>
+            <label className="buff-effect-dialog__radio-label">
+              <input
+                type="radio"
+                name="luckyCritVariant"
+                disabled={!cookingBuff.luckyCritEnabled}
+                checked={cookingBuff.luckyCritVariant === 'receivedLv6'}
+                onChange={() => onChange({ luckyCritVariant: 'receivedLv6' })}
+              />
+              <span>{t('buildPlanner.buffDialog.luckyCritReceivedLv6')}</span>
+            </label>
+          </div>
+          <span className="buff-effect-dialog__hint">
+            {t('buildPlanner.buffDialog.luckyCritEffect', {
+              critDamage: luckyCritBonus.critDamage / 100,
+              luckyDamage: luckyCritBonus.luckyDamage / 100,
+            })}
+          </span>
+        </div>
+
+        {/* HP変動(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
+        <div className="buff-effect-dialog__row">
+          <label className="buff-effect-dialog__checkbox-label">
+            <input
+              type="checkbox"
+              checked={cookingBuff.hpShiftEnabled}
+              disabled={hpShiftLevel === 0}
+              onChange={(e) => onChange({ hpShiftEnabled: e.target.checked })}
+            />
+            <span>{t('buildPlanner.buffDialog.hpShift')}</span>
+          </label>
+          <span className="buff-effect-dialog__hint">
+            {hpShiftLevel === 0
+              ? t('buildPlanner.buffDialog.powerCoreLocked')
+              : t('buildPlanner.buffDialog.hpShiftEffect', { value: hpShiftBonus })}
+          </span>
+        </div>
+
+        {/* ダメージ増強(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効。表示のみ、ステ計算対象外) */}
+        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
+          <div className="buff-effect-dialog__row-main">
+            <label className="buff-effect-dialog__checkbox-label">
+              <input
+                type="checkbox"
+                checked={cookingBuff.damageBoostEnabled}
+                disabled={damageBoostLevel === 0}
+                onChange={(e) => onChange({ damageBoostEnabled: e.target.checked })}
+              />
+              <span>{t('buildPlanner.buffDialog.damageBoost')}</span>
+            </label>
+            <span className="buff-effect-dialog__stack-label">
+              {t('buildPlanner.buffDialog.damageBoostStacks')}
+            </span>
+            <Stepper
+              className="phantom-stepper"
+              modifierClassName={`buff-effect-dialog__stack-stepper${!cookingBuff.damageBoostEnabled || damageBoostLevel === 0 ? ' buff-effect-dialog__stack-stepper--disabled' : ''}`}
+              layout="inline"
+              disableList
+              value={cookingBuff.damageBoostStacks}
+              min={1}
+              max={4}
+              onChange={(v) => onChange({ damageBoostStacks: v })}
+            />
+          </div>
+          <span className="buff-effect-dialog__hint">
+            {damageBoostLevel === 0
+              ? t('buildPlanner.buffDialog.powerCoreLocked')
+              : t('buildPlanner.buffDialog.damageBoostEffect', {
+                  value: damageBoostPercent.toFixed(2),
+                })}
+          </span>
+        </div>
+
+        {/* 適応力(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
+        <div className="buff-effect-dialog__row">
+          <label className="buff-effect-dialog__checkbox-label">
+            <input
+              type="checkbox"
+              checked={cookingBuff.adaptabilityEnabled}
+              disabled={adaptabilityLevel === 0}
+              onChange={(e) => onChange({ adaptabilityEnabled: e.target.checked })}
+            />
+            <span>{t('buildPlanner.buffDialog.adaptability')}</span>
+          </label>
+          <span className="buff-effect-dialog__hint">
+            {!adaptabilityEffect
+              ? t('buildPlanner.buffDialog.powerCoreLocked')
+              : t('buildPlanner.buffDialog.adaptabilityEffect', {
+                  moveSpeed: adaptabilityEffect.moveSpeed,
+                  atk: adaptabilityEffect.atkMultPercent,
+                })}
           </span>
         </div>
       </div>

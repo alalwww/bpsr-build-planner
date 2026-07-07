@@ -169,7 +169,8 @@ export const ELEMENT_IDS = [
 ] as const;
 export type ElementId = (typeof ELEMENT_IDS)[number];
 
-// 料理・シロップ/脊椎試薬・スターオイル・海風の宴・鼓舞・能力共鳴によるバフ効果の選択状態。
+// 料理・シロップ/脊椎試薬・スターオイル・海風の宴・鼓舞・能力共鳴・モジュールパワーコア系
+// (幸運会心/HP変動/ダメージ増強/適応力)によるバフ効果の選択状態。
 // 料理は加算・乗算計算後の最終ステータスに加算される(詳細はstats/cookingBuff.tsを参照)。
 // シロップとスターオイルは同時装備不可。
 export interface CookingBuffState {
@@ -194,6 +195,18 @@ export interface CookingBuffState {
   resonanceEnabled: boolean;
   resonanceBaseValue: number;
   resonanceMultiplierPercent: number;
+  // 幸運会心(モジュールパワーコア効果): 自分(モジュールパネルでLv5以上発動時のみ選択可・2倍)/
+  // 被Lv5/被Lv6(パーティの他メンバーから受ける場合)のいずれかを選択する(排他)。
+  luckyCritEnabled: boolean;
+  luckyCritVariant: 'self' | 'receivedLv5' | 'receivedLv6';
+  // HP変動(モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
+  hpShiftEnabled: boolean;
+  // ダメージ増強(モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効。
+  // 現時点では表示のみでステータス計算には含めない)
+  damageBoostEnabled: boolean;
+  damageBoostStacks: number;
+  // 適応力(モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
+  adaptabilityEnabled: boolean;
 }
 
 // モジュールホール: 1 ホールの設定。linkCount=1-10 はリンクスタック数。

@@ -18,7 +18,13 @@ import {
   stData as seasonTalentData,
 } from '../phantom/phantomData';
 import { BASE_STATS } from './baseStats';
-import { calcResonanceBonus, MORALE_BOOST_VALUES, SEA_BREEZE_MAIN_STAT_BONUS } from './cookingBuff';
+import {
+  calcLuckyCritBonus,
+  calcResonanceBonus,
+  MORALE_BOOST_VALUES,
+  POWER_CORE_EFFECT_IDS,
+  SEA_BREEZE_MAIN_STAT_BONUS,
+} from './cookingBuff';
 import {
   AFFIX_STAT_EFFECTS,
   BOND_BUFF_STAT_EFFECTS,
@@ -43,6 +49,7 @@ import {
 import {
   calcModuleEffectLevels,
   enchantEffectsById,
+  getPowerCoreLevel,
   imaginaryDataById,
   levelCumulativeData,
   modulesData,
@@ -548,6 +555,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const resonanceBonus = calcResonanceBonus(cookingBuff);
   if (resonanceBonus !== 0) {
     addStat(profession.mainStat, resonanceBonus);
+  }
+
+  // 幸運会心(モジュールパワーコア効果): 会心ダメージ/幸運ダメージへの加算。
+  // 「自分」はモジュールパネルで該当モジュールのパワーコア効果Lv5以上を発動している場合のみ有効。
+  if (cookingBuff.luckyCritEnabled) {
+    const ownLuckyCritLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.luckyCrit);
+    const { critDamage, luckyDamage } = calcLuckyCritBonus(cookingBuff, ownLuckyCritLevel);
+    if (critDamage !== 0) addStat('critDamageBonus', critDamage);
+    if (luckyDamage !== 0) addStat('luckyHitDamageBonus', luckyDamage);
   }
 
   // %ボーナスの適用: 同一ステータスに対する複数の%ボーナスは合算してから一度だけ乗算する

@@ -15,7 +15,55 @@ export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   resonanceEnabled: false,
   resonanceBaseValue: 6300,
   resonanceMultiplierPercent: 24,
+  luckyCritEnabled: false,
+  luckyCritVariant: 'self',
+  hpShiftEnabled: false,
+  damageBoostEnabled: false,
+  damageBoostStacks: 4,
+  adaptabilityEnabled: false,
 };
+
+// モジュールのパワーコア効果(Lv5/6)のうち、バフ計算対象となるeffectId。
+export const POWER_CORE_EFFECT_IDS = {
+  luckyCrit: 2406, // 幸運会心
+  hpShift: 2404, // HP変動
+  damageBoost: 2104, // ダメージ増強
+  adaptability: 2105, // 適応力
+} as const;
+
+// 幸運会心: 会心ダメージ/幸運ダメージへの加算量(Lv5/6。単位はcritDamageBonus/luckyHitDamageBonus
+// と同じ、%*100)。自分が発動した場合はこの値の2倍を加算する。
+export const LUCKY_CRIT_VALUES: Record<5 | 6, { critDamage: number; luckyDamage: number }> = {
+  5: { critDamage: 310, luckyDamage: 200 },
+  6: { critDamage: 520, luckyDamage: 340 },
+};
+
+// HP変動: 会心/幸運/ファスト/器用さ/万能のうち計算結果が最も高い項目への加算量(%、Lv5/6)。
+export const HP_SHIFT_VALUES: Record<5 | 6, number> = { 5: 6, 6: 10 };
+
+// ダメージ増強: 1スタックあたりのダメージ増加%(Lv5/6)。現時点では表示のみでステ計算には含めない。
+export const DAMAGE_BOOST_PER_STACK: Record<5 | 6, number> = { 5: 1.65, 6: 2.75 };
+
+// 適応力: 移動速度%(表示のみ、未計算)/物理・魔法攻撃力への乗算バフ%(Lv5/6)。
+export const ADAPTABILITY_VALUES: Record<5 | 6, { moveSpeed: number; atkMultPercent: number }> = {
+  5: { moveSpeed: 18, atkMultPercent: 6 },
+  6: { moveSpeed: 30, atkMultPercent: 10 },
+};
+
+// 幸運会心の選択中バリアントに応じた、会心ダメージ/幸運ダメージへの加算量を算出する。
+// 「自分」は自身のパワーコア到達Lv(5/6)の値を2倍、「被Lv5/6」は固定Lvの値をそのまま返す。
+export function calcLuckyCritBonus(
+  cookingBuff: CookingBuffState,
+  ownLevel: 0 | 5 | 6,
+): { critDamage: number; luckyDamage: number } {
+  if (!cookingBuff.luckyCritEnabled) return { critDamage: 0, luckyDamage: 0 };
+  if (cookingBuff.luckyCritVariant === 'receivedLv5') return LUCKY_CRIT_VALUES[5];
+  if (cookingBuff.luckyCritVariant === 'receivedLv6') return LUCKY_CRIT_VALUES[6];
+  // 'self': 自身のパワーコアがLv5/6未達成の場合は無効
+  if (ownLevel === 0) return { critDamage: 0, luckyDamage: 0 };
+  const base = LUCKY_CRIT_VALUES[ownLevel];
+  return { critDamage: base.critDamage * 2, luckyDamage: base.luckyDamage * 2 };
+}
 
 // 海風の宴によるメインステータス(筋力/知力/俊敏)への加算量。他のメインステータス加算源と同様に
 // %ボーナス適用前に加算するため、calculateRawStatsのaddStat内で直接この定数を使用する。

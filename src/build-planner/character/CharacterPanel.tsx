@@ -13,7 +13,13 @@ import Stepper from '../components/Stepper';
 import { getClassIconUrl } from './classIcons';
 import type { Profession, ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
-import type { AbilityScoreBreakdown, CookingBuffState, StatDefinition, StatId } from '../types';
+import type {
+  AbilityScoreBreakdown,
+  CookingBuffState,
+  ModuleSlots,
+  StatDefinition,
+  StatId,
+} from '../types';
 import type { BuildPlanData } from '../buildPlan';
 import classesData from '../../data/classes.json';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
@@ -44,6 +50,7 @@ interface CharacterPanelProps {
   onOpenStatsDetail?: () => void;
   cookingBuff: CookingBuffState;
   onCookingBuffChange: (patch: Partial<CookingBuffState>) => void;
+  moduleSlots: ModuleSlots;
 }
 
 // 浮動小数点演算の誤差(例: 15%のつもりが14.999999...%になる)を吸収するため、
@@ -126,6 +133,7 @@ function CharacterPanel({
   onOpenStatsDetail,
   cookingBuff,
   onCookingBuffChange,
+  moduleSlots,
 }: CharacterPanelProps) {
   const { t } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
@@ -663,6 +671,7 @@ function CharacterPanel({
           onChange={onCookingBuffChange}
           profession={PROFESSIONS[professionKey]}
           onClose={() => setBuffEffectOpen(false)}
+          moduleSlots={moduleSlots}
         />
       )}
     </section>

@@ -640,6 +640,21 @@
   padding-left: 2px;
 }
 
+.buff-effect-dialog__stack-label {
+  font-size: 12px;
+  color: #c8c6d1;
+  flex: 0 0 auto;
+}
+
+.buff-effect-dialog__stack-stepper {
+  flex: 0 0 auto;
+}
+
+.buff-effect-dialog__stack-stepper--disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 /* ---- Stats Detail Dialog ---- */
 
 .stats-detail {

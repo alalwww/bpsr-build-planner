@@ -191,6 +191,16 @@ export function calcModuleEffectLevels(
   return result;
 }
 
+// 指定effectIdのパワーコア効果の達成レベルを返す(Lv5/6のみ対象。未達成/未装着は0)。
+// 幸運会心・HP変動・ダメージ増強・適応力など、Lv5/6到達時のみ発動する特殊バフの判定に使う。
+export function getPowerCoreLevel(slots: ModuleSlots, effectId: number): 0 | 5 | 6 {
+  const found = calcModuleEffectLevels(slots, modulesData.effects).find(
+    (l) => l.effectId === effectId,
+  );
+  if (!found || found.level < 5) return 0;
+  return found.level >= 6 ? 6 : 5;
+}
+
 // ---- battle imaginary data ----
 
 export interface ImaginaryData {

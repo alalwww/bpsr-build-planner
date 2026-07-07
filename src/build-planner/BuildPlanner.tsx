@@ -152,6 +152,7 @@ function BuildPlanner() {
           onOpenStatsDetail={() => setShowStatsDetail(true)}
           cookingBuff={cookingBuff}
           onCookingBuffChange={setCookingBuff}
+          moduleSlots={moduleSlots}
         />
         <div className="build-planner__right">
           <nav className="build-planner__tabs">

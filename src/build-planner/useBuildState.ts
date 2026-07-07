@@ -12,15 +12,19 @@ import { deriveStats } from './stats/deriveStats';
 import { applyFinalStatModifiers, calculateRawStats } from './stats/calculateRawStats';
 import { calculateAbilityScore } from './stats/calculateAbilityScore';
 import {
+  ADAPTABILITY_VALUES,
   applyCookingBuff,
   DEFAULT_COOKING_BUFF,
+  HP_SHIFT_VALUES,
   MORALE_BOOST_PERCENT_STAT_IDS,
   MORALE_BOOST_VALUES,
+  POWER_CORE_EFFECT_IDS,
 } from './stats/cookingBuff';
 import {
   buildTalentNodesById,
   countR1Nodes,
   getClassData,
+  getPowerCoreLevel,
   initTalentR1Ids,
   initTalentR2Ids,
   talentTree,
@@ -420,9 +424,31 @@ export function useBuildState() {
   const moralePercentBonus = cookingBuff.moraleBoostEnabled
     ? MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant].percent
     : 0;
+  // HP変動(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効)。
+  const hpShiftLevel = cookingBuff.hpShiftEnabled
+    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.hpShift)
+    : 0;
+  const hpShiftBonus = hpShiftLevel !== 0 ? HP_SHIFT_VALUES[hpShiftLevel] : 0;
+  // 適応力(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効): atk/matkへの乗算バフ(%)。
+  const adaptabilityLevel = cookingBuff.adaptabilityEnabled
+    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.adaptability)
+    : 0;
+  const adaptabilityAtkMultPercent =
+    adaptabilityLevel !== 0 ? ADAPTABILITY_VALUES[adaptabilityLevel].atkMultPercent : 0;
   const stats: Record<StatId, number> = useMemo(() => {
-    if (cookingResult.atkBonus === 0 && moralePercentBonus === 0) return finalStatsResult.stats;
+    if (
+      cookingResult.atkBonus === 0 &&
+      moralePercentBonus === 0 &&
+      hpShiftBonus === 0 &&
+      adaptabilityAtkMultPercent === 0
+    ) {
+      return finalStatsResult.stats;
+    }
     const result = { ...finalStatsResult.stats };
+    // 適応力: atk/matkへの乗算バフは、料理の平坦加算より前に適用する。
+    if (adaptabilityAtkMultPercent !== 0) {
+      result[cookingAtkStatId] = result[cookingAtkStatId] * (1 + adaptabilityAtkMultPercent / 100);
+    }
     if (cookingResult.atkBonus !== 0) {
       result[cookingAtkStatId] = result[cookingAtkStatId] + cookingResult.atkBonus;
     }
@@ -431,17 +457,43 @@ export function useBuildState() {
         result[statId] = result[statId] + moralePercentBonus;
       }
     }
+    // HP変動: 会心/幸運/ファスト/器用さ/万能のうち、この時点の計算結果が最も高い項目に加算する。
+    if (hpShiftBonus !== 0) {
+      let maxStatId = MORALE_BOOST_PERCENT_STAT_IDS[0];
+      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS.slice(1)) {
+        if (result[statId] > result[maxStatId]) maxStatId = statId;
+      }
+      result[maxStatId] = result[maxStatId] + hpShiftBonus;
+    }
     return result;
-  }, [finalStatsResult.stats, cookingResult.atkBonus, cookingAtkStatId, moralePercentBonus]);
+  }, [
+    finalStatsResult.stats,
+    cookingResult.atkBonus,
+    cookingAtkStatId,
+    moralePercentBonus,
+    hpShiftBonus,
+    adaptabilityAtkMultPercent,
+  ]);
 
   // ステータス詳細「バフ効果」表示用: 最終ステータス%ボーナス(applyFinalStatModifiers由来)に加え、
-  // 料理・鼓舞による最終加算量を「料理バフ」列として合算する。海風の宴・能力共鳴のメインステータス
-  // 加算はcalculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。
+  // 料理・鼓舞・HP変動・適応力による最終加算/乗算量を「料理バフ」列として合算する。海風の宴・能力共鳴の
+  // メインステータス加算はcalculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。
   const rawStatsBreakdown = useMemo(() => {
-    if (cookingResult.atkBonus === 0 && moralePercentBonus === 0) {
+    if (
+      cookingResult.atkBonus === 0 &&
+      moralePercentBonus === 0 &&
+      hpShiftBonus === 0 &&
+      adaptabilityAtkMultPercent === 0
+    ) {
       return finalStatsResult.breakdown;
     }
     const merged = { ...finalStatsResult.breakdown };
+    if (adaptabilityAtkMultPercent !== 0) {
+      merged[cookingAtkStatId] = {
+        ...merged[cookingAtkStatId],
+        multiplier: merged[cookingAtkStatId].multiplier * (1 + adaptabilityAtkMultPercent / 100),
+      };
+    }
     if (cookingResult.atkBonus !== 0) {
       merged[cookingAtkStatId] = {
         ...merged[cookingAtkStatId],
@@ -456,8 +508,26 @@ export function useBuildState() {
         };
       }
     }
+    if (hpShiftBonus !== 0) {
+      let maxStatId = MORALE_BOOST_PERCENT_STAT_IDS[0];
+      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS.slice(1)) {
+        if (stats[statId] > stats[maxStatId]) maxStatId = statId;
+      }
+      merged[maxStatId] = {
+        ...merged[maxStatId],
+        cookingBonus: (merged[maxStatId].cookingBonus ?? 0) + hpShiftBonus,
+      };
+    }
     return merged;
-  }, [finalStatsResult.breakdown, cookingResult, cookingAtkStatId, moralePercentBonus]);
+  }, [
+    finalStatsResult.breakdown,
+    cookingResult,
+    cookingAtkStatId,
+    moralePercentBonus,
+    hpShiftBonus,
+    adaptabilityAtkMultPercent,
+    stats,
+  ]);
 
   const roleSkills = useMemo(
     () => getClassData(profession.professionId)?.roleSkill ?? [],
