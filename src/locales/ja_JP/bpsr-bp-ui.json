@@ -42,8 +42,8 @@
     "talentLabel": "アビリティ確認",
     "attributes": "ステータス詳細",
     "buffDialog": {
-      "openButton": "ダメージ計算機（作成中）",
-      "title": "ダメージ計算機（作成中）",
+      "openButton": "追加バフ効果",
+      "title": "追加バフ効果",
       "cooking": "料理",
       "eliteDamage": "精鋭ダメージ",
       "syrup": "シロップ/脊椎試薬",

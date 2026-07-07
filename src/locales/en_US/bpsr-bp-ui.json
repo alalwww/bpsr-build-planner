@@ -42,8 +42,8 @@
     "talentLabel": "View Abilities",
     "attributes": "Attributes",
     "buffDialog": {
-      "openButton": "Damage Calculator (WIP)",
-      "title": "Damage Calculator (WIP)",
+      "openButton": "Additional Buff Effects",
+      "title": "Additional Buff Effects",
       "cooking": "Cooking",
       "eliteDamage": "Elite Damage",
       "syrup": "Syrup / Spinal Serum",
