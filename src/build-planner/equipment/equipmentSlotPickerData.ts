@@ -106,7 +106,6 @@ export function getItemNameColor(item: EquipmentItem): string {
   return getQualityColor(item.quality);
 }
 
-export const REFINE_LEVEL_OPTIONS = Array.from({ length: 31 }, (_, i) => 30 - i);
 export const REFINE_LEVEL_MILESTONES = [5, 10, 15, 20, 25, 30] as const;
 export const EVOLUTION_STAT_IDS: EvolutionStatId[] = [
   'haste',

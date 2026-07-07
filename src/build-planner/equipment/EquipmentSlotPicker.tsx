@@ -28,7 +28,6 @@ import {
   getPlaceholderStatIds,
   getQualityColor,
   REFINE_LEVEL_MILESTONES,
-  REFINE_LEVEL_OPTIONS,
   suitsData,
 } from './equipmentSlotPickerData';
 import EvoSlotPicker from './EvoSlotPicker';
@@ -815,7 +814,6 @@ function EquipmentSlotPicker({
                 min={0}
                 max={30}
                 onChange={onRefineLevel}
-                options={REFINE_LEVEL_OPTIONS}
               />
             </div>
 

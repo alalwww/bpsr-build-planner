@@ -16,8 +16,8 @@ interface StepperProps {
   /** 'stacked'(既定): 値表示+▲▼縦積みボタン、非編集。'inline': −/＋の横並び+直接編集可能なinput。 */
   layout?: 'stacked' | 'inline';
   /**
-   * inlineレイアウトの選択肢一覧。省略時は min〜max の連番を自動生成する
-   * (inlineは既定でコンボボックス化される)。順序を変えたい場合(降順等)に指定する。
+   * inlineレイアウトの選択肢一覧。省略時は max〜min の降順で自動生成する
+   * (inlineは既定でコンボボックス化される)。順序を変えたい場合に指定する。
    */
   options?: number[];
   /** inlineレイアウトでコンボボックス化(フォーカスインでの一覧表示)を無効にし、自由入力のみにする。 */
@@ -48,7 +48,7 @@ function Stepper({
 
   const comboOptions =
     layout === 'inline' && !disableList
-      ? (options ?? Array.from({ length: max - min + 1 }, (_, i) => min + i))
+      ? (options ?? Array.from({ length: max - min + 1 }, (_, i) => max - i))
       : undefined;
 
   useEffect(() => {
