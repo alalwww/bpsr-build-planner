@@ -5,6 +5,7 @@ import Chevron from '../components/Chevron';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
+import Stepper from '../components/Stepper';
 import { getMaxPerfectline, getRefineForSlot, getRestrictedEvoStat } from './equipmentData';
 import { calculateEquipmentSlotAbilityScore } from '../stats/calculateAbilityScore';
 import type { Profession, ProfessionTypeKey } from '../profession';
@@ -807,35 +808,15 @@ function EquipmentSlotPicker({
           <div className="equipment-dialog__col-right">
             <div className="equip-details-section">
               <label className="equipment-dialog__label">{t('buildPlanner.refineLevel')}</label>
-              <div className="equip-refine-level-control">
-                <button
-                  type="button"
-                  className="equip-refine-level-control__btn"
-                  onClick={() => onRefineLevel(refineLevel - 1)}
-                  disabled={refineLevel <= 0}
-                >
-                  −
-                </button>
-                <select
-                  className="equip-refine-level-control__select"
-                  value={refineLevel}
-                  onChange={(e) => onRefineLevel(Number(e.target.value))}
-                >
-                  {REFINE_LEVEL_OPTIONS.map((level) => (
-                    <option key={level} value={level}>
-                      {level}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  type="button"
-                  className="equip-refine-level-control__btn"
-                  onClick={() => onRefineLevel(refineLevel + 1)}
-                  disabled={refineLevel >= 30}
-                >
-                  ＋
-                </button>
-              </div>
+              <Stepper
+                className="equip-refine-level-control"
+                layout="inline"
+                value={refineLevel}
+                min={0}
+                max={30}
+                onChange={onRefineLevel}
+                options={REFINE_LEVEL_OPTIONS}
+              />
             </div>
 
             <section className="equip-details-section">

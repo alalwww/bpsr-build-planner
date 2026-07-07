@@ -430,7 +430,7 @@
   padding: 2px 0 2px 14px;
 }
 
-/* Refine level: select + ±1 buttons */
+/* Refine level: 自由入力(input) + ±1ボタン + リスト選択ドロップダウン(Stepper inline + options) */
 
 .equip-refine-level-control {
   display: flex;
@@ -438,16 +438,32 @@
   gap: 4px;
 }
 
-.equip-refine-level-control__select {
+.equip-refine-level-control .stepper-combo-input-wrap {
   flex: 1;
+  min-width: 0;
+}
+
+.equip-refine-level-control__input {
+  width: 100%;
+  box-sizing: border-box;
   background: #1c1c24;
   border: 1px solid #3a3a45;
   color: #e8e6e1;
-  padding: 6px 2px;
+  padding: 6px 20px 6px 2px;
   border-radius: 4px;
   font-size: 13px;
   text-align: center;
   min-width: 0;
+  /* ネイティブのスピンボタンは opacity では非表示になるだけでクリック判定は残るため、
+     appearance で完全に取り除く(Firefoxは textfield 指定が必要)。 */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.equip-refine-level-control__input::-webkit-inner-spin-button,
+.equip-refine-level-control__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .equip-refine-level-control__btn {

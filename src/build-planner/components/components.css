@@ -302,10 +302,74 @@
   height: 24px;
   text-align: center;
   font-size: 13px;
-  padding: 0 2px;
+  padding: 0 15px 0 2px;
+  box-sizing: border-box;
+  /* ネイティブのスピンボタンは opacity では非表示になるだけでクリック判定は残るため、
+     appearance で完全に取り除く(Firefoxは textfield 指定が必要)。 */
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .phantom-stepper__input::-webkit-inner-spin-button,
 .phantom-stepper__input::-webkit-outer-spin-button {
-  opacity: 0;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Stepper(inline): 既定でコンボボックス化(フォーカスインでリスト表示)。
+   幅は各利用箇所の ${className}__input が決めるため、wrapは内容にフィットさせる
+   (行全体に広げたい場合は利用箇所側で .stepper-combo-input-wrap に flex:1 を当てる)。 */
+.stepper-combo-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.stepper-combo-arrow {
+  position: absolute;
+  right: 8px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  color: #8a8a9a;
+  pointer-events: none;
+}
+
+.stepper-combo-list {
+  /* inputの実幅を継承するが、狭いinputでも選択肢が折り返さないよう最低幅を確保する。 */
+  min-width: 64px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #1e1e27;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.stepper-combo-option {
+  background: none;
+  border: none;
+  border-top: 1px solid #2a2a33;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: #c8c6d1;
+  text-align: left;
+  cursor: pointer;
+}
+
+.stepper-combo-option:first-child {
+  border-top: none;
+}
+
+.stepper-combo-option:hover {
+  background: #2a2a35;
+  color: #e8e6e1;
+}
+
+.stepper-combo-option--selected {
+  color: #f4a13a;
+  background: #27271f;
 }
