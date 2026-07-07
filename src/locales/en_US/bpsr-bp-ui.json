@@ -51,7 +51,15 @@
       "starOil": "Star Oil",
       "physicalDamageEnhance": "Physical Damage Boost",
       "magicalDamageEnhance": "Magical Damage Boost",
-      "seaBreeze": "Sea Breeze Banquet (Adaptive STR/INT/AGI +500)"
+      "seaBreeze": "Sea Breeze Banquet (Adaptive STR/INT/AGI +500)",
+      "moraleBoost": "Encouragement",
+      "moraleBoostForestHeal": "Forest Heal",
+      "moraleBoostMightBloom": "Mighty Bloom",
+      "moraleBoostEffect": "(STR/INT/AGI +{{mainStat}} Crit/Luck/Haste/Mastery/Versatility +{{percent}}%)",
+      "resonance": "Ability Resonance (Resonant Ensemble)",
+      "resonanceBaseValue": "Avg {{stat}}",
+      "resonanceMultiplier": "Avg Multiplier",
+      "resonanceResult": "(Adaptive {{stat}} +{{value}})"
     },
     "equipLevel": "Equip Lv.{{level}}",
     "perfectline": "Perfection",
@@ -227,7 +235,7 @@
         "empty": "No stats have been changed",
         "additive": "Additive",
         "multiplier": "Multiplier",
-        "cookingBuff": "Cooking Buff"
+        "cookingBuff": "Additional Buff"
       },
       "elem": {
         "all": "All",

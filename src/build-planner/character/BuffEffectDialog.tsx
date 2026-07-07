@@ -3,6 +3,11 @@ import DraggableDialog from '../components/DraggableDialog';
 import type { CookingBuffState } from '../types';
 import { ELEMENT_IDS } from '../types';
 import type { Profession } from '../profession';
+import {
+  calcResonanceBonus,
+  MORALE_BOOST_VALUES,
+  RESONANCE_MULTIPLIER_OPTIONS,
+} from '../stats/cookingBuff';
 
 interface BuffEffectDialogProps {
   cookingBuff: CookingBuffState;
@@ -29,6 +34,9 @@ function BuffEffectDialog({ cookingBuff, onChange, profession, onClose }: BuffEf
   const damageEnhanceLabel = t(
     `buildPlanner.buffDialog.${profession.attackType === 'physical' ? 'physicalDamageEnhance' : 'magicalDamageEnhance'}`,
   );
+  const mainStatLabel = t(`buildPlanner.stats.${profession.mainStat}`);
+  const moraleBoostEffect = MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant];
+  const resonanceBonus = calcResonanceBonus(cookingBuff);
 
   return (
     <DraggableDialog
@@ -134,6 +142,88 @@ function BuffEffectDialog({ cookingBuff, onChange, profession, onClose }: BuffEf
             />
             <span>{t('buildPlanner.buffDialog.seaBreeze')}</span>
           </label>
+        </div>
+
+        {/* 鼓舞: 森癒/威咲(排他選択) */}
+        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
+          <div className="buff-effect-dialog__row-main">
+            <label className="buff-effect-dialog__checkbox-label">
+              <input
+                type="checkbox"
+                checked={cookingBuff.moraleBoostEnabled}
+                onChange={(e) => onChange({ moraleBoostEnabled: e.target.checked })}
+              />
+              <span>{t('buildPlanner.buffDialog.moraleBoost')}</span>
+            </label>
+            <label className="buff-effect-dialog__radio-label">
+              <input
+                type="radio"
+                name="moraleBoostVariant"
+                disabled={!cookingBuff.moraleBoostEnabled}
+                checked={cookingBuff.moraleBoostVariant === 'forestHeal'}
+                onChange={() => onChange({ moraleBoostVariant: 'forestHeal' })}
+              />
+              <span>{t('buildPlanner.buffDialog.moraleBoostForestHeal')}</span>
+            </label>
+            <label className="buff-effect-dialog__radio-label">
+              <input
+                type="radio"
+                name="moraleBoostVariant"
+                disabled={!cookingBuff.moraleBoostEnabled}
+                checked={cookingBuff.moraleBoostVariant === 'mightBloom'}
+                onChange={() => onChange({ moraleBoostVariant: 'mightBloom' })}
+              />
+              <span>{t('buildPlanner.buffDialog.moraleBoostMightBloom')}</span>
+            </label>
+          </div>
+          <span className="buff-effect-dialog__hint">
+            {t('buildPlanner.buffDialog.moraleBoostEffect', {
+              mainStat: moraleBoostEffect.mainStat,
+              percent: moraleBoostEffect.percent,
+            })}
+          </span>
+        </div>
+
+        {/* 能力共鳴(響奏) */}
+        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
+          <div className="buff-effect-dialog__row-main">
+            <label className="buff-effect-dialog__checkbox-label">
+              <input
+                type="checkbox"
+                checked={cookingBuff.resonanceEnabled}
+                onChange={(e) => onChange({ resonanceEnabled: e.target.checked })}
+              />
+              <span>{t('buildPlanner.buffDialog.resonance')}</span>
+            </label>
+            <input
+              type="number"
+              className="buff-effect-dialog__input"
+              disabled={!cookingBuff.resonanceEnabled}
+              placeholder={t('buildPlanner.buffDialog.resonanceBaseValue', { stat: mainStatLabel })}
+              {...toNumberInputProps(cookingBuff.resonanceBaseValue, (v) =>
+                onChange({ resonanceBaseValue: Math.max(0, v) }),
+              )}
+            /> x
+            <select
+              className="buff-effect-dialog__select"
+              disabled={!cookingBuff.resonanceEnabled}
+              title={t('buildPlanner.buffDialog.resonanceMultiplier')}
+              value={cookingBuff.resonanceMultiplierPercent}
+              onChange={(e) => onChange({ resonanceMultiplierPercent: Number(e.target.value) })}
+            >
+              {RESONANCE_MULTIPLIER_OPTIONS.map((pct) => (
+                <option key={pct} value={pct}>
+                  {pct}%
+                </option>
+              ))}
+            </select>
+          </div>
+          <span className="buff-effect-dialog__hint">
+            {t('buildPlanner.buffDialog.resonanceResult', {
+              stat: mainStatLabel,
+              value: resonanceBonus.toLocaleString(),
+            })}
+          </span>
         </div>
       </div>
     </DraggableDialog>

@@ -169,9 +169,9 @@ export const ELEMENT_IDS = [
 ] as const;
 export type ElementId = (typeof ELEMENT_IDS)[number];
 
-// 料理・シロップ/脊椎試薬・スターオイル・海風の宴によるバフ効果の選択状態。
-// 料理/海風の宴は「料理バフ」として、加算・乗算計算後の最終ステータスに加算される
-// (詳細はstats/cookingBuff.tsを参照)。シロップとスターオイルは同時装備不可。
+// 料理・シロップ/脊椎試薬・スターオイル・海風の宴・鼓舞・能力共鳴によるバフ効果の選択状態。
+// 料理は加算・乗算計算後の最終ステータスに加算される(詳細はstats/cookingBuff.tsを参照)。
+// シロップとスターオイルは同時装備不可。
 export interface CookingBuffState {
   cookingEnabled: boolean;
   // 料理: 物理/魔法攻撃力(クラスの攻撃タイプに応じて選択中の値がatk/matkへ加算される)
@@ -187,6 +187,13 @@ export interface CookingBuffState {
   starOilValue: number;
   // 海風の宴: クラスのメインステータス(筋力/知力/俊敏)に+500(料理攻撃力として)
   seaBreezeEnabled: boolean;
+  // 鼓舞: 森癒/威咲のいずれか一方を選択して有効化する(排他)。
+  moraleBoostEnabled: boolean;
+  moraleBoostVariant: 'forestHeal' | 'mightBloom';
+  // 能力共鳴(響奏): 平均値×倍率(%)÷100を、クラスのメインステータス(適応)へ加算する。
+  resonanceEnabled: boolean;
+  resonanceBaseValue: number;
+  resonanceMultiplierPercent: number;
 }
 
 // モジュールホール: 1 ホールの設定。linkCount=1-10 はリンクスタック数。

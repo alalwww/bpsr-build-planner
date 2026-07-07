@@ -51,7 +51,15 @@
       "starOil": "スターオイル",
       "physicalDamageEnhance": "物理ダメージ強化度",
       "magicalDamageEnhance": "魔法ダメージ強化度",
-      "seaBreeze": "海風の宴（適応筋力/知力/俊敏+500）"
+      "seaBreeze": "海風の宴（適応筋力/知力/俊敏+500）",
+      "moraleBoost": "鼓舞",
+      "moraleBoostForestHeal": "森癒",
+      "moraleBoostMightBloom": "威咲",
+      "moraleBoostEffect": "（筋力/知力/俊敏+{{mainStat}} 会心/幸運/ファスト/器用さ/万能+{{percent}}%）",
+      "resonance": "能力共鳴（響奏）",
+      "resonanceBaseValue": "平均{{stat}}",
+      "resonanceMultiplier": "平均倍率",
+      "resonanceResult": "（適応{{stat}}+{{value}}）"
     },
     "equipLevel": "装備Lv.{{level}}",
     "perfectline": "完成度",
@@ -227,7 +235,7 @@
         "empty": "変更されたステータスはありません",
         "additive": "加算",
         "multiplier": "乗算",
-        "cookingBuff": "料理バフ"
+        "cookingBuff": "追加バフ"
       },
       "elem": {
         "all": "全",

@@ -18,7 +18,7 @@ import {
   stData as seasonTalentData,
 } from '../phantom/phantomData';
 import { BASE_STATS } from './baseStats';
-import { SEA_BREEZE_MAIN_STAT_BONUS } from './cookingBuff';
+import { calcResonanceBonus, MORALE_BOOST_VALUES, SEA_BREEZE_MAIN_STAT_BONUS } from './cookingBuff';
 import {
   AFFIX_STAT_EFFECTS,
   BOND_BUFF_STAT_EFFECTS,
@@ -532,6 +532,22 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // (装備・アビリティ等)と同様に%ボーナス適用前に加算し、メインステータスへの%ボーナスの対象にする。
   if (cookingBuff.seaBreezeEnabled) {
     addStat(profession.mainStat, SEA_BREEZE_MAIN_STAT_BONUS);
+  }
+
+  // 鼓舞(森癒/威咲): 選択中の効果に応じて筋力/知力/俊敏全てへ平坦加算する(%ボーナス適用前)。
+  // 会心/幸運/ファスト/器用さ/万能への追加分は最終計算結果への直接加算のため、
+  // deriveStats後の最終値に対して加算する(useBuildState側で処理)。
+  if (cookingBuff.moraleBoostEnabled) {
+    const { mainStat } = MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant];
+    addStat('strength', mainStat);
+    addStat('intellect', mainStat);
+    addStat('agility', mainStat);
+  }
+
+  // 能力共鳴(響奏): 平均値×倍率(%)÷100を、クラスのメインステータス(適応)へ%ボーナス適用前に加算する。
+  const resonanceBonus = calcResonanceBonus(cookingBuff);
+  if (resonanceBonus !== 0) {
+    addStat(profession.mainStat, resonanceBonus);
   }
 
   // %ボーナスの適用: 同一ステータスに対する複数の%ボーナスは合算してから一度だけ乗算する

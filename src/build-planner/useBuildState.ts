@@ -11,7 +11,12 @@ import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from './profession';
 import { deriveStats } from './stats/deriveStats';
 import { applyFinalStatModifiers, calculateRawStats } from './stats/calculateRawStats';
 import { calculateAbilityScore } from './stats/calculateAbilityScore';
-import { applyCookingBuff, DEFAULT_COOKING_BUFF } from './stats/cookingBuff';
+import {
+  applyCookingBuff,
+  DEFAULT_COOKING_BUFF,
+  MORALE_BOOST_PERCENT_STAT_IDS,
+  MORALE_BOOST_VALUES,
+} from './stats/cookingBuff';
 import {
   buildTalentNodesById,
   countR1Nodes,
@@ -411,28 +416,48 @@ export function useBuildState() {
   // 料理(cookingAtkValue)による最終atk/matkへの加算は、伝説刻印・バトルイマジン等の
   // 乗算がすべて終わった後の最終値に対して行う。
   const cookingAtkStatId: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
+  // 鼓舞(森癒/威咲): 会心/幸運/ファスト/器用さ/万能の最終計算結果への直接加算量(%)。
+  const moralePercentBonus = cookingBuff.moraleBoostEnabled
+    ? MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant].percent
+    : 0;
   const stats: Record<StatId, number> = useMemo(() => {
-    if (cookingResult.atkBonus === 0) return finalStatsResult.stats;
-    return {
-      ...finalStatsResult.stats,
-      [cookingAtkStatId]: finalStatsResult.stats[cookingAtkStatId] + cookingResult.atkBonus,
-    };
-  }, [finalStatsResult.stats, cookingResult.atkBonus, cookingAtkStatId]);
+    if (cookingResult.atkBonus === 0 && moralePercentBonus === 0) return finalStatsResult.stats;
+    const result = { ...finalStatsResult.stats };
+    if (cookingResult.atkBonus !== 0) {
+      result[cookingAtkStatId] = result[cookingAtkStatId] + cookingResult.atkBonus;
+    }
+    if (moralePercentBonus !== 0) {
+      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS) {
+        result[statId] = result[statId] + moralePercentBonus;
+      }
+    }
+    return result;
+  }, [finalStatsResult.stats, cookingResult.atkBonus, cookingAtkStatId, moralePercentBonus]);
 
   // ステータス詳細「バフ効果」表示用: 最終ステータス%ボーナス(applyFinalStatModifiers由来)に加え、
-  // 料理による最終加算量を「料理バフ」列として合算する。海風の宴のメインステータス+500は
-  // calculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。
+  // 料理・鼓舞による最終加算量を「料理バフ」列として合算する。海風の宴・能力共鳴のメインステータス
+  // 加算はcalculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。
   const rawStatsBreakdown = useMemo(() => {
-    if (cookingResult.atkBonus === 0) {
+    if (cookingResult.atkBonus === 0 && moralePercentBonus === 0) {
       return finalStatsResult.breakdown;
     }
     const merged = { ...finalStatsResult.breakdown };
-    merged[cookingAtkStatId] = {
-      ...merged[cookingAtkStatId],
-      cookingBonus: (merged[cookingAtkStatId].cookingBonus ?? 0) + cookingResult.atkBonus,
-    };
+    if (cookingResult.atkBonus !== 0) {
+      merged[cookingAtkStatId] = {
+        ...merged[cookingAtkStatId],
+        cookingBonus: (merged[cookingAtkStatId].cookingBonus ?? 0) + cookingResult.atkBonus,
+      };
+    }
+    if (moralePercentBonus !== 0) {
+      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS) {
+        merged[statId] = {
+          ...merged[statId],
+          cookingBonus: (merged[statId].cookingBonus ?? 0) + moralePercentBonus,
+        };
+      }
+    }
     return merged;
-  }, [finalStatsResult.breakdown, cookingResult, cookingAtkStatId]);
+  }, [finalStatsResult.breakdown, cookingResult, cookingAtkStatId, moralePercentBonus]);
 
   const roleSkills = useMemo(
     () => getClassData(profession.professionId)?.roleSkill ?? [],

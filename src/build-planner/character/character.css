@@ -550,6 +550,18 @@
   gap: 8px;
 }
 
+.buff-effect-dialog__row--wrap {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+
+.buff-effect-dialog__row-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .buff-effect-dialog__checkbox-label {
   display: flex;
   align-items: center;
@@ -596,6 +608,36 @@
   flex: 0 0 auto;
   width: 72px;
   cursor: pointer;
+}
+
+.buff-effect-dialog__radio-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: #c8c6d1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.buff-effect-dialog__radio-label input[type='radio'] {
+  accent-color: #f4a13a;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.buff-effect-dialog__radio-label input[type='radio']:disabled {
+  cursor: not-allowed;
+}
+
+.buff-effect-dialog__hint {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 11px;
+  color: #8a8894;
+  padding-left: 2px;
 }
 
 /* ---- Stats Detail Dialog ---- */
