@@ -380,13 +380,10 @@ export function useBuildState() {
   );
   phantomFinalPctRef.current = rawStatsResult.phantomFinalPct;
 
-  // 料理バフ(海風の宴)によるメインステータス+500を、物理/魔法攻撃力の計算(deriveStats)に
-  // 反映させるため、rawStats算出直後・deriveStats算出前に適用する。
-  const cookingResult = useMemo(
-    () => applyCookingBuff(rawStatsResult.rawStats, profession, cookingBuff),
-    [rawStatsResult.rawStats, profession, cookingBuff],
-  );
-  const rawStats = cookingResult.rawStats;
+  // 料理(cookingAtkValue)による最終atk/matkへの加算量。海風の宴のメインステータス+500は
+  // calculateRawStats内で他のメインステータス加算源と同様に処理済みのため、ここでは扱わない。
+  const cookingResult = useMemo(() => applyCookingBuff(cookingBuff), [cookingBuff]);
+  const rawStats = rawStatsResult.rawStats;
 
   const derivedStats = useMemo(() => deriveStats(rawStats, profession), [rawStats, profession]);
 
@@ -423,24 +420,19 @@ export function useBuildState() {
   }, [finalStatsResult.stats, cookingResult.atkBonus, cookingAtkStatId]);
 
   // ステータス詳細「バフ効果」表示用: 最終ステータス%ボーナス(applyFinalStatModifiers由来)に加え、
-  // 料理バフ(海風の宴・料理)による最終加算量を「料理バフ」列として合算する。
+  // 料理による最終加算量を「料理バフ」列として合算する。海風の宴のメインステータス+500は
+  // calculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。
   const rawStatsBreakdown = useMemo(() => {
-    if (cookingResult.mainStatBonus === 0 && cookingResult.atkBonus === 0) {
+    if (cookingResult.atkBonus === 0) {
       return finalStatsResult.breakdown;
     }
     const merged = { ...finalStatsResult.breakdown };
-    if (cookingResult.mainStatBonus !== 0) {
-      const id = profession.mainStat;
-      merged[id] = { ...merged[id], cookingBonus: cookingResult.mainStatBonus };
-    }
-    if (cookingResult.atkBonus !== 0) {
-      merged[cookingAtkStatId] = {
-        ...merged[cookingAtkStatId],
-        cookingBonus: (merged[cookingAtkStatId].cookingBonus ?? 0) + cookingResult.atkBonus,
-      };
-    }
+    merged[cookingAtkStatId] = {
+      ...merged[cookingAtkStatId],
+      cookingBonus: (merged[cookingAtkStatId].cookingBonus ?? 0) + cookingResult.atkBonus,
+    };
     return merged;
-  }, [finalStatsResult.breakdown, cookingResult, profession, cookingAtkStatId]);
+  }, [finalStatsResult.breakdown, cookingResult, cookingAtkStatId]);
 
   const roleSkills = useMemo(
     () => getClassData(profession.professionId)?.roleSkill ?? [],
