@@ -359,7 +359,10 @@ export function useBuildState() {
   const cookingResult = useMemo(() => applyCookingBuff(cookingBuff), [cookingBuff]);
   const rawStats = rawStatsResult.rawStats;
 
-  const derivedStats = useMemo(() => deriveStats(rawStats, profession), [rawStats, profession]);
+  const derivedStats = useMemo(
+    () => deriveStats(rawStats, profession, rawStatsResult.conversionRateBonus),
+    [rawStats, profession, rawStatsResult.conversionRateBonus],
+  );
 
   const finalStatsResult = useMemo(
     () =>

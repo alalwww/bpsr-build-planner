@@ -183,4 +183,44 @@ describe('deriveStats', () => {
     expect(result.physicalAtk).toBe(raw.atk);
     expect(result.magicalAtk).toBe(raw.matk + raw.intellect * profession.atkPerMainStatPoint);
   });
+
+  it('adds conversionRateBonus (R1 ability) on top of the base conversion rate for atk/physicalDef/haste', () => {
+    const profession = PROFESSIONS.stormBlade; // physical, mainStat=agility
+    const raw: Record<StatId, number> = {
+      ...zeroRaw(),
+      agility: 200,
+      strength: 100,
+      haste: 500,
+    };
+
+    const withoutBonus = deriveStats(raw, profession);
+    const withBonus = deriveStats(raw, profession, { atk: 0.125, physicalDef: 0.6667, haste: 0.2 });
+
+    expect(withBonus.physicalAtk).toBe(withoutBonus.physicalAtk + raw.agility * 0.125);
+    expect(withBonus.physicalDef).toBe(withoutBonus.physicalDef + raw.strength * 0.6667);
+    // hasteはdiminishingPercent経由なので実数値側で比較する
+    const hasteRealWithoutBonus =
+      raw.haste + raw.agility * COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint;
+    const hasteRealWithBonus =
+      raw.haste + raw.agility * (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + 0.2);
+    expect(withBonus.hastePercent).toBeCloseTo(
+      diminishingPercent(
+        hasteRealWithBonus,
+        SEASON_CONSTANTS.diminishingA,
+        DIMINISHING_A_BASE_PERCENT.haste,
+      ),
+    );
+    expect(withBonus.hastePercent).not.toBe(withoutBonus.hastePercent);
+    expect(hasteRealWithBonus).toBeGreaterThan(hasteRealWithoutBonus);
+  });
+
+  it('ignores unrelated conversionRateBonus keys (magical attacker does not get an atk bonus meant for physical)', () => {
+    const profession = PROFESSIONS.frostMage; // magical, mainStat=intellect
+    const raw: Record<StatId, number> = { ...zeroRaw(), atk: 100, intellect: 150 };
+
+    // atk bonus should have no effect on a magical attacker; only matk would.
+    const result = deriveStats(raw, profession, { atk: 0.5 });
+
+    expect(result.physicalAtk).toBe(raw.atk);
+  });
 });

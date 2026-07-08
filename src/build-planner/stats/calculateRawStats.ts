@@ -116,6 +116,9 @@ export interface CalculateRawStatsResult {
   // 装備・アビリティ等の平坦加算がすべて終わった後の値に対して乗算するため、
   // rawStats自体には含めず呼び出し側(useBuildState.stats算出)に返す。
   phantomFinalPct: Partial<Record<string, number>>;
+  // R1アビリティ(type=4効果)によるメインステータス→攻撃力/物理防御力/ファスト等の
+  // 変換率ボーナス(単位: 1ptあたりの実数値、例 0.125)。deriveStatsに渡して基礎変換率に加算する。
+  conversionRateBonus: Partial<Record<StatId, number>>;
   // ステータス詳細の「バフ効果」表示用: ステータスごとの素の値/加算/乗算の内訳。
   breakdown: Record<StatId, StatBreakdownEntry>;
 }
@@ -168,6 +171,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // 最終ステータス%ボーナス(潜在因子由来のphantomFinalPctと同じ後段適用先に合流させる)。
   // アビリティ(type=3効果、型依存のもの等)もここに追加する。
   const phantomFinalPct: Partial<Record<string, number>> = {};
+  // R1アビリティ(type=4効果)によるメインステータス変換率ボーナス。deriveStatsに渡す。
+  const conversionRateBonus: Partial<Record<StatId, number>> = {};
 
   // 装備ステータス
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
@@ -303,6 +308,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (bonus && professionTypeKey === 'type1') {
           phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
         }
+      } else if (eff[0] === 4) {
+        // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
+        // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
+        const statId = TALENT_ATTR_TO_STAT[eff[2]];
+        if (statId !== undefined) {
+          conversionRateBonus[statId] = (conversionRateBonus[statId] ?? 0) + eff[3] / 10000;
+        }
       }
     }
   }
@@ -316,6 +328,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (eff[0] === 1) {
           const statId = TALENT_ATTR_TO_STAT[eff[1]];
           if (statId !== undefined) addStat(statId, eff[2]);
+        } else if (eff[0] === 4) {
+          const statId = TALENT_ATTR_TO_STAT[eff[2]];
+          if (statId !== undefined) {
+            conversionRateBonus[statId] = (conversionRateBonus[statId] ?? 0) + eff[3] / 10000;
+          }
         }
       }
     }
@@ -596,7 +613,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     };
   }
 
-  return { rawStats: total, phantomFinalPct, breakdown };
+  return { rawStats: total, phantomFinalPct, conversionRateBonus, breakdown };
 }
 
 export interface ApplyFinalStatModifiersResult {

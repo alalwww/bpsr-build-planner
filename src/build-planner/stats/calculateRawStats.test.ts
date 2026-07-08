@@ -175,4 +175,32 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.agility).toBe(1528.5);
     expect(result.breakdown.agility.cookingBonus).toBe(1512);
   });
+
+  it('accumulates a type=4 R1 ability effect into conversionRateBonus (galeLancer "筋力変換", talentId 401)', () => {
+    // src/data/talent-tree.json: nodes["401"].effects = [[4, 0, 11332, 1250]]
+    // attrId 11332 -> atk (TALENT_ATTR_TO_STAT), 1250/10000 = 0.125
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.galeLancer,
+      talentR1EnabledIds: new Set([1]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 401,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.conversionRateBonus.atk).toBe(0.125);
+  });
 });

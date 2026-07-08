@@ -54,15 +54,27 @@ export interface DerivedStats {
   staminaRegenPerSecond: number;
 }
 
-export function deriveStats(raw: Record<StatId, number>, profession: Profession): DerivedStats {
+export function deriveStats(
+  raw: Record<StatId, number>,
+  profession: Profession,
+  // R1アビリティ(type=4効果)によるメインステータス→攻撃力/物理防御力/ファストの変換率ボーナス。
+  // calculateRawStatsのconversionRateBonusをそのまま渡す(未指定時は基礎変換率のみ)。
+  conversionRateBonus: Partial<Record<StatId, number>> = {},
+): DerivedStats {
   const maxHp = raw.maxHp + raw.endurance * profession.hpPerEndurancePoint;
 
-  const mainStatBonus = raw[profession.mainStat] * profession.atkPerMainStatPoint;
+  const atkTargetStat: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
+  const mainStatBonus =
+    raw[profession.mainStat] *
+    (profession.atkPerMainStatPoint + (conversionRateBonus[atkTargetStat] ?? 0));
   const physicalAtk = raw.atk + (profession.attackType === 'physical' ? mainStatBonus : 0);
   const magicalAtk = raw.matk + (profession.attackType === 'magical' ? mainStatBonus : 0);
 
   const physicalDef =
-    raw.physicalDef + raw.strength * COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint;
+    raw.physicalDef +
+    raw.strength *
+      (COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint +
+        (conversionRateBonus.physicalDef ?? 0));
   const magicalDef =
     raw.magicalDef + raw.intellect * COMMON_STAT_COEFFICIENTS.magicalDefPerIntellectPoint;
 
@@ -72,7 +84,10 @@ export function deriveStats(raw: Record<StatId, number>, profession: Profession)
     DIMINISHING_A_BASE_PERCENT.crit,
   );
 
-  const hasteReal = raw.haste + raw.agility * COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint;
+  const hasteReal =
+    raw.haste +
+    raw.agility *
+      (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + (conversionRateBonus.haste ?? 0));
   const hastePercent = diminishingPercent(
     hasteReal,
     SEASON_CONSTANTS.diminishingA,
