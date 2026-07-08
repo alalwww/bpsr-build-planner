@@ -5,14 +5,14 @@ import type { CookingBuffState, ModuleSlots } from '../types';
 import { ELEMENT_IDS } from '../types';
 import type { Profession } from '../profession';
 import {
-  ADAPTABILITY_VALUES,
+  AGILE_VALUES,
   calcLuckyCritBonus,
-  calcResonanceBonus,
-  DAMAGE_BOOST_PER_STACK,
-  HP_SHIFT_VALUES,
-  MORALE_BOOST_VALUES,
+  calcStatResonanceBonus,
+  DMG_STACK_PER_STACK,
+  INSPIRATION_VALUES,
+  LIFE_WAVE_VALUES,
   POWER_CORE_EFFECT_IDS,
-  RESONANCE_MULTIPLIER_OPTIONS,
+  STAT_RESONANCE_MULTIPLIER_OPTIONS,
 } from '../stats/cookingBuff';
 import { getPowerCoreLevel } from '../stats/gameData';
 
@@ -49,22 +49,20 @@ function BuffEffectDialog({
     `buildPlanner.buffDialog.${profession.attackType === 'physical' ? 'physicalDamageEnhance' : 'magicalDamageEnhance'}`,
   );
   const mainStatLabel = t(`buildPlanner.stats.${profession.mainStat}`);
-  const moraleBoostEffect = MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant];
-  const resonanceBonus = calcResonanceBonus(cookingBuff);
+  const inspirationEffect = INSPIRATION_VALUES[cookingBuff.inspirationVariant];
+  const statResonanceBonus = calcStatResonanceBonus(cookingBuff);
 
   // モジュールパネルで該当モジュールのパワーコア効果Lv5以上を発動しているか(0=未発動)。
   const luckyCritOwnLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.luckyCrit);
-  const hpShiftLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.hpShift);
-  const damageBoostLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.damageBoost);
-  const adaptabilityLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.adaptability);
+  const lifeWaveLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.lifeWave);
+  const dmgStackLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.dmgStack);
+  const agileLevel = getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.agile);
 
   const luckyCritBonus = calcLuckyCritBonus(cookingBuff, luckyCritOwnLevel);
-  const hpShiftBonus = hpShiftLevel !== 0 ? HP_SHIFT_VALUES[hpShiftLevel] : 0;
-  const damageBoostPercent =
-    damageBoostLevel !== 0
-      ? DAMAGE_BOOST_PER_STACK[damageBoostLevel] * cookingBuff.damageBoostStacks
-      : 0;
-  const adaptabilityEffect = adaptabilityLevel !== 0 ? ADAPTABILITY_VALUES[adaptabilityLevel] : null;
+  const lifeWaveBonus = lifeWaveLevel !== 0 ? LIFE_WAVE_VALUES[lifeWaveLevel] : 0;
+  const dmgStackPercent =
+    dmgStackLevel !== 0 ? DMG_STACK_PER_STACK[dmgStackLevel] * cookingBuff.dmgStackCount : 0;
+  const agileEffect = agileLevel !== 0 ? AGILE_VALUES[agileLevel] : null;
 
   return (
     <DraggableDialog
@@ -172,74 +170,77 @@ function BuffEffectDialog({
           </label>
         </div>
 
-        {/* 鼓舞: 森癒/威咲(排他選択) */}
+        {/* 鼓舞(Inspiration): 森癒(Lifebind)/威咲(Smite)(排他選択) */}
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
               <input
                 type="checkbox"
-                checked={cookingBuff.moraleBoostEnabled}
-                onChange={(e) => onChange({ moraleBoostEnabled: e.target.checked })}
+                checked={cookingBuff.inspirationEnabled}
+                onChange={(e) => onChange({ inspirationEnabled: e.target.checked })}
               />
-              <span>{t('buildPlanner.buffDialog.moraleBoost')}</span>
+              <span>{t('buildPlanner.buffDialog.inspiration')}</span>
             </label>
             <label className="buff-effect-dialog__radio-label">
               <input
                 type="radio"
-                name="moraleBoostVariant"
-                disabled={!cookingBuff.moraleBoostEnabled}
-                checked={cookingBuff.moraleBoostVariant === 'forestHeal'}
-                onChange={() => onChange({ moraleBoostVariant: 'forestHeal' })}
+                name="inspirationVariant"
+                disabled={!cookingBuff.inspirationEnabled}
+                checked={cookingBuff.inspirationVariant === 'lifebind'}
+                onChange={() => onChange({ inspirationVariant: 'lifebind' })}
               />
-              <span>{t('buildPlanner.buffDialog.moraleBoostForestHeal')}</span>
+              <span>{t('buildPlanner.buffDialog.inspirationLifebind')}</span>
             </label>
             <label className="buff-effect-dialog__radio-label">
               <input
                 type="radio"
-                name="moraleBoostVariant"
-                disabled={!cookingBuff.moraleBoostEnabled}
-                checked={cookingBuff.moraleBoostVariant === 'mightBloom'}
-                onChange={() => onChange({ moraleBoostVariant: 'mightBloom' })}
+                name="inspirationVariant"
+                disabled={!cookingBuff.inspirationEnabled}
+                checked={cookingBuff.inspirationVariant === 'smite'}
+                onChange={() => onChange({ inspirationVariant: 'smite' })}
               />
-              <span>{t('buildPlanner.buffDialog.moraleBoostMightBloom')}</span>
+              <span>{t('buildPlanner.buffDialog.inspirationSmite')}</span>
             </label>
           </div>
           <span className="buff-effect-dialog__hint">
-            {t('buildPlanner.buffDialog.moraleBoostEffect', {
-              mainStat: moraleBoostEffect.mainStat,
-              percent: moraleBoostEffect.percent,
+            {t('buildPlanner.buffDialog.inspirationEffect', {
+              mainStat: inspirationEffect.mainStat,
+              percent: inspirationEffect.percent,
             })}
           </span>
         </div>
 
-        {/* 能力共鳴(響奏) */}
+        {/* 能力共鳴(Stat Resonance、響奏/Concerto) */}
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
               <input
                 type="checkbox"
-                checked={cookingBuff.resonanceEnabled}
-                onChange={(e) => onChange({ resonanceEnabled: e.target.checked })}
+                checked={cookingBuff.statResonanceEnabled}
+                onChange={(e) => onChange({ statResonanceEnabled: e.target.checked })}
               />
-              <span>{t('buildPlanner.buffDialog.resonance')}</span>
+              <span>{t('buildPlanner.buffDialog.statResonance')}</span>
             </label>
             <input
               type="number"
               className="buff-effect-dialog__input"
-              disabled={!cookingBuff.resonanceEnabled}
-              placeholder={t('buildPlanner.buffDialog.resonanceBaseValue', { stat: mainStatLabel })}
-              {...toNumberInputProps(cookingBuff.resonanceBaseValue, (v) =>
-                onChange({ resonanceBaseValue: Math.max(0, v) }),
+              disabled={!cookingBuff.statResonanceEnabled}
+              placeholder={t('buildPlanner.buffDialog.statResonanceBaseValue', {
+                stat: mainStatLabel,
+              })}
+              {...toNumberInputProps(cookingBuff.statResonanceBaseValue, (v) =>
+                onChange({ statResonanceBaseValue: Math.max(0, v) }),
               )}
-            /> x
+            />{' '}
+            x
             <select
               className="buff-effect-dialog__select"
-              disabled={!cookingBuff.resonanceEnabled}
-              title={t('buildPlanner.buffDialog.resonanceMultiplier')}
-              value={cookingBuff.resonanceMultiplierPercent}
-              onChange={(e) => onChange({ resonanceMultiplierPercent: Number(e.target.value) })}
+              disabled={!cookingBuff.statResonanceEnabled}
+              title={t('buildPlanner.buffDialog.statResonanceMultiplier')}
+              value={cookingBuff.statResonanceMultiplierPercent}
+              onChange={(e) => onChange({ statResonanceMultiplierPercent: Number(e.target.value) })}
             >
-              {RESONANCE_MULTIPLIER_OPTIONS.map((pct) => (
+              {STAT_RESONANCE_MULTIPLIER_OPTIONS.map((pct) => (
                 <option key={pct} value={pct}>
                   {pct}%
                 </option>
@@ -247,9 +248,9 @@ function BuffEffectDialog({
             </select>
           </div>
           <span className="buff-effect-dialog__hint">
-            {t('buildPlanner.buffDialog.resonanceResult', {
+            {t('buildPlanner.buffDialog.statResonanceResult', {
               stat: mainStatLabel,
-              value: resonanceBonus.toLocaleString(),
+              value: statResonanceBonus.toLocaleString(),
             })}
           </span>
         </div>
@@ -304,76 +305,76 @@ function BuffEffectDialog({
           </span>
         </div>
 
-        {/* HP変動(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
+        {/* 極・HP変動(Life Wave、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
             <input
               type="checkbox"
-              checked={cookingBuff.hpShiftEnabled}
-              disabled={hpShiftLevel === 0}
-              onChange={(e) => onChange({ hpShiftEnabled: e.target.checked })}
+              checked={cookingBuff.lifeWaveEnabled}
+              disabled={lifeWaveLevel === 0}
+              onChange={(e) => onChange({ lifeWaveEnabled: e.target.checked })}
             />
-            <span>{t('buildPlanner.buffDialog.hpShift')}</span>
+            <span>{t('buildPlanner.buffDialog.lifeWave')}</span>
           </label>
           <span className="buff-effect-dialog__hint">
-            {hpShiftLevel === 0
+            {lifeWaveLevel === 0
               ? t('buildPlanner.buffDialog.powerCoreLocked')
-              : t('buildPlanner.buffDialog.hpShiftEffect', { value: hpShiftBonus })}
+              : t('buildPlanner.buffDialog.lifeWaveEffect', { value: lifeWaveBonus })}
           </span>
         </div>
 
-        {/* ダメージ増強(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効。表示のみ、ステ計算対象外) */}
+        {/* 極・ダメージ増強(DMG Stack、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効。表示のみ、ステ計算対象外) */}
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
               <input
                 type="checkbox"
-                checked={cookingBuff.damageBoostEnabled}
-                disabled={damageBoostLevel === 0}
-                onChange={(e) => onChange({ damageBoostEnabled: e.target.checked })}
+                checked={cookingBuff.dmgStackEnabled}
+                disabled={dmgStackLevel === 0}
+                onChange={(e) => onChange({ dmgStackEnabled: e.target.checked })}
               />
-              <span>{t('buildPlanner.buffDialog.damageBoost')}</span>
+              <span>{t('buildPlanner.buffDialog.dmgStack')}</span>
             </label>
             <span className="buff-effect-dialog__stack-label">
-              {t('buildPlanner.buffDialog.damageBoostStacks')}
+              {t('buildPlanner.buffDialog.dmgStackCount')}
             </span>
             <Stepper
               className="phantom-stepper"
-              modifierClassName={`buff-effect-dialog__stack-stepper${!cookingBuff.damageBoostEnabled || damageBoostLevel === 0 ? ' buff-effect-dialog__stack-stepper--disabled' : ''}`}
+              modifierClassName={`buff-effect-dialog__stack-stepper${!cookingBuff.dmgStackEnabled || dmgStackLevel === 0 ? ' buff-effect-dialog__stack-stepper--disabled' : ''}`}
               layout="inline"
               disableList
-              value={cookingBuff.damageBoostStacks}
+              value={cookingBuff.dmgStackCount}
               min={1}
               max={4}
-              onChange={(v) => onChange({ damageBoostStacks: v })}
+              onChange={(v) => onChange({ dmgStackCount: v })}
             />
           </div>
           <span className="buff-effect-dialog__hint">
-            {damageBoostLevel === 0
+            {dmgStackLevel === 0
               ? t('buildPlanner.buffDialog.powerCoreLocked')
-              : t('buildPlanner.buffDialog.damageBoostEffect', {
-                  value: damageBoostPercent.toFixed(2),
+              : t('buildPlanner.buffDialog.dmgStackEffect', {
+                  value: dmgStackPercent.toFixed(2),
                 })}
           </span>
         </div>
 
-        {/* 適応力(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
+        {/* 極・適応力(Agile、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
             <input
               type="checkbox"
-              checked={cookingBuff.adaptabilityEnabled}
-              disabled={adaptabilityLevel === 0}
-              onChange={(e) => onChange({ adaptabilityEnabled: e.target.checked })}
+              checked={cookingBuff.agileEnabled}
+              disabled={agileLevel === 0}
+              onChange={(e) => onChange({ agileEnabled: e.target.checked })}
             />
-            <span>{t('buildPlanner.buffDialog.adaptability')}</span>
+            <span>{t('buildPlanner.buffDialog.agile')}</span>
           </label>
           <span className="buff-effect-dialog__hint">
-            {!adaptabilityEffect
+            {!agileEffect
               ? t('buildPlanner.buffDialog.powerCoreLocked')
-              : t('buildPlanner.buffDialog.adaptabilityEffect', {
-                  moveSpeed: adaptabilityEffect.moveSpeed,
-                  atk: adaptabilityEffect.atkMultPercent,
+              : t('buildPlanner.buffDialog.agileEffect', {
+                  moveSpeed: agileEffect.moveSpeed,
+                  atk: agileEffect.atkMultPercent,
                 })}
           </span>
         </div>

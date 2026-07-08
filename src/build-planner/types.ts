@@ -186,27 +186,28 @@ export interface CookingBuffState {
   starOilEnabled: boolean;
   // スターオイル: 物理/魔法ダメージ強化度(physicalEnhance/magicalEnhanceへの加算値)
   starOilValue: number;
-  // 海風の宴: クラスのメインステータス(筋力/知力/俊敏)に+500(料理攻撃力として)
+  // 海風の宴: クラスのメインステータス(筋力/知力/俊敏)に+500(他の加算源と同様に%ボーナス適用前)
   seaBreezeEnabled: boolean;
-  // 鼓舞: 森癒/威咲のいずれか一方を選択して有効化する(排他)。
-  moraleBoostEnabled: boolean;
-  moraleBoostVariant: 'forestHeal' | 'mightBloom';
-  // 能力共鳴(響奏): 平均値×倍率(%)÷100を、クラスのメインステータス(適応)へ加算する。
-  resonanceEnabled: boolean;
-  resonanceBaseValue: number;
-  resonanceMultiplierPercent: number;
+  // 鼓舞(Inspiration): 森癒(+400/+3%)/威咲(+100/+1.5%)のいずれか一方を選択して有効化する(排他)
+  inspirationEnabled: boolean;
+  inspirationVariant: 'lifebind' | 'smite';
+  // 能力共鳴(Stat Resonance、響奏バフ): 平均値×倍率(%)÷100を、クラスのメインステータスへ加算する。
+  // 他の加算源と異なり、メインステータスへの%ボーナス適用後に加算する(%ボーナスの対象に含めない)。
+  statResonanceEnabled: boolean;
+  statResonanceBaseValue: number;
+  statResonanceMultiplierPercent: number;
   // 幸運会心(モジュールパワーコア効果): 自分(モジュールパネルでLv5以上発動時のみ選択可・2倍)/
   // 被Lv5/被Lv6(パーティの他メンバーから受ける場合)のいずれかを選択する(排他)。
   luckyCritEnabled: boolean;
   luckyCritVariant: 'self' | 'receivedLv5' | 'receivedLv6';
-  // HP変動(モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
-  hpShiftEnabled: boolean;
-  // ダメージ増強(モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効。
+  // 極・HP変動(Life Wave、モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
+  lifeWaveEnabled: boolean;
+  // 極・ダメージ増強(DMG Stack、モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効。
   // 現時点では表示のみでステータス計算には含めない)
-  damageBoostEnabled: boolean;
-  damageBoostStacks: number;
-  // 適応力(モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
-  adaptabilityEnabled: boolean;
+  dmgStackEnabled: boolean;
+  dmgStackCount: number;
+  // 極・適応力(Agile、モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
+  agileEnabled: boolean;
 }
 
 // モジュールホール: 1 ホールの設定。linkCount=1-10 はリンクスタック数。

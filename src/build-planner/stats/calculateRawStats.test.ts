@@ -148,4 +148,31 @@ describe('calculateRawStats', () => {
     // BASE_STATS.strength(15) * 1.15 = 17.25
     expect(result.rawStats.strength).toBe(17.25);
   });
+
+  it('adds statResonanceBonus to the main stat AFTER the % bonus multiplier, not before', () => {
+    // stormBlade.mainStat === 'agility'. attrId 11034 (敏捷%) は IMAGINARY_PCT_BASE 経由で
+    // addPctBonus される。統計共鳴(響奏)のボーナスはこの%乗算の対象に含めない。
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      equipped: {
+        head: makeEquipmentItem({ slot: 'head', part: 210 }),
+      },
+      legendaryAffixState: {
+        head: { attrId: 11034, value: 1000 }, // +10%
+      },
+      cookingBuff: {
+        ...DEFAULT_COOKING_BUFF,
+        statResonanceEnabled: true,
+        statResonanceBaseValue: 6300,
+        statResonanceMultiplierPercent: 24,
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    // (BASE_STATS.agility(15) * 1.10) + (6300 * 24 / 100) = 16.5 + 1512 = 1528.5
+    // (誤って%適用前に加算されていた場合は (15 + 1512) * 1.10 = 1679.7 になってしまう)
+    expect(result.rawStats.agility).toBe(1528.5);
+    expect(result.breakdown.agility.cookingBonus).toBe(1512);
+  });
 });

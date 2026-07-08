@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { setAtIndex, swapAtIndex, withIndex } from './arrayState';
 import {
   DEFAULT_LOADOUT,
   EQUIPMENT_BOTTOM_SLOTS,
@@ -11,13 +12,14 @@ import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from './profession';
 import { deriveStats } from './stats/deriveStats';
 import { applyFinalStatModifiers, calculateRawStats } from './stats/calculateRawStats';
 import { calculateAbilityScore } from './stats/calculateAbilityScore';
+import { useModuleState } from './module/useModuleState';
 import {
-  ADAPTABILITY_VALUES,
+  AGILE_VALUES,
   applyCookingBuff,
+  computeCookingAdjustments,
   DEFAULT_COOKING_BUFF,
-  HP_SHIFT_VALUES,
-  MORALE_BOOST_PERCENT_STAT_IDS,
-  MORALE_BOOST_VALUES,
+  INSPIRATION_VALUES,
+  LIFE_WAVE_VALUES,
   POWER_CORE_EFFECT_IDS,
 } from './stats/cookingBuff';
 import {
@@ -37,8 +39,6 @@ import type {
   EquippedItems,
   EvolutionStatId,
   LegendaryAffixSelection,
-  ModuleConfig,
-  ModuleSlots,
   SlotEnchants,
   SlotEvolutionStats,
   SlotLegendaryAffix,
@@ -47,8 +47,8 @@ import type {
 } from './types';
 import type { AutoSaveState, BuildPlanData } from './buildPlan';
 import { loadAutoSave, loadBuildPlans, persistAutoSave, persistBuildPlans } from './buildPlan';
-import type { PhantomFactorSlotValue } from './phantom/phantomData';
 import { initPhantomNodeSelections } from './phantom/phantomData';
+import { usePhantomState } from './phantom/usePhantomState';
 import { decodePlanCode, encodePlanCode } from './planCode';
 import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from './planDefaults';
 
@@ -143,8 +143,8 @@ export function useBuildState() {
   );
 
   // モジュールスロット (5スロット)
-  const [moduleSlots, setModuleSlotsState] = useState<ModuleSlots>(
-    () => autoSaveOnMount?.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots,
+  const { moduleSlots, setModuleSlotsState, setModuleSlot } = useModuleState(
+    autoSaveOnMount?.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots,
   );
 
   // 冒険者レベル (1-60)
@@ -153,30 +153,23 @@ export function useBuildState() {
   );
 
   // 潜在心相晶ステート
-  const [phantomEnabled, setPhantomEnabled] = useState<boolean>(
-    () => autoSaveOnMount?.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled,
-  );
-  const [phantomLevel, setPhantomLevel] = useState<number>(
-    () => autoSaveOnMount?.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel,
-  );
-  const [phantomTemplateId, setPhantomTemplateIdState] = useState<number | null>(
-    () => autoSaveOnMount?.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId,
-  );
-  const [phantomBondPoints, setPhantomBondPoints] = useState<number>(
-    () => autoSaveOnMount?.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints,
-  );
-  const [phantomNodeSelections, setPhantomNodeSelectionsState] = useState<Record<number, number>>(
-    () => {
-      if (autoSaveOnMount?.phantomNodeSelections) return autoSaveOnMount.phantomNodeSelections;
-      const tid = autoSaveOnMount?.phantomTemplateId;
-      return tid != null ? initPhantomNodeSelections(tid) : {};
-    },
-  );
-  const [phantomFactorSlots, setPhantomFactorSlotsState] = useState<
-    Record<number, PhantomFactorSlotValue | null>
-  >(() => autoSaveOnMount?.phantomFactorSlots ?? STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots);
-  // 潜在因子の最終ステータス%ボーナス（maxHp/physicalDef等）。rawStats算出中に設定し、stats算出時に参照する。
-  const phantomFinalPctRef = useRef<Partial<Record<string, number>>>({});
+  const {
+    phantomEnabled,
+    setPhantomEnabled,
+    phantomLevel,
+    setPhantomLevel,
+    phantomTemplateId,
+    setPhantomTemplateId,
+    setPhantomTemplateIdState,
+    phantomBondPoints,
+    setPhantomBondPoints,
+    phantomNodeSelections,
+    setPhantomNodeSelection,
+    setPhantomNodeSelectionsState,
+    phantomFactorSlots,
+    setPhantomFactorSlot,
+    setPhantomFactorSlotsState,
+  } = usePhantomState(autoSaveOnMount);
 
   // ビルドプラン一覧
   const [buildPlans, setBuildPlans] = useState<BuildPlanData[]>(() => loadBuildPlans());
@@ -360,7 +353,6 @@ export function useBuildState() {
       cookingBuff,
     ],
   );
-  phantomFinalPctRef.current = rawStatsResult.phantomFinalPct;
 
   // 料理(cookingAtkValue)による最終atk/matkへの加算量。海風の宴のメインステータス+500は
   // calculateRawStats内で他のメインステータス加算源と同様に処理済みのため、ここでは扱わない。
@@ -378,11 +370,12 @@ export function useBuildState() {
         legendaryAffixState,
         battleImaginaries,
         imaginaryRanks,
-        phantomFinalPctRef.current,
+        rawStatsResult.phantomFinalPct,
       ),
     [
       rawStats,
       rawStatsResult.breakdown,
+      rawStatsResult.phantomFinalPct,
       derivedStats,
       legendaryAffixState,
       battleImaginaries,
@@ -393,114 +386,71 @@ export function useBuildState() {
   // 料理(cookingAtkValue)による最終atk/matkへの加算は、伝説刻印・バトルイマジン等の
   // 乗算がすべて終わった後の最終値に対して行う。
   const cookingAtkStatId: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
-  // 鼓舞(森癒/威咲): 会心/幸運/ファスト/器用さ/万能の最終計算結果への直接加算量(%)。
-  const moralePercentBonus = cookingBuff.moraleBoostEnabled
-    ? MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant].percent
+  // 鼓舞(Inspiration、森癒/Lifebind・威咲/Smite): 会心/幸運/ファスト/器用さ/万能の
+  // 最終計算結果への直接加算量(%)。
+  const inspirationPercentBonus = cookingBuff.inspirationEnabled
+    ? INSPIRATION_VALUES[cookingBuff.inspirationVariant].percent
     : 0;
-  // HP変動(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効)。
-  const hpShiftLevel = cookingBuff.hpShiftEnabled
-    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.hpShift)
+  // 極・HP変動(Life Wave、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効)。
+  const lifeWaveLevel = cookingBuff.lifeWaveEnabled
+    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.lifeWave)
     : 0;
-  const hpShiftBonus = hpShiftLevel !== 0 ? HP_SHIFT_VALUES[hpShiftLevel] : 0;
-  // 適応力(モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効): atk/matkへの乗算バフ(%)。
-  const adaptabilityLevel = cookingBuff.adaptabilityEnabled
-    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.adaptability)
+  const lifeWaveBonus = lifeWaveLevel !== 0 ? LIFE_WAVE_VALUES[lifeWaveLevel] : 0;
+  // 極・適応力(Agile、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効): atk/matkへの乗算バフ(%)。
+  const agileLevel = cookingBuff.agileEnabled
+    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.agile)
     : 0;
-  const adaptabilityAtkMultPercent =
-    adaptabilityLevel !== 0 ? ADAPTABILITY_VALUES[adaptabilityLevel].atkMultPercent : 0;
+  const agileAtkMultPercent = agileLevel !== 0 ? AGILE_VALUES[agileLevel].atkMultPercent : 0;
+  // 適応力→料理攻撃力→鼓舞→HP変動の順で最終ステータスに適用する調整リスト。
+  // stats(実数値)とrawStatsBreakdown(内訳)の両方がこのリストを共通の入力として使う。
+  const cookingAdjustments = useMemo(
+    () =>
+      computeCookingAdjustments(
+        finalStatsResult.stats,
+        cookingAtkStatId,
+        cookingResult.atkBonus,
+        inspirationPercentBonus,
+        lifeWaveBonus,
+        agileAtkMultPercent,
+      ),
+    [
+      finalStatsResult.stats,
+      cookingAtkStatId,
+      cookingResult.atkBonus,
+      inspirationPercentBonus,
+      lifeWaveBonus,
+      agileAtkMultPercent,
+    ],
+  );
+
   const stats: Record<StatId, number> = useMemo(() => {
-    if (
-      cookingResult.atkBonus === 0 &&
-      moralePercentBonus === 0 &&
-      hpShiftBonus === 0 &&
-      adaptabilityAtkMultPercent === 0
-    ) {
-      return finalStatsResult.stats;
-    }
+    if (cookingAdjustments.length === 0) return finalStatsResult.stats;
     const result = { ...finalStatsResult.stats };
-    // 適応力: atk/matkへの乗算バフは、料理の平坦加算より前に適用する。
-    if (adaptabilityAtkMultPercent !== 0) {
-      result[cookingAtkStatId] = result[cookingAtkStatId] * (1 + adaptabilityAtkMultPercent / 100);
-    }
-    if (cookingResult.atkBonus !== 0) {
-      result[cookingAtkStatId] = result[cookingAtkStatId] + cookingResult.atkBonus;
-    }
-    if (moralePercentBonus !== 0) {
-      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS) {
-        result[statId] = result[statId] + moralePercentBonus;
-      }
-    }
-    // HP変動: 会心/幸運/ファスト/器用さ/万能のうち、この時点の計算結果が最も高い項目に加算する。
-    if (hpShiftBonus !== 0) {
-      let maxStatId = MORALE_BOOST_PERCENT_STAT_IDS[0];
-      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS.slice(1)) {
-        if (result[statId] > result[maxStatId]) maxStatId = statId;
-      }
-      result[maxStatId] = result[maxStatId] + hpShiftBonus;
+    for (const { statId, multiplier, addend } of cookingAdjustments) {
+      if (multiplier !== undefined) result[statId] = result[statId] * multiplier;
+      if (addend !== undefined) result[statId] = result[statId] + addend;
     }
     return result;
-  }, [
-    finalStatsResult.stats,
-    cookingResult.atkBonus,
-    cookingAtkStatId,
-    moralePercentBonus,
-    hpShiftBonus,
-    adaptabilityAtkMultPercent,
-  ]);
+  }, [finalStatsResult.stats, cookingAdjustments]);
 
   // ステータス詳細「バフ効果」表示用: 最終ステータス%ボーナス(applyFinalStatModifiers由来)に加え、
-  // 料理・鼓舞・HP変動・適応力による最終加算/乗算量を「料理バフ」列として合算する。海風の宴・能力共鳴の
-  // メインステータス加算はcalculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。
+  // 料理・鼓舞・HP変動・適応力による最終加算/乗算量を「料理バフ」列として合算する。海風の宴のメインステータス
+  // 加算はcalculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。能力共鳴は
+  // メインステータスへの%ボーナス適用後に加算されるため、calculateRawStats側で既に「料理バフ」
+  // (cookingBonus)列にセット済み。
   const rawStatsBreakdown = useMemo(() => {
-    if (
-      cookingResult.atkBonus === 0 &&
-      moralePercentBonus === 0 &&
-      hpShiftBonus === 0 &&
-      adaptabilityAtkMultPercent === 0
-    ) {
-      return finalStatsResult.breakdown;
-    }
+    if (cookingAdjustments.length === 0) return finalStatsResult.breakdown;
     const merged = { ...finalStatsResult.breakdown };
-    if (adaptabilityAtkMultPercent !== 0) {
-      merged[cookingAtkStatId] = {
-        ...merged[cookingAtkStatId],
-        multiplier: merged[cookingAtkStatId].multiplier * (1 + adaptabilityAtkMultPercent / 100),
-      };
-    }
-    if (cookingResult.atkBonus !== 0) {
-      merged[cookingAtkStatId] = {
-        ...merged[cookingAtkStatId],
-        cookingBonus: (merged[cookingAtkStatId].cookingBonus ?? 0) + cookingResult.atkBonus,
-      };
-    }
-    if (moralePercentBonus !== 0) {
-      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS) {
-        merged[statId] = {
-          ...merged[statId],
-          cookingBonus: (merged[statId].cookingBonus ?? 0) + moralePercentBonus,
-        };
-      }
-    }
-    if (hpShiftBonus !== 0) {
-      let maxStatId = MORALE_BOOST_PERCENT_STAT_IDS[0];
-      for (const statId of MORALE_BOOST_PERCENT_STAT_IDS.slice(1)) {
-        if (stats[statId] > stats[maxStatId]) maxStatId = statId;
-      }
-      merged[maxStatId] = {
-        ...merged[maxStatId],
-        cookingBonus: (merged[maxStatId].cookingBonus ?? 0) + hpShiftBonus,
+    for (const { statId, multiplier, addend } of cookingAdjustments) {
+      const entry = merged[statId];
+      merged[statId] = {
+        ...entry,
+        ...(multiplier !== undefined ? { multiplier: entry.multiplier * multiplier } : {}),
+        ...(addend !== undefined ? { cookingBonus: (entry.cookingBonus ?? 0) + addend } : {}),
       };
     }
     return merged;
-  }, [
-    finalStatsResult.breakdown,
-    cookingResult,
-    cookingAtkStatId,
-    moralePercentBonus,
-    hpShiftBonus,
-    adaptabilityAtkMultPercent,
-    stats,
-  ]);
+  }, [finalStatsResult.breakdown, cookingAdjustments]);
 
   const roleSkills = useMemo(
     () => getClassData(profession.professionId)?.roleSkill ?? [],
@@ -757,32 +707,6 @@ export function useBuildState() {
     persistAutoSave(buildAutoSaveState());
   }, [planName, ...Object.values(rawAutoSaveFields)]);
 
-  // ---- phantom state handlers ----
-
-  const setPhantomTemplateId = (id: number | null) => {
-    setPhantomTemplateIdState(id);
-    setPhantomNodeSelectionsState(id != null ? initPhantomNodeSelections(id) : {});
-    setPhantomFactorSlotsState({});
-  };
-
-  const setPhantomNodeSelection = (sameGroupId: number, nodeId: number) => {
-    setPhantomNodeSelectionsState((prev) => ({ ...prev, [sameGroupId]: nodeId }));
-  };
-
-  const setPhantomFactorSlot = (groupId: number, factor: PhantomFactorSlotValue | null) => {
-    setPhantomFactorSlotsState((prev) => ({ ...prev, [groupId]: factor }));
-  };
-
-  // ---- module state handler ----
-
-  const setModuleSlot = (index: number, config: ModuleConfig | null) => {
-    setModuleSlotsState((prev) => {
-      const next = [...prev] as ModuleSlots;
-      next[index] = config;
-      return next;
-    });
-  };
-
   // ---- enchant state ----
 
   const setSlotEnchant = (slot: EquipmentSlotId, itemId: number | undefined) =>
@@ -797,73 +721,30 @@ export function useBuildState() {
 
   const toggleMasteryEquipped = (index: number) => {
     setMasteryEquipped((prev) => {
-      const next = [...prev];
-      const equippedCount = next.filter(Boolean).length;
-      if (!next[index] && equippedCount >= 4) return prev;
-      next[index] = !next[index];
-      return next;
+      const equippedCount = prev.filter(Boolean).length;
+      if (!prev[index] && equippedCount >= 4) return prev;
+      return withIndex(prev, index, !prev[index]);
     });
   };
 
-  const setMasteryLevel = (index: number, level: number) => {
-    setMasteryLevels((prev) => {
-      const n = [...prev];
-      n[index] = level;
-      return n;
-    });
-  };
+  const setMasteryLevel = (index: number, level: number) =>
+    setAtIndex(setMasteryLevels, index, level);
 
-  const setMasteryRank = (index: number, rank: number) => {
-    setMasteryRanks((prev) => {
-      const n = [...prev];
-      n[index] = rank;
-      return n;
-    });
-  };
+  const setMasteryRank = (index: number, rank: number) => setAtIndex(setMasteryRanks, index, rank);
 
-  const setFixedLevel = (index: number, level: number) => {
-    setFixedLevels((prev) => {
-      const n = [...prev];
-      n[index] = level;
-      return n;
-    });
-  };
+  const setFixedLevel = (index: number, level: number) => setAtIndex(setFixedLevels, index, level);
 
-  const setFixedRank = (index: number, rank: number) => {
-    setFixedRanks((prev) => {
-      const n = [...prev];
-      n[index] = rank;
-      return n;
-    });
-  };
+  const setFixedRank = (index: number, rank: number) => setAtIndex(setFixedRanks, index, rank);
 
-  const setBattleImaginary = (index: number, id: number | null) => {
-    setBattleImaginaries((prev) => {
-      const n = [...prev];
-      n[index] = id;
-      return n;
-    });
-  };
+  const setBattleImaginary = (index: number, id: number | null) =>
+    setAtIndex(setBattleImaginaries, index, id);
 
-  const setImaginaryRank = (index: number, rank: number) => {
-    setImaginaryRanks((prev) => {
-      const n = [...prev];
-      n[index] = rank;
-      return n;
-    });
-  };
+  const setImaginaryRank = (index: number, rank: number) =>
+    setAtIndex(setImaginaryRanks, index, rank);
 
   const reorderBattleImaginaries = (fromIndex: number, toIndex: number) => {
-    setBattleImaginaries((prev) => {
-      const n = [...prev];
-      [n[fromIndex], n[toIndex]] = [n[toIndex], n[fromIndex]];
-      return n;
-    });
-    setImaginaryRanks((prev) => {
-      const n = [...prev];
-      [n[fromIndex], n[toIndex]] = [n[toIndex], n[fromIndex]];
-      return n;
-    });
+    setBattleImaginaries((prev) => swapAtIndex(prev, fromIndex, toIndex));
+    setImaginaryRanks((prev) => swapAtIndex(prev, fromIndex, toIndex));
   };
 
   return {

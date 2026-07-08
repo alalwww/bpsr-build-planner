@@ -20,8 +20,8 @@ import {
 import { BASE_STATS } from './baseStats';
 import {
   calcLuckyCritBonus,
-  calcResonanceBonus,
-  MORALE_BOOST_VALUES,
+  calcStatResonanceBonus,
+  INSPIRATION_VALUES,
   POWER_CORE_EFFECT_IDS,
   SEA_BREEZE_MAIN_STAT_BONUS,
 } from './cookingBuff';
@@ -548,20 +548,14 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     addStat(profession.mainStat, SEA_BREEZE_MAIN_STAT_BONUS);
   }
 
-  // 鼓舞(森癒/威咲): 選択中の効果に応じて筋力/知力/俊敏全てへ平坦加算する(%ボーナス適用前)。
-  // 会心/幸運/ファスト/器用さ/万能への追加分は最終計算結果への直接加算のため、
-  // deriveStats後の最終値に対して加算する(useBuildState側で処理)。
-  if (cookingBuff.moraleBoostEnabled) {
-    const { mainStat } = MORALE_BOOST_VALUES[cookingBuff.moraleBoostVariant];
+  // 鼓舞(Inspiration、森癒/Lifebind・威咲/Smite): 選択中の効果に応じて筋力/知力/俊敏全てへ
+  // 平坦加算する(%ボーナス適用前)。会心/幸運/ファスト/器用さ/万能への追加分は最終計算結果への
+  // 直接加算のため、deriveStats後の最終値に対して加算する(useBuildState側で処理)。
+  if (cookingBuff.inspirationEnabled) {
+    const { mainStat } = INSPIRATION_VALUES[cookingBuff.inspirationVariant];
     addStat('strength', mainStat);
     addStat('intellect', mainStat);
     addStat('agility', mainStat);
-  }
-
-  // 能力共鳴(響奏): 平均値×倍率(%)÷100を、クラスのメインステータス(適応)へ%ボーナス適用前に加算する。
-  const resonanceBonus = calcResonanceBonus(cookingBuff);
-  if (resonanceBonus !== 0) {
-    addStat(profession.mainStat, resonanceBonus);
   }
 
   // 幸運会心(モジュールパワーコア効果): 会心ダメージ/幸運ダメージへの加算。
@@ -583,12 +577,22 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     total[statId] = truncate2(roundClean(total[statId] * factor));
   }
 
+  // 能力共鳴(Stat Resonance、響奏バフ): 平均値×倍率(%)÷100を、クラスのメインステータスへ
+  // %ボーナス適用後に加算する(他のメインステータス加算源と異なり、%ボーナスの対象に含めない)。
+  const statResonanceBonus = calcStatResonanceBonus(cookingBuff);
+  if (statResonanceBonus !== 0) {
+    total[profession.mainStat] += statResonanceBonus;
+  }
+
   const breakdown = {} as Record<StatId, StatBreakdownEntry>;
   for (const statId of Object.keys(BASE_STATS) as StatId[]) {
     breakdown[statId] = {
       base: BASE_STATS[statId],
       additive: additive[statId] ?? 0,
       multiplier: 1 + (pctBonus[statId] ?? 0) / 10000,
+      ...(statId === profession.mainStat && statResonanceBonus !== 0
+        ? { cookingBonus: statResonanceBonus }
+        : {}),
     };
   }
 
