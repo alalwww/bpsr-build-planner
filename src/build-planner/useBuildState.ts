@@ -24,14 +24,14 @@ import type {
   EquippedItems,
   StatId,
 } from './types';
-import type { AutoSaveState, BuildPlanData } from './buildPlan';
-import { loadAutoSave, loadBuildPlans, persistAutoSave, persistBuildPlans } from './buildPlan';
+import type { AutoSaveState } from './buildPlan';
+import { loadAutoSave, persistAutoSave } from './buildPlan';
 import { initPhantomNodeSelections } from './phantom/phantomData';
 import { usePhantomState } from './phantom/usePhantomState';
 import { normalSkillCount, useSkillState } from './skill/useSkillState';
 import { useTalentState } from './talent/useTalentState';
-import { decodePlanCode, encodePlanCode } from './planCode';
 import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from './planDefaults';
+import { usePlanManagement } from './usePlanManagement';
 
 // ---- main hook ----
 
@@ -160,12 +160,6 @@ export function useBuildState() {
     setPhantomFactorSlot,
     setPhantomFactorSlotsState,
   } = usePhantomState(autoSaveOnMount);
-
-  // ビルドプラン一覧
-  const [buildPlans, setBuildPlans] = useState<BuildPlanData[]>(() => loadBuildPlans());
-
-  // プラン名（テキスト入力欄の現在値）
-  const [planName, setPlanName] = useState<string>(() => autoSaveOnMount?.name ?? '');
 
   const selectProfession = (key: ProfessionKey) => {
     const newProfession = PROFESSIONS[key];
@@ -458,29 +452,6 @@ export function useBuildState() {
     phantomFactorSlots: { ...rawAutoSaveFields.phantomFactorSlots },
   });
 
-  const snapshotPlan = (name: string, existingId?: string): BuildPlanData => ({
-    id: existingId ?? crypto.randomUUID(),
-    ...buildAutoSaveState(name),
-  });
-
-  const savePlan = (name: string) => {
-    const plan = snapshotPlan(name);
-    setBuildPlans((prev) => {
-      const next = [plan, ...prev];
-      persistBuildPlans(next);
-      return next;
-    });
-  };
-
-  const overwritePlan = (id: string, name: string) => {
-    const plan = snapshotPlan(name, id);
-    setBuildPlans((prev) => {
-      const next = prev.map((p) => (p.id === id ? plan : p));
-      persistBuildPlans(next);
-      return next;
-    });
-  };
-
   // ビルドプラン(保存済みプラン/インポートされたプランコード共通)の状態を現在の編集状態へ適用する。
   const applyPlanState = (plan: AutoSaveState) => {
     // 保存済みアイテムを最新データで上書き（スキーマ変更時の旧形式フィールドを更新）
@@ -526,41 +497,19 @@ export function useBuildState() {
     );
   };
 
-  const loadPlan = (id: string) => {
-    const plan = buildPlans.find((p) => p.id === id);
-    if (!plan) return;
-    setPlanName(plan.name);
-    applyPlanState(plan);
-  };
-
-  const exportPlanCode = (): string => encodePlanCode(buildAutoSaveState());
-
-  const importPlanCode = (code: string): boolean => {
-    const plan = decodePlanCode(code);
-    if (!plan) return false;
-    setPlanName(plan.name);
-    applyPlanState(plan);
-    return true;
-  };
-
-  const renamePlan = (id: string, newName: string) => {
-    setBuildPlans((prev) => {
-      const target = prev.find((p) => p.id === id);
-      const next = prev.map((p) => (p.id === id ? { ...p, name: newName } : p));
-      persistBuildPlans(next);
-      // 現在の入力欄の名前がリネーム対象と一致していれば追従
-      if (target && planName === target.name) setPlanName(newName);
-      return next;
-    });
-  };
-
-  const deletePlan = (id: string) => {
-    setBuildPlans((prev) => {
-      const next = prev.filter((p) => p.id !== id);
-      persistBuildPlans(next);
-      return next;
-    });
-  };
+  // ---- ビルドプラン一覧のCRUD・プランコードのエクスポート/インポート ----
+  const {
+    planName,
+    setPlanName,
+    buildPlans,
+    savePlan,
+    overwritePlan,
+    renamePlan,
+    loadPlan,
+    deletePlan,
+    exportPlanCode,
+    importPlanCode,
+  } = usePlanManagement(autoSaveOnMount?.name ?? '', buildAutoSaveState, applyPlanState);
 
   const resetPlan = () => {
     const defaults = getDefaultAutoSaveState(DEFAULT_PROFESSION_KEY);
