@@ -11,6 +11,7 @@ import type { Profession, ProfessionTypeKey } from '../profession';
 import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
 import EquipmentItemPopup from './EquipmentItemPopup';
+import { isSeaBreezeSeries, qualityToAssetIndex } from './equipmentSlotPickerData';
 import type {
   EquipmentItem,
   EquipmentSlotId,
@@ -73,52 +74,13 @@ const _uiMods = import.meta.glob<{ default: string }>(
 function getEquipBgUrl(slot: EquipmentSlotId, item?: EquipmentItem): string | undefined {
   let name;
   if (BOTTOM_SLOT_SET.has(slot)) {
-    if (!item) name = 'item_quality_equip_0';
-    else
-      switch (item.quality) {
-        case 1:
-          name = 'item_quality_equip_1';
-          break;
-        case 2:
-          name = 'item_quality_equip_1';
-          break;
-        case 3:
-          name = 'item_quality_equip_3';
-          break;
-        case 4:
-          name = 'item_quality_equip_4';
-          break;
-        case 5:
-          name = 'item_quality_equip_5';
-          break;
-        default:
-          name = 'item_quality_equip_0';
-          break;
-      }
+    name = `item_quality_equip_${item ? qualityToAssetIndex(item.quality) : 0}`;
+  } else if (!item) {
+    name = 'weap_equip_00';
+  } else if (isSeaBreezeSeries(item)) {
+    name = 'weap_equip_07';
   } else {
-    if (!item) name = 'weap_equip_00';
-    else if (item.icon.includes('_06_')) name = 'weap_equip_07';
-    else
-      switch (item.quality) {
-        case 1:
-          name = 'weap_equip_00';
-          break;
-        case 2:
-          name = 'weap_equip_01';
-          break;
-        case 3:
-          name = 'weap_equip_03';
-          break;
-        case 4:
-          name = 'weap_equip_04';
-          break;
-        case 5:
-          name = 'weap_equip_05';
-          break;
-        default:
-          name = 'weap_equip_00';
-          break;
-      }
+    name = `weap_equip_${String(qualityToAssetIndex(item.quality)).padStart(2, '0')}`;
   }
   return _uiMods[`../../assets/ui/${name}.png`]?.default;
 }

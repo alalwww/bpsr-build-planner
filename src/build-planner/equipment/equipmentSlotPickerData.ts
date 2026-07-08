@@ -65,31 +65,26 @@ const _itemBgMods = import.meta.glob<{ default: string }>('../../assets/ui/item_
   eager: true,
 });
 
+// 蒼海シリーズ(WeaponSkinId末尾06)判定。背景画像・名前色の特例分岐で共通利用。
+export function isSeaBreezeSeries(item: EquipmentItem): boolean {
+  return item.icon.includes('_06_');
+}
+
+// quality(1-5)→アセット名末尾の数値。index=2に相当する画像は存在しないため、
+// quality<=2は quality-1、quality>=3は quality そのものを使う(0,1,3,4,5)。
+// 範囲外のqualityは0にフォールバックする。
+// item_quality_N / item_quality_equip_N / weap_equip_0N の3系統アセットで共通の対応関係。
+export function qualityToAssetIndex(quality: number): number {
+  if (quality < 1 || quality > 5) return 0;
+  return quality <= 2 ? quality - 1 : quality;
+}
+
 // 装備 quality / icon から背景画像名を決定
 export function getEquipBgUrlFrom(item?: EquipmentItem): string | undefined {
   let name;
   if (!item) name = '';
-  else if (item.icon.includes('_06_')) name = 'item_quality_7';
-  else
-    switch (item.quality) {
-      case 1:
-        name = 'item_quality_0';
-        break;
-      case 2:
-        name = 'item_quality_1';
-        break;
-      case 3:
-        name = 'item_quality_3';
-        break;
-      case 4:
-        name = 'item_quality_4';
-        break;
-      case 5:
-        name = 'item_quality_5';
-        break;
-      default:
-        name = 'item_quality_0';
-    }
+  else if (isSeaBreezeSeries(item)) name = 'item_quality_7';
+  else name = `item_quality_${qualityToAssetIndex(item.quality)}`;
   return _itemBgMods[`../../assets/ui/${name}.png`]?.default;
 }
 
@@ -102,7 +97,7 @@ export function getQualityColor(quality: number): string {
 }
 
 export function getItemNameColor(item: EquipmentItem): string {
-  if (item.icon.includes('_06_')) return '#5599dd'; // 蒼海シリーズ（WeaponSkinId末尾06）
+  if (isSeaBreezeSeries(item)) return '#5599dd'; // 蒼海シリーズ（WeaponSkinId末尾06）
   return getQualityColor(item.quality);
 }
 
