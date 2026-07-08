@@ -50,6 +50,7 @@ import { loadAutoSave, loadBuildPlans, persistAutoSave, persistBuildPlans } from
 import type { PhantomFactorSlotValue } from './phantom/phantomData';
 import { initPhantomNodeSelections } from './phantom/phantomData';
 import { decodePlanCode, encodePlanCode } from './planCode';
+import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from './planDefaults';
 
 // ---- state init helpers ----
 
@@ -69,34 +70,6 @@ function normalSkillCount(profKey: ProfessionKey): number {
   return getClassData(PROFESSIONS[profKey].professionId)?.normalSkill.length ?? 0;
 }
 
-const INITIAL_REFINE_LEVELS: SlotRefineLevels = {
-  weapon: 30,
-  head: 30,
-  chest: 30,
-  arms: 30,
-  legs: 30,
-  earring: 30,
-  necklace: 30,
-  ring: 30,
-  ringLeft: 30,
-  ringRight: 30,
-  belt: 30,
-};
-
-const INITIAL_PERFECTLINES: SlotRefineLevels = {
-  weapon: 100,
-  head: 100,
-  chest: 100,
-  arms: 100,
-  legs: 100,
-  earring: 100,
-  necklace: 100,
-  ring: 100,
-  ringLeft: 100,
-  ringRight: 100,
-  belt: 100,
-};
-
 // ---- main hook ----
 
 export function useBuildState() {
@@ -107,19 +80,19 @@ export function useBuildState() {
     () => autoSaveOnMount?.equipped ?? DEFAULT_LOADOUT,
   );
   const [refineLevels, setRefineLevels] = useState<SlotRefineLevels>(
-    () => autoSaveOnMount?.refineLevels ?? INITIAL_REFINE_LEVELS,
+    () => autoSaveOnMount?.refineLevels ?? STATIC_AUTOSAVE_DEFAULTS.refineLevels,
   );
   const [perfectlines, setPerfectlines] = useState<SlotRefineLevels>(
-    () => autoSaveOnMount?.perfectlines ?? INITIAL_PERFECTLINES,
+    () => autoSaveOnMount?.perfectlines ?? STATIC_AUTOSAVE_DEFAULTS.perfectlines,
   );
   const [evolutionStats, setEvolutionStatsState] = useState<SlotEvolutionStats>(
-    () => autoSaveOnMount?.evolutionStats ?? {},
+    () => autoSaveOnMount?.evolutionStats ?? STATIC_AUTOSAVE_DEFAULTS.evolutionStats,
   );
   const [legendaryAffixState, setLegendaryAffixState] = useState<SlotLegendaryAffix>(
-    () => autoSaveOnMount?.legendaryAffixState ?? {},
+    () => autoSaveOnMount?.legendaryAffixState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixState,
   );
   const [slotEnchants, setSlotEnchants] = useState<SlotEnchants>(
-    () => autoSaveOnMount?.slotEnchants ?? {},
+    () => autoSaveOnMount?.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants,
   );
   // ダメージ計算機(作成中)用の一時的な入力値。保存/自動保存/プランコードの対象外
   // (現在のステータス+追加効果を都度計算する用途のため、セッションをまたいで保持しない)。
@@ -155,42 +128,42 @@ export function useBuildState() {
 
   // 固定スキル (normalAttack, special, ultimate) のLv/Rank
   const [fixedLevels, setFixedLevels] = useState<number[]>(
-    () => autoSaveOnMount?.fixedLevels ?? [30, 30, 30],
+    () => autoSaveOnMount?.fixedLevels ?? STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
   );
   const [fixedRanks, setFixedRanks] = useState<number[]>(
-    () => autoSaveOnMount?.fixedRanks ?? [6, 6, 6],
+    () => autoSaveOnMount?.fixedRanks ?? STATIC_AUTOSAVE_DEFAULTS.fixedRanks,
   );
 
   // バトルイマジン: クラス変更時もリセットしない
   const [battleImaginaries, setBattleImaginaries] = useState<(number | null)[]>(
-    () => autoSaveOnMount?.battleImaginaries ?? [null, null],
+    () => autoSaveOnMount?.battleImaginaries ?? STATIC_AUTOSAVE_DEFAULTS.battleImaginaries,
   );
   const [imaginaryRanks, setImaginaryRanks] = useState<number[]>(
-    () => autoSaveOnMount?.imaginaryRanks ?? [5, 5],
+    () => autoSaveOnMount?.imaginaryRanks ?? STATIC_AUTOSAVE_DEFAULTS.imaginaryRanks,
   );
 
   // モジュールスロット (5スロット)
   const [moduleSlots, setModuleSlotsState] = useState<ModuleSlots>(
-    () => autoSaveOnMount?.moduleSlots ?? [null, null, null, null, null],
+    () => autoSaveOnMount?.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots,
   );
 
   // 冒険者レベル (1-60)
   const [adventurerLevel, setAdventurerLevel] = useState<number>(
-    () => autoSaveOnMount?.adventurerLevel ?? 60,
+    () => autoSaveOnMount?.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel,
   );
 
   // 潜在心相晶ステート
   const [phantomEnabled, setPhantomEnabled] = useState<boolean>(
-    () => autoSaveOnMount?.phantomEnabled ?? true,
+    () => autoSaveOnMount?.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled,
   );
   const [phantomLevel, setPhantomLevel] = useState<number>(
-    () => autoSaveOnMount?.phantomLevel ?? 100,
+    () => autoSaveOnMount?.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel,
   );
   const [phantomTemplateId, setPhantomTemplateIdState] = useState<number | null>(
-    () => autoSaveOnMount?.phantomTemplateId ?? null,
+    () => autoSaveOnMount?.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId,
   );
   const [phantomBondPoints, setPhantomBondPoints] = useState<number>(
-    () => autoSaveOnMount?.phantomBondPoints ?? 35,
+    () => autoSaveOnMount?.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints,
   );
   const [phantomNodeSelections, setPhantomNodeSelectionsState] = useState<Record<number, number>>(
     () => {
@@ -201,7 +174,7 @@ export function useBuildState() {
   );
   const [phantomFactorSlots, setPhantomFactorSlotsState] = useState<
     Record<number, PhantomFactorSlotValue | null>
-  >(() => autoSaveOnMount?.phantomFactorSlots ?? {});
+  >(() => autoSaveOnMount?.phantomFactorSlots ?? STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots);
   // 潜在因子の最終ステータス%ボーナス（maxHp/physicalDef等）。rawStats算出中に設定し、stats算出時に参照する。
   const phantomFinalPctRef = useRef<Partial<Record<string, number>>>({});
 
@@ -598,9 +571,11 @@ export function useBuildState() {
 
   // ---- ビルドプラン操作 ----
 
-  const snapshotPlan = (name: string, existingId?: string): BuildPlanData => ({
-    id: existingId ?? crypto.randomUUID(),
-    name,
+  // name以外のAutoSaveStateフィールドの現在値(生の状態変数への参照)。
+  // buildAutoSaveStateとautosaveのuseEffect依存配列の双方がここを単一の定義元として使うことで、
+  // 新しいフィールド追加時に片方だけ更新し忘れることを防ぐ(Set型のtalentR1/R2EnabledIdsは
+  // ここでは配列化せず生のSetのまま保持し、依存配列の参照安定性を壊さないようにする)。
+  const rawAutoSaveFields = {
     professionKey,
     professionTypeKey,
     equipped,
@@ -608,7 +583,7 @@ export function useBuildState() {
     perfectlines,
     evolutionStats,
     legendaryAffixState,
-    slotEnchants: { ...slotEnchants },
+    slotEnchants,
     masteryEquipped,
     masteryLevels,
     masteryRanks,
@@ -616,16 +591,34 @@ export function useBuildState() {
     fixedRanks,
     battleImaginaries,
     imaginaryRanks,
-    talentR1EnabledIds: [...talentR1EnabledIds],
-    talentR2EnabledIds: [...talentR2EnabledIds],
-    moduleSlots: [...moduleSlots],
+    talentR1EnabledIds,
+    talentR2EnabledIds,
+    moduleSlots,
     adventurerLevel,
     phantomEnabled,
     phantomLevel,
     phantomTemplateId,
     phantomBondPoints,
-    phantomNodeSelections: { ...phantomNodeSelections },
-    phantomFactorSlots: { ...phantomFactorSlots },
+    phantomNodeSelections,
+    phantomFactorSlots,
+  };
+
+  // 現在の編集状態を AutoSaveState(id を除く BuildPlanData)として構築する。
+  // 保存/エクスポート/自動保存で共用。name省略時はプラン名入力欄の現在値を使う。
+  const buildAutoSaveState = (name: string = planName): AutoSaveState => ({
+    name,
+    ...rawAutoSaveFields,
+    slotEnchants: { ...rawAutoSaveFields.slotEnchants },
+    talentR1EnabledIds: [...rawAutoSaveFields.talentR1EnabledIds],
+    talentR2EnabledIds: [...rawAutoSaveFields.talentR2EnabledIds],
+    moduleSlots: [...rawAutoSaveFields.moduleSlots],
+    phantomNodeSelections: { ...rawAutoSaveFields.phantomNodeSelections },
+    phantomFactorSlots: { ...rawAutoSaveFields.phantomFactorSlots },
+  });
+
+  const snapshotPlan = (name: string, existingId?: string): BuildPlanData => ({
+    id: existingId ?? crypto.randomUUID(),
+    ...buildAutoSaveState(name),
   });
 
   const savePlan = (name: string) => {
@@ -672,18 +665,23 @@ export function useBuildState() {
     setImaginaryRanks(plan.imaginaryRanks);
     setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
     setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
-    setSlotEnchants(plan.slotEnchants ?? {});
-    setModuleSlotsState(plan.moduleSlots ?? [null, null, null, null, null]);
-    setAdventurerLevel(plan.adventurerLevel ?? 60);
-    setPhantomEnabled(plan.phantomEnabled ?? true);
-    setPhantomLevel(plan.phantomLevel ?? 100);
-    const newTid = plan.phantomTemplateId ?? null;
+    setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
+    setModuleSlotsState(plan.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots);
+    setAdventurerLevel(plan.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel);
+    setPhantomEnabled(plan.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled);
+    setPhantomLevel(plan.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel);
+    const newTid = plan.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId;
     setPhantomTemplateIdState(newTid);
-    setPhantomBondPoints(plan.phantomBondPoints ?? 35);
+    setPhantomBondPoints(plan.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints);
     setPhantomNodeSelectionsState(
-      plan.phantomNodeSelections ?? (newTid != null ? initPhantomNodeSelections(newTid) : {}),
+      plan.phantomNodeSelections ??
+        (newTid != null
+          ? initPhantomNodeSelections(newTid)
+          : STATIC_AUTOSAVE_DEFAULTS.phantomNodeSelections),
     );
-    setPhantomFactorSlotsState(plan.phantomFactorSlots ?? {});
+    setPhantomFactorSlotsState(
+      plan.phantomFactorSlots ?? STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots,
+    );
   };
 
   const loadPlan = (id: string) => {
@@ -692,36 +690,6 @@ export function useBuildState() {
     setPlanName(plan.name);
     applyPlanState(plan);
   };
-
-  // 現在の編集状態を BuildPlanData(id を除く)として構築する。エクスポート/自動保存で共用。
-  const buildAutoSaveState = (): AutoSaveState => ({
-    name: planName,
-    professionKey,
-    professionTypeKey,
-    equipped,
-    refineLevels,
-    perfectlines,
-    evolutionStats,
-    legendaryAffixState,
-    slotEnchants,
-    masteryEquipped,
-    masteryLevels,
-    masteryRanks,
-    fixedLevels,
-    fixedRanks,
-    battleImaginaries,
-    imaginaryRanks,
-    talentR1EnabledIds: [...talentR1EnabledIds],
-    talentR2EnabledIds: [...talentR2EnabledIds],
-    moduleSlots: [...moduleSlots],
-    adventurerLevel,
-    phantomEnabled,
-    phantomLevel,
-    phantomTemplateId,
-    phantomBondPoints,
-    phantomNodeSelections: { ...phantomNodeSelections },
-    phantomFactorSlots: { ...phantomFactorSlots },
-  });
 
   const exportPlanCode = (): string => encodePlanCode(buildAutoSaveState());
 
@@ -753,69 +721,41 @@ export function useBuildState() {
   };
 
   const resetPlan = () => {
+    const defaults = getDefaultAutoSaveState(DEFAULT_PROFESSION_KEY);
     setPlanName('');
-    setEquipped(DEFAULT_LOADOUT);
-    setRefineLevels(INITIAL_REFINE_LEVELS);
-    setPerfectlines(INITIAL_PERFECTLINES);
-    setEvolutionStatsState({});
-    setLegendaryAffixState({});
-    setSlotEnchants({});
+    setEquipped(defaults.equipped);
+    setRefineLevels(defaults.refineLevels);
+    setPerfectlines(defaults.perfectlines);
+    setEvolutionStatsState(defaults.evolutionStats);
+    setLegendaryAffixState(defaults.legendaryAffixState);
+    setSlotEnchants(defaults.slotEnchants);
     setCookingBuffState(DEFAULT_COOKING_BUFF);
-    setProfessionKey(DEFAULT_PROFESSION_KEY);
-    setProfessionTypeKey('type1');
-    const profId = PROFESSIONS[DEFAULT_PROFESSION_KEY].professionId;
-    setTalentR1EnabledIds(initTalentR1Ids(profId));
-    setTalentR2EnabledIds(initTalentR2Ids(profId, 0));
-    const count = normalSkillCount(DEFAULT_PROFESSION_KEY);
-    setMasteryEquipped(initMasteryEquipped(count));
-    setMasteryLevels(initMasteryLevels(count));
-    setMasteryRanks(initMasteryRanks(count));
-    setFixedLevels([30, 30, 30]);
-    setFixedRanks([6, 6, 6]);
-    setBattleImaginaries([null, null]);
-    setImaginaryRanks([5, 5]);
-    setModuleSlotsState([null, null, null, null, null]);
-    setAdventurerLevel(60);
-    setPhantomEnabled(true);
-    setPhantomLevel(100);
-    setPhantomTemplateIdState(null);
-    setPhantomBondPoints(35);
-    setPhantomNodeSelectionsState({});
-    setPhantomFactorSlotsState({});
+    setProfessionKey(defaults.professionKey);
+    setProfessionTypeKey(defaults.professionTypeKey);
+    setTalentR1EnabledIds(new Set(defaults.talentR1EnabledIds));
+    setTalentR2EnabledIds(new Set(defaults.talentR2EnabledIds));
+    setMasteryEquipped(defaults.masteryEquipped);
+    setMasteryLevels(defaults.masteryLevels);
+    setMasteryRanks(defaults.masteryRanks);
+    setFixedLevels(defaults.fixedLevels);
+    setFixedRanks(defaults.fixedRanks);
+    setBattleImaginaries(defaults.battleImaginaries);
+    setImaginaryRanks(defaults.imaginaryRanks);
+    setModuleSlotsState(defaults.moduleSlots);
+    setAdventurerLevel(defaults.adventurerLevel);
+    setPhantomEnabled(defaults.phantomEnabled);
+    setPhantomLevel(defaults.phantomLevel);
+    setPhantomTemplateIdState(defaults.phantomTemplateId);
+    setPhantomBondPoints(defaults.phantomBondPoints);
+    setPhantomNodeSelectionsState(defaults.phantomNodeSelections);
+    setPhantomFactorSlotsState(defaults.phantomFactorSlots);
   };
 
   // ---- 自動保存（状態変更のたびに現在の編集内容をlocalStorageに保持） ----
 
   useEffect(() => {
     persistAutoSave(buildAutoSaveState());
-  }, [
-    planName,
-    professionKey,
-    professionTypeKey,
-    equipped,
-    refineLevels,
-    perfectlines,
-    evolutionStats,
-    legendaryAffixState,
-    slotEnchants,
-    masteryEquipped,
-    masteryLevels,
-    masteryRanks,
-    fixedLevels,
-    fixedRanks,
-    battleImaginaries,
-    imaginaryRanks,
-    talentR1EnabledIds,
-    talentR2EnabledIds,
-    moduleSlots,
-    adventurerLevel,
-    phantomEnabled,
-    phantomLevel,
-    phantomTemplateId,
-    phantomBondPoints,
-    phantomNodeSelections,
-    phantomFactorSlots,
-  ]);
+  }, [planName, ...Object.values(rawAutoSaveFields)]);
 
   // ---- phantom state handlers ----
 
