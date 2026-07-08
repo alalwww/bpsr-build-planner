@@ -1,11 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import {
-  DEFAULT_LOADOUT,
-  EQUIPMENT_BOTTOM_SLOTS,
-  EQUIPMENT_TOP_SLOTS,
-  getItemsBySlot,
-  getMaxPerfectline,
-} from './equipment/equipmentData';
+import { getItemsBySlot } from './equipment/equipmentData';
+import { useEquipmentState } from './equipment/useEquipmentState';
 import type { ProfessionKey, ProfessionTypeKey } from './profession';
 import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from './profession';
 import { deriveStats } from './stats/deriveStats';
@@ -25,15 +20,8 @@ import { getClassData, getPowerCoreLevel } from './stats/gameData';
 import type {
   AbilityScoreBreakdown,
   CookingBuffState,
-  EquipmentItem,
   EquipmentSlotId,
   EquippedItems,
-  EvolutionStatId,
-  LegendaryAffixSelection,
-  SlotEnchants,
-  SlotEvolutionStats,
-  SlotLegendaryAffix,
-  SlotRefineLevels,
   StatId,
 } from './types';
 import type { AutoSaveState, BuildPlanData } from './buildPlan';
@@ -51,24 +39,35 @@ export function useBuildState() {
   // 起動時に自動保存から復元（1回のみ実行される lazy initializer）
   const [autoSaveOnMount] = useState<AutoSaveState | null>(loadAutoSave);
 
-  const [equipped, setEquipped] = useState<EquippedItems>(
-    () => autoSaveOnMount?.equipped ?? DEFAULT_LOADOUT,
-  );
-  const [refineLevels, setRefineLevels] = useState<SlotRefineLevels>(
-    () => autoSaveOnMount?.refineLevels ?? STATIC_AUTOSAVE_DEFAULTS.refineLevels,
-  );
-  const [perfectlines, setPerfectlines] = useState<SlotRefineLevels>(
-    () => autoSaveOnMount?.perfectlines ?? STATIC_AUTOSAVE_DEFAULTS.perfectlines,
-  );
-  const [evolutionStats, setEvolutionStatsState] = useState<SlotEvolutionStats>(
-    () => autoSaveOnMount?.evolutionStats ?? STATIC_AUTOSAVE_DEFAULTS.evolutionStats,
-  );
-  const [legendaryAffixState, setLegendaryAffixState] = useState<SlotLegendaryAffix>(
-    () => autoSaveOnMount?.legendaryAffixState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixState,
-  );
-  const [slotEnchants, setSlotEnchants] = useState<SlotEnchants>(
-    () => autoSaveOnMount?.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants,
-  );
+  const {
+    equipped,
+    setEquipped,
+    refineLevels,
+    setRefineLevels,
+    perfectlines,
+    setPerfectlines,
+    evolutionStats,
+    setEvolutionStatsState,
+    legendaryAffixState,
+    setLegendaryAffixState,
+    slotEnchants,
+    setSlotEnchants,
+    equip,
+    unequip,
+    setRefineLevel,
+    setPerfectline,
+    setEvolutionStat,
+    setLegendaryAffix,
+    setSlotEnchant,
+    resetForProfessionChange: resetEquipmentForProfessionChange,
+  } = useEquipmentState({
+    equipped: autoSaveOnMount?.equipped,
+    refineLevels: autoSaveOnMount?.refineLevels,
+    perfectlines: autoSaveOnMount?.perfectlines,
+    evolutionStats: autoSaveOnMount?.evolutionStats,
+    legendaryAffixState: autoSaveOnMount?.legendaryAffixState,
+    slotEnchants: autoSaveOnMount?.slotEnchants,
+  });
   // ダメージ計算機(作成中)用の一時的な入力値。保存/自動保存/プランコードの対象外
   // (現在のステータス+追加効果を都度計算する用途のため、セッションをまたいで保持しない)。
   const [cookingBuff, setCookingBuffState] = useState<CookingBuffState>(DEFAULT_COOKING_BUFF);
@@ -171,17 +170,7 @@ export function useBuildState() {
   const selectProfession = (key: ProfessionKey) => {
     const newProfession = PROFESSIONS[key];
     const mainStatChanged = newProfession.mainStat !== profession.mainStat;
-    setEquipped((prev) => {
-      const next = { ...prev };
-      delete next.weapon;
-      if (mainStatChanged) {
-        for (const slot of [...EQUIPMENT_TOP_SLOTS, ...EQUIPMENT_BOTTOM_SLOTS]) {
-          delete next[slot];
-        }
-      }
-      return next;
-    });
-    setEvolutionStatsState({});
+    resetEquipmentForProfessionChange(mainStatChanged);
     setProfessionKey(key);
     setProfessionTypeKey('type1');
     // マスタリースキル・固定スキルをリセット (バトルイマジンは引き継ぎ)
@@ -194,66 +183,6 @@ export function useBuildState() {
     setProfessionTypeKey(key);
     const newBdType: 0 | 1 = key === 'type1' ? 0 : 1;
     resetTalentR2ForType(profession.professionId, newBdType);
-  };
-
-  const setRefineLevel = (slot: EquipmentSlotId, level: number) => {
-    setRefineLevels((prev) => ({ ...prev, [slot]: level }));
-  };
-
-  const setPerfectline = (slot: EquipmentSlotId, value: number) => {
-    setPerfectlines((prev) => ({ ...prev, [slot]: value }));
-  };
-
-  const setEvolutionStat = (
-    slot: EquipmentSlotId,
-    slotIndex: number,
-    statId: EvolutionStatId | undefined,
-  ) => {
-    setEvolutionStatsState((prev) => {
-      const current = [...(prev[slot] ?? [])];
-      current[slotIndex] = statId;
-      return { ...prev, [slot]: current };
-    });
-  };
-
-  const equip = (slot: EquipmentSlotId, equipmentItem: EquipmentItem) => {
-    setEquipped((prev) => ({ ...prev, [slot]: equipmentItem }));
-    setPerfectlines((prev) => ({ ...prev, [slot]: getMaxPerfectline(equipmentItem) }));
-    setLegendaryAffixState((prev) => {
-      const next = { ...prev };
-      delete next[slot];
-      return next;
-    });
-  };
-
-  const setLegendaryAffix = (
-    slot: EquipmentSlotId,
-    selection: LegendaryAffixSelection | undefined,
-  ) => {
-    setLegendaryAffixState((prev) => ({ ...prev, [slot]: selection }));
-  };
-
-  const unequip = (slot: EquipmentSlotId) => {
-    setEquipped((prev) => {
-      const next = { ...prev };
-      delete next[slot];
-      return next;
-    });
-    setEvolutionStatsState((prev) => {
-      const next = { ...prev };
-      delete next[slot];
-      return next;
-    });
-    setLegendaryAffixState((prev) => {
-      const next = { ...prev };
-      delete next[slot];
-      return next;
-    });
-    setSlotEnchants((prev) => {
-      const next = { ...prev };
-      delete next[slot];
-      return next;
-    });
   };
 
   // rawStats算出中に確定するバトルイマジン/潜在因子由来の最終ステータス%ボーナスを
@@ -669,11 +598,6 @@ export function useBuildState() {
   useEffect(() => {
     persistAutoSave(buildAutoSaveState());
   }, [planName, ...Object.values(rawAutoSaveFields)]);
-
-  // ---- enchant state ----
-
-  const setSlotEnchant = (slot: EquipmentSlotId, itemId: number | undefined) =>
-    setSlotEnchants((prev) => ({ ...prev, [slot]: itemId }));
 
   // ---- 料理バフ state ----
 
