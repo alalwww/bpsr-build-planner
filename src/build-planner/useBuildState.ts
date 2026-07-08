@@ -22,15 +22,7 @@ import {
   LIFE_WAVE_VALUES,
   POWER_CORE_EFFECT_IDS,
 } from './stats/cookingBuff';
-import {
-  buildTalentNodesById,
-  countR1Nodes,
-  getClassData,
-  getPowerCoreLevel,
-  initTalentR1Ids,
-  initTalentR2Ids,
-  talentTree,
-} from './stats/gameData';
+import { getClassData, getPowerCoreLevel } from './stats/gameData';
 import type {
   AbilityScoreBreakdown,
   CookingBuffState,
@@ -49,6 +41,7 @@ import type { AutoSaveState, BuildPlanData } from './buildPlan';
 import { loadAutoSave, loadBuildPlans, persistAutoSave, persistBuildPlans } from './buildPlan';
 import { initPhantomNodeSelections } from './phantom/phantomData';
 import { usePhantomState } from './phantom/usePhantomState';
+import { useTalentState } from './talent/useTalentState';
 import { decodePlanCode, encodePlanCode } from './planCode';
 import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from './planDefaults';
 
@@ -103,16 +96,25 @@ export function useBuildState() {
   const [professionTypeKey, setProfessionTypeKey] = useState<ProfessionTypeKey>(
     () => autoSaveOnMount?.professionTypeKey ?? 'type1',
   );
+  const profession = PROFESSIONS[professionKey];
 
   // アビリティツリー状態（パネル切り替えでリセットしない）
-  const [talentR1EnabledIds, setTalentR1EnabledIds] = useState<Set<number>>(() => {
-    if (autoSaveOnMount?.talentR1EnabledIds) return new Set(autoSaveOnMount.talentR1EnabledIds);
-    return initTalentR1Ids(PROFESSIONS[DEFAULT_PROFESSION_KEY].professionId);
-  });
-  const [talentR2EnabledIds, setTalentR2EnabledIds] = useState<Set<number>>(() => {
-    if (autoSaveOnMount?.talentR2EnabledIds) return new Set(autoSaveOnMount.talentR2EnabledIds);
-    return initTalentR2Ids(PROFESSIONS[DEFAULT_PROFESSION_KEY].professionId, 0);
-  });
+  const {
+    talentR1EnabledIds,
+    setTalentR1EnabledIds,
+    talentR2EnabledIds,
+    setTalentR2EnabledIds,
+    talentNodesById,
+    r1NodeCount,
+    skillReplacements,
+    resetForProfessionChange: resetTalentForProfessionChange,
+    resetR2ForType: resetTalentR2ForType,
+  } = useTalentState(
+    autoSaveOnMount?.talentR1EnabledIds,
+    autoSaveOnMount?.talentR2EnabledIds,
+    PROFESSIONS[DEFAULT_PROFESSION_KEY].professionId,
+    profession.professionId,
+  );
 
   // スキルステート
   const defaultCount = normalSkillCount(autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY);
@@ -177,32 +179,6 @@ export function useBuildState() {
   // プラン名（テキスト入力欄の現在値）
   const [planName, setPlanName] = useState<string>(() => autoSaveOnMount?.name ?? '');
 
-  const profession = PROFESSIONS[professionKey];
-
-  // アビリティ効果の統計用マップ
-  const talentNodesById = useMemo(
-    () => buildTalentNodesById(profession.professionId),
-    [profession],
-  );
-
-  const r1NodeCount = useMemo(() => countR1Nodes(talentNodesById), [talentNodesById]);
-
-  // アビリティツリーから計算されたスキル置き換えマップ (fromSkillId → toSkillId)
-  const skillReplacements = useMemo(() => {
-    const result: Record<number, number> = {};
-    const allIds = new Set([...talentR1EnabledIds, ...talentR2EnabledIds]);
-    for (const nodeId of allIds) {
-      const treeNode = talentNodesById.get(nodeId);
-      if (!treeNode) continue;
-      const td = talentTree.nodes[String(treeNode.talentId)];
-      if (!td) continue;
-      for (const eff of td.effects) {
-        if (eff[0] === 6) result[eff[1]] = eff[2];
-      }
-    }
-    return result;
-  }, [talentR1EnabledIds, talentR2EnabledIds, talentNodesById]);
-
   const selectProfession = (key: ProfessionKey) => {
     const newProfession = PROFESSIONS[key];
     const mainStatChanged = newProfession.mainStat !== profession.mainStat;
@@ -227,15 +203,13 @@ export function useBuildState() {
     setFixedLevels([30, 30, 30]);
     setFixedRanks([6, 6, 6]);
     // アビリティツリーをリセット
-    const newWt = newProfession.professionId;
-    setTalentR1EnabledIds(initTalentR1Ids(newWt));
-    setTalentR2EnabledIds(initTalentR2Ids(newWt, 0));
+    resetTalentForProfessionChange(newProfession.professionId);
   };
 
   const selectProfessionType = (key: ProfessionTypeKey) => {
     setProfessionTypeKey(key);
     const newBdType: 0 | 1 = key === 'type1' ? 0 : 1;
-    setTalentR2EnabledIds(initTalentR2Ids(profession.professionId, newBdType));
+    resetTalentR2ForType(profession.professionId, newBdType);
   };
 
   const setRefineLevel = (slot: EquipmentSlotId, level: number) => {
