@@ -8,6 +8,7 @@ import {
   talentTree,
   type TalentTreeNode,
 } from '../stats/gameData';
+import { TALENT_EFFECT_TYPE_SKILL_REPLACEMENT } from '../stats/attrMaps';
 
 export interface TalentStateResult {
   talentR1EnabledIds: Set<number>;
@@ -53,7 +54,7 @@ export function useTalentState(
       const td = talentTree.nodes[String(treeNode.talentId)];
       if (!td) continue;
       for (const eff of td.effects) {
-        if (eff[0] === 6) result[eff[1]] = eff[2];
+        if (eff[0] === TALENT_EFFECT_TYPE_SKILL_REPLACEMENT) result[eff[1]] = eff[2];
       }
     }
     return result;

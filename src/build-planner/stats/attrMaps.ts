@@ -3,6 +3,20 @@ import type { StatId } from '../types';
 // ZTableのAttrId/BuffId → アプリ内 StatId・効果のマッピング定義。
 // calculateRawStats.ts / calculateAbilityScore.ts から参照される。
 
+// アビリティツリー(talent-tree.json)の effects[n][0] (EffectType)。
+export const TALENT_EFFECT_TYPE_FLAT_STAT = 1; // 平坦ステータス加算
+export const TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT = 3; // 型依存の最終%ボーナス(type1使用時のみ)
+export const TALENT_EFFECT_TYPE_CONVERSION_RATE = 4; // メインステータス→他ステータスへの変換率ボーナス
+export const TALENT_EFFECT_TYPE_SKILL_REPLACEMENT = 6; // スキル置き換え(fromSkillId→toSkillId)
+
+// モジュールエフェクト(modules.json)の effects[n][0] (EffectType)。
+export const MOD_EFFECT_TYPE_STAT = 1; // 通常のステータス加算
+export const MOD_EFFECT_TYPE_ADAPTIVE = 5; // 適応ステータス・攻撃力(モジュール専用)
+
+// 潜在因子/絆レベル(phantom-factors.json, season-talents.json)の effects[n][0] (EffectType)。
+export const PHANTOM_EFFECT_TYPE_STAT = 1; // 平坦ステータス加算・%乗算値
+export const PHANTOM_EFFECT_TYPE_POLARITY = 3; // 極性バフ/絆レベルのBuffId参照(boost/penalty)
+
 // アビリティ type=1 効果 (平坦加算) の AttrId → StatId マッピング
 export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
@@ -138,6 +152,13 @@ export const MOD_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 export const MOD_ADAPTIVE_MAIN_STAT_ATTR_ID = 99005; // 適応筋力/知力/敏捷 → profession.mainStat
 export const MOD_ADAPTIVE_ATK_ATTR_ID = 99006; // 適応物理/魔法攻撃力 → profession.attackTypeに応じ atk/matk
 
+// 精錬効果(RefineTable)のAttrId。1つのattrIdが複数ステータス(実数値+内訳表示用の
+// refineXxx)へ加算されるため、他の attrId→StatId マップとは異なり個別定数として定義する。
+export const REFINE_ATK_ATTR_ID = 11412; // 精錬物攻 → atk + refinePhysAtk
+export const REFINE_MATK_ATTR_ID = 11432; // 精錬魔攻 → matk + refineMagAtk
+export const REFINE_DEF_ATTR_ID = 11422; // 精錬防御力 → physicalDef + magicalDef + refineDef
+export const REFINE_ENDURANCE_ATTR_ID = 11042; // 精錬耐久 → endurance
+
 // EquipAttrLibTable の AttrId → StatId マッピング。
 export const EQUIP_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11442: 'illusionPower',
@@ -201,11 +222,11 @@ export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 // 刻印(伝説刻印) AttrId → 最終ステータスへの%乗算(武器/アクセサリのみ・isPercent=true)。
 // 2400001/2400002はeffectType=3の特殊関数効果(物理/魔法攻撃力ボーナス)で、意味的には
 // 11334/11344と同じ物理/魔法攻撃力%ボーナスのため同じバケツに集約する。
-export const AFFIX_STAT_EFFECTS: Record<number, { statId: StatId; mode: 'mult' }> = {
-  11334: { statId: 'atk', mode: 'mult' },
-  11344: { statId: 'matk', mode: 'mult' },
-  2400001: { statId: 'atk', mode: 'mult' },
-  2400002: { statId: 'matk', mode: 'mult' },
+export const AFFIX_STAT_EFFECTS: Record<number, { statId: StatId }> = {
+  11334: { statId: 'atk' },
+  11344: { statId: 'matk' },
+  2400001: { statId: 'atk' },
+  2400002: { statId: 'matk' },
 };
 
 // 刻印(伝説刻印) AttrId → rawStatsへの平坦加算(防具のみ・isPercent=false)。

@@ -10,8 +10,6 @@ export const SEASON_CONSTANTS = {
   // 系列C: 物理/魔法増強・属性強度/属性耐性の実数値→%変換に使う定数
   // S1=4457, S2(現行)=6486, S3=11000(docs/STATUS_CALCULATION.md「物理増強・魔法増強」章参照)
   diminishingEnhance: 6486,
-  // 系列D: 物理/魔法防御力・精錬防御力の実数値→%変換に使う定数
-  diminishingDefense: 9980,
 } as const;
 
 // 系列A(diminishingA)のうち、実数値0のときに既に乗っている基礎%。

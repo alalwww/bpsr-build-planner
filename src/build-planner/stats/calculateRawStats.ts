@@ -42,10 +42,21 @@ import {
   MOD_ADAPTIVE_ATK_ATTR_ID,
   MOD_ADAPTIVE_MAIN_STAT_ATTR_ID,
   MOD_ATTR_TO_STAT,
+  MOD_EFFECT_TYPE_ADAPTIVE,
+  MOD_EFFECT_TYPE_STAT,
   ORDINARY_EFFECT_BONUS,
   PHANTOM_ATTR_TO_STAT,
+  PHANTOM_EFFECT_TYPE_POLARITY,
+  PHANTOM_EFFECT_TYPE_STAT,
   PHANTOM_LEVEL_ATTR_TO_STAT,
+  REFINE_ATK_ATTR_ID,
+  REFINE_DEF_ATTR_ID,
+  REFINE_ENDURANCE_ATTR_ID,
+  REFINE_MATK_ATTR_ID,
   TALENT_ATTR_TO_STAT,
+  TALENT_EFFECT_TYPE_CONVERSION_RATE,
+  TALENT_EFFECT_TYPE_FLAT_STAT,
+  TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
 import {
@@ -64,10 +75,14 @@ import { calcStatValue } from './statValue';
 import type { DerivedStats } from './deriveStats';
 import { hasDistinctEvoAttrs } from './evoResolution';
 
+// %ボーナスの内部表現の基数(1万 = 100%。例: rawValue=1500 → 15%)。
+const PERCENT_BASIS_POINTS = 10000;
+
 // 浮動小数点演算の誤差(例: 15%のつもりが14.999999...%になる)を吸収するため、
 // 十分な精度で四捨五入してから使う。バフ効果同士を合算する際の中間計算に使う。
+const ROUNDING_SCALE = 1e6;
 function roundClean(value: number): number {
-  return Math.round(value * 1e6) / 1e6;
+  return Math.round(value * ROUNDING_SCALE) / ROUNDING_SCALE;
 }
 
 // 小数点第三位を切り捨てて第二位までに丸める。最終的なステータス計算結果にのみ使う。
@@ -271,17 +286,17 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const profId = profession.professionId;
   const applyRefineEffects = (effects: [number, number][]) => {
     for (const [attrId, value] of effects) {
-      if (attrId === 11412) {
+      if (attrId === REFINE_ATK_ATTR_ID) {
         addStat('atk', value);
         addStat('refinePhysAtk', value);
-      } else if (attrId === 11432) {
+      } else if (attrId === REFINE_MATK_ATTR_ID) {
         addStat('matk', value);
         addStat('refineMagAtk', value);
-      } else if (attrId === 11422) {
+      } else if (attrId === REFINE_DEF_ATTR_ID) {
         addStat('physicalDef', value);
         addStat('magicalDef', value);
         addStat('refineDef', value);
-      } else if (attrId === 11042) {
+      } else if (attrId === REFINE_ENDURANCE_ATTR_ID) {
         addStat('endurance', value);
       }
     }
@@ -310,22 +325,23 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const td = talentTree.nodes[String(treeNode.talentId)];
     if (!td) continue;
     for (const eff of td.effects) {
-      if (eff[0] === 1) {
+      if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
         const statId = TALENT_ATTR_TO_STAT[eff[1]];
         if (statId !== undefined) addStat(statId, eff[2]);
-      } else if (eff[0] === 3) {
+      } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
         // 型によって効果内容が変わるアビリティ(例: ビートパフォーマー「変奏」)。
         // 対応する型(type1)使用時のみ最終%ボーナスとして反映する。
         const bonus = TALENT_TYPE1_ONLY_FINAL_PCT[eff[1]];
         if (bonus && professionTypeKey === 'type1') {
           phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
         }
-      } else if (eff[0] === 4) {
+      } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
         // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
         // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
         const statId = TALENT_ATTR_TO_STAT[eff[2]];
         if (statId !== undefined) {
-          conversionRateBonus[statId] = (conversionRateBonus[statId] ?? 0) + eff[3] / 10000;
+          conversionRateBonus[statId] =
+            (conversionRateBonus[statId] ?? 0) + eff[3] / PERCENT_BASIS_POINTS;
         }
       }
     }
@@ -337,13 +353,14 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       const td = talentTree.nodes[String(treeNode.talentId)];
       if (!td) continue;
       for (const eff of td.effects) {
-        if (eff[0] === 1) {
+        if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
           const statId = TALENT_ATTR_TO_STAT[eff[1]];
           if (statId !== undefined) addStat(statId, eff[2]);
-        } else if (eff[0] === 4) {
+        } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           const statId = TALENT_ATTR_TO_STAT[eff[2]];
           if (statId !== undefined) {
-            conversionRateBonus[statId] = (conversionRateBonus[statId] ?? 0) + eff[3] / 10000;
+            conversionRateBonus[statId] =
+              (conversionRateBonus[statId] ?? 0) + eff[3] / PERCENT_BASIS_POINTS;
           }
         }
       }
@@ -389,12 +406,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const lvData = modulesData.effects[String(effectId)]?.levels[level];
     if (!lvData) continue;
     for (const [effectType, attrId, value] of lvData[2]) {
-      if (effectType === 1) {
+      if (effectType === MOD_EFFECT_TYPE_STAT) {
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
-      } else if (effectType === 5 && attrId === MOD_ADAPTIVE_MAIN_STAT_ATTR_ID) {
+      } else if (
+        effectType === MOD_EFFECT_TYPE_ADAPTIVE &&
+        attrId === MOD_ADAPTIVE_MAIN_STAT_ATTR_ID
+      ) {
         addStat(profession.mainStat, value);
-      } else if (effectType === 5 && attrId === MOD_ADAPTIVE_ATK_ATTR_ID) {
+      } else if (effectType === MOD_EFFECT_TYPE_ADAPTIVE && attrId === MOD_ADAPTIVE_ATK_ATTR_ID) {
         const statId: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
         addStat(statId, value);
       }
@@ -413,7 +433,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const linkRow = [...modulesData.linkEffects].reverse().find(([lt]) => lt <= globalLinkTotal);
     if (linkRow) {
       for (const [effectType, attrId, value] of linkRow[2]) {
-        if (effectType !== 1) continue;
+        if (effectType !== MOD_EFFECT_TYPE_STAT) continue;
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
       }
@@ -503,7 +523,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         const gradeData = factorClass.grades[slot.grade - 1];
         if (!gradeData) continue;
         for (const [effectType, attrId, value] of gradeData.effects) {
-          if (effectType !== 1) continue;
+          if (effectType !== PHANTOM_EFFECT_TYPE_STAT) continue;
           // 末尾4のAttrId(11014/11024/11034/11044/11324/11354)は%乗算値（単位:1/10000）
           const baseStatId = IMAGINARY_PCT_BASE[attrId];
           if (baseStatId !== undefined) {
@@ -521,7 +541,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         // effectType=3 極性バフ: 第2パスで適用するために収集
         for (let i = 0; i < gradeData.effects.length; i++) {
           const [effectType, buffId] = gradeData.effects[i];
-          if (effectType !== 3) continue;
+          if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
           const polarity = FACTOR_POLARITY_EFFECTS[buffId];
           if (!polarity) continue;
           const pars = gradeData.buffPars?.[i] ?? [];
@@ -544,7 +564,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       );
       for (const ae of activeAdvEffects) {
         for (const [effectType, buffId] of ae.effects) {
-          if (effectType !== 3) continue;
+          if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
           const statEffects = BOND_BUFF_STAT_EFFECTS[buffId];
           if (!statEffects) continue;
           for (const eff of statEffects) {
@@ -602,7 +622,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // roundCleanで丸め、最終的なステータス計算結果のみtruncate2で切り捨てる。
   for (const [statId, rawValue] of Object.entries(pctBonus) as [StatId, number][]) {
     if (rawValue === 0) continue;
-    const factor = roundClean(1 + rawValue / 10000);
+    const factor = roundClean(1 + rawValue / PERCENT_BASIS_POINTS);
     total[statId] = truncate2(roundClean(total[statId] * factor));
   }
 
@@ -618,7 +638,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     breakdown[statId] = {
       base: BASE_STATS[statId],
       additive: additive[statId] ?? 0,
-      multiplier: 1 + (pctBonus[statId] ?? 0) / 10000,
+      multiplier: 1 + (pctBonus[statId] ?? 0) / PERCENT_BASIS_POINTS,
       ...(statId === profession.mainStat && statResonanceBonus !== 0
         ? { cookingBonus: statResonanceBonus }
         : {}),
@@ -660,8 +680,8 @@ export function applyFinalStatModifiers(
     if (eff.statId === 'atk') atkPctBonus += selection.value;
     if (eff.statId === 'matk') matkPctBonus += selection.value;
   }
-  const atkMult = roundClean(1 + atkPctBonus / 10000);
-  const matkMult = roundClean(1 + matkPctBonus / 10000);
+  const atkMult = roundClean(1 + atkPctBonus / PERCENT_BASIS_POINTS);
+  const matkMult = roundClean(1 + matkPctBonus / PERCENT_BASIS_POINTS);
   // バトルイマジン パッシブ + 潜在因子: 最終ステータスへの%ボーナス
   const imagFinalPct: Partial<Record<string, number>> = { ...phantomFinalPct };
   for (let i = 0; i < battleImaginaries.length; i++) {
@@ -678,7 +698,7 @@ export function applyFinalStatModifiers(
       }
     }
   }
-  const ipct = (key: string) => roundClean(1 + (imagFinalPct[key] ?? 0) / 10000);
+  const ipct = (key: string) => roundClean(1 + (imagFinalPct[key] ?? 0) / PERCENT_BASIS_POINTS);
 
   const stats: Record<StatId, number> = {
     ...rawStats,
