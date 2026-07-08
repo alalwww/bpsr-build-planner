@@ -33,6 +33,7 @@ import {
   EVO_ATTR_TO_STAT,
   EVO_PCT_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
+  IMAGINARY_FLAT_STAT,
   IMAGINARY_PCT_BASE,
   IMAGINARY_PCT_FINAL,
   type ImaginaryFinalStatId,
@@ -416,10 +417,16 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const ima = imaginaryDataById[String(id)];
     if (!ima?.passiveEffects) continue;
     for (const eff of ima.passiveEffects) {
-      const statId = IMAGINARY_PCT_BASE[eff[0]];
-      if (statId != null) {
+      const pctStatId = IMAGINARY_PCT_BASE[eff[0]];
+      if (pctStatId != null) {
         const value = eff[rank + 1] ?? eff[1];
-        addPctBonus(statId, value);
+        addPctBonus(pctStatId, value);
+        continue;
+      }
+      const flatStatId = IMAGINARY_FLAT_STAT[eff[0]];
+      if (flatStatId != null) {
+        const value = eff[rank + 1] ?? eff[1];
+        addStat(flatStatId, value);
       }
     }
   }

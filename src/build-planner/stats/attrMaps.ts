@@ -221,15 +221,23 @@ export const IMAGINARY_PCT_BASE: Partial<Record<number, StatId>> = {
 // Final stat percentage bonuses applied after deriveStats + affix multipliers.
 // Unit: 1/10000 (value 3584 → 35.84%).
 export const IMAGINARY_PCT_FINAL = {
-  11122: 'haste',
-  11142: 'mastery',
-  11152: 'versatility',
   11324: 'maxHp',
   11334: 'atk',
   11344: 'matk',
   11354: 'physicalDef',
 } as const;
 export type ImaginaryFinalStatId = keyof typeof IMAGINARY_PCT_FINAL;
+
+// バトルイマジン パッシブの会心/ファスト/幸運/器用さ/万能は、筋力等と違って%専用のAttrIdを
+// 持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
+// deriveStats側で一括適用されるため、ここで%として扱うと二重に乗算されてしまう)。
+export const IMAGINARY_FLAT_STAT: Partial<Record<number, StatId>> = {
+  11112: 'crit',
+  11122: 'haste',
+  11132: 'luck',
+  11142: 'mastery',
+  11152: 'versatility',
+};
 
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
 // (このアプリの静的ステータスモデルでは表現不可)だが、一部は単純なステータスボーナスとして

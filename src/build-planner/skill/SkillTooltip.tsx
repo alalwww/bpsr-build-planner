@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
 import { renderMarkup } from '../components/renderMarkup';
+import { IMAGINARY_FLAT_STAT } from '../stats/attrMaps';
 import {
   type BattleImaginaryData,
   getBattleImaginaryData,
@@ -127,12 +128,17 @@ function SkillTooltip({
         <div className="skill-tooltip__passive">
           {passiveEffects.map((eff) => {
             const value = eff[rank + 1] ?? eff[1];
+            // 会心/ファスト/幸運/器用さ/万能は%専用のAttrIdを持たず実数値レーティングのため、
+            // 他の%系(筋力等の基礎ステータス%ボーナスや最終ステータス%ボーナス)と区別して表示する。
+            const isFlat = IMAGINARY_FLAT_STAT[eff[0]] !== undefined;
             return (
               <div key={eff[0]} className="skill-tooltip__passive-row">
                 <span className="skill-tooltip__passive-name">
                   {t(`attributes.${eff[0]}`, { defaultValue: String(eff[0]) })}
                 </span>
-                <span className="skill-tooltip__passive-val">+{(value / 100).toFixed(0)}%</span>
+                <span className="skill-tooltip__passive-val">
+                  {isFlat ? `+${value}` : `+${(value / 100).toFixed(0)}%`}
+                </span>
               </div>
             );
           })}
