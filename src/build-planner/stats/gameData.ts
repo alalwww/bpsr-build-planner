@@ -6,10 +6,12 @@ import enchantsDataRaw from '../../data/enchants.json';
 import refineDataRaw from '../../data/refine.json';
 import skillFightValuesRaw from '../../data/skill-fight-values.json';
 import skillRankFightValuesRaw from '../../data/skill-rank-fight-values.json';
-import modulesDataRaw from '../../data/modules.json';
 import suitsDataRaw from '../../data/suits.json';
 import type { ModuleSlots, StatId } from '../types';
 import { LEVEL_ATTR_TO_STAT } from './attrMaps';
+import { collectEquippedEffects, modulesData } from '../module/moduleData';
+
+export { modulesData };
 
 // ZTable由来の静的ゲームデータの読み込み・パース・ルックアップをまとめたモジュール。
 // ステータス/能力スコア計算(calculateRawStats.ts, calculateAbilityScore.ts)から参照される。
@@ -147,35 +149,25 @@ export const playerLevelSeasonData = (
 ).season;
 
 // ---- module data ----
+// modulesData(生JSONのパース結果)自体は module/moduleData.ts を単一の定義元とし、ここでは
+// 再エクスポートのみ行う。
 
-export interface ModData {
-  mods: { id: number; modType: number; quality: number; holes: number }[];
-  effectsByType: Record<string, number[]>;
-  effects: Record<string, { icon: string; levels: [number, number, number[][]][] }>;
-  linkEffects: [number, number, number[][]][]; // [linkTime, fightValue, [[effectType, attrId, value],...]]
+// levels配列の各要素は [fightValue, totalLinkThreshold, config, ...] の形。4番目以降の要素は
+// ここでは使わないため、実データ(moduleData.tsのEffectData)ともテスト用の最小フィクスチャとも
+// 構造的に両立するゆるい型で受け取る。
+interface EffectLevelsTable {
+  [effectId: string]:
+    { levels: (readonly [number, number, ...unknown[]] | null | undefined)[] } | undefined;
 }
 
-export const modulesData = modulesDataRaw as unknown as ModData;
-
-// 全ホールのリンクスタック数を effectId 別に集計し、各エフェクトの達成レベルとリンク合計を返す
+// 全ホールのリンクスタック数を effectId 別に集計し(collectEquippedEffectsを共用)、
+// 各エフェクトの達成レベルとリンク合計を返す。
 export function calcModuleEffectLevels(
   slots: ModuleSlots,
-  effects: ModData['effects'],
+  effects: EffectLevelsTable,
 ): { effectId: number; level: number; totalLink: number }[] {
-  const linkByEffectId = new Map<number, number>();
-  for (const slot of slots) {
-    if (!slot) continue;
-    for (const hole of slot.holes) {
-      if (hole.effectId != null) {
-        linkByEffectId.set(
-          hole.effectId,
-          (linkByEffectId.get(hole.effectId) ?? 0) + hole.linkCount,
-        );
-      }
-    }
-  }
   const result: { effectId: number; level: number; totalLink: number }[] = [];
-  for (const [effectId, totalLink] of linkByEffectId) {
+  for (const [effectId, totalLink] of collectEquippedEffects(slots)) {
     const effData = effects[String(effectId)];
     if (!effData) continue;
     let level = 0;

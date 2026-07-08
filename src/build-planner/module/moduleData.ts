@@ -5,7 +5,11 @@ import modSupport5Src from '../../assets/modules/item_icons_mod_device_5.png';
 import modProtect5Src from '../../assets/modules/item_icons_device_protect5.png';
 import type { ModuleSlots } from '../types';
 import type { Profession } from '../profession';
-import { MOD_ADAPTIVE_ATK_ATTR_ID, MOD_ADAPTIVE_MAIN_STAT_ATTR_ID } from '../stats/attrMaps';
+import {
+  MOD_ADAPTIVE_ATK_ATTR_ID,
+  MOD_ADAPTIVE_MAIN_STAT_ATTR_ID,
+  MOD_ATTR_TO_STAT,
+} from '../stats/attrMaps';
 
 export const recommendIconSrc = recommendIconSrcAsset;
 
@@ -89,22 +93,6 @@ export const isExtremeEffect = (effectId: number | null): boolean =>
   effectId != null && Math.floor(effectId / 1000) === 2;
 
 export const MAX_LINK = [10, 10, 5] as const;
-
-export const MOD_ATTR_TO_STAT: Record<number, string> = {
-  11012: 'strength',
-  11022: 'intellect',
-  11032: 'agility',
-  11042: 'endurance',
-  11112: 'crit',
-  11122: 'haste',
-  11132: 'luck',
-  11142: 'mastery',
-  11152: 'versatility',
-  11322: 'maxHp',
-  11332: 'atk',
-  11342: 'matk',
-  11352: 'physicalDef',
-};
 
 export const STAT_ORDER = [
   'maxHp',
@@ -204,33 +192,14 @@ interface AchievedModuleEffect {
 }
 
 // 全ホールのリンクスタック数を effectId 別に集計し、各エフェクトが到達しているレベルの
-// config(効果内容)/ev(表示用パラメータ)を返す。
+// config(効果内容)/ev(表示用パラメータ)を返す。集計自体は collectEquippedEffects、
+// レベル判定は getEffectLevel を共通利用する。
 function getAchievedModuleEffects(moduleSlots: ModuleSlots): AchievedModuleEffect[] {
-  const linkByEffectId = new Map<number, number>();
-  for (const slot of moduleSlots) {
-    if (!slot) continue;
-    for (const hole of slot.holes) {
-      if (hole.effectId != null)
-        linkByEffectId.set(
-          hole.effectId,
-          (linkByEffectId.get(hole.effectId) ?? 0) + hole.linkCount,
-        );
-    }
-  }
   const result: AchievedModuleEffect[] = [];
-  for (const [effectId, totalLink] of linkByEffectId) {
-    const effData = modulesData.effects[String(effectId)];
-    if (!effData) continue;
-    let level = 0;
-    for (let lv = effData.levels.length - 1; lv >= 1; lv--) {
-      const lvData = effData.levels[lv];
-      if (lvData && lvData[1] <= totalLink) {
-        level = lv;
-        break;
-      }
-    }
+  for (const [effectId, totalLink] of collectEquippedEffects(moduleSlots)) {
+    const level = getEffectLevel(effectId, totalLink);
     if (level === 0) continue;
-    const lvData = effData.levels[level];
+    const lvData = modulesData.effects[String(effectId)]?.levels[level];
     if (!lvData) continue;
     result.push({ effectId, level, config: lvData[2], ev: lvData[3] ?? [] });
   }
@@ -307,14 +276,7 @@ export function calcModuleSpecialEffects(moduleSlots: ModuleSlots): ModuleSpecia
 }
 
 export function calcEffectTotalLink(effectId: number, moduleSlots: ModuleSlots): number {
-  let total = 0;
-  for (const slot of moduleSlots) {
-    if (!slot) continue;
-    for (const hole of slot.holes) {
-      if (hole.effectId === effectId) total += hole.linkCount;
-    }
-  }
-  return total;
+  return collectEquippedEffects(moduleSlots).get(effectId) ?? 0;
 }
 
 export function getEffectLevel(effectId: number, totalLink: number): number {
@@ -329,12 +291,7 @@ export function getEffectLevel(effectId: number, totalLink: number): number {
 
 export function calcGlobalLink(moduleSlots: ModuleSlots): number {
   let total = 0;
-  for (const slot of moduleSlots) {
-    if (!slot) continue;
-    for (const h of slot.holes) {
-      if (h.effectId != null) total += h.linkCount;
-    }
-  }
+  for (const link of collectEquippedEffects(moduleSlots).values()) total += link;
   return total;
 }
 

@@ -41,6 +41,7 @@ import {
 } from './gameData';
 import { calcStatValue } from './statValue';
 import { hasDistinctEvoAttrs } from './evoResolution';
+import { calcGlobalLink } from '../module/moduleData';
 
 export interface CalculateAbilityScoreInput {
   equipped: EquippedItems;
@@ -185,13 +186,7 @@ export function calculateModuleAbilityScore(moduleSlots: ModuleSlots): ModuleAbi
     if (modLvData) core += modLvData[0];
   }
   let link = 0;
-  let modGlobalLink = 0;
-  for (const slot of moduleSlots) {
-    if (!slot) continue;
-    for (const hole of slot.holes) {
-      if (hole.effectId != null) modGlobalLink += hole.linkCount;
-    }
-  }
+  const modGlobalLink = calcGlobalLink(moduleSlots);
   if (modGlobalLink > 0) {
     const linkRow = [...modulesData.linkEffects].reverse().find(([lt]) => lt <= modGlobalLink);
     if (linkRow) link = linkRow[1];

@@ -74,6 +74,7 @@ import {
 import { calcStatValue } from './statValue';
 import type { DerivedStats } from './deriveStats';
 import { hasDistinctEvoAttrs } from './evoResolution';
+import { calcGlobalLink } from '../module/moduleData';
 
 // %ボーナスの内部表現の基数(1万 = 100%。例: rawValue=1500 → 15%)。
 const PERCENT_BASIS_POINTS = 10000;
@@ -422,13 +423,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   }
 
   // モジュールリンクエフェクト (全ホールのリンクスタック合計 → グローバルボーナス)
-  let globalLinkTotal = 0;
-  for (const slot of moduleSlots) {
-    if (!slot) continue;
-    for (const hole of slot.holes) {
-      if (hole.effectId != null) globalLinkTotal += hole.linkCount;
-    }
-  }
+  const globalLinkTotal = calcGlobalLink(moduleSlots);
   if (globalLinkTotal > 0) {
     const linkRow = [...modulesData.linkEffects].reverse().find(([lt]) => lt <= globalLinkTotal);
     if (linkRow) {

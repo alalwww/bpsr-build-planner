@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ModuleSlots } from '../types';
-import { calcGlobalLink, MOD_ATTR_TO_STAT, modulesData } from './moduleData';
+import { MOD_ATTR_TO_STAT } from '../stats/attrMaps';
+import { calcGlobalLink, modulesData } from './moduleData';
 
 // 全体リンク数ボーナス(左=大きなリンク数値、右=ステータス一覧の2カラム表示)
 function LinkBonusSection({ moduleSlots }: { moduleSlots: ModuleSlots }) {
