@@ -15,12 +15,17 @@ import type {
 } from './types';
 import type { ProfessionKey, ProfessionTypeKey } from './profession';
 import type { PhantomFactorSlotValue } from './phantom/phantomData';
+import {
+  DEFAULT_PERFECTLINES,
+  DEFAULT_REFINE_LEVELS,
+  STATIC_AUTOSAVE_DEFAULTS,
+} from './planDefaults';
 
 // プランコードのワイヤーフォーマットバージョン。
-// 下位互換性を保つため、新フィールドは既存インデックスを変更・再利用せず必ず配列の
-// 末尾に追加すること(既存インデックスの意味・並び順は変更しない)。この規約を守る限り、
-// 旧バージョンで生成されたコード(要素数が少ない配列)は新バージョンのデコード処理でも
-// そのまま読め、末尾の新フィールドは欠損時のデフォルト値にフォールバックする。
+// 下位互換性を保つため、新フィールドは既存インデックスを変更・再利用せず必ず
+// FIELD_SPECS の末尾に追加すること(既存フィールドの並び順は変更しない)。この規約を
+// 守る限り、旧バージョンで生成されたコード(要素数が少ない配列)は新バージョンの
+// デコード処理でもそのまま読め、末尾の新フィールドは欠損時のデフォルト値にフォールバックする。
 // デコード時は「このビルドが理解できるバージョン以下か」だけを検証し、将来バージョンを
 // 上げても旧コードのインポートが即エラーになることはない(decodePlanCode参照)。
 const PLAN_CODE_VERSION = 1;
@@ -208,39 +213,178 @@ function decodePhantomFactorSlots(arr: unknown): Record<number, PhantomFactorSlo
   return result;
 }
 
+// ---- フィールド記述子テーブル ----
+// AutoSaveState の各フィールドについて {キー, エンコード方法, デコード方法(デフォルト値
+// フォールバック込み)} を1箇所にまとめる。配列内の並び順がそのままプランコード上の
+// エンコード位置になるため、新フィールドは必ず末尾に追加すること(既存の並びは変更禁止)。
+// デフォルト値は極力 planDefaults.ts の定数を参照し、ここでの再定義を避ける。
+
+interface FieldSpec<K extends keyof AutoSaveState> {
+  key: K;
+  encode: (state: AutoSaveState) => unknown;
+  decode: (raw: unknown) => AutoSaveState[K];
+}
+
+function field<K extends keyof AutoSaveState>(
+  key: K,
+  encode: (state: AutoSaveState) => unknown,
+  decode: (raw: unknown) => AutoSaveState[K],
+): FieldSpec<K> {
+  return { key, encode, decode };
+}
+
+const FIELD_SPECS = [
+  field(
+    'name',
+    (s) => s.name,
+    (raw) => (typeof raw === 'string' ? raw : ''),
+  ),
+  field(
+    'professionKey',
+    (s) => PROFESSION_KEY_ORDER.indexOf(s.professionKey),
+    (raw) => PROFESSION_KEY_ORDER[raw as number],
+  ),
+  field(
+    'professionTypeKey',
+    (s) => (s.professionTypeKey === 'type2' ? 1 : 0),
+    (raw) => (raw === 1 ? 'type2' : 'type1') as ProfessionTypeKey,
+  ),
+  field(
+    'equipped',
+    (s) => encodeEquipped(s.equipped),
+    (raw) => decodeEquipped(raw),
+  ),
+  field(
+    'refineLevels',
+    (s) => SLOT_ORDER.map((slot) => s.refineLevels[slot]),
+    (raw) =>
+      Object.fromEntries(
+        SLOT_ORDER.map((slot, i) => [slot, (raw as number[])?.[i] ?? DEFAULT_REFINE_LEVELS[slot]]),
+      ) as SlotRefineLevels,
+  ),
+  field(
+    'perfectlines',
+    (s) => SLOT_ORDER.map((slot) => s.perfectlines[slot]),
+    (raw) =>
+      Object.fromEntries(
+        SLOT_ORDER.map((slot, i) => [slot, (raw as number[])?.[i] ?? DEFAULT_PERFECTLINES[slot]]),
+      ) as SlotRefineLevels,
+  ),
+  field(
+    'evolutionStats',
+    (s) => encodeEvolutionStats(s.evolutionStats),
+    (raw) => decodeEvolutionStats(raw),
+  ),
+  field(
+    'legendaryAffixState',
+    (s) => encodeLegendaryAffix(s.legendaryAffixState),
+    (raw) => decodeLegendaryAffix(raw),
+  ),
+  field(
+    'masteryEquipped',
+    (s) => s.masteryEquipped.map(b01),
+    (raw) => ((raw as unknown[]) ?? []).map(fromB01),
+  ),
+  field(
+    'masteryLevels',
+    (s) => s.masteryLevels,
+    (raw) => (raw as number[]) ?? [],
+  ),
+  field(
+    'masteryRanks',
+    (s) => s.masteryRanks,
+    (raw) => (raw as number[]) ?? [],
+  ),
+  field(
+    'fixedLevels',
+    (s) => s.fixedLevels,
+    (raw) => (raw as number[]) ?? STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
+  ),
+  field(
+    'fixedRanks',
+    (s) => s.fixedRanks,
+    (raw) => (raw as number[]) ?? STATIC_AUTOSAVE_DEFAULTS.fixedRanks,
+  ),
+  field(
+    'battleImaginaries',
+    (s) => s.battleImaginaries,
+    (raw) => (raw as Nullable<number>[]) ?? STATIC_AUTOSAVE_DEFAULTS.battleImaginaries,
+  ),
+  field(
+    'imaginaryRanks',
+    (s) => s.imaginaryRanks,
+    (raw) => (raw as number[]) ?? STATIC_AUTOSAVE_DEFAULTS.imaginaryRanks,
+  ),
+  field(
+    'talentR1EnabledIds',
+    (s) => s.talentR1EnabledIds,
+    (raw) => (raw as number[]) ?? [],
+  ),
+  field(
+    'talentR2EnabledIds',
+    (s) => s.talentR2EnabledIds,
+    (raw) => (raw as number[]) ?? [],
+  ),
+  field(
+    'slotEnchants',
+    (s) => encodeSlotEnchants(s.slotEnchants ?? {}),
+    (raw) => decodeSlotEnchants(raw),
+  ),
+  field(
+    'moduleSlots',
+    (s) => encodeModuleSlots(s.moduleSlots),
+    (raw) => decodeModuleSlots(raw),
+  ),
+  field(
+    'adventurerLevel',
+    (s) => s.adventurerLevel ?? null,
+    (raw) => (raw as number | null) ?? undefined,
+  ),
+  field(
+    'phantomEnabled',
+    (s) => (s.phantomEnabled === undefined ? null : b01(s.phantomEnabled)),
+    (raw) => (raw == null ? undefined : fromB01(raw)),
+  ),
+  field(
+    'phantomLevel',
+    (s) => s.phantomLevel ?? null,
+    (raw) => (raw as number | null) ?? undefined,
+  ),
+  field(
+    'phantomTemplateId',
+    (s) => s.phantomTemplateId ?? null,
+    (raw) => (raw as number | null) ?? null,
+  ),
+  field(
+    'phantomBondPoints',
+    (s) => s.phantomBondPoints ?? null,
+    (raw) => (raw as number | null) ?? undefined,
+  ),
+  field(
+    'phantomNodeSelections',
+    (s) => encodePairs(s.phantomNodeSelections ?? {}),
+    (raw) => decodePairs(raw),
+  ),
+  field(
+    'phantomFactorSlots',
+    (s) => encodePhantomFactorSlots(s.phantomFactorSlots ?? {}),
+    (raw) => decodePhantomFactorSlots(raw),
+  ),
+] as const;
+
+// コンパイル時の網羅性チェック: AutoSaveState にフィールドを追加したのに FIELD_SPECS への
+// 追記を忘れると、この型が `never` に収まらずビルドエラーになる。
+type AssertNever<T extends never> = T;
+const _fieldSpecsCoverAllAutoSaveKeys: AssertNever<
+  Exclude<keyof AutoSaveState, (typeof FIELD_SPECS)[number]['key']>
+> = undefined as never;
+void _fieldSpecsCoverAllAutoSaveKeys;
+
 // ---- プラン全体のエンコード/デコード ----
-// 各要素の意味はインデックス位置で決まる(下記コメントの番号を参照)。
+// 各フィールドの意味は FIELD_SPECS 内での並び順(インデックス)で決まる。
 
 export function encodePlanCode(state: AutoSaveState): string {
-  const arr: unknown[] = [
-    PLAN_CODE_VERSION, // 0
-    state.name, // 1
-    PROFESSION_KEY_ORDER.indexOf(state.professionKey), // 2
-    state.professionTypeKey === 'type2' ? 1 : 0, // 3
-    encodeEquipped(state.equipped), // 4
-    SLOT_ORDER.map((slot) => state.refineLevels[slot]), // 5
-    SLOT_ORDER.map((slot) => state.perfectlines[slot]), // 6
-    encodeEvolutionStats(state.evolutionStats), // 7
-    encodeLegendaryAffix(state.legendaryAffixState), // 8
-    state.masteryEquipped.map(b01), // 9
-    state.masteryLevels, // 10
-    state.masteryRanks, // 11
-    state.fixedLevels, // 12
-    state.fixedRanks, // 13
-    state.battleImaginaries, // 14
-    state.imaginaryRanks, // 15
-    state.talentR1EnabledIds, // 16
-    state.talentR2EnabledIds, // 17
-    encodeSlotEnchants(state.slotEnchants ?? {}), // 18
-    encodeModuleSlots(state.moduleSlots), // 19
-    state.adventurerLevel ?? null, // 20
-    state.phantomEnabled === undefined ? null : b01(state.phantomEnabled), // 21
-    state.phantomLevel ?? null, // 22
-    state.phantomTemplateId ?? null, // 23
-    state.phantomBondPoints ?? null, // 24
-    encodePairs(state.phantomNodeSelections ?? {}), // 25
-    encodePhantomFactorSlots(state.phantomFactorSlots ?? {}), // 26
-  ];
+  const arr: unknown[] = [PLAN_CODE_VERSION, ...FIELD_SPECS.map((f) => f.encode(state))];
   return compressToEncodedURIComponent(JSON.stringify(arr));
 }
 
@@ -258,41 +402,12 @@ export function decodePlanCode(code: string): AutoSaveState | null {
       return null;
     }
 
-    const professionIdx = arr[2];
-    if (typeof professionIdx !== 'number' || !PROFESSION_KEY_ORDER[professionIdx]) return null;
-
-    return {
-      name: typeof arr[1] === 'string' ? arr[1] : '',
-      professionKey: PROFESSION_KEY_ORDER[professionIdx],
-      professionTypeKey: (arr[3] === 1 ? 'type2' : 'type1') as ProfessionTypeKey,
-      equipped: decodeEquipped(arr[4]),
-      refineLevels: Object.fromEntries(
-        SLOT_ORDER.map((slot, i) => [slot, (arr[5] as number[])?.[i] ?? 30]),
-      ) as SlotRefineLevels,
-      perfectlines: Object.fromEntries(
-        SLOT_ORDER.map((slot, i) => [slot, (arr[6] as number[])?.[i] ?? 100]),
-      ) as SlotRefineLevels,
-      evolutionStats: decodeEvolutionStats(arr[7]),
-      legendaryAffixState: decodeLegendaryAffix(arr[8]),
-      slotEnchants: decodeSlotEnchants(arr[18]),
-      masteryEquipped: ((arr[9] as unknown[]) ?? []).map(fromB01),
-      masteryLevels: (arr[10] as number[]) ?? [],
-      masteryRanks: (arr[11] as number[]) ?? [],
-      fixedLevels: (arr[12] as number[]) ?? [30, 30, 30],
-      fixedRanks: (arr[13] as number[]) ?? [6, 6, 6],
-      battleImaginaries: (arr[14] as Nullable<number>[]) ?? [null, null],
-      imaginaryRanks: (arr[15] as number[]) ?? [5, 5],
-      talentR1EnabledIds: (arr[16] as number[]) ?? [],
-      talentR2EnabledIds: (arr[17] as number[]) ?? [],
-      moduleSlots: decodeModuleSlots(arr[19]),
-      adventurerLevel: (arr[20] as number | null) ?? undefined,
-      phantomEnabled: arr[21] == null ? undefined : fromB01(arr[21]),
-      phantomLevel: (arr[22] as number | null) ?? undefined,
-      phantomTemplateId: (arr[23] as number | null) ?? null,
-      phantomBondPoints: (arr[24] as number | null) ?? undefined,
-      phantomNodeSelections: decodePairs(arr[25]),
-      phantomFactorSlots: decodePhantomFactorSlots(arr[26]),
-    };
+    const result: Record<string, unknown> = {};
+    FIELD_SPECS.forEach((f, i) => {
+      result[f.key] = f.decode(arr[i + 1]);
+    });
+    if (!result.professionKey) return null;
+    return result as AutoSaveState;
   } catch {
     return null;
   }
