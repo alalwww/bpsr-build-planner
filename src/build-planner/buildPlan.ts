@@ -8,6 +8,7 @@ import type {
   SlotEnchants,
   SlotRefineLevels,
 } from './types';
+import type { PhantomFactorSlotValue } from './phantom/phantomData';
 
 export interface BuildPlanData {
   id: string;
@@ -36,7 +37,7 @@ export interface BuildPlanData {
   phantomTemplateId?: number | null;
   phantomBondPoints?: number;
   phantomNodeSelections?: Record<number, number>;
-  phantomFactorSlots?: Record<number, { classKey: string; grade: number } | null>;
+  phantomFactorSlots?: Record<number, PhantomFactorSlotValue | null>;
 }
 
 // 現在の編集状態（自動保存用）。id は不要だが名前欄も保存対象
