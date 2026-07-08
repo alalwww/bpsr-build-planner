@@ -32,6 +32,7 @@ import {
   EQUIP_ATTR_TO_STAT,
   EVO_ATTR_TO_STAT,
   EVO_PCT_ATTR_TO_STAT,
+  EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
   IMAGINARY_FLAT_STAT,
   IMAGINARY_PCT_BASE,
@@ -119,6 +120,10 @@ export interface CalculateRawStatsResult {
   // R1アビリティ(type=4効果)によるメインステータス→攻撃力/物理防御力/ファスト等の
   // 変換率ボーナス(単位: 1ptあたりの実数値、例 0.125)。deriveStatsに渡して基礎変換率に加算する。
   conversionRateBonus: Partial<Record<StatId, number>>;
+  // 進化ステータス(蒼海武器等)の会心/幸運/ファスト/器用さ"%"バリアントによる、最終結果への
+  // 直接加算ボーナス(単位: 1/100。値600→+6%)。鼓舞/HP変動と同じく乗算ではなく加算のため、
+  // phantomFinalPct(乗算用)とは別で持つ。単位はEquipmentSlotPicker等の表示(min/100)と同じ。
+  finalPctAddend: Partial<Record<StatId, number>>;
   // ステータス詳細の「バフ効果」表示用: ステータスごとの素の値/加算/乗算の内訳。
   breakdown: Record<StatId, StatBreakdownEntry>;
 }
@@ -173,6 +178,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const phantomFinalPct: Partial<Record<string, number>> = {};
   // R1アビリティ(type=4効果)によるメインステータス変換率ボーナス。deriveStatsに渡す。
   const conversionRateBonus: Partial<Record<StatId, number>> = {};
+  // 進化ステータス(蒼海武器等)の会心/幸運/ファスト/器用さ"%"バリアントによる、最終結果への
+  // 直接加算ボーナス(鼓舞/HP変動と同じ加算方式。乗算のphantomFinalPctとは別バケツで持つ)。
+  const finalPctAddend: Partial<Record<StatId, number>> = {};
 
   // 装備ステータス
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
@@ -200,6 +208,14 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const applyFixedEvoEffects = (effects: typeof fixedEvoEffects) => {
       if (!effects) return;
       for (const [, attrId, min, max, isPercent] of effects) {
+        const finalStatId = EVO_PCT_FINAL_ATTR_TO_STAT[attrId];
+        if (finalStatId !== undefined) {
+          // 会心/幸運/ファスト/器用さの"%"バリアント: 鼓舞/HP変動と同じく、収益逓減カーブ適用後の
+          // 最終%表示値に直接加算する(乗算ではない)。
+          finalPctAddend[finalStatId] =
+            (finalPctAddend[finalStatId] ?? 0) + calcStatValue(min, max, pLine);
+          continue;
+        }
         const statId = isPercent ? EVO_PCT_ATTR_TO_STAT[attrId] : EVO_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, calcStatValue(min, max, pLine));
       }
@@ -613,13 +629,14 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     };
   }
 
-  return { rawStats: total, phantomFinalPct, conversionRateBonus, breakdown };
+  return { rawStats: total, phantomFinalPct, conversionRateBonus, finalPctAddend, breakdown };
 }
 
 export interface ApplyFinalStatModifiersResult {
   stats: Record<StatId, number>;
   // ステータス詳細「バフ効果」表示用: calculateRawStatsのbreakdownに、この関数で追加適用される
-  // 最終ステータス%ボーナス(maxHp/atk/matk/physicalDef/haste/mastery/versatility)を合算したもの。
+  // 最終ステータス%ボーナス(maxHp/atk/matk/physicalDef/haste/mastery/versatilityは乗算、
+  // crit/luckおよびhaste/masteryへの追加加算分は最終%表示値への直接加算)を合算したもの。
   breakdown: Record<StatId, StatBreakdownEntry>;
 }
 
@@ -633,6 +650,9 @@ export function applyFinalStatModifiers(
   battleImaginaries: (number | null)[],
   imaginaryRanks: number[],
   phantomFinalPct: Partial<Record<string, number>>,
+  // 進化ステータス(蒼海武器等)の会心/幸運/ファスト/器用さ"%"バリアントによる、最終結果への
+  // 直接加算ボーナス(鼓舞/HP変動と同じ加算方式。単位: 1/100)。
+  finalPctAddend: Partial<Record<StatId, number>> = {},
 ): ApplyFinalStatModifiersResult {
   // 伝説刻印(武器/アクセサリの物理/魔法攻撃力%): 複数刻印は加算してから一度だけ乗算する。
   let atkPctBonus = 0;
@@ -671,10 +691,10 @@ export function applyFinalStatModifiers(
     matk: truncate2(roundClean(derived.magicalAtk * matkMult * ipct('matk'))),
     physicalDef: truncate2(roundClean(derived.physicalDef * ipct('physicalDef'))),
     magicalDef: derived.magicalDef,
-    crit: derived.critPercent,
-    haste: derived.hastePercent * ipct('haste'),
-    luck: derived.luckPercent,
-    mastery: derived.masteryPercent * ipct('mastery'),
+    crit: derived.critPercent + (finalPctAddend.crit ?? 0) / 100,
+    haste: derived.hastePercent * ipct('haste') + (finalPctAddend.haste ?? 0) / 100,
+    luck: derived.luckPercent + (finalPctAddend.luck ?? 0) / 100,
+    mastery: derived.masteryPercent * ipct('mastery') + (finalPctAddend.mastery ?? 0) / 100,
     versatility: derived.versatilityPercent * ipct('versatility'),
     resist: derived.resistPercent,
   };
@@ -694,10 +714,15 @@ export function applyFinalStatModifiers(
   for (const statId of Object.keys(breakdown) as StatId[]) {
     const entry = breakdown[statId];
     const finalMult = finalMultipliers[statId];
-    mergedBreakdown[statId] =
-      finalMult === undefined
-        ? entry
-        : { ...entry, multiplier: roundClean(entry.multiplier * finalMult) };
+    const addend = finalPctAddend[statId];
+    let merged = entry;
+    if (finalMult !== undefined) {
+      merged = { ...merged, multiplier: roundClean(merged.multiplier * finalMult) };
+    }
+    if (addend) {
+      merged = { ...merged, cookingBonus: (merged.cookingBonus ?? 0) + addend / 100 };
+    }
+    mergedBreakdown[statId] = merged;
   }
 
   return { stats, breakdown: mergedBreakdown };

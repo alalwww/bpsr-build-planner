@@ -374,11 +374,13 @@ export function useBuildState() {
         battleImaginaries,
         imaginaryRanks,
         rawStatsResult.phantomFinalPct,
+        rawStatsResult.finalPctAddend,
       ),
     [
       rawStats,
       rawStatsResult.breakdown,
       rawStatsResult.phantomFinalPct,
+      rawStatsResult.finalPctAddend,
       derivedStats,
       legendaryAffixState,
       battleImaginaries,

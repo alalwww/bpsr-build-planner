@@ -174,21 +174,28 @@ export const EVO_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 };
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリ用。
-// 蒼海武器シリーズ等)。isPercent=trueだが、対象ステータスは収益減少曲線の入力実数値
-// (会心/幸運/ファスト/器用さ/物理・魔法増強)か、固定基礎%への直接加算(会心ダメージ/
-// 幸運の一撃ダメージ率/会心回復)のいずれかであり、単純な%乗算ではないため実数値の
-// 平坦加算として扱う。
+// 蒼海武器シリーズ等)。対象ステータスはderiveStats側で収益減少曲線を経由しない固定基礎%への
+// 直接加算(会心ダメージ/幸運の一撃ダメージ率/会心回復/バリア強度)か、物理・魔法増強であり、
+// 単純な%乗算ではないため実数値の平坦加算として扱う。
+// (会心/幸運/ファスト/器用さの"%"バリアントはEVO_PCT_FINAL_ATTR_TO_STAT側を参照)
 export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
-  11712: 'crit',
-  11782: 'luck',
-  11932: 'haste',
-  11942: 'mastery',
   11812: 'barrierStrength',
   12552: 'physicalEnhance',
   12572: 'magicalEnhance',
   12512: 'critDamageBonus',
   12532: 'luckyHitDamageBonus',
   12742: 'critRecoveryBonus',
+};
+
+// 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリのうち、
+// 会心/幸運/ファスト/器用さの"%"バリアント。既存のflat系attrId(11112/11132/11122/11142)と
+// game-data.json上で同名のため、収益逓減カーブ適用後の最終%への乗算ボーナスとして扱う
+// (IMAGINARY_PCT_FINALと同じ意味・同じ単位: 1/10000)。
+export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11712: 'crit',
+  11782: 'luck',
+  11932: 'haste',
+  11942: 'mastery',
 };
 
 // 刻印(伝説刻印) AttrId → 最終ステータスへの%乗算(武器/アクセサリのみ・isPercent=true)。
