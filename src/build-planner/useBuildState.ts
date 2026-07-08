@@ -776,6 +776,7 @@ export function useBuildState() {
     setImaginaryRanks([5, 5]);
     setModuleSlotsState([null, null, null, null, null]);
     setAdventurerLevel(60);
+    setPhantomEnabled(true);
     setPhantomLevel(100);
     setPhantomTemplateIdState(null);
     setPhantomBondPoints(35);
