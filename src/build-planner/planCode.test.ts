@@ -1,4 +1,4 @@
-import { compressToEncodedURIComponent } from 'lz-string';
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import { describe, expect, it } from 'vitest';
 import type { AutoSaveState } from './buildPlan';
 import { decodePlanCode, encodePlanCode } from './planCode';
@@ -89,5 +89,38 @@ describe('encodePlanCode / decodePlanCode', () => {
     const badProfessionArr = [1, 'x', 999, 0];
     const code = compressToEncodedURIComponent(JSON.stringify(badProfessionArr));
     expect(decodePlanCode(code)).toBeNull();
+  });
+
+  it('falls back to defaults instead of crashing or propagating garbage when array fields hold the wrong type', () => {
+    const state = fullAutoSaveState();
+    const code = encodePlanCode(state);
+    const json = decompressFromEncodedURIComponent(code);
+    expect(json).not.toBeNull();
+    const arr = JSON.parse(json!) as unknown[];
+    // index 10: masteryLevels, index 20: adventurerLevel (see FIELD_SPECS order in planCode.ts)
+    arr[10] = 'not-an-array';
+    arr[20] = 'not-a-number';
+    const corruptedCode = compressToEncodedURIComponent(JSON.stringify(arr));
+    const decoded = decodePlanCode(corruptedCode);
+    expect(decoded).not.toBeNull();
+    expect(decoded!.masteryLevels).toEqual([]);
+    expect(decoded!.adventurerLevel).toBeUndefined();
+    // unaffected fields still decode normally
+    expect(decoded!.masteryRanks).toEqual(state.masteryRanks);
+  });
+
+  it('does not throw when array-shaped fields contain malformed tuples', () => {
+    const state = fullAutoSaveState();
+    const code = encodePlanCode(state);
+    const json = decompressFromEncodedURIComponent(code);
+    const arr = JSON.parse(json!) as unknown[];
+    // index 25: phantomNodeSelections (pairs), index 26: phantomFactorSlots
+    arr[25] = [['not-a-tuple'], [1, 2], null, 42];
+    arr[26] = [[1], 'garbage', [2, 3]];
+    const corruptedCode = compressToEncodedURIComponent(JSON.stringify(arr));
+    expect(() => decodePlanCode(corruptedCode)).not.toThrow();
+    const decoded = decodePlanCode(corruptedCode);
+    expect(decoded!.phantomNodeSelections).toEqual({ 1: 2 });
+    expect(decoded!.phantomFactorSlots).toEqual({});
   });
 });

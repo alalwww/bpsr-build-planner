@@ -81,6 +81,28 @@ function evoFromIdx(idx: unknown): EvolutionStatId | undefined {
   return EVOLUTION_STAT_ORDER[idx];
 }
 
+// ---- decode時の構造検証ヘルパー ----
+// 不正・破損したプランコード(想定と異なる型のJSON)が下流(applyPlanState以降、
+// このファイルのtry/catchの外)でクラッシュしたり、NaN等の不正値が計算式全体に
+// 伝播したりしないよう、配列/数値であることを都度確認してからのみ値を採用する。
+
+function asFiniteNumber(raw: unknown): number | undefined {
+  return typeof raw === 'number' && Number.isFinite(raw) ? raw : undefined;
+}
+
+function asNumberArray(raw: unknown): number[] | undefined {
+  return Array.isArray(raw) && raw.every((v) => typeof v === 'number' && Number.isFinite(v))
+    ? (raw as number[])
+    : undefined;
+}
+
+function asNullableNumberArray(raw: unknown): Nullable<number>[] | undefined {
+  return Array.isArray(raw) &&
+    raw.every((v) => v === null || (typeof v === 'number' && Number.isFinite(v)))
+    ? (raw as Nullable<number>[])
+    : undefined;
+}
+
 // ---- スロット単位(11スロット固定順)の Partial<Record> <-> 配列 変換 ----
 
 function mapSlots<T, R>(
@@ -93,15 +115,19 @@ function mapSlots<T, R>(
   });
 }
 
+// fnがundefinedを返した場合(構造検証に失敗した要素)はそのスロットを未設定のまま
+// スキップする(プラン全体を無効にせず、その1スロットだけデフォルトにフォールバックさせる)。
 function unmapSlots<T>(
   arr: unknown,
-  fn: (raw: NonNullable<unknown>) => T,
+  fn: (raw: NonNullable<unknown>) => T | undefined,
 ): Partial<Record<EquipmentSlotId, T>> {
   const result: Partial<Record<EquipmentSlotId, T>> = {};
   if (!Array.isArray(arr)) return result;
   SLOT_ORDER.forEach((slot, i) => {
     const raw = arr[i];
-    if (raw !== null && raw !== undefined) result[slot] = fn(raw);
+    if (raw === null || raw === undefined) return;
+    const value = fn(raw);
+    if (value !== undefined) result[slot] = value;
   });
   return result;
 }
@@ -130,8 +156,8 @@ function encodeEvolutionStats(stats: SlotEvolutionStats): Nullable<Nullable<numb
 
 function decodeEvolutionStats(arr: unknown): SlotEvolutionStats {
   return unmapSlots(arr, (raw) => {
-    const tuple = raw as unknown[];
-    return [evoFromIdx(tuple[0]), evoFromIdx(tuple[1]), evoFromIdx(tuple[2])];
+    if (!Array.isArray(raw)) return undefined;
+    return [evoFromIdx(raw[0]), evoFromIdx(raw[1]), evoFromIdx(raw[2])];
   });
 }
 
@@ -141,8 +167,10 @@ function encodeLegendaryAffix(state: SlotLegendaryAffix): Nullable<[number, numb
 
 function decodeLegendaryAffix(arr: unknown): SlotLegendaryAffix {
   return unmapSlots(arr, (raw) => {
-    const [attrId, value] = raw as [number, number];
-    return { attrId, value } satisfies LegendaryAffixSelection;
+    if (!Array.isArray(raw) || typeof raw[0] !== 'number' || typeof raw[1] !== 'number') {
+      return undefined;
+    }
+    return { attrId: raw[0], value: raw[1] } satisfies LegendaryAffixSelection;
   });
 }
 
@@ -151,7 +179,7 @@ function encodeSlotEnchants(enchants: SlotEnchants): Nullable<number>[] {
 }
 
 function decodeSlotEnchants(arr: unknown): SlotEnchants {
-  return unmapSlots(arr, (raw) => raw as number);
+  return unmapSlots(arr, (raw) => (typeof raw === 'number' ? raw : undefined));
 }
 
 function encodeModuleSlots(slots: ModuleSlots): Nullable<[number, Nullable<number>[][]]>[] {
@@ -166,13 +194,17 @@ function decodeModuleSlots(arr: unknown): ModuleSlots {
   if (!Array.isArray(arr)) return empty;
   return empty.map((_, i): ModuleConfig | null => {
     const entry = arr[i];
-    if (!Array.isArray(entry)) return null;
+    if (!Array.isArray(entry) || typeof entry[0] !== 'number') return null;
     const [modId, holes] = entry as [number, unknown[]];
     return {
       modId,
-      holes: (holes ?? []).map((h) => {
+      holes: (Array.isArray(holes) ? holes : []).map((h) => {
+        if (!Array.isArray(h)) return { effectId: null, linkCount: 0 };
         const [effectId, linkCount] = h as [Nullable<number>, number];
-        return { effectId, linkCount };
+        return {
+          effectId: typeof effectId === 'number' ? effectId : null,
+          linkCount: typeof linkCount === 'number' ? linkCount : 0,
+        };
       }),
     };
   });
@@ -186,6 +218,9 @@ function decodePairs(arr: unknown): Record<number, number> {
   const result: Record<number, number> = {};
   if (!Array.isArray(arr)) return result;
   for (const entry of arr) {
+    if (!Array.isArray(entry) || typeof entry[0] !== 'number' || typeof entry[1] !== 'number') {
+      continue;
+    }
     const [k, v] = entry as [number, number];
     result[k] = v;
   }
@@ -207,6 +242,14 @@ function decodePhantomFactorSlots(arr: unknown): Record<number, PhantomFactorSlo
   const result: Record<number, PhantomFactorSlotValue | null> = {};
   if (!Array.isArray(arr)) return result;
   for (const entry of arr) {
+    if (
+      !Array.isArray(entry) ||
+      typeof entry[0] !== 'number' ||
+      typeof entry[1] !== 'string' ||
+      typeof entry[2] !== 'number'
+    ) {
+      continue;
+    }
     const [groupId, classKey, grade] = entry as [number, string, number];
     result[groupId] = { classKey, grade };
   }
@@ -242,7 +285,7 @@ const FIELD_SPECS = [
   field(
     'professionKey',
     (s) => PROFESSION_KEY_ORDER.indexOf(s.professionKey),
-    (raw) => PROFESSION_KEY_ORDER[raw as number],
+    (raw) => PROFESSION_KEY_ORDER[typeof raw === 'number' ? raw : -1],
   ),
   field(
     'professionTypeKey',
@@ -257,18 +300,22 @@ const FIELD_SPECS = [
   field(
     'refineLevels',
     (s) => SLOT_ORDER.map((slot) => s.refineLevels[slot]),
-    (raw) =>
-      Object.fromEntries(
-        SLOT_ORDER.map((slot, i) => [slot, (raw as number[])?.[i] ?? DEFAULT_REFINE_LEVELS[slot]]),
-      ) as SlotRefineLevels,
+    (raw) => {
+      const arr = asNumberArray(raw);
+      return Object.fromEntries(
+        SLOT_ORDER.map((slot, i) => [slot, arr?.[i] ?? DEFAULT_REFINE_LEVELS[slot]]),
+      ) as SlotRefineLevels;
+    },
   ),
   field(
     'perfectlines',
     (s) => SLOT_ORDER.map((slot) => s.perfectlines[slot]),
-    (raw) =>
-      Object.fromEntries(
-        SLOT_ORDER.map((slot, i) => [slot, (raw as number[])?.[i] ?? DEFAULT_PERFECTLINES[slot]]),
-      ) as SlotRefineLevels,
+    (raw) => {
+      const arr = asNumberArray(raw);
+      return Object.fromEntries(
+        SLOT_ORDER.map((slot, i) => [slot, arr?.[i] ?? DEFAULT_PERFECTLINES[slot]]),
+      ) as SlotRefineLevels;
+    },
   ),
   field(
     'evolutionStats',
@@ -283,47 +330,47 @@ const FIELD_SPECS = [
   field(
     'masteryEquipped',
     (s) => s.masteryEquipped.map(b01),
-    (raw) => ((raw as unknown[]) ?? []).map(fromB01),
+    (raw) => (Array.isArray(raw) ? raw.map(fromB01) : []),
   ),
   field(
     'masteryLevels',
     (s) => s.masteryLevels,
-    (raw) => (raw as number[]) ?? [],
+    (raw) => asNumberArray(raw) ?? [],
   ),
   field(
     'masteryRanks',
     (s) => s.masteryRanks,
-    (raw) => (raw as number[]) ?? [],
+    (raw) => asNumberArray(raw) ?? [],
   ),
   field(
     'fixedLevels',
     (s) => s.fixedLevels,
-    (raw) => (raw as number[]) ?? STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
+    (raw) => asNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
   ),
   field(
     'fixedRanks',
     (s) => s.fixedRanks,
-    (raw) => (raw as number[]) ?? STATIC_AUTOSAVE_DEFAULTS.fixedRanks,
+    (raw) => asNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.fixedRanks,
   ),
   field(
     'battleImaginaries',
     (s) => s.battleImaginaries,
-    (raw) => (raw as Nullable<number>[]) ?? STATIC_AUTOSAVE_DEFAULTS.battleImaginaries,
+    (raw) => asNullableNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.battleImaginaries,
   ),
   field(
     'imaginaryRanks',
     (s) => s.imaginaryRanks,
-    (raw) => (raw as number[]) ?? STATIC_AUTOSAVE_DEFAULTS.imaginaryRanks,
+    (raw) => asNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.imaginaryRanks,
   ),
   field(
     'talentR1EnabledIds',
     (s) => s.talentR1EnabledIds,
-    (raw) => (raw as number[]) ?? [],
+    (raw) => asNumberArray(raw) ?? [],
   ),
   field(
     'talentR2EnabledIds',
     (s) => s.talentR2EnabledIds,
-    (raw) => (raw as number[]) ?? [],
+    (raw) => asNumberArray(raw) ?? [],
   ),
   field(
     'slotEnchants',
@@ -338,7 +385,7 @@ const FIELD_SPECS = [
   field(
     'adventurerLevel',
     (s) => s.adventurerLevel ?? null,
-    (raw) => (raw as number | null) ?? undefined,
+    (raw) => asFiniteNumber(raw),
   ),
   field(
     'phantomEnabled',
@@ -348,17 +395,17 @@ const FIELD_SPECS = [
   field(
     'phantomLevel',
     (s) => s.phantomLevel ?? null,
-    (raw) => (raw as number | null) ?? undefined,
+    (raw) => asFiniteNumber(raw),
   ),
   field(
     'phantomTemplateId',
     (s) => s.phantomTemplateId ?? null,
-    (raw) => (raw as number | null) ?? null,
+    (raw) => asFiniteNumber(raw) ?? null,
   ),
   field(
     'phantomBondPoints',
     (s) => s.phantomBondPoints ?? null,
-    (raw) => (raw as number | null) ?? undefined,
+    (raw) => asFiniteNumber(raw),
   ),
   field(
     'phantomNodeSelections',
