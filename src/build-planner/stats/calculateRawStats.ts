@@ -62,6 +62,7 @@ import {
 } from './gameData';
 import { calcStatValue } from './statValue';
 import type { DerivedStats } from './deriveStats';
+import { hasDistinctEvoAttrs } from './evoResolution';
 
 // 浮動小数点演算の誤差(例: 15%のつもりが14.999999...%になる)を吸収するため、
 // 十分な精度で四捨五入してから使う。バフ効果同士を合算する際の中間計算に使う。
@@ -234,13 +235,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       }
     } else {
       const evoData = equipmentItem.evo;
-      const hasDataEvo = (evoData?.length ?? 0) > 0;
-      const hasSameEvo =
-        hasDataEvo &&
-        evoData!.length > 1 &&
-        evoData!.every((e: number[]) => e[0] === evoData![0][0]);
 
-      if (hasDataEvo && !hasSameEvo) {
+      if (hasDistinctEvoAttrs(evoData)) {
         // Evo1/Evo2 が異なる attrId の装備: attrId から直接ステータスを決定
         for (let i = 0; i <= 1; i++) {
           const evo = evoData![i];

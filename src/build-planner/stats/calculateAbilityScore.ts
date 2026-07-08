@@ -40,6 +40,7 @@ import {
   type TalentTreeNode,
 } from './gameData';
 import { calcStatValue } from './statValue';
+import { hasDistinctEvoAttrs } from './evoResolution';
 
 export interface CalculateAbilityScoreInput {
   equipped: EquippedItems;
@@ -111,13 +112,9 @@ export function calculateEquipmentSlotAbilityScore(
     }
   }
   const evoDataFv = (item.evo as number[][]) ?? [];
-  const hasDataEvoFv = evoDataFv.length > 0;
-  const hasSameEvoFv =
-    hasDataEvoFv &&
-    evoDataFv.length > 1 &&
-    evoDataFv.every((e: number[]) => e[0] === evoDataFv[0][0]);
+  const useAttrIdDrivenFv = hasDistinctEvoAttrs(evoDataFv);
   for (let i = 0; i <= 1; i++) {
-    if (!(hasDataEvoFv && !hasSameEvoFv) && !evolutionStats[i]) continue;
+    if (!useAttrIdDrivenFv && !evolutionStats[i]) continue;
     const evo = evoDataFv[i];
     if (!evo || evo.length < 5) continue;
     const fvMin = evo[3];
