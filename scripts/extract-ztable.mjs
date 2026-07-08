@@ -195,6 +195,7 @@ function extractBattleImaginaries(langDir) {
     };
   }
 
+  const usedBattleImaginaryAttrIds = new Set();
   const result = {};
   for (const entry of Object.values(aoyiTable)) {
     const numMatch = String(entry.ArtPreview).match(/(\d+)$/);
@@ -205,6 +206,7 @@ function extractBattleImaginaries(langDir) {
     // type=1 passive effects: [attrId, r0, r1, r2, r3, r4, r5]
     const r0Type1 = (entry.TransformationType || []).filter(([t]) => t === 1);
     const passiveEffects = r0Type1.map(([, attrId, r0val]) => {
+      usedBattleImaginaryAttrIds.add(attrId);
       const row = [attrId, r0val];
       for (let lv = 1; lv <= 5; lv++) row.push(rankData[lv]?.type1[attrId] ?? r0val);
       return row;
@@ -239,7 +241,7 @@ function extractBattleImaginaries(langDir) {
       ...(bufPassiveEffects.length > 0 ? { bufPassiveEffects } : {}),
     };
   }
-  return result;
+  return { battleImaginaries: result, usedBattleImaginaryAttrIds };
 }
 
 // skill-fight-values.json: SkillFightLevelTable から参照スキルの Lv別 FightValue を抽出。
@@ -1113,6 +1115,7 @@ function extractLocaleText(
     phantomFactorItemIds,
     phantomFactorAttrIds,
     talentAttrIds,
+    battleImaginaryAttrIds,
     localeName,
   },
 ) {
@@ -1340,6 +1343,23 @@ function extractLocaleText(
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     } else {
       console.warn(`[extract-ztable] no attribute name for phantom factor attrId ${attrId}`);
+    }
+  }
+  // バトルイマジン パッシブ効果 AttrId の解決 (13152=風属性ボーナス 等、末尾2桁のみ
+  // 定義されテーブルに存在しないケースがある)。
+  // 解決順: ProfileAttrTable直接 → attrId-2 → attrId-4 → FightAttrTable
+  for (const attrId of battleImaginaryAttrIds) {
+    if (attributes[attrId]) continue;
+    if (attrByAttrId[attrId]) {
+      attributes[attrId] = attrByAttrId[attrId].Name;
+    } else if (attrByAttrId[attrId - 2]) {
+      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+    } else if (attrByAttrId[attrId - 4]) {
+      attributes[attrId] = attrByAttrId[attrId - 4].Name;
+    } else if (fightAttrNameByAdd.has(attrId)) {
+      attributes[attrId] = fightAttrNameByAdd.get(attrId);
+    } else {
+      console.warn(`[extract-ztable] no attribute name for battle imaginary attrId ${attrId}`);
     }
   }
 
@@ -1821,7 +1841,7 @@ function main() {
   const skills = extractSkills(structuralDir, skillIds);
   const skillFightValues = extractSkillFightValues(structuralDir, skillIds);
   const skillRankFightValues = extractSkillRankFightValues(structuralDir, skillIds);
-  const battleImaginaries = extractBattleImaginaries(structuralDir);
+  const { battleImaginaries, usedBattleImaginaryAttrIds } = extractBattleImaginaries(structuralDir);
   const {
     byPart: equipmentByPart,
     usedAttrIds: equipAttrIds,
@@ -1958,6 +1978,7 @@ function main() {
       phantomFactorItemIds,
       phantomFactorAttrIds,
       talentAttrIds,
+      battleImaginaryAttrIds: usedBattleImaginaryAttrIds,
       localeName: dirName,
     });
     const outDir = join(localesOut, localeDir);
