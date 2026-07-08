@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { setAtIndex, swapAtIndex, withIndex } from './arrayState';
 import {
   DEFAULT_LOADOUT,
   EQUIPMENT_BOTTOM_SLOTS,
@@ -41,27 +40,10 @@ import type { AutoSaveState, BuildPlanData } from './buildPlan';
 import { loadAutoSave, loadBuildPlans, persistAutoSave, persistBuildPlans } from './buildPlan';
 import { initPhantomNodeSelections } from './phantom/phantomData';
 import { usePhantomState } from './phantom/usePhantomState';
+import { normalSkillCount, useSkillState } from './skill/useSkillState';
 import { useTalentState } from './talent/useTalentState';
 import { decodePlanCode, encodePlanCode } from './planCode';
 import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from './planDefaults';
-
-// ---- state init helpers ----
-
-function initMasteryEquipped(size: number): boolean[] {
-  return Array(size).fill(false);
-}
-
-function initMasteryLevels(size: number): number[] {
-  return Array(size).fill(30);
-}
-
-function initMasteryRanks(size: number): number[] {
-  return Array(size).fill(6);
-}
-
-function normalSkillCount(profKey: ProfessionKey): number {
-  return getClassData(PROFESSIONS[profKey].professionId)?.normalSkill.length ?? 0;
-}
 
 // ---- main hook ----
 
@@ -116,33 +98,40 @@ export function useBuildState() {
     profession.professionId,
   );
 
-  // スキルステート
-  const defaultCount = normalSkillCount(autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY);
-  const [masteryEquipped, setMasteryEquipped] = useState<boolean[]>(
-    () => autoSaveOnMount?.masteryEquipped ?? initMasteryEquipped(defaultCount),
-  );
-  const [masteryLevels, setMasteryLevels] = useState<number[]>(
-    () => autoSaveOnMount?.masteryLevels ?? initMasteryLevels(defaultCount),
-  );
-  const [masteryRanks, setMasteryRanks] = useState<number[]>(
-    () => autoSaveOnMount?.masteryRanks ?? initMasteryRanks(defaultCount),
-  );
-
-  // 固定スキル (normalAttack, special, ultimate) のLv/Rank
-  const [fixedLevels, setFixedLevels] = useState<number[]>(
-    () => autoSaveOnMount?.fixedLevels ?? STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
-  );
-  const [fixedRanks, setFixedRanks] = useState<number[]>(
-    () => autoSaveOnMount?.fixedRanks ?? STATIC_AUTOSAVE_DEFAULTS.fixedRanks,
-  );
-
-  // バトルイマジン: クラス変更時もリセットしない
-  const [battleImaginaries, setBattleImaginaries] = useState<(number | null)[]>(
-    () => autoSaveOnMount?.battleImaginaries ?? STATIC_AUTOSAVE_DEFAULTS.battleImaginaries,
-  );
-  const [imaginaryRanks, setImaginaryRanks] = useState<number[]>(
-    () => autoSaveOnMount?.imaginaryRanks ?? STATIC_AUTOSAVE_DEFAULTS.imaginaryRanks,
-  );
+  // スキルステート(マスタリー/固定スキル/バトルイマジン)
+  const {
+    masteryEquipped,
+    masteryLevels,
+    masteryRanks,
+    setMasteryEquippedState,
+    setMasteryLevelsState,
+    setMasteryRanksState,
+    fixedLevels,
+    fixedRanks,
+    setFixedLevelsState,
+    setFixedRanksState,
+    battleImaginaries,
+    imaginaryRanks,
+    setBattleImaginariesState,
+    setImaginaryRanksState,
+    toggleMasteryEquipped,
+    setMasteryLevel,
+    setMasteryRank,
+    setFixedLevel,
+    setFixedRank,
+    setBattleImaginary,
+    setImaginaryRank,
+    reorderBattleImaginaries,
+    resetForProfessionChange: resetSkillForProfessionChange,
+  } = useSkillState(autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY, {
+    masteryEquipped: autoSaveOnMount?.masteryEquipped,
+    masteryLevels: autoSaveOnMount?.masteryLevels,
+    masteryRanks: autoSaveOnMount?.masteryRanks,
+    fixedLevels: autoSaveOnMount?.fixedLevels,
+    fixedRanks: autoSaveOnMount?.fixedRanks,
+    battleImaginaries: autoSaveOnMount?.battleImaginaries,
+    imaginaryRanks: autoSaveOnMount?.imaginaryRanks,
+  });
 
   // モジュールスロット (5スロット)
   const { moduleSlots, setModuleSlotsState, setModuleSlot } = useModuleState(
@@ -195,13 +184,8 @@ export function useBuildState() {
     setEvolutionStatsState({});
     setProfessionKey(key);
     setProfessionTypeKey('type1');
-    // マスタリースキルをリセット (バトルイマジンは引き継ぎ)
-    const newCount = normalSkillCount(key);
-    setMasteryEquipped(initMasteryEquipped(newCount));
-    setMasteryLevels(initMasteryLevels(newCount));
-    setMasteryRanks(initMasteryRanks(newCount));
-    setFixedLevels([30, 30, 30]);
-    setFixedRanks([6, 6, 6]);
+    // マスタリースキル・固定スキルをリセット (バトルイマジンは引き継ぎ)
+    resetSkillForProfessionChange(key);
     // アビリティツリーをリセット
     resetTalentForProfessionChange(newProfession.professionId);
   };
@@ -585,13 +569,13 @@ export function useBuildState() {
     setProfessionKey(plan.professionKey);
     setProfessionTypeKey(plan.professionTypeKey);
     const count = normalSkillCount(plan.professionKey);
-    setMasteryEquipped(plan.masteryEquipped.slice(0, count));
-    setMasteryLevels(plan.masteryLevels.slice(0, count));
-    setMasteryRanks(plan.masteryRanks.slice(0, count));
-    setFixedLevels(plan.fixedLevels);
-    setFixedRanks(plan.fixedRanks);
-    setBattleImaginaries(plan.battleImaginaries);
-    setImaginaryRanks(plan.imaginaryRanks);
+    setMasteryEquippedState(plan.masteryEquipped.slice(0, count));
+    setMasteryLevelsState(plan.masteryLevels.slice(0, count));
+    setMasteryRanksState(plan.masteryRanks.slice(0, count));
+    setFixedLevelsState(plan.fixedLevels);
+    setFixedRanksState(plan.fixedRanks);
+    setBattleImaginariesState(plan.battleImaginaries);
+    setImaginaryRanksState(plan.imaginaryRanks);
     setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
     setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
     setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
@@ -663,13 +647,13 @@ export function useBuildState() {
     setProfessionTypeKey(defaults.professionTypeKey);
     setTalentR1EnabledIds(new Set(defaults.talentR1EnabledIds));
     setTalentR2EnabledIds(new Set(defaults.talentR2EnabledIds));
-    setMasteryEquipped(defaults.masteryEquipped);
-    setMasteryLevels(defaults.masteryLevels);
-    setMasteryRanks(defaults.masteryRanks);
-    setFixedLevels(defaults.fixedLevels);
-    setFixedRanks(defaults.fixedRanks);
-    setBattleImaginaries(defaults.battleImaginaries);
-    setImaginaryRanks(defaults.imaginaryRanks);
+    setMasteryEquippedState(defaults.masteryEquipped);
+    setMasteryLevelsState(defaults.masteryLevels);
+    setMasteryRanksState(defaults.masteryRanks);
+    setFixedLevelsState(defaults.fixedLevels);
+    setFixedRanksState(defaults.fixedRanks);
+    setBattleImaginariesState(defaults.battleImaginaries);
+    setImaginaryRanksState(defaults.imaginaryRanks);
     setModuleSlotsState(defaults.moduleSlots);
     setAdventurerLevel(defaults.adventurerLevel);
     setPhantomEnabled(defaults.phantomEnabled);
@@ -695,36 +679,6 @@ export function useBuildState() {
 
   const setCookingBuff = (patch: Partial<CookingBuffState>) =>
     setCookingBuffState((prev) => ({ ...prev, ...patch }));
-
-  // ---- skill state handlers ----
-
-  const toggleMasteryEquipped = (index: number) => {
-    setMasteryEquipped((prev) => {
-      const equippedCount = prev.filter(Boolean).length;
-      if (!prev[index] && equippedCount >= 4) return prev;
-      return withIndex(prev, index, !prev[index]);
-    });
-  };
-
-  const setMasteryLevel = (index: number, level: number) =>
-    setAtIndex(setMasteryLevels, index, level);
-
-  const setMasteryRank = (index: number, rank: number) => setAtIndex(setMasteryRanks, index, rank);
-
-  const setFixedLevel = (index: number, level: number) => setAtIndex(setFixedLevels, index, level);
-
-  const setFixedRank = (index: number, rank: number) => setAtIndex(setFixedRanks, index, rank);
-
-  const setBattleImaginary = (index: number, id: number | null) =>
-    setAtIndex(setBattleImaginaries, index, id);
-
-  const setImaginaryRank = (index: number, rank: number) =>
-    setAtIndex(setImaginaryRanks, index, rank);
-
-  const reorderBattleImaginaries = (fromIndex: number, toIndex: number) => {
-    setBattleImaginaries((prev) => swapAtIndex(prev, fromIndex, toIndex));
-    setImaginaryRanks((prev) => swapAtIndex(prev, fromIndex, toIndex));
-  };
 
   return {
     equipped,
