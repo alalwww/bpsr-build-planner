@@ -12,7 +12,9 @@
     "tauri": "tauri",
     "extract:ztable": "node scripts/extract-ztable.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@tauri-apps/api": "2.11.1",
@@ -30,6 +32,7 @@
     "@vitejs/plugin-react": "6.0.2",
     "prettier": "3.9.4",
     "typescript": "5.9.3",
-    "vite": "8.0.16"
+    "vite": "8.0.16",
+    "vitest": "4.1.10"
   }
 }

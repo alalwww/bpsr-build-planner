@@ -167,3 +167,5 @@ test-results/
 /vite.config.d.ts
 /vite.config.web.js
 /vite.config.web.d.ts
+/vitest.config.js
+/vitest.config.d.ts
