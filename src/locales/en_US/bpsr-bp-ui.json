@@ -144,7 +144,8 @@
       "qualityBasic": "Basic",
       "qualityHighPerf": "High-Perf",
       "qualitySuperior": "Superior",
-      "qualityExc": "EXC"
+      "qualityExc": "EXC",
+      "recommendedAlt": "Recommended"
     },
     "tabs": {
       "skill": "Skills",
@@ -154,6 +155,7 @@
     },
     "talentTree": {
       "reset": "Reset",
+      "resetTooltip": "Click to reset",
       "recommend": "Recommended",
       "confirmTypeChangeMsg": "Changing type will reset ability points. Continue?",
       "confirmTypeChangeYes": "Change",
@@ -230,7 +232,8 @@
       "factorUnequipped": "Unequipped",
       "pathUndecided": "(Path undecided)",
       "enabledOn": "ON",
-      "enabledOff": "OFF"
+      "enabledOff": "OFF",
+      "resetTooltip": "Click to reset"
     },
     "detailStats": {
       "title": "Stat Details",

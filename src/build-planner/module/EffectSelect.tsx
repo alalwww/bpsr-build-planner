@@ -26,6 +26,7 @@ function EffectSelect({
   recommendedEffectIds,
 }: EffectSelectProps) {
   const { t: tg } = useTranslation('game-data');
+  const { t: tUi } = useTranslation();
 
   const getName = (effectId: number): string =>
     tg(`moduleEffects.${effectId}`, { defaultValue: String(effectId) });
@@ -101,7 +102,7 @@ function EffectSelect({
                       <img
                         src={recommendIconSrc}
                         className="mod-effect-option-recommend"
-                        alt="推奨"
+                        alt={tUi('buildPlanner.module.recommendedAlt')}
                       />
                     )}
                   </button>

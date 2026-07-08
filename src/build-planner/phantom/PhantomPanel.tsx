@@ -831,7 +831,7 @@ export default function PhantomPanel({
                 type="button"
                 className="phantom-zoom-pct"
                 onClick={() => setZoom(1.0)}
-                title="クリックでリセット"
+                title={t('buildPlanner.phantom.resetTooltip')}
               >
                 {Math.round(zoom * 100)}%
               </button>

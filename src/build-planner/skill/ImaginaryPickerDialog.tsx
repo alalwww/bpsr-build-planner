@@ -17,6 +17,7 @@ function ImaginaryPickerDialog({
   onClose: () => void;
 }) {
   const { t } = useTranslation('game-data');
+  const { t: tUi } = useTranslation();
   const [rank, setRank] = useState(5);
   const [hoverTooltip, setHoverTooltip] = useState<{
     skillId: number;
@@ -37,7 +38,7 @@ function ImaginaryPickerDialog({
   return (
     <>
       <DraggableDialog
-        title="イマジン選択"
+        title={tUi('buildPlanner.skill.selectImaginary')}
         onClose={onClose}
         className="skill-picker-dialog"
         resizable

@@ -546,7 +546,7 @@ export default function TalentTreePanel({
               type="button"
               className="talent-tree-panel__zoom-pct"
               onClick={() => setZoomLevel(1.0)}
-              title="クリックでリセット"
+              title={tUi('buildPlanner.talentTree.resetTooltip')}
             >
               {Math.round(zoomLevel * 100)}%
             </button>
