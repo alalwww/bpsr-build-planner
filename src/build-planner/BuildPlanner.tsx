@@ -36,35 +36,7 @@ function BuildPlanner() {
     setLangMenuOpen(false);
   };
 
-  const {
-    cookingBuff,
-    setCookingBuff,
-    stats,
-    rawStats,
-    rawStatsBreakdown,
-    derivedStats,
-    abilityScore,
-    profession,
-    professionKey,
-    professionTypeKey,
-    selectProfession,
-    selectProfessionType,
-    moduleSlots,
-    adventurerLevel,
-    setAdventurerLevel,
-    phantomLevel,
-    planName,
-    setPlanName,
-    buildPlans,
-    savePlan,
-    overwritePlan,
-    renamePlan,
-    loadPlan,
-    deletePlan,
-    resetPlan,
-    exportPlanCode,
-    importPlanCode,
-  } = useBuildState();
+  const { profession, professionKey, professionTypeKey, selectProfessionType } = useBuildState();
 
   const [activeTab, setActiveTab] = useState<Tab>('skill');
   const [showTalentTree, setShowTalentTree] = useState(false);
@@ -81,33 +53,8 @@ function BuildPlanner() {
     <>
       <div className="build-planner">
         <CharacterPanel
-          stats={stats}
-          rawStats={rawStats}
-          derivedStats={derivedStats}
-          abilityScore={abilityScore}
-          professionKey={professionKey}
-          professionTypeKey={professionTypeKey}
-          onSelectProfession={selectProfession}
-          onSelectProfessionType={selectProfessionType}
           onOpenTalentTree={() => setShowTalentTree(true)}
-          adventurerLevel={adventurerLevel}
-          onAdventurerLevelChange={setAdventurerLevel}
-          phantomLevel={phantomLevel}
-          planName={planName}
-          onPlanNameChange={setPlanName}
-          buildPlans={buildPlans}
-          onSavePlan={savePlan}
-          onOverwritePlan={overwritePlan}
-          onRenamePlan={renamePlan}
-          onLoadPlan={loadPlan}
-          onDeletePlan={deletePlan}
-          onResetPlan={resetPlan}
-          onExportPlanCode={exportPlanCode}
-          onImportPlanCode={importPlanCode}
           onOpenStatsDetail={() => setShowStatsDetail(true)}
-          cookingBuff={cookingBuff}
-          onCookingBuffChange={setCookingBuff}
-          moduleSlots={moduleSlots}
         />
         <div className="build-planner__right">
           <nav className="build-planner__tabs">
@@ -176,16 +123,7 @@ function BuildPlanner() {
           </div>
         </div>
       </div>
-      {showStatsDetail && (
-        <StatsDetailDialog
-          rawStats={rawStats}
-          rawStatsBreakdown={rawStatsBreakdown}
-          stats={stats}
-          derivedStats={derivedStats}
-          cookingBuff={cookingBuff}
-          onClose={() => setShowStatsDetail(false)}
-        />
-      )}
+      {showStatsDetail && <StatsDetailDialog onClose={() => setShowStatsDetail(false)} />}
     </>
   );
 }

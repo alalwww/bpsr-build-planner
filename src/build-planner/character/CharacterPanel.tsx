@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import './character.css';
 import ProfessionPicker from './ProfessionPicker';
 import PlanListDropdown from './PlanListDropdown';
@@ -11,49 +12,19 @@ import DraggableDialog from '../components/DraggableDialog';
 import FloatingTooltip from '../components/FloatingTooltip';
 import Stepper from '../components/Stepper';
 import { getClassIconUrl } from './classIcons';
-import type { Profession, ProfessionKey, ProfessionTypeKey } from '../profession';
+import type { Profession } from '../profession';
 import { PROFESSIONS } from '../profession';
-import type {
-  AbilityScoreBreakdown,
-  CookingBuffState,
-  ModuleSlots,
-  StatDefinition,
-  StatId,
-} from '../types';
-import type { DerivedStats } from '../stats/deriveStats';
+import type { StatDefinition, StatId } from '../types';
 import type { BuildPlanData } from '../buildPlan';
+import { computeStatsBundle } from '../store/derivedSelectors';
+import { useBuildStore } from '../store/useBuildStore';
 import classesData from '../../data/classes.json';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
 import { truncate2Str } from './statFormat';
 
 interface CharacterPanelProps {
-  stats: Record<StatId, number>;
-  rawStats: Record<StatId, number>;
-  derivedStats: DerivedStats;
-  abilityScore: AbilityScoreBreakdown;
-  professionKey: ProfessionKey;
-  professionTypeKey: ProfessionTypeKey;
-  onSelectProfession: (key: ProfessionKey) => void;
-  onSelectProfessionType: (key: ProfessionTypeKey) => void;
   onOpenTalentTree?: () => void;
-  adventurerLevel: number;
-  onAdventurerLevelChange: (level: number) => void;
-  phantomLevel: number;
-  planName: string;
-  onPlanNameChange: (name: string) => void;
-  buildPlans: BuildPlanData[];
-  onSavePlan: (name: string) => void;
-  onOverwritePlan: (id: string, name: string) => void;
-  onRenamePlan: (id: string, newName: string) => void;
-  onLoadPlan: (id: string) => void;
-  onDeletePlan: (id: string) => void;
-  onResetPlan: () => void;
-  onExportPlanCode: () => string;
-  onImportPlanCode: (code: string) => boolean;
   onOpenStatsDetail?: () => void;
-  cookingBuff: CookingBuffState;
-  onCookingBuffChange: (patch: Partial<CookingBuffState>) => void;
-  moduleSlots: ModuleSlots;
 }
 
 function formatStatValue(value: number, isPercent?: boolean): string {
@@ -89,37 +60,47 @@ interface ClassEntry {
 
 const clsData = classesData as Record<string, ClassEntry>;
 
-function CharacterPanel({
-  stats,
-  rawStats,
-  derivedStats,
-  abilityScore,
-  professionKey,
-  professionTypeKey,
-  onSelectProfession,
-  onSelectProfessionType,
-  onOpenTalentTree,
-  adventurerLevel,
-  onAdventurerLevelChange,
-  phantomLevel,
-  planName,
-  onPlanNameChange,
-  buildPlans,
-  onSavePlan,
-  onOverwritePlan,
-  onRenamePlan,
-  onLoadPlan,
-  onDeletePlan,
-  onResetPlan,
-  onExportPlanCode,
-  onImportPlanCode,
-  onOpenStatsDetail,
-  cookingBuff,
-  onCookingBuffChange,
-  moduleSlots,
-}: CharacterPanelProps) {
+function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelProps) {
   const { t } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
+
+  const { stats, rawStats, derivedStats, abilityScore } = useBuildStore(
+    useShallow(computeStatsBundle),
+  );
+  const {
+    professionKey,
+    professionTypeKey,
+    adventurerLevel,
+    phantomLevel,
+    planName,
+    buildPlans,
+    cookingBuff,
+    moduleSlots,
+  } = useBuildStore(
+    useShallow((s) => ({
+      professionKey: s.professionKey,
+      professionTypeKey: s.professionTypeKey,
+      adventurerLevel: s.adventurerLevel,
+      phantomLevel: s.phantomLevel,
+      planName: s.planName,
+      buildPlans: s.buildPlans,
+      cookingBuff: s.cookingBuff,
+      moduleSlots: s.moduleSlots,
+    })),
+  );
+  const onSelectProfession = useBuildStore((s) => s.selectProfession);
+  const onSelectProfessionType = useBuildStore((s) => s.selectProfessionType);
+  const onAdventurerLevelChange = useBuildStore((s) => s.setAdventurerLevel);
+  const onPlanNameChange = useBuildStore((s) => s.setPlanName);
+  const onSavePlan = useBuildStore((s) => s.savePlan);
+  const onOverwritePlan = useBuildStore((s) => s.overwritePlan);
+  const onRenamePlan = useBuildStore((s) => s.renamePlan);
+  const onLoadPlan = useBuildStore((s) => s.loadPlan);
+  const onDeletePlan = useBuildStore((s) => s.deletePlan);
+  const onResetPlan = useBuildStore((s) => s.resetPlan);
+  const onExportPlanCode = useBuildStore((s) => s.exportPlanCode);
+  const onImportPlanCode = useBuildStore((s) => s.importPlanCode);
+  const onCookingBuffChange = useBuildStore((s) => s.setCookingBuff);
   const [isProfessionPickerOpen, setProfessionPickerOpen] = useState(false);
   const [isPlanListOpen, setIsPlanListOpen] = useState(false);
   const [hoveredStatId, setHoveredStatId] = useState<StatId | null>(null);

@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import DraggableDialog from '../components/DraggableDialog';
-import type { CookingBuffState, StatId } from '../types';
-import { ELEMENT_IDS } from '../types';
-import type { DerivedStats } from '../stats/deriveStats';
-import type { StatBreakdownEntry } from '../stats/calculateRawStats';
+import { ELEMENT_IDS, type StatId } from '../types';
 import { FIXED_BASE_VALUE } from '../stats/seasonConstants';
+import { computeStatsBundle } from '../store/derivedSelectors';
+import { useBuildStore } from '../store/useBuildStore';
 import { truncate2, truncate2Str as fmtDec2 } from './statFormat';
 
 interface StatsDetailDialogProps {
-  rawStats: Record<StatId, number>;
-  rawStatsBreakdown: Record<StatId, StatBreakdownEntry>;
-  stats: Record<StatId, number>;
-  derivedStats: DerivedStats;
-  cookingBuff: CookingBuffState;
   onClose: () => void;
 }
 
@@ -36,15 +31,13 @@ function fmtSignedIntTrunc(v: number): string {
   return `${sign}${Math.floor(Math.abs(v)).toLocaleString()}`;
 }
 
-export default function StatsDetailDialog({
-  rawStats,
-  rawStatsBreakdown,
-  stats,
-  derivedStats,
-  cookingBuff,
-  onClose,
-}: StatsDetailDialogProps) {
+export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
   const { t } = useTranslation();
+
+  const { rawStats, rawStatsBreakdown, stats, derivedStats } = useBuildStore(
+    useShallow(computeStatsBundle),
+  );
+  const cookingBuff = useBuildStore((s) => s.cookingBuff);
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     buffEffects: false,
