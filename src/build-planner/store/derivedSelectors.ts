@@ -332,6 +332,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     cookingAtkStatId,
     cookingResult.atkBonus,
     inspirationPercentBonus,
+    rawStatsResult.highestStatFinalPctBonus,
     lifeWaveBonus,
     agileAtkMultPercent,
   );

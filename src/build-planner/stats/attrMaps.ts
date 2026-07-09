@@ -46,6 +46,15 @@ export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1Only
   2207340: { stat: 'maxHp', value: 2000 },
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、「会心/ファスト/幸運/器用さ/万能のうち
+// 最終値が最も高い1項目」に最終%加算するもの(HP変動/鼓舞と同じ加算方式・単位。
+// LIFE_WAVE_VALUES/INSPIRATION_VALUESと同じ%そのままの数値、350ではなく3.5→+3.5%)。
+// 型に関わらず常に適用される。
+// フロストメイジR1アビリティ「二段増幅」: 該当5ステータスのうち最終値最大の1項目+3.5%。
+export const TALENT_HIGHEST_OF_FINAL_PCT: Partial<Record<number, number>> = {
+  2204340: 3.5,
+};
+
 export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
   11022: 'intellect',

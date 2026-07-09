@@ -226,6 +226,41 @@ describe('calculateRawStats', () => {
     expect(result.conversionRateBonus.atk).toBe(0.125);
   });
 
+  it('reports highestStatFinalPctBonus for an active type=3 highest-of ability (frostMage "二段増幅", talentId 237)', () => {
+    // src/data/talent-tree.json: nodes["237"].effects = [[3, 2204340, 1]] (stage:0 = R1)
+    // TALENT_HIGHEST_OF_FINAL_PCT[2204340] = 3.5 (+3.5%, unconditional on professionTypeKey)
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.frostMage,
+      professionTypeKey: 'type2',
+      talentR1EnabledIds: new Set([1]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 237,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.highestStatFinalPctBonus).toBe(3.5);
+  });
+
+  it('leaves highestStatFinalPctBonus at 0 when the ability is not enabled', () => {
+    const result = calculateRawStats(baseInput());
+
+    expect(result.highestStatFinalPctBonus).toBe(0);
+  });
+
   it('keeps a flat crit attrId and a %-variant crit attrId separate (蒼海武器 fixed-evo bug report)', () => {
     // src/data/equipment.json: item 8000019 (galeLancer, 乱風型/talentSchoolId 108, isFixedStat)
     // fixedEvolutionStats["108"] includes both 11112(flat, isPercent=false, +1240) and

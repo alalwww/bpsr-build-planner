@@ -57,6 +57,7 @@ import {
   TALENT_EFFECT_TYPE_CONVERSION_RATE,
   TALENT_EFFECT_TYPE_FLAT_STAT,
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
+  TALENT_HIGHEST_OF_FINAL_PCT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
 import {
@@ -143,6 +144,12 @@ export interface CalculateRawStatsResult {
   finalPctAddend: Partial<Record<StatId, number>>;
   // ステータス詳細の「バフ効果」表示用: ステータスごとの素の値/加算/乗算の内訳。
   breakdown: Record<StatId, StatBreakdownEntry>;
+  // アビリティ(例: フロストメイジ「二段増幅」)による、会心/ファスト/幸運/器用さ/万能のうち
+  // その時点の最終値が最も高い1項目への最終%直接加算量(HP変動と同じ加算方式・単位=%
+  // そのままの数値。finalPctAddendの1/100単位とは異なるので注意)。「最も高い1項目」の
+  // 判定はHP変動/鼓舞等すべての最終調整が終わった後の値を見る必要があるため、rawStats
+  // 自体には含めず呼び出し側(computeCookingAdjustments)に返す。
+  highestStatFinalPctBonus: number;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -198,6 +205,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // 進化ステータス(蒼海武器等)の会心/幸運/ファスト/器用さ"%"バリアントによる、最終結果への
   // 直接加算ボーナス(鼓舞/HP変動と同じ加算方式。乗算のphantomFinalPctとは別バケツで持つ)。
   const finalPctAddend: Partial<Record<StatId, number>> = {};
+  // アビリティによる「5ステータスのうち最終値最大の1項目」への最終%加算量(例: 二段増幅)。
+  let highestStatFinalPctBonus = 0;
 
   // 装備ステータス
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
@@ -336,6 +345,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (bonus && professionTypeKey === 'type1') {
           phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
         }
+        // 型に関わらず常時有効な「5ステータス中最終値最大の1項目」への最終%加算
+        // (例: フロストメイジ「二段増幅」)。
+        const highestOfBonus = TALENT_HIGHEST_OF_FINAL_PCT[eff[1]];
+        if (highestOfBonus) highestStatFinalPctBonus += highestOfBonus;
       } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
         // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
         // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
@@ -647,7 +660,14 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     };
   }
 
-  return { rawStats: total, phantomFinalPct, conversionRateBonus, finalPctAddend, breakdown };
+  return {
+    rawStats: total,
+    phantomFinalPct,
+    conversionRateBonus,
+    finalPctAddend,
+    breakdown,
+    highestStatFinalPctBonus,
+  };
 }
 
 export interface ApplyFinalStatModifiersResult {

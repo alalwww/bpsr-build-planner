@@ -118,16 +118,18 @@ export interface CookingAdjustment {
   addend?: number;
 }
 
-// 適応力(乗算)→料理攻撃力(加算)→鼓舞(複数statへの加算)→HP変動(その時点の最大stat種別へ加算)の
-// 順で、最終ステータス(finalStats)に対する調整リストを算出する。HP変動の対象stat判定は
-// それ以前の調整が適用済みの値を見る必要があるため、finalStatsのスクラッチコピー上で
-// 実際に同じ順序で逐次シミュレートする。呼び出し側はこのリストを自身の出力形
+// 適応力(乗算)→料理攻撃力(加算)→鼓舞(複数statへの加算)→アビリティ(二段増幅等、その時点の
+// 最大stat種別へ加算)→HP変動(その時点の最大stat種別へ加算)の順で、最終ステータス
+// (finalStats)に対する調整リストを算出する。「最大stat種別」の判定はそれ以前の調整が
+// 適用済みの値を見る必要があるため、finalStatsのスクラッチコピー上で実際に同じ順序で
+// 逐次シミュレートする。呼び出し側はこのリストを自身の出力形
 // (実数値 / StatBreakdownEntryの multiplier・cookingBonus)に適用するだけでよい。
 export function computeCookingAdjustments(
   finalStats: Record<StatId, number>,
   cookingAtkStatId: StatId,
   cookingAtkBonus: number,
   inspirationPercentBonus: number,
+  highestStatFinalPctBonus: number,
   lifeWaveBonus: number,
   agileAtkMultPercent: number,
 ): CookingAdjustment[] {
@@ -149,14 +151,19 @@ export function computeCookingAdjustments(
       adjustments.push({ statId, addend: inspirationPercentBonus });
     }
   }
-  if (lifeWaveBonus !== 0) {
+  // 会心/幸運/ファスト/器用さ/万能のうち、その時点の最終値が最も高い1項目へ加算する
+  // (二段増幅・HP変動で共通の判定方式)。
+  const addToHighestOfFive = (bonus: number) => {
+    if (bonus === 0) return;
     let maxStatId = INSPIRATION_PERCENT_STAT_IDS[0];
     for (const statId of INSPIRATION_PERCENT_STAT_IDS.slice(1)) {
       if (working[statId] > working[maxStatId]) maxStatId = statId;
     }
-    working[maxStatId] += lifeWaveBonus;
-    adjustments.push({ statId: maxStatId, addend: lifeWaveBonus });
-  }
+    working[maxStatId] += bonus;
+    adjustments.push({ statId: maxStatId, addend: bonus });
+  };
+  addToHighestOfFive(highestStatFinalPctBonus);
+  addToHighestOfFive(lifeWaveBonus);
 
   return adjustments;
 }
