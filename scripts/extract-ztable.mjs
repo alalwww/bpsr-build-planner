@@ -1369,7 +1369,10 @@ function extractLocaleText(
   //     同じID体系。会心/幸運等の平坦stat+2したID、単位1/10000)の場合は "名前 +val/100%" 形式
   //     (例: ヘヴィガーディアン「癒しの砂」attrId 11324→最大HP、value 1000→+10%)
   //   type=3 (buff効果): AttrDescription[buffId].Description を使用（TalentDesは中国語プレースホルダ）
-  //   type=4 (条件ボーナス): TalentDes を使用
+  //   type=4 (条件ボーナス): TalentDes を使用。type=1と併用時はtype1Descsの後にTalentDesを
+  //     追記する(例: シールドファイター/ヘヴィガーディアン「筋力変換」talentId 901/1206:
+  //     [[1,11352,3300],[4,0,11352,6667]] → "物理防御 +3300<br><br>筋力3ptにつき物理防御力+2pt。"。
+  //     type=1のみを見て早期returnすると、TalentDes側にしかない変換率の説明が欠落するため)
   //   type=6 (スキル置換): TalentDes を使用。同時にtype=3がある場合はADを結合
   const TALENT_DES_PLACEHOLDER = '力量+10';
   // IMAGINARY_PCT_FINAL(attrMaps.ts)と同じattrId集合。型番の末尾が4の"%最終加算"バリアント。
@@ -1388,6 +1391,7 @@ function extractLocaleText(
   const talents = {};
   for (const entry of Object.values(talentTable)) {
     const effects = entry.TalentEffect || [];
+    const hasType4 = effects.some((e) => e[0] === 4);
     const hasType6 = effects.some((e) => e[0] === 6);
     const type3Descs = effects
       .filter((e) => e[0] === 3)
@@ -1400,17 +1404,23 @@ function extractLocaleText(
           ? `${resolveAttrName(e[1])} +${e[2] / 100}%`
           : `${resolveAttrName(e[1])} +${e[2]}`,
       );
+    const talentDes =
+      entry.TalentDes && entry.TalentDes !== TALENT_DES_PLACEHOLDER ? entry.TalentDes : '';
     let des = '';
     if (hasType6) {
-      const baseDes = entry.TalentDes !== TALENT_DES_PLACEHOLDER ? entry.TalentDes || '' : '';
       des =
-        type3Descs.length > 0 ? [baseDes, ...type3Descs].filter(Boolean).join('<br><br>') : baseDes;
+        type3Descs.length > 0
+          ? [talentDes, ...type3Descs].filter(Boolean).join('<br><br>')
+          : talentDes;
     } else if (type3Descs.length > 0) {
       des = type3Descs.join('<br><br>');
     } else if (type1Descs.length > 0) {
-      des = type1Descs.join('<br>');
+      des =
+        hasType4 && talentDes
+          ? [type1Descs.join('<br>'), talentDes].join('<br><br>')
+          : type1Descs.join('<br>');
     } else {
-      des = entry.TalentDes && entry.TalentDes !== TALENT_DES_PLACEHOLDER ? entry.TalentDes : '';
+      des = talentDes;
     }
     talents[entry.Id] = {
       name: entry.TalentName,

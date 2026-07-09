@@ -24792,7 +24792,7 @@
     },
     "901": {
       "name": "筋力変換",
-      "description": "物理防御 +3300"
+      "description": "物理防御 +3300<br><br>筋力<style=\"accent-gn\">3</style>ptにつき物理防御力+<style=\"accent-gn\">2</style>pt。"
     },
     "902": {
       "name": "生命制圧",
@@ -25348,7 +25348,7 @@
     },
     "1206": {
       "name": "筋力変換",
-      "description": "物理防御 +3300"
+      "description": "物理防御 +3300<br><br>筋力<style=\"accent-gn\">3</style>ptにつき物理防御力+<style=\"accent-gn\">2</style>pt。"
     },
     "1207": {
       "name": "断罪の光",
