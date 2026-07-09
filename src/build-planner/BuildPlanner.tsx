@@ -84,7 +84,6 @@ function BuildPlanner() {
     reorderBattleImaginaries,
     setImaginaryRank,
     moduleSlots,
-    setModuleSlot,
     adventurerLevel,
     setAdventurerLevel,
     phantomEnabled,
@@ -254,12 +253,7 @@ function BuildPlanner() {
                   />
                 )}
                 {activeTab === 'module' && (
-                  <ModulePanel
-                    moduleSlots={moduleSlots}
-                    onSetModuleSlot={setModuleSlot}
-                    profession={profession}
-                    professionTypeKey={professionTypeKey}
-                  />
+                  <ModulePanel profession={profession} professionTypeKey={professionTypeKey} />
                 )}
                 {activeTab === 'phantom' && (
                   <PhantomPanel

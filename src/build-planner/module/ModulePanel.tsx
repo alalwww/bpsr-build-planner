@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import './module.css';
-import type { ModuleConfig, ModuleSlots } from '../types';
 import type { Profession, ProfessionTypeKey } from '../profession';
+import { useBuildStore } from '../store/useBuildStore';
 import { modulesData } from './moduleData';
 import ModuleSlot from './ModuleSlot';
 import ModuleTotalStats from './ModuleTotalStats';
@@ -10,8 +10,6 @@ import ModuleDialog from './ModuleDialog';
 import { useCursorTooltip } from '../components/useCursorTooltip';
 
 interface ModulePanelProps {
-  moduleSlots: ModuleSlots;
-  onSetModuleSlot: (index: number, config: ModuleConfig | null) => void;
   profession: Profession;
   professionTypeKey: ProfessionTypeKey;
 }
@@ -21,12 +19,9 @@ interface EffectPopupKey {
   align: 'right' | 'left';
 }
 
-function ModulePanel({
-  moduleSlots,
-  onSetModuleSlot,
-  profession,
-  professionTypeKey,
-}: ModulePanelProps) {
+function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
+  const moduleSlots = useBuildStore((s) => s.moduleSlots);
+  const onSetModuleSlot = useBuildStore((s) => s.setModuleSlot);
   const [openSlot, setOpenSlot] = useState<number | null>(null);
   const {
     tooltip: effectPopup,
