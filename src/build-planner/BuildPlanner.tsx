@@ -71,10 +71,6 @@ function BuildPlanner() {
     imaginaryRanks,
     roleSkills,
     skillReplacements,
-    talentR1EnabledIds,
-    setTalentR1EnabledIds,
-    talentR2EnabledIds,
-    setTalentR2EnabledIds,
     toggleMasteryEquipped,
     setMasteryLevel,
     setMasteryRank,
@@ -192,10 +188,6 @@ function BuildPlanner() {
                 professionKey={professionKey}
                 professionTypeKey={professionTypeKey}
                 onSelectProfessionType={selectProfessionType}
-                r1EnabledIds={talentR1EnabledIds}
-                r2EnabledIds={talentR2EnabledIds}
-                onR1EnabledIdsChange={setTalentR1EnabledIds}
-                onR2EnabledIdsChange={setTalentR2EnabledIds}
               />
             ) : (
               <>

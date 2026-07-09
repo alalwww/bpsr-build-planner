@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import './talent.css';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import FloatingTooltip from '../components/FloatingTooltip';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
+import { useBuildStore } from '../store/useBuildStore';
 import {
   classesData,
   DEFAULT_ROLE_THEME,
@@ -55,23 +57,21 @@ interface Props {
   professionKey: ProfessionKey;
   professionTypeKey: ProfessionTypeKey;
   onSelectProfessionType: (key: ProfessionTypeKey) => void;
-  r1EnabledIds: Set<number>;
-  r2EnabledIds: Set<number>;
-  onR1EnabledIdsChange: (ids: Set<number>) => void;
-  onR2EnabledIdsChange: (ids: Set<number>) => void;
 }
 
 export default function TalentTreePanel({
   professionKey,
   professionTypeKey,
   onSelectProfessionType,
-  r1EnabledIds,
-  r2EnabledIds,
-  onR1EnabledIdsChange,
-  onR2EnabledIdsChange,
 }: Props) {
   const { t: tUi } = useTranslation();
   const { t } = useTranslation('game-data');
+
+  const { r1EnabledIds, r2EnabledIds } = useBuildStore(
+    useShallow((s) => ({ r1EnabledIds: s.talentR1EnabledIds, r2EnabledIds: s.talentR2EnabledIds })),
+  );
+  const onR1EnabledIdsChange = useBuildStore((s) => s.setTalentR1EnabledIds);
+  const onR2EnabledIdsChange = useBuildStore((s) => s.setTalentR2EnabledIds);
 
   const profession = PROFESSIONS[professionKey];
   const wt = profession.professionId;
