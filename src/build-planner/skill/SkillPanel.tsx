@@ -1,9 +1,16 @@
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import './skill.css';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { classesData, getSkillData } from './skillData';
 import { calculateSkillAbilityScore } from '../stats/calculateAbilityScore';
+import {
+  selectRoleSkills,
+  selectSkillReplacements,
+  selectTalentNodesById,
+} from '../store/derivedSelectors';
+import { useBuildStore } from '../store/useBuildStore';
 import SkillCircle, { type CircleHandlers } from './SkillCircle';
 import FixedSkillCard from './FixedSkillCard';
 import MasterySkillCard from './MasterySkillCard';
@@ -25,49 +32,54 @@ interface SkillTooltipKey {
 export interface SkillPanelProps {
   professionKey: ProfessionKey;
   professionTypeKey: ProfessionTypeKey;
-  masteryEquipped: boolean[];
-  masteryLevels: number[];
-  masteryRanks: number[];
-  fixedLevels: number[];
-  fixedRanks: number[];
-  battleImaginaries: (number | null)[];
-  imaginaryRanks: number[];
-  roleSkills: number[];
-  skillReplacements: Record<number, number>;
-  onToggleMasteryEquipped: (index: number) => void;
-  onSetMasteryLevel: (index: number, level: number) => void;
-  onSetMasteryRank: (index: number, rank: number) => void;
-  onSetFixedLevel: (index: number, level: number) => void;
-  onSetFixedRank: (index: number, rank: number) => void;
-  onSetBattleImaginary: (index: number, id: number | null) => void;
-  onReorderBattleImaginaries: (from: number, to: number) => void;
-  onSetImaginaryRank: (index: number, rank: number) => void;
 }
 
 // ---- Main ----
 
-export default function SkillPanel({
-  professionKey,
-  masteryEquipped,
-  masteryLevels,
-  masteryRanks,
-  fixedLevels,
-  fixedRanks,
-  battleImaginaries,
-  imaginaryRanks,
-  roleSkills,
-  skillReplacements,
-  onToggleMasteryEquipped,
-  onSetMasteryLevel,
-  onSetMasteryRank,
-  onSetFixedLevel,
-  onSetFixedRank,
-  onSetBattleImaginary,
-  onReorderBattleImaginaries,
-  onSetImaginaryRank,
-}: SkillPanelProps) {
+export default function SkillPanel({ professionKey }: SkillPanelProps) {
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
+
+  const {
+    masteryEquipped,
+    masteryLevels,
+    masteryRanks,
+    fixedLevels,
+    fixedRanks,
+    battleImaginaries,
+    imaginaryRanks,
+    talentR1EnabledIds,
+    talentR2EnabledIds,
+  } = useBuildStore(
+    useShallow((s) => ({
+      masteryEquipped: s.masteryEquipped,
+      masteryLevels: s.masteryLevels,
+      masteryRanks: s.masteryRanks,
+      fixedLevels: s.fixedLevels,
+      fixedRanks: s.fixedRanks,
+      battleImaginaries: s.battleImaginaries,
+      imaginaryRanks: s.imaginaryRanks,
+      talentR1EnabledIds: s.talentR1EnabledIds,
+      talentR2EnabledIds: s.talentR2EnabledIds,
+    })),
+  );
+  const onToggleMasteryEquipped = useBuildStore((s) => s.toggleMasteryEquipped);
+  const onSetMasteryLevel = useBuildStore((s) => s.setMasteryLevel);
+  const onSetMasteryRank = useBuildStore((s) => s.setMasteryRank);
+  const onSetFixedLevel = useBuildStore((s) => s.setFixedLevel);
+  const onSetFixedRank = useBuildStore((s) => s.setFixedRank);
+  const onSetBattleImaginary = useBuildStore((s) => s.setBattleImaginary);
+  const onReorderBattleImaginaries = useBuildStore((s) => s.reorderBattleImaginaries);
+  const onSetImaginaryRank = useBuildStore((s) => s.setImaginaryRank);
+
+  const professionId = PROFESSIONS[professionKey].professionId;
+  const roleSkills = selectRoleSkills(professionId);
+  const talentNodesById = selectTalentNodesById(professionId);
+  const skillReplacements = selectSkillReplacements(
+    talentR1EnabledIds,
+    talentR2EnabledIds,
+    talentNodesById,
+  );
   const { tooltip, makeHandlers, cancelClose, scheduleClose, close } =
     useCursorTooltip<SkillTooltipKey>(
       (a, b) => a.skillId === b.skillId && a.isImagine === b.isImagine,

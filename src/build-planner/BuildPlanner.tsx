@@ -62,23 +62,6 @@ function BuildPlanner() {
     professionTypeKey,
     selectProfession,
     selectProfessionType,
-    masteryEquipped,
-    masteryLevels,
-    masteryRanks,
-    fixedLevels,
-    fixedRanks,
-    battleImaginaries,
-    imaginaryRanks,
-    roleSkills,
-    skillReplacements,
-    toggleMasteryEquipped,
-    setMasteryLevel,
-    setMasteryRank,
-    setFixedLevel,
-    setFixedRank,
-    setBattleImaginary,
-    reorderBattleImaginaries,
-    setImaginaryRank,
     moduleSlots,
     adventurerLevel,
     setAdventurerLevel,
@@ -211,27 +194,7 @@ function BuildPlanner() {
                   />
                 )}
                 {activeTab === 'skill' && (
-                  <SkillPanel
-                    professionKey={professionKey}
-                    professionTypeKey={professionTypeKey}
-                    masteryEquipped={masteryEquipped}
-                    masteryLevels={masteryLevels}
-                    masteryRanks={masteryRanks}
-                    fixedLevels={fixedLevels}
-                    fixedRanks={fixedRanks}
-                    battleImaginaries={battleImaginaries}
-                    imaginaryRanks={imaginaryRanks}
-                    roleSkills={roleSkills}
-                    skillReplacements={skillReplacements}
-                    onToggleMasteryEquipped={toggleMasteryEquipped}
-                    onSetMasteryLevel={setMasteryLevel}
-                    onSetMasteryRank={setMasteryRank}
-                    onSetFixedLevel={setFixedLevel}
-                    onSetFixedRank={setFixedRank}
-                    onSetBattleImaginary={setBattleImaginary}
-                    onReorderBattleImaginaries={reorderBattleImaginaries}
-                    onSetImaginaryRank={setImaginaryRank}
-                  />
+                  <SkillPanel professionKey={professionKey} professionTypeKey={professionTypeKey} />
                 )}
                 {activeTab === 'module' && (
                   <ModulePanel profession={profession} professionTypeKey={professionTypeKey} />
