@@ -160,4 +160,5 @@ interface EnchantItem {
 - `enchantId` が存在しない装備(Gs=10/20等)はセクション非表示
 - 選択状態は `selectedEnchant`(通常/精/極いずれかの実アイテムID)として保持し、
   `sortedEnchants` から `id`/`refined.id`/`perfect.id` を逆引きしてグレード判定する
-- ステータス計算への反映は `useBuildState.ts` の `rawStats` 合算に組み込み済み
+- ステータス計算への反映は `stats/calculateRawStats.ts` の `rawStats` 合算に組み込み済み
+  (呼び出し元は `store/derivedSelectors.ts` の `computeStatsBundle`)
