@@ -23443,11 +23443,11 @@
     },
     "41": {
       "name": "Attack Speed",
-      "description": "Attack SPD +100"
+      "description": "Attack SPD +1%"
     },
     "42": {
       "name": "Casting SPD",
-      "description": "Attack SPD +100"
+      "description": "Attack SPD +1%"
     },
     "43": {
       "name": "Skill CD",
@@ -25283,7 +25283,7 @@
     },
     "1135": {
       "name": "Quick Shot",
-      "description": "Attack SPD +300"
+      "description": "Attack SPD +3%"
     },
     "1136": {
       "name": "Wolf Sharp Strike",

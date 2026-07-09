@@ -1365,9 +1365,12 @@ function extractLocaleText(
 
   // talents: TalentTable の名前と説明文。
   //   type=1 (stat bonus): attrId→名前を解決し "名前 +val" 形式で生成。ただしattrIdが
-  //     "%final"系バリアント(src/build-planner/stats/attrMaps.ts の IMAGINARY_PCT_FINAL と
-  //     同じID体系。会心/幸運等の平坦stat+2したID、単位1/10000)の場合は "名前 +val/100%" 形式
-  //     (例: ヘヴィガーディアン「癒しの砂」attrId 11324→最大HP、value 1000→+10%)
+  //     "%final"系バリアント(平坦statの"+2"IDが多いが例外もある。単位はいずれも1/10000)の
+  //     場合は "名前 +val/100%" 形式で生成する:
+  //     - 11324/11334/11344/11354: src/build-planner/stats/attrMaps.ts の IMAGINARY_PCT_FINAL と
+  //       同じID(例: ヘヴィガーディアン「癒しの砂」attrId 11324→最大HP、value 1000→+10%)
+  //     - 11722: 攻撃速度の%final variant(例: ディバインアーチャー「迅射」、value 300→+3%。
+  //       誤って"攻撃速度 +300"と表示されていたバグ報告により追加)
   //   type=3 (buff効果): AttrDescription[buffId].Description を使用（TalentDesは中国語プレースホルダ）
   //   type=4 (条件ボーナス): TalentDes を使用。type=1と併用時はtype1Descsの後にTalentDesを
   //     追記する(例: シールドファイター/ヘヴィガーディアン「筋力変換」talentId 901/1206:
@@ -1375,8 +1378,8 @@ function extractLocaleText(
   //     type=1のみを見て早期returnすると、TalentDes側にしかない変換率の説明が欠落するため)
   //   type=6 (スキル置換): TalentDes を使用。同時にtype=3がある場合はADを結合
   const TALENT_DES_PLACEHOLDER = '力量+10';
-  // IMAGINARY_PCT_FINAL(attrMaps.ts)と同じattrId集合。型番の末尾が4の"%最終加算"バリアント。
-  const FINAL_PCT_ATTR_IDS = new Set([11324, 11334, 11344, 11354]);
+  // "%final"系バリアントのattrId集合(型番の末尾が4のIDが多いが11722のように例外もある)。
+  const FINAL_PCT_ATTR_IDS = new Set([11324, 11334, 11344, 11354, 11722]);
   const talentTable = readTable(langDir, 'TalentTable');
   // attrId → 表示名の解決（ProfileAttrTable + FightAttrTable + attributes[] fallback）
   function resolveAttrName(attrId) {
