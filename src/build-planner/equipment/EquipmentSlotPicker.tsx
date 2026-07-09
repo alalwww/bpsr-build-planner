@@ -5,6 +5,7 @@ import Chevron from '../components/Chevron';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
+import StatRow from '../components/StatRow';
 import Stepper from '../components/Stepper';
 import { getMaxPerfectline, getRefineForSlot, getRestrictedEvoStat } from './equipmentData';
 import { calculateEquipmentSlotAbilityScore } from '../stats/calculateAbilityScore';
@@ -308,12 +309,11 @@ function EquipmentSlotPicker({
           </div>
           <div className="equip-item-popup__section">
             {enchantTooltip.enchant.effects.map(([attrId, value]) => (
-              <div key={attrId} className="equip-stat-row">
-                <span className="equip-stat-row__name">
-                  {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                </span>
-                <span className="equip-stat-row__value">+{value}</span>
-              </div>
+              <StatRow
+                key={attrId}
+                name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                value={`+${value}`}
+              />
             ))}
           </div>
           {enchantTooltip.enchant.cost && enchantTooltip.enchant.cost.length > 0 && (
@@ -428,38 +428,27 @@ function EquipmentSlotPicker({
             {/* この部位で増える能力スコアと内訳 */}
             <section className="equip-details-section">
               <h3 className="equip-details-section__heading">{t('buildPlanner.abilityScore')}</h3>
-              <div className="equip-stat-row equip-ability-score-row--total">
-                <span className="equip-stat-row__name">
-                  {t('buildPlanner.abilityScoreBreakdown.total')}
-                </span>
-                <span className="equip-stat-row__value">
-                  {abilityScoreBreakdown.total.toLocaleString()}
-                </span>
-              </div>
-              <div className="equip-stat-row">
-                <span className="equip-stat-row__name">{t('buildPlanner.baseStats')}</span>
-                <span className="equip-stat-row__value">
-                  {abilityScoreBreakdown.baseStats.toLocaleString()}
-                </span>
-              </div>
-              <div className="equip-stat-row">
-                <span className="equip-stat-row__name">{t('buildPlanner.evolutionStats')}</span>
-                <span className="equip-stat-row__value">
-                  {abilityScoreBreakdown.evolution.toLocaleString()}
-                </span>
-              </div>
-              <div className="equip-stat-row">
-                <span className="equip-stat-row__name">{t('buildPlanner.equippedEffects')}</span>
-                <span className="equip-stat-row__value">
-                  {abilityScoreBreakdown.enchant.toLocaleString()}
-                </span>
-              </div>
-              <div className="equip-stat-row">
-                <span className="equip-stat-row__name">{t('buildPlanner.refineEffect')}</span>
-                <span className="equip-stat-row__value">
-                  {abilityScoreBreakdown.refine.toLocaleString()}
-                </span>
-              </div>
+              <StatRow
+                className="equip-ability-score-row--total"
+                name={t('buildPlanner.abilityScoreBreakdown.total')}
+                value={abilityScoreBreakdown.total.toLocaleString()}
+              />
+              <StatRow
+                name={t('buildPlanner.baseStats')}
+                value={abilityScoreBreakdown.baseStats.toLocaleString()}
+              />
+              <StatRow
+                name={t('buildPlanner.evolutionStats')}
+                value={abilityScoreBreakdown.evolution.toLocaleString()}
+              />
+              <StatRow
+                name={t('buildPlanner.equippedEffects')}
+                value={abilityScoreBreakdown.enchant.toLocaleString()}
+              />
+              <StatRow
+                name={t('buildPlanner.refineEffect')}
+                value={abilityScoreBreakdown.refine.toLocaleString()}
+              />
             </section>
           </div>
 
@@ -471,14 +460,11 @@ function EquipmentSlotPicker({
               {equippedItem ? (
                 equippedItem.baseStats.length > 0 ? (
                   equippedItem.baseStats.map(([attrId, min, max]) => (
-                    <div key={attrId} className="equip-stat-row">
-                      <span className="equip-stat-row__name">
-                        {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      </span>
-                      <span className="equip-stat-row__value">
-                        {calcStatValue(min, max, perfectline)}
-                      </span>
-                    </div>
+                    <StatRow
+                      key={attrId}
+                      name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                      value={calcStatValue(min, max, perfectline)}
+                    />
                   ))
                 ) : (
                   <p className="equip-stat-row__value--placeholder equip-details-section__placeholder">
@@ -487,14 +473,12 @@ function EquipmentSlotPicker({
                 )
               ) : (
                 placeholderStatIds.map((statId) => (
-                  <div key={statId} className="equip-stat-row">
-                    <span className="equip-stat-row__name">
-                      {t(`buildPlanner.stats.${statId}`)}
-                    </span>
-                    <span className="equip-stat-row__value equip-stat-row__value--placeholder">
-                      ---
-                    </span>
-                  </div>
+                  <StatRow
+                    key={statId}
+                    name={t(`buildPlanner.stats.${statId}`)}
+                    value="---"
+                    valueClassName="equip-stat-row__value--placeholder"
+                  />
                 ))
               )}
             </section>
@@ -536,28 +520,24 @@ function EquipmentSlotPicker({
                 // シリーズ装備: クラス型に応じた固定値を読み取り専用で表示。改鋳なし。
                 <div className="equip-evo-fixed">
                   {fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
-                    <div key={i} className="equip-stat-row">
-                      <span className="equip-stat-row__name">
-                        {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      </span>
-                      <span className="equip-stat-row__value">
-                        {isPercent ? `+${min / 100}%` : `+${min}`}
-                      </span>
-                    </div>
+                    <StatRow
+                      key={i}
+                      name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                      value={isPercent ? `+${min / 100}%` : `+${min}`}
+                    />
                   ))}
                 </div>
               ) : hasBtFixedEvo ? (
                 // BT突破防具: TalentSchoolId別固定Evo1/Evo2(完成度依存) + 改鋳スロット選択可。
                 <div className="equip-evo-mixed">
                   {fixedEvoEffects!.map(([, attrId, min, max, isPercent], i) => (
-                    <div key={i} className="equip-stat-row">
-                      <span className="equip-stat-row__name">
-                        {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      </span>
-                      <span className="equip-stat-row__value">
-                        {isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`}
-                      </span>
-                    </div>
+                    <StatRow
+                      key={i}
+                      name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                      value={
+                        isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`
+                      }
+                    />
                   ))}
                   {reforgeSection}
                 </div>
@@ -591,14 +571,11 @@ function EquipmentSlotPicker({
                 // 通常装備(type=1、Evo1/Evo2 が異なる attrId): 固定表示 + 改鋳のみ選択可能。
                 <div className="equip-evo-mixed">
                   {equippedItem!.evo.map(([attrId, min, max], i) => (
-                    <div key={i} className="equip-stat-row">
-                      <span className="equip-stat-row__name">
-                        {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      </span>
-                      <span className="equip-stat-row__value">
-                        +{calcStatValue(min, max, sliderValue)}
-                      </span>
-                    </div>
+                    <StatRow
+                      key={i}
+                      name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                      value={`+${calcStatValue(min, max, sliderValue)}`}
+                    />
                   ))}
                   {reforgeSection}
                 </div>
@@ -775,12 +752,11 @@ function EquipmentSlotPicker({
                   {selectedEnchantData && (
                     <div className="equip-enchant-details">
                       {selectedEnchantData.effects.map(([attrId, value]) => (
-                        <div key={attrId} className="equip-stat-row">
-                          <span className="equip-stat-row__name">
-                            {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                          </span>
-                          <span className="equip-stat-row__value">+{value}</span>
-                        </div>
+                        <StatRow
+                          key={attrId}
+                          name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                          value={`+${value}`}
+                        />
                       ))}
                       {selectedEnchantData.cost && selectedEnchantData.cost.length > 0 && (
                         <div className="equip-enchant-cost">
@@ -821,12 +797,11 @@ function EquipmentSlotPicker({
               <h3 className="equip-details-section__heading">{t('buildPlanner.refineEffect')}</h3>
               {cumulativeEffects && cumulativeEffects.length > 0 ? (
                 cumulativeEffects.map(([attrId, value]) => (
-                  <div key={attrId} className="equip-stat-row">
-                    <span className="equip-stat-row__name">
-                      {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                    </span>
-                    <span className="equip-stat-row__value">+{value}</span>
-                  </div>
+                  <StatRow
+                    key={attrId}
+                    name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                    value={`+${value}`}
+                  />
                 ))
               ) : (
                 <p className="equip-stat-row__value--placeholder equip-details-section__placeholder">

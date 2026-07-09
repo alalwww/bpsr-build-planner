@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
+import StatRow from '../components/StatRow';
 import { getRefineForSlot } from './equipmentData';
 import type { Profession, ProfessionTypeKey } from '../profession';
 import type {
@@ -151,12 +152,11 @@ function EquipmentItemPopup({
             {t('buildPlanner.baseStats')}
           </h4>
           {item.baseStats.map(([attrId, min, max]) => (
-            <div key={attrId} className="equip-stat-row">
-              <span className="equip-stat-row__name">
-                {t(`attributes.${attrId}`, { ns: 'game-data' })}
-              </span>
-              <span className="equip-stat-row__value">{calcStatValue(min, max, perfectline)}</span>
-            </div>
+            <StatRow
+              key={attrId}
+              name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+              value={calcStatValue(min, max, perfectline)}
+            />
           ))}
         </div>
       )}
@@ -167,34 +167,27 @@ function EquipmentItemPopup({
             {t('buildPlanner.evolutionStats')}
           </h4>
           {selectedLegendaryAffix && affixDisplayValue && (
-            <div className="equip-stat-row equip-item-popup__affix-row">
-              <span className="equip-stat-row__name">
-                {t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })}
-              </span>
-              <span className="equip-stat-row__value">{affixDisplayValue}</span>
-            </div>
+            <StatRow
+              className="equip-item-popup__affix-row"
+              name={t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })}
+              value={affixDisplayValue}
+            />
           )}
           {isSeriesFixed &&
             fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
-              <div key={i} className="equip-stat-row">
-                <span className="equip-stat-row__name">
-                  {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                </span>
-                <span className="equip-stat-row__value">
-                  {isPercent ? `+${min / 100}%` : `+${min}`}
-                </span>
-              </div>
+              <StatRow
+                key={i}
+                name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                value={isPercent ? `+${min / 100}%` : `+${min}`}
+              />
             ))}
           {hasBtFixedEvo &&
             fixedEvoEffects!.map(([, attrId, min, max, isPercent], i) => (
-              <div key={i} className="equip-stat-row">
-                <span className="equip-stat-row__name">
-                  {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                </span>
-                <span className="equip-stat-row__value">
-                  {isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`}
-                </span>
-              </div>
+              <StatRow
+                key={i}
+                name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                value={isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`}
+              />
             ))}
           {hasSameEvo &&
             [0, 1].map((i) => {
@@ -202,34 +195,32 @@ function EquipmentItemPopup({
               if (!statId) return null;
               const [, evoMin, evoMax] = item.evo[i] ?? [0, 0, 0];
               return (
-                <div key={i} className="equip-stat-row">
-                  <span className="equip-stat-row__name">{t(`buildPlanner.stats.${statId}`)}</span>
-                  <span className="equip-stat-row__value">
-                    +{calcStatValue(evoMin, evoMax, sliderValue)}
-                  </span>
-                </div>
+                <StatRow
+                  key={i}
+                  name={t(`buildPlanner.stats.${statId}`)}
+                  value={`+${calcStatValue(evoMin, evoMax, sliderValue)}`}
+                />
               );
             })}
           {hasDataEvo &&
             !hasSameEvo &&
             item.evo.map(([attrId, min, max], i) => (
-              <div key={i} className="equip-stat-row">
-                <span className="equip-stat-row__name">
-                  {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                </span>
-                <span className="equip-stat-row__value">
-                  +{calcStatValue(min, max, sliderValue)}
-                </span>
-              </div>
+              <StatRow
+                key={i}
+                name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                value={`+${calcStatValue(min, max, sliderValue)}`}
+              />
             ))}
           {showReforgeRow && (
-            <div className="equip-stat-row">
-              <span className="equip-stat-row__name">
-                <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>{' '}
-                {t(`buildPlanner.stats.${reforgedStat}`)}
-              </span>
-              <span className="equip-stat-row__value">+{reforgeEvoValue}</span>
-            </div>
+            <StatRow
+              name={
+                <>
+                  <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>{' '}
+                  {t(`buildPlanner.stats.${reforgedStat}`)}
+                </>
+              }
+              value={`+${reforgeEvoValue}`}
+            />
           )}
         </div>
       )}
@@ -270,12 +261,11 @@ function EquipmentItemPopup({
             {t('buildPlanner.equippedEffects')}
           </h4>
           {selectedEnchantData.effects.map(([attrId, value]) => (
-            <div key={attrId} className="equip-stat-row">
-              <span className="equip-stat-row__name">
-                {t(`attributes.${attrId}`, { ns: 'game-data' })}
-              </span>
-              <span className="equip-stat-row__value">+{value}</span>
-            </div>
+            <StatRow
+              key={attrId}
+              name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+              value={`+${value}`}
+            />
           ))}
         </div>
       )}
@@ -284,20 +274,20 @@ function EquipmentItemPopup({
         <div className="equip-item-popup__section">
           <h4 className="equip-details-section__heading">{t('buildPlanner.refineEffect')}</h4>
           {cumulativeEffects.map(([attrId, value]) => (
-            <div key={attrId} className="equip-stat-row">
-              <span className="equip-stat-row__name">
-                {t(`attributes.${attrId}`, { ns: 'game-data' })}
-              </span>
-              <span className="equip-stat-row__value">+{value}</span>
-            </div>
+            <StatRow
+              key={attrId}
+              name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+              value={`+${value}`}
+            />
           ))}
         </div>
       )}
 
-      <div className="equip-stat-row equip-ability-score-row--total">
-        <span className="equip-stat-row__name">{t('buildPlanner.abilityScore')}</span>
-        <span className="equip-stat-row__value">{abilityScoreTotal.toLocaleString()}</span>
-      </div>
+      <StatRow
+        className="equip-ability-score-row--total"
+        name={t('buildPlanner.abilityScore')}
+        value={abilityScoreTotal.toLocaleString()}
+      />
     </FloatingTooltip>
   );
 }
