@@ -37,19 +37,6 @@ function BuildPlanner() {
   };
 
   const {
-    equipped,
-    equip,
-    unequip,
-    refineLevels,
-    setRefineLevel,
-    perfectlines,
-    setPerfectline,
-    evolutionStats,
-    setEvolutionStat,
-    legendaryAffixState,
-    setLegendaryAffix,
-    slotEnchants,
-    setSlotEnchant,
     cookingBuff,
     setCookingBuff,
     stats,
@@ -175,23 +162,7 @@ function BuildPlanner() {
             ) : (
               <>
                 {activeTab === 'equipment' && (
-                  <EquipmentPanel
-                    equipped={equipped}
-                    profession={profession}
-                    professionTypeKey={professionTypeKey}
-                    refineLevels={refineLevels}
-                    perfectlines={perfectlines}
-                    evolutionStats={evolutionStats}
-                    legendaryAffixState={legendaryAffixState}
-                    slotEnchants={slotEnchants}
-                    onEquip={equip}
-                    onUnequip={unequip}
-                    onRefineLevel={setRefineLevel}
-                    onPerfectline={setPerfectline}
-                    onSetEvolutionStat={setEvolutionStat}
-                    onSetLegendaryAffix={setLegendaryAffix}
-                    onSetEnchant={setSlotEnchant}
-                  />
+                  <EquipmentPanel profession={profession} professionTypeKey={professionTypeKey} />
                 )}
                 {activeTab === 'skill' && (
                   <SkillPanel professionKey={professionKey} professionTypeKey={professionTypeKey} />

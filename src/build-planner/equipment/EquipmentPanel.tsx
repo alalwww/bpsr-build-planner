@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import './equipment.css';
 import {
   EQUIPMENT_BOTTOM_SLOTS,
@@ -8,21 +9,12 @@ import {
   getItemsBySlot,
 } from './equipmentData';
 import type { Profession, ProfessionTypeKey } from '../profession';
+import { useBuildStore } from '../store/useBuildStore';
 import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
 import EquipmentItemPopup from './EquipmentItemPopup';
 import { isSeaBreezeSeries, qualityToAssetIndex } from './equipmentSlotPickerData';
-import type {
-  EquipmentItem,
-  EquipmentSlotId,
-  EquippedItems,
-  EvolutionStatId,
-  LegendaryAffixSelection,
-  SlotEnchants,
-  SlotEvolutionStats,
-  SlotLegendaryAffix,
-  SlotRefineLevels,
-} from '../types';
+import type { EquipmentItem, EquipmentSlotId } from '../types';
 
 // ---- アイコン ----
 
@@ -113,48 +105,36 @@ function getSlotIconUrl(
 // ---- Component ----
 
 interface EquipmentPanelProps {
-  equipped: EquippedItems;
   profession: Profession;
   professionTypeKey: ProfessionTypeKey;
-  refineLevels: SlotRefineLevels;
-  perfectlines: SlotRefineLevels;
-  evolutionStats: SlotEvolutionStats;
-  legendaryAffixState: SlotLegendaryAffix;
-  slotEnchants: SlotEnchants;
-  onEquip: (slot: EquipmentSlotId, item: EquipmentItem) => void;
-  onUnequip: (slot: EquipmentSlotId) => void;
-  onRefineLevel: (slot: EquipmentSlotId, level: number) => void;
-  onPerfectline: (slot: EquipmentSlotId, value: number) => void;
-  onSetEvolutionStat: (
-    slot: EquipmentSlotId,
-    slotIndex: number,
-    statId: EvolutionStatId | undefined,
-  ) => void;
-  onSetLegendaryAffix: (
-    slot: EquipmentSlotId,
-    selection: LegendaryAffixSelection | undefined,
-  ) => void;
-  onSetEnchant: (slot: EquipmentSlotId, itemId: number | undefined) => void;
 }
 
-function EquipmentPanel({
-  equipped,
-  profession,
-  professionTypeKey,
-  refineLevels,
-  perfectlines,
-  evolutionStats,
-  legendaryAffixState,
-  slotEnchants,
-  onEquip,
-  onUnequip,
-  onRefineLevel,
-  onPerfectline,
-  onSetEvolutionStat,
-  onSetLegendaryAffix,
-  onSetEnchant,
-}: EquipmentPanelProps) {
+function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) {
   const { t } = useTranslation();
+  const {
+    equipped,
+    refineLevels,
+    perfectlines,
+    evolutionStats,
+    legendaryAffixState,
+    slotEnchants,
+  } = useBuildStore(
+    useShallow((s) => ({
+      equipped: s.equipped,
+      refineLevels: s.refineLevels,
+      perfectlines: s.perfectlines,
+      evolutionStats: s.evolutionStats,
+      legendaryAffixState: s.legendaryAffixState,
+      slotEnchants: s.slotEnchants,
+    })),
+  );
+  const onEquip = useBuildStore((s) => s.equip);
+  const onUnequip = useBuildStore((s) => s.unequip);
+  const onRefineLevel = useBuildStore((s) => s.setRefineLevel);
+  const onPerfectline = useBuildStore((s) => s.setPerfectline);
+  const onSetEvolutionStat = useBuildStore((s) => s.setEvolutionStat);
+  const onSetLegendaryAffix = useBuildStore((s) => s.setLegendaryAffix);
+  const onSetEnchant = useBuildStore((s) => s.setSlotEnchant);
   const [openSlot, setOpenSlot] = useState<EquipmentSlotId | null>(null);
   const [hoveredSlot, setHoveredSlot] = useState<{
     slot: EquipmentSlotId;
