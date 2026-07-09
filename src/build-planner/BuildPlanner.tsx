@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import './build-planner.css';
 import './components/components.css';
 import CharacterPanel from './character/CharacterPanel';
 import EquipmentPanel from './equipment/EquipmentPanel';
 import ModulePanel from './module/ModulePanel';
 import PhantomPanel from './phantom/PhantomPanel';
+import { PROFESSIONS } from './profession';
 import SkillPanel from './skill/SkillPanel';
 import StatsDetailDialog from './character/StatsDetailDialog';
+import { useBuildStore } from './store/useBuildStore';
 import TalentTreePanel from './talent/TalentTreePanel';
-import { useBuildState } from './useBuildState';
 
 const TABS = ['skill', 'equipment', 'module', 'phantom'] as const;
 type Tab = (typeof TABS)[number];
@@ -36,7 +38,11 @@ function BuildPlanner() {
     setLangMenuOpen(false);
   };
 
-  const { profession, professionKey, professionTypeKey, selectProfessionType } = useBuildState();
+  const { professionKey, professionTypeKey } = useBuildStore(
+    useShallow((s) => ({ professionKey: s.professionKey, professionTypeKey: s.professionTypeKey })),
+  );
+  const selectProfessionType = useBuildStore((s) => s.selectProfessionType);
+  const profession = PROFESSIONS[professionKey];
 
   const [activeTab, setActiveTab] = useState<Tab>('skill');
   const [showTalentTree, setShowTalentTree] = useState(false);
