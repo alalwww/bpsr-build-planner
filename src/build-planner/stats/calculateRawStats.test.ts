@@ -113,7 +113,9 @@ describe('calculateRawStats', () => {
     // src/data/refine.json: partRefineIds["200"]["1"] = 1001 (weapon, stormBlade)
     // refineById["1001"].cumulative[4] (level5) = [[11412, 20]]
     // refineById["1001"].milestones["5"] = [[11412, 12]]
-    // attrId 11412 -> addStat('atk', v) + addStat('refinePhysAtk', v)
+    // attrId 11412 -> addStat('refinePhysAtk', v) のみ(docs/STATUS_CALCULATION.md「精錬物攻・
+    // 精錬魔攻」の通り、精錬攻撃力は防御減衰の対象になる物理/魔法攻撃力本体とは別枠のため、
+    // atkには加算しない)
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       profession: PROFESSIONS.stormBlade,
@@ -125,8 +127,27 @@ describe('calculateRawStats', () => {
 
     const result = calculateRawStats(input);
 
-    expect(result.rawStats.atk).toBe(32);
+    expect(result.rawStats.atk).toBe(0);
     expect(result.rawStats.refinePhysAtk).toBe(32);
+  });
+
+  it('routes the 全属性攻撃力 (attrId 11502) enchant effect to refinePhysAtk/refineMagAtk, not atk/matk', () => {
+    // src/data/enchants.json group "2001" item 1024761 (幻花の残骸): effects [[11502,40],[11022,50]]
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      equipped: {
+        weapon: makeEquipmentItem({ slot: 'weapon', part: 200 }),
+      },
+      slotEnchants: { weapon: 1024761 },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.atk).toBe(0);
+    expect(result.rawStats.matk).toBe(0);
+    expect(result.rawStats.refinePhysAtk).toBe(40);
+    expect(result.rawStats.refineMagAtk).toBe(40);
+    expect(result.rawStats.intellect).toBe(BASE_STATS.intellect + 50);
   });
 
   it('sums multiple legendary-affix % bonuses before multiplying once (not compounding)', () => {

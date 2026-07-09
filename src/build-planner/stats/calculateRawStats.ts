@@ -283,15 +283,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     }
   }
 
-  // 精錬ステータス (物攻・魔攻・防御力・耐久)
+  // 精錬ステータス (物攻・魔攻・防御力・耐久)。docs/STATUS_CALCULATION.md「精錬物攻・精錬魔攻」の通り、
+  // 精錬攻撃力は物理/魔法攻撃力(防御力減衰の対象)とは別枠で、防御減衰の"後"に加算される値のため、
+  // atk/matk本体には加算しない(refinePhysAtk/refineMagAtkのみに積む)。
   const profId = profession.professionId;
   const applyRefineEffects = (effects: [number, number][]) => {
     for (const [attrId, value] of effects) {
       if (attrId === REFINE_ATK_ATTR_ID) {
-        addStat('atk', value);
         addStat('refinePhysAtk', value);
       } else if (attrId === REFINE_MATK_ATTR_ID) {
-        addStat('matk', value);
         addStat('refineMagAtk', value);
       } else if (attrId === REFINE_DEF_ATTR_ID) {
         addStat('physicalDef', value);
@@ -376,9 +376,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (!effects) continue;
     for (const [attrId, value] of effects) {
       if (attrId === 11502) {
-        // 全属性攻撃力: 物理・魔法攻撃力の両方に加算
-        addStat('atk', value);
-        addStat('matk', value);
+        // 全属性攻撃力: docs/STATUS_CALCULATION.md 6章の通り精錬攻撃力と同じ扱い(防御減衰の
+        // 対象外、"後"に加算)のため、atk/matk本体ではなくrefinePhysAtk/refineMagAtkに積む。
+        addStat('refinePhysAtk', value);
+        addStat('refineMagAtk', value);
       } else {
         const statId = ENCHANT_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
