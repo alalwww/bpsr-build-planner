@@ -129,6 +129,7 @@ function BuildPlanner() {
         <CharacterPanel
           stats={stats}
           rawStats={rawStats}
+          derivedStats={derivedStats}
           abilityScore={abilityScore}
           professionKey={professionKey}
           professionTypeKey={professionTypeKey}

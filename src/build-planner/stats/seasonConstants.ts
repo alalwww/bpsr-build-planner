@@ -17,7 +17,7 @@ export const SEASON_CONSTANTS = {
 export const DIMINISHING_A_BASE_PERCENT = {
   crit: 5,
   luck: 5,
-  haste: 0,
+  haste: 6,
   mastery: 6,
   resist: 0,
 } as const;

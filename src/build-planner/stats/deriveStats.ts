@@ -21,6 +21,8 @@ export interface DerivedStats {
   // 会心発生時のダメージ増加率(現状ステータスとしては存在せず、固定の基礎値)
   critDamageBonusPercent: number;
 
+  // %変換前の実数値(装備等のhaste加算 + 俊敏由来の変換分)。CharacterPanelのツールチップ表示用。
+  hasteReal: number;
   hastePercent: number;
   atkSpeedPercent: number;
   castSpeedPercent: number;
@@ -136,6 +138,7 @@ export function deriveStats(
     critPercent,
     critDamageBonusPercent: FIXED_BASE_PERCENT.critDamage + raw.critDamageBonus / 100,
 
+    hasteReal,
     hastePercent,
     atkSpeedPercent: hastePercent * profession.atkSpeedPerHastePercent,
     castSpeedPercent: hastePercent * profession.castSpeedPerHastePercent,

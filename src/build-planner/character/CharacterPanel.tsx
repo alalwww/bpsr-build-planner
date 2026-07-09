@@ -20,6 +20,7 @@ import type {
   StatDefinition,
   StatId,
 } from '../types';
+import type { DerivedStats } from '../stats/deriveStats';
 import type { BuildPlanData } from '../buildPlan';
 import classesData from '../../data/classes.json';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
@@ -28,6 +29,7 @@ import { truncate2Str } from './statFormat';
 interface CharacterPanelProps {
   stats: Record<StatId, number>;
   rawStats: Record<StatId, number>;
+  derivedStats: DerivedStats;
   abilityScore: AbilityScoreBreakdown;
   professionKey: ProfessionKey;
   professionTypeKey: ProfessionTypeKey;
@@ -90,6 +92,7 @@ const clsData = classesData as Record<string, ClassEntry>;
 function CharacterPanel({
   stats,
   rawStats,
+  derivedStats,
   abilityScore,
   professionKey,
   professionTypeKey,
@@ -456,7 +459,11 @@ function CharacterPanel({
           y={tooltipPos.y - 32}
           className="character-panel__stat-tooltip"
         >
-          {truncate2Str(rawStats[hoveredStatId])}
+          {truncate2Str(
+            // ファストは俊敏由来の変換分がrawStatsに含まれない(装備等の生値のみ)ため、
+            // %変換に実際に使われた実数値(derivedStats.hasteReal)を表示する。
+            hoveredStatId === 'haste' ? derivedStats.hasteReal : rawStats[hoveredStatId],
+          )}
         </FloatingTooltip>
       )}
 

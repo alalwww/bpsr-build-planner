@@ -254,6 +254,7 @@ function zeroDerivedStats(): DerivedStats {
     magicalDef: 0,
     critPercent: 10,
     critDamageBonusPercent: 50,
+    hasteReal: 0,
     hastePercent: 20,
     atkSpeedPercent: 0,
     castSpeedPercent: 0,
