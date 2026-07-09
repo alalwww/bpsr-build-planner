@@ -86,18 +86,7 @@ function BuildPlanner() {
     moduleSlots,
     adventurerLevel,
     setAdventurerLevel,
-    phantomEnabled,
-    setPhantomEnabled,
     phantomLevel,
-    setPhantomLevel,
-    phantomTemplateId,
-    setPhantomTemplateId,
-    phantomBondPoints,
-    setPhantomBondPoints,
-    phantomNodeSelections,
-    setPhantomNodeSelection,
-    phantomFactorSlots,
-    setPhantomFactorSlot,
     planName,
     setPlanName,
     buildPlans,
@@ -255,23 +244,7 @@ function BuildPlanner() {
                 {activeTab === 'module' && (
                   <ModulePanel profession={profession} professionTypeKey={professionTypeKey} />
                 )}
-                {activeTab === 'phantom' && (
-                  <PhantomPanel
-                    professionKey={professionKey}
-                    phantomEnabled={phantomEnabled}
-                    onPhantomEnabledChange={setPhantomEnabled}
-                    phantomLevel={phantomLevel}
-                    onPhantomLevelChange={setPhantomLevel}
-                    phantomTemplateId={phantomTemplateId}
-                    onPhantomTemplateIdChange={setPhantomTemplateId}
-                    phantomBondPoints={phantomBondPoints}
-                    onPhantomBondPointsChange={setPhantomBondPoints}
-                    phantomNodeSelections={phantomNodeSelections}
-                    onPhantomNodeSelection={setPhantomNodeSelection}
-                    phantomFactorSlots={phantomFactorSlots}
-                    onPhantomFactorSlot={setPhantomFactorSlot}
-                  />
-                )}
+                {activeTab === 'phantom' && <PhantomPanel professionKey={professionKey} />}
               </>
             )}
           </div>

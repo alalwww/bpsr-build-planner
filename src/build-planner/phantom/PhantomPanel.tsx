@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useShallow } from 'zustand/react/shallow';
 import './phantom.css';
-import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
+import type { TreeStep } from './phantomData';
 import {
   buildChildrenMap,
   buildTreeSteps,
@@ -11,6 +12,7 @@ import {
 } from './phantomData';
 import type { ProfessionKey } from '../profession';
 import { PROFESSIONS } from '../profession';
+import { useBuildStore } from '../store/useBuildStore';
 import Chevron from '../components/Chevron';
 import Stepper from '../components/Stepper';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
@@ -86,39 +88,36 @@ function renderEffectDesc(template: string, pars: number[], pAsPercent = false):
 // ---- PhantomPanelProps ----
 interface PhantomPanelProps {
   professionKey: ProfessionKey;
-  phantomEnabled: boolean;
-  onPhantomEnabledChange: (v: boolean) => void;
-  phantomLevel: number;
-  onPhantomLevelChange: (v: number) => void;
-  phantomTemplateId: number | null;
-  onPhantomTemplateIdChange: (v: number | null) => void;
-  phantomBondPoints: number;
-  onPhantomBondPointsChange: (v: number) => void;
-  phantomNodeSelections: Record<number, number>;
-  onPhantomNodeSelection: (sameGroupId: number, nodeId: number) => void;
-  phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
-  onPhantomFactorSlot: (groupId: number, factor: PhantomFactorSlotValue | null) => void;
 }
 
 // ---- Main component ----
-export default function PhantomPanel({
-  professionKey,
-  phantomEnabled,
-  onPhantomEnabledChange,
-  phantomLevel,
-  onPhantomLevelChange,
-  phantomTemplateId,
-  onPhantomTemplateIdChange,
-  phantomBondPoints,
-  onPhantomBondPointsChange,
-  phantomNodeSelections,
-  onPhantomNodeSelection,
-  phantomFactorSlots,
-  onPhantomFactorSlot,
-}: PhantomPanelProps) {
+export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
   const professionId = PROFESSIONS[professionKey].professionId;
+  const {
+    phantomEnabled,
+    phantomLevel,
+    phantomTemplateId,
+    phantomBondPoints,
+    phantomNodeSelections,
+    phantomFactorSlots,
+  } = useBuildStore(
+    useShallow((s) => ({
+      phantomEnabled: s.phantomEnabled,
+      phantomLevel: s.phantomLevel,
+      phantomTemplateId: s.phantomTemplateId,
+      phantomBondPoints: s.phantomBondPoints,
+      phantomNodeSelections: s.phantomNodeSelections,
+      phantomFactorSlots: s.phantomFactorSlots,
+    })),
+  );
+  const onPhantomEnabledChange = useBuildStore((s) => s.setPhantomEnabled);
+  const onPhantomLevelChange = useBuildStore((s) => s.setPhantomLevel);
+  const onPhantomTemplateIdChange = useBuildStore((s) => s.setPhantomTemplateId);
+  const onPhantomBondPointsChange = useBuildStore((s) => s.setPhantomBondPoints);
+  const onPhantomNodeSelection = useBuildStore((s) => s.setPhantomNodeSelection);
+  const onPhantomFactorSlot = useBuildStore((s) => s.setPhantomFactorSlot);
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   // ツリー側のノード選択とノード設定側の該当行は同じ selectedNodeId を共有し、相互に強調表示する。
   const toggleSelectedNode = (nodeId: number) =>
