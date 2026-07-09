@@ -1,631 +1,100 @@
-import { useEffect, useMemo, useState } from 'react';
-import { getItemsBySlot } from './equipment/equipmentData';
-import { useEquipmentState } from './equipment/useEquipmentState';
-import type { ProfessionKey, ProfessionTypeKey } from './profession';
-import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from './profession';
-import { deriveStats } from './stats/deriveStats';
-import { applyFinalStatModifiers, calculateRawStats } from './stats/calculateRawStats';
-import { calculateAbilityScore } from './stats/calculateAbilityScore';
-import { useModuleState } from './module/useModuleState';
-import {
-  AGILE_VALUES,
-  applyCookingBuff,
-  computeCookingAdjustments,
-  DEFAULT_COOKING_BUFF,
-  INSPIRATION_VALUES,
-  LIFE_WAVE_VALUES,
-  POWER_CORE_EFFECT_IDS,
-} from './stats/cookingBuff';
-import { getClassData, getPowerCoreLevel } from './stats/gameData';
-import type {
-  AbilityScoreBreakdown,
-  CookingBuffState,
-  EquipmentSlotId,
-  EquippedItems,
-  StatId,
-} from './types';
-import type { AutoSaveState } from './buildPlan';
-import { loadAutoSave, persistAutoSave } from './buildPlan';
-import { initPhantomNodeSelections } from './phantom/phantomData';
-import { usePhantomState } from './phantom/usePhantomState';
-import { normalSkillCount, useSkillState } from './skill/useSkillState';
-import { useTalentState } from './talent/useTalentState';
-import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from './planDefaults';
-import { usePlanManagement } from './usePlanManagement';
+import { PROFESSIONS } from './profession';
+import { computeStatsBundle } from './store/derivedSelectors';
+import { useBuildStore } from './store/useBuildStore';
 
-// ---- main hook ----
-
+// Zustandストア(store/useBuildStore.ts)への薄いラッパー。移行前の呼び出し側
+// (BuildPlanner.tsxほか)を無変更のまま動作させるため、旧useBuildStateと同一の
+// 返り値形状を維持する。全パネルがストアを直接参照するようになった段階(Phase 4)で削除する。
+//
+// 注意: このフックはストア全体を購読する(=どのフィールドが変わっても再レンダリングされる)。
+// これは移行前の挙動(単一コンポーネントが全状態を保持していた)と同じであり、意図的な
+// 例外。新規に書くコンポーネントはselector経由でストアを直接購読すること(全体購読は禁止)。
 export function useBuildState() {
-  // 起動時に自動保存から復元（1回のみ実行される lazy initializer）
-  const [autoSaveOnMount] = useState<AutoSaveState | null>(loadAutoSave);
-
+  const state = useBuildStore();
+  const profession = PROFESSIONS[state.professionKey];
   const {
-    equipped,
-    setEquipped,
-    refineLevels,
-    setRefineLevels,
-    perfectlines,
-    setPerfectlines,
-    evolutionStats,
-    setEvolutionStatsState,
-    legendaryAffixState,
-    setLegendaryAffixState,
-    slotEnchants,
-    setSlotEnchants,
-    equip,
-    unequip,
-    setRefineLevel,
-    setPerfectline,
-    setEvolutionStat,
-    setLegendaryAffix,
-    setSlotEnchant,
-    resetForProfessionChange: resetEquipmentForProfessionChange,
-  } = useEquipmentState({
-    equipped: autoSaveOnMount?.equipped,
-    refineLevels: autoSaveOnMount?.refineLevels,
-    perfectlines: autoSaveOnMount?.perfectlines,
-    evolutionStats: autoSaveOnMount?.evolutionStats,
-    legendaryAffixState: autoSaveOnMount?.legendaryAffixState,
-    slotEnchants: autoSaveOnMount?.slotEnchants,
-  });
-  // ダメージ計算機(作成中)用の一時的な入力値。保存/自動保存/プランコードの対象外
-  // (現在のステータス+追加効果を都度計算する用途のため、セッションをまたいで保持しない)。
-  const [cookingBuff, setCookingBuffState] = useState<CookingBuffState>(DEFAULT_COOKING_BUFF);
-  const [professionKey, setProfessionKey] = useState<ProfessionKey>(
-    () => autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY,
-  );
-  const [professionTypeKey, setProfessionTypeKey] = useState<ProfessionTypeKey>(
-    () => autoSaveOnMount?.professionTypeKey ?? 'type1',
-  );
-  const profession = PROFESSIONS[professionKey];
-
-  // アビリティツリー状態（パネル切り替えでリセットしない）
-  const {
-    talentR1EnabledIds,
-    setTalentR1EnabledIds,
-    talentR2EnabledIds,
-    setTalentR2EnabledIds,
-    talentNodesById,
-    r1NodeCount,
-    skillReplacements,
-    resetForProfessionChange: resetTalentForProfessionChange,
-    resetR2ForType: resetTalentR2ForType,
-  } = useTalentState(
-    autoSaveOnMount?.talentR1EnabledIds,
-    autoSaveOnMount?.talentR2EnabledIds,
-    PROFESSIONS[DEFAULT_PROFESSION_KEY].professionId,
-    profession.professionId,
-  );
-
-  // スキルステート(マスタリー/固定スキル/バトルイマジン)
-  const {
-    masteryEquipped,
-    masteryLevels,
-    masteryRanks,
-    setMasteryEquippedState,
-    setMasteryLevelsState,
-    setMasteryRanksState,
-    fixedLevels,
-    fixedRanks,
-    setFixedLevelsState,
-    setFixedRanksState,
-    battleImaginaries,
-    imaginaryRanks,
-    setBattleImaginariesState,
-    setImaginaryRanksState,
-    toggleMasteryEquipped,
-    setMasteryLevel,
-    setMasteryRank,
-    setFixedLevel,
-    setFixedRank,
-    setBattleImaginary,
-    setImaginaryRank,
-    reorderBattleImaginaries,
-    resetForProfessionChange: resetSkillForProfessionChange,
-  } = useSkillState(autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY, {
-    masteryEquipped: autoSaveOnMount?.masteryEquipped,
-    masteryLevels: autoSaveOnMount?.masteryLevels,
-    masteryRanks: autoSaveOnMount?.masteryRanks,
-    fixedLevels: autoSaveOnMount?.fixedLevels,
-    fixedRanks: autoSaveOnMount?.fixedRanks,
-    battleImaginaries: autoSaveOnMount?.battleImaginaries,
-    imaginaryRanks: autoSaveOnMount?.imaginaryRanks,
-  });
-
-  // モジュールスロット (5スロット)
-  const { moduleSlots, setModuleSlotsState, setModuleSlot } = useModuleState(
-    autoSaveOnMount?.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots,
-  );
-
-  // 冒険者レベル (1-60)
-  const [adventurerLevel, setAdventurerLevel] = useState<number>(
-    () => autoSaveOnMount?.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel,
-  );
-
-  // 潜在心相晶ステート
-  const {
-    phantomEnabled,
-    setPhantomEnabled,
-    phantomLevel,
-    setPhantomLevel,
-    phantomTemplateId,
-    setPhantomTemplateId,
-    setPhantomTemplateIdState,
-    phantomBondPoints,
-    setPhantomBondPoints,
-    phantomNodeSelections,
-    setPhantomNodeSelection,
-    setPhantomNodeSelectionsState,
-    phantomFactorSlots,
-    setPhantomFactorSlot,
-    setPhantomFactorSlotsState,
-  } = usePhantomState(autoSaveOnMount);
-
-  const selectProfession = (key: ProfessionKey) => {
-    const newProfession = PROFESSIONS[key];
-    const mainStatChanged = newProfession.mainStat !== profession.mainStat;
-    resetEquipmentForProfessionChange(mainStatChanged);
-    setProfessionKey(key);
-    setProfessionTypeKey('type1');
-    // マスタリースキル・固定スキルをリセット (バトルイマジンは引き継ぎ)
-    resetSkillForProfessionChange(key);
-    // アビリティツリーをリセット
-    resetTalentForProfessionChange(newProfession.professionId);
-  };
-
-  const selectProfessionType = (key: ProfessionTypeKey) => {
-    setProfessionTypeKey(key);
-    const newBdType: 0 | 1 = key === 'type1' ? 0 : 1;
-    resetTalentR2ForType(profession.professionId, newBdType);
-  };
-
-  // rawStats算出中に確定するバトルイマジン/潜在因子由来の最終ステータス%ボーナスを
-  // 後段のstats算出(applyFinalStatModifiers)に引き渡すための一時受け皿。
-  const rawStatsResult = useMemo(
-    () =>
-      calculateRawStats({
-        equipped,
-        legendaryAffixState,
-        refineLevels,
-        perfectlines,
-        evolutionStats,
-        profession,
-        professionTypeKey,
-        talentR1EnabledIds,
-        talentR2EnabledIds,
-        talentNodesById,
-        r1NodeCount,
-        battleImaginaries,
-        imaginaryRanks,
-        slotEnchants,
-        moduleSlots,
-        adventurerLevel,
-        phantomEnabled,
-        phantomLevel,
-        phantomTemplateId,
-        phantomBondPoints,
-        phantomNodeSelections,
-        phantomFactorSlots,
-        cookingBuff,
-      }),
-    [
-      equipped,
-      legendaryAffixState,
-      refineLevels,
-      perfectlines,
-      evolutionStats,
-      profession,
-      professionTypeKey,
-      talentR1EnabledIds,
-      talentR2EnabledIds,
-      talentNodesById,
-      r1NodeCount,
-      battleImaginaries,
-      imaginaryRanks,
-      slotEnchants,
-      moduleSlots,
-      adventurerLevel,
-      phantomEnabled,
-      phantomLevel,
-      phantomTemplateId,
-      phantomBondPoints,
-      phantomNodeSelections,
-      phantomFactorSlots,
-      cookingBuff,
-    ],
-  );
-
-  // 料理(cookingAtkValue)による最終atk/matkへの加算量。海風の宴のメインステータス+500は
-  // calculateRawStats内で他のメインステータス加算源と同様に処理済みのため、ここでは扱わない。
-  const cookingResult = useMemo(() => applyCookingBuff(cookingBuff), [cookingBuff]);
-  const rawStats = rawStatsResult.rawStats;
-
-  const derivedStats = useMemo(
-    () => deriveStats(rawStats, profession, rawStatsResult.conversionRateBonus),
-    [rawStats, profession, rawStatsResult.conversionRateBonus],
-  );
-
-  const finalStatsResult = useMemo(
-    () =>
-      applyFinalStatModifiers(
-        rawStats,
-        rawStatsResult.breakdown,
-        derivedStats,
-        legendaryAffixState,
-        battleImaginaries,
-        imaginaryRanks,
-        rawStatsResult.phantomFinalPct,
-        rawStatsResult.finalPctAddend,
-      ),
-    [
-      rawStats,
-      rawStatsResult.breakdown,
-      rawStatsResult.phantomFinalPct,
-      rawStatsResult.finalPctAddend,
-      derivedStats,
-      legendaryAffixState,
-      battleImaginaries,
-      imaginaryRanks,
-    ],
-  );
-
-  // 料理(cookingAtkValue)による最終atk/matkへの加算は、伝説刻印・バトルイマジン等の
-  // 乗算がすべて終わった後の最終値に対して行う。
-  const cookingAtkStatId: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
-  // 鼓舞(Inspiration、森癒/Lifebind・威咲/Smite): 会心/幸運/ファスト/器用さ/万能の
-  // 最終計算結果への直接加算量(%)。
-  const inspirationPercentBonus = cookingBuff.inspirationEnabled
-    ? INSPIRATION_VALUES[cookingBuff.inspirationVariant].percent
-    : 0;
-  // 極・HP変動(Life Wave、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効)。
-  const lifeWaveLevel = cookingBuff.lifeWaveEnabled
-    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.lifeWave)
-    : 0;
-  const lifeWaveBonus = lifeWaveLevel !== 0 ? LIFE_WAVE_VALUES[lifeWaveLevel] : 0;
-  // 極・適応力(Agile、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効): atk/matkへの乗算バフ(%)。
-  const agileLevel = cookingBuff.agileEnabled
-    ? getPowerCoreLevel(moduleSlots, POWER_CORE_EFFECT_IDS.agile)
-    : 0;
-  const agileAtkMultPercent = agileLevel !== 0 ? AGILE_VALUES[agileLevel].atkMultPercent : 0;
-  // 適応力→料理攻撃力→鼓舞→HP変動の順で最終ステータスに適用する調整リスト。
-  // stats(実数値)とrawStatsBreakdown(内訳)の両方がこのリストを共通の入力として使う。
-  const cookingAdjustments = useMemo(
-    () =>
-      computeCookingAdjustments(
-        finalStatsResult.stats,
-        cookingAtkStatId,
-        cookingResult.atkBonus,
-        inspirationPercentBonus,
-        lifeWaveBonus,
-        agileAtkMultPercent,
-      ),
-    [
-      finalStatsResult.stats,
-      cookingAtkStatId,
-      cookingResult.atkBonus,
-      inspirationPercentBonus,
-      lifeWaveBonus,
-      agileAtkMultPercent,
-    ],
-  );
-
-  const stats: Record<StatId, number> = useMemo(() => {
-    if (cookingAdjustments.length === 0) return finalStatsResult.stats;
-    const result = { ...finalStatsResult.stats };
-    for (const { statId, multiplier, addend } of cookingAdjustments) {
-      if (multiplier !== undefined) result[statId] = result[statId] * multiplier;
-      if (addend !== undefined) result[statId] = result[statId] + addend;
-    }
-    return result;
-  }, [finalStatsResult.stats, cookingAdjustments]);
-
-  // ステータス詳細「バフ効果」表示用: 最終ステータス%ボーナス(applyFinalStatModifiers由来)に加え、
-  // 料理・鼓舞・HP変動・適応力による最終加算/乗算量を「料理バフ」列として合算する。海風の宴のメインステータス
-  // 加算はcalculateRawStats内で他の加算源と同様に扱われ、通常の加算(additive)列に含まれる。能力共鳴は
-  // メインステータスへの%ボーナス適用後に加算されるため、calculateRawStats側で既に「料理バフ」
-  // (cookingBonus)列にセット済み。
-  const rawStatsBreakdown = useMemo(() => {
-    if (cookingAdjustments.length === 0) return finalStatsResult.breakdown;
-    const merged = { ...finalStatsResult.breakdown };
-    for (const { statId, multiplier, addend } of cookingAdjustments) {
-      const entry = merged[statId];
-      merged[statId] = {
-        ...entry,
-        ...(multiplier !== undefined ? { multiplier: entry.multiplier * multiplier } : {}),
-        ...(addend !== undefined ? { cookingBonus: (entry.cookingBonus ?? 0) + addend } : {}),
-      };
-    }
-    return merged;
-  }, [finalStatsResult.breakdown, cookingAdjustments]);
-
-  const roleSkills = useMemo(
-    () => getClassData(profession.professionId)?.roleSkill ?? [],
-    [profession],
-  );
-
-  // ---- 能力スコア計算 ----
-
-  const abilityScore = useMemo(
-    (): AbilityScoreBreakdown =>
-      calculateAbilityScore({
-        equipped,
-        perfectlines,
-        evolutionStats,
-        refineLevels,
-        legendaryAffixState,
-        slotEnchants,
-        profession,
-        professionTypeKey,
-        fixedLevels,
-        fixedRanks,
-        masteryEquipped,
-        masteryLevels,
-        masteryRanks,
-        battleImaginaries,
-        imaginaryRanks,
-        moduleSlots,
-        adventurerLevel,
-        talentR1EnabledIds,
-        talentR2EnabledIds,
-        talentNodesById,
-        phantomEnabled,
-        phantomLevel,
-        phantomTemplateId,
-        phantomNodeSelections,
-        phantomFactorSlots,
-        phantomBondPoints,
-      }),
-    [
-      equipped,
-      perfectlines,
-      evolutionStats,
-      refineLevels,
-      legendaryAffixState,
-      slotEnchants,
-      profession,
-      professionTypeKey,
-      fixedLevels,
-      fixedRanks,
-      masteryEquipped,
-      masteryLevels,
-      masteryRanks,
-      battleImaginaries,
-      imaginaryRanks,
-      moduleSlots,
-      adventurerLevel,
-      talentR1EnabledIds,
-      talentR2EnabledIds,
-      talentNodesById,
-      phantomEnabled,
-      phantomLevel,
-      phantomTemplateId,
-      phantomNodeSelections,
-      phantomFactorSlots,
-      phantomBondPoints,
-    ],
-  );
-
-  // ---- ビルドプラン操作 ----
-
-  // name以外のAutoSaveStateフィールドの現在値(生の状態変数への参照)。
-  // buildAutoSaveStateとautosaveのuseEffect依存配列の双方がここを単一の定義元として使うことで、
-  // 新しいフィールド追加時に片方だけ更新し忘れることを防ぐ(Set型のtalentR1/R2EnabledIdsは
-  // ここでは配列化せず生のSetのまま保持し、依存配列の参照安定性を壊さないようにする)。
-  const rawAutoSaveFields = {
-    professionKey,
-    professionTypeKey,
-    equipped,
-    refineLevels,
-    perfectlines,
-    evolutionStats,
-    legendaryAffixState,
-    slotEnchants,
-    masteryEquipped,
-    masteryLevels,
-    masteryRanks,
-    fixedLevels,
-    fixedRanks,
-    battleImaginaries,
-    imaginaryRanks,
-    talentR1EnabledIds,
-    talentR2EnabledIds,
-    moduleSlots,
-    adventurerLevel,
-    phantomEnabled,
-    phantomLevel,
-    phantomTemplateId,
-    phantomBondPoints,
-    phantomNodeSelections,
-    phantomFactorSlots,
-  };
-
-  // 現在の編集状態を AutoSaveState(id を除く BuildPlanData)として構築する。
-  // 保存/エクスポート/自動保存で共用。name省略時はプラン名入力欄の現在値を使う。
-  const buildAutoSaveState = (name: string = planName): AutoSaveState => ({
-    name,
-    ...rawAutoSaveFields,
-    slotEnchants: { ...rawAutoSaveFields.slotEnchants },
-    talentR1EnabledIds: [...rawAutoSaveFields.talentR1EnabledIds],
-    talentR2EnabledIds: [...rawAutoSaveFields.talentR2EnabledIds],
-    moduleSlots: [...rawAutoSaveFields.moduleSlots],
-    phantomNodeSelections: { ...rawAutoSaveFields.phantomNodeSelections },
-    phantomFactorSlots: { ...rawAutoSaveFields.phantomFactorSlots },
-  });
-
-  // ビルドプラン(保存済みプラン/インポートされたプランコード共通)の状態を現在の編集状態へ適用する。
-  const applyPlanState = (plan: AutoSaveState) => {
-    // 保存済みアイテムを最新データで上書き（スキーマ変更時の旧形式フィールドを更新）
-    const refreshedEquipped: EquippedItems = {};
-    for (const [slotId, stored] of Object.entries(plan.equipped)) {
-      const slot = slotId as EquipmentSlotId;
-      const fresh = getItemsBySlot(slot).find((i) => i.id === stored.id);
-      refreshedEquipped[slot] = fresh ?? stored;
-    }
-    setEquipped(refreshedEquipped);
-    setRefineLevels(plan.refineLevels);
-    setPerfectlines(plan.perfectlines);
-    setEvolutionStatsState(plan.evolutionStats);
-    setLegendaryAffixState(plan.legendaryAffixState);
-    setProfessionKey(plan.professionKey);
-    setProfessionTypeKey(plan.professionTypeKey);
-    const count = normalSkillCount(plan.professionKey);
-    setMasteryEquippedState(plan.masteryEquipped.slice(0, count));
-    setMasteryLevelsState(plan.masteryLevels.slice(0, count));
-    setMasteryRanksState(plan.masteryRanks.slice(0, count));
-    setFixedLevelsState(plan.fixedLevels);
-    setFixedRanksState(plan.fixedRanks);
-    setBattleImaginariesState(plan.battleImaginaries);
-    setImaginaryRanksState(plan.imaginaryRanks);
-    setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
-    setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
-    setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
-    setModuleSlotsState(plan.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots);
-    setAdventurerLevel(plan.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel);
-    setPhantomEnabled(plan.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled);
-    setPhantomLevel(plan.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel);
-    const newTid = plan.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId;
-    setPhantomTemplateIdState(newTid);
-    setPhantomBondPoints(plan.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints);
-    setPhantomNodeSelectionsState(
-      plan.phantomNodeSelections ??
-        (newTid != null
-          ? initPhantomNodeSelections(newTid)
-          : STATIC_AUTOSAVE_DEFAULTS.phantomNodeSelections),
-    );
-    setPhantomFactorSlotsState(
-      plan.phantomFactorSlots ?? STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots,
-    );
-  };
-
-  // ---- ビルドプラン一覧のCRUD・プランコードのエクスポート/インポート ----
-  const {
-    planName,
-    setPlanName,
-    buildPlans,
-    savePlan,
-    overwritePlan,
-    renamePlan,
-    loadPlan,
-    deletePlan,
-    exportPlanCode,
-    importPlanCode,
-  } = usePlanManagement(autoSaveOnMount?.name ?? '', buildAutoSaveState, applyPlanState);
-
-  const resetPlan = () => {
-    const defaults = getDefaultAutoSaveState(DEFAULT_PROFESSION_KEY);
-    setPlanName('');
-    setEquipped(defaults.equipped);
-    setRefineLevels(defaults.refineLevels);
-    setPerfectlines(defaults.perfectlines);
-    setEvolutionStatsState(defaults.evolutionStats);
-    setLegendaryAffixState(defaults.legendaryAffixState);
-    setSlotEnchants(defaults.slotEnchants);
-    setCookingBuffState(DEFAULT_COOKING_BUFF);
-    setProfessionKey(defaults.professionKey);
-    setProfessionTypeKey(defaults.professionTypeKey);
-    setTalentR1EnabledIds(new Set(defaults.talentR1EnabledIds));
-    setTalentR2EnabledIds(new Set(defaults.talentR2EnabledIds));
-    setMasteryEquippedState(defaults.masteryEquipped);
-    setMasteryLevelsState(defaults.masteryLevels);
-    setMasteryRanksState(defaults.masteryRanks);
-    setFixedLevelsState(defaults.fixedLevels);
-    setFixedRanksState(defaults.fixedRanks);
-    setBattleImaginariesState(defaults.battleImaginaries);
-    setImaginaryRanksState(defaults.imaginaryRanks);
-    setModuleSlotsState(defaults.moduleSlots);
-    setAdventurerLevel(defaults.adventurerLevel);
-    setPhantomEnabled(defaults.phantomEnabled);
-    setPhantomLevel(defaults.phantomLevel);
-    setPhantomTemplateIdState(defaults.phantomTemplateId);
-    setPhantomBondPoints(defaults.phantomBondPoints);
-    setPhantomNodeSelectionsState(defaults.phantomNodeSelections);
-    setPhantomFactorSlotsState(defaults.phantomFactorSlots);
-  };
-
-  // ---- 自動保存（状態変更のたびに現在の編集内容をlocalStorageに保持） ----
-
-  useEffect(() => {
-    persistAutoSave(buildAutoSaveState());
-  }, [planName, ...Object.values(rawAutoSaveFields)]);
-
-  // ---- 料理バフ state ----
-
-  const setCookingBuff = (patch: Partial<CookingBuffState>) =>
-    setCookingBuffState((prev) => ({ ...prev, ...patch }));
-
-  return {
-    equipped,
-    equip,
-    unequip,
-    refineLevels,
-    setRefineLevel,
-    perfectlines,
-    setPerfectline,
-    evolutionStats,
-    setEvolutionStat,
-    legendaryAffixState,
-    setLegendaryAffix,
-    slotEnchants,
-    setSlotEnchant,
-    cookingBuff,
-    setCookingBuff,
-    professionKey,
-    professionTypeKey,
-    profession,
-    selectProfession,
-    selectProfessionType,
     stats,
     rawStats,
     rawStatsBreakdown,
     derivedStats,
     abilityScore,
-    masteryEquipped,
-    masteryLevels,
-    masteryRanks,
-    fixedLevels,
-    fixedRanks,
-    battleImaginaries,
-    imaginaryRanks,
     roleSkills,
     skillReplacements,
-    talentR1EnabledIds,
-    setTalentR1EnabledIds,
-    talentR2EnabledIds,
-    setTalentR2EnabledIds,
-    toggleMasteryEquipped,
-    setMasteryLevel,
-    setMasteryRank,
-    setFixedLevel,
-    setFixedRank,
-    setBattleImaginary,
-    setImaginaryRank,
-    reorderBattleImaginaries,
-    moduleSlots,
-    setModuleSlot,
-    adventurerLevel,
-    setAdventurerLevel,
-    phantomEnabled,
-    setPhantomEnabled,
-    phantomLevel,
-    setPhantomLevel,
-    phantomTemplateId,
-    setPhantomTemplateId,
-    phantomBondPoints,
-    setPhantomBondPoints,
-    phantomNodeSelections,
-    setPhantomNodeSelection,
-    phantomFactorSlots,
-    setPhantomFactorSlot,
-    planName,
-    setPlanName,
-    buildPlans,
-    savePlan,
-    overwritePlan,
-    renamePlan,
-    loadPlan,
-    deletePlan,
-    resetPlan,
-    exportPlanCode,
-    importPlanCode,
+  } = computeStatsBundle(state);
+
+  return {
+    equipped: state.equipped,
+    equip: state.equip,
+    unequip: state.unequip,
+    refineLevels: state.refineLevels,
+    setRefineLevel: state.setRefineLevel,
+    perfectlines: state.perfectlines,
+    setPerfectline: state.setPerfectline,
+    evolutionStats: state.evolutionStats,
+    setEvolutionStat: state.setEvolutionStat,
+    legendaryAffixState: state.legendaryAffixState,
+    setLegendaryAffix: state.setLegendaryAffix,
+    slotEnchants: state.slotEnchants,
+    setSlotEnchant: state.setSlotEnchant,
+    cookingBuff: state.cookingBuff,
+    setCookingBuff: state.setCookingBuff,
+    professionKey: state.professionKey,
+    professionTypeKey: state.professionTypeKey,
+    profession,
+    selectProfession: state.selectProfession,
+    selectProfessionType: state.selectProfessionType,
+    stats,
+    rawStats,
+    rawStatsBreakdown,
+    derivedStats,
+    abilityScore,
+    masteryEquipped: state.masteryEquipped,
+    masteryLevels: state.masteryLevels,
+    masteryRanks: state.masteryRanks,
+    fixedLevels: state.fixedLevels,
+    fixedRanks: state.fixedRanks,
+    battleImaginaries: state.battleImaginaries,
+    imaginaryRanks: state.imaginaryRanks,
+    roleSkills,
+    skillReplacements,
+    talentR1EnabledIds: state.talentR1EnabledIds,
+    setTalentR1EnabledIds: state.setTalentR1EnabledIds,
+    talentR2EnabledIds: state.talentR2EnabledIds,
+    setTalentR2EnabledIds: state.setTalentR2EnabledIds,
+    toggleMasteryEquipped: state.toggleMasteryEquipped,
+    setMasteryLevel: state.setMasteryLevel,
+    setMasteryRank: state.setMasteryRank,
+    setFixedLevel: state.setFixedLevel,
+    setFixedRank: state.setFixedRank,
+    setBattleImaginary: state.setBattleImaginary,
+    setImaginaryRank: state.setImaginaryRank,
+    reorderBattleImaginaries: state.reorderBattleImaginaries,
+    moduleSlots: state.moduleSlots,
+    setModuleSlot: state.setModuleSlot,
+    adventurerLevel: state.adventurerLevel,
+    setAdventurerLevel: state.setAdventurerLevel,
+    phantomEnabled: state.phantomEnabled,
+    setPhantomEnabled: state.setPhantomEnabled,
+    phantomLevel: state.phantomLevel,
+    setPhantomLevel: state.setPhantomLevel,
+    phantomTemplateId: state.phantomTemplateId,
+    setPhantomTemplateId: state.setPhantomTemplateId,
+    phantomBondPoints: state.phantomBondPoints,
+    setPhantomBondPoints: state.setPhantomBondPoints,
+    phantomNodeSelections: state.phantomNodeSelections,
+    setPhantomNodeSelection: state.setPhantomNodeSelection,
+    phantomFactorSlots: state.phantomFactorSlots,
+    setPhantomFactorSlot: state.setPhantomFactorSlot,
+    planName: state.planName,
+    setPlanName: state.setPlanName,
+    buildPlans: state.buildPlans,
+    savePlan: state.savePlan,
+    overwritePlan: state.overwritePlan,
+    renamePlan: state.renamePlan,
+    loadPlan: state.loadPlan,
+    deletePlan: state.deletePlan,
+    resetPlan: state.resetPlan,
+    exportPlanCode: state.exportPlanCode,
+    importPlanCode: state.importPlanCode,
   };
 }
