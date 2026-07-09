@@ -6,6 +6,7 @@ import { ELEMENT_IDS } from '../types';
 import type { DerivedStats } from '../stats/deriveStats';
 import type { StatBreakdownEntry } from '../stats/calculateRawStats';
 import { FIXED_BASE_VALUE } from '../stats/seasonConstants';
+import { truncate2, truncate2Str as fmtDec2 } from './statFormat';
 
 interface StatsDetailDialogProps {
   rawStats: Record<StatId, number>;
@@ -17,27 +18,6 @@ interface StatsDetailDialogProps {
 }
 
 const ELEMENTS = ['all', ...ELEMENT_IDS] as const;
-
-// 浮動小数点演算の誤差(例: 15%のつもりが14.999999...%になる)を吸収するため、
-// 十分な精度で四捨五入してから使う。
-function cleanRound(v: number): number {
-  return Math.round(v * 1e6) / 1e6;
-}
-
-// 小数点第三位を切り捨てて第二位までに丸める。value*100の時点でも浮動小数点誤差
-// (例: 4.6*100が459.999...になる)が起きうるため、floorする直前にもcleanRoundで丸める。
-function truncate2(v: number): number {
-  return Math.floor(cleanRound(v * 100)) / 100;
-}
-
-// 小数点第三位を切り捨てて第二位まで表示する。
-function fmtDec2(v: number) {
-  const truncated = truncate2(v);
-  return truncated.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
 
 function fmtPct(v: number) {
   return `${fmtDec2(v)}%`;
