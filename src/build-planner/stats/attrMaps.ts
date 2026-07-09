@@ -56,7 +56,13 @@ export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 // 絆レベル effectType=3 BuffId → ステータス効果マッピング
 export type BondBuffStatEffect =
   | { type: 'static'; stat: StatId; value: number }
-  | { type: 'highest_of'; stats: StatId[]; value: number };
+  | { type: 'highest_of'; stats: StatId[]; value: number }
+  // 最終%ボーナスへの直接加算(finalPctAddendと同じ単位: 100 = 1%)
+  | { type: 'final_pct'; stat: StatId; value: number }
+  // クラスのメインステータス(筋力/知力/敏捷)への平坦加算
+  | { type: 'main_stat'; value: number }
+  // 現時点のtotal[sourceStat]にratioを乗じてtargetStatへ加算
+  | { type: 'ratio_of'; sourceStat: StatId; targetStat: StatId; ratio: number };
 
 export const BOND_BUFF_STAT_EFFECTS: Partial<Record<number, BondBuffStatEffect[]>> = {
   // 幻夢強度+100。耐久力+500
@@ -90,6 +96,14 @@ export const BOND_BUFF_STAT_EFFECTS: Partial<Record<number, BondBuffStatEffect[]
     },
     { type: 'static', stat: 'endurance', value: 500 },
   ],
+  // 幸運+1%
+  3003660: [{ type: 'final_pct', stat: 'luck', value: 100 }],
+  // 会心+1%
+  3003670: [{ type: 'final_pct', stat: 'crit', value: 100 }],
+  // 物理防御力50ptにつき、攻撃力+1pt
+  3003720: [{ type: 'ratio_of', sourceStat: 'physicalDef', targetStat: 'atk', ratio: 1 / 50 }],
+  // 現在のメインステータス+100
+  3003730: [{ type: 'main_stat', value: 100 }],
 };
 
 // 潜在因子 effectType=1 AttrId → StatId マッピング（平坦加算値。末尾が2のIDは加算、4のIDは%乗算のため別扱い）

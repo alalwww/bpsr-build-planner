@@ -565,13 +565,19 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           for (const eff of statEffects) {
             if (eff.type === 'static') {
               addStat(eff.stat, eff.value);
-            } else {
+            } else if (eff.type === 'highest_of') {
               // 現時点の total から最大値の stat に加算
               let maxStat = eff.stats[0];
               for (const s of eff.stats.slice(1)) {
                 if (total[s] > total[maxStat]) maxStat = s;
               }
               addStat(maxStat, eff.value);
+            } else if (eff.type === 'final_pct') {
+              finalPctAddend[eff.stat] = (finalPctAddend[eff.stat] ?? 0) + eff.value;
+            } else if (eff.type === 'main_stat') {
+              addStat(profession.mainStat, eff.value);
+            } else if (eff.type === 'ratio_of') {
+              addStat(eff.targetStat, total[eff.sourceStat] * eff.ratio);
             }
           }
         }
