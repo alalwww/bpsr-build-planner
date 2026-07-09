@@ -292,6 +292,41 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
   });
 
+  it('routes a type=1 effect with the attack-speed "%final" attrId to atkSpeedFinalPctAddend (divineArcher "迅射", talentId 1135)', () => {
+    // src/data/talent-tree.json: nodes["1135"].effects = [[1, 11722, 300]] (stage:0 = R1)
+    // attrId 11722 is attack speed's "%final" variant (unit 1/10000) -> +3%, not a flat 11722-mapped stat.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.divineArcher,
+      talentR1EnabledIds: new Set([1]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 1135,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.atkSpeedFinalPctAddend).toBe(3);
+    expect(result.phantomFinalPct.atkSpeedPercent).toBeUndefined();
+  });
+
+  it('leaves atkSpeedFinalPctAddend at 0 when no such ability is enabled', () => {
+    const result = calculateRawStats(baseInput());
+
+    expect(result.atkSpeedFinalPctAddend).toBe(0);
+  });
+
   it('keeps a flat crit attrId and a %-variant crit attrId separate (蒼海武器 fixed-evo bug report)', () => {
     // src/data/equipment.json: item 8000019 (galeLancer, 乱風型/talentSchoolId 108, isFixedStat)
     // fixedEvolutionStats["108"] includes both 11112(flat, isPercent=false, +1240) and

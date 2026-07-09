@@ -214,6 +214,18 @@ describe('deriveStats', () => {
     expect(hasteRealWithBonus).toBeGreaterThan(hasteRealWithoutBonus);
   });
 
+  it('adds atkSpeedFinalPctAddend (e.g. divineArcher "迅射") directly on top of the haste-derived atkSpeedPercent', () => {
+    const profession = PROFESSIONS.divineArcher;
+    const raw: Record<StatId, number> = { ...zeroRaw(), agility: 200, haste: 500 };
+
+    const withoutAbility = deriveStats(raw, profession);
+    const withAbility = deriveStats(raw, profession, {}, 3);
+
+    expect(withAbility.atkSpeedPercent).toBeCloseTo(withoutAbility.atkSpeedPercent + 3);
+    // castSpeedPercentはatkSpeedとは独立した値のため、attrIdがatkSpeed専用のこの加算では変化しない。
+    expect(withAbility.castSpeedPercent).toBe(withoutAbility.castSpeedPercent);
+  });
+
   it('ignores unrelated conversionRateBonus keys (magical attacker does not get an atk bonus meant for physical)', () => {
     const profession = PROFESSIONS.frostMage; // magical, mainStat=intellect
     const raw: Record<StatId, number> = { ...zeroRaw(), atk: 100, intellect: 150 };

@@ -46,6 +46,12 @@ export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1Only
   2207340: { stat: 'maxHp', value: 2000 },
 };
 
+// アビリティ type=1 効果のうち、attrIdが「攻撃速度」の%finalバリアント(単位1/10000)のもの。
+// atkSpeedPercentはStatId(rawStats)ではなくDerivedStats側の値のため、TALENT_ATTR_TO_STAT/
+// IMAGINARY_PCT_FINALには乗らず、deriveStats()への直接加算として個別に扱う
+// (例: ディバインアーチャー「迅射」talentId 1135、他に talentId 41/42 も同じattrIdを使う)。
+export const TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID = 11722;
+
 // アビリティ type=3 効果(BuffId参照)のうち、「会心/ファスト/幸運/器用さ/万能のうち
 // 最終値が最も高い1項目」に最終%加算するもの(HP変動/鼓舞と同じ加算方式・単位。
 // LIFE_WAVE_VALUES/INSPIRATION_VALUESと同じ%そのままの数値、350ではなく3.5→+3.5%)。

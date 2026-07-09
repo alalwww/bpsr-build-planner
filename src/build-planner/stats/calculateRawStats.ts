@@ -53,6 +53,7 @@ import {
   REFINE_DEF_ATTR_ID,
   REFINE_ENDURANCE_ATTR_ID,
   REFINE_MATK_ATTR_ID,
+  TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
   TALENT_ATTR_TO_STAT,
   TALENT_EFFECT_TYPE_CONVERSION_RATE,
   TALENT_EFFECT_TYPE_FLAT_STAT,
@@ -150,6 +151,10 @@ export interface CalculateRawStatsResult {
   // 判定はHP変動/鼓舞等すべての最終調整が終わった後の値を見る必要があるため、rawStats
   // 自体には含めず呼び出し側(computeCookingAdjustments)に返す。
   highestStatFinalPctBonus: number;
+  // アビリティ(例: ディバインアーチャー「迅射」)による攻撃速度への直接加算量(%そのままの数値)。
+  // atkSpeedPercentはDerivedStats側の値(rawStats/StatIdに存在しない)のため、deriveStats()に
+  // 直接渡す(finalPctAddendやphantomFinalPctの仕組みには乗らない)。
+  atkSpeedFinalPctAddend: number;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -207,6 +212,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const finalPctAddend: Partial<Record<StatId, number>> = {};
   // アビリティによる「5ステータスのうち最終値最大の1項目」への最終%加算量(例: 二段増幅)。
   let highestStatFinalPctBonus = 0;
+  // アビリティによる攻撃速度への直接加算量(%、例: ディバインアーチャー「迅射」)。
+  // atkSpeedPercentはDerivedStats側の値のためderiveStats()に渡す。
+  let atkSpeedFinalPctAddend = 0;
 
   // 装備ステータス
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
@@ -343,6 +351,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (finalStatId !== undefined) {
           // phantomFinalPctは生の値(単位1/10000)をそのまま積む(ipct()側で1回だけ除算するため)。
           phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
+        } else if (eff[1] === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+          atkSpeedFinalPctAddend += eff[2] / 100;
         } else {
           const statId = TALENT_ATTR_TO_STAT[eff[1]];
           if (statId !== undefined) addStat(statId, eff[2]);
@@ -380,6 +390,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           const finalStatId = IMAGINARY_PCT_FINAL[eff[1] as ImaginaryFinalStatId];
           if (finalStatId !== undefined) {
             phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
+          } else if (eff[1] === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+            atkSpeedFinalPctAddend += eff[2] / 100;
           } else {
             const statId = TALENT_ATTR_TO_STAT[eff[1]];
             if (statId !== undefined) addStat(statId, eff[2]);
@@ -681,6 +693,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     finalPctAddend,
     breakdown,
     highestStatFinalPctBonus,
+    atkSpeedFinalPctAddend,
   };
 }
 

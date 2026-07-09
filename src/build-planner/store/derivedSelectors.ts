@@ -308,7 +308,12 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
 
   const cookingResult = selectCookingResult(state.cookingBuff);
 
-  const derivedStats = selectDerivedStats(rawStats, profession, rawStatsResult.conversionRateBonus);
+  const derivedStats = selectDerivedStats(
+    rawStats,
+    profession,
+    rawStatsResult.conversionRateBonus,
+    rawStatsResult.atkSpeedFinalPctAddend,
+  );
 
   const finalStatsResult = selectFinalStatsResult(
     rawStats,

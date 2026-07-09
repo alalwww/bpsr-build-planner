@@ -62,6 +62,9 @@ export function deriveStats(
   // R1アビリティ(type=4効果)によるメインステータス→攻撃力/物理防御力/ファストの変換率ボーナス。
   // calculateRawStatsのconversionRateBonusをそのまま渡す(未指定時は基礎変換率のみ)。
   conversionRateBonus: Partial<Record<StatId, number>> = {},
+  // アビリティ(例: ディバインアーチャー「迅射」)による攻撃速度への直接加算量(%そのままの数値)。
+  // calculateRawStatsのatkSpeedFinalPctAddendをそのまま渡す。
+  atkSpeedFinalPctAddend = 0,
 ): DerivedStats {
   const maxHp = raw.maxHp + raw.endurance * profession.hpPerEndurancePoint;
 
@@ -140,7 +143,7 @@ export function deriveStats(
 
     hasteReal,
     hastePercent,
-    atkSpeedPercent: hastePercent * profession.atkSpeedPerHastePercent,
+    atkSpeedPercent: hastePercent * profession.atkSpeedPerHastePercent + atkSpeedFinalPctAddend,
     castSpeedPercent: hastePercent * profession.castSpeedPerHastePercent,
 
     luckPercent,
