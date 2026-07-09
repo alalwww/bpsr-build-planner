@@ -1364,18 +1364,24 @@ function extractLocaleText(
   }
 
   // talents: TalentTable の名前と説明文。
-  //   type=1 (stat bonus): attrId→名前を解決し "名前 +val" 形式で生成
+  //   type=1 (stat bonus): attrId→名前を解決し "名前 +val" 形式で生成。ただしattrIdが
+  //     "%final"系バリアント(src/build-planner/stats/attrMaps.ts の IMAGINARY_PCT_FINAL と
+  //     同じID体系。会心/幸運等の平坦stat+2したID、単位1/10000)の場合は "名前 +val/100%" 形式
+  //     (例: ヘヴィガーディアン「癒しの砂」attrId 11324→最大HP、value 1000→+10%)
   //   type=3 (buff効果): AttrDescription[buffId].Description を使用（TalentDesは中国語プレースホルダ）
   //   type=4 (条件ボーナス): TalentDes を使用
   //   type=6 (スキル置換): TalentDes を使用。同時にtype=3がある場合はADを結合
   const TALENT_DES_PLACEHOLDER = '力量+10';
+  // IMAGINARY_PCT_FINAL(attrMaps.ts)と同じattrId集合。型番の末尾が4の"%最終加算"バリアント。
+  const FINAL_PCT_ATTR_IDS = new Set([11324, 11334, 11344, 11354]);
   const talentTable = readTable(langDir, 'TalentTable');
-  // attrId → 表示名の解決（ProfileAttrTable + FightAttrTable fallback）
+  // attrId → 表示名の解決（ProfileAttrTable + FightAttrTable + attributes[] fallback）
   function resolveAttrName(attrId) {
     return (
       attrByAttrId[attrId]?.Name ||
       attrByAttrId[attrId - 2]?.Name ||
       fightAttrNameByAdd.get(attrId) ||
+      attributes[attrId] ||
       String(attrId)
     );
   }
@@ -1389,7 +1395,11 @@ function extractLocaleText(
       .filter((d) => d.length > 0);
     const type1Descs = effects
       .filter((e) => e[0] === 1)
-      .map((e) => `${resolveAttrName(e[1])} +${e[2]}`);
+      .map((e) =>
+        FINAL_PCT_ATTR_IDS.has(e[1])
+          ? `${resolveAttrName(e[1])} +${e[2] / 100}%`
+          : `${resolveAttrName(e[1])} +${e[2]}`,
+      );
     let des = '';
     if (hasType6) {
       const baseDes = entry.TalentDes !== TALENT_DES_PLACEHOLDER ? entry.TalentDes || '' : '';

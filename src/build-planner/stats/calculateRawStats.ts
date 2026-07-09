@@ -336,8 +336,17 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (!td) continue;
     for (const eff of td.effects) {
       if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
-        const statId = TALENT_ATTR_TO_STAT[eff[1]];
-        if (statId !== undefined) addStat(statId, eff[2]);
+        // attrIdが会心/幸運等の"%final"系バリアント(IMAGINARY_PCT_FINALと同じID、単位1/10000)の
+        // 場合は最終%乗算ボーナスとして扱う(例: ヘヴィガーディアン「癒しの砂」attrId 11324→
+        // 最大HP+10%)。それ以外は通常の平坦加算。
+        const finalStatId = IMAGINARY_PCT_FINAL[eff[1] as ImaginaryFinalStatId];
+        if (finalStatId !== undefined) {
+          // phantomFinalPctは生の値(単位1/10000)をそのまま積む(ipct()側で1回だけ除算するため)。
+          phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
+        } else {
+          const statId = TALENT_ATTR_TO_STAT[eff[1]];
+          if (statId !== undefined) addStat(statId, eff[2]);
+        }
       } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
         // 型によって効果内容が変わるアビリティ(例: ビートパフォーマー「変奏」)。
         // 対応する型(type1)使用時のみ最終%ボーナスとして反映する。
@@ -368,8 +377,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       if (!td) continue;
       for (const eff of td.effects) {
         if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
-          const statId = TALENT_ATTR_TO_STAT[eff[1]];
-          if (statId !== undefined) addStat(statId, eff[2]);
+          const finalStatId = IMAGINARY_PCT_FINAL[eff[1] as ImaginaryFinalStatId];
+          if (finalStatId !== undefined) {
+            phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
+          } else {
+            const statId = TALENT_ATTR_TO_STAT[eff[1]];
+            if (statId !== undefined) addStat(statId, eff[2]);
+          }
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           const statId = TALENT_ATTR_TO_STAT[eff[2]];
           if (statId !== undefined) {

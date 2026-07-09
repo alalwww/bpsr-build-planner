@@ -261,6 +261,37 @@ describe('calculateRawStats', () => {
     expect(result.highestStatFinalPctBonus).toBe(0);
   });
 
+  it('routes a type=1 effect with a "%final" attrId to phantomFinalPct, not a flat addend (heavyGuardian "癒しの砂", talentId 912)', () => {
+    // src/data/talent-tree.json: nodes["912"].effects = [[1, 11324, 1000]] (stage:0 = R1)
+    // attrId 11324 is maxHp's IMAGINARY_PCT_FINAL variant (unit 1/10000) -> +10% final, not +1000 flat.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.heavyGuardian,
+      talentR1EnabledIds: new Set([1]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 912,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    // phantomFinalPctは生の値(単位1/10000)をそのまま持つ(TALENT_TYPE1_ONLY_FINAL_PCTと同じ規約)。
+    // ipct()側で1回だけ /PERCENT_BASIS_POINTS されて+10%になる。
+    expect(result.phantomFinalPct.maxHp).toBe(1000);
+    expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
+  });
+
   it('keeps a flat crit attrId and a %-variant crit attrId separate (蒼海武器 fixed-evo bug report)', () => {
     // src/data/equipment.json: item 8000019 (galeLancer, 乱風型/talentSchoolId 108, isFixedStat)
     // fixedEvolutionStats["108"] includes both 11112(flat, isPercent=false, +1240) and
