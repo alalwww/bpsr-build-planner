@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
 import { renderMarkup } from '../components/renderMarkup';
-import { IMAGINARY_FLAT_STAT } from '../stats/attrMaps';
+import { IMAGINE_FLAT_STAT } from '../stats/attrMaps';
 import {
-  type BattleImaginaryData,
-  getBattleImaginaryData,
+  type BattleImagineData,
+  getBattleImagineData,
   getImagineIconUrl,
   getSkillData,
   getSkillIconUrl,
@@ -38,38 +38,36 @@ function SkillTooltip({
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
   const { skillId, isImagine, rank = 0, score } = state;
-  const sd = isImagine ? getBattleImaginaryData(skillId) : getSkillData(skillId);
-  const ns = isImagine ? 'battleImaginaries' : 'skills';
+  const sd = isImagine ? getBattleImagineData(skillId) : getSkillData(skillId);
+  const ns = isImagine ? 'battleImagines' : 'skills';
   const name = t(`${ns}.${skillId}.name`, { defaultValue: String(skillId) });
   const desc = t(`${ns}.${skillId}.description`, { defaultValue: '' });
   const activeSkillName = isImagine
-    ? t(`battleImaginaries.${skillId}.activeSkillName`, { defaultValue: '' })
+    ? t(`battleImagines.${skillId}.activeSkillName`, { defaultValue: '' })
     : '';
   const skillLabel = t(`${ns}.${skillId}.skillLabel`, {
     returnObjects: true,
     defaultValue: [],
   }) as string[];
-  const dialogue = isImagine
-    ? t(`battleImaginaries.${skillId}.dialogue`, { defaultValue: '' })
-    : '';
+  const dialogue = isImagine ? t(`battleImagines.${skillId}.dialogue`, { defaultValue: '' }) : '';
   const passiveEffects = isImagine
-    ? ((sd as BattleImaginaryData | undefined)?.passiveEffects ?? [])
+    ? ((sd as BattleImagineData | undefined)?.passiveEffects ?? [])
     : [];
   const passiveBufDescs = isImagine
-    ? (t(`battleImaginaries.${skillId}.passiveBufDescriptions`, {
+    ? (t(`battleImagines.${skillId}.passiveBufDescriptions`, {
         returnObjects: true,
         defaultValue: [],
       }) as string[][])
     : [];
   const allActiveEffectParams = isImagine
-    ? (t(`battleImaginaries.${skillId}.activeEffectParams`, {
+    ? (t(`battleImagines.${skillId}.activeEffectParams`, {
         returnObjects: true,
         defaultValue: [],
       }) as [string, string[]][])
     : [];
   const activeEffectParams = allActiveEffectParams.filter(([, vals]) => vals[rank] !== '');
   const iconUrl = isImagine
-    ? getImagineIconUrl((sd as BattleImaginaryData | undefined)?.icon ?? '')
+    ? getImagineIconUrl((sd as BattleImagineData | undefined)?.icon ?? '')
     : getSkillIconUrl((sd as SkillData | undefined)?.icon ?? '');
 
   const hasPassive = passiveEffects.length > 0 || passiveBufDescs.length > 0;
@@ -130,7 +128,7 @@ function SkillTooltip({
             const value = eff[rank + 1] ?? eff[1];
             // 会心/ファスト/幸運/器用さ/万能は%専用のAttrIdを持たず実数値レーティングのため、
             // 他の%系(筋力等の基礎ステータス%ボーナスや最終ステータス%ボーナス)と区別して表示する。
-            const isFlat = IMAGINARY_FLAT_STAT[eff[0]] !== undefined;
+            const isFlat = IMAGINE_FLAT_STAT[eff[0]] !== undefined;
             return (
               <div key={eff[0]} className="skill-tooltip__passive-row">
                 <span className="skill-tooltip__passive-name">

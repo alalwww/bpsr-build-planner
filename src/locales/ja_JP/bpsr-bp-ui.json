@@ -28,7 +28,7 @@
       "skillGroup": "スキル育成",
       "skillFixed": "固定スキル",
       "skillMastery": "マスタリースキル",
-      "skillImaginary": "バトルイマジン",
+      "skillImagine": "バトルイマジン",
       "equipmentGroup": "装備育成",
       "equipmentBase": "装備",
       "equipmentEnchant": "装着効果",
@@ -130,7 +130,7 @@
     "skill": {
       "masterySkills": "マスタリースキル",
       "rank": "ランク",
-      "selectImaginary": "イマジン選択",
+      "selectImagine": "イマジン選択",
       "equip": "装着"
     },
     "module": {

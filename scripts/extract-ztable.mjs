@@ -157,7 +157,7 @@ function extractSkills(langDir, referencedSkillIds) {
   return result;
 }
 
-// battle-imaginaries.json: SkillAoyiTable の全エントリ。
+// battle-imagines.json: SkillAoyiTable の全エントリ。
 //   id: エントリID (3901-3983)
 //   rarityType: 1=エリート(bg_on_1), 2=ボス/キャラ(bg_on_2)
 //   icon, showSkillType, maxRank, skillId: 既存フィールド
@@ -165,7 +165,7 @@ function extractSkills(langDir, referencedSkillIds) {
 //   fightValues: [G1,G2,...Gmax] の累積FV (SkillAoyiStarTable)
 //   passiveEffects: [[attrId, r0, r1, r2, r3, r4, r5], ...] (type=1 stat加算)
 //   bufPassiveEffects: [[buffId, [r0p1,r0p2,...], [r1p1,...], ...r5], ...] (type=3 バフ効果パラメータ)
-function extractBattleImaginaries(langDir) {
+function extractBattleImagines(langDir) {
   const aoyiTable = readTable(langDir, 'SkillAoyiTable');
   const starTable = readTable(langDir, 'SkillAoyiStarTable');
   const skillFightLevelTable = readTable(langDir, 'SkillFightLevelTable');
@@ -195,7 +195,7 @@ function extractBattleImaginaries(langDir) {
     };
   }
 
-  const usedBattleImaginaryAttrIds = new Set();
+  const usedBattleImagineAttrIds = new Set();
   const result = {};
   for (const entry of Object.values(aoyiTable)) {
     const numMatch = String(entry.ArtPreview).match(/(\d+)$/);
@@ -206,7 +206,7 @@ function extractBattleImaginaries(langDir) {
     // type=1 passive effects: [attrId, r0, r1, r2, r3, r4, r5]
     const r0Type1 = (entry.TransformationType || []).filter(([t]) => t === 1);
     const passiveEffects = r0Type1.map(([, attrId, r0val]) => {
-      usedBattleImaginaryAttrIds.add(attrId);
+      usedBattleImagineAttrIds.add(attrId);
       const row = [attrId, r0val];
       for (let lv = 1; lv <= 5; lv++) row.push(rankData[lv]?.type1[attrId] ?? r0val);
       return row;
@@ -241,7 +241,7 @@ function extractBattleImaginaries(langDir) {
       ...(bufPassiveEffects.length > 0 ? { bufPassiveEffects } : {}),
     };
   }
-  return { battleImaginaries: result, usedBattleImaginaryAttrIds };
+  return { battleImagines: result, usedBattleImagineAttrIds };
 }
 
 // skill-fight-values.json: SkillFightLevelTable から参照スキルの Lv別 FightValue を抽出。
@@ -1115,7 +1115,7 @@ function extractLocaleText(
     phantomFactorItemIds,
     phantomFactorAttrIds,
     talentAttrIds,
-    battleImaginaryAttrIds,
+    battleImagineAttrIds,
     localeName,
   },
 ) {
@@ -1348,7 +1348,7 @@ function extractLocaleText(
   // バトルイマジン パッシブ効果 AttrId の解決 (13152=風属性ボーナス 等、末尾2桁のみ
   // 定義されテーブルに存在しないケースがある)。
   // 解決順: ProfileAttrTable直接 → attrId-2 → attrId-4 → FightAttrTable
-  for (const attrId of battleImaginaryAttrIds) {
+  for (const attrId of battleImagineAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId]) {
       attributes[attrId] = attrByAttrId[attrId].Name;
@@ -1359,7 +1359,7 @@ function extractLocaleText(
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     } else {
-      console.warn(`[extract-ztable] no attribute name for battle imaginary attrId ${attrId}`);
+      console.warn(`[extract-ztable] no attribute name for battle imagine attrId ${attrId}`);
     }
   }
 
@@ -1367,7 +1367,7 @@ function extractLocaleText(
   //   type=1 (stat bonus): attrId→名前を解決し "名前 +val" 形式で生成。ただしattrIdが
   //     "%final"系バリアント(平坦statの"+2"IDが多いが例外もある。単位はいずれも1/10000)の
   //     場合は "名前 +val/100%" 形式で生成する:
-  //     - 11324/11334/11344/11354: src/build-planner/stats/attrMaps.ts の IMAGINARY_PCT_FINAL と
+  //     - 11324/11334/11344/11354: src/build-planner/stats/attrMaps.ts の IMAGINE_PCT_FINAL と
   //       同じID(例: ヘヴィガーディアン「癒しの砂」attrId 11324→最大HP、value 1000→+10%)
   //     - 11722: 攻撃速度の%final variant(例: ディバインアーチャー「迅射」、value 300→+3%。
   //       誤って"攻撃速度 +300"と表示されていたバグ報告により追加)
@@ -1456,7 +1456,7 @@ function extractLocaleText(
     bondSlots: Object.fromEntries(Object.values(stHoleTable).map((e) => [e.Id, e.Name])),
   };
 
-  // battleImaginaries: SkillAoyiTable の名称・台詞 と SkillTable[aoyiId] のアクティブ効果説明。
+  // battleImagines: SkillAoyiTable の名称・台詞 と SkillTable[aoyiId] のアクティブ効果説明。
   // ItemTable[AoyiItemId].Description はアクティブスキル説明が不正確なため使用しない。
   // passiveBufDescriptions: type=3 バフ効果のテンプレートにパラメータを代入した文字列(ランク別)。
   // activeEffectParams: SkillEffectTable.SkillAttrDes のラベルとランク別(G0-G5)解決済み値ペア。
@@ -1561,7 +1561,7 @@ function extractLocaleText(
     return result.replace(/<br>/gi, ' ').trim();
   }
 
-  const battleImaginaries = {};
+  const battleImagines = {};
   for (const entry of Object.values(aoyiTable)) {
     const sk = skillTable[String(entry.Id)];
     const r0Params = entry.BuffPar?.[0] ?? [];
@@ -1605,7 +1605,7 @@ function extractLocaleText(
 
     const imagineSkillLabel = resolveSkillLabel(sk?.EffectIDs);
 
-    battleImaginaries[entry.Id] = {
+    battleImagines[entry.Id] = {
       name: entry.ResonanceObject,
       dialogue: entry.Dialogue || '',
       ...(sk?.Name ? { activeSkillName: sk.Name } : {}),
@@ -1701,7 +1701,7 @@ function extractLocaleText(
     attributes,
     talents,
     seasonTalents,
-    battleImaginaries,
+    battleImagines,
     uiLabels,
     talentStages,
     moduleEffects,
@@ -1864,7 +1864,7 @@ function main() {
   const skills = extractSkills(structuralDir, skillIds);
   const skillFightValues = extractSkillFightValues(structuralDir, skillIds);
   const skillRankFightValues = extractSkillRankFightValues(structuralDir, skillIds);
-  const { battleImaginaries, usedBattleImaginaryAttrIds } = extractBattleImaginaries(structuralDir);
+  const { battleImagines, usedBattleImagineAttrIds } = extractBattleImagines(structuralDir);
   const {
     byPart: equipmentByPart,
     usedAttrIds: equipAttrIds,
@@ -1923,9 +1923,9 @@ function main() {
     `[extract-ztable] wrote skill-rank-fight-values.json (${Object.keys(skillRankFightValues).length} skills) to ${skillRankFightValuesPath}`,
   );
 
-  const battleImaginariesPath = writeJson(dataOut, 'battle-imaginaries.json', battleImaginaries);
+  const battleImaginesPath = writeJson(dataOut, 'battle-imagines.json', battleImagines);
   console.log(
-    `[extract-ztable] wrote ${Object.keys(battleImaginaries).length} battle imaginaries to ${battleImaginariesPath}`,
+    `[extract-ztable] wrote ${Object.keys(battleImagines).length} battle imagines to ${battleImaginesPath}`,
   );
 
   const equipmentItemCount = Object.values(equipmentByPart).reduce(
@@ -2001,13 +2001,13 @@ function main() {
       phantomFactorItemIds,
       phantomFactorAttrIds,
       talentAttrIds,
-      battleImaginaryAttrIds: usedBattleImaginaryAttrIds,
+      battleImagineAttrIds: usedBattleImagineAttrIds,
       localeName: dirName,
     });
     const outDir = join(localesOut, localeDir);
     const path = writeJson(outDir, 'game-data.json', localeText);
     console.log(
-      `[extract-ztable] wrote game-data.json for ${localeDir} (items:${Object.keys(localeText.items).length} skills:${Object.keys(localeText.skills).length} classes:${Object.keys(localeText.classes).length} talentStages:${Object.keys(localeText.talentStages).length} parts:${Object.keys(localeText.parts).length} attributes:${Object.keys(localeText.attributes).length} talents:${Object.keys(localeText.talents).length} battleImaginaries:${Object.keys(localeText.battleImaginaries).length}) to ${path}`,
+      `[extract-ztable] wrote game-data.json for ${localeDir} (items:${Object.keys(localeText.items).length} skills:${Object.keys(localeText.skills).length} classes:${Object.keys(localeText.classes).length} talentStages:${Object.keys(localeText.talentStages).length} parts:${Object.keys(localeText.parts).length} attributes:${Object.keys(localeText.attributes).length} talents:${Object.keys(localeText.talents).length} battleImagines:${Object.keys(localeText.battleImagines).length}) to ${path}`,
     );
   }
 }

@@ -66,7 +66,7 @@
   height: 64px;
 }
 
-/* imaginary rarity border frame wrapper */
+/* imagine rarity border frame wrapper */
 .skill-circle-frame {
   position: relative;
   flex-shrink: 0;
@@ -282,14 +282,14 @@
   background: #1e1a10;
 }
 
-/* Imaginary: マスタリースキル(3col grid)と同じ幅になるよう同じグリッドレイアウトを使用 */
-.imaginary-row {
+/* Imagine: マスタリースキル(3col grid)と同じ幅になるよう同じグリッドレイアウトを使用 */
+.imagine-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
 
-.skill-card--imaginary {
+.skill-card--imagine {
   min-height: 74px;
   transition:
     border-color 0.15s,
@@ -297,7 +297,7 @@
   padding-right: 5px;
 }
 
-.skill-card--imaginary:hover {
+.skill-card--imagine:hover {
   border-color: #3a3a55;
 }
 

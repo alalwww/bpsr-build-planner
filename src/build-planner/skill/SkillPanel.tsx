@@ -14,7 +14,7 @@ import { useBuildStore } from '../store/useBuildStore';
 import SkillCircle, { type CircleHandlers } from './SkillCircle';
 import FixedSkillCard from './FixedSkillCard';
 import MasterySkillCard from './MasterySkillCard';
-import BattleImaginarySlot from './BattleImaginarySlot';
+import BattleImagineSlot from './BattleImagineSlot';
 import SkillTooltip from './SkillTooltip';
 import { useDragReorder } from './useDragReorder';
 import { useCursorTooltip } from '../components/useCursorTooltip';
@@ -46,8 +46,8 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
     masteryRanks,
     fixedLevels,
     fixedRanks,
-    battleImaginaries,
-    imaginaryRanks,
+    battleImagines,
+    imagineRanks,
     talentR1EnabledIds,
     talentR2EnabledIds,
   } = useBuildStore(
@@ -57,8 +57,8 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
       masteryRanks: s.masteryRanks,
       fixedLevels: s.fixedLevels,
       fixedRanks: s.fixedRanks,
-      battleImaginaries: s.battleImaginaries,
-      imaginaryRanks: s.imaginaryRanks,
+      battleImagines: s.battleImagines,
+      imagineRanks: s.imagineRanks,
       talentR1EnabledIds: s.talentR1EnabledIds,
       talentR2EnabledIds: s.talentR2EnabledIds,
     })),
@@ -68,9 +68,9 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
   const onSetMasteryRank = useBuildStore((s) => s.setMasteryRank);
   const onSetFixedLevel = useBuildStore((s) => s.setFixedLevel);
   const onSetFixedRank = useBuildStore((s) => s.setFixedRank);
-  const onSetBattleImaginary = useBuildStore((s) => s.setBattleImaginary);
-  const onReorderBattleImaginaries = useBuildStore((s) => s.reorderBattleImaginaries);
-  const onSetImaginaryRank = useBuildStore((s) => s.setImaginaryRank);
+  const onSetBattleImagine = useBuildStore((s) => s.setBattleImagine);
+  const onReorderBattleImagines = useBuildStore((s) => s.reorderBattleImagines);
+  const onSetImagineRank = useBuildStore((s) => s.setImagineRank);
 
   const professionId = PROFESSIONS[professionKey].professionId;
   const roleSkills = selectRoleSkills(professionId);
@@ -123,7 +123,7 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
       0,
     );
 
-  const imaginaryDnd = useDragReorder(onReorderBattleImaginaries);
+  const imagineDnd = useDragReorder(onReorderBattleImagines);
 
   return (
     <div className="skill-panel">
@@ -190,26 +190,26 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
         <div className="skill-section__separator">
           <span>{battleImagineLabel}</span>
         </div>
-        <div className="imaginary-row">
-          {battleImaginaries.map((id, i) => (
-            <BattleImaginarySlot
+        <div className="imagine-row">
+          {battleImagines.map((id, i) => (
+            <BattleImagineSlot
               key={i}
               index={i}
               id={id}
-              rank={imaginaryRanks[i] ?? 5}
-              allIds={battleImaginaries}
-              onSet={(newId) => onSetBattleImaginary(i, newId)}
-              onSetRank={(v) => onSetImaginaryRank(i, v)}
-              onClear={() => onSetBattleImaginary(i, null)}
-              dragHandlers={imaginaryDnd}
-              isDragOver={imaginaryDnd.dragOver === i}
+              rank={imagineRanks[i] ?? 5}
+              allIds={battleImagines}
+              onSet={(newId) => onSetBattleImagine(i, newId)}
+              onSetRank={(v) => onSetImagineRank(i, v)}
+              onClear={() => onSetBattleImagine(i, null)}
+              dragHandlers={imagineDnd}
+              isDragOver={imagineDnd.dragOver === i}
               circleHandlers={
                 id != null
                   ? makeCircleHandlers(
                       id,
                       true,
-                      imaginaryRanks[i] ?? 5,
-                      calculateSkillAbilityScore(id, undefined, imaginaryRanks[i] ?? 5, true),
+                      imagineRanks[i] ?? 5,
+                      calculateSkillAbilityScore(id, undefined, imagineRanks[i] ?? 5, true),
                     )
                   : undefined
               }

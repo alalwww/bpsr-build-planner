@@ -28,7 +28,7 @@ import {
   calcModuleEffectLevels,
   enchantFightValueById,
   getClassData,
-  imaginaryDataById,
+  imagineDataById,
   levelCumulativeData,
   modulesData,
   playerLevelSeasonData,
@@ -57,8 +57,8 @@ export interface CalculateAbilityScoreInput {
   masteryEquipped: boolean[];
   masteryLevels: number[];
   masteryRanks: number[];
-  battleImaginaries: (number | null)[];
-  imaginaryRanks: number[];
+  battleImagines: (number | null)[];
+  imagineRanks: number[];
   moduleSlots: ModuleSlots;
   adventurerLevel: number;
   talentR1EnabledIds: Set<number>;
@@ -159,7 +159,7 @@ export function calculateSkillAbilityScore(
   isImagine: boolean,
 ): number {
   if (isImagine) {
-    const ima = imaginaryDataById[String(skillId)];
+    const ima = imagineDataById[String(skillId)];
     if (!ima) return 0;
     let fv = ima.baseFv ?? 0;
     if (rank > 0) fv += ima.fightValues?.[rank - 1] ?? 0;
@@ -211,8 +211,8 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     masteryEquipped,
     masteryLevels,
     masteryRanks,
-    battleImaginaries,
-    imaginaryRanks,
+    battleImagines,
+    imagineRanks,
     moduleSlots,
     adventurerLevel,
     talentR1EnabledIds,
@@ -260,7 +260,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
   // --- スキル ---
   let skillFixedFv = 0;
   let skillMasteryFv = 0;
-  let skillImaginaryFv = 0;
+  let skillImagineFv = 0;
   const cls = getClassData(profession.professionId);
   if (cls) {
     const fixedGroups = [cls.normalAttackSkill, cls.specialSkill, cls.ultimateSkill];
@@ -285,10 +285,10 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
   }
 
   // バトルイマジン (baseFv + fightValues[rank-1] の累積FV)
-  for (let i = 0; i < battleImaginaries.length; i++) {
-    const id = battleImaginaries[i];
+  for (let i = 0; i < battleImagines.length; i++) {
+    const id = battleImagines[i];
     if (id == null) continue;
-    skillImaginaryFv += calculateSkillAbilityScore(id, undefined, imaginaryRanks[i] ?? 0, true);
+    skillImagineFv += calculateSkillAbilityScore(id, undefined, imagineRanks[i] ?? 0, true);
   }
 
   // --- アビリティ (武器熟練ツリーノード: R1/R2別) ---
@@ -370,7 +370,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     abilityR2Fv +
     skillFixedFv +
     skillMasteryFv +
-    skillImaginaryFv +
+    skillImagineFv +
     equipmentBaseFv +
     equipmentEnchantFv +
     equipmentRefineFv +
@@ -387,7 +387,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     abilityR2: abilityR2Fv,
     skillFixed: skillFixedFv,
     skillMastery: skillMasteryFv,
-    skillImaginary: skillImaginaryFv,
+    skillImagine: skillImagineFv,
     equipmentBase: equipmentBaseFv,
     equipmentEnchant: equipmentEnchantFv,
     equipmentRefine: equipmentRefineFv,

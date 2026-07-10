@@ -34,10 +34,10 @@ import {
   EVO_PCT_ATTR_TO_STAT,
   EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
-  IMAGINARY_FLAT_STAT,
-  IMAGINARY_PCT_BASE,
-  IMAGINARY_PCT_FINAL,
-  type ImaginaryFinalStatId,
+  IMAGINE_FLAT_STAT,
+  IMAGINE_PCT_BASE,
+  IMAGINE_PCT_FINAL,
+  type ImagineFinalStatId,
   LEGENDARY_AFFIX_FLAT_STAT,
   MOD_ADAPTIVE_ATK_ATTR_ID,
   MOD_ADAPTIVE_MAIN_STAT_ATTR_ID,
@@ -65,7 +65,7 @@ import {
   calcModuleEffectLevels,
   enchantEffectsById,
   getPowerCoreLevel,
-  imaginaryDataById,
+  imagineDataById,
   levelCumulativeData,
   modulesData,
   playerLevelSeasonData,
@@ -107,8 +107,8 @@ export interface CalculateRawStatsInput {
   talentR2EnabledIds: Set<number>;
   talentNodesById: Map<number, TalentTreeNode>;
   r1NodeCount: number;
-  battleImaginaries: (number | null)[];
-  imaginaryRanks: number[];
+  battleImagines: (number | null)[];
+  imagineRanks: number[];
   slotEnchants: SlotEnchants;
   moduleSlots: ModuleSlots;
   adventurerLevel: number;
@@ -173,8 +173,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     talentR2EnabledIds,
     talentNodesById,
     r1NodeCount,
-    battleImaginaries,
-    imaginaryRanks,
+    battleImagines,
+    imagineRanks,
     slotEnchants,
     moduleSlots,
     adventurerLevel,
@@ -344,10 +344,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (!td) continue;
     for (const eff of td.effects) {
       if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
-        // attrIdが会心/幸運等の"%final"系バリアント(IMAGINARY_PCT_FINALと同じID、単位1/10000)の
+        // attrIdが会心/幸運等の"%final"系バリアント(IMAGINE_PCT_FINALと同じID、単位1/10000)の
         // 場合は最終%乗算ボーナスとして扱う(例: ヘヴィガーディアン「癒しの砂」attrId 11324→
         // 最大HP+10%)。それ以外は通常の平坦加算。
-        const finalStatId = IMAGINARY_PCT_FINAL[eff[1] as ImaginaryFinalStatId];
+        const finalStatId = IMAGINE_PCT_FINAL[eff[1] as ImagineFinalStatId];
         if (finalStatId !== undefined) {
           // phantomFinalPctは生の値(単位1/10000)をそのまま積む(ipct()側で1回だけ除算するため)。
           phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
@@ -387,7 +387,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       if (!td) continue;
       for (const eff of td.effects) {
         if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
-          const finalStatId = IMAGINARY_PCT_FINAL[eff[1] as ImaginaryFinalStatId];
+          const finalStatId = IMAGINE_PCT_FINAL[eff[1] as ImagineFinalStatId];
           if (finalStatId !== undefined) {
             phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
           } else if (eff[1] === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
@@ -436,7 +436,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       addStat(flatStatId, selection.value);
       continue;
     }
-    const pctStatId = IMAGINARY_PCT_BASE[selection.attrId];
+    const pctStatId = IMAGINE_PCT_BASE[selection.attrId];
     if (pctStatId !== undefined) addPctBonus(pctStatId, selection.value);
   }
 
@@ -494,20 +494,20 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // バトルイマジン パッシブ: 基礎ステータスへの%ボーナス (rawStats に乗算)
   // 装備・アビリティ・モジュール・冒険者レベル・潜在レベルの平坦加算がすべて終わった後の
   // 基礎ステータス全体に対して掛けるため、この位置で適用する。
-  for (let i = 0; i < battleImaginaries.length; i++) {
-    const id = battleImaginaries[i];
+  for (let i = 0; i < battleImagines.length; i++) {
+    const id = battleImagines[i];
     if (id == null) continue;
-    const rank = imaginaryRanks[i] ?? 0;
-    const ima = imaginaryDataById[String(id)];
+    const rank = imagineRanks[i] ?? 0;
+    const ima = imagineDataById[String(id)];
     if (!ima?.passiveEffects) continue;
     for (const eff of ima.passiveEffects) {
-      const pctStatId = IMAGINARY_PCT_BASE[eff[0]];
+      const pctStatId = IMAGINE_PCT_BASE[eff[0]];
       if (pctStatId != null) {
         const value = eff[rank + 1] ?? eff[1];
         addPctBonus(pctStatId, value);
         continue;
       }
-      const flatStatId = IMAGINARY_FLAT_STAT[eff[0]];
+      const flatStatId = IMAGINE_FLAT_STAT[eff[0]];
       if (flatStatId != null) {
         const value = eff[rank + 1] ?? eff[1];
         addStat(flatStatId, value);
@@ -560,12 +560,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         for (const [effectType, attrId, value] of gradeData.effects) {
           if (effectType !== PHANTOM_EFFECT_TYPE_STAT) continue;
           // 末尾4のAttrId(11014/11024/11034/11044/11324/11354)は%乗算値（単位:1/10000）
-          const baseStatId = IMAGINARY_PCT_BASE[attrId];
+          const baseStatId = IMAGINE_PCT_BASE[attrId];
           if (baseStatId !== undefined) {
             addPctBonus(baseStatId, value);
             continue;
           }
-          const finalStatKey = IMAGINARY_PCT_FINAL[attrId as ImaginaryFinalStatId];
+          const finalStatKey = IMAGINE_PCT_FINAL[attrId as ImagineFinalStatId];
           if (finalStatKey !== undefined) {
             phantomFinalPct[finalStatKey] = (phantomFinalPct[finalStatKey] ?? 0) + value;
             continue;
@@ -712,8 +712,8 @@ export function applyFinalStatModifiers(
   breakdown: Record<StatId, StatBreakdownEntry>,
   derived: DerivedStats,
   legendaryAffixState: Partial<Record<EquipmentSlotId, LegendaryAffixSelection | undefined>>,
-  battleImaginaries: (number | null)[],
-  imaginaryRanks: number[],
+  battleImagines: (number | null)[],
+  imagineRanks: number[],
   phantomFinalPct: Partial<Record<string, number>>,
   // 進化ステータス(蒼海武器等)の会心/幸運/ファスト/器用さ"%"バリアントによる、最終結果への
   // 直接加算ボーナス(鼓舞/HP変動と同じ加算方式。単位: 1/100)。
@@ -733,14 +733,14 @@ export function applyFinalStatModifiers(
   const matkMult = roundClean(1 + matkPctBonus / PERCENT_BASIS_POINTS);
   // バトルイマジン パッシブ + 潜在因子: 最終ステータスへの%ボーナス
   const imagFinalPct: Partial<Record<string, number>> = { ...phantomFinalPct };
-  for (let i = 0; i < battleImaginaries.length; i++) {
-    const id = battleImaginaries[i];
+  for (let i = 0; i < battleImagines.length; i++) {
+    const id = battleImagines[i];
     if (id == null) continue;
-    const rank = imaginaryRanks[i] ?? 0;
-    const ima = imaginaryDataById[String(id)];
+    const rank = imagineRanks[i] ?? 0;
+    const ima = imagineDataById[String(id)];
     if (!ima?.passiveEffects) continue;
     for (const eff of ima.passiveEffects) {
-      const key = IMAGINARY_PCT_FINAL[eff[0] as ImaginaryFinalStatId];
+      const key = IMAGINE_PCT_FINAL[eff[0] as ImagineFinalStatId];
       if (key != null) {
         const value = eff[rank + 1] ?? eff[1];
         imagFinalPct[key] = (imagFinalPct[key] ?? 0) + value;

@@ -1,6 +1,6 @@
 import classesDataRaw from '../../data/classes.json';
 import talentTreeRaw from '../../data/talent-tree.json';
-import battleImaginariesRaw from '../../data/battle-imaginaries.json';
+import battleImaginesRaw from '../../data/battle-imagines.json';
 import playerLevelsDataRaw from '../../data/player-levels.json';
 import enchantsDataRaw from '../../data/enchants.json';
 import refineDataRaw from '../../data/refine.json';
@@ -193,15 +193,15 @@ export function getPowerCoreLevel(slots: ModuleSlots, effectId: number): 0 | 5 |
   return found.level >= 6 ? 6 : 5;
 }
 
-// ---- battle imaginary data ----
+// ---- battle imagine data ----
 
-export interface ImaginaryData {
+export interface ImagineData {
   passiveEffects?: number[][];
   baseFv?: number;
   fightValues?: number[];
 }
 
-export const imaginaryDataById = battleImaginariesRaw as unknown as Record<string, ImaginaryData>;
+export const imagineDataById = battleImaginesRaw as unknown as Record<string, ImagineData>;
 
 // passiveEffects format: [attrId, r0_val, r1_val, r2_val, r3_val, r4_val, r5_val]
 // value = eff[rank + 1] (rank 0 → eff[1], rank 5 → eff[6])

@@ -107,13 +107,13 @@ describe('skillSlice', () => {
   });
 
   it('resetSkillForProfessionChange: マスタリー/固定スキルのみリセットしバトルイマジンは維持する', () => {
-    useBuildStore.getState().setBattleImaginariesState([42, null]);
+    useBuildStore.getState().setBattleImaginesState([42, null]);
     useBuildStore.getState().setMasteryLevelsState([10, 10]);
 
     useBuildStore.getState().resetSkillForProfessionChange('shieldFighter');
 
     const state = useBuildStore.getState();
-    expect(state.battleImaginaries).toEqual([42, null]);
+    expect(state.battleImagines).toEqual([42, null]);
     expect(state.masteryLevels.every((lv) => lv === 30)).toBe(true);
   });
 });

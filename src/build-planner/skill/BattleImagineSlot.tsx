@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Stepper from '../components/Stepper';
 import SkillCircle, { type CircleHandlers } from './SkillCircle';
-import ImaginaryPickerDialog from './ImaginaryPickerDialog';
-import { getBattleImaginaryData } from './skillData';
+import ImaginePickerDialog from './ImaginePickerDialog';
+import { getBattleImagineData } from './skillData';
 
-function BattleImaginarySlot({
+function BattleImagineSlot({
   index,
   id,
   rank,
@@ -37,13 +37,13 @@ function BattleImaginarySlot({
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
   const [showPicker, setShowPicker] = useState(false);
-  const bi = id != null ? getBattleImaginaryData(id) : null;
-  const name = id != null ? t(`battleImaginaries.${id}.name`, { defaultValue: String(id) }) : null;
+  const bi = id != null ? getBattleImagineData(id) : null;
+  const name = id != null ? t(`battleImagines.${id}.name`, { defaultValue: String(id) }) : null;
 
   return (
     <>
       <div
-        className={`skill-card skill-card--imaginary${isDragOver ? ' skill-card--drag-over' : ''}`}
+        className={`skill-card skill-card--imagine${isDragOver ? ' skill-card--drag-over' : ''}`}
         draggable={id != null}
         onDragStart={() => dragHandlers.onDragStart(index)}
         onDragOver={(e) => dragHandlers.onDragOver(e, index)}
@@ -87,12 +87,12 @@ function BattleImaginarySlot({
             className="skill-slot__empty-btn"
             onClick={() => setShowPicker(true)}
           >
-            ＋ {tUi('buildPlanner.skill.selectImaginary')}
+            ＋ {tUi('buildPlanner.skill.selectImagine')}
           </button>
         )}
       </div>
       {showPicker && (
-        <ImaginaryPickerDialog
+        <ImaginePickerDialog
           excludeIds={allIds.filter((_, idx) => idx !== index)}
           onSelect={(newId, newRank) => {
             onSet(newId);
@@ -106,4 +106,4 @@ function BattleImaginarySlot({
   );
 }
 
-export default BattleImaginarySlot;
+export default BattleImagineSlot;

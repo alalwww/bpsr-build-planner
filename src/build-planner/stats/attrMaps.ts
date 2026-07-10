@@ -48,7 +48,7 @@ export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1Only
 
 // アビリティ type=1 効果のうち、attrIdが「攻撃速度」の%finalバリアント(単位1/10000)のもの。
 // atkSpeedPercentはStatId(rawStats)ではなくDerivedStats側の値のため、TALENT_ATTR_TO_STAT/
-// IMAGINARY_PCT_FINALには乗らず、deriveStats()への直接加算として個別に扱う
+// IMAGINE_PCT_FINALには乗らず、deriveStats()への直接加算として個別に扱う
 // (例: ディバインアーチャー「迅射」talentId 1135、他に talentId 41/42 も同じattrIdを使う)。
 export const TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID = 11722;
 
@@ -240,7 +240,7 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリのうち、
 // 会心/幸運/ファスト/器用さの"%"バリアント。既存のflat系attrId(11112/11132/11122/11142)と
 // game-data.json上で同名のため、収益逓減カーブ適用後の最終%への乗算ボーナスとして扱う
-// (IMAGINARY_PCT_FINALと同じ意味・同じ単位: 1/10000)。
+// (IMAGINE_PCT_FINALと同じ意味・同じ単位: 1/10000)。
 export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11712: 'crit',
   11782: 'luck',
@@ -259,7 +259,7 @@ export const AFFIX_STAT_EFFECTS: Record<number, { statId: StatId }> = {
 };
 
 // 刻印(伝説刻印) AttrId → rawStatsへの平坦加算(防具のみ・isPercent=false)。
-// 筋力/知力/敏捷(11014/11024/11034)は防具でも%扱いのため IMAGINARY_PCT_BASE 側で処理する。
+// 筋力/知力/敏捷(11014/11024/11034)は防具でも%扱いのため IMAGINE_PCT_BASE 側で処理する。
 export const LEGENDARY_AFFIX_FLAT_STAT: Partial<Record<number, StatId>> = {
   11322: 'maxHp',
   11352: 'physicalDef',
@@ -268,7 +268,7 @@ export const LEGENDARY_AFFIX_FLAT_STAT: Partial<Record<number, StatId>> = {
 
 // Base stat (strength/intellect/agility/endurance) percentage bonuses applied to rawStats before deriveStats.
 // Unit: 1/10000 (value 600 → 6%).
-export const IMAGINARY_PCT_BASE: Partial<Record<number, StatId>> = {
+export const IMAGINE_PCT_BASE: Partial<Record<number, StatId>> = {
   11014: 'strength',
   11024: 'intellect',
   11034: 'agility',
@@ -277,18 +277,18 @@ export const IMAGINARY_PCT_BASE: Partial<Record<number, StatId>> = {
 
 // Final stat percentage bonuses applied after deriveStats + affix multipliers.
 // Unit: 1/10000 (value 3584 → 35.84%).
-export const IMAGINARY_PCT_FINAL = {
+export const IMAGINE_PCT_FINAL = {
   11324: 'maxHp',
   11334: 'atk',
   11344: 'matk',
   11354: 'physicalDef',
 } as const;
-export type ImaginaryFinalStatId = keyof typeof IMAGINARY_PCT_FINAL;
+export type ImagineFinalStatId = keyof typeof IMAGINE_PCT_FINAL;
 
 // バトルイマジン パッシブの会心/ファスト/幸運/器用さ/万能は、筋力等と違って%専用のAttrIdを
 // 持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
 // deriveStats側で一括適用されるため、ここで%として扱うと二重に乗算されてしまう)。
-export const IMAGINARY_FLAT_STAT: Partial<Record<number, StatId>> = {
+export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
   11112: 'crit',
   11122: 'haste',
   11132: 'luck',

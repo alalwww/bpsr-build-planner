@@ -5,9 +5,9 @@ import DraggableDialog from '../components/DraggableDialog';
 import Stepper from '../components/Stepper';
 import SkillCircle from './SkillCircle';
 import SkillTooltip from './SkillTooltip';
-import { battleImaginariesData } from './skillData';
+import { battleImaginesData } from './skillData';
 
-function ImaginaryPickerDialog({
+function ImaginePickerDialog({
   excludeIds,
   onSelect,
   onClose,
@@ -38,7 +38,7 @@ function ImaginaryPickerDialog({
   return (
     <>
       <DraggableDialog
-        title={tUi('buildPlanner.skill.selectImaginary')}
+        title={tUi('buildPlanner.skill.selectImagine')}
         onClose={onClose}
         className="skill-picker-dialog"
         resizable
@@ -47,7 +47,7 @@ function ImaginaryPickerDialog({
         headerExtra={
           <Stepper
             className="skill-stepper"
-            label="ランク"
+            label={tUi('buildPlanner.skill.rank')}
             value={rank}
             min={0}
             max={5}
@@ -57,11 +57,11 @@ function ImaginaryPickerDialog({
         }
       >
         <div className="skill-picker-dialog__grid">
-          {Object.values(battleImaginariesData)
+          {Object.values(battleImaginesData)
             .sort((a, b) => b.rarityType - a.rarityType || a.id - b.id)
             .map((bi) => {
               const disabled = excludeIds.includes(bi.id);
-              const name = t(`battleImaginaries.${bi.id}.name`, { defaultValue: String(bi.id) });
+              const name = t(`battleImagines.${bi.id}.name`, { defaultValue: String(bi.id) });
               return (
                 <button
                   key={bi.id}
@@ -104,4 +104,4 @@ function ImaginaryPickerDialog({
   );
 }
 
-export default ImaginaryPickerDialog;
+export default ImaginePickerDialog;

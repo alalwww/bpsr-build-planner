@@ -25,8 +25,8 @@ export interface BuildPlanData {
   masteryRanks: number[];
   fixedLevels: number[];
   fixedRanks: number[];
-  battleImaginaries: (number | null)[];
-  imaginaryRanks: number[];
+  battleImagines: (number | null)[];
+  imagineRanks: number[];
   talentR1EnabledIds: number[];
   talentR2EnabledIds: number[];
   slotEnchants: SlotEnchants;
@@ -43,20 +43,21 @@ export interface BuildPlanData {
 // 現在の編集状態（自動保存用）。id は不要だが名前欄も保存対象
 export type AutoSaveState = Omit<BuildPlanData, 'id'>;
 
-// v1: 現バージョン。下位互換性のない変更時はキー名のバージョンを上げ旧データを無視する
-const STORAGE_KEY_V1 = 'bpsr-build-plans-v1';
+// v2: 現バージョン。下位互換性のない変更時はキー名のバージョンを上げ旧データを無視する
+// (v1→v2: battleImaginaries/imaginaryRanksフィールドをbattleImagines/imagineRanksへ改名)
+const STORAGE_KEY_V2 = 'bpsr-build-plans-v2';
 const LEGACY_STORAGE_KEY = 'bpsr-build-plans';
-const AUTO_SAVE_KEY = 'bpsr-autosave-v1';
+const AUTO_SAVE_KEY = 'bpsr-autosave-v2';
 
 export function loadBuildPlans(): BuildPlanData[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY_V1);
+    const raw = localStorage.getItem(STORAGE_KEY_V2);
     if (raw != null) return JSON.parse(raw) as BuildPlanData[];
-    // v1キーが未存在の場合は旧キーからマイグレーション
+    // v2キーが未存在の場合は旧キーからマイグレーション
     const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
     if (legacyRaw != null) {
       const plans = JSON.parse(legacyRaw) as BuildPlanData[];
-      localStorage.setItem(STORAGE_KEY_V1, legacyRaw);
+      localStorage.setItem(STORAGE_KEY_V2, legacyRaw);
       return plans;
     }
     return [];
@@ -67,7 +68,7 @@ export function loadBuildPlans(): BuildPlanData[] {
 
 export function persistBuildPlans(plans: BuildPlanData[]): void {
   try {
-    localStorage.setItem(STORAGE_KEY_V1, JSON.stringify(plans));
+    localStorage.setItem(STORAGE_KEY_V2, JSON.stringify(plans));
   } catch {
     // quota exceeded or storage unavailable
   }

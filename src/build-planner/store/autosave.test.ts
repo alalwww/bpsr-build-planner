@@ -39,7 +39,7 @@ describe('自動保存(subscribeWithSelector)', () => {
   it('対象フィールドの変更でlocalStorageへ保存され、cookingBuffは含まれない', () => {
     useBuildStore.getState().setAdventurerLevel(37);
 
-    const raw = localStorage.getItem('bpsr-autosave-v1');
+    const raw = localStorage.getItem('bpsr-autosave-v2');
     expect(raw).not.toBeNull();
     const saved = JSON.parse(raw!);
     expect(saved.adventurerLevel).toBe(37);
@@ -49,7 +49,7 @@ describe('自動保存(subscribeWithSelector)', () => {
   it('talentR1/R2EnabledIdsはSetではなく配列として保存される', () => {
     useBuildStore.getState().setTalentR1EnabledIds(new Set([10, 20]));
 
-    const raw = localStorage.getItem('bpsr-autosave-v1');
+    const raw = localStorage.getItem('bpsr-autosave-v2');
     const saved = JSON.parse(raw!);
     expect(Array.isArray(saved.talentR1EnabledIds)).toBe(true);
     expect(saved.talentR1EnabledIds.sort()).toEqual([10, 20]);
@@ -57,11 +57,11 @@ describe('自動保存(subscribeWithSelector)', () => {
 
   it('cookingBuffのみの変更では自動保存フィールドの購読対象に含まれないため再保存されない', () => {
     useBuildStore.getState().setAdventurerLevel(1);
-    const before = localStorage.getItem('bpsr-autosave-v1');
+    const before = localStorage.getItem('bpsr-autosave-v2');
 
     useBuildStore.getState().setCookingBuff({ cookingEnabled: true });
 
-    const after = localStorage.getItem('bpsr-autosave-v1');
+    const after = localStorage.getItem('bpsr-autosave-v2');
     expect(after).toBe(before);
   });
 });

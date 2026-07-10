@@ -42,7 +42,7 @@ export interface AbilityScoreBreakdown {
   abilityR2: number; // R2アビリティ
   skillFixed: number; // 固定スキル
   skillMastery: number; // マスタリースキル
-  skillImaginary: number; // バトルイマジン
+  skillImagine: number; // バトルイマジン
   equipmentBase: number; // 装備（基礎・進化ステータス・刻印）
   equipmentEnchant: number; // 装着効果
   equipmentRefine: number; // 精錬効果

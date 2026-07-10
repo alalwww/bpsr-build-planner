@@ -37,11 +37,11 @@ function AbilityScoreDialog({
     },
     {
       key: 'skillGroup',
-      total: bd.skillFixed + bd.skillMastery + bd.skillImaginary,
+      total: bd.skillFixed + bd.skillMastery + bd.skillImagine,
       children: [
         { key: 'skillFixed', value: bd.skillFixed },
         { key: 'skillMastery', value: bd.skillMastery },
-        { key: 'skillImaginary', value: bd.skillImaginary },
+        { key: 'skillImagine', value: bd.skillImagine },
       ],
     },
     {

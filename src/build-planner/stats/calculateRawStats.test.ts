@@ -39,8 +39,8 @@ function baseInput(): CalculateRawStatsInput {
     talentR2EnabledIds: new Set(),
     talentNodesById: new Map(),
     r1NodeCount: 0,
-    battleImaginaries: [null, null],
-    imaginaryRanks: [5, 5],
+    battleImagines: [null, null],
+    imagineRanks: [5, 5],
     slotEnchants: {},
     moduleSlots: [null, null, null, null, null],
     adventurerLevel: 0,
@@ -151,7 +151,7 @@ describe('calculateRawStats', () => {
   });
 
   it('sums multiple legendary-affix % bonuses before multiplying once (not compounding)', () => {
-    // attrId 11014 (筋力%) は IMAGINARY_PCT_BASE 経由で addPctBonus される。
+    // attrId 11014 (筋力%) は IMAGINE_PCT_BASE 経由で addPctBonus される。
     // +10% と +5% は 1.10*1.05 ではなく、合算した +15% を一度だけ乗算する。
     const input: CalculateRawStatsInput = {
       ...baseInput(),
@@ -172,7 +172,7 @@ describe('calculateRawStats', () => {
   });
 
   it('adds statResonanceBonus to the main stat AFTER the % bonus multiplier, not before', () => {
-    // stormBlade.mainStat === 'agility'. attrId 11034 (敏捷%) は IMAGINARY_PCT_BASE 経由で
+    // stormBlade.mainStat === 'agility'. attrId 11034 (敏捷%) は IMAGINE_PCT_BASE 経由で
     // addPctBonus される。統計共鳴(響奏)のボーナスはこの%乗算の対象に含めない。
     const input: CalculateRawStatsInput = {
       ...baseInput(),
@@ -263,7 +263,7 @@ describe('calculateRawStats', () => {
 
   it('routes a type=1 effect with a "%final" attrId to phantomFinalPct, not a flat addend (heavyGuardian "癒しの砂", talentId 912)', () => {
     // src/data/talent-tree.json: nodes["912"].effects = [[1, 11324, 1000]] (stage:0 = R1)
-    // attrId 11324 is maxHp's IMAGINARY_PCT_FINAL variant (unit 1/10000) -> +10% final, not +1000 flat.
+    // attrId 11324 is maxHp's IMAGINE_PCT_FINAL variant (unit 1/10000) -> +10% final, not +1000 flat.
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       profession: PROFESSIONS.heavyGuardian,

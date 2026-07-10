@@ -28,7 +28,7 @@
       "skillGroup": "Skill Training",
       "skillFixed": "Fixed Skills",
       "skillMastery": "Mastery Skills",
-      "skillImaginary": "Battle Imaginaries",
+      "skillImagine": "Battle Imagines",
       "equipmentGroup": "Equipment Training",
       "equipmentBase": "Equipment",
       "equipmentEnchant": "Enchant Effects",
@@ -130,7 +130,7 @@
     "skill": {
       "masterySkills": "Mastery Skills",
       "rank": "Rank",
-      "selectImaginary": "Select Imaginary",
+      "selectImagine": "Select Imagine",
       "equip": "Equip"
     },
     "module": {

@@ -98,8 +98,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
         masteryRanks: state.masteryRanks,
         fixedLevels: state.fixedLevels,
         fixedRanks: state.fixedRanks,
-        battleImaginaries: state.battleImaginaries,
-        imaginaryRanks: state.imaginaryRanks,
+        battleImagines: state.battleImagines,
+        imagineRanks: state.imagineRanks,
         talentR1EnabledIds: [...state.talentR1EnabledIds],
         talentR2EnabledIds: [...state.talentR2EnabledIds],
         slotEnchants: { ...state.slotEnchants },
@@ -135,8 +135,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setMasteryRanksState(plan.masteryRanks.slice(0, count));
       state.setFixedLevelsState(plan.fixedLevels);
       state.setFixedRanksState(plan.fixedRanks);
-      state.setBattleImaginariesState(plan.battleImaginaries);
-      state.setImaginaryRanksState(plan.imaginaryRanks);
+      state.setBattleImaginesState(plan.battleImagines);
+      state.setImagineRanksState(plan.imagineRanks);
       state.setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
       state.setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
       state.setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
@@ -230,8 +230,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setMasteryRanksState(defaults.masteryRanks);
       state.setFixedLevelsState(defaults.fixedLevels);
       state.setFixedRanksState(defaults.fixedRanks);
-      state.setBattleImaginariesState(defaults.battleImaginaries);
-      state.setImaginaryRanksState(defaults.imaginaryRanks);
+      state.setBattleImaginesState(defaults.battleImagines);
+      state.setImagineRanksState(defaults.imagineRanks);
       state.setModuleSlotsState(defaults.moduleSlots);
       set({ adventurerLevel: defaults.adventurerLevel });
       state.setPhantomEnabled(defaults.phantomEnabled);

@@ -353,14 +353,14 @@ const FIELD_SPECS = [
     (raw) => asNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.fixedRanks,
   ),
   field(
-    'battleImaginaries',
-    (s) => s.battleImaginaries,
-    (raw) => asNullableNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.battleImaginaries,
+    'battleImagines',
+    (s) => s.battleImagines,
+    (raw) => asNullableNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.battleImagines,
   ),
   field(
-    'imaginaryRanks',
-    (s) => s.imaginaryRanks,
-    (raw) => asNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.imaginaryRanks,
+    'imagineRanks',
+    (s) => s.imagineRanks,
+    (raw) => asNumberArray(raw) ?? STATIC_AUTOSAVE_DEFAULTS.imagineRanks,
   ),
   field(
     'talentR1EnabledIds',

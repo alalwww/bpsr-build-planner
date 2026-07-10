@@ -42,8 +42,8 @@ function baseInput(): CalculateAbilityScoreInput {
     masteryEquipped: [],
     masteryLevels: [],
     masteryRanks: [],
-    battleImaginaries: [null, null],
-    imaginaryRanks: [5, 5],
+    battleImagines: [null, null],
+    imagineRanks: [5, 5],
     moduleSlots: [null, null, null, null, null],
     adventurerLevel: 0,
     talentR1EnabledIds: new Set(),
@@ -67,7 +67,7 @@ describe('calculateAbilityScore', () => {
     expect(result.abilityR1).toBe(0);
     expect(result.abilityR2).toBe(0);
     expect(result.skillMastery).toBe(0);
-    expect(result.skillImaginary).toBe(0);
+    expect(result.skillImagine).toBe(0);
     expect(result.equipmentBase).toBe(0);
     expect(result.equipmentEnchant).toBe(0);
     expect(result.equipmentRefine).toBe(0);

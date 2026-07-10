@@ -1,6 +1,6 @@
 import classesDataRaw from '../../data/classes.json';
 import skillsDataRaw from '../../data/skills.json';
-import battleImaginariesRaw from '../../data/battle-imaginaries.json';
+import battleImaginesRaw from '../../data/battle-imagines.json';
 
 const _skillMods = import.meta.glob<{ default: string }>(
   ['../../assets/skills/*.png', '!../../assets/skills/* #*.png'],
@@ -33,7 +33,7 @@ export interface SkillData {
   maxRank: number;
 }
 
-export interface BattleImaginaryData {
+export interface BattleImagineData {
   id: number;
   rarityType: number;
   icon: string;
@@ -43,12 +43,12 @@ export interface BattleImaginaryData {
 
 export const classesData = classesDataRaw as Record<string, ClassData>;
 export const skillsData = skillsDataRaw as Record<string, SkillData>;
-export const battleImaginariesData = battleImaginariesRaw as Record<string, BattleImaginaryData>;
+export const battleImaginesData = battleImaginesRaw as Record<string, BattleImagineData>;
 
 export function getSkillData(id: number): SkillData | undefined {
   return skillsData[String(id)];
 }
 
-export function getBattleImaginaryData(id: number): BattleImaginaryData | undefined {
-  return battleImaginariesData[String(id)];
+export function getBattleImagineData(id: number): BattleImagineData | undefined {
+  return battleImaginesData[String(id)];
 }
