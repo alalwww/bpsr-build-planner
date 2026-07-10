@@ -18,6 +18,8 @@ interface FloatingTooltipProps {
 // マウス位置/対象要素の矩形を基準に固定位置で浮かせる説明ツールチップの共通シェル。
 // 表示/非表示のタイミング制御(遅延クローズ等)は呼び出し側の責務とし、
 // このコンポーネントは位置決め・クランプ・外側クリックでの close のみを担う。
+// 見た目のベースは floating-tooltip クラスとして自動付与し、呼び出し元の className は
+// サイズ等のモディファイア用途に限定する。
 function FloatingTooltip({
   x,
   y,
@@ -61,7 +63,7 @@ function FloatingTooltip({
   return (
     <div
       ref={ref}
-      className={className}
+      className={`floating-tooltip ${className}`}
       style={clamp ? { position: 'fixed' } : { position: 'fixed', left: x, top: y }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

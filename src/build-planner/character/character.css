@@ -257,7 +257,7 @@
 }
 
 /* Ability score breakdown dialog (DraggableDialogをベースに拡張) */
-.equipment-dialog.ability-score-dialog {
+.draggable-dialog.ability-score-dialog {
   min-width: 320px;
   max-width: 420px;
 }
@@ -532,7 +532,7 @@
 
 /* ---- Buff Effect Dialog ---- */
 
-.equipment-dialog.buff-effect-dialog {
+.draggable-dialog.buff-effect-dialog {
   min-width: 400px;
   max-width: 480px;
 }
@@ -743,7 +743,7 @@
 }
 
 /* Profession picker dialog (DraggableDialogをベースに拡張) */
-.equipment-dialog.profession-dialog {
+.draggable-dialog.profession-dialog {
   min-width: 400px;
 }
 
@@ -816,18 +816,18 @@
 }
 
 /* 冒険者レベル選択ダイアログ(DraggableDialogをベースに拡張) */
-.equipment-dialog.level-picker-dialog {
+.draggable-dialog.level-picker-dialog {
   min-width: 280px;
   max-width: 360px;
 }
 
-/* 冒険者レベルダイアログ内ステッパー(phantom-stepperの拡張) */
+/* 冒険者レベルダイアログ内ステッパー(stepper-inlineの拡張) */
 .level-dialog__stepper {
   justify-content: center;
   padding: 12px 0;
 }
 
-.level-dialog__stepper .phantom-stepper__input {
+.level-dialog__stepper .stepper-inline__input {
   width: 64px;
   font-size: 16px;
   height: 30px;

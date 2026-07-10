@@ -773,7 +773,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
         <div className="phantom-header-row">
           <span className="phantom-header-label">{t('buildPlanner.phantom.level')}</span>
           <Stepper
-            className="phantom-stepper"
+            className="stepper-inline"
             layout="inline"
             value={phantomLevel}
             min={1}
@@ -867,7 +867,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
               <div className="phantom-bond-row">
                 <span className="phantom-bond-label">{t('buildPlanner.phantom.bondPoints')}</span>
                 <Stepper
-                  className="phantom-stepper"
+                  className="stepper-inline"
                   layout="inline"
                   value={phantomBondPoints}
                   min={0}

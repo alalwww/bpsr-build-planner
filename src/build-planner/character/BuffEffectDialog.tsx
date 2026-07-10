@@ -339,7 +339,7 @@ function BuffEffectDialog({
               {t('buildPlanner.buffDialog.dmgStackCount')}
             </span>
             <Stepper
-              className="phantom-stepper"
+              className="stepper-inline"
               modifierClassName={`buff-effect-dialog__stack-stepper${!cookingBuff.dmgStackEnabled || dmgStackLevel === 0 ? ' buff-effect-dialog__stack-stepper--disabled' : ''}`}
               layout="inline"
               disableList

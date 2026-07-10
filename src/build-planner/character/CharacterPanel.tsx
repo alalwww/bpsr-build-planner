@@ -613,7 +613,7 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
           className="level-picker-dialog"
         >
           <Stepper
-            className="phantom-stepper"
+            className="stepper-inline"
             modifierClassName="level-dialog__stepper"
             layout="inline"
             value={adventurerLevel}

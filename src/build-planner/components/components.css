@@ -130,7 +130,7 @@
 }
 
 /* DraggableDialog shell (character/equipment/module/skillの各ダイアログが共通利用) */
-.equipment-dialog-overlay {
+.draggable-dialog-overlay {
   position: fixed;
   inset: 0;
   display: flex;
@@ -144,7 +144,7 @@
   box-sizing: border-box;
 }
 
-.equipment-dialog {
+.draggable-dialog {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -156,12 +156,12 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
-.equipment-dialog--resizable {
+.draggable-dialog--resizable {
   box-sizing: border-box;
   overflow: hidden;
 }
 
-.equipment-dialog__header {
+.draggable-dialog__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -171,7 +171,7 @@
   user-select: none;
 }
 
-.equipment-dialog__resize-handle {
+.draggable-dialog__resize-handle {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -182,13 +182,13 @@
   border-radius: 0 0 8px 0;
 }
 
-.equipment-dialog__title {
+.draggable-dialog__title {
   margin: 0;
   font-size: 14px;
   color: #e8e6e1;
 }
 
-.equipment-dialog__close {
+.draggable-dialog__close {
   background: none;
   border: none;
   color: #8a8a96;
@@ -200,13 +200,12 @@
   flex-shrink: 0;
 }
 
-.equipment-dialog__close:hover {
+.draggable-dialog__close:hover {
   color: #e8e6e1;
 }
 
-/* ノードツールチップ / スキルツールチップ 共通ベース(FloatingTooltip) */
-.talent-tree-panel__tooltip,
-.skill-tooltip {
+/* FloatingTooltip shell (talent-tree-panel/skillの各ツールチップが共通利用) */
+.floating-tooltip {
   z-index: 9999;
   background: rgba(14, 14, 24, 0.96);
   border: 1px solid #3a3a4e;
@@ -260,14 +259,14 @@
   color: #c4a86e;
 }
 
-/* Stepper (layout="inline"): phantom/PhantomPanel と character/CharacterPanel(冒険者レベル) で共通利用 */
-.phantom-stepper {
+/* Stepper (layout="inline") shell: phantom/character の各ステッパーが共通利用 */
+.stepper-inline {
   display: flex;
   align-items: center;
   gap: 2px;
 }
 
-.phantom-stepper__btn {
+.stepper-inline__btn {
   background: #23232d;
   border: 1px solid #3a3a4a;
   color: #e8e6e1;
@@ -283,17 +282,17 @@
   line-height: 1;
 }
 
-.phantom-stepper__btn:hover {
+.stepper-inline__btn:hover {
   border-color: #f4a13a;
   color: #f4a13a;
 }
 
-.phantom-stepper__btn:disabled {
+.stepper-inline__btn:disabled {
   opacity: 0.4;
   cursor: default;
 }
 
-.phantom-stepper__input {
+.stepper-inline__input {
   background: #1a1a24;
   border: 1px solid #3a3a4a;
   color: #e8e6e1;
@@ -310,8 +309,8 @@
   appearance: textfield;
 }
 
-.phantom-stepper__input::-webkit-inner-spin-button,
-.phantom-stepper__input::-webkit-outer-spin-button {
+.stepper-inline__input::-webkit-inner-spin-button,
+.stepper-inline__input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

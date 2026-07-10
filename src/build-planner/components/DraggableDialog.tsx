@@ -39,7 +39,7 @@ const DEFAULT_SIZE: Size = { w: 480, h: 560 };
 const DEFAULT_MIN_SIZE: Size = { w: 280, h: 200 };
 
 // ドラッグ移動(+任意でリサイズ)可能なダイアログの共通シェル。
-// equipment-dialog系のCSSクラス(overlay/header/title/close/resize-handle)を担い、
+// draggable-dialog系のCSSクラス(overlay/header/title/close/resize-handle)を担い、
 // 各呼び出し元は className でサイズ用のモディファイアクラスのみ追加する。
 function DraggableDialog({
   title,
@@ -116,25 +116,25 @@ function DraggableDialog({
 
   const dialogBox = (
     <div
-      className={`equipment-dialog${resizable ? ' equipment-dialog--resizable' : ''}${className ? ` ${className}` : ''}`}
+      className={`draggable-dialog${resizable ? ' draggable-dialog--resizable' : ''}${className ? ` ${className}` : ''}`}
       style={dialogStyle}
       onClick={(e) => e.stopPropagation()}
     >
       {title !== undefined && (
         <div
-          className="equipment-dialog__header"
+          className="draggable-dialog__header"
           onMouseDown={resizable ? onFixedHeaderMouseDown : onDragHandleMouseDown}
         >
-          <h2 className="equipment-dialog__title">{title}</h2>
+          <h2 className="draggable-dialog__title">{title}</h2>
           {headerExtra}
-          <button type="button" className="equipment-dialog__close" onClick={onClose}>
+          <button type="button" className="draggable-dialog__close" onClick={onClose}>
             ✕
           </button>
         </div>
       )}
       {children}
       {resizable && (
-        <div className="equipment-dialog__resize-handle" onMouseDown={onResizeMouseDown} />
+        <div className="draggable-dialog__resize-handle" onMouseDown={onResizeMouseDown} />
       )}
     </div>
   );
@@ -142,7 +142,7 @@ function DraggableDialog({
   if (!overlay) return dialogBox;
 
   return (
-    <div className="equipment-dialog-overlay" onClick={onClose}>
+    <div className="draggable-dialog-overlay" onClick={onClose}>
       {dialogBox}
     </div>
   );
