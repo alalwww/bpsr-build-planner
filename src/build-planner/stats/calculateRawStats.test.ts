@@ -131,7 +131,7 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.refinePhysAtk).toBe(32);
   });
 
-  it('routes the 全属性攻撃力 (attrId 11502) enchant effect to refinePhysAtk/refineMagAtk, not atk/matk', () => {
+  it('routes the 全属性攻撃力 (attrId 11502) enchant effect to allAttrAtk, not atk/matk/refinePhysAtk/refineMagAtk', () => {
     // src/data/enchants.json group "2001" item 1024761 (幻花の残骸): effects [[11502,40],[11022,50]]
     const input: CalculateRawStatsInput = {
       ...baseInput(),
@@ -145,8 +145,9 @@ describe('calculateRawStats', () => {
 
     expect(result.rawStats.atk).toBe(0);
     expect(result.rawStats.matk).toBe(0);
-    expect(result.rawStats.refinePhysAtk).toBe(40);
-    expect(result.rawStats.refineMagAtk).toBe(40);
+    expect(result.rawStats.refinePhysAtk).toBe(0);
+    expect(result.rawStats.refineMagAtk).toBe(0);
+    expect(result.rawStats.allAttrAtk).toBe(40);
     expect(result.rawStats.intellect).toBe(BASE_STATS.intellect + 50);
   });
 

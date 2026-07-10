@@ -429,11 +429,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (!effects) continue;
     for (const [attrId, value] of effects) {
       if (attrId === 11502) {
-        // 全属性攻撃力: ダメージ計算上はdocs/STATUS_CALCULATION.md 6章の通り精錬攻撃力と
-        // 同じ扱い(防御減衰の対象外、"後"に加算)のためrefinePhysAtk/refineMagAtkにも積むが、
-        // ステータス詳細の「属性攻撃力」表示用にallAttrAtkにも別途積む。
-        addStat('refinePhysAtk', value);
-        addStat('refineMagAtk', value);
+        // 全属性攻撃力: 防御力を無視して加算される点はdocs/STATUS_CALCULATION.md 6章の通り
+        // 精錬攻撃力と同種の追加攻撃力だが、精錬攻撃力とは別枠のためrefinePhysAtk/
+        // refineMagAtkには積まず、allAttrAtkにのみ積む。
         addStat('allAttrAtk', value);
       } else {
         const statId = ENCHANT_ATTR_TO_STAT[attrId];
@@ -464,9 +462,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (!lvData) continue;
     for (const [effectType, attrId, value] of lvData[2]) {
       if (effectType === MOD_EFFECT_TYPE_STAT && attrId === 11502) {
-        // 全属性攻撃力(enchant側と同じ扱い。docs/STATUS_CALCULATION.md 6章参照)。
-        addStat('refinePhysAtk', value);
-        addStat('refineMagAtk', value);
+        // 全属性攻撃力(enchant側と同じ扱い。精錬攻撃力とは別枠のためallAttrAtkにのみ積む)。
         addStat('allAttrAtk', value);
       } else if (effectType === MOD_EFFECT_TYPE_STAT) {
         const statId = MOD_ATTR_TO_STAT[attrId];

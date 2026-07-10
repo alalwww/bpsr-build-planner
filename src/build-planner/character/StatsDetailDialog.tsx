@@ -194,20 +194,16 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
   ];
 
   // 属性攻撃力(防御力を無視して防御減衰後に加算される、精錬攻撃力と同種の追加攻撃力):
-  // 全属性攻撃力(装着効果・モジュール由来) + その属性固有の攻撃力(クラスアビリティの
-  // 小ノード由来)の合計を、各属性の実効値として表示する。
+  // 全属性攻撃力(装着効果・モジュール由来)は特定の属性には効果を発揮せず「全属性」枠のみに
+  // 加算されるため、個別属性の行はその属性固有の攻撃力(クラスアビリティの小ノード由来)のみ。
   const elemAtkRows = ELEMENTS.map((elem) => ({
     label: elemName(elem, 'atk'),
-    value: fmtDec2(
-      elem === 'all' ? rawStats.allAttrAtk : rawStats.allAttrAtk + rawStats[ELEMENT_ATK_STAT[elem]],
-    ),
+    value: fmtDec2(elem === 'all' ? rawStats.allAttrAtk : rawStats[ELEMENT_ATK_STAT[elem]]),
   }));
 
-  // 属性強度→属性ボーナス%(系列C、物理/魔法増強と同じ収益逓減カーブ)。全属性強度は
-  // 全属性に共通して乗り、シロップ/脊椎試薬は選択中の属性のみに実数加算される
-  // (calculateRawStats側でaddStat済みのfireAttrStr等に反映されている)。
-  const elemStrFor = (elem: ElementId): number =>
-    rawStats.allAttrStr + rawStats[ELEMENT_ATTR_STR_STAT[elem]];
+  // 属性強度→属性ボーナス%(系列C、物理/魔法増強と同じ収益逓減カーブ)。全属性強度も
+  // 特定の属性には効果を発揮せず「全属性」枠のみに乗るため、個別属性の行はその属性固有の
+  // 強度(シロップ/脊椎試薬等でcalculateRawStats側でaddStat済みのfireAttrStr等)のみ。
   const elemBonusPercent = (str: number): number =>
     diminishingPercent(str, SEASON_CONSTANTS.diminishingEnhance);
 
@@ -215,7 +211,7 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
     { label: elemName('all', 'str'), value: fmtDec2(rawStats.allAttrStr) },
     { label: elemName('all', 'bonus'), value: fmtPct(elemBonusPercent(rawStats.allAttrStr)) },
     ...ELEMENTS.slice(1).flatMap((elem) => {
-      const str = elemStrFor(elem as ElementId);
+      const str = rawStats[ELEMENT_ATTR_STR_STAT[elem as ElementId]];
       return [
         { label: elemName(elem, 'str'), value: fmtDec2(str) },
         { label: elemName(elem, 'bonus'), value: fmtPct(elemBonusPercent(str)) },
@@ -223,18 +219,20 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
     }),
   ];
 
-  // 属性耐性→属性軽減%(系列C)。属性別の耐性ソースは現状ゲームデータに存在しないため、
-  // 全属性耐性の値が全属性に共通して適用される。
-  const elemReductionPercent = diminishingPercent(
-    rawStats.allAttrResist,
-    SEASON_CONSTANTS.diminishingEnhance,
-  );
+  // 属性耐性→属性軽減%(系列C)。全属性耐性も特定の属性には効果を発揮せず「全属性」枠のみに
+  // 乗る。属性別の耐性ソースは現状ゲームデータに存在しないため、個別属性の行は常に0。
   const elemResistRows: { label: string; value: string }[] = [
-    { label: elemName('all', 'resist'), value: fmtDec2(rawStats.allAttrResist) },
-    { label: elemName('all', 'reduction'), value: fmtPct(elemReductionPercent) },
+    {
+      label: elemName('all', 'resist'),
+      value: fmtDec2(rawStats.allAttrResist),
+    },
+    {
+      label: elemName('all', 'reduction'),
+      value: fmtPct(diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance)),
+    },
     ...ELEMENTS.slice(1).flatMap((elem) => [
-      { label: elemName(elem, 'resist'), value: fmtDec2(rawStats.allAttrResist) },
-      { label: elemName(elem, 'reduction'), value: fmtPct(elemReductionPercent) },
+      { label: elemName(elem, 'resist'), value: fmtDec2(0) },
+      { label: elemName(elem, 'reduction'), value: fmtPct(0) },
     ]),
   ];
 
