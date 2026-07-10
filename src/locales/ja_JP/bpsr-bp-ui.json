@@ -258,6 +258,7 @@
       },
       "buffEffects": {
         "empty": "変更されたステータスはありません",
+        "initialValue": "初期値/ステ変換値",
         "additive": "加算",
         "multiplier": "乗算",
         "cookingBuff": "追加バフ"

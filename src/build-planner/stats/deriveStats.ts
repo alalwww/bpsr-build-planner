@@ -12,10 +12,20 @@ import {
 // 直接表現できないステータス群(%変換後の値、クラス係数で導出される値)。
 export interface DerivedStats {
   maxHp: number;
+  // 耐久力からmaxHpへ変換された分(ステータス詳細のバフ効果表示用)
+  enduranceMaxHpBonus: number;
   physicalAtk: number;
   magicalAtk: number;
+  // メインステータスからphysicalAtk/magicalAtkへ変換された分(attackTypeにより一方のみ非0。
+  // ステータス詳細のバフ効果表示用)
+  physicalAtkMainStatBonus: number;
+  magicalAtkMainStatBonus: number;
   physicalDef: number;
+  // 筋力からphysicalDefへ変換された分(ステータス詳細のバフ効果表示用)
+  physicalDefStrengthBonus: number;
   magicalDef: number;
+  // 知力からmagicalDefへ変換された分(ステータス詳細のバフ効果表示用)
+  magicalDefIntellectBonus: number;
 
   critPercent: number;
   // 会心発生時のダメージ増加率(現状ステータスとしては存在せず、固定の基礎値)
@@ -23,6 +33,8 @@ export interface DerivedStats {
 
   // %変換前の実数値(装備等のhaste加算 + 俊敏由来の変換分)。CharacterPanelのツールチップ表示用。
   hasteReal: number;
+  // 俊敏からhasteReal(ファストの加算列)へ変換された分(ステータス詳細のバフ効果表示用)
+  hasteAgilityBonus: number;
   hastePercent: number;
   atkSpeedPercent: number;
   castSpeedPercent: number;
@@ -66,22 +78,26 @@ export function deriveStats(
   // calculateRawStatsのatkSpeedFinalPctAddendをそのまま渡す。
   atkSpeedFinalPctAddend = 0,
 ): DerivedStats {
-  const maxHp = raw.maxHp + raw.endurance * profession.hpPerEndurancePoint;
+  const enduranceMaxHpBonus = raw.endurance * profession.hpPerEndurancePoint;
+  const maxHp = raw.maxHp + enduranceMaxHpBonus;
 
   const atkTargetStat: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
   const mainStatBonus =
     raw[profession.mainStat] *
     (profession.atkPerMainStatPoint + (conversionRateBonus[atkTargetStat] ?? 0));
-  const physicalAtk = raw.atk + (profession.attackType === 'physical' ? mainStatBonus : 0);
-  const magicalAtk = raw.matk + (profession.attackType === 'magical' ? mainStatBonus : 0);
+  const physicalAtkMainStatBonus = profession.attackType === 'physical' ? mainStatBonus : 0;
+  const magicalAtkMainStatBonus = profession.attackType === 'magical' ? mainStatBonus : 0;
+  const physicalAtk = raw.atk + physicalAtkMainStatBonus;
+  const magicalAtk = raw.matk + magicalAtkMainStatBonus;
 
-  const physicalDef =
-    raw.physicalDef +
+  const physicalDefStrengthBonus =
     raw.strength *
-      (COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint +
-        (conversionRateBonus.physicalDef ?? 0));
-  const magicalDef =
-    raw.magicalDef + raw.intellect * COMMON_STAT_COEFFICIENTS.magicalDefPerIntellectPoint;
+    (COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint +
+      (conversionRateBonus.physicalDef ?? 0));
+  const physicalDef = raw.physicalDef + physicalDefStrengthBonus;
+  const magicalDefIntellectBonus =
+    raw.intellect * COMMON_STAT_COEFFICIENTS.magicalDefPerIntellectPoint;
+  const magicalDef = raw.magicalDef + magicalDefIntellectBonus;
 
   const critPercent = diminishingPercent(
     raw.crit,
@@ -89,10 +105,9 @@ export function deriveStats(
     DIMINISHING_A_BASE_PERCENT.crit,
   );
 
-  const hasteReal =
-    raw.haste +
-    raw.agility *
-      (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + (conversionRateBonus.haste ?? 0));
+  const hasteAgilityBonus =
+    raw.agility * (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + (conversionRateBonus.haste ?? 0));
+  const hasteReal = raw.haste + hasteAgilityBonus;
   const hastePercent = diminishingPercent(
     hasteReal,
     SEASON_CONSTANTS.diminishingA,
@@ -133,15 +148,21 @@ export function deriveStats(
 
   return {
     maxHp,
+    enduranceMaxHpBonus,
     physicalAtk,
     magicalAtk,
+    physicalAtkMainStatBonus,
+    magicalAtkMainStatBonus,
     physicalDef,
+    physicalDefStrengthBonus,
     magicalDef,
+    magicalDefIntellectBonus,
 
     critPercent,
     critDamageBonusPercent: FIXED_BASE_PERCENT.critDamage + raw.critDamageBonus / 100,
 
     hasteReal,
+    hasteAgilityBonus,
     hastePercent,
     atkSpeedPercent: hastePercent * profession.atkSpeedPerHastePercent + atkSpeedFinalPctAddend,
     castSpeedPercent: hastePercent * profession.castSpeedPerHastePercent,

@@ -14,6 +14,10 @@ interface StatsDetailDialogProps {
 
 const ELEMENTS = ['all', ...ELEMENT_IDS] as const;
 
+// 会心/ファスト/幸運/器用さ/万能: cookingBonusが最終%表示値への直接加算(単位: %そのまま)のため、
+// 追加バフ列では他ステータス(実数加算)と異なり%表記で表示する。
+const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>(['crit', 'haste', 'luck', 'mastery', 'versatility']);
+
 function fmtPct(v: number) {
   return `${fmtDec2(v)}%`;
 }
@@ -25,10 +29,9 @@ function fmtSigned(v: number): string {
   return `${sign}${abs.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-// 符号付きの整数として切り捨てて表示する（バフ効果の素の値の括弧書き用）。
-function fmtSignedIntTrunc(v: number): string {
-  const sign = v > 0 ? '+' : v < 0 ? '-' : '';
-  return `${sign}${Math.floor(Math.abs(v)).toLocaleString()}`;
+// 符号なしの整数として切り捨てて表示する（バフ効果の初期値/ステ変換値列用）。
+function fmtIntTrunc(v: number): string {
+  return Math.floor(v).toLocaleString();
 }
 
 export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
@@ -92,21 +95,45 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
     );
   }
 
-  // バフ効果: 素の値(BASE_STATS)から加算/乗算/料理バフのいずれかで変化しているステータスのみ抽出。
+  // 物理/魔法攻撃力はメインステータスから、最大HPは耐久力から、物理防御力は筋力から、
+  // 魔法防御力は知力から、ファストは俊敏から変換された分を、素の値(entry.base)と
+  // 同様に加算列の末尾へ初期値扱いの括弧書きで表示する。
+  const conversionBonusFor = (statId: StatId): number => {
+    if (statId === 'atk') return derivedStats.physicalAtkMainStatBonus;
+    if (statId === 'matk') return derivedStats.magicalAtkMainStatBonus;
+    if (statId === 'maxHp') return derivedStats.enduranceMaxHpBonus;
+    if (statId === 'physicalDef') return derivedStats.physicalDefStrengthBonus;
+    if (statId === 'magicalDef') return derivedStats.magicalDefIntellectBonus;
+    if (statId === 'haste') return derivedStats.hasteAgilityBonus;
+    return 0;
+  };
+
+  // バフ効果: 素の値(BASE_STATS)から加算/乗算/料理バフのいずれかで変化しているステータス、
+  // および物理/魔法攻撃力・最大HP・物理/魔法防御力・ファスト(メインステータスからの変換分がある場合)を抽出。
   const buffRows = (Object.keys(rawStatsBreakdown) as StatId[])
     .filter((statId) => {
       const entry = rawStatsBreakdown[statId];
-      return entry.additive !== 0 || entry.multiplier !== 1 || !!entry.cookingBonus;
+      return (
+        entry.additive !== 0 ||
+        entry.multiplier !== 1 ||
+        !!entry.cookingBonus ||
+        conversionBonusFor(statId) !== 0
+      );
     })
     .map((statId) => {
       const entry = rawStatsBreakdown[statId];
-      const baseSuffix = entry.base !== 0 ? `(${fmtSignedIntTrunc(entry.base)})` : '';
+      const initialValue = entry.base + conversionBonusFor(statId);
       return {
         statId,
         label: t(`buildPlanner.stats.${statId}`),
-        additive: `${fmtSigned(entry.additive)}${baseSuffix}`,
+        initialValue: initialValue > 0 ? fmtIntTrunc(initialValue) : '',
+        additive: fmtSigned(entry.additive),
         multiplier: entry.multiplier === 1 ? '' : `${fmtSigned((entry.multiplier - 1) * 100)}%`,
-        cookingBuff: entry.cookingBonus ? fmtSigned(entry.cookingBonus) : '',
+        cookingBuff: entry.cookingBonus
+          ? FINAL_PCT_ADDEND_STAT_IDS.has(statId)
+            ? `${fmtSigned(entry.cookingBonus)}%`
+            : fmtSigned(entry.cookingBonus)
+          : '',
       };
     });
 
@@ -194,7 +221,7 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
       overlay={false}
       resizable
       initialPos={{ x: 200, y: 60 }}
-      initialSize={{ w: 460, h: 540 }}
+      initialSize={{ w: 540, h: 540 }}
     >
       <div className="stats-detail__body">
         <div className="stats-detail__section">
@@ -214,6 +241,7 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
                 <thead>
                   <tr className="stats-detail__row">
                     <th className="stats-detail__label" />
+                    <th className="stats-detail__value">{te('buffEffects.initialValue')}</th>
                     <th className="stats-detail__value">{te('buffEffects.additive')}</th>
                     <th className="stats-detail__value">{te('buffEffects.multiplier')}</th>
                     <th className="stats-detail__value">{te('buffEffects.cookingBuff')}</th>
@@ -223,6 +251,7 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
                   {buffRows.map((row) => (
                     <tr key={row.statId} className="stats-detail__row">
                       <td className="stats-detail__label">{row.label}</td>
+                      <td className="stats-detail__value">{row.initialValue}</td>
                       <td className="stats-detail__value">{row.additive}</td>
                       <td className="stats-detail__value">{row.multiplier}</td>
                       <td className="stats-detail__value">{row.cookingBuff}</td>

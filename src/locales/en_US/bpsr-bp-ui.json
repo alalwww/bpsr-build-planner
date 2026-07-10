@@ -258,6 +258,7 @@
       },
       "buffEffects": {
         "empty": "No stats have been changed",
+        "initialValue": "Initial/Converted",
         "additive": "Additive",
         "multiplier": "Multiplier",
         "cookingBuff": "Additional Buff"
