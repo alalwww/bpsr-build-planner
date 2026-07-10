@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "BPSR Build Planner",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "identifier": "dev.bpsr-build-planner.app",
   "build": {
     "beforeDevCommand": "npm run dev",
