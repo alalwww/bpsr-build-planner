@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PROFESSIONS } from '../profession';
 import type { StatId } from '../types';
+import { BASE_STATS } from './baseStats';
 import { COMMON_STAT_COEFFICIENTS } from './commonCoefficients';
 import { deriveStats } from './deriveStats';
 import { diminishingPercent } from './formulas';
@@ -11,37 +12,9 @@ import {
 } from './seasonConstants';
 
 function zeroRaw(): Record<StatId, number> {
-  return {
-    maxHp: 0,
-    atk: 0,
-    matk: 0,
-    physicalDef: 0,
-    magicalDef: 0,
-    strength: 0,
-    agility: 0,
-    intellect: 0,
-    endurance: 0,
-    illusionPower: 0,
-    crit: 0,
-    haste: 0,
-    luck: 0,
-    mastery: 0,
-    versatility: 0,
-    resist: 0,
-    allAttrResist: 0,
-    allAttrStr: 0,
-    refinePhysAtk: 0,
-    refineMagAtk: 0,
-    refineDef: 0,
-    receivedRecovery: 0,
-    barrierStrength: 0,
-    staminaRegen: 0,
-    physicalEnhance: 0,
-    magicalEnhance: 0,
-    critDamageBonus: 0,
-    luckyHitDamageBonus: 0,
-    critRecoveryBonus: 0,
-  };
+  return Object.fromEntries(
+    (Object.keys(BASE_STATS) as StatId[]).map((statId) => [statId, 0]),
+  ) as Record<StatId, number>;
 }
 
 describe('deriveStats', () => {

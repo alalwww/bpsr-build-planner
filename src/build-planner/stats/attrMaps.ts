@@ -1,4 +1,4 @@
-import type { StatId } from '../types';
+import type { ElementId, StatId } from '../types';
 
 // ZTableのAttrId/BuffId → アプリ内 StatId・効果のマッピング定義。
 // calculateRawStats.ts / calculateAbilityScore.ts から参照される。
@@ -17,6 +17,31 @@ export const MOD_EFFECT_TYPE_ADAPTIVE = 5; // 適応ステータス・攻撃力(
 export const PHANTOM_EFFECT_TYPE_STAT = 1; // 平坦ステータス加算・%乗算値
 export const PHANTOM_EFFECT_TYPE_POLARITY = 3; // 極性バフ/絆レベルのBuffId参照(boost/penalty)
 
+// 属性(「全」を除く8属性)ごとの属性攻撃力/属性強度 AttrId → StatId マッピング。
+// クラスアビリティの小ノード(weaponGroup:0の共通ノード、例: talentId 20〜27)等で使われる。
+export const ELEMENT_ATK_STAT: Record<ElementId, StatId> = {
+  fire: 'fireAtk',
+  ice: 'iceAtk',
+  forest: 'forestAtk',
+  thunder: 'thunderAtk',
+  wind: 'windAtk',
+  rock: 'rockAtk',
+  light: 'lightAtk',
+  dark: 'darkAtk',
+};
+// 属性別の属性強度は現状ゲームデータ上に個別AttrIdの使用例がなく、シロップ/脊椎試薬
+// (料理バフ)による加算のみが実際のソース。属性ボーナス%算出時にallAttrStrと合算する。
+export const ELEMENT_ATTR_STR_STAT: Record<ElementId, StatId> = {
+  fire: 'fireAttrStr',
+  ice: 'iceAttrStr',
+  forest: 'forestAttrStr',
+  thunder: 'thunderAttrStr',
+  wind: 'windAttrStr',
+  rock: 'rockAttrStr',
+  light: 'lightAttrStr',
+  dark: 'darkAttrStr',
+};
+
 // アビリティ type=1 効果 (平坦加算) の AttrId → StatId マッピング
 export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
@@ -31,6 +56,15 @@ export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11332: 'atk',
   11342: 'matk',
   11352: 'physicalDef',
+  // 属性攻撃力(個別属性): 全クラス共通の小ノード(例: talentId 20〜27)で使われる。
+  11512: ELEMENT_ATK_STAT.fire,
+  11522: ELEMENT_ATK_STAT.ice,
+  11532: ELEMENT_ATK_STAT.forest,
+  11542: ELEMENT_ATK_STAT.thunder,
+  11552: ELEMENT_ATK_STAT.wind,
+  11562: ELEMENT_ATK_STAT.rock,
+  11572: ELEMENT_ATK_STAT.light,
+  11582: ELEMENT_ATK_STAT.dark,
 };
 
 // アビリティ type=3 効果(BuffId参照)のうち、型(ProfessionTypeKey)によって内容が変わるもの。
@@ -182,6 +216,7 @@ export const MOD_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11332: 'atk',
   11342: 'matk',
   11352: 'physicalDef',
+  13002: 'allAttrStr',
 };
 
 // モジュール専用の「適応」効果 (EffectType=5)。クラスのメインステータス/攻撃タイプに

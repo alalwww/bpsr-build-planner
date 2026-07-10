@@ -28,6 +28,7 @@ import {
 import {
   AFFIX_STAT_EFFECTS,
   BOND_BUFF_STAT_EFFECTS,
+  ELEMENT_ATTR_STR_STAT,
   ENCHANT_ATTR_TO_STAT,
   EQUIP_ATTR_TO_STAT,
   EVO_ATTR_TO_STAT,
@@ -428,10 +429,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (!effects) continue;
     for (const [attrId, value] of effects) {
       if (attrId === 11502) {
-        // 全属性攻撃力: docs/STATUS_CALCULATION.md 6章の通り精錬攻撃力と同じ扱い(防御減衰の
-        // 対象外、"後"に加算)のため、atk/matk本体ではなくrefinePhysAtk/refineMagAtkに積む。
+        // 全属性攻撃力: ダメージ計算上はdocs/STATUS_CALCULATION.md 6章の通り精錬攻撃力と
+        // 同じ扱い(防御減衰の対象外、"後"に加算)のためrefinePhysAtk/refineMagAtkにも積むが、
+        // ステータス詳細の「属性攻撃力」表示用にallAttrAtkにも別途積む。
         addStat('refinePhysAtk', value);
         addStat('refineMagAtk', value);
+        addStat('allAttrAtk', value);
       } else {
         const statId = ENCHANT_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
@@ -460,7 +463,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const lvData = modulesData.effects[String(effectId)]?.levels[level];
     if (!lvData) continue;
     for (const [effectType, attrId, value] of lvData[2]) {
-      if (effectType === MOD_EFFECT_TYPE_STAT) {
+      if (effectType === MOD_EFFECT_TYPE_STAT && attrId === 11502) {
+        // 全属性攻撃力(enchant側と同じ扱い。docs/STATUS_CALCULATION.md 6章参照)。
+        addStat('refinePhysAtk', value);
+        addStat('refineMagAtk', value);
+        addStat('allAttrAtk', value);
+      } else if (effectType === MOD_EFFECT_TYPE_STAT) {
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
       } else if (
@@ -643,6 +651,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const statId: StatId =
       profession.attackType === 'physical' ? 'physicalEnhance' : 'magicalEnhance';
     addStat(statId, cookingBuff.starOilValue);
+  }
+
+  // シロップ/脊椎試薬: 選択中の属性の属性強度へ加算する(属性ボーナス%算出に使用)。
+  if (cookingBuff.syrupEnabled && cookingBuff.syrupElementStrength !== 0) {
+    addStat(ELEMENT_ATTR_STR_STAT[cookingBuff.syrupElement], cookingBuff.syrupElementStrength);
   }
 
   // 海風の宴: クラスのメインステータス(筋力/知力/俊敏)への平坦加算。他のメインステータス加算源

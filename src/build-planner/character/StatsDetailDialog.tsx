@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import DraggableDialog from '../components/DraggableDialog';
-import { ELEMENT_IDS, type StatId } from '../types';
-import { FIXED_BASE_VALUE } from '../stats/seasonConstants';
+import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
+import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT } from '../stats/attrMaps';
+import { diminishingPercent } from '../stats/formulas';
+import { FIXED_BASE_VALUE, SEASON_CONSTANTS } from '../stats/seasonConstants';
 import { computeStatsBundle } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
 import { truncate2, truncate2Str as fmtDec2 } from './statFormat';
@@ -40,7 +42,6 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
   const { rawStats, rawStatsBreakdown, stats, derivedStats } = useBuildStore(
     useShallow(computeStatsBundle),
   );
-  const cookingBuff = useBuildStore((s) => s.cookingBuff);
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     buffEffects: false,
@@ -192,32 +193,48 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
     { label: te('stat.receivedBarrier'), value: fmtPct(0) },
   ];
 
+  // 属性攻撃力(防御力を無視して防御減衰後に加算される、精錬攻撃力と同種の追加攻撃力):
+  // 全属性攻撃力(装着効果・モジュール由来) + その属性固有の攻撃力(クラスアビリティの
+  // 小ノード由来)の合計を、各属性の実効値として表示する。
   const elemAtkRows = ELEMENTS.map((elem) => ({
     label: elemName(elem, 'atk'),
-    value: fmtDec2(elem === 'all' ? 0 : 0),
+    value: fmtDec2(
+      elem === 'all' ? rawStats.allAttrAtk : rawStats.allAttrAtk + rawStats[ELEMENT_ATK_STAT[elem]],
+    ),
   }));
 
-  // シロップ/脊椎試薬による属性強度は、選択中の属性の対応行にのみ加算する。
-  const syrupBonusFor = (elem: string): number =>
-    cookingBuff.syrupEnabled && cookingBuff.syrupElement === elem
-      ? cookingBuff.syrupElementStrength
-      : 0;
+  // 属性強度→属性ボーナス%(系列C、物理/魔法増強と同じ収益逓減カーブ)。全属性強度は
+  // 全属性に共通して乗り、シロップ/脊椎試薬は選択中の属性のみに実数加算される
+  // (calculateRawStats側でaddStat済みのfireAttrStr等に反映されている)。
+  const elemStrFor = (elem: ElementId): number =>
+    rawStats.allAttrStr + rawStats[ELEMENT_ATTR_STR_STAT[elem]];
+  const elemBonusPercent = (str: number): number =>
+    diminishingPercent(str, SEASON_CONSTANTS.diminishingEnhance);
 
   const elemBonusRows: { label: string; value: string }[] = [
     { label: elemName('all', 'str'), value: fmtDec2(rawStats.allAttrStr) },
-    { label: elemName('all', 'bonus'), value: fmtPct(0) },
-    ...ELEMENTS.slice(1).flatMap((elem) => [
-      { label: elemName(elem, 'str'), value: fmtDec2(syrupBonusFor(elem)) },
-      { label: elemName(elem, 'bonus'), value: fmtPct(0) },
-    ]),
+    { label: elemName('all', 'bonus'), value: fmtPct(elemBonusPercent(rawStats.allAttrStr)) },
+    ...ELEMENTS.slice(1).flatMap((elem) => {
+      const str = elemStrFor(elem as ElementId);
+      return [
+        { label: elemName(elem, 'str'), value: fmtDec2(str) },
+        { label: elemName(elem, 'bonus'), value: fmtPct(elemBonusPercent(str)) },
+      ];
+    }),
   ];
 
+  // 属性耐性→属性軽減%(系列C)。属性別の耐性ソースは現状ゲームデータに存在しないため、
+  // 全属性耐性の値が全属性に共通して適用される。
+  const elemReductionPercent = diminishingPercent(
+    rawStats.allAttrResist,
+    SEASON_CONSTANTS.diminishingEnhance,
+  );
   const elemResistRows: { label: string; value: string }[] = [
     { label: elemName('all', 'resist'), value: fmtDec2(rawStats.allAttrResist) },
-    { label: elemName('all', 'reduction'), value: fmtPct(0) },
+    { label: elemName('all', 'reduction'), value: fmtPct(elemReductionPercent) },
     ...ELEMENTS.slice(1).flatMap((elem) => [
-      { label: elemName(elem, 'resist'), value: fmtDec2(0) },
-      { label: elemName(elem, 'reduction'), value: fmtPct(0) },
+      { label: elemName(elem, 'resist'), value: fmtDec2(rawStats.allAttrResist) },
+      { label: elemName(elem, 'reduction'), value: fmtPct(elemReductionPercent) },
     ]),
   ];
 
