@@ -31,6 +31,7 @@ import {
   REFINE_LEVEL_MILESTONES,
   suitsData,
 } from './equipmentSlotPickerData';
+import EquipmentItemPopup from './EquipmentItemPopup';
 import EvoSlotPicker from './EvoSlotPicker';
 import LegendaryAffixPicker from './LegendaryAffixPicker';
 
@@ -88,6 +89,11 @@ function EquipmentSlotPicker({
     y: number;
   } | null>(null);
   const enchantTooltipHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [candidateTooltip, setCandidateTooltip] = useState<{
+    item: EquipmentItem;
+    x: number;
+    y: number;
+  } | null>(null);
 
   const showEnchantTooltip = (enchant: EnchantItem, e: React.MouseEvent<HTMLElement>) => {
     if (enchantTooltipHideTimer.current !== null) {
@@ -100,6 +106,12 @@ function EquipmentSlotPicker({
   const hideEnchantTooltip = () => {
     enchantTooltipHideTimer.current = setTimeout(() => setEnchantTooltip(null), 80);
   };
+
+  // 候補一覧の項目ホバー時に、同名で能力値が異なる装備を判別できるよう詳細ポップアップを表示する。
+  const showCandidateTooltip = (item: EquipmentItem, e: React.MouseEvent<HTMLElement>) => {
+    setCandidateTooltip({ item, x: e.clientX, y: e.clientY });
+  };
+  const hideCandidateTooltip = () => setCandidateTooltip(null);
 
   const equippedItem =
     equippedId !== undefined ? candidates.find((c) => c.id === equippedId) : undefined;
@@ -331,9 +343,38 @@ function EquipmentSlotPicker({
       )
     : null;
 
+  // 装備選択候補ホバー時の詳細ポップアップ。同名で能力値違いのアイテムを判別しやすくする。
+  // 選択中の候補は現在の完成度/伝説刻印をそのまま、それ以外は装備した瞬間の状態(最大完成度・刻印未選択)をプレビューする。
+  const candidateTooltipNode = candidateTooltip
+    ? createPortal(
+        <EquipmentItemPopup
+          mouseX={candidateTooltip.x}
+          mouseY={candidateTooltip.y}
+          slot={slot}
+          item={candidateTooltip.item}
+          equippedItems={equippedItems}
+          refineLevel={refineLevel}
+          perfectline={
+            candidateTooltip.item.id === equippedId
+              ? perfectline
+              : getMaxPerfectline(candidateTooltip.item)
+          }
+          profession={profession}
+          professionTypeKey={professionTypeKey}
+          evolutionStats={evolutionStats}
+          selectedLegendaryAffix={
+            candidateTooltip.item.id === equippedId ? selectedLegendaryAffix : undefined
+          }
+          selectedEnchant={selectedEnchant}
+        />,
+        document.body,
+      )
+    : null;
+
   return (
     <>
       {enchantTooltipNode}
+      {candidateTooltipNode}
       <DraggableDialog
         title={t('buildPlanner.selectEquipmentTitle', { slot: slotLabel })}
         onClose={onClose}
@@ -382,6 +423,7 @@ function EquipmentSlotPicker({
                       className={`equipment-dialog__select-option${equippedId === undefined ? ' equipment-dialog__select-option--selected' : ''}`}
                       onClick={() => {
                         onUnequip();
+                        hideCandidateTooltip();
                         close();
                       }}
                     >
@@ -397,8 +439,11 @@ function EquipmentSlotPicker({
                           style={{ color: getItemNameColor(candidate) }}
                           onClick={() => {
                             onSelect(candidate);
+                            hideCandidateTooltip();
                             close();
                           }}
+                          onMouseMove={(e) => showCandidateTooltip(candidate, e)}
+                          onMouseLeave={hideCandidateTooltip}
                         >
                           {`${candidate.equipGs} ${name}`}
                         </button>
