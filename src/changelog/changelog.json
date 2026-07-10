@@ -1,0 +1,126 @@
+{
+  "entries": [
+    {
+      "version": "0.2.6",
+      "date": "2026-07-09T22:00:27+09:00",
+      "summary": {
+        "ja": "ステータス計算とビルド日時表示の修正",
+        "en": "Fix stat calculation and build-time display"
+      },
+      "changes": {
+        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "en": [
+          "Fix refine/all-attribute attack calculation",
+          "Convert footer build-time display to the viewer's timezone"
+        ]
+      }
+    },
+    {
+      "version": "0.2.5",
+      "date": "2026-07-09T14:27:08+09:00",
+      "summary": {
+        "ja": "絆レベル効果の一部ステータス種別の計算漏れを修正",
+        "en": "Fix missing stat-type calculation for Bond Level effects"
+      },
+      "changes": { "ja": [], "en": [] }
+    },
+    {
+      "version": "0.2.4",
+      "date": "2026-07-09T13:43:14+09:00",
+      "summary": {
+        "ja": "表示・翻訳まわりの修正",
+        "en": "Fix display and translation issues"
+      },
+      "changes": {
+        "ja": [
+          "ファスト表示の修正",
+          "装備品質の背景色表示の統一・修正",
+          "未翻訳だったUI文言の翻訳追加"
+        ],
+        "en": [
+          "Fix Haste display",
+          "Fix equipment quality background display",
+          "Translate remaining UI strings"
+        ]
+      }
+    },
+    {
+      "version": "0.2.3",
+      "date": "2026-07-09T03:08:37+09:00",
+      "summary": {
+        "ja": "ステータス計算・状態管理の修正",
+        "en": "Fix stat calculation and state issues"
+      },
+      "changes": {
+        "ja": [
+          "固定進化%系ステータスの計算修正",
+          "R1アビリティの変換率ボーナスの計算漏れを修正",
+          "ビルドプランリセット時の心相投影のON/OFF状態修正"
+        ],
+        "en": [
+          "Fix fixed-evolution %-stat calculation",
+          "Fix missing R1 ability conversion-rate bonus calculation",
+          "Fix Phantom Projection on/off state not resetting on build-plan reset"
+        ]
+      }
+    },
+    {
+      "version": "0.2.2",
+      "date": "2026-07-08T14:12:09+09:00",
+      "summary": {
+        "ja": "バトルイマジンのパッシブ効果の反映漏れを修正",
+        "en": "Fix missing Battle Imagines passive effect calculation"
+      },
+      "changes": { "ja": [], "en": [] }
+    },
+    {
+      "version": "0.2.1",
+      "date": "2026-07-08T13:48:59+09:00",
+      "summary": {
+        "ja": "バトルイマジン効果の固定値ステータスボーナスの計算漏れを修正",
+        "en": "Fix missing flat stat bonus calculation for Battle Imagines effects"
+      },
+      "changes": { "ja": [], "en": [] }
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-07-08T00:43:13+09:00",
+      "summary": {
+        "ja": "追加バフ効果ダイアログの追加",
+        "en": "Add Additional Buff Effects dialog"
+      },
+      "changes": {
+        "ja": [
+          "パワーコアのバフ効果対応",
+          "鼓舞のバフ効果対応",
+          "能力共鳴のバフ効果対応",
+          "海風の宴のメインステータスボーナス対応"
+        ],
+        "en": [
+          "Support Power Core buff",
+          "Support Inspiration buff",
+          "Support Stat Resonance buff",
+          "Support Sea Breeze Feast main-stat bonus"
+        ]
+      }
+    },
+    {
+      "version": "0.1.1",
+      "date": "2026-07-07T17:22:59+09:00",
+      "summary": {
+        "ja": "装備の精錬値入力UI・ドロップダウンの改善",
+        "en": "Improve equipment refine-input UI and dropdowns"
+      },
+      "changes": { "ja": [], "en": [] }
+    },
+    {
+      "version": "0.1.0",
+      "date": "2026-07-07T03:29:37+09:00",
+      "summary": {
+        "ja": "公開",
+        "en": "Release"
+      },
+      "changes": { "ja": [], "en": [] }
+    }
+  ]
+}

@@ -11,6 +11,7 @@
     "preview:web": "vite preview --config vite.config.web.ts",
     "tauri": "tauri",
     "extract:ztable": "node scripts/extract-ztable.mjs",
+    "release": "node scripts/release.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",

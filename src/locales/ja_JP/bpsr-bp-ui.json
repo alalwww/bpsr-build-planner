@@ -9,6 +9,11 @@
     "copyright": "© 2026 BPSR Build Planner",
     "disclaimer": "本ツールは非公式のファンメイドツールです。ブループロトコル：スターレゾナンスの著作権・商標は各権利元に帰属します。"
   },
+  "changelog": {
+    "title": "変更履歴",
+    "unreadBadge": "未読の変更履歴があります",
+    "empty": "変更履歴がありません"
+  },
   "buildPlanner": {
     "newPlan": "新しいビルドプラン",
     "buildPlanPlaceholder": "ビルドプラン名",

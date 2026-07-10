@@ -1,0 +1,55 @@
+.equipment-dialog.changelog-dialog {
+  min-width: 360px;
+  max-width: 480px;
+  max-height: 80vh;
+}
+
+.changelog-dialog__body {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.changelog-dialog__entry + .changelog-dialog__entry {
+  padding-top: 14px;
+  border-top: 1px solid #2a2a33;
+}
+
+.changelog-dialog__version {
+  margin: 0 0 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+  color: #e8e6e1;
+}
+
+.changelog-dialog__date {
+  font-size: 11px;
+  color: #8a8a96;
+  font-weight: normal;
+}
+
+.changelog-dialog__summary {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #bcbbb7;
+}
+
+.changelog-dialog__changes {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 11px;
+  color: #8a8a96;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.changelog-dialog__empty {
+  margin: 0;
+  font-size: 12px;
+  color: #8a8a96;
+}
