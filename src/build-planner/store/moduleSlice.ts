@@ -13,7 +13,7 @@ export interface ModuleSlice {
 }
 
 export const createModuleSlice: StateCreator<BuildStore, [], [], ModuleSlice> = (set, get) => {
-  const autoSaveOnMount = getAutoSaveOnMount();
+  const autoSaveOnMount = getAutoSaveOnMount().state;
 
   return {
     moduleSlots: autoSaveOnMount?.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots,

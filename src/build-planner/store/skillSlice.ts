@@ -52,7 +52,7 @@ export interface SkillSlice {
 }
 
 export const createSkillSlice: StateCreator<BuildStore, [], [], SkillSlice> = (set, get) => {
-  const autoSaveOnMount = getAutoSaveOnMount();
+  const autoSaveOnMount = getAutoSaveOnMount().state;
   const initialProfessionKey = autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY;
   const defaultCount = normalSkillCount(initialProfessionKey);
 

@@ -3,7 +3,7 @@ import { getItemsBySlot } from '../equipment/equipmentData';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from '../profession';
 import { DEFAULT_COOKING_BUFF } from '../stats/cookingBuff';
-import type { AutoSaveState, BuildPlanData } from '../buildPlan';
+import type { AutoSaveState, BuildPlanData, LegacySource } from '../buildPlan';
 import { loadBuildPlans, persistBuildPlans } from '../buildPlan';
 import { decodePlanCode, encodePlanCode } from '../planCode';
 import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
@@ -13,6 +13,10 @@ import { getAutoSaveOnMount } from './autoSaveOnMount';
 import { normalSkillCount } from './skillSlice';
 import type { BuildStore } from './types';
 
+// インポート結果: 'ok'は現行フォーマット、'legacy'は旧フォーマットのコードを読み込めた
+// (呼び出し元が「新しい保存形式で更新してよいですか？」を確認する)、'failed'はデコード失敗。
+export type ImportPlanCodeResult = 'ok' | 'legacy' | 'failed';
+
 export interface PlanSlice {
   cookingBuff: CookingBuffState;
   professionKey: ProfessionKey;
@@ -20,6 +24,13 @@ export interface PlanSlice {
   adventurerLevel: number;
   planName: string;
   buildPlans: BuildPlanData[];
+
+  // 保存プラン一覧・自動保存が旧フォーマットから移行されたものかどうか(移行通知UI用)。
+  buildPlansLegacySource: LegacySource;
+  autoSaveLegacySource: 'v1' | null;
+  // localStorageのデータ破損等でロードに失敗したかどうか(失敗通知UI用)。
+  planLoadError: boolean;
+  autoSaveLoadError: boolean;
 
   setCookingBuff: (patch: Partial<CookingBuffState>) => void;
   setAdventurerLevel: (level: number) => void;
@@ -42,19 +53,33 @@ export interface PlanSlice {
   deletePlan: (id: string) => void;
   resetPlan: () => void;
   exportPlanCode: () => string;
-  importPlanCode: (code: string) => boolean;
+  importPlanCode: (code: string) => ImportPlanCodeResult;
+
+  // 保存プラン一覧を現行フォーマットで書き戻し、旧フォーマット通知を消す
+  // (「新しい保存形式で更新してよいですか？」確認ダイアログのOK)。
+  resaveBuildPlans: () => void;
+  dismissBuildPlansLegacyNotice: () => void;
+  dismissAutoSaveLegacyNotice: () => void;
+  dismissPlanLoadError: () => void;
+  dismissAutoSaveLoadError: () => void;
 }
 
 export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set, get) => {
   const autoSaveOnMount = getAutoSaveOnMount();
+  const buildPlansOnMount = loadBuildPlans();
 
   return {
     cookingBuff: DEFAULT_COOKING_BUFF,
-    professionKey: autoSaveOnMount?.professionKey ?? DEFAULT_PROFESSION_KEY,
-    professionTypeKey: autoSaveOnMount?.professionTypeKey ?? 'type1',
-    adventurerLevel: autoSaveOnMount?.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel,
-    planName: autoSaveOnMount?.name ?? '',
-    buildPlans: loadBuildPlans(),
+    professionKey: autoSaveOnMount.state?.professionKey ?? DEFAULT_PROFESSION_KEY,
+    professionTypeKey: autoSaveOnMount.state?.professionTypeKey ?? 'type1',
+    adventurerLevel:
+      autoSaveOnMount.state?.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel,
+    planName: autoSaveOnMount.state?.name ?? '',
+    buildPlans: buildPlansOnMount.plans,
+    buildPlansLegacySource: buildPlansOnMount.legacySource,
+    autoSaveLegacySource: autoSaveOnMount.legacySource,
+    planLoadError: buildPlansOnMount.loadError,
+    autoSaveLoadError: autoSaveOnMount.loadError,
 
     setCookingBuff: (patch) =>
       set((state) => ({ cookingBuff: { ...state.cookingBuff, ...patch } })),
@@ -135,8 +160,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setMasteryRanksState(plan.masteryRanks.slice(0, count));
       state.setFixedLevelsState(plan.fixedLevels);
       state.setFixedRanksState(plan.fixedRanks);
-      state.setBattleImaginesState(plan.battleImagines);
-      state.setImagineRanksState(plan.imagineRanks);
+      state.setBattleImaginesState(plan.battleImagines ?? STATIC_AUTOSAVE_DEFAULTS.battleImagines);
+      state.setImagineRanksState(plan.imagineRanks ?? STATIC_AUTOSAVE_DEFAULTS.imagineRanks);
       state.setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
       state.setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
       state.setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
@@ -187,11 +212,11 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
     exportPlanCode: () => encodePlanCode(get().buildAutoSaveState()),
 
     importPlanCode: (code) => {
-      const plan = decodePlanCode(code);
-      if (!plan) return false;
-      set({ planName: plan.name });
-      get().applyPlanState(plan);
-      return true;
+      const decoded = decodePlanCode(code);
+      if (!decoded) return 'failed';
+      set({ planName: decoded.state.name });
+      get().applyPlanState(decoded.state);
+      return decoded.isLegacy ? 'legacy' : 'ok';
     },
 
     renamePlan: (id, newName) => {
@@ -241,5 +266,15 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setPhantomNodeSelectionsState(defaults.phantomNodeSelections);
       state.setPhantomFactorSlotsState(defaults.phantomFactorSlots);
     },
+
+    resaveBuildPlans: () => {
+      const state = get();
+      persistBuildPlans(state.buildPlans);
+      set({ buildPlansLegacySource: null });
+    },
+    dismissBuildPlansLegacyNotice: () => set({ buildPlansLegacySource: null }),
+    dismissAutoSaveLegacyNotice: () => set({ autoSaveLegacySource: null }),
+    dismissPlanLoadError: () => set({ planLoadError: false }),
+    dismissAutoSaveLoadError: () => set({ autoSaveLoadError: false }),
   };
 };

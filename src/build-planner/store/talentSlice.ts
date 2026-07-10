@@ -19,7 +19,7 @@ export interface TalentSlice {
 }
 
 export const createTalentSlice: StateCreator<BuildStore, [], [], TalentSlice> = (set) => {
-  const autoSaveOnMount = getAutoSaveOnMount();
+  const autoSaveOnMount = getAutoSaveOnMount().state;
   const defaultProfessionId = PROFESSIONS[DEFAULT_PROFESSION_KEY].professionId;
 
   return {

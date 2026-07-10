@@ -76,6 +76,10 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
     buildPlans,
     cookingBuff,
     moduleSlots,
+    buildPlansLegacySource,
+    autoSaveLegacySource,
+    planLoadError,
+    autoSaveLoadError,
   } = useBuildStore(
     useShallow((s) => ({
       professionKey: s.professionKey,
@@ -86,10 +90,19 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
       buildPlans: s.buildPlans,
       cookingBuff: s.cookingBuff,
       moduleSlots: s.moduleSlots,
+      buildPlansLegacySource: s.buildPlansLegacySource,
+      autoSaveLegacySource: s.autoSaveLegacySource,
+      planLoadError: s.planLoadError,
+      autoSaveLoadError: s.autoSaveLoadError,
     })),
   );
   const onSelectProfession = useBuildStore((s) => s.selectProfession);
   const onSelectProfessionType = useBuildStore((s) => s.selectProfessionType);
+  const onResaveBuildPlans = useBuildStore((s) => s.resaveBuildPlans);
+  const onDismissBuildPlansLegacyNotice = useBuildStore((s) => s.dismissBuildPlansLegacyNotice);
+  const onDismissAutoSaveLegacyNotice = useBuildStore((s) => s.dismissAutoSaveLegacyNotice);
+  const onDismissPlanLoadError = useBuildStore((s) => s.dismissPlanLoadError);
+  const onDismissAutoSaveLoadError = useBuildStore((s) => s.dismissAutoSaveLoadError);
   const onAdventurerLevelChange = useBuildStore((s) => s.setAdventurerLevel);
   const onPlanNameChange = useBuildStore((s) => s.setPlanName);
   const onSavePlan = useBuildStore((s) => s.savePlan);
@@ -121,6 +134,10 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importInput, setImportInput] = useState('');
   const [importError, setImportError] = useState(false);
+  // 保存プランのロード/インポートが旧フォーマット由来だった場合の
+  // 「新しい保存形式で更新してよいですか？」確認ダイアログ。
+  const [showPlanResaveConfirm, setShowPlanResaveConfirm] = useState(false);
+  const [showImportResaveConfirm, setShowImportResaveConfirm] = useState(false);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [levelPickerOpen, setLevelPickerOpen] = useState(false);
   const [abilityScoreOpen, setAbilityScoreOpen] = useState(false);
@@ -201,6 +218,8 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
     setLoadConfirmTarget(null);
     setIsPlanListOpen(false);
     setDeleteConfirmId(null);
+    // 保存プラン一覧が旧フォーマットから移行されたものであれば、新形式での再保存を確認する。
+    if (buildPlansLegacySource) setShowPlanResaveConfirm(true);
   };
 
   const handleLoadPlan = (id: string) => {
@@ -244,10 +263,13 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   };
 
   const handleConfirmImport = () => {
-    if (onImportPlanCode(importInput)) {
+    const result = onImportPlanCode(importInput);
+    if (result !== 'failed') {
       setImportDialogOpen(false);
       setImportInput('');
       setImportError(false);
+      // インポートしたコードが旧フォーマットだった場合、新形式での保存を確認する。
+      if (result === 'legacy') setShowImportResaveConfirm(true);
     } else {
       setImportError(true);
     }
@@ -469,6 +491,76 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
           onConfirm={() => handleLoadPlanConfirmed(loadConfirmTarget.id)}
           cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
           onCancel={() => setLoadConfirmTarget(null)}
+        />
+      )}
+
+      {/* 保存プランが旧フォーマットから移行された直後の再保存確認モーダル */}
+      {showPlanResaveConfirm && (
+        <ConfirmDialog
+          message={t('buildPlanner.confirmResaveFormatMsg', {
+            defaultValue: '新しい保存形式で更新してよいですか？',
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={() => {
+            onResaveBuildPlans();
+            setShowPlanResaveConfirm(false);
+          }}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => {
+            onDismissBuildPlansLegacyNotice();
+            setShowPlanResaveConfirm(false);
+          }}
+        />
+      )}
+
+      {/* インポートしたコードが旧フォーマットだった場合の保存確認モーダル */}
+      {showImportResaveConfirm && (
+        <ConfirmDialog
+          message={t('buildPlanner.confirmResaveFormatMsg', {
+            defaultValue: '新しい保存形式で更新してよいですか？',
+          })}
+          confirmLabel={t('buildPlanner.confirmSave', { defaultValue: '保存' })}
+          onConfirm={() => {
+            setShowImportResaveConfirm(false);
+            handleSave();
+          }}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setShowImportResaveConfirm(false)}
+        />
+      )}
+
+      {/* 自動保存が旧フォーマットから移行されたことの通知(確認不要・単一ボタン) */}
+      {autoSaveLegacySource && (
+        <ConfirmDialog
+          message={t('buildPlanner.autoSaveMigratedMsg', {
+            defaultValue: '自動保存データを新しい保存形式に更新しました。',
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={onDismissAutoSaveLegacyNotice}
+        />
+      )}
+
+      {/* 保存プラン一覧のロードに失敗した通知(確認不要・単一ボタン) */}
+      {planLoadError && (
+        <ConfirmDialog
+          message={t('buildPlanner.planLoadErrorMsg', {
+            defaultValue:
+              '保存プランの読み込みに失敗しました。データが破損している可能性があります。',
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={onDismissPlanLoadError}
+        />
+      )}
+
+      {/* 自動保存のロードに失敗した通知(確認不要・単一ボタン) */}
+      {autoSaveLoadError && (
+        <ConfirmDialog
+          message={t('buildPlanner.autoSaveLoadErrorMsg', {
+            defaultValue:
+              '自動保存データの読み込みに失敗しました。データが破損している可能性があります。',
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={onDismissAutoSaveLoadError}
         />
       )}
 

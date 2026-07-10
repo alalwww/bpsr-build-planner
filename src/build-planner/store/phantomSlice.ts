@@ -25,7 +25,7 @@ export interface PhantomSlice {
 }
 
 export const createPhantomSlice: StateCreator<BuildStore, [], [], PhantomSlice> = (set) => {
-  const autoSaveOnMount = getAutoSaveOnMount();
+  const autoSaveOnMount = getAutoSaveOnMount().state;
 
   return {
     phantomEnabled: autoSaveOnMount?.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled,

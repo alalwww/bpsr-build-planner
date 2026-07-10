@@ -213,19 +213,19 @@ describe('planSlice', () => {
     useBuildStore.getState().setAdventurerLevel(1);
     useBuildStore.getState().setPlanName('');
 
-    const ok = useBuildStore.getState().importPlanCode(code);
+    const result = useBuildStore.getState().importPlanCode(code);
 
-    expect(ok).toBe(true);
+    expect(result).toBe('ok');
     expect(useBuildStore.getState().adventurerLevel).toBe(55);
     expect(useBuildStore.getState().planName).toBe('エクスポート用');
   });
 
-  it('importPlanCode: 不正なコードはfalseを返し状態を変更しない', () => {
+  it('importPlanCode: 不正なコードはfailedを返し状態を変更しない', () => {
     const before = useBuildStore.getState().planName;
 
-    const ok = useBuildStore.getState().importPlanCode('not-a-valid-code');
+    const result = useBuildStore.getState().importPlanCode('not-a-valid-code');
 
-    expect(ok).toBe(false);
+    expect(result).toBe('failed');
     expect(useBuildStore.getState().planName).toBe(before);
   });
 

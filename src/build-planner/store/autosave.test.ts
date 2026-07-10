@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { decodePlanCode } from '../planCode';
 import type { useBuildStore as UseBuildStoreType } from './useBuildStore';
 
 // vitestは environment: 'node' で動作しており、node には localStorage が存在しない。
@@ -41,18 +42,18 @@ describe('自動保存(subscribeWithSelector)', () => {
 
     const raw = localStorage.getItem('bpsr-autosave-v2');
     expect(raw).not.toBeNull();
-    const saved = JSON.parse(raw!);
-    expect(saved.adventurerLevel).toBe(37);
-    expect(saved.cookingBuff).toBeUndefined();
+    const saved = decodePlanCode(raw!)?.state;
+    expect(saved?.adventurerLevel).toBe(37);
+    expect((saved as { cookingBuff?: unknown } | undefined)?.cookingBuff).toBeUndefined();
   });
 
   it('talentR1/R2EnabledIdsはSetではなく配列として保存される', () => {
     useBuildStore.getState().setTalentR1EnabledIds(new Set([10, 20]));
 
     const raw = localStorage.getItem('bpsr-autosave-v2');
-    const saved = JSON.parse(raw!);
-    expect(Array.isArray(saved.talentR1EnabledIds)).toBe(true);
-    expect(saved.talentR1EnabledIds.sort()).toEqual([10, 20]);
+    const saved = decodePlanCode(raw!)?.state;
+    expect(Array.isArray(saved?.talentR1EnabledIds)).toBe(true);
+    expect([...saved!.talentR1EnabledIds].sort()).toEqual([10, 20]);
   });
 
   it('cookingBuffのみの変更では自動保存フィールドの購読対象に含まれないため再保存されない', () => {

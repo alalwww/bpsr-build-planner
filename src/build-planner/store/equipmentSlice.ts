@@ -53,7 +53,7 @@ export interface EquipmentSlice {
 }
 
 export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSlice> = (set) => {
-  const autoSaveOnMount = getAutoSaveOnMount();
+  const autoSaveOnMount = getAutoSaveOnMount().state;
 
   return {
     equipped: autoSaveOnMount?.equipped ?? DEFAULT_LOADOUT,

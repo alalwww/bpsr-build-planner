@@ -28,7 +28,19 @@ import {
 // デコード処理でもそのまま読め、末尾の新フィールドは欠損時のデフォルト値にフォールバックする。
 // デコード時は「このビルドが理解できるバージョン以下か」だけを検証し、将来バージョンを
 // 上げても旧コードのインポートが即エラーになることはない(decodePlanCode参照)。
-const PLAN_CODE_VERSION = 1;
+//
+// v1→v2: nameフィールドをFIELD_SPECS(構造データ)から分離し、コード文字列を
+// "{version}:{エンコードされたname}:{圧縮された構造データ}" という`:`区切りの3分割
+// フォーマットに変更した。名称部分は encodeName()/decodeName() (下部で定義)により
+// lz-string圧縮とURLセーフBase64のうち短い方を都度選択してエンコードする(生の文字列や
+// 単純なencodeURIComponentは日本語名で大きく肥大化するため採用しない)。どちらの方式も
+// 出力に`:`を含まないため、構造データ側(lz-stringのcompressToEncodedURIComponentも同様に
+// `:`を含まない)と衝突しない。この分割により、構造データを解凍せずに文字列操作だけで
+// 名称を取り出せる(将来、名称を除いた構造データ部分だけをハッシュ化して短縮URL化する
+// 用途を見据えたもの)。名称を含む旧v1コードは`:`を一切含まないため、`decodePlanCode`は
+// `:`の有無でv1/v2を判別する。
+const SAVE_FORMAT_VERSION = 2;
+const LEGACY_PLAN_CODE_VERSION = 1;
 
 // キー名を持つJSONオブジェクトの代わりに、位置(インデックス)だけで意味が決まる
 // タプル配列としてシリアライズする(gRPCのフィールド番号に相当)。
@@ -276,12 +288,9 @@ function field<K extends keyof AutoSaveState>(
   return { key, encode, decode };
 }
 
+// nameはここに含めない(SAVE_FORMAT_VERSION v2以降、コード文字列の`:`区切りで別枠として
+// 扱うため)。ここに並ぶのは構造データ(名称を除くビルド構成)のみ。
 const FIELD_SPECS = [
-  field(
-    'name',
-    (s) => s.name,
-    (raw) => (typeof raw === 'string' ? raw : ''),
-  ),
   field(
     'professionKey',
     (s) => PROFESSION_KEY_ORDER.indexOf(s.professionKey),
@@ -419,42 +428,121 @@ const FIELD_SPECS = [
   ),
 ] as const;
 
-// コンパイル時の網羅性チェック: AutoSaveState にフィールドを追加したのに FIELD_SPECS への
-// 追記を忘れると、この型が `never` に収まらずビルドエラーになる。
+// コンパイル時の網羅性チェック: AutoSaveState(nameを除く)にフィールドを追加したのに
+// FIELD_SPECS への追記を忘れると、この型が `never` に収まらずビルドエラーになる。
 type AssertNever<T extends never> = T;
 const _fieldSpecsCoverAllAutoSaveKeys: AssertNever<
-  Exclude<keyof AutoSaveState, (typeof FIELD_SPECS)[number]['key']>
+  Exclude<keyof Omit<AutoSaveState, 'name'>, (typeof FIELD_SPECS)[number]['key']>
 > = undefined as never;
 void _fieldSpecsCoverAllAutoSaveKeys;
 
 // ---- プラン全体のエンコード/デコード ----
-// 各フィールドの意味は FIELD_SPECS 内での並び順(インデックス)で決まる。
+// 構造データ部分の各フィールドの意味は FIELD_SPECS 内での並び順(インデックス)で決まる。
 
-export function encodePlanCode(state: AutoSaveState): string {
-  const arr: unknown[] = [PLAN_CODE_VERSION, ...FIELD_SPECS.map((f) => f.encode(state))];
-  return compressToEncodedURIComponent(JSON.stringify(arr));
+// 名称セグメントのエンコード方式タグ(1文字)。
+// L: lz-stringで圧縮(繰り返しの多いテキスト・日本語等で有利)。
+// B: UTF-8バイト列をURLセーフBase64化(圧縮の固定オーバーヘッドが無いため短いASCII名で有利)。
+// 生の文字列をそのまま埋め込む(可読になる/`:`との衝突回避に別途エスケープが要る)のは避け、
+// 都度どちらか短い方を機械的に選ぶことで、常に「悪い方」を選ばないようにする。
+const NAME_ENCODING_LZ = 'L';
+const NAME_ENCODING_BASE64 = 'B';
+
+function utf8ToBase64Url(str: string): string {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach((b) => {
+    binary += String.fromCharCode(b);
+  });
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
-export function decodePlanCode(code: string): AutoSaveState | null {
+function base64UrlToUtf8(b64url: string): string {
+  let b64 = b64url.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4 !== 0) b64 += '=';
+  const binary = atob(b64);
+  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+function encodeName(name: string): string {
+  const lz = compressToEncodedURIComponent(name);
+  const b64 = utf8ToBase64Url(name);
+  return lz.length <= b64.length ? `${NAME_ENCODING_LZ}${lz}` : `${NAME_ENCODING_BASE64}${b64}`;
+}
+
+// テストから直接呼べるよう公開する(コード全体の解凍を伴わずに名称だけを取り出せることの検証用)。
+export function decodeName(encoded: string): string {
+  const tag = encoded[0];
+  const body = encoded.slice(1);
   try {
-    const json = decompressFromEncodedURIComponent(code.trim());
+    if (tag === NAME_ENCODING_LZ) return decompressFromEncodedURIComponent(body) ?? '';
+    if (tag === NAME_ENCODING_BASE64) return base64UrlToUtf8(body);
+    return '';
+  } catch {
+    return '';
+  }
+}
+
+function decodeStructuralArray(arr: unknown[], offset: number): Omit<AutoSaveState, 'name'> | null {
+  const result: Record<string, unknown> = {};
+  FIELD_SPECS.forEach((f, i) => {
+    result[f.key] = f.decode(arr[i + offset]);
+  });
+  if (!result.professionKey) return null;
+  return result as Omit<AutoSaveState, 'name'>;
+}
+
+// v1(`:`を含まない旧フォーマット): [LEGACY_PLAN_CODE_VERSION, name, ...構造データ] を
+// まるごと圧縮した1本の文字列。nameのエンコードは素通し(生の文字列)だったため、
+// ここでも同様にarr[1]をそのまま読む。
+function decodeLegacyV1(code: string): AutoSaveState | null {
+  try {
+    const json = decompressFromEncodedURIComponent(code);
+    if (!json) return null;
+    const arr = JSON.parse(json) as unknown[];
+    if (!Array.isArray(arr) || arr[0] !== LEGACY_PLAN_CODE_VERSION) return null;
+    const name = typeof arr[1] === 'string' ? arr[1] : '';
+    const decoded = decodeStructuralArray(arr, 2);
+    return decoded ? { ...decoded, name } : null;
+  } catch {
+    return null;
+  }
+}
+
+export function encodePlanCode(state: AutoSaveState): string {
+  const structuralArr: unknown[] = FIELD_SPECS.map((f) => f.encode(state));
+  const structuralCode = compressToEncodedURIComponent(JSON.stringify(structuralArr));
+  return `${SAVE_FORMAT_VERSION}:${encodeName(state.name)}:${structuralCode}`;
+}
+
+export function decodePlanCode(code: string): { state: AutoSaveState; isLegacy: boolean } | null {
+  const trimmed = code.trim();
+  const firstColon = trimmed.indexOf(':');
+  // lz-stringのcompressToEncodedURIComponentの出力は`:`を含まないため、`:`が無ければ
+  // 名称分離前(v1)の旧フォーマットとみなす。
+  if (firstColon === -1) {
+    const state = decodeLegacyV1(trimmed);
+    return state ? { state, isLegacy: true } : null;
+  }
+
+  const secondColon = trimmed.indexOf(':', firstColon + 1);
+  if (secondColon === -1) return null;
+
+  const version = Number(trimmed.slice(0, firstColon));
+  // 末尾追記のみで進化させる規約のため、このビルドが認識できる範囲の旧バージョン
+  // (v <= SAVE_FORMAT_VERSION)はすべて同じロジックで読める。未知の将来バージョン
+  // (このビルドより新しい = 互換性のない変更を含む可能性がある)のみ拒否する。
+  if (!Number.isInteger(version) || version < 2 || version > SAVE_FORMAT_VERSION) return null;
+
+  const name = decodeName(trimmed.slice(firstColon + 1, secondColon));
+  const structuralCode = trimmed.slice(secondColon + 1);
+  try {
+    const json = decompressFromEncodedURIComponent(structuralCode);
     if (!json) return null;
     const arr = JSON.parse(json) as unknown[];
     if (!Array.isArray(arr)) return null;
-    // 末尾追記のみで進化させる規約のため、このビルドが認識できる範囲の旧バージョン
-    // (v <= PLAN_CODE_VERSION)はすべて同じロジックで読める。未知の将来バージョン
-    // (このビルドより新しい = 互換性のない変更を含む可能性がある)のみ拒否する。
-    const codeVersion = arr[0];
-    if (typeof codeVersion !== 'number' || codeVersion < 1 || codeVersion > PLAN_CODE_VERSION) {
-      return null;
-    }
-
-    const result: Record<string, unknown> = {};
-    FIELD_SPECS.forEach((f, i) => {
-      result[f.key] = f.decode(arr[i + 1]);
-    });
-    if (!result.professionKey) return null;
-    return result as AutoSaveState;
+    const decoded = decodeStructuralArray(arr, 0);
+    return decoded ? { state: { ...decoded, name }, isLegacy: false } : null;
   } catch {
     return null;
   }

@@ -1,7 +1,7 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import { describe, expect, it } from 'vitest';
 import type { AutoSaveState } from './buildPlan';
-import { decodePlanCode, encodePlanCode } from './planCode';
+import { decodeName, decodePlanCode, encodePlanCode } from './planCode';
 import type { EquipmentSlotId, SlotRefineLevels } from './types';
 
 const ALL_SLOTS: EquipmentSlotId[] = [
@@ -55,11 +55,30 @@ function fullAutoSaveState(): AutoSaveState {
   };
 }
 
+// v2コードは "{version}:{encodeURIComponent(name)}:{圧縮された構造データ配列}" の3分割。
+// 構造データ配列だけを壊れた値に差し替えた新しいコードを組み立てるためのヘルパー。
+function withCorruptedStructuralArray(code: string, mutate: (arr: unknown[]) => void): string {
+  const firstColon = code.indexOf(':');
+  const secondColon = code.indexOf(':', firstColon + 1);
+  const prefix = code.slice(0, secondColon + 1);
+  const structuralCode = code.slice(secondColon + 1);
+  const arr = JSON.parse(decompressFromEncodedURIComponent(structuralCode)!) as unknown[];
+  mutate(arr);
+  return prefix + compressToEncodedURIComponent(JSON.stringify(arr));
+}
+
+function buildV2Code(version: number, name: string, structuralArr: unknown[]): string {
+  const compressed = compressToEncodedURIComponent(JSON.stringify(structuralArr));
+  return `${version}:${encodeURIComponent(name)}:${compressed}`;
+}
+
 describe('encodePlanCode / decodePlanCode', () => {
   it('round-trips a full AutoSaveState unchanged', () => {
     const state = fullAutoSaveState();
     const code = encodePlanCode(state);
-    expect(decodePlanCode(code)).toEqual(state);
+    const decoded = decodePlanCode(code);
+    expect(decoded?.state).toEqual(state);
+    expect(decoded?.isLegacy).toBe(false);
   });
 
   it('round-trips minimal optional fields left undefined', () => {
@@ -71,7 +90,50 @@ describe('encodePlanCode / decodePlanCode', () => {
       phantomBondPoints: undefined,
     };
     const code = encodePlanCode(state);
-    expect(decodePlanCode(code)).toEqual(state);
+    expect(decodePlanCode(code)?.state).toEqual(state);
+  });
+
+  it('separates the name from the compressed structural payload without decompression', () => {
+    const state = fullAutoSaveState();
+    const code = encodePlanCode(state);
+    const firstColon = code.indexOf(':');
+    const secondColon = code.indexOf(':', firstColon + 1);
+    expect(firstColon).toBeGreaterThan(-1);
+    expect(secondColon).toBeGreaterThan(firstColon);
+    const nameFromCode = decodeName(code.slice(firstColon + 1, secondColon));
+    expect(nameFromCode).toBe(state.name);
+  });
+
+  it('picks whichever of lz-string/base64url encodes the name more compactly', () => {
+    // 日本語名はlz-string圧縮、短いASCII名はbase64urlの方が短くなりやすい。
+    // どちらを選んでも常に元の名称へ復元できることを確認する。
+    for (const name of ['霜歩き氷杖テンプレ', 'weapon build A', '', 'A', '名前:入り']) {
+      const code = encodePlanCode({ ...fullAutoSaveState(), name });
+      const firstColon = code.indexOf(':');
+      const secondColon = code.indexOf(':', firstColon + 1);
+      const nameSegment = code.slice(firstColon + 1, secondColon);
+      expect(nameSegment.includes(':')).toBe(false);
+      expect(decodeName(nameSegment)).toBe(name);
+      expect(decodePlanCode(code)?.state.name).toBe(name);
+    }
+  });
+
+  it('decodes legacy v1 codes with no colon separator (name embedded in the array)', () => {
+    const state = fullAutoSaveState();
+    const v2Code = encodePlanCode(state);
+    const secondColon = v2Code.indexOf(':', v2Code.indexOf(':') + 1);
+    const structuralArr = JSON.parse(
+      decompressFromEncodedURIComponent(v2Code.slice(secondColon + 1))!,
+    ) as unknown[];
+    // 旧v1フォーマット: [version, name, ...構造データ] をまるごと圧縮した1本の文字列(区切り文字なし)。
+    const legacyArr = [1, state.name, ...structuralArr];
+    const legacyCode = compressToEncodedURIComponent(JSON.stringify(legacyArr));
+    expect(legacyCode.includes(':')).toBe(false);
+
+    const decoded = decodePlanCode(legacyCode);
+    expect(decoded).not.toBeNull();
+    expect(decoded!.isLegacy).toBe(true);
+    expect(decoded!.state).toEqual(state);
   });
 
   it('returns null for garbage input', () => {
@@ -79,48 +141,44 @@ describe('encodePlanCode / decodePlanCode', () => {
   });
 
   it('returns null when the encoded version is newer than this build understands', () => {
-    // PLAN_CODE_VERSION は現在1。将来バージョン(例: 999)は非互換の可能性があるため拒否する。
-    const futureVersionArr = [999, 'x', 0, 0];
-    const code = compressToEncodedURIComponent(JSON.stringify(futureVersionArr));
+    // SAVE_FORMAT_VERSION は現在2。将来バージョン(例: 999)は非互換の可能性があるため拒否する。
+    const code = buildV2Code(999, 'x', [0, 0]);
     expect(decodePlanCode(code)).toBeNull();
   });
 
   it('returns null when the profession index does not resolve', () => {
-    const badProfessionArr = [1, 'x', 999, 0];
-    const code = compressToEncodedURIComponent(JSON.stringify(badProfessionArr));
+    // 構造データ配列のindex 0はprofessionKey(nameは分離済みのため含まれない)。
+    const code = buildV2Code(2, 'x', [999, 0]);
     expect(decodePlanCode(code)).toBeNull();
   });
 
   it('falls back to defaults instead of crashing or propagating garbage when array fields hold the wrong type', () => {
     const state = fullAutoSaveState();
     const code = encodePlanCode(state);
-    const json = decompressFromEncodedURIComponent(code);
-    expect(json).not.toBeNull();
-    const arr = JSON.parse(json!) as unknown[];
-    // index 10: masteryLevels, index 20: adventurerLevel (see FIELD_SPECS order in planCode.ts)
-    arr[10] = 'not-an-array';
-    arr[20] = 'not-a-number';
-    const corruptedCode = compressToEncodedURIComponent(JSON.stringify(arr));
+    // index 8: masteryLevels, index 18: adventurerLevel (nameを除いたFIELD_SPECSの並び順)
+    const corruptedCode = withCorruptedStructuralArray(code, (arr) => {
+      arr[8] = 'not-an-array';
+      arr[18] = 'not-a-number';
+    });
     const decoded = decodePlanCode(corruptedCode);
     expect(decoded).not.toBeNull();
-    expect(decoded!.masteryLevels).toEqual([]);
-    expect(decoded!.adventurerLevel).toBeUndefined();
+    expect(decoded!.state.masteryLevels).toEqual([]);
+    expect(decoded!.state.adventurerLevel).toBeUndefined();
     // unaffected fields still decode normally
-    expect(decoded!.masteryRanks).toEqual(state.masteryRanks);
+    expect(decoded!.state.masteryRanks).toEqual(state.masteryRanks);
   });
 
   it('does not throw when array-shaped fields contain malformed tuples', () => {
     const state = fullAutoSaveState();
     const code = encodePlanCode(state);
-    const json = decompressFromEncodedURIComponent(code);
-    const arr = JSON.parse(json!) as unknown[];
-    // index 25: phantomNodeSelections (pairs), index 26: phantomFactorSlots
-    arr[25] = [['not-a-tuple'], [1, 2], null, 42];
-    arr[26] = [[1], 'garbage', [2, 3]];
-    const corruptedCode = compressToEncodedURIComponent(JSON.stringify(arr));
+    // index 23: phantomNodeSelections (pairs), index 24: phantomFactorSlots
+    const corruptedCode = withCorruptedStructuralArray(code, (arr) => {
+      arr[23] = [['not-a-tuple'], [1, 2], null, 42];
+      arr[24] = [[1], 'garbage', [2, 3]];
+    });
     expect(() => decodePlanCode(corruptedCode)).not.toThrow();
     const decoded = decodePlanCode(corruptedCode);
-    expect(decoded!.phantomNodeSelections).toEqual({ 1: 2 });
-    expect(decoded!.phantomFactorSlots).toEqual({});
+    expect(decoded!.state.phantomNodeSelections).toEqual({ 1: 2 });
+    expect(decoded!.state.phantomFactorSlots).toEqual({});
   });
 });
