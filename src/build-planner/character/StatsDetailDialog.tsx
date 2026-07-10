@@ -122,6 +122,19 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
     })
     .map((statId) => {
       const entry = rawStatsBreakdown[statId];
+      if (statId === 'critRecoveryBonus') {
+        // 会心回復ボーナス: raw値自体には意味がないため、%変換した値を他ステータスの追加バフ
+        // (最終%への直接加算)と同じ扱いで追加バフ列にまとめて表示する。
+        const totalPercent = (entry.additive + (entry.cookingBonus ?? 0)) / 100;
+        return {
+          statId,
+          label: t(`buildPlanner.stats.${statId}`),
+          initialValue: '',
+          additive: '',
+          multiplier: '',
+          cookingBuff: totalPercent !== 0 ? `${fmtSigned(totalPercent)}%` : '',
+        };
+      }
       const initialValue = entry.base + conversionBonusFor(statId);
       return {
         statId,

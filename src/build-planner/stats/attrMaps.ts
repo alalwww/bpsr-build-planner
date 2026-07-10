@@ -61,6 +61,14 @@ export const TALENT_HIGHEST_OF_FINAL_PCT: Partial<Record<number, number>> = {
   2204340: 3.5,
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、特定の1ステータスへの
+// 平坦加算。会心回復等、収益逓減カーブを経由しないraw値(EVO_PCT_ATTR_TO_STAT等と同じ単位:
+// 100 = 1%)を対象とする効果に使う。
+// ビートパフォーマー響奏型R2アビリティ「会心回復」: 会心回復+25%。
+export const TALENT_FLAT_PCT_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
+  2207210: { stat: 'critRecoveryBonus', value: 2500 },
+};
+
 export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
   11022: 'intellect',

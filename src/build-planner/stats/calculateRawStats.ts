@@ -58,6 +58,7 @@ import {
   TALENT_EFFECT_TYPE_CONVERSION_RATE,
   TALENT_EFFECT_TYPE_FLAT_STAT,
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
+  TALENT_FLAT_PCT_TO_STAT,
   TALENT_HIGHEST_OF_FINAL_PCT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
@@ -368,6 +369,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         // (例: フロストメイジ「二段増幅」)。
         const highestOfBonus = TALENT_HIGHEST_OF_FINAL_PCT[eff[1]];
         if (highestOfBonus) highestStatFinalPctBonus += highestOfBonus;
+        // 型に関わらず常時有効な、特定の1ステータスへの平坦加算(例: ビートパフォーマー「会心回復」)。
+        const flatStatBonus = TALENT_FLAT_PCT_TO_STAT[eff[1]];
+        if (flatStatBonus) addStat(flatStatBonus.stat, flatStatBonus.value);
       } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
         // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
         // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
@@ -396,6 +400,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
             const statId = TALENT_ATTR_TO_STAT[eff[1]];
             if (statId !== undefined) addStat(statId, eff[2]);
           }
+        } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
+          const bonus = TALENT_TYPE1_ONLY_FINAL_PCT[eff[1]];
+          if (bonus && professionTypeKey === 'type1') {
+            phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
+          }
+          const highestOfBonus = TALENT_HIGHEST_OF_FINAL_PCT[eff[1]];
+          if (highestOfBonus) highestStatFinalPctBonus += highestOfBonus;
+          const flatStatBonus = TALENT_FLAT_PCT_TO_STAT[eff[1]];
+          if (flatStatBonus) addStat(flatStatBonus.stat, flatStatBonus.value);
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           const statId = TALENT_ATTR_TO_STAT[eff[2]];
           if (statId !== undefined) {
