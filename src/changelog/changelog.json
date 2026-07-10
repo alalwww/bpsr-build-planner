@@ -1,6 +1,44 @@
 {
   "entries": [
     {
+      "version": "0.3.0",
+      "date": "2026-07-10T08:51:51.913Z",
+      "summary": {
+        "ja": "ステータス計算の不具合修正とアプリ内更新履歴ダイアログの追加",
+        "en": "Fix stat calculation bugs and add an in-app changelog dialog"
+      },
+      "changes": {
+        "ja": [
+          "元素攻撃力・元素属性ボーナス・元素属性軽減の内訳が常に0と表示される不具合を修正",
+          "ビートパフォーマーR2「会心回復+25%」の計算漏れと、会心回復ボーナスの%表示の不具合を修正",
+          "セーブデータ読み込み時にクラッシュ/フリーズする不具合を修正(保存済みビルドプランの自動移行に対応)",
+          "ディバインアーチャー「迅射」の攻撃速度ボーナスが計算に反映されていなかった不具合を修正",
+          "攻撃速度%final系タレント説明文のパーセント表記の不具合を修正",
+          "「筋力変換」(シールドファイター/ヘヴィガーディアン)の物理防御力変換テキストが表示されない不具合を修正",
+          "ヘヴィガーディアン「癒しの砂」の説明文および効果計算の不具合を修正",
+          "フロストメイジ「二段増幅」の効果が計算に反映されていなかった不具合を修正",
+          "英語UIでの「バトルイマジン」表記の誤り(Imaginary/Imaginaries → Imagine/Imagines)を修正",
+          "ステータス詳細ダイアログのバフ効果テーブルに初期値/ステ変換値列を追加",
+          "装備選択ダイアログの候補アイテムにホバーで詳細ツールチップを表示",
+          "アプリ内更新履歴ダイアログを追加"
+        ],
+        "en": [
+          "Fix Elemental ATK/Bonus/Reduction breakdown always showing 0",
+          "Fix missing Beat Performer R2 \"Crit Recovery +25%\" calculation and percent formatting for the crit recovery bonus",
+          "Fix a crash/freeze on loading saved data, with automatic migration for existing saved build plans",
+          "Fix Divine Archer's \"Quick Shot\" attack-speed bonus not being applied to stat calculation",
+          "Fix percent formatting for attack-speed \"%final\" talent descriptions",
+          "Fix missing Armor conversion text on \"Power Conversion\" (Shield Fighter / Heavy Guardian)",
+          "Fix Heavy Guardian's \"Healing Sands\" description and apply its effect to stat calculation",
+          "Fix Frost Mage's \"Secondary Amp\" effect not being applied to stat calculation",
+          "Fix incorrect English terminology for Battle Imagine (Imaginary/Imaginaries → Imagine/Imagines)",
+          "Add a conversion/initial value column to the stats detail dialog's buff effects table",
+          "Add a hover detail tooltip for candidates in the equipment picker",
+          "Add an in-app changelog dialog"
+        ]
+      }
+    },
+    {
       "version": "0.2.6",
       "date": "2026-07-09T22:00:27+09:00",
       "summary": {
@@ -8,7 +46,10 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "ja": [
+          "精錬攻撃・全属性攻撃の計算修正",
+          "フッターのビルド日時のタイムゾーン変換表示"
+        ],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
@@ -22,7 +63,10 @@
         "ja": "絆レベル効果の一部ステータス種別の計算漏れを修正",
         "en": "Fix missing stat-type calculation for Bond Level effects"
       },
-      "changes": { "ja": [], "en": [] }
+      "changes": {
+        "ja": [],
+        "en": []
+      }
     },
     {
       "version": "0.2.4",
@@ -71,7 +115,10 @@
         "ja": "バトルイマジンのパッシブ効果の反映漏れを修正",
         "en": "Fix missing Battle Imagines passive effect calculation"
       },
-      "changes": { "ja": [], "en": [] }
+      "changes": {
+        "ja": [],
+        "en": []
+      }
     },
     {
       "version": "0.2.1",
@@ -80,7 +127,10 @@
         "ja": "バトルイマジン効果の固定値ステータスボーナスの計算漏れを修正",
         "en": "Fix missing flat stat bonus calculation for Battle Imagines effects"
       },
-      "changes": { "ja": [], "en": [] }
+      "changes": {
+        "ja": [],
+        "en": []
+      }
     },
     {
       "version": "0.2.0",
@@ -111,7 +161,10 @@
         "ja": "装備の精錬値入力UI・ドロップダウンの改善",
         "en": "Improve equipment refine-input UI and dropdowns"
       },
-      "changes": { "ja": [], "en": [] }
+      "changes": {
+        "ja": [],
+        "en": []
+      }
     },
     {
       "version": "0.1.0",
@@ -120,7 +173,10 @@
         "ja": "公開",
         "en": "Release"
       },
-      "changes": { "ja": [], "en": [] }
+      "changes": {
+        "ja": [],
+        "en": []
+      }
     }
   ]
 }
