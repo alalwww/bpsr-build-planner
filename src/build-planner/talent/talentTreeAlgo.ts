@@ -57,17 +57,94 @@ export function getSubtreeInSet(
   return result;
 }
 
+// talentId → 消費ポイント。既定は talent-tree.json を参照する。テストからは
+// 合成ツリー用のコスト表を注入できるよう関数として差し替え可能にしている。
+export type TalentCostFn = (talentId: number) => number;
+const defaultTalentCost: TalentCostFn = (talentId) => talentTree.nodes[String(talentId)]?.cost ?? 0;
+
 export function countCost(
   ids: ReadonlySet<number>,
   nodesById: ReadonlyMap<number, TreeNode>,
+  getCost: TalentCostFn = defaultTalentCost,
 ): number {
   let c = 0;
   for (const id of ids) {
     const n = nodesById.get(id);
-    const td = n ? talentTree.nodes[String(n.talentId)] : undefined;
-    c += td?.cost ?? 0;
+    c += n ? getCost(n.talentId) : 0;
   }
   return c;
+}
+
+// ---- Deselect (選択解除) ----
+
+// unlock 条件 [type, value] の type=3: 総消費ポイント(R1+R2) >= value で解放。
+export const UNLOCK_TYPE_TOTAL_POINTS = 3;
+
+// ノードを1つ外し、ルートから到達できなくなったノードも併せて外した集合を返す。
+// R1 のデセレクト、および R2 デセレクトの到達性プルーニングで共通利用する。
+export function deselectNodeAndPrune(
+  enabledIds: ReadonlySet<number>,
+  nodeId: number,
+  nodesById: ReadonlyMap<number, TreeNode>,
+  rootId: number,
+): Set<number> {
+  const next = new Set(enabledIds);
+  next.delete(nodeId);
+  const afterReach = bfsReachable(next, nodesById, rootId);
+  for (const id of [...next]) {
+    if (!afterReach.has(id)) next.delete(id);
+  }
+  return next;
+}
+
+// R2 デセレクト: 到達性プルーニングに加え、総消費ポイント(R1+R2)が下がることで
+// アンロック条件(type=3)を満たさなくなったノードをカスケード除去した集合を返す。
+export function deselectR2NodeWithCascade(
+  r2EnabledIds: ReadonlySet<number>,
+  nodeId: number,
+  nodesById: ReadonlyMap<number, TreeNode>,
+  r2RootId: number,
+  r1Used: number,
+  getCost: TalentCostFn = defaultTalentCost,
+): Set<number> {
+  const next = deselectNodeAndPrune(r2EnabledIds, nodeId, nodesById, r2RootId);
+
+  let cascadeChanged = true;
+  let cascadeTotal = r1Used + countCost(next, nodesById, getCost);
+  while (cascadeChanged) {
+    cascadeChanged = false;
+    // R2 ルートは unlock 条件があっても r1Full で保証されるため除外。
+    // それ以外の条件付きノード(B群)と子孫(C群)を集めて A群合計を算出し、
+    // 各 B 群ノードの閾値と比較する。こうすることで兄弟 B 群が互いの
+    // コストを補い合う誤判定を防ぎつつ、ルート除外で過剰除去も防ぐ。
+    const allBCSet = new Set<number>();
+    for (const cid of next) {
+      if (cid === r2RootId) continue;
+      const cn = nodesById.get(cid);
+      if (!cn?.unlock?.some(([t]) => t === UNLOCK_TYPE_TOTAL_POINTS)) continue;
+      for (const id of getSubtreeInSet(cid, next, nodesById)) allBCSet.add(id);
+    }
+    const aTotal = cascadeTotal - countCost(allBCSet, nodesById, getCost);
+    for (const cid of [...next]) {
+      if (cid === r2RootId) continue;
+      const cn = nodesById.get(cid);
+      if (!cn?.unlock?.length) continue;
+      const fails = cn.unlock.some(
+        ([type, val]) => type === UNLOCK_TYPE_TOTAL_POINTS && aTotal < val,
+      );
+      if (fails) {
+        next.delete(cid);
+        const reach2 = bfsReachable(next, nodesById, r2RootId);
+        for (const rid of [...next]) {
+          if (!reach2.has(rid)) next.delete(rid);
+        }
+        cascadeTotal = r1Used + countCost(next, nodesById, getCost);
+        cascadeChanged = true;
+        break;
+      }
+    }
+  }
+  return next;
 }
 
 // ---- Effective path finder (diamond-pattern support) ----

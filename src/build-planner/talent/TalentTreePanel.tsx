@@ -24,8 +24,9 @@ import {
 import {
   bfsReachable,
   countCost,
+  deselectNodeAndPrune,
+  deselectR2NodeWithCascade,
   findEffectivePath,
-  getSubtreeInSet,
   hexPoints,
 } from './talentTreeAlgo';
 
@@ -286,13 +287,7 @@ export default function TalentTreePanel({
     (nodeId: number) => {
       const r1Root = stage0Info?.rootId;
       if (r1Root == null) return;
-      const next = new Set(r1EnabledIds);
-      next.delete(nodeId);
-      const afterReach = bfsReachable(next, nodesById, r1Root);
-      for (const id of [...next]) {
-        if (!afterReach.has(id)) next.delete(id);
-      }
-      setR1EnabledIds(next);
+      setR1EnabledIds(deselectNodeAndPrune(r1EnabledIds, nodeId, nodesById, r1Root));
       const r2Root = activeStage1Info?.rootId;
       setR2EnabledIds(r2Root != null ? new Set([r2Root]) : new Set());
     },
@@ -333,62 +328,12 @@ export default function TalentTreePanel({
           }
           // R2 が空またはルートのみの場合はそのまま R1 をデセレクト
           const r1Root = stage0Info?.rootId ?? rootId;
-          const next = new Set(r1EnabledIds);
-          next.delete(nodeId);
-          const afterReach = bfsReachable(next, nodesById, r1Root);
-          for (const id of [...next]) {
-            if (!afterReach.has(id)) next.delete(id);
-          }
-          setR1EnabledIds(next);
+          setR1EnabledIds(deselectNodeAndPrune(r1EnabledIds, nodeId, nodesById, r1Root));
           return;
         }
 
         // R2 デセレクト: totalUsed が下がることで B 群のアンロック条件が外れる場合にカスケード
-        const r2Root = activeStage1Info?.rootId;
-        const next = new Set(r2EnabledIds);
-        next.delete(nodeId);
-        const afterReach = bfsReachable(next, nodesById, rootId);
-        for (const id of [...next]) {
-          if (!afterReach.has(id)) next.delete(id);
-        }
-
-        if (r2Root != null) {
-          let cascadeChanged = true;
-          let cascadeTotal = r1Used + countCost(next, nodesById);
-          while (cascadeChanged) {
-            cascadeChanged = false;
-            // R2 ルートは unlock 条件があっても r1Full で保証されるため除外。
-            // それ以外の条件付きノード(B群)と子孫(C群)を集めて A群合計を算出し、
-            // 各 B 群ノードの閾値と比較する。こうすることで兄弟 B 群が互いの
-            // コストを補い合う誤判定を防ぎつつ、ルート除外で過剰除去も防ぐ。
-            const allBCSet = new Set<number>();
-            for (const cid of next) {
-              if (cid === r2Root) continue;
-              const cn = nodesById.get(cid);
-              if (!cn?.unlock?.some(([t]) => t === 3)) continue;
-              for (const id of getSubtreeInSet(cid, next, nodesById)) allBCSet.add(id);
-            }
-            const aTotal = cascadeTotal - countCost(allBCSet, nodesById);
-            for (const cid of [...next]) {
-              if (cid === r2Root) continue;
-              const cn = nodesById.get(cid);
-              if (!cn?.unlock?.length) continue;
-              const fails = cn.unlock.some(([type, val]) => type === 3 && aTotal < val);
-              if (fails) {
-                next.delete(cid);
-                const reach2 = bfsReachable(next, nodesById, r2Root);
-                for (const rid of [...next]) {
-                  if (!reach2.has(rid)) next.delete(rid);
-                }
-                cascadeTotal = r1Used + countCost(next, nodesById);
-                cascadeChanged = true;
-                break;
-              }
-            }
-          }
-        }
-
-        setR2EnabledIds(next);
+        setR2EnabledIds(deselectR2NodeWithCascade(r2EnabledIds, nodeId, nodesById, rootId, r1Used));
         return;
       }
 
