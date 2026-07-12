@@ -130,7 +130,7 @@ export default function TalentTreePanel({
     setPendingSwitchBdType(null);
     setPendingR1Deselect(null);
     setPendingReset(false);
-  }, [professionKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [professionKey]);
 
   const activeStage1Info = useMemo(
     () => stage1Infos.find((s) => s.bdType === activeBdType),
@@ -273,7 +273,7 @@ export default function TalentTreePanel({
       const r2Root = activeStage1Info?.rootId;
       setR2EnabledIds(r2Root != null ? new Set([r2Root]) : new Set());
     },
-    [stage0Info, r1EnabledIds, nodesById, activeStage1Info],
+    [stage0Info, r1EnabledIds, nodesById, activeStage1Info, setR1EnabledIds, setR2EnabledIds],
   );
 
   const handleSwitchBdType = useCallback(
@@ -362,6 +362,9 @@ export default function TalentTreePanel({
       stage0Info,
       r1EnabledIds,
       r1Full,
+      isUnlockMet,
+      setR1EnabledIds,
+      setR2EnabledIds,
     ],
   );
 
@@ -376,7 +379,7 @@ export default function TalentTreePanel({
         setR1EnabledIds(new Set<number>(stage0Info.recommendTalent));
       }
     }
-  }, [activeStage, stage0Info, activeStage1Info]);
+  }, [activeStage, stage0Info, activeStage1Info, setR1EnabledIds, setR2EnabledIds]);
 
   const doReset = useCallback(() => {
     setR1EnabledIds(new Set());
