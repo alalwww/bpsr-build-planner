@@ -225,20 +225,34 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     phantomBondPoints,
   } = input;
 
+  // 内訳カテゴリ別のアキュムレータ。total は最後に全カテゴリの合算で導出する。
+  const fv: Record<Exclude<keyof AbilityScoreBreakdown, 'total'>, number> = {
+    other: 0,
+    abilityR1: 0,
+    abilityR2: 0,
+    skillFixed: 0,
+    skillMastery: 0,
+    skillImagine: 0,
+    equipmentBase: 0,
+    equipmentEnchant: 0,
+    equipmentRefine: 0,
+    equipmentSuit: 0,
+    moduleLink: 0,
+    moduleCore: 0,
+    phantomLevel: 0,
+    phantom: 0,
+  };
+
   // --- その他: 冒険者レベル ---
   const lvData = levelCumulativeData[Math.min(adventurerLevel, levelCumulativeData.length - 1)];
-  const other = lvData?.fightValue ?? 0;
+  fv.other = lvData?.fightValue ?? 0;
 
   // --- 潜在レベル (enabled に関わらず常時反映) ---
-  let phantomLevelFv = 0;
   if (phantomLevel > 0) {
-    phantomLevelFv = phantomLevel * playerLevelSeasonData.fightValue;
+    fv.phantomLevel = phantomLevel * playerLevelSeasonData.fightValue;
   }
 
   // --- 装備・精錬・装着効果 ---
-  let equipmentBaseFv = 0;
-  let equipmentEnchantFv = 0;
-  let equipmentRefineFv = 0;
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
     const slotKey = slotId as EquipmentSlotId;
     const breakdown = calculateEquipmentSlotAbilityScore(
@@ -251,15 +265,12 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
       profession,
       professionTypeKey,
     );
-    equipmentBaseFv += breakdown.baseStats + breakdown.evolution;
-    equipmentEnchantFv += breakdown.enchant;
-    equipmentRefineFv += breakdown.refine;
+    fv.equipmentBase += breakdown.baseStats + breakdown.evolution;
+    fv.equipmentEnchant += breakdown.enchant;
+    fv.equipmentRefine += breakdown.refine;
   }
 
   // --- スキル ---
-  let skillFixedFv = 0;
-  let skillMasteryFv = 0;
-  let skillImagineFv = 0;
   const cls = getClassData(profession.professionId);
   if (cls) {
     const fixedGroups = [cls.normalAttackSkill, cls.specialSkill, cls.ultimateSkill];
@@ -267,14 +278,14 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
       const level = fixedLevels[gi] ?? 1;
       const rank = fixedRanks[gi] ?? 0;
       for (const skillId of fixedGroups[gi] ?? []) {
-        skillFixedFv += calculateSkillAbilityScore(skillId, level, rank, false);
+        fv.skillFixed += calculateSkillAbilityScore(skillId, level, rank, false);
       }
     }
     for (let i = 0; i < masteryEquipped.length; i++) {
       if (!masteryEquipped[i]) continue;
       const skillId = cls.normalSkill?.[i];
       if (skillId == null) continue;
-      skillMasteryFv += calculateSkillAbilityScore(
+      fv.skillMastery += calculateSkillAbilityScore(
         skillId,
         masteryLevels[i] ?? 1,
         masteryRanks[i] ?? 0,
@@ -287,32 +298,27 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
   for (let i = 0; i < battleImagines.length; i++) {
     const id = battleImagines[i];
     if (id == null) continue;
-    skillImagineFv += calculateSkillAbilityScore(id, undefined, imagineRanks[i] ?? 0, true);
+    fv.skillImagine += calculateSkillAbilityScore(id, undefined, imagineRanks[i] ?? 0, true);
   }
 
   // --- アビリティ (武器熟練ツリーノード: R1/R2別) ---
-  let abilityR1Fv = 0;
   for (const nodeId of talentR1EnabledIds) {
     const treeNode = talentNodesById.get(nodeId);
     if (!treeNode) continue;
-    const talentData = talentTree.nodes[String(treeNode.talentId)];
-    abilityR1Fv += talentData?.fightValue ?? 0;
+    fv.abilityR1 += talentTree.nodes[String(treeNode.talentId)]?.fightValue ?? 0;
   }
-  let abilityR2Fv = 0;
   for (const nodeId of talentR2EnabledIds) {
     const treeNode = talentNodesById.get(nodeId);
     if (!treeNode) continue;
-    const talentData = talentTree.nodes[String(treeNode.talentId)];
-    abilityR2Fv += talentData?.fightValue ?? 0;
+    fv.abilityR2 += talentTree.nodes[String(treeNode.talentId)]?.fightValue ?? 0;
   }
 
   // --- モジュール (パワーコア/リンク効果別) ---
   const moduleScore = calculateModuleAbilityScore(moduleSlots);
-  const moduleCoreFv = moduleScore.core;
-  const moduleLinkFv = moduleScore.link;
+  fv.moduleCore = moduleScore.core;
+  fv.moduleLink = moduleScore.link;
 
   // --- 心相投影 (enabled 時のみ) ---
-  let phantomFv = 0;
   if (phantomEnabled && phantomTemplateId != null) {
     const tmpl = seasonTalentData.templates[String(phantomTemplateId)];
     if (tmpl) {
@@ -327,13 +333,13 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
         if (node.nodeType === 1) {
           const eff = seasonTalentData.ordinaryEffects[String(node.groupId)] as
             OrdinaryEffect | undefined;
-          if (eff) phantomFv += eff.fightValue;
+          if (eff) fv.phantom += eff.fightValue;
         } else if (node.nodeType === 2) {
           const slot = phantomFactorSlots[node.groupId];
           if (slot) {
             const grade = phantomFactorData.byClass[slot.classKey]?.grades[slot.grade - 1] as
               PhantomFactorGrade | undefined;
-            if (grade) phantomFv += grade.fightValue;
+            if (grade) fv.phantom += grade.fightValue;
           }
         }
       }
@@ -346,12 +352,11 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
           (best, ae) => (ae.level > (best?.level ?? 0) ? ae : best),
           null,
         );
-      if (maxAdvEff) phantomFv += maxAdvEff.fightValue;
+      if (maxAdvEff) fv.phantom += maxAdvEff.fightValue;
     }
   }
 
   // --- セット効果 FV ---
-  let equipmentSuitFv = 0;
   const suitCounts: Record<number, number> = {};
   for (const item of Object.values(equipped)) {
     if (item?.suitId) suitCounts[item.suitId] = (suitCounts[item.suitId] ?? 0) + 1;
@@ -359,41 +364,10 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
   for (const [suitIdStr, suitDataEntry] of Object.entries(suitsData)) {
     const count = suitCounts[Number(suitIdStr)] ?? 0;
     for (const tier of suitDataEntry.tiers) {
-      if (count >= tier.limitNum) equipmentSuitFv += tier.fightValue;
+      if (count >= tier.limitNum) fv.equipmentSuit += tier.fightValue;
     }
   }
 
-  const total =
-    other +
-    abilityR1Fv +
-    abilityR2Fv +
-    skillFixedFv +
-    skillMasteryFv +
-    skillImagineFv +
-    equipmentBaseFv +
-    equipmentEnchantFv +
-    equipmentRefineFv +
-    equipmentSuitFv +
-    moduleCoreFv +
-    moduleLinkFv +
-    phantomLevelFv +
-    phantomFv;
-
-  return {
-    total,
-    other,
-    abilityR1: abilityR1Fv,
-    abilityR2: abilityR2Fv,
-    skillFixed: skillFixedFv,
-    skillMastery: skillMasteryFv,
-    skillImagine: skillImagineFv,
-    equipmentBase: equipmentBaseFv,
-    equipmentEnchant: equipmentEnchantFv,
-    equipmentRefine: equipmentRefineFv,
-    equipmentSuit: equipmentSuitFv,
-    moduleLink: moduleLinkFv,
-    moduleCore: moduleCoreFv,
-    phantomLevel: phantomLevelFv,
-    phantom: phantomFv,
-  };
+  const total = Object.values(fv).reduce((sum, v) => sum + v, 0);
+  return { total, ...fv };
 }
