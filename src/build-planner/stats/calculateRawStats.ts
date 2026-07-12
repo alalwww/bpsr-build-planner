@@ -337,63 +337,21 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     }
   }
 
-  // アビリティ type=1 効果（平坦ステータス加算）
-  const r1Full = r1NodeCount > 0 && talentR1EnabledIds.size >= r1NodeCount;
-  for (const nodeId of talentR1EnabledIds) {
-    const treeNode = talentNodesById.get(nodeId);
-    if (!treeNode) continue;
-    const td = talentTree.nodes[String(treeNode.talentId)];
-    if (!td) continue;
-    for (const eff of td.effects) {
-      if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
-        // attrIdが会心/幸運等の"%final"系バリアント(IMAGINE_PCT_FINALと同じID、単位1/10000)の
-        // 場合は最終%乗算ボーナスとして扱う(例: ヘヴィガーディアン「癒しの砂」attrId 11324→
-        // 最大HP+10%)。それ以外は通常の平坦加算。
-        const finalStatId = IMAGINE_PCT_FINAL[eff[1] as ImagineFinalStatId];
-        if (finalStatId !== undefined) {
-          // phantomFinalPctは生の値(単位1/10000)をそのまま積む(ipct()側で1回だけ除算するため)。
-          phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
-        } else if (eff[1] === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
-          atkSpeedFinalPctAddend += eff[2] / 100;
-        } else {
-          const statId = TALENT_ATTR_TO_STAT[eff[1]];
-          if (statId !== undefined) addStat(statId, eff[2]);
-        }
-      } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
-        // 型によって効果内容が変わるアビリティ(例: ビートパフォーマー「変奏」)。
-        // 対応する型(type1)使用時のみ最終%ボーナスとして反映する。
-        const bonus = TALENT_TYPE1_ONLY_FINAL_PCT[eff[1]];
-        if (bonus && professionTypeKey === 'type1') {
-          phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
-        }
-        // 型に関わらず常時有効な「5ステータス中最終値最大の1項目」への最終%加算
-        // (例: フロストメイジ「二段増幅」)。
-        const highestOfBonus = TALENT_HIGHEST_OF_FINAL_PCT[eff[1]];
-        if (highestOfBonus) highestStatFinalPctBonus += highestOfBonus;
-        // 型に関わらず常時有効な、特定の1ステータスへの平坦加算(例: ビートパフォーマー「会心回復」)。
-        const flatStatBonus = TALENT_FLAT_PCT_TO_STAT[eff[1]];
-        if (flatStatBonus) addStat(flatStatBonus.stat, flatStatBonus.value);
-      } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
-        // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
-        // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
-        const statId = TALENT_ATTR_TO_STAT[eff[2]];
-        if (statId !== undefined) {
-          conversionRateBonus[statId] =
-            (conversionRateBonus[statId] ?? 0) + eff[3] / PERCENT_BASIS_POINTS;
-        }
-      }
-    }
-  }
-  if (r1Full) {
-    for (const nodeId of talentR2EnabledIds) {
+  // アビリティ効果の適用。R1/R2で効果種別の解釈は同一のため単一の実装を共用する。
+  const applyTalentNodeEffects = (nodeIds: Iterable<number>) => {
+    for (const nodeId of nodeIds) {
       const treeNode = talentNodesById.get(nodeId);
       if (!treeNode) continue;
       const td = talentTree.nodes[String(treeNode.talentId)];
       if (!td) continue;
       for (const eff of td.effects) {
         if (eff[0] === TALENT_EFFECT_TYPE_FLAT_STAT) {
+          // attrIdが会心/幸運等の"%final"系バリアント(IMAGINE_PCT_FINALと同じID、単位1/10000)の
+          // 場合は最終%乗算ボーナスとして扱う(例: ヘヴィガーディアン「癒しの砂」attrId 11324→
+          // 最大HP+10%)。それ以外は通常の平坦加算。
           const finalStatId = IMAGINE_PCT_FINAL[eff[1] as ImagineFinalStatId];
           if (finalStatId !== undefined) {
+            // phantomFinalPctは生の値(単位1/10000)をそのまま積む(ipct()側で1回だけ除算するため)。
             phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + eff[2];
           } else if (eff[1] === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
             atkSpeedFinalPctAddend += eff[2] / 100;
@@ -402,15 +360,22 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
             if (statId !== undefined) addStat(statId, eff[2]);
           }
         } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
+          // 型によって効果内容が変わるアビリティ(例: ビートパフォーマー「変奏」)。
+          // 対応する型(type1)使用時のみ最終%ボーナスとして反映する。
           const bonus = TALENT_TYPE1_ONLY_FINAL_PCT[eff[1]];
           if (bonus && professionTypeKey === 'type1') {
             phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
           }
+          // 型に関わらず常時有効な「5ステータス中最終値最大の1項目」への最終%加算
+          // (例: フロストメイジ「二段増幅」)。
           const highestOfBonus = TALENT_HIGHEST_OF_FINAL_PCT[eff[1]];
           if (highestOfBonus) highestStatFinalPctBonus += highestOfBonus;
+          // 型に関わらず常時有効な、特定の1ステータスへの平坦加算(例: ビートパフォーマー「会心回復」)。
           const flatStatBonus = TALENT_FLAT_PCT_TO_STAT[eff[1]];
           if (flatStatBonus) addStat(flatStatBonus.stat, flatStatBonus.value);
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
+          // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
+          // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
           const statId = TALENT_ATTR_TO_STAT[eff[2]];
           if (statId !== undefined) {
             conversionRateBonus[statId] =
@@ -419,7 +384,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         }
       }
     }
-  }
+  };
+  // R1アビリティは常時有効。R2アビリティはR1全取得時のみ有効。
+  const r1Full = r1NodeCount > 0 && talentR1EnabledIds.size >= r1NodeCount;
+  applyTalentNodeEffects(talentR1EnabledIds);
+  if (r1Full) applyTalentNodeEffects(talentR2EnabledIds);
 
   // 装着効果(エンチャント): 平坦加算（装備が外れているスロットは対象外）
   for (const [slotId, enchantItemId] of Object.entries(slotEnchants)) {
