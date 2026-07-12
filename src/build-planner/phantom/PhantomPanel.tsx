@@ -7,6 +7,8 @@ import {
   buildChildrenMap,
   buildTreeSteps,
   getActivePhantomNodeIds,
+  getSTAsset,
+  iconPathToFile,
   pfData,
   stData,
 } from './phantomData';
@@ -19,15 +21,7 @@ import ZoomControls from '../components/ZoomControls';
 import { formatPercentParam, renderEffectDesc } from '../components/gameText';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
-import FactorSlot from './FactorSlot'; // ---- Asset loading ----
-
-// ---- Asset loading ----
-const stAssets = import.meta.glob('../../assets/season_talents/*.png', {
-  eager: true,
-  import: 'default',
-}) as Record<string, string>;
-const getSTAsset = (name: string): string => stAssets[`../../assets/season_talents/${name}`] ?? '';
-const iconPathToFile = (icon: string): string => (icon.split('/').pop() ?? '') + '.png';
+import FactorSlot from './FactorSlot';
 
 // ---- Constants (2× base size at 100% zoom) ----
 const EXCLUDED_TEMPLATES = new Set([20001, 20002, 20003, 20004]);

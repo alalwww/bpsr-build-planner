@@ -15,11 +15,11 @@ import { getClassData } from '../classData';
 import {
   DEFAULT_ROLE_THEME,
   getBgUrl,
+  getTalentAsset,
   getTalentIconUrl,
   ROLE_ICON_NAMES,
   ROLE_THEMES,
   type StageInfo,
-  TALENT_ICON_MAP,
   type TalentNodeData,
   talentTree,
   type TreeNode,
@@ -82,9 +82,9 @@ export default function TalentTreePanel({
 
   const talentRole = getClassData(wt)?.talent ?? 1;
   const roleTheme = ROLE_THEMES[talentRole] ?? DEFAULT_ROLE_THEME;
-  const roleBgIconUrl = TALENT_ICON_MAP[ROLE_ICON_NAMES[talentRole] ?? ''];
-  const genreBgIconUrl = TALENT_ICON_MAP['talent_icon_genre'];
-  const residueIconUrl = TALENT_ICON_MAP['talent_icon_residue'];
+  const roleBgIconUrl = getTalentAsset(ROLE_ICON_NAMES[talentRole] ?? '');
+  const genreBgIconUrl = getTalentAsset('talent_icon_genre');
+  const residueIconUrl = getTalentAsset('talent_icon_residue');
 
   const allNodes = useMemo(
     () => (talentTree.treeNodesByWeaponType[String(wt)] ?? []) as TreeNode[],

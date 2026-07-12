@@ -14,31 +14,31 @@ import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
 import EquipmentItemPopup from './EquipmentItemPopup';
 import { isSeaBreezeSeries, qualityToAssetIndex } from './equipmentSlotPickerData';
+import { createAssetMap } from '../assetMap';
 import type { EquipmentItem, EquipmentSlotId } from '../types';
 
 // ---- アイコン ----
 
-const _equipMods = import.meta.glob<{ default: string }>(
-  [
-    '../../assets/equipments/weap_equip_*.png',
-    '../../assets/equipments/ch_wp_*.png',
-    '../../assets/equipments/c_equip_icon_*.png',
-    '../../assets/equipments/headwear_icon_*.png',
-    '../../assets/equipments/clothes_icon_*.png',
-    '../../assets/equipments/gloves_icon_*.png',
-    '../../assets/equipments/shoes_icon_*.png',
-    '../../assets/equipments/ears_icon_*.png',
-    '../../assets/equipments/neck_icon_*.png',
-    '../../assets/equipments/ring_icon_*.png',
-  ],
-  { eager: true },
+const equipIcon = createAssetMap(
+  import.meta.glob<{ default: string }>(
+    [
+      '../../assets/equipments/weap_equip_*.png',
+      '../../assets/equipments/ch_wp_*.png',
+      '../../assets/equipments/c_equip_icon_*.png',
+      '../../assets/equipments/headwear_icon_*.png',
+      '../../assets/equipments/clothes_icon_*.png',
+      '../../assets/equipments/gloves_icon_*.png',
+      '../../assets/equipments/shoes_icon_*.png',
+      '../../assets/equipments/ears_icon_*.png',
+      '../../assets/equipments/neck_icon_*.png',
+      '../../assets/equipments/ring_icon_*.png',
+    ],
+    { eager: true },
+  ),
 );
 
 function getEquipUrl(name: string): string | undefined {
-  return (
-    _equipMods[`../../assets/equipments/${name}.png`]?.default ??
-    _equipMods[`../../assets/equipments/${name.replace(/_m_/, '_f_')}.png`]?.default
-  );
+  return equipIcon(name) ?? equipIcon(name.replace(/_m_/, '_f_'));
 }
 
 // 未装備時スロットアイコン
@@ -56,9 +56,11 @@ const SLOT_EMPTY_ICON: Partial<Record<EquipmentSlotId, string>> = {
   belt: 'weap_equip_amulet_off',
 };
 
-const _uiMods = import.meta.glob<{ default: string }>(
-  ['../../assets/ui/weap_equip_*.png', '../../assets/ui/item_quality_equip_*.png'],
-  { eager: true },
+const uiIcon = createAssetMap(
+  import.meta.glob<{ default: string }>(
+    ['../../assets/ui/weap_equip_*.png', '../../assets/ui/item_quality_equip_*.png'],
+    { eager: true },
+  ),
 );
 
 // アイテムのqualityと種類から背景画像名を決定
@@ -74,7 +76,7 @@ function getEquipBgUrl(slot: EquipmentSlotId, item?: EquipmentItem): string | un
   } else {
     name = `weap_equip_${String(qualityToAssetIndex(item.quality)).padStart(2, '0')}`;
   }
-  return _uiMods[`../../assets/ui/${name}.png`]?.default;
+  return uiIcon(name);
 }
 
 const BOTTOM_SLOT_SET = new Set<EquipmentSlotId>(EQUIPMENT_BOTTOM_SLOTS);

@@ -5,6 +5,7 @@ import modSupport5Src from '../../assets/modules/item_icons_mod_device_5.png';
 import modProtect5Src from '../../assets/modules/item_icons_device_protect5.png';
 import type { ModuleSlots } from '../types';
 import type { Profession } from '../profession';
+import { createAssetMap } from '../assetMap';
 import {
   MOD_ADAPTIVE_ATK_ATTR_ID,
   MOD_ADAPTIVE_MAIN_STAT_ATTR_ID,
@@ -14,23 +15,24 @@ import {
 export const recommendIconSrc = recommendIconSrcAsset;
 
 // --- Asset globs ---
-const modIcons = import.meta.glob<{ default: string }>(
-  '../../assets/modules/item_mod_device*.png',
-  {
+const modIcon = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/modules/item_mod_device*.png', {
     eager: true,
-  },
+  }),
 );
-const effectIconMap = import.meta.glob<{ default: string }>(
-  '../../assets/modules/mod_effect_icon_*.png',
-  { eager: true },
+const effectIcon = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/modules/mod_effect_icon_*.png', {
+    eager: true,
+  }),
 );
-const emptySlotMap = import.meta.glob<{ default: string }>(
-  '../../assets/modules/mod_device_empty_*.png',
-  { eager: true },
+const emptySlotIcon = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/modules/mod_device_empty_*.png', {
+    eager: true,
+  }),
 );
-const qualityBgMap = import.meta.glob<{ default: string }>('../../assets/ui/item_quality_*.png', {
-  eager: true,
-});
+const qualityBg = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/ui/item_quality_*.png', { eager: true }),
+);
 
 export function getModIcon(modType: number, quality: number): string | undefined {
   if (quality === 4) {
@@ -40,20 +42,20 @@ export function getModIcon(modType: number, quality: number): string | undefined
   }
   const prefix = modType === 1 ? 'attack' : modType === 3 ? 'protect' : '';
   const suffix = quality + 1;
-  return modIcons[`../../assets/modules/item_mod_device_${prefix}${suffix}.png`]?.default;
+  return modIcon(`item_mod_device_${prefix}${suffix}`);
 }
 
 export function getQualityBg(quality: number): string | undefined {
   const bgIdx = quality >= 3 ? 4 : quality + 1;
-  return qualityBgMap[`../../assets/ui/item_quality_${bgIdx}.png`]?.default;
+  return qualityBg(`item_quality_${bgIdx}`);
 }
 
 export function getEffectIcon(iconName: string): string | undefined {
-  return effectIconMap[`../../assets/modules/${iconName}.png`]?.default;
+  return effectIcon(iconName);
 }
 
 export function getEmptySlotIcon(n: number): string | undefined {
-  return emptySlotMap[`../../assets/modules/mod_device_empty_${Math.min(n, 6)}.png`]?.default;
+  return emptySlotIcon(`mod_device_empty_${Math.min(n, 6)}`);
 }
 
 export function getModHoles(quality: number): number {

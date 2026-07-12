@@ -1,5 +1,19 @@
 import seasonTalentsRaw from '../../data/season-talents.json';
 import phantomFactorsRaw from '../../data/phantom-factors.json';
+import { createAssetMap } from '../assetMap';
+
+// ---- assets ----
+
+const stAsset = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/season_talents/*.png', { eager: true }),
+);
+
+// 心相投影(シーズンタレント)関連アセットの解決。呼び出し側の従来仕様に合わせて
+// 拡張子付きファイル名(例: 'img_season_talent_tree_bg2.png')を受け、未解決時は '' を返す。
+export const getSTAsset = (name: string): string => stAsset(name.replace(/\.png$/, '')) ?? '';
+
+// ZTable の icon フィールド(パス形式)→ アセットファイル名
+export const iconPathToFile = (icon: string): string => (icon.split('/').pop() ?? '') + '.png';
 
 // ---- raw data types ----
 

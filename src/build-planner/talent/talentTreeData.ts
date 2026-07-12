@@ -1,32 +1,28 @@
 import talentTreeRaw from '../../data/talent-tree.json';
+import { createAssetMap } from '../assetMap';
 
 // ---- Icon map ----
 
-const _talentMods = import.meta.glob<{ default: string }>(
-  ['../../assets/talents/*.png', '!../../assets/talents/* #*.png'],
-  { eager: true },
+// タレントアイコン(ロール/ジャンル/残滓アイコン等の名前指定にも使う)
+export const getTalentAsset = createAssetMap(
+  import.meta.glob<{ default: string }>(
+    ['../../assets/talents/*.png', '!../../assets/talents/* #*.png'],
+    { eager: true },
+  ),
 );
-export const TALENT_ICON_MAP: Record<string, string> = {};
-for (const [path, mod] of Object.entries(_talentMods)) {
-  const filename = path
-    .split('/')
-    .pop()
-    ?.replace(/\.png$/, '');
-  if (filename) TALENT_ICON_MAP[filename] = mod.default;
-}
 
 export function getTalentIconUrl(iconPath: string): string | undefined {
   const filename = iconPath.split('/').pop();
-  return filename ? TALENT_ICON_MAP[filename] : undefined;
+  return filename ? getTalentAsset(filename) : undefined;
 }
 
 // ---- 背景画像 ----
-const _bgMods = import.meta.glob<{ default: string }>('../../assets/talents/talent_bg_*.png', {
-  eager: true,
-});
+const bgAsset = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/talents/talent_bg_*.png', { eager: true }),
+);
 
 export function getBgUrl(professionId: number, side: 'left' | 'right'): string | undefined {
-  return _bgMods[`../../assets/talents/talent_bg_${side}_${professionId}.png`]?.default;
+  return bgAsset(`talent_bg_${side}_${professionId}`);
 }
 
 // ---- JSON types ----

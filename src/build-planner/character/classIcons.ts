@@ -1,16 +1,12 @@
+import { createAssetMap } from '../assetMap';
+
 // クラスアイコン (profession_horizontal_NN.png の NN = open professionId の昇順位置)
-const _classMods = import.meta.glob<{ default: string }>(
-  '../../assets/classes/profession_horizontal_*.png',
-  { eager: true },
+const classIcon = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/classes/profession_horizontal_*.png', {
+    eager: true,
+  }),
 );
-const CLASS_ICON_BY_FILENAME: Record<string, string> = {};
-for (const [path, mod] of Object.entries(_classMods)) {
-  const filename = path
-    .split('/')
-    .pop()
-    ?.replace(/\.png$/, '');
-  if (filename) CLASS_ICON_BY_FILENAME[filename] = mod.default;
-}
+
 const PROF_ID_ICON: Record<number, string> = {
   1: 'profession_horizontal_03',
   2: 'profession_horizontal_05',
@@ -24,5 +20,5 @@ const PROF_ID_ICON: Record<number, string> = {
 
 export function getClassIconUrl(professionId: number): string | undefined {
   const filename = PROF_ID_ICON[professionId];
-  return filename ? CLASS_ICON_BY_FILENAME[filename] : undefined;
+  return filename ? classIcon(filename) : undefined;
 }

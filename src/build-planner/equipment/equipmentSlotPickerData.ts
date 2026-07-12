@@ -1,5 +1,6 @@
 import enchantsDataRaw from '../../data/enchants.json';
 import suitsDataRaw from '../../data/suits.json';
+import { createAssetMap } from '../assetMap';
 import type {
   EquipmentItem,
   EquipmentSlotId,
@@ -105,42 +106,41 @@ export function resolveEnchantSelection(
 }
 
 // ---- 装備アイコン読み込み (プレビューボックス用) ----
-const _pickerEquipMods = import.meta.glob<{ default: string }>(
-  [
-    '../../assets/equipments/weap_equip_*.png',
-    '../../assets/equipments/ch_wp_*.png',
-    '../../assets/equipments/c_equip_icon_*.png',
-    '../../assets/equipments/headwear_icon_*.png',
-    '../../assets/equipments/clothes_icon_*.png',
-    '../../assets/equipments/gloves_icon_*.png',
-    '../../assets/equipments/shoes_icon_*.png',
-    '../../assets/equipments/ears_icon_*.png',
-    '../../assets/equipments/neck_icon_*.png',
-    '../../assets/equipments/ring_icon_*.png',
-  ],
-  { eager: true },
+const pickerEquipIcon = createAssetMap(
+  import.meta.glob<{ default: string }>(
+    [
+      '../../assets/equipments/weap_equip_*.png',
+      '../../assets/equipments/ch_wp_*.png',
+      '../../assets/equipments/c_equip_icon_*.png',
+      '../../assets/equipments/headwear_icon_*.png',
+      '../../assets/equipments/clothes_icon_*.png',
+      '../../assets/equipments/gloves_icon_*.png',
+      '../../assets/equipments/shoes_icon_*.png',
+      '../../assets/equipments/ears_icon_*.png',
+      '../../assets/equipments/neck_icon_*.png',
+      '../../assets/equipments/ring_icon_*.png',
+    ],
+    { eager: true },
+  ),
 );
 
 export function getPickerEquipUrl(name: string): string | undefined {
-  return (
-    _pickerEquipMods[`../../assets/equipments/${name}.png`]?.default ??
-    _pickerEquipMods[`../../assets/equipments/${name.replace(/_m_/, '_f_')}.png`]?.default
-  );
+  return pickerEquipIcon(name) ?? pickerEquipIcon(name.replace(/_m_/, '_f_'));
 }
 
 // ---- 装着効果アイコン読み込み ----
-const _enchantMods = import.meta.glob<{ default: string }>('../../assets/enchants/*.png', {
-  eager: true,
-});
+const enchantIcon = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/enchants/*.png', { eager: true }),
+);
 
 export function getEnchantIconUrl(iconName: string): string | undefined {
   if (!iconName) return undefined;
-  return _enchantMods[`../../assets/enchants/${iconName}.png`]?.default;
+  return enchantIcon(iconName);
 }
 
-const _itemBgMods = import.meta.glob<{ default: string }>('../../assets/ui/item_quality_*.png', {
-  eager: true,
-});
+const itemBg = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/ui/item_quality_*.png', { eager: true }),
+);
 
 // 蒼海シリーズ(WeaponSkinId末尾06)判定。背景画像・名前色の特例分岐で共通利用。
 export function isSeaBreezeSeries(item: EquipmentItem): boolean {
@@ -158,11 +158,11 @@ export function qualityToAssetIndex(quality: number): number {
 
 // 装備 quality / icon から背景画像名を決定
 export function getEquipBgUrlFrom(item?: EquipmentItem): string | undefined {
-  let name;
-  if (!item) name = '';
-  else if (isSeaBreezeSeries(item)) name = 'item_quality_7';
-  else name = `item_quality_${qualityToAssetIndex(item.quality)}`;
-  return _itemBgMods[`../../assets/ui/${name}.png`]?.default;
+  if (!item) return undefined;
+  const name = isSeaBreezeSeries(item)
+    ? 'item_quality_7'
+    : `item_quality_${qualityToAssetIndex(item.quality)}`;
+  return itemBg(name);
 }
 
 // quality(レアリティ)に応じた表示色。装備アイテム・装着効果(刻印)双方で共通利用。

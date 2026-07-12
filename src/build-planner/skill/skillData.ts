@@ -1,22 +1,24 @@
 import skillsDataRaw from '../../data/skills.json';
+import { createAssetMap } from '../assetMap';
 import { imagineDataById, type ImagineData } from '../stats/gameData';
 
-const _skillMods = import.meta.glob<{ default: string }>(
-  ['../../assets/skills/*.png', '!../../assets/skills/* #*.png'],
-  { eager: true },
+const skillIcon = createAssetMap(
+  import.meta.glob<{ default: string }>(
+    ['../../assets/skills/*.png', '!../../assets/skills/* #*.png'],
+    { eager: true },
+  ),
 );
-const _imagineMods = import.meta.glob<{ default: string }>('../../assets/skills_imagines/*.png', {
-  eager: true,
-});
+const imagineIcon = createAssetMap(
+  import.meta.glob<{ default: string }>('../../assets/skills_imagines/*.png', { eager: true }),
+);
 
 export function getSkillIconUrl(iconPath: string): string | undefined {
   const filename = iconPath.split('/').pop();
-  if (!filename) return undefined;
-  return _skillMods[`../../assets/skills/${filename}.png`]?.default;
+  return filename ? skillIcon(filename) : undefined;
 }
 
 export function getImagineIconUrl(iconName: string): string | undefined {
-  return _imagineMods[`../../assets/skills_imagines/${iconName}.png`]?.default;
+  return imagineIcon(iconName);
 }
 
 export interface SkillData {
