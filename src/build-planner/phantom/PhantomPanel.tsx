@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './phantom.css';
@@ -15,6 +15,8 @@ import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
 import Chevron from '../components/Chevron';
 import Stepper from '../components/Stepper';
+import ZoomControls from '../components/ZoomControls';
+import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import FactorSlot from './FactorSlot'; // ---- Asset loading ----
 
@@ -124,29 +126,11 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
     setSelectedNodeId((prev) => (prev === nodeId ? null : nodeId));
   const [descOpen, setDescOpen] = useState(true);
   const [bondEffectsOpen, setBondEffectsOpen] = useState(false);
-  const [zoom, setZoom] = useState(1.0);
-  const treeAreaRef = useRef<HTMLDivElement>(null);
-
-  // Ctrl+Wheel zoom for tree area
-  useEffect(() => {
-    const el = treeAreaRef.current;
-    if (!el) return;
-    const handler = (e: WheelEvent) => {
-      if (!e.ctrlKey) return;
-      e.preventDefault();
-      setZoom((prev) =>
-        Math.max(
-          ZOOM_MIN,
-          Math.min(
-            ZOOM_MAX,
-            parseFloat((prev + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)).toFixed(1)),
-          ),
-        ),
-      );
-    };
-    el.addEventListener('wheel', handler, { passive: false });
-    return () => el.removeEventListener('wheel', handler);
-  }, []);
+  const {
+    zoom,
+    setZoom,
+    ref: treeAreaRef,
+  } = useCtrlWheelZoom({ min: ZOOM_MIN, max: ZOOM_MAX, step: ZOOM_STEP });
 
   const sortedTemplates = useMemo(
     () =>
@@ -772,36 +756,17 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
           {/* 左: ツリー描画 */}
           <div className="phantom-tree-wrapper">
             {/* ズームコントロール（スクロール外に固定） */}
-            <div className="phantom-zoom-controls">
-              <button
-                type="button"
-                className="phantom-zoom-btn"
-                onClick={() =>
-                  setZoom((z) => Math.max(ZOOM_MIN, parseFloat((z - ZOOM_STEP).toFixed(1))))
-                }
-                disabled={zoom <= ZOOM_MIN}
-              >
-                −
-              </button>
-              <button
-                type="button"
-                className="phantom-zoom-pct"
-                onClick={() => setZoom(1.0)}
-                title={t('buildPlanner.phantom.resetTooltip')}
-              >
-                {Math.round(zoom * 100)}%
-              </button>
-              <button
-                type="button"
-                className="phantom-zoom-btn"
-                onClick={() =>
-                  setZoom((z) => Math.min(ZOOM_MAX, parseFloat((z + ZOOM_STEP).toFixed(1))))
-                }
-                disabled={zoom >= ZOOM_MAX}
-              >
-                ＋
-              </button>
-            </div>
+            <ZoomControls
+              zoom={zoom}
+              min={ZOOM_MIN}
+              max={ZOOM_MAX}
+              step={ZOOM_STEP}
+              onChange={setZoom}
+              resetTitle={t('buildPlanner.phantom.resetTooltip')}
+              className="phantom-zoom-controls"
+              buttonClassName="phantom-zoom-btn"
+              percentClassName="phantom-zoom-pct"
+            />
             <div className="phantom-tree-area" ref={treeAreaRef}>
               <svg
                 viewBox={`0 0 ${SVG_VW} ${svgHeight}`}

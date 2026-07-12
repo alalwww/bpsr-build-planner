@@ -5,6 +5,8 @@ import './talent.css';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import FloatingTooltip from '../components/FloatingTooltip';
+import ZoomControls from '../components/ZoomControls';
+import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
@@ -102,8 +104,11 @@ export default function TalentTreePanel({
 
   const [activeBdType, setActiveBdType] = useState<0 | 1>(professionTypeKey === 'type1' ? 0 : 1);
   const [activeStage, setActiveStage] = useState<'r1' | 'r2'>('r2');
-  const [zoomLevel, setZoomLevel] = useState(1.0);
-  const canvasWrapperRef = useRef<HTMLDivElement>(null);
+  const {
+    zoom: zoomLevel,
+    setZoom: setZoomLevel,
+    ref: canvasWrapperRef,
+  } = useCtrlWheelZoom({ min: ZOOM_MIN, max: ZOOM_MAX, step: ZOOM_STEP });
   const [hoveredNodeInfo, setHoveredNodeInfo] = useState<HoveredNodeInfo | null>(null);
   const tooltipCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scheduleTooltipClose = () => {
@@ -150,24 +155,6 @@ export default function TalentTreePanel({
     if (r2RootId == null || r2EnabledIds.has(r2RootId)) return;
     setR2EnabledIds(new Set([r2RootId, ...r2EnabledIds]));
   }, [r2RootId]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Ctrl+Wheel zoom for canvas area
-  useEffect(() => {
-    const el = canvasWrapperRef.current;
-    if (!el) return;
-    const handler = (e: WheelEvent) => {
-      if (!e.ctrlKey) return;
-      e.preventDefault();
-      setZoomLevel((z) =>
-        Math.max(
-          ZOOM_MIN,
-          Math.min(ZOOM_MAX, parseFloat((z + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)).toFixed(1))),
-        ),
-      );
-    };
-    el.addEventListener('wheel', handler, { passive: false });
-    return () => el.removeEventListener('wheel', handler);
-  }, []);
 
   // R1 未完了時は R2 を実質的に空とみなす（表示・操作ともにブロック）
   const effectiveR2EnabledIds = useMemo(
@@ -478,32 +465,17 @@ export default function TalentTreePanel({
           <button type="button" className="talent-tree-panel__reset" onClick={handleReset}>
             {tUi('buildPlanner.talentTree.reset')}
           </button>
-          <div className="talent-tree-panel__zoom">
-            <button
-              type="button"
-              className="talent-tree-panel__zoom-btn"
-              onClick={() => setZoomLevel((z) => Math.max(ZOOM_MIN, +(z - ZOOM_STEP).toFixed(1)))}
-              disabled={zoomLevel <= ZOOM_MIN}
-            >
-              −
-            </button>
-            <button
-              type="button"
-              className="talent-tree-panel__zoom-pct"
-              onClick={() => setZoomLevel(1.0)}
-              title={tUi('buildPlanner.talentTree.resetTooltip')}
-            >
-              {Math.round(zoomLevel * 100)}%
-            </button>
-            <button
-              type="button"
-              className="talent-tree-panel__zoom-btn"
-              onClick={() => setZoomLevel((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(1)))}
-              disabled={zoomLevel >= ZOOM_MAX}
-            >
-              ＋
-            </button>
-          </div>
+          <ZoomControls
+            zoom={zoomLevel}
+            min={ZOOM_MIN}
+            max={ZOOM_MAX}
+            step={ZOOM_STEP}
+            onChange={setZoomLevel}
+            resetTitle={tUi('buildPlanner.talentTree.resetTooltip')}
+            className="talent-tree-panel__zoom"
+            buttonClassName="talent-tree-panel__zoom-btn"
+            percentClassName="talent-tree-panel__zoom-pct"
+          />
         </div>
       </div>
 
