@@ -18,7 +18,7 @@ import type { StatDefinition, StatId } from '../types';
 import type { BuildPlanData } from '../buildPlan';
 import { computeStatsBundle } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
-import classesData from '../../data/classes.json';
+import { getClassData } from '../classData';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
 import { truncate2Str } from './statFormat';
 
@@ -52,13 +52,6 @@ function getStatDefinitions(profession: Profession): StatDefinition[] {
     { id: 'resist', column: 'right', isPercent: true },
   ];
 }
-
-interface ClassEntry {
-  showTalentStage: number[];
-  talentColor?: string;
-}
-
-const clsData = classesData as Record<string, ClassEntry>;
 
 function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelProps) {
   const { t } = useTranslation();
@@ -177,7 +170,7 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
 
   const professionId = PROFESSIONS[professionKey].professionId;
   const classIconUrl = getClassIconUrl(professionId);
-  const clsEntry = clsData[String(professionId)];
+  const clsEntry = getClassData(professionId);
   const showTalentStage = clsEntry?.showTalentStage ?? [];
   const typeStageId = showTalentStage[professionTypeKey === 'type1' ? 0 : 1];
   const roleBg = clsEntry?.talentColor ? `${clsEntry.talentColor}1a` : undefined;

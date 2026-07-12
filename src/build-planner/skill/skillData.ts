@@ -1,6 +1,5 @@
-import classesDataRaw from '../../data/classes.json';
 import skillsDataRaw from '../../data/skills.json';
-import battleImaginesRaw from '../../data/battle-imagines.json';
+import { imagineDataById, type ImagineData } from '../stats/gameData';
 
 const _skillMods = import.meta.glob<{ default: string }>(
   ['../../assets/skills/*.png', '!../../assets/skills/* #*.png'],
@@ -20,30 +19,18 @@ export function getImagineIconUrl(iconName: string): string | undefined {
   return _imagineMods[`../../assets/skills_imagines/${iconName}.png`]?.default;
 }
 
-export interface ClassData {
-  normalAttackSkill: number[];
-  specialSkill: number[];
-  ultimateSkill: number[];
-  normalSkill: number[];
-  roleSkill: number[];
-}
-
 export interface SkillData {
   icon: string;
   maxRank: number;
 }
 
-export interface BattleImagineData {
-  id: number;
-  rarityType: number;
-  icon: string;
-  maxRank: number;
-  passiveEffects?: number[][];
-}
+// classes.json / battle-imagines.json の定義元はそれぞれ ../classData / ../stats/gameData。
+// スキルパネル側の従来名で再エクスポートする。
+export { classesData, type ClassData } from '../classData';
+export type BattleImagineData = ImagineData;
+export const battleImaginesData = imagineDataById;
 
-export const classesData = classesDataRaw as Record<string, ClassData>;
 export const skillsData = skillsDataRaw as Record<string, SkillData>;
-export const battleImaginesData = battleImaginesRaw as Record<string, BattleImagineData>;
 
 export function getSkillData(id: number): SkillData | undefined {
   return skillsData[String(id)];

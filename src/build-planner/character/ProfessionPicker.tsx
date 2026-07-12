@@ -1,20 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { getOpenProfessions, PROFESSION_TYPE_KEYS, PROFESSIONS } from '../profession';
-import classesData from '../../data/classes.json';
+import { getClassData } from '../classData';
 import DraggableDialog from '../components/DraggableDialog';
 import { getClassIconUrl } from './classIcons';
 
-interface ClassEntry {
-  showTalentStage: number[];
-  talentColor?: string;
-  talent?: number;
-}
-
-const clsData = classesData as Record<string, ClassEntry>;
-
 function getRoleBg(professionId: number): string | undefined {
-  const color = clsData[String(professionId)]?.talentColor;
+  const color = getClassData(professionId)?.talentColor;
   return color ? `${color}1a` : undefined;
 }
 
@@ -23,8 +15,8 @@ const TALENT_SORT_ORDER: Record<number, number> = { 3: 0, 2: 1, 1: 2 };
 
 function sortProfessions(professions: ReturnType<typeof getOpenProfessions>) {
   return [...professions].sort((a, b) => {
-    const ta = clsData[String(a.professionId)]?.talent ?? 99;
-    const tb = clsData[String(b.professionId)]?.talent ?? 99;
+    const ta = getClassData(a.professionId)?.talent ?? 99;
+    const tb = getClassData(b.professionId)?.talent ?? 99;
     const orderDiff = (TALENT_SORT_ORDER[ta] ?? 99) - (TALENT_SORT_ORDER[tb] ?? 99);
     if (orderDiff !== 0) return orderDiff;
     return a.professionId - b.professionId;
@@ -52,7 +44,7 @@ function ProfessionPicker({
 
   const getProfessionTypeName = (pKey: ProfessionKey, typeKey: ProfessionTypeKey): string => {
     const pid = PROFESSIONS[pKey].professionId;
-    const stages = clsData[String(pid)]?.showTalentStage ?? [];
+    const stages = getClassData(pid)?.showTalentStage ?? [];
     const stageId = stages[typeKey === 'type1' ? 0 : 1];
     return stageId ? tGame(`talentStages.${stageId}.typeName`, { defaultValue: typeKey }) : typeKey;
   };

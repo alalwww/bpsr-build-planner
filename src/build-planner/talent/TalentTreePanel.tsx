@@ -10,8 +10,8 @@ import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
+import { getClassData } from '../classData';
 import {
-  classesData,
   DEFAULT_ROLE_THEME,
   getBgUrl,
   getTalentIconUrl,
@@ -79,7 +79,7 @@ export default function TalentTreePanel({
   const profession = PROFESSIONS[professionKey];
   const wt = profession.professionId;
 
-  const talentRole = classesData[String(wt)]?.talent ?? 1;
+  const talentRole = getClassData(wt)?.talent ?? 1;
   const roleTheme = ROLE_THEMES[talentRole] ?? DEFAULT_ROLE_THEME;
   const roleBgIconUrl = TALENT_ICON_MAP[ROLE_ICON_NAMES[talentRole] ?? ''];
   const genreBgIconUrl = TALENT_ICON_MAP['talent_icon_genre'];

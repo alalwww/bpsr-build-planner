@@ -45,10 +45,13 @@ export function getSuitInfo(
 }
 
 // ---- 装着効果データ型 ----
+// enchants.json の単一の定義元。能力スコア/ステータス計算側(stats/gameData.ts)の
+// ルックアップテーブルもこのデータから構築する(同じJSONを別の型で二重パースしない)。
 export interface EnchantVariant {
   id: number;
   cost?: [number, number][];
   effects: [number, number][];
+  fightValue?: number;
 }
 
 export interface EnchantItem {
@@ -58,6 +61,7 @@ export interface EnchantItem {
   level?: number;
   cost?: [number, number][];
   effects: [number, number][];
+  fightValue?: number;
   refined?: EnchantVariant;
   perfect?: EnchantVariant;
 }

@@ -1,72 +1,33 @@
-import classesDataRaw from '../../data/classes.json';
-import talentTreeRaw from '../../data/talent-tree.json';
 import battleImaginesRaw from '../../data/battle-imagines.json';
 import playerLevelsDataRaw from '../../data/player-levels.json';
-import enchantsDataRaw from '../../data/enchants.json';
 import refineDataRaw from '../../data/refine.json';
 import skillFightValuesRaw from '../../data/skill-fight-values.json';
 import skillRankFightValuesRaw from '../../data/skill-rank-fight-values.json';
-import suitsDataRaw from '../../data/suits.json';
 import type { ModuleSlots, StatId } from '../types';
 import { LEVEL_ATTR_TO_STAT } from './attrMaps';
 import { collectEquippedEffects, modulesData } from '../module/moduleData';
-
-export { modulesData };
+import { talentTree, type TreeNode } from '../talent/talentTreeData';
+import { enchantsData, suitsData } from '../equipment/equipmentSlotPickerData';
 
 // ZTable由来の静的ゲームデータの読み込み・パース・ルックアップをまとめたモジュール。
 // ステータス/能力スコア計算(calculateRawStats.ts, calculateAbilityScore.ts)から参照される。
+// 生JSON→型のパースはテーブルごとに単一の定義元を持ち、他テーブル分はここでは
+// 再エクスポートと派生ルックアップの構築のみ行う:
+//   classes.json → ../classData / talent-tree.json → ../talent/talentTreeData /
+//   modules.json → ../module/moduleData / enchants.json・suits.json → ../equipment/equipmentSlotPickerData
 
-// ---- class data ----
-
-export interface ClassData {
-  normalAttackSkill: number[];
-  specialSkill: number[];
-  ultimateSkill: number[];
-  normalSkill: number[];
-  talentSkill: number[];
-  roleSkill: number[];
-}
-
-const classesData = classesDataRaw as Record<string, ClassData>;
-
-export function getClassData(professionId: number): ClassData | undefined {
-  return classesData[String(professionId)];
-}
+export { modulesData };
+export { talentTree };
+export { suitsData };
+export { classesData, type ClassData, getClassData } from '../classData';
 
 // ---- talent tree helpers ----
 
-export interface TalentTreeNode {
-  id: number;
-  talentId: number;
-  stage: number;
-  bdType: number;
-  preNodes: number[];
-  nextNodes: number[];
-  position: [number, number];
-  unlock?: number[][];
-}
-
-interface TalentStageInfo {
-  id: number;
-  stage: number;
-  bdType: number;
-  rootId: number;
-  recommendTalent: number[];
-}
-
-export interface TalentNodeData {
-  effects: number[][];
-  fightValue: number;
-}
-
-export const talentTree = talentTreeRaw as unknown as {
-  nodes: Record<string, TalentNodeData>;
-  stagesByWeaponType: Record<string, TalentStageInfo[]>;
-  treeNodesByWeaponType: Record<string, TalentTreeNode[]>;
-};
+// 計算側で使ってきた従来名。実体は talentTreeData の TreeNode と同一。
+export type TalentTreeNode = TreeNode;
 
 export function initTalentR1Ids(professionId: number): Set<number> {
-  const nodes = (talentTree.treeNodesByWeaponType[String(professionId)] ?? []) as TalentTreeNode[];
+  const nodes = talentTree.treeNodesByWeaponType[String(professionId)] ?? [];
   const ids = new Set<number>();
   for (const n of nodes) {
     if (n.stage === 0) ids.add(n.id);
@@ -75,13 +36,13 @@ export function initTalentR1Ids(professionId: number): Set<number> {
 }
 
 export function initTalentR2Ids(professionId: number, bdType: 0 | 1): Set<number> {
-  const stages = (talentTree.stagesByWeaponType[String(professionId)] ?? []) as TalentStageInfo[];
+  const stages = talentTree.stagesByWeaponType[String(professionId)] ?? [];
   const root = stages.find((s) => s.stage === 1 && s.bdType === bdType)?.rootId;
   return root != null ? new Set([root]) : new Set();
 }
 
 export function buildTalentNodesById(professionId: number): Map<number, TalentTreeNode> {
-  const nodes = (talentTree.treeNodesByWeaponType[String(professionId)] ?? []) as TalentTreeNode[];
+  const nodes = talentTree.treeNodesByWeaponType[String(professionId)] ?? [];
   const map = new Map<number, TalentTreeNode>();
   for (const n of nodes) map.set(n.id, n);
   return map;
@@ -194,8 +155,14 @@ export function getPowerCoreLevel(slots: ModuleSlots, effectId: number): 0 | 5 |
 }
 
 // ---- battle imagine data ----
+// battle-imagines.json の単一の定義元。スキルパネル側(skill/skillData.ts)は
+// ここから再エクスポートして参照する。
 
 export interface ImagineData {
+  id: number;
+  rarityType: number;
+  icon: string;
+  maxRank: number;
   passiveEffects?: number[][];
   baseFv?: number;
   fightValues?: number[];
@@ -208,39 +175,16 @@ export const imagineDataById = battleImaginesRaw as unknown as Record<string, Im
 
 // ---- enchant data ----
 
-// アイテムID(基本/精/極) → effects / fightValue の高速ルックアップテーブル
-interface EnchantEntryRaw {
-  id: number;
-  effects: [number, number][];
-  fightValue?: number;
-  refined?: { id: number; effects: [number, number][]; fightValue?: number };
-  perfect?: { id: number; effects: [number, number][]; fightValue?: number };
-}
-
+// アイテムID(基本/精/極) → effects / fightValue の高速ルックアップテーブル。
+// パース済みの enchantsData(equipmentSlotPickerData.ts)から構築する。
 export const enchantEffectsById = new Map<number, [number, number][]>();
 export const enchantFightValueById = new Map<number, number>();
-for (const items of Object.values(
-  enchantsDataRaw as unknown as Record<string, EnchantEntryRaw[]>,
-)) {
+for (const items of Object.values(enchantsData)) {
   for (const item of items) {
-    enchantEffectsById.set(item.id, item.effects);
-    if (item.fightValue) enchantFightValueById.set(item.id, item.fightValue);
-    if (item.refined) {
-      enchantEffectsById.set(item.refined.id, item.refined.effects);
-      if (item.refined.fightValue)
-        enchantFightValueById.set(item.refined.id, item.refined.fightValue);
-    }
-    if (item.perfect) {
-      enchantEffectsById.set(item.perfect.id, item.perfect.effects);
-      if (item.perfect.fightValue)
-        enchantFightValueById.set(item.perfect.id, item.perfect.fightValue);
+    for (const entry of [item, item.refined, item.perfect]) {
+      if (!entry) continue;
+      enchantEffectsById.set(entry.id, entry.effects);
+      if (entry.fightValue) enchantFightValueById.set(entry.id, entry.fightValue);
     }
   }
 }
-
-// ---- suit (set effect) data ----
-
-export const suitsData = suitsDataRaw as Record<
-  string,
-  { tiers: { limitNum: number; fightValue: number }[] }
->;

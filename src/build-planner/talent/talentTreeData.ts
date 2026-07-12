@@ -1,5 +1,4 @@
 import talentTreeRaw from '../../data/talent-tree.json';
-import classesDataRaw from '../../data/classes.json';
 
 // ---- Icon map ----
 
@@ -31,6 +30,8 @@ export function getBgUrl(professionId: number, side: 'left' | 'right'): string |
 }
 
 // ---- JSON types ----
+// talent-tree.json の単一の定義元。ステータス計算側(stats/gameData.ts)は
+// ここから再エクスポートして参照する(同じJSONを別の型で二重パースしない)。
 
 export interface TalentNodeData {
   weaponGroup: number;
@@ -40,6 +41,7 @@ export interface TalentNodeData {
   buffValueKeys?: number[];
   buffPars?: number[];
   cost: number;
+  fightValue: number;
 }
 
 export interface TreeNode {
@@ -68,8 +70,6 @@ export const talentTree = talentTreeRaw as unknown as {
   stagesByWeaponType: Record<string, StageInfo[]>;
   treeNodesByWeaponType: Record<string, TreeNode[]>;
 };
-
-export const classesData = classesDataRaw as Record<string, { talent?: number }>;
 
 const ALL_TREE_NODES_BY_ID: Record<number, TreeNode> = {};
 for (const nodes of Object.values(talentTree.treeNodesByWeaponType)) {

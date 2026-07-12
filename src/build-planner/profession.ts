@@ -1,4 +1,4 @@
-import classesData from '../data/classes.json';
+import { getClassData } from './classData';
 
 // クラス(職業)の定義。"class" はプログラミング言語の予約語と紛らわしいため、
 // ゲーム内表記に合わせて "profession" の語で統一する。
@@ -174,14 +174,8 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
 // `src/data/classes.json`(ZTable由来)の `isOpen` フラグを見て、現在選択可能な
 // (実装済みの)クラスかどうかを判定する。新クラス実装時はゲームデータ側のisOpenが
 // trueになるが、ステータス計算係数(PROFESSIONS)の追加は別途必要。
-interface RawProfessionEntry {
-  isOpen: boolean;
-}
-
-const RAW_PROFESSIONS = classesData as Record<string, RawProfessionEntry>;
-
 export function isProfessionOpen(profession: Profession): boolean {
-  return RAW_PROFESSIONS[String(profession.professionId)]?.isOpen ?? false;
+  return getClassData(profession.professionId)?.isOpen ?? false;
 }
 
 export function getOpenProfessions(): Profession[] {
