@@ -31,7 +31,7 @@ import {
   type TalentTreeNode,
 } from '../stats/gameData';
 import { PROFESSIONS } from '../profession';
-import { memoize1 } from './memoize';
+import { memoize1, memoizeByKeys } from './memoize';
 import type { BuildStore } from './types';
 
 export const selectTalentNodesById = memoize1((professionId: number) =>
@@ -67,62 +67,12 @@ export const selectRoleSkills = memoize1(
   (professionId: number) => getClassData(professionId)?.roleSkill ?? [],
 );
 
-// calculateRawStatsは単一のinputオブジェクトを取るが、そのオブジェクトを呼び出し側
-// (computeStatsBundle)で毎回新規のリテラルとして組み立てるとmemoize1の引数比較が
-// 常に不一致になり(オブジェクト参照が呼び出しごとに変わるため)キャッシュが機能しない。
-// 元のuseMemo依存配列と同じ粒度で個々のフィールドを引数に取り、ここでのみinput
-// オブジェクトを組み立てる。
-export const selectRawStatsResult = memoize1(
-  (
-    equipped: CalculateRawStatsInput['equipped'],
-    legendaryAffixState: CalculateRawStatsInput['legendaryAffixState'],
-    refineLevels: CalculateRawStatsInput['refineLevels'],
-    perfectlines: CalculateRawStatsInput['perfectlines'],
-    evolutionStats: CalculateRawStatsInput['evolutionStats'],
-    profession: CalculateRawStatsInput['profession'],
-    professionTypeKey: CalculateRawStatsInput['professionTypeKey'],
-    talentR1EnabledIds: CalculateRawStatsInput['talentR1EnabledIds'],
-    talentR2EnabledIds: CalculateRawStatsInput['talentR2EnabledIds'],
-    talentNodesById: CalculateRawStatsInput['talentNodesById'],
-    r1NodeCount: CalculateRawStatsInput['r1NodeCount'],
-    battleImagines: CalculateRawStatsInput['battleImagines'],
-    imagineRanks: CalculateRawStatsInput['imagineRanks'],
-    slotEnchants: CalculateRawStatsInput['slotEnchants'],
-    moduleSlots: CalculateRawStatsInput['moduleSlots'],
-    adventurerLevel: CalculateRawStatsInput['adventurerLevel'],
-    phantomEnabled: CalculateRawStatsInput['phantomEnabled'],
-    phantomLevel: CalculateRawStatsInput['phantomLevel'],
-    phantomTemplateId: CalculateRawStatsInput['phantomTemplateId'],
-    phantomBondPoints: CalculateRawStatsInput['phantomBondPoints'],
-    phantomNodeSelections: CalculateRawStatsInput['phantomNodeSelections'],
-    phantomFactorSlots: CalculateRawStatsInput['phantomFactorSlots'],
-    cookingBuff: CalculateRawStatsInput['cookingBuff'],
-  ) =>
-    calculateRawStats({
-      equipped,
-      legendaryAffixState,
-      refineLevels,
-      perfectlines,
-      evolutionStats,
-      profession,
-      professionTypeKey,
-      talentR1EnabledIds,
-      talentR2EnabledIds,
-      talentNodesById,
-      r1NodeCount,
-      battleImagines,
-      imagineRanks,
-      slotEnchants,
-      moduleSlots,
-      adventurerLevel,
-      phantomEnabled,
-      phantomLevel,
-      phantomTemplateId,
-      phantomBondPoints,
-      phantomNodeSelections,
-      phantomFactorSlots,
-      cookingBuff,
-    }),
+// inputオブジェクトは呼び出し側(computeStatsBundle)で毎回新規リテラルとして組み立てられる
+// ため、参照比較のmemoize1ではなく、キーごとの値をshallow比較するmemoizeByKeysでメモ化する
+// (再計算粒度は個々のフィールド単位で従来と同じ。同型の位置引数20超を並べる必要がなくなり、
+// フィールドの並び順ミスがコンパイル・実行時とも起こらない)。
+export const selectRawStatsResult = memoizeByKeys((input: CalculateRawStatsInput) =>
+  calculateRawStats(input),
 );
 
 export const selectCookingResult = memoize1((cookingBuff: CookingBuffState) =>
@@ -175,65 +125,9 @@ const selectBreakdownWithCooking = memoize1(
   },
 );
 
-// selectRawStatsResultと同じ理由(単一inputオブジェクトを呼び出し側で毎回新規に
-// 組み立てるとmemoize1が常にキャッシュミスする)で、個々のフィールドを引数に取る。
-export const selectAbilityScore = memoize1(
-  (
-    equipped: CalculateAbilityScoreInput['equipped'],
-    perfectlines: CalculateAbilityScoreInput['perfectlines'],
-    evolutionStats: CalculateAbilityScoreInput['evolutionStats'],
-    refineLevels: CalculateAbilityScoreInput['refineLevels'],
-    legendaryAffixState: CalculateAbilityScoreInput['legendaryAffixState'],
-    slotEnchants: CalculateAbilityScoreInput['slotEnchants'],
-    profession: CalculateAbilityScoreInput['profession'],
-    professionTypeKey: CalculateAbilityScoreInput['professionTypeKey'],
-    fixedLevels: CalculateAbilityScoreInput['fixedLevels'],
-    fixedRanks: CalculateAbilityScoreInput['fixedRanks'],
-    masteryEquipped: CalculateAbilityScoreInput['masteryEquipped'],
-    masteryLevels: CalculateAbilityScoreInput['masteryLevels'],
-    masteryRanks: CalculateAbilityScoreInput['masteryRanks'],
-    battleImagines: CalculateAbilityScoreInput['battleImagines'],
-    imagineRanks: CalculateAbilityScoreInput['imagineRanks'],
-    moduleSlots: CalculateAbilityScoreInput['moduleSlots'],
-    adventurerLevel: CalculateAbilityScoreInput['adventurerLevel'],
-    talentR1EnabledIds: CalculateAbilityScoreInput['talentR1EnabledIds'],
-    talentR2EnabledIds: CalculateAbilityScoreInput['talentR2EnabledIds'],
-    talentNodesById: CalculateAbilityScoreInput['talentNodesById'],
-    phantomEnabled: CalculateAbilityScoreInput['phantomEnabled'],
-    phantomLevel: CalculateAbilityScoreInput['phantomLevel'],
-    phantomTemplateId: CalculateAbilityScoreInput['phantomTemplateId'],
-    phantomNodeSelections: CalculateAbilityScoreInput['phantomNodeSelections'],
-    phantomFactorSlots: CalculateAbilityScoreInput['phantomFactorSlots'],
-    phantomBondPoints: CalculateAbilityScoreInput['phantomBondPoints'],
-  ): AbilityScoreBreakdown =>
-    calculateAbilityScore({
-      equipped,
-      perfectlines,
-      evolutionStats,
-      refineLevels,
-      legendaryAffixState,
-      slotEnchants,
-      profession,
-      professionTypeKey,
-      fixedLevels,
-      fixedRanks,
-      masteryEquipped,
-      masteryLevels,
-      masteryRanks,
-      battleImagines,
-      imagineRanks,
-      moduleSlots,
-      adventurerLevel,
-      talentR1EnabledIds,
-      talentR2EnabledIds,
-      talentNodesById,
-      phantomEnabled,
-      phantomLevel,
-      phantomTemplateId,
-      phantomNodeSelections,
-      phantomFactorSlots,
-      phantomBondPoints,
-    }),
+// selectRawStatsResultと同じ理由で、inputオブジェクトをmemoizeByKeysでメモ化する。
+export const selectAbilityScore = memoizeByKeys(
+  (input: CalculateAbilityScoreInput): AbilityScoreBreakdown => calculateAbilityScore(input),
 );
 
 // モジュールパワーコア効果由来のHP変動/適応力レベルは moduleSlots に依存する軽量な参照のため、
@@ -279,31 +173,31 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
   );
   const roleSkills = selectRoleSkills(profession.professionId);
 
-  const rawStatsResult = selectRawStatsResult(
-    state.equipped,
-    state.legendaryAffixState,
-    state.refineLevels,
-    state.perfectlines,
-    state.evolutionStats,
+  const rawStatsResult = selectRawStatsResult({
+    equipped: state.equipped,
+    legendaryAffixState: state.legendaryAffixState,
+    refineLevels: state.refineLevels,
+    perfectlines: state.perfectlines,
+    evolutionStats: state.evolutionStats,
     profession,
-    state.professionTypeKey,
-    state.talentR1EnabledIds,
-    state.talentR2EnabledIds,
+    professionTypeKey: state.professionTypeKey,
+    talentR1EnabledIds: state.talentR1EnabledIds,
+    talentR2EnabledIds: state.talentR2EnabledIds,
     talentNodesById,
     r1NodeCount,
-    state.battleImagines,
-    state.imagineRanks,
-    state.slotEnchants,
-    state.moduleSlots,
-    state.adventurerLevel,
-    state.phantomEnabled,
-    state.phantomLevel,
-    state.phantomTemplateId,
-    state.phantomBondPoints,
-    state.phantomNodeSelections,
-    state.phantomFactorSlots,
-    state.cookingBuff,
-  );
+    battleImagines: state.battleImagines,
+    imagineRanks: state.imagineRanks,
+    slotEnchants: state.slotEnchants,
+    moduleSlots: state.moduleSlots,
+    adventurerLevel: state.adventurerLevel,
+    phantomEnabled: state.phantomEnabled,
+    phantomLevel: state.phantomLevel,
+    phantomTemplateId: state.phantomTemplateId,
+    phantomBondPoints: state.phantomBondPoints,
+    phantomNodeSelections: state.phantomNodeSelections,
+    phantomFactorSlots: state.phantomFactorSlots,
+    cookingBuff: state.cookingBuff,
+  });
   const rawStats = rawStatsResult.rawStats;
 
   const cookingResult = selectCookingResult(state.cookingBuff);
@@ -348,34 +242,34 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     cookingAdjustments,
   );
 
-  const abilityScore = selectAbilityScore(
-    state.equipped,
-    state.perfectlines,
-    state.evolutionStats,
-    state.refineLevels,
-    state.legendaryAffixState,
-    state.slotEnchants,
+  const abilityScore = selectAbilityScore({
+    equipped: state.equipped,
+    perfectlines: state.perfectlines,
+    evolutionStats: state.evolutionStats,
+    refineLevels: state.refineLevels,
+    legendaryAffixState: state.legendaryAffixState,
+    slotEnchants: state.slotEnchants,
     profession,
-    state.professionTypeKey,
-    state.fixedLevels,
-    state.fixedRanks,
-    state.masteryEquipped,
-    state.masteryLevels,
-    state.masteryRanks,
-    state.battleImagines,
-    state.imagineRanks,
-    state.moduleSlots,
-    state.adventurerLevel,
-    state.talentR1EnabledIds,
-    state.talentR2EnabledIds,
+    professionTypeKey: state.professionTypeKey,
+    fixedLevels: state.fixedLevels,
+    fixedRanks: state.fixedRanks,
+    masteryEquipped: state.masteryEquipped,
+    masteryLevels: state.masteryLevels,
+    masteryRanks: state.masteryRanks,
+    battleImagines: state.battleImagines,
+    imagineRanks: state.imagineRanks,
+    moduleSlots: state.moduleSlots,
+    adventurerLevel: state.adventurerLevel,
+    talentR1EnabledIds: state.talentR1EnabledIds,
+    talentR2EnabledIds: state.talentR2EnabledIds,
     talentNodesById,
-    state.phantomEnabled,
-    state.phantomLevel,
-    state.phantomTemplateId,
-    state.phantomNodeSelections,
-    state.phantomFactorSlots,
-    state.phantomBondPoints,
-  );
+    phantomEnabled: state.phantomEnabled,
+    phantomLevel: state.phantomLevel,
+    phantomTemplateId: state.phantomTemplateId,
+    phantomNodeSelections: state.phantomNodeSelections,
+    phantomFactorSlots: state.phantomFactorSlots,
+    phantomBondPoints: state.phantomBondPoints,
+  });
 
   return {
     rawStats,

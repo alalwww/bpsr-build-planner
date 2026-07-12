@@ -20,3 +20,31 @@ export function memoize1<Args extends readonly unknown[], R>(
     return lastResult;
   };
 }
+
+// 単一のオブジェクト引数を取り、キー集合と各値(Object.is比較)がすべて一致する場合にのみ
+// 前回結果を再利用する1スロットメモ化。呼び出しごとに新規リテラルとして組み立てられる
+// inputオブジェクトをそのまま渡せる(memoize1ではオブジェクト参照が毎回変わり常に
+// キャッシュミスになるため、従来は20超の位置引数へ展開する必要があった)。
+export function memoizeByKeys<Input extends object, R>(
+  fn: (input: Input) => R,
+): (input: Input) => R {
+  let lastInput: Record<string, unknown> | undefined;
+  let lastResult: R;
+
+  return (input: Input): R => {
+    const inputRec = input as Record<string, unknown>;
+    if (lastInput !== undefined) {
+      const prev = lastInput;
+      const keys = Object.keys(inputRec);
+      if (
+        Object.keys(prev).length === keys.length &&
+        keys.every((k) => Object.is(prev[k], inputRec[k]))
+      ) {
+        return lastResult;
+      }
+    }
+    lastResult = fn(input);
+    lastInput = inputRec;
+    return lastResult;
+  };
+}
