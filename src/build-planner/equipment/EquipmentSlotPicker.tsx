@@ -7,7 +7,13 @@ import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
 import StatRow from '../components/StatRow';
 import Stepper from '../components/Stepper';
-import { getMaxPerfectline, getRefineForSlot, getRestrictedEvoStat } from './equipmentData';
+import {
+  classifyEvoDisplay,
+  getMaxPerfectline,
+  getRefineForSlot,
+  getRestrictedEvoStat,
+  getTalentSchoolId,
+} from './equipmentData';
 import { calculateEquipmentSlotAbilityScore } from '../stats/calculateAbilityScore';
 import type { Profession, ProfessionTypeKey } from '../profession';
 import type {
@@ -28,8 +34,9 @@ import {
   getPickerEquipUrl,
   getPlaceholderStatIds,
   getQualityColor,
+  getSuitInfo,
   REFINE_LEVEL_MILESTONES,
-  suitsData,
+  resolveEnchantSelection,
 } from './equipmentSlotPickerData';
 import EquipmentItemPopup from './EquipmentItemPopup';
 import EvoSlotPicker from './EvoSlotPicker';
@@ -163,35 +170,20 @@ function EquipmentSlotPicker({
     (a, b) => (b.level ?? 0) - (a.level ?? 0) || b.id - a.id,
   );
   // selectedEnchant は基本/精/極いずれかのID。base → refined/perfect を逆引き。
-  const baseEnchantItem =
-    selectedEnchant !== undefined
-      ? sortedEnchants.find(
-          (e) =>
-            e.id === selectedEnchant ||
-            e.refined?.id === selectedEnchant ||
-            e.perfect?.id === selectedEnchant,
-        )
-      : undefined;
-  const enchantGrade: 'base' | 'refined' | 'perfect' =
-    baseEnchantItem?.refined?.id === selectedEnchant
-      ? 'refined'
-      : baseEnchantItem?.perfect?.id === selectedEnchant
-        ? 'perfect'
-        : 'base';
-  const selectedEnchantData =
-    enchantGrade === 'refined'
-      ? baseEnchantItem?.refined
-      : enchantGrade === 'perfect'
-        ? baseEnchantItem?.perfect
-        : baseEnchantItem;
+  const { base: baseEnchantItem, data: selectedEnchantData } = resolveEnchantSelection(
+    sortedEnchants,
+    selectedEnchant,
+  );
   const hasEnchantGrades =
     !!baseEnchantItem && (!!baseEnchantItem.refined || !!baseEnchantItem.perfect);
 
+  // 進化ステータス表示パターンの分類(classifyEvoDisplay、計算側 calculateRawStats と共有)。
+  const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
+  const evoInfo = equippedItem ? classifyEvoDisplay(equippedItem, talentSchoolId) : null;
+  const evoKind = evoInfo?.kind;
   // 全ステータスが min===max の場合は固定ステータス装備（蒼海シリーズ等）。
-  const isFixedStat =
-    equippedItem !== undefined &&
-    equippedItem.baseStats.length > 0 &&
-    equippedItem.baseStats.every(([, min, max]) => min === max);
+  const isFixedStat = evoInfo?.isFixedStat ?? false;
+  const fixedEvoEffects = evoInfo?.fixedEvoEffects ?? null;
   const maxPerfectline = equippedItem ? getMaxPerfectline(equippedItem) : 80;
   const sliderValue = isFixedStat ? 100 : perfectline;
   const sliderDisabled = isFixedStat || !equippedItem;
@@ -201,39 +193,11 @@ function EquipmentSlotPicker({
   const cumulativeEffects =
     refineLevel > 0 ? (refineTypeData?.cumulative[refineLevel - 1] ?? null) : null;
 
-  // 進化ステータス: talentSchoolId でクラス型別のデータを取得。
-  const typeIndex = professionTypeKey === 'type1' ? 0 : 1;
-  const talentSchoolId = profession.talentSchoolIds[typeIndex];
-  const fixedEvoEffects = equippedItem?.fixedEvolutionStats[String(talentSchoolId)] ?? null;
-
   // セット効果: 装備中アイテムのsuitId別ピース数
-  const suitInfo = useMemo(() => {
-    const suitId = equippedItem?.suitId;
-    if (!suitId || !suitsData[String(suitId)]) return null;
-    let count = 0;
-    for (const item of Object.values(equippedItems)) {
-      if (item?.suitId === suitId) count++;
-    }
-    const schoolId = String(talentSchoolId);
-    return { suitId, count, tiers: suitsData[String(suitId)].tiers, schoolId };
-  }, [equippedItem, equippedItems, talentSchoolId]);
-  const hasAnyFixedEvo = fixedEvoEffects !== null && fixedEvoEffects.length > 0;
-
-  // 進化ステータス表示パターンの分類:
-  //   isSeriesFixed:  isFixedStat + fixedEvoEffects あり → シリーズ装備、全 Evo 固定、改鋳なし
-  //   hasBtFixedEvo:  isFixedStat でない + fixedEvoEffects あり → BT防具、Evo1/2 固定 + 改鋳
-  //   hasDataEvo:     fixedEvoEffects なし + evo あり
-  //     hasSameEvo:   Evo1/2 が同一 attrId → 2スロット選択可能 + 改鋳
-  //     それ以外:      Evo1/2 固定 + 改鋳
-  //   その他: 全スロット選択可能（低レベル装備等）
-  const isSeriesFixed = isFixedStat && hasAnyFixedEvo;
-  const hasBtFixedEvo = !isFixedStat && hasAnyFixedEvo;
-  const hasDataEvo = !isFixedStat && !hasBtFixedEvo && (equippedItem?.evo?.length ?? 0) > 0;
-  // Evo1/Evo2 が同一 attrId の場合は選択式にする
-  const hasSameEvo =
-    hasDataEvo &&
-    equippedItem!.evo.length > 1 &&
-    equippedItem!.evo.every(([attrId]) => attrId === equippedItem!.evo[0][0]);
+  const suitInfo = useMemo(
+    () => getSuitInfo(equippedItem, equippedItems, talentSchoolId),
+    [equippedItem, equippedItems, talentSchoolId],
+  );
 
   // 改鋳ステータス値: 装備の完成度(sliderValue)のみで決まる。
   const reforgeEvoValue =
@@ -561,7 +525,7 @@ function EquipmentSlotPicker({
               {/* 伝説刻印ピッカー: 進化ステータスの先頭に表示 */}
               {legendaryAffixPicker}
 
-              {isSeriesFixed ? (
+              {evoKind === 'seriesFixed' ? (
                 // シリーズ装備: クラス型に応じた固定値を読み取り専用で表示。改鋳なし。
                 <div className="equip-evo-fixed">
                   {fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
@@ -572,7 +536,7 @@ function EquipmentSlotPicker({
                     />
                   ))}
                 </div>
-              ) : hasBtFixedEvo ? (
+              ) : evoKind === 'btFixed' ? (
                 // BT突破防具: TalentSchoolId別固定Evo1/Evo2(完成度依存) + 改鋳スロット選択可。
                 <div className="equip-evo-mixed">
                   {fixedEvoEffects!.map(([, attrId, min, max, isPercent], i) => (
@@ -586,7 +550,7 @@ function EquipmentSlotPicker({
                   ))}
                   {reforgeSection}
                 </div>
-              ) : hasSameEvo ? (
+              ) : evoKind === 'sameEvo' ? (
                 // Evo1/Evo2 が同一 attrId の装備: 2スロット選択可能 + 改鋳。
                 <div className="equip-evo-mixed">
                   {[0, 1].map((i) => {
@@ -612,7 +576,7 @@ function EquipmentSlotPicker({
                   })}
                   {reforgeSection}
                 </div>
-              ) : hasDataEvo ? (
+              ) : evoKind === 'dataEvo' ? (
                 // 通常装備(type=1、Evo1/Evo2 が異なる attrId): 固定表示 + 改鋳のみ選択可能。
                 <div className="equip-evo-mixed">
                   {equippedItem!.evo.map(([attrId, min, max], i) => (

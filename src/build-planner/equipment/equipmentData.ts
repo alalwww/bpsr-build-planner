@@ -1,6 +1,6 @@
 import equipmentJson from '../../data/equipment.json';
 import refineJson from '../../data/refine.json';
-import type { Profession } from '../profession';
+import type { Profession, ProfessionTypeKey } from '../profession';
 import type {
   EquipmentItem,
   EquipmentSlotId,
@@ -8,6 +8,7 @@ import type {
   EvolutionStatId,
   LegendaryAffixEntry,
 } from '../types';
+import { hasDistinctEvoAttrs } from '../stats/evoResolution';
 
 // 右上段(4列1行): 頭部/胴部/腕部/脚部
 export const EQUIPMENT_TOP_SLOTS: EquipmentSlotId[] = ['head', 'chest', 'arms', 'legs'];
@@ -144,4 +145,50 @@ export function getItemsBySlot(slot: EquipmentSlotId): EquipmentItem[] {
   return Object.values(partData)
     .map((entry) => ({ ...entry, slot }))
     .sort((a, b) => b.equipGs - a.equipGs);
+}
+
+// ---------- 進化ステータスの表示/適用パターン分類 ----------
+// EquipmentSlotPicker(選択ダイアログ)・EquipmentItemPopup(ホバーポップアップ)・
+// calculateRawStats(ステータス計算)が同じ分類を共有し、表示と計算の食い違いを防ぐ。
+
+/** クラス型(type1/type2)に対応する TalentSchoolId を返す。 */
+export function getTalentSchoolId(
+  profession: Profession,
+  professionTypeKey: ProfessionTypeKey,
+): number {
+  return profession.talentSchoolIds[professionTypeKey === 'type1' ? 0 : 1];
+}
+
+/** fixedEvolutionStats の1エントリ: [effectType, attrId, min, max, isPercent, fvMin, fvMax] */
+export type FixedEvoEffect = [number, number, number, number, boolean, number, number];
+
+// 分類:
+//   seriesFixed: 固定ステータス(全baseStatsがmin===max) + 固定Evoあり
+//                → シリーズ装備。全 Evo 固定表示・改鋳なし
+//   btFixed:     固定ステータスでない + 固定Evoあり
+//                → BT突破防具。Evo1/2 固定(完成度依存) + 改鋳選択可
+//   dataEvo:     evoデータあり・attrId相異 → Evo1/2 は attrId で確定 + 改鋳選択可
+//   sameEvo:     evoデータあり・全attrId同一 → 2スロット選択式 + 改鋳選択可
+//   selectable:  evoデータなし → 3スロットすべて選択式(低レベル装備等)
+export type EvoDisplayKind = 'seriesFixed' | 'btFixed' | 'dataEvo' | 'sameEvo' | 'selectable';
+
+export interface EvoDisplayInfo {
+  kind: EvoDisplayKind;
+  /** 全基礎ステータスが min===max の固定ステータス装備(蒼海シリーズ等)か。 */
+  isFixedStat: boolean;
+  /** クラス型(talentSchoolId)に対応する固定進化ステータス。seriesFixed/btFixed 以外は null。 */
+  fixedEvoEffects: FixedEvoEffect[] | null;
+}
+
+export function classifyEvoDisplay(item: EquipmentItem, talentSchoolId: number): EvoDisplayInfo {
+  const isFixedStat =
+    item.baseStats.length > 0 && item.baseStats.every(([, min, max]) => min === max);
+  const effects = item.fixedEvolutionStats[String(talentSchoolId)] as FixedEvoEffect[] | undefined;
+  const fixedEvoEffects = effects && effects.length > 0 ? effects : null;
+  if (fixedEvoEffects) {
+    return { kind: isFixedStat ? 'seriesFixed' : 'btFixed', isFixedStat, fixedEvoEffects };
+  }
+  const kind: EvoDisplayKind =
+    item.evo.length === 0 ? 'selectable' : hasDistinctEvoAttrs(item.evo) ? 'dataEvo' : 'sameEvo';
+  return { kind, isFixedStat, fixedEvoEffects: null };
 }

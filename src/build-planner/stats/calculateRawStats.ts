@@ -1,5 +1,10 @@
 import type { Profession, ProfessionTypeKey } from '../profession';
-import { getMaxPerfectline } from '../equipment/equipmentData';
+import {
+  classifyEvoDisplay,
+  type FixedEvoEffect,
+  getMaxPerfectline,
+  getTalentSchoolId,
+} from '../equipment/equipmentData';
 import type {
   CookingBuffState,
   EquipmentSlotId,
@@ -77,7 +82,6 @@ import {
 } from './gameData';
 import { calcStatValue } from './statValue';
 import type { DerivedStats } from './deriveStats';
-import { hasDistinctEvoAttrs } from './evoResolution';
 import { calcGlobalLink } from '../module/moduleData';
 
 // %ボーナスの内部表現の基数(1万 = 100%。例: rawValue=1500 → 15%)。
@@ -202,8 +206,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const addPctBonus = (statId: StatId, rawValue: number) => {
     pctBonus[statId] = (pctBonus[statId] ?? 0) + rawValue;
   };
-  const typeIdx = professionTypeKey === 'type1' ? 0 : 1;
-  const talentSchoolId = profession.talentSchoolIds[typeIdx];
+  const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
   // 最終ステータス%ボーナス(潜在因子由来のphantomFinalPctと同じ後段適用先に合流させる)。
   // アビリティ(type=3効果、型依存のもの等)もここに追加する。
   const phantomFinalPct: Partial<Record<string, number>> = {};
@@ -234,15 +237,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       }
     }
 
-    // 進化ステータス
-    const isFixedStat = equipmentItem.baseStats.every(([, mn, mx]) => mn === mx);
-    const fixedEvoEffects = equipmentItem.fixedEvolutionStats[String(talentSchoolId)] ?? null;
-    const isSeriesFixed = isFixedStat && fixedEvoEffects !== null;
-    const hasBtFixedEvo = !isFixedStat && fixedEvoEffects !== null;
+    // 進化ステータス: 表示側(EquipmentSlotPicker/EquipmentItemPopup)と同じ分類
+    // (classifyEvoDisplay)を共有し、計算と表示の食い違いを構造的に防ぐ。
+    const { kind: evoKind, fixedEvoEffects } = classifyEvoDisplay(equipmentItem, talentSchoolId);
     const slotEvoStats = evolutionStats[slotKey] ?? [];
 
-    const applyFixedEvoEffects = (effects: typeof fixedEvoEffects) => {
-      if (!effects) return;
+    const applyFixedEvoEffects = (effects: FixedEvoEffect[]) => {
       for (const [, attrId, min, max, isPercent] of effects) {
         const finalStatId = EVO_PCT_FINAL_ATTR_TO_STAT[attrId];
         if (finalStatId !== undefined) {
@@ -257,41 +257,31 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       }
     };
 
-    if (isSeriesFixed && fixedEvoEffects) {
+    if (fixedEvoEffects) {
+      // seriesFixed / btFixed: クラス型別の固定 Evo を適用
       applyFixedEvoEffects(fixedEvoEffects);
-    } else if (hasBtFixedEvo && fixedEvoEffects) {
-      applyFixedEvoEffects(fixedEvoEffects);
-      const reforgedStatId = slotEvoStats[2];
-      if (reforgedStatId && equipmentItem.reforgeEvoMax > 0) {
-        addStat(
-          reforgedStatId,
-          calcStatValue(equipmentItem.reforgeEvoMin, equipmentItem.reforgeEvoMax, pLine),
-        );
+    } else if (evoKind === 'dataEvo') {
+      // Evo1/Evo2 が異なる attrId の装備: attrId から直接ステータスを決定
+      for (let i = 0; i <= 1; i++) {
+        const evo = equipmentItem.evo[i];
+        if (!evo) continue;
+        const [attrId, evoMin, evoMax] = evo;
+        const statId = EVO_ATTR_TO_STAT[attrId];
+        if (statId !== undefined) addStat(statId, calcStatValue(evoMin, evoMax, pLine));
       }
     } else {
-      const evoData = equipmentItem.evo;
-
-      if (hasDistinctEvoAttrs(evoData)) {
-        // Evo1/Evo2 が異なる attrId の装備: attrId から直接ステータスを決定
-        for (let i = 0; i <= 1; i++) {
-          const evo = evoData![i];
-          if (!evo) continue;
-          const [attrId, evoMin, evoMax] = evo;
-          const statId = EVO_ATTR_TO_STAT[attrId];
-          if (statId !== undefined) addStat(statId, calcStatValue(evoMin, evoMax, pLine));
-        }
-      } else {
-        // Evo1/Evo2 が同一 attrId またはデータなし: ユーザー選択を使用
-        for (let i = 0; i <= 1; i++) {
-          const statId = slotEvoStats[i];
-          const evo = evoData?.[i];
-          if (statId && evo) {
-            const [, evoMin, evoMax] = evo;
-            addStat(statId, calcStatValue(evoMin, evoMax, pLine));
-          }
+      // sameEvo / selectable: ユーザー選択を使用
+      for (let i = 0; i <= 1; i++) {
+        const statId = slotEvoStats[i];
+        const evo = equipmentItem.evo[i];
+        if (statId && evo) {
+          const [, evoMin, evoMax] = evo;
+          addStat(statId, calcStatValue(evoMin, evoMax, pLine));
         }
       }
-      // 改鋳スロット（常にユーザー選択）
+    }
+    // 改鋳スロット(seriesFixed 以外は常にユーザー選択)
+    if (evoKind !== 'seriesFixed') {
       const reforgedStatId = slotEvoStats[2];
       if (reforgedStatId && equipmentItem.reforgeEvoMax > 0) {
         addStat(

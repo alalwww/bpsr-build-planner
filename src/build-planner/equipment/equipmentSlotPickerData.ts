@@ -1,11 +1,48 @@
 import enchantsDataRaw from '../../data/enchants.json';
 import suitsDataRaw from '../../data/suits.json';
-import type { EquipmentItem, EquipmentSlotId, EvolutionStatId, StatId } from '../types';
+import type {
+  EquipmentItem,
+  EquipmentSlotId,
+  EquippedItems,
+  EvolutionStatId,
+  StatId,
+} from '../types';
 import type { Profession } from '../profession';
 
 // ---- セット効果データ型 ----
 export type SuitTier = { limitNum: number; fightValue: number; effects: Record<string, number> };
 export const suitsData = suitsDataRaw as Record<string, { tiers: SuitTier[] }>;
+
+// ---- セット効果集計 ----
+export interface SuitInfo {
+  suitId: number;
+  /** 装備中アイテムのうち同一 suitId のピース数。 */
+  count: number;
+  tiers: SuitTier[];
+  /** tier.effects のキーとして使う TalentSchoolId 文字列。 */
+  schoolId: string;
+}
+
+// item と同じ suitId を持つ装備中ピース数を数え、セット効果表示用の情報を返す。
+// セットなし・セットデータなしの場合は null。
+export function getSuitInfo(
+  item: EquipmentItem | undefined,
+  equippedItems: EquippedItems,
+  talentSchoolId: number,
+): SuitInfo | null {
+  const suitId = item?.suitId;
+  if (!suitId || !suitsData[String(suitId)]) return null;
+  let count = 0;
+  for (const eq of Object.values(equippedItems)) {
+    if (eq?.suitId === suitId) count++;
+  }
+  return {
+    suitId,
+    count,
+    tiers: suitsData[String(suitId)].tiers,
+    schoolId: String(talentSchoolId),
+  };
+}
 
 // ---- 装着効果データ型 ----
 export interface EnchantVariant {
@@ -26,6 +63,42 @@ export interface EnchantItem {
 }
 
 export const enchantsData = enchantsDataRaw as unknown as Record<string, EnchantItem[]>;
+
+// ---- 装着効果(エンチャント)の段階解決 ----
+export type EnchantGrade = 'base' | 'refined' | 'perfect';
+
+export interface EnchantSelection {
+  /** 選択IDが基本/精/極いずれであっても、その基本(ベース)エンチャント。未選択時は undefined。 */
+  base: EnchantItem | undefined;
+  grade: EnchantGrade;
+  /** 選択中の段階に対応する effects/cost を持つデータ。 */
+  data: EnchantItem | EnchantVariant | undefined;
+}
+
+// selectedEnchantId は基本/精/極いずれかのアイテムID。base を逆引きし、
+// 選択中の段階(grade)と対応データを解決する。
+export function resolveEnchantSelection(
+  enchantsList: EnchantItem[],
+  selectedEnchantId: number | undefined,
+): EnchantSelection {
+  const base =
+    selectedEnchantId !== undefined
+      ? enchantsList.find(
+          (e) =>
+            e.id === selectedEnchantId ||
+            e.refined?.id === selectedEnchantId ||
+            e.perfect?.id === selectedEnchantId,
+        )
+      : undefined;
+  const grade: EnchantGrade =
+    base?.refined?.id === selectedEnchantId
+      ? 'refined'
+      : base?.perfect?.id === selectedEnchantId
+        ? 'perfect'
+        : 'base';
+  const data = grade === 'refined' ? base?.refined : grade === 'perfect' ? base?.perfect : base;
+  return { base, grade, data };
+}
 
 // ---- 装備アイコン読み込み (プレビューボックス用) ----
 const _pickerEquipMods = import.meta.glob<{ default: string }>(
@@ -127,6 +200,5 @@ export function getPlaceholderStatIds(slot: EquipmentSlotId, profession: Profess
   return ['illusionPower', profession.mainStat, 'endurance'];
 }
 
-export function calcStatValue(min: number, max: number, perfectline: number): number {
-  return Math.floor(min + (max - min) * (perfectline / 100));
-}
+// stats/statValue.ts と同一実装が重複していたため、そちらを単一の定義元として再エクスポートする。
+export { calcStatValue } from '../stats/statValue';

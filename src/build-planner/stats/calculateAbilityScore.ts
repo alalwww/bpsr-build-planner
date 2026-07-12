@@ -1,5 +1,5 @@
 import type { Profession, ProfessionTypeKey } from '../profession';
-import { getMaxPerfectline } from '../equipment/equipmentData';
+import { getMaxPerfectline, getTalentSchoolId } from '../equipment/equipmentData';
 import type {
   AbilityScoreBreakdown,
   EquipmentItem,
@@ -93,8 +93,7 @@ export function calculateEquipmentSlotAbilityScore(
   professionTypeKey: ProfessionTypeKey,
 ): EquipmentSlotAbilityScoreBreakdown {
   const pLine = Math.min(perfectline, getMaxPerfectline(item));
-  const typeIdx = professionTypeKey === 'type1' ? 0 : 1;
-  const talentSchoolIdFv = profession.talentSchoolIds[typeIdx];
+  const talentSchoolIdFv = getTalentSchoolId(profession, professionTypeKey);
 
   let baseStats = 0;
   for (const stat of item.baseStats as number[][]) {

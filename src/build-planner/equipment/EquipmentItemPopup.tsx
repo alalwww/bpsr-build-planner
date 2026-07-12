@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
 import StatRow from '../components/StatRow';
-import { getRefineForSlot } from './equipmentData';
+import { classifyEvoDisplay, getRefineForSlot, getTalentSchoolId } from './equipmentData';
 import type { Profession, ProfessionTypeKey } from '../profession';
 import type {
   EquipmentItem,
@@ -15,7 +15,8 @@ import {
   calcStatValue,
   enchantsData,
   getItemNameColor,
-  suitsData,
+  getSuitInfo,
+  resolveEnchantSelection,
 } from './equipmentSlotPickerData';
 import { calculateEquipmentSlotAbilityScore } from '../stats/calculateAbilityScore';
 
@@ -64,58 +65,26 @@ function EquipmentItemPopup({
   const cumulativeEffects =
     refineLevel > 0 ? (refineTypeData?.cumulative[refineLevel - 1] ?? null) : null;
 
-  const isFixedStat =
-    item.baseStats.length > 0 && item.baseStats.every(([, min, max]) => min === max);
+  // 進化ステータス表示パターンの分類(classifyEvoDisplay、選択ダイアログ・計算側と共有)。
+  const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
+  const { kind: evoKind, isFixedStat, fixedEvoEffects } = classifyEvoDisplay(item, talentSchoolId);
   const sliderValue = isFixedStat ? 100 : perfectline;
-
-  const typeIndex = professionTypeKey === 'type1' ? 0 : 1;
-  const talentSchoolId = profession.talentSchoolIds[typeIndex];
-  const fixedEvoEffects = item.fixedEvolutionStats[String(talentSchoolId)] ?? null;
-  const hasAnyFixedEvo = fixedEvoEffects !== null && fixedEvoEffects.length > 0;
-  const isSeriesFixed = isFixedStat && hasAnyFixedEvo;
-  const hasBtFixedEvo = !isFixedStat && hasAnyFixedEvo;
-  const hasDataEvo = !isFixedStat && !hasBtFixedEvo && item.evo.length > 0;
-  const hasSameEvo =
-    hasDataEvo && item.evo.length > 1 && item.evo.every(([attrId]) => attrId === item.evo[0][0]);
 
   const reforgedStat = evolutionStats[2];
   const reforgeEvoValue =
     item.reforgeMaxPerfectline > 0
       ? calcStatValue(item.reforgeEvoMin, item.reforgeEvoMax, sliderValue)
       : 0;
-  const showReforgeRow = (hasBtFixedEvo || hasDataEvo) && !!reforgedStat;
+  const showReforgeRow =
+    (evoKind === 'btFixed' || evoKind === 'dataEvo' || evoKind === 'sameEvo') && !!reforgedStat;
 
-  const suitInfo = useMemo(() => {
-    const suitId = item.suitId;
-    if (!suitId || !suitsData[String(suitId)]) return null;
-    let count = 0;
-    for (const eq of Object.values(equippedItems)) {
-      if (eq?.suitId === suitId) count++;
-    }
-    return {
-      suitId,
-      count,
-      tiers: suitsData[String(suitId)].tiers,
-      schoolId: String(talentSchoolId),
-    };
-  }, [item, equippedItems, talentSchoolId]);
+  const suitInfo = useMemo(
+    () => getSuitInfo(item, equippedItems, talentSchoolId),
+    [item, equippedItems, talentSchoolId],
+  );
 
   const enchantsList = item.enchantId ? (enchantsData[String(item.enchantId)] ?? []) : [];
-  const baseEnchantItem =
-    selectedEnchant !== undefined
-      ? enchantsList.find(
-          (e) =>
-            e.id === selectedEnchant ||
-            e.refined?.id === selectedEnchant ||
-            e.perfect?.id === selectedEnchant,
-        )
-      : undefined;
-  const selectedEnchantData =
-    baseEnchantItem?.refined?.id === selectedEnchant
-      ? baseEnchantItem?.refined
-      : baseEnchantItem?.perfect?.id === selectedEnchant
-        ? baseEnchantItem?.perfect
-        : baseEnchantItem;
+  const { data: selectedEnchantData } = resolveEnchantSelection(enchantsList, selectedEnchant);
 
   const selectedAffixEntry = item.legendaryAffix?.find(
     (e) => e.attrId === selectedLegendaryAffix?.attrId,
@@ -161,7 +130,7 @@ function EquipmentItemPopup({
         </div>
       )}
 
-      {(isSeriesFixed || hasBtFixedEvo || hasDataEvo || selectedLegendaryAffix) && (
+      {(evoKind !== 'selectable' || selectedLegendaryAffix) && (
         <div className="equip-item-popup__section">
           <h4 className="equip-details-section__heading equip-item-popup__heading--underline">
             {t('buildPlanner.evolutionStats')}
@@ -173,7 +142,7 @@ function EquipmentItemPopup({
               value={affixDisplayValue}
             />
           )}
-          {isSeriesFixed &&
+          {evoKind === 'seriesFixed' &&
             fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
               <StatRow
                 key={i}
@@ -181,7 +150,7 @@ function EquipmentItemPopup({
                 value={isPercent ? `+${min / 100}%` : `+${min}`}
               />
             ))}
-          {hasBtFixedEvo &&
+          {evoKind === 'btFixed' &&
             fixedEvoEffects!.map(([, attrId, min, max, isPercent], i) => (
               <StatRow
                 key={i}
@@ -189,7 +158,7 @@ function EquipmentItemPopup({
                 value={isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`}
               />
             ))}
-          {hasSameEvo &&
+          {evoKind === 'sameEvo' &&
             [0, 1].map((i) => {
               const statId = evolutionStats[i];
               if (!statId) return null;
@@ -202,8 +171,7 @@ function EquipmentItemPopup({
                 />
               );
             })}
-          {hasDataEvo &&
-            !hasSameEvo &&
+          {evoKind === 'dataEvo' &&
             item.evo.map(([attrId, min, max], i) => (
               <StatRow
                 key={i}
