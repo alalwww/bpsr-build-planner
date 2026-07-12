@@ -471,6 +471,67 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
 
   const unequippedLabel = t('buildPlanner.phantom.factorUnequipped');
 
+  // 因子スロット本体(全factor系行で共通)
+  const renderFactorSlot = (groupId: number) => (
+    <FactorSlot
+      groupId={groupId}
+      current={phantomFactorSlots[groupId] ?? null}
+      options={getFactorBaseOptions(groupId)}
+      getDesc={getFactorEffectDesc}
+      unequippedLabel={unequippedLabel}
+      onSet={onPhantomFactorSlot}
+    />
+  );
+
+  // スロット名ヘッダー付きの因子スロット(solo-factor / path-factor 単一アクティブ)
+  const renderFactorSlotWithHeader = (groupId: number) => {
+    const iconSrc = getNodeIcon(groupId, 2);
+    const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
+    return (
+      <div className="phantom-factor-with-label">
+        <div
+          className={`phantom-factor-slot-header phantom-config-node-clickable${selectedNodeId === groupId ? ' phantom-config-node-clickable--highlight' : ''}`}
+          onClick={() => toggleSelectedNode(groupId)}
+        >
+          {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
+          <span className="phantom-factor-label">{slotName}</span>
+        </div>
+        {renderFactorSlot(groupId)}
+      </div>
+    );
+  };
+
+  // 因子タイプ選択ボタン群 + 選択中タイプの因子スロット
+  // (choice-factor-type / path-factor 複数アクティブ)。選択変更時は旧スロットの因子をクリアする。
+  const renderFactorTypeChoice = (nodeIds: number[], selected: number, sameGroupId: number) => (
+    <div className="phantom-factor-with-label">
+      <div className="phantom-factor-type-btns">
+        {nodeIds.map((nodeId) => {
+          const slotName = tg(`seasonTalents.intermediateSlots.${nodeId}`);
+          const iconSrc = getNodeIcon(nodeId, 2);
+          return (
+            <button
+              key={nodeId}
+              type="button"
+              className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}`}
+              onClick={() => {
+                if (nodeId !== selected && phantomFactorSlots[selected]) {
+                  onPhantomFactorSlot(selected, null);
+                }
+                onPhantomNodeSelection(sameGroupId, nodeId);
+                toggleSelectedNode(nodeId);
+              }}
+            >
+              {iconSrc && <img src={iconSrc} className="phantom-choice-btn-icon" alt="" />}
+              {slotName}
+            </button>
+          );
+        })}
+      </div>
+      {renderFactorSlot(selected)}
+    </div>
+  );
+
   const renderNodeConfigRow = (step: TreeStep, stepIdx: number) => {
     const rowKey = `step-${stepIdx}`;
     const num = <span className="phantom-step-num">{stepIdx + 1}</span>;
@@ -542,30 +603,10 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
     }
 
     if (step.kind === 'solo-factor') {
-      const groupId = step.nodeIds[0];
-      const slot = stData.intermediateSlots[String(groupId)];
-      const iconSrc = slot ? getSTAsset(iconPathToFile(slot.icon)) : '';
-      const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
       return (
         <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
           {num}
-          <div className="phantom-factor-with-label">
-            <div
-              className={`phantom-factor-slot-header phantom-config-node-clickable${selectedNodeId === groupId ? ' phantom-config-node-clickable--highlight' : ''}`}
-              onClick={() => toggleSelectedNode(groupId)}
-            >
-              {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
-              <span className="phantom-factor-label">{slotName}</span>
-            </div>
-            <FactorSlot
-              groupId={groupId}
-              current={phantomFactorSlots[groupId] ?? null}
-              options={getFactorBaseOptions(groupId)}
-              getDesc={getFactorEffectDesc}
-              unequippedLabel={unequippedLabel}
-              onSet={onPhantomFactorSlot}
-            />
-          </div>
+          {renderFactorSlotWithHeader(step.nodeIds[0])}
         </div>
       );
     }
@@ -575,39 +616,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       return (
         <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
           {num}
-          <div className="phantom-factor-with-label">
-            <div className="phantom-factor-type-btns">
-              {step.nodeIds.map((nodeId) => {
-                const slotName = tg(`seasonTalents.intermediateSlots.${nodeId}`);
-                const iconSrc = getNodeIcon(nodeId, 2);
-                return (
-                  <button
-                    key={nodeId}
-                    type="button"
-                    className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}`}
-                    onClick={() => {
-                      if (nodeId !== selected && phantomFactorSlots[selected]) {
-                        onPhantomFactorSlot(selected, null);
-                      }
-                      onPhantomNodeSelection(step.sameGroupId, nodeId);
-                      toggleSelectedNode(nodeId);
-                    }}
-                  >
-                    {iconSrc && <img src={iconSrc} className="phantom-choice-btn-icon" alt="" />}
-                    {slotName}
-                  </button>
-                );
-              })}
-            </div>
-            <FactorSlot
-              groupId={selected}
-              current={phantomFactorSlots[selected] ?? null}
-              options={getFactorBaseOptions(selected)}
-              getDesc={getFactorEffectDesc}
-              unequippedLabel={unequippedLabel}
-              onSet={onPhantomFactorSlot}
-            />
-          </div>
+          {renderFactorTypeChoice(step.nodeIds, selected, step.sameGroupId)}
         </div>
       );
     }
@@ -625,73 +634,21 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
         );
       }
       if (activeIds.length === 1) {
-        const activeId = activeIds[0];
-        const slot = stData.intermediateSlots[String(activeId)];
-        const iconSrc = slot ? getSTAsset(iconPathToFile(slot.icon)) : '';
-        const slotName = tg(`seasonTalents.intermediateSlots.${activeId}`);
         return (
           <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
             {num}
-            <div className="phantom-factor-with-label">
-              <div
-                className={`phantom-factor-slot-header phantom-config-node-clickable${selectedNodeId === activeId ? ' phantom-config-node-clickable--highlight' : ''}`}
-                onClick={() => toggleSelectedNode(activeId)}
-              >
-                {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
-                <span className="phantom-factor-label">{slotName}</span>
-              </div>
-              <FactorSlot
-                groupId={activeId}
-                current={phantomFactorSlots[activeId] ?? null}
-                options={getFactorBaseOptions(activeId)}
-                getDesc={getFactorEffectDesc}
-                unequippedLabel={unequippedLabel}
-                onSet={onPhantomFactorSlot}
-              />
-            </div>
+            {renderFactorSlotWithHeader(activeIds[0])}
           </div>
         );
       }
-      // 複数アクティブ（例: 虚妄断罪で「断罪・癒」を選択）: step 7 と同様の選択ボタン UI
+      // 複数アクティブ（例: 虚妄断罪で「断罪・癒」を選択）: choice-factor-type と同じ選択ボタン UI
       const storedSel = phantomNodeSelections[step.sameGroupId];
       const selected =
         storedSel !== undefined && activeIds.includes(storedSel) ? storedSel : activeIds[0];
       return (
         <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
           {num}
-          <div className="phantom-factor-with-label">
-            <div className="phantom-factor-type-btns">
-              {activeIds.map((nodeId) => {
-                const slotName = tg(`seasonTalents.intermediateSlots.${nodeId}`);
-                const iconSrc = getNodeIcon(nodeId, 2);
-                return (
-                  <button
-                    key={nodeId}
-                    type="button"
-                    className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}`}
-                    onClick={() => {
-                      if (nodeId !== selected && phantomFactorSlots[selected]) {
-                        onPhantomFactorSlot(selected, null);
-                      }
-                      onPhantomNodeSelection(step.sameGroupId, nodeId);
-                      toggleSelectedNode(nodeId);
-                    }}
-                  >
-                    {iconSrc && <img src={iconSrc} className="phantom-choice-btn-icon" alt="" />}
-                    {slotName}
-                  </button>
-                );
-              })}
-            </div>
-            <FactorSlot
-              groupId={selected}
-              current={phantomFactorSlots[selected] ?? null}
-              options={getFactorBaseOptions(selected)}
-              getDesc={getFactorEffectDesc}
-              unequippedLabel={unequippedLabel}
-              onSet={onPhantomFactorSlot}
-            />
-          </div>
+          {renderFactorTypeChoice(activeIds, selected, step.sameGroupId)}
         </div>
       );
     }
