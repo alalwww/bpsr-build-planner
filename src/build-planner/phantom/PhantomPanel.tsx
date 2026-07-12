@@ -16,6 +16,7 @@ import { useBuildStore } from '../store/useBuildStore';
 import Chevron from '../components/Chevron';
 import Stepper from '../components/Stepper';
 import ZoomControls from '../components/ZoomControls';
+import { formatPercentParam, renderEffectDesc } from '../components/gameText';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import FactorSlot from './FactorSlot'; // ---- Asset loading ----
@@ -56,36 +57,6 @@ function nodePos(si: number, mi: number, total: number): [number, number] {
 
 // 潜在因子 effectType=1 のうち、値が%乗算(単位:1/100=1%)であるAttrId
 const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([11014, 11024, 11034, 11044, 11324, 11354]);
-
-// ---- Effect description substitution ----
-function renderEffectDesc(template: string, pars: number[], pAsPercent = false): string {
-  return template
-    .replace(/\{\*Decision\.unmarknormal\((\d+)\)\*\}/g, (_, n) => {
-      const v = pars[parseInt(n) - 1];
-      return v != null ? String(v) : '?';
-    })
-    .replace(/\{\*Decision\.unmarkpercent\((\d+)\)\*\}/g, (_, n) => {
-      const v = pars[parseInt(n) - 1];
-      return v != null ? (v / 100).toFixed(0) + '%' : '?';
-    })
-    .replace(/\{\*Decision\.unmarktime\((\d+)\)\*\}/g, (_, n) => {
-      const v = pars[parseInt(n) - 1];
-      return v != null ? (v / 1000).toFixed(1) + '秒' : '?';
-    })
-    .replace(/\{p(\d+)\}/g, (_, n) => {
-      const v = pars[parseInt(n) - 1];
-      if (v == null) return '?';
-      if (pAsPercent) {
-        const pct = v / 100;
-        return `${Number.isInteger(pct) ? pct.toFixed(0) : pct.toFixed(1)}%`;
-      }
-      return String(v);
-    })
-    .replace(/<style[^>]*>([^<]*)<\/style>/g, '$1')
-    .replace(/<linktext=[^>]*>([^<]*)<\/linktext>/g, '$1')
-    .replace(/<[^>]+>/g, '')
-    .trim();
-}
 
 // ---- PhantomPanelProps ----
 interface PhantomPanelProps {
@@ -298,8 +269,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
         .map((e) => {
           const label = tg(`attributes.${e[1]}`, { defaultValue: String(e[1]) });
           if (PHANTOM_FACTOR_PCT_ATTR_IDS.has(e[1])) {
-            const pct = e[2] / 100;
-            return `${label} +${Number.isInteger(pct) ? pct.toFixed(0) : pct.toFixed(2)}%`;
+            return `${label} +${formatPercentParam(e[2], 2)}`;
           }
           return `${label} +${e[2]}`;
         })
