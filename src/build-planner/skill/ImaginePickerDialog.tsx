@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import DraggableDialog from '../components/DraggableDialog';
 import Stepper from '../components/Stepper';
+import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import SkillCircle from './SkillCircle';
 import SkillTooltip from './SkillTooltip';
 import { battleImaginesData } from './skillData';
@@ -19,20 +20,16 @@ function ImaginePickerDialog({
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
   const [rank, setRank] = useState(5);
-  const [hoverTooltip, setHoverTooltip] = useState<{
-    skillId: number;
-    x: number;
-    y: number;
-  } | null>(null);
-  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const {
+    tooltip: hoverTooltip,
+    open: openHover,
+    cancelClose: cancelHoverClose,
+    scheduleClose: hideHover,
+  } = useAnchorTooltip<{ skillId: number; x: number; y: number }>();
 
   const showHover = (id: number, e: React.MouseEvent) => {
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     const rect = e.currentTarget.getBoundingClientRect();
-    setHoverTooltip({ skillId: id, x: rect.right + 10, y: rect.top });
-  };
-  const hideHover = () => {
-    hoverTimerRef.current = setTimeout(() => setHoverTooltip(null), 80);
+    openHover({ skillId: id, x: rect.right + 10, y: rect.top });
   };
 
   return (
@@ -93,9 +90,7 @@ function ImaginePickerDialog({
               y: hoverTooltip.y,
               pinned: false,
             }}
-            onMouseEnter={() => {
-              if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-            }}
+            onMouseEnter={cancelHoverClose}
             onMouseLeave={hideHover}
           />,
           document.body,

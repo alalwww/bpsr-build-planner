@@ -1,7 +1,8 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
+import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
@@ -90,12 +91,12 @@ function EquipmentSlotPicker({
   const { t } = useTranslation();
   const [editingEvoSlot, setEditingEvoSlot] = useState<number | null>(null);
   const [affixPickerOpen, setAffixPickerOpen] = useState(false);
-  const [enchantTooltip, setEnchantTooltip] = useState<{
-    enchant: EnchantItem;
-    x: number;
-    y: number;
-  } | null>(null);
-  const enchantTooltipHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const {
+    tooltip: enchantTooltip,
+    open: openEnchantTooltip,
+    cancelClose: cancelEnchantTooltipClose,
+    scheduleClose: hideEnchantTooltip,
+  } = useAnchorTooltip<{ enchant: EnchantItem; x: number; y: number }>();
   const [candidateTooltip, setCandidateTooltip] = useState<{
     item: EquipmentItem;
     x: number;
@@ -103,15 +104,8 @@ function EquipmentSlotPicker({
   } | null>(null);
 
   const showEnchantTooltip = (enchant: EnchantItem, e: React.MouseEvent<HTMLElement>) => {
-    if (enchantTooltipHideTimer.current !== null) {
-      clearTimeout(enchantTooltipHideTimer.current);
-      enchantTooltipHideTimer.current = null;
-    }
     const rect = e.currentTarget.getBoundingClientRect();
-    setEnchantTooltip({ enchant, x: rect.right + 6, y: rect.top });
-  };
-  const hideEnchantTooltip = () => {
-    enchantTooltipHideTimer.current = setTimeout(() => setEnchantTooltip(null), 80);
+    openEnchantTooltip({ enchant, x: rect.right + 6, y: rect.top });
   };
 
   // 候補一覧の項目ホバー時に、同名で能力値が異なる装備を判別できるよう詳細ポップアップを表示する。
@@ -269,12 +263,7 @@ function EquipmentSlotPicker({
           y={enchantTooltip.y}
           clamp
           className="equip-enchant-tooltip"
-          onMouseEnter={() => {
-            if (enchantTooltipHideTimer.current !== null) {
-              clearTimeout(enchantTooltipHideTimer.current);
-              enchantTooltipHideTimer.current = null;
-            }
-          }}
+          onMouseEnter={cancelEnchantTooltipClose}
           onMouseLeave={hideEnchantTooltip}
         >
           <div

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './talent.css';
@@ -6,6 +6,7 @@ import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import FloatingTooltip from '../components/FloatingTooltip';
 import ZoomControls from '../components/ZoomControls';
+import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
@@ -109,18 +110,12 @@ export default function TalentTreePanel({
     setZoom: setZoomLevel,
     ref: canvasWrapperRef,
   } = useCtrlWheelZoom({ min: ZOOM_MIN, max: ZOOM_MAX, step: ZOOM_STEP });
-  const [hoveredNodeInfo, setHoveredNodeInfo] = useState<HoveredNodeInfo | null>(null);
-  const tooltipCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scheduleTooltipClose = () => {
-    if (tooltipCloseTimerRef.current !== null) clearTimeout(tooltipCloseTimerRef.current);
-    tooltipCloseTimerRef.current = setTimeout(() => setHoveredNodeInfo(null), 120);
-  };
-  const cancelTooltipClose = () => {
-    if (tooltipCloseTimerRef.current !== null) {
-      clearTimeout(tooltipCloseTimerRef.current);
-      tooltipCloseTimerRef.current = null;
-    }
-  };
+  const {
+    tooltip: hoveredNodeInfo,
+    open: openNodeTooltip,
+    cancelClose: cancelTooltipClose,
+    scheduleClose: scheduleTooltipClose,
+  } = useAnchorTooltip<HoveredNodeInfo>();
   const [pendingSwitchBdType, setPendingSwitchBdType] = useState<0 | 1 | null>(null);
   const [pendingR1Deselect, setPendingR1Deselect] = useState<number | null>(null);
   const [pendingReset, setPendingReset] = useState(false);
@@ -667,9 +662,8 @@ export default function TalentTreePanel({
                   key={`n${node.id}`}
                   onClick={() => handleNodeClick(node.id)}
                   onMouseEnter={(e) => {
-                    cancelTooltipClose();
                     const rect = (e.currentTarget as SVGGElement).getBoundingClientRect();
-                    setHoveredNodeInfo({
+                    openNodeTooltip({
                       node,
                       td,
                       name,
