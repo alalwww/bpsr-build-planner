@@ -58,10 +58,7 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": [
-          "精錬攻撃・全属性攻撃の計算修正",
-          "フッターのビルド日時のタイムゾーン変換表示"
-        ],
+        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"

@@ -92,8 +92,7 @@ export function deriveStats(
 
   const physicalDefStrengthBonus =
     raw.strength *
-    (COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint +
-      (conversionRateBonus.physicalDef ?? 0));
+    (COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint + (conversionRateBonus.physicalDef ?? 0));
   const physicalDef = raw.physicalDef + physicalDefStrengthBonus;
   const magicalDefIntellectBonus =
     raw.intellect * COMMON_STAT_COEFFICIENTS.magicalDefPerIntellectPoint;
@@ -106,7 +105,8 @@ export function deriveStats(
   );
 
   const hasteAgilityBonus =
-    raw.agility * (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + (conversionRateBonus.haste ?? 0));
+    raw.agility *
+    (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + (conversionRateBonus.haste ?? 0));
   const hasteReal = raw.haste + hasteAgilityBonus;
   const hastePercent = diminishingPercent(
     hasteReal,

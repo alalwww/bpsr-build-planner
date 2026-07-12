@@ -18,7 +18,13 @@ const ELEMENTS = ['all', ...ELEMENT_IDS] as const;
 
 // 会心/ファスト/幸運/器用さ/万能: cookingBonusが最終%表示値への直接加算(単位: %そのまま)のため、
 // 追加バフ列では他ステータス(実数加算)と異なり%表記で表示する。
-const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>(['crit', 'haste', 'luck', 'mastery', 'versatility']);
+const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>([
+  'crit',
+  'haste',
+  'luck',
+  'mastery',
+  'versatility',
+]);
 
 function fmtPct(v: number) {
   return `${fmtDec2(v)}%`;
@@ -228,7 +234,9 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
     },
     {
       label: elemName('all', 'reduction'),
-      value: fmtPct(diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance)),
+      value: fmtPct(
+        diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance),
+      ),
     },
     ...ELEMENTS.slice(1).flatMap((elem) => [
       { label: elemName(elem, 'resist'), value: fmtDec2(0) },
