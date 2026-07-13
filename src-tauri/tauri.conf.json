@@ -29,6 +29,18 @@
         "height": 360,
         "resizable": false,
         "visible": false
+      },
+      {
+        "label": "about",
+        "title": "About BPSR Build Planner",
+        "url": "about.html",
+        "parent": "main",
+        "center": true,
+        "width": 520,
+        "height": 640,
+        "minWidth": 400,
+        "minHeight": 400,
+        "visible": false
       }
     ],
     "security": {

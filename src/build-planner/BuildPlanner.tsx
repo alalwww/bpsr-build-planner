@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { type RefObject, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './build-planner.css';
@@ -10,32 +10,53 @@ import PhantomPanel from './phantom/PhantomPanel';
 import { PROFESSIONS } from './profession';
 import SkillPanel from './skill/SkillPanel';
 import StatsDetailDialog from './character/StatsDetailDialog';
+import { isTauri } from '../platform';
+import { applyLanguage } from '../platform/languageSync';
+import { showAboutWindow } from '../platform/residentWindow';
 import { useBuildStore } from './store/useBuildStore';
 import TalentTreePanel from './talent/TalentTreePanel';
 
 const TABS = ['skill', 'equipment', 'module', 'phantom'] as const;
 type Tab = (typeof TABS)[number];
 
-function BuildPlanner() {
-  const { t, i18n } = useTranslation();
-  const [langMenuOpen, setLangMenuOpen] = useState(false);
-  const langMenuRef = useRef<HTMLDivElement>(null);
-
+// 開いている間だけ、メニュー外クリックで閉じるハンドラを張る
+function useDismissOnOutsideClick(
+  open: boolean,
+  ref: RefObject<HTMLDivElement | null>,
+  close: () => void,
+) {
   useEffect(() => {
-    if (!langMenuOpen) return;
+    if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
-        setLangMenuOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        close();
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, [langMenuOpen]);
+  }, [open, ref, close]);
+}
+
+function BuildPlanner() {
+  const { t, i18n } = useTranslation();
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+  useDismissOnOutsideClick(langMenuOpen, langMenuRef, () => setLangMenuOpen(false));
 
   const changeLanguage = (lang: string) => {
-    localStorage.setItem('bpsr-language', lang);
-    void i18n.changeLanguage(lang);
+    applyLanguage(lang);
     setLangMenuOpen(false);
+  };
+
+  // クライアント版限定のアプリメニュー(⚙️)。現在は About のみ。
+  // 設定ウィンドウ(SettingsApp)は実装済みだが、設定項目ができるまで導線は置かない。
+  const [appMenuOpen, setAppMenuOpen] = useState(false);
+  const appMenuRef = useRef<HTMLDivElement>(null);
+  useDismissOnOutsideClick(appMenuOpen, appMenuRef, () => setAppMenuOpen(false));
+
+  const openAbout = () => {
+    void showAboutWindow();
+    setAppMenuOpen(false);
   };
 
   const { professionKey, professionTypeKey } = useBuildStore(
@@ -102,6 +123,26 @@ function BuildPlanner() {
                 </div>
               )}
             </div>
+            {isTauri && (
+              <div className="nav-lang" ref={appMenuRef}>
+                <button
+                  type="button"
+                  className="build-planner__nav-lang"
+                  onClick={() => setAppMenuOpen((v) => !v)}
+                  title={t('about.menuTitle')}
+                >
+                  ⚙️
+                </button>
+                {appMenuOpen && (
+                  <div className="nav-lang__dropdown">
+                    <hr />
+                    <button type="button" className="nav-lang__item" onClick={openAbout}>
+                      {t('about.menu')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </nav>
           <div
             className={`build-planner__content${isPhantomTab ? ' build-planner__content--phantom' : ''}`}

@@ -21,6 +21,7 @@ export default defineConfig({
       input: {
         main: mainHtmlInput,
         settings: fileURLToPath(new URL('./settings.html', import.meta.url)),
+        about: fileURLToPath(new URL('./about.html', import.meta.url)),
       },
     },
   },

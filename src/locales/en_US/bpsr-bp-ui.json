@@ -6,8 +6,15 @@
     "close": "Close"
   },
   "footer": {
-    "copyright": "© 2026 BPSR Build Planner",
+    "copyright": "© 2026 alalwww",
     "disclaimer": "This is an unofficial fan-made tool. Blue Protocol: Star Resonance is copyrighted and trademarked by its respective owners."
+  },
+  "about": {
+    "menuTitle": "Menu",
+    "menu": "About...",
+    "webApp": "Open Web App",
+    "github": "GitHub",
+    "ok": "OK"
   },
   "changelog": {
     "title": "Changelog",

@@ -6,8 +6,15 @@
     "close": "閉じる"
   },
   "footer": {
-    "copyright": "© 2026 BPSR Build Planner",
+    "copyright": "© 2026 alalwww",
     "disclaimer": "本ツールは非公式のファンメイドツールです。ブループロトコル：スターレゾナンスの著作権・商標は各権利元に帰属します。"
+  },
+  "about": {
+    "menuTitle": "メニュー",
+    "menu": "バージョン情報...",
+    "webApp": "Web版を開く",
+    "github": "GitHub",
+    "ok": "OK"
   },
   "changelog": {
     "title": "変更履歴",

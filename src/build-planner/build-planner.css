@@ -35,6 +35,11 @@
   align-items: center;
 }
 
+/* 2つ目以降のナビメニューは右端に詰めて並べる(margin-left:auto を重複させない) */
+.nav-lang ~ .nav-lang {
+  margin-left: 0;
+}
+
 .build-planner__nav-lang {
   background: none;
   border: none;
@@ -65,6 +70,12 @@
   right: 0;
   min-width: 140px;
   z-index: 200;
+}
+
+.nav-lang__dropdown hr {
+  border: none;
+  border-top: 1px solid #3a3a50;
+  width: 90%;
 }
 
 .nav-lang__item {

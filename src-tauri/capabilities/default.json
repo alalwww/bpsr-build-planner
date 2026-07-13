@@ -1,11 +1,13 @@
 {
   "identifier": "default",
-  "description": "Permissions for the main and settings windows",
-  "windows": ["main", "settings"],
+  "description": "Permissions for the main, settings and about windows",
+  "windows": ["main", "settings", "about"],
   "permissions": [
     "core:default",
     "core:window:allow-show",
     "core:window:allow-hide",
-    "core:window:allow-set-focus"
+    "core:window:allow-close",
+    "core:window:allow-set-focus",
+    "opener:default"
   ]
 }

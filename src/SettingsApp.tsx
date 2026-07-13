@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import './settings.css';
 import { isTauri } from './platform';
+import { applyLanguage } from './platform/languageSync';
 
 interface SettingsAppProps {
   onClose?: () => void;
@@ -11,6 +13,11 @@ function SettingsApp({ onClose }: SettingsAppProps) {
   const [pendingLang, setPendingLang] = useState(i18n.language);
   const isDirty = pendingLang !== i18n.language;
 
+  // 他ウィンドウ(mainの言語メニュー等)で言語が変わったら未保存の選択をリセットする
+  useEffect(() => {
+    setPendingLang(i18n.language);
+  }, [i18n.language]);
+
   const close = async () => {
     if (isTauri) {
       const { getCurrentWebviewWindow } = await import('@tauri-apps/api/webviewWindow');
@@ -20,17 +27,12 @@ function SettingsApp({ onClose }: SettingsAppProps) {
     }
   };
 
-  const handleSave = async () => {
-    localStorage.setItem('bpsr-language', pendingLang);
-    await i18n.changeLanguage(pendingLang);
-    if (isTauri) {
-      const { emit } = await import('@tauri-apps/api/event');
-      await emit('language-changed', pendingLang);
-    }
+  const handleSave = () => {
+    applyLanguage(pendingLang);
   };
 
   return (
-    <main>
+    <div className="settings-app">
       <h1>{t('settings.title')}</h1>
       <label>
         {t('settings.language')}
@@ -41,7 +43,7 @@ function SettingsApp({ onClose }: SettingsAppProps) {
       </label>
       {isDirty && <button onClick={handleSave}>{t('settings.save')}</button>}
       <button onClick={close}>{t('settings.close')}</button>
-    </main>
+    </div>
   );
 }
 
