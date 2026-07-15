@@ -16,6 +16,8 @@ import type { StatDefinition, StatId } from '../types';
 import { computeStatsBundle } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
 import { getClassData } from '../classData';
+import { isTauri } from '../../platform';
+import { showResidentWindow } from '../../platform/residentWindow';
 import { truncate2Str } from './statFormat';
 
 interface CharacterPanelProps {
@@ -113,7 +115,9 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
         <button
           type="button"
           className="character-panel__summary-item character-panel__summary-item--clickable"
-          onClick={() => setAbilityScoreOpen(true)}
+          onClick={() =>
+            isTauri ? void showResidentWindow('ability-score') : setAbilityScoreOpen(true)
+          }
         >
           <span className="character-panel__label">{t('buildPlanner.abilityScore')}</span>
           <span className="character-panel__value">{abilityScore.total.toLocaleString()}</span>

@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
+import '../components/components.css';
+import './character.css';
 import DraggableDialog from '../components/DraggableDialog';
 import type { AbilityScoreBreakdown } from '../types';
 
@@ -8,6 +10,8 @@ interface AbilityScoreDialogProps {
   expandedGroups: Set<string>;
   onToggleGroup: (key: string) => void;
   onClose: () => void;
+  /** OSネイティブウィンドウ(ability-score.html)内での表示か。既定 false。 */
+  windowed?: boolean;
 }
 
 function AbilityScoreDialog({
@@ -15,6 +19,7 @@ function AbilityScoreDialog({
   expandedGroups,
   onToggleGroup,
   onClose,
+  windowed = false,
 }: AbilityScoreDialogProps) {
   const { t } = useTranslation();
   const bd = abilityScore;
@@ -77,6 +82,7 @@ function AbilityScoreDialog({
       title={t('buildPlanner.abilityScore')}
       onClose={onClose}
       className="ability-score-dialog"
+      windowed={windowed}
     >
       <table className="ability-score-dialog__table">
         <thead>

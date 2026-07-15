@@ -75,9 +75,10 @@ fn main() {
                     // window must always terminate the app regardless of what other
                     // windows are open.
                     "main" => window.app_handle().exit(0),
-                    // The settings window is resident (hide/show); letting the titlebar
-                    // close destroy it would make it impossible to reopen.
-                    "settings" => {
+                    // The settings/stats-detail/ability-score windows are resident
+                    // (hide/show); letting the titlebar close destroy them would make
+                    // them impossible to reopen.
+                    "settings" | "stats-detail" | "ability-score" => {
                         api.prevent_close();
                         let _ = window.hide();
                     }

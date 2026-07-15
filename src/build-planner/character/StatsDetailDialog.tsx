@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
+import '../components/components.css';
+import './character.css';
 import DraggableDialog from '../components/DraggableDialog';
 import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
 import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT } from '../stats/attrMaps';
@@ -12,6 +14,8 @@ import { truncate2, truncate2Str as fmtDec2 } from './statFormat';
 
 interface StatsDetailDialogProps {
   onClose: () => void;
+  /** OSネイティブウィンドウ(stats-detail.html)内での表示か。既定 false。 */
+  windowed?: boolean;
 }
 
 const ELEMENTS = ['all', ...ELEMENT_IDS] as const;
@@ -42,7 +46,7 @@ function fmtIntTrunc(v: number): string {
   return Math.floor(v).toLocaleString();
 }
 
-export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
+export default function StatsDetailDialog({ onClose, windowed = false }: StatsDetailDialogProps) {
   const { t } = useTranslation();
 
   const { rawStats, rawStatsBreakdown, stats, derivedStats } = useBuildStore(
@@ -256,6 +260,7 @@ export default function StatsDetailDialog({ onClose }: StatsDetailDialogProps) {
       className="stats-detail"
       overlay={false}
       resizable
+      windowed={windowed}
       initialPos={{ x: 200, y: 60 }}
       initialSize={{ w: 540, h: 540 }}
     >

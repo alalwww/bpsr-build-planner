@@ -1,0 +1,11 @@
+/* クライアント版限定の Stats Detail ウィンドウ(stats-detail.html)のシェルスタイル。
+   コンテンツ部分は character.css の .stats-detail 系クラスを参照。 */
+
+body.stats-detail-window {
+  margin: 0;
+  background: #1c1c24;
+  color: #e8e6e1;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  scrollbar-color: #4a4a5a transparent;
+}

@@ -12,7 +12,7 @@ import SkillPanel from './skill/SkillPanel';
 import StatsDetailDialog from './character/StatsDetailDialog';
 import { isTauri } from '../platform';
 import { applyLanguage } from '../platform/languageSync';
-import { showAboutWindow } from '../platform/residentWindow';
+import { showAboutWindow, showResidentWindow } from '../platform/residentWindow';
 import { useBuildStore } from './store/useBuildStore';
 import TalentTreePanel from './talent/TalentTreePanel';
 
@@ -81,7 +81,9 @@ function BuildPlanner() {
       <div className="build-planner">
         <CharacterPanel
           onOpenTalentTree={() => setShowTalentTree(true)}
-          onOpenStatsDetail={() => setShowStatsDetail(true)}
+          onOpenStatsDetail={() =>
+            isTauri ? void showResidentWindow('stats-detail') : setShowStatsDetail(true)
+          }
         />
         <div className="build-planner__right">
           <nav className="build-planner__tabs">

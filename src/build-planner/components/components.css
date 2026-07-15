@@ -161,6 +161,20 @@
   overflow: hidden;
 }
 
+/* OSネイティブウィンドウ内表示(stats-detail.html/ability-score.html)。
+   Web版ダイアログと同じカード配色・余白を保ちつつ、オーバーレイの縁取り(角丸・影・枠線)は
+   ウィンドウ全面に敷き詰めるため省略する。移動/リサイズ/閉じるはOSのタイトルバーが担う。 */
+.draggable-dialog--windowed {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-y: auto;
+}
+
 .draggable-dialog__header {
   display: flex;
   align-items: center;
@@ -169,6 +183,10 @@
   flex-shrink: 0;
   cursor: move;
   user-select: none;
+}
+
+.draggable-dialog__header--windowed {
+  cursor: default;
 }
 
 .draggable-dialog__resize-handle {

@@ -1,0 +1,11 @@
+/* クライアント版限定の Ability Score ウィンドウ(ability-score.html)のシェルスタイル。
+   コンテンツ部分は character.css の .ability-score-dialog 系クラスを参照。 */
+
+body.ability-score-window {
+  margin: 0;
+  background: #1c1c24;
+  color: #e8e6e1;
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  scrollbar-color: #4a4a5a transparent;
+}

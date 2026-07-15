@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import StatsDetailApp from './build-planner/character/StatsDetailApp';
 import './i18n';
 import { initLanguageSync } from './platform/languageSync';
-import { initStoreSyncBroadcaster } from './platform/storeSync';
+import { initStoreSyncReceiver } from './platform/storeSync';
 
 initLanguageSync();
-initStoreSyncBroadcaster();
+initStoreSyncReceiver();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <StatsDetailApp />
   </React.StrictMode>,
 );

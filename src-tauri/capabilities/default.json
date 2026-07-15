@@ -1,9 +1,10 @@
 {
   "identifier": "default",
-  "description": "Permissions for the main, settings and about windows",
-  "windows": ["main", "settings", "about"],
+  "description": "Permissions for the main, settings, about, stats-detail and ability-score windows",
+  "windows": ["main", "settings", "about", "stats-detail", "ability-score"],
   "permissions": [
     "core:default",
+    "core:event:default",
     "core:window:allow-show",
     "core:window:allow-hide",
     "core:window:allow-close",

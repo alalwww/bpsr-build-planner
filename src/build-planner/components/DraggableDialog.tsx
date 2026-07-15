@@ -30,6 +30,9 @@ interface DraggableDialogProps {
   overlay?: boolean;
   /** リサイズハンドルを表示し、位置をドラッグ+リサイズ可能にするか。既定 false(中央固定+ドラッグ移動のみ)。 */
   resizable?: boolean;
+  /** OSネイティブウィンドウ内での表示か。true時はタイトルバー/オーバーレイ/自前ドラッグ・リサイズを
+   * すべて省略し、children をウィンドウ全面にそのまま表示する(タイトルバーやリサイズはOSが提供)。既定 false。 */
+  windowed?: boolean;
   initialPos?: Pos;
   initialSize?: Size;
   minSize?: Size;
@@ -49,6 +52,7 @@ function DraggableDialog({
   headerExtra,
   overlay = true,
   resizable = false,
+  windowed = false,
   initialPos,
   initialSize = DEFAULT_SIZE,
   minSize = DEFAULT_MIN_SIZE,
@@ -109,6 +113,22 @@ function DraggableDialog({
       window.removeEventListener('mouseup', onMouseUp);
     };
   }, [resizable, onMouseMove, onMouseUp]);
+
+  if (windowed) {
+    return (
+      <div
+        className={`draggable-dialog draggable-dialog--windowed${className ? ` ${className}` : ''}`}
+      >
+        {title !== undefined && (
+          <div className="draggable-dialog__header draggable-dialog__header--windowed">
+            <h2 className="draggable-dialog__title">{title}</h2>
+            {headerExtra}
+          </div>
+        )}
+        {children}
+      </div>
+    );
+  }
 
   const dialogStyle: CSSProperties = resizable
     ? { position: 'fixed', left: pos.x, top: pos.y, width: size.w, height: size.h, zIndex: 1000 }

@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import AbilityScoreApp from './build-planner/character/AbilityScoreApp';
 import './i18n';
 import { initLanguageSync } from './platform/languageSync';
-import { initStoreSyncBroadcaster } from './platform/storeSync';
+import { initStoreSyncReceiver } from './platform/storeSync';
 
 initLanguageSync();
-initStoreSyncBroadcaster();
+initStoreSyncReceiver();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <AbilityScoreApp />
   </React.StrictMode>,
 );

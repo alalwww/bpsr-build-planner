@@ -22,6 +22,8 @@ export default defineConfig({
         main: mainHtmlInput,
         settings: fileURLToPath(new URL('./settings.html', import.meta.url)),
         about: fileURLToPath(new URL('./about.html', import.meta.url)),
+        'stats-detail': fileURLToPath(new URL('./stats-detail.html', import.meta.url)),
+        'ability-score': fileURLToPath(new URL('./ability-score.html', import.meta.url)),
       },
     },
   },
