@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "version": "0.4.0",
+      "date": "2026-07-15T19:34:27.555Z",
+      "summary": {
+        "ja": "バトルイマジン/スキルの性能表示修正とAboutダイアログの追加",
+        "en": "Fix imagine/skill tooltip values and add an About dialog"
+      },
+      "changes": {
+        "ja": [
+          "バトルイマジンのポップアップ効果値がリキャスト時間になってしまう不具合を修正し、ランク別の正しい%/実数値を表示",
+          "クラススキルのポップアップに、レベル・ランクごとの性能値(合計ダメージ・持続時間・チャージ時間など)を追加表示",
+          "更新履歴ダイアログをAboutダイアログへ統合(バージョン情報・関連リンクを集約)",
+          "対応シーズンを明示するSeason 2バッジをヘッダーに追加(Season 3データは未対応)",
+          "その他、内部的な変更・改修"
+        ],
+        "en": [
+          "Fix Battle Imagine tooltips showing the recast time instead of the actual effect value; now shows the correct per-rank percent/flat value",
+          "Add per-level/rank performance values (total damage, duration, charge time, etc.) to class skill tooltips",
+          "Merge the changelog dialog into a new About dialog with version info and related links",
+          "Add a Season 2 badge to the header to make clear Season 3 data isn't supported yet",
+          "Other internal changes and improvements"
+        ]
+      }
+    },
+    {
       "version": "0.3.1",
       "date": "2026-07-10T13:42:17.281Z",
       "summary": {
@@ -58,7 +82,10 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "ja": [
+          "精錬攻撃・全属性攻撃の計算修正",
+          "フッターのビルド日時のタイムゾーン変換表示"
+        ],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
