@@ -1,8 +1,9 @@
 name: Build Desktop Release
 
+# release: published トリガーを一時停止中(デスクトップ版のビルド公開を止めるため)。
+# 再開する場合は下記を release: { types: [published] } に戻す。
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: write
