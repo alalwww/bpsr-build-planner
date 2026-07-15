@@ -115,7 +115,7 @@ function SkillTooltip({
         <ul className="skill-tooltip__effect-list">
           {activeEffectParams.map(([label, vals], i) => (
             <li key={i} className="skill-tooltip__effect-item">
-              <span className="skill-tooltip__effect-label">{label}</span>
+              <span className="skill-tooltip__effect-label">{renderMarkup(label)}</span>
               <span className="skill-tooltip__effect-val">{vals[rank] ?? vals[0]}</span>
             </li>
           ))}

@@ -17,7 +17,7 @@
 //   node scripts/extract-ztable.mjs [--src <ZTable dir>] [--data-out <dir>] [--locales-out <dir>]
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { basename, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -31,6 +31,114 @@ const LOCALES = {
 // Structural (non-text) fields are identical across languages, so they only
 // need to be read from one language folder.
 const STRUCTURAL_LANG_DIR = 'japanese';
+
+// SkillAttrDes の formula 空欄行のうち、リキャスト系として扱うラベル(完全一致)。
+// PVECoolTime とランク別短縮ルールで値を解決する。
+const COOLDOWN_ATTR_LABELS = new Set([
+  'リキャスト',
+  'チャージ時間',
+  '変身リキャスト',
+  'CD',
+  'Cooldown',
+  'Charge Time',
+  'Overdrive Time',
+  'Transformation Cooldown',
+]);
+
+// リキャスト短縮が適用されないイマジン(ゲーム内確認)。
+// 3910=虚蝕オーガ(60秒固定)、3949/3982/3983=変身型(変身リキャスト20秒固定)。
+// 英語版の変身型はラベルが plain な CD のため、ラベルでなく ID で除外する。
+const CD_REDUCTION_EXEMPT_AOYI_IDS = new Set([3910, 3949, 3982, 3983]);
+
+// クールタイム表示の秒サフィックス(SkillAttrDes 内のリテラル表記に合わせる)。
+const SECONDS_SUFFIX = {
+  japanese: '秒',
+  english: 's',
+};
+
+// バトルイマジンの SkillAttrDes formula 空欄行(バフ効果行)の値解決マッピング。
+// ゲーム内ポップアップとの突き合わせ調査(sample/imagine-effect-survey.txt)で全行確定済み。
+// aoyiId -> SkillAttrDes 行index -> [FloatParameterキー, 単位] または [null, 'fixed', 表示文字列]
+// 単位: percent = raw/100 の%表記
+//       flat    = raw をそのまま実数表示(会心/幸運等の実数レーティング系)
+//       seconds = ミリ秒→秒
+const IMAGINE_EFFECT_VALUE_MAP = {
+  3903: { 0: ['attrPer', 'percent'], 1: ['attrOther', 'percent'] },
+  3904: { 1: ['attrAdd', 'flat'], 2: ['attrPer', 'percent'] },
+  3905: { 1: ['attrPer', 'percent'] },
+  3906: { 1: ['attrPer', 'percent'] },
+  3907: { 1: ['attrPer', 'percent'] },
+  3908: { 1: ['attrPer', 'percent'] },
+  3911: { 0: ['lockHp', 'percent'], 1: ['time', 'seconds'] },
+  3913: { 1: ['attrPer', 'percent'] },
+  3914: { 1: ['attrPer', 'percent'], 3: ['attrAdd', 'flat'] },
+  3915: { 1: ['attrAdd', 'flat'], 2: ['attrPer', 'percent'] },
+  3917: { 3: [null, 'fixed', '15%'] },
+  3920: { 0: ['attrPer', 'percent'] },
+  3921: { 0: ['attrPer', 'percent'] },
+  3922: { 2: ['prob', 'percent'] },
+  3923: { 1: ['attrAdd', 'flat'], 2: ['attrPer', 'percent'] },
+  3925: { 1: ['attrPer', 'percent'] },
+  3926: { 1: ['attrAdd', 'flat'], 2: ['attrPer', 'percent'] },
+  3927: { 1: ['attrPer', 'percent'] },
+  3930: { 0: ['healHp', 'percent'], 1: ['attrPer', 'percent'] },
+  3934: { 1: ['attrPer', 'percent'] },
+  3936: { 1: ['attrPer', 'percent'] },
+  3937: { 1: ['attrAdd', 'flat'], 2: ['attrPer', 'percent'] },
+  3938: { 1: ['attrPer', 'percent'] },
+  3939: { 1: ['attrPer', 'percent'] },
+  3940: { 1: ['attrPer', 'percent'] },
+  3941: { 0: ['time', 'seconds'] },
+  3942: { 2: ['attrPer', 'percent'], 3: ['attrOther', 'percent'] },
+  3944: { 1: ['attrPer', 'percent'] },
+  3946: {
+    0: ['prob1', 'percent'],
+    1: ['prob2', 'percent'],
+    4: ['attrPer3914', 'percent'],
+    6: ['attrAdd3914', 'flat'],
+    9: ['attrAdd3915', 'flat'],
+    10: ['attrPer3915', 'percent'],
+    13: ['attrPer3927', 'percent'],
+    16: ['attrPer3940', 'percent'],
+    19: ['attrAdd3926', 'flat'],
+    20: ['attrPer3926', 'percent'],
+  },
+  3947: { 1: ['attrPer', 'percent'] },
+  3948: { 1: ['attrPer', 'percent'], 2: ['attrPerElse', 'percent'], 3: ['hpPer', 'percent'] },
+  3950: {
+    1: ['attrPer', 'percent'],
+    2: ['attrPerElse', 'percent'],
+    3: ['speed1', 'percent'],
+    4: ['speed2', 'percent'],
+  },
+  3951: { 0: ['attrPer', 'percent'] },
+  3952: { 1: ['speed1', 'percent'], 2: ['speed2', 'percent'] },
+  3953: { 1: ['attrPer', 'percent'] },
+  3954: { 1: ['attrPer', 'percent'] },
+  3957: { 1: ['attrPer', 'percent'] },
+  3958: { 1: ['attrPer', 'percent'] },
+  3963: { 1: ['attrPer', 'percent'] },
+  3964: {
+    1: ['attr1', 'flat'],
+    2: ['attrPer1', 'percent'],
+    3: ['attr2', 'flat'],
+    4: ['attrPer2', 'percent'],
+    5: ['attr3', 'flat'],
+    6: ['attrPer3', 'percent'],
+  },
+  3966: { 1: ['attrPer', 'percent'] },
+  3982: { 7: ['attrA', 'percent'], 8: ['attrB', 'percent'], 9: ['attrC', 'percent'] },
+  3983: { 0: ['attr', 'percent'], 10: ['attrA', 'percent'], 11: ['attrB', 'percent'] },
+};
+
+// 英語版の SkillAttrDes は一部イマジンで行構成が日本語版と異なる(変身持続時間などの
+// 行が追加されている)ため、該当イマジンのみ行indexを英語版に合わせて差し替える。
+// 未確認: 英語版のみ存在する「Transformation Duration」行(ルーシィ/ナツ)は
+// 値の出所となるデータが見つかっておらず、空値=非表示のまま(日本語版には行自体なし)。
+const IMAGINE_EFFECT_VALUE_MAP_EN_OVERRIDES = {
+  3982: { 8: ['attrA', 'percent'], 9: ['attrB', 'percent'], 10: ['attrC', 'percent'] },
+  3983: { 0: ['attr', 'percent'], 11: ['attrA', 'percent'], 12: ['attrB', 'percent'] },
+};
 
 function parseArgs(argv) {
   const args = {
@@ -1471,12 +1579,17 @@ function extractLocaleText(
   const aoyiRankBufPar = {};
   // Build per-rank FloatParameter map: aoyiId -> level(1-5) -> { key: number }
   const aoyiRankFloatPar = {};
+  // aoyiId -> level(1-5) -> リキャスト短縮量ms (TransformationType type=9、チャージ型のみ存在)
+  const aoyiCdReductionMs = {};
   for (const entry of Object.values(aoyiStarTableForLocale)) {
     (aoyiRankBufPar[entry.SkillId] ??= {})[entry.Level] = entry.BuffPar?.[0] ?? [];
     const floatMap = Object.fromEntries(
       (entry.FloatParameter || []).map(([k, v]) => [k, Number(v)]),
     );
     (aoyiRankFloatPar[entry.SkillId] ??= {})[entry.Level] = floatMap;
+    for (const [type, , value] of entry.TransformationType || []) {
+      if (type === 9) (aoyiCdReductionMs[entry.SkillId] ??= {})[entry.Level] = value;
+    }
   }
 
   // Build effectId -> base FloatParameter map from SkillFightLevelTable
@@ -1515,28 +1628,39 @@ function extractLocaleText(
     });
   }
 
+  // "up" 書式: 1/100 したパーセント表記(小数は最大2桁、ゲーム内表示に一致)。
+  function formatUpPercent(total) {
+    const pct = total / 100;
+    return (pct % 1 === 0 ? String(Math.round(pct)) : String(parseFloat(pct.toFixed(2)))) + '%';
+  }
+
   // Resolve skill formula tokens in a SkillAttrDes value string.
   // rank: 0-5, aoyiId: for FloatParameter rank increments, effectId: for base FloatParameter.
   function resolveSkillAttrDesValue(formula, rank, aoyiId, effectId) {
     let result = formula;
-    // {*skillpara.damageMerge({ids},{N},"field","format")*}
+    // {*skillpara.damageMerge({ids},{counts},"field","format")*}
     // PVEDamageRadio has one entry per rank (index 0=G0..5=G5).
+    // counts は ids と同順のヒット数で、合計値 = Σ value(id_i) × count_i
+    // (フロストオーガ 10ヒット+1ヒット等でゲーム内表示と一致することを確認済み)。
     result = result.replace(
-      /\{\*skillpara\.damageMerge\(\{([^}]+)\},\{[^}]+\},"([^"]+)","([^"]+)"\)\*\}/g,
-      (_, idsStr, fieldName, format) => {
+      /\{\*skillpara\.damageMerge\(\{([^}]+)\},\{([^}]+)\},"([^"]+)","([^"]+)"\)\*\}/g,
+      (_, idsStr, countsStr, fieldName, format) => {
         const ids = idsStr.split(',').map((s) => s.trim());
+        const counts = countsStr.split(',').map((s) => Number(s.trim()));
         let total = 0;
-        for (const id of ids) {
+        ids.forEach((id, i) => {
           const entry = damageAttrTable[id];
-          if (!entry) continue;
+          if (!entry) return;
           const arr = entry[fieldName];
+          let value = 0;
           if (Array.isArray(arr) && arr.length > 0) {
-            total += arr[Math.min(rank, arr.length - 1)];
+            value = arr[Math.min(rank, arr.length - 1)];
           } else if (typeof arr === 'number') {
-            total += arr;
+            value = arr;
           }
-        }
-        if (format === 'up') return `${Math.round(total / 100)}%`;
+          total += value * (counts[i] || 1);
+        });
+        if (format === 'up') return formatUpPercent(total);
         return String(total);
       },
     );
@@ -1549,16 +1673,53 @@ function extractLocaleText(
         const base = fightLvlFloatPar[String(effectId)]?.[key] ?? 0;
         const increment = rank > 0 ? (aoyiRankFloatPar[aoyiId]?.[rank]?.[key] ?? 0) : 0;
         const total = base + increment;
-        if (format === 'up') {
-          const pct = total / 100;
-          return (
-            (pct % 1 === 0 ? String(Math.round(pct)) : String(parseFloat(pct.toFixed(2)))) + '%'
-          );
-        }
+        if (format === 'up') return formatUpPercent(total);
         return String(total);
       },
     );
     return result.replace(/<br>/gi, ' ').trim();
+  }
+
+  // バトルイマジンのリキャスト系行(リキャスト/チャージ時間/変身リキャスト)のランク別値。
+  // 通常型は G3/G4 で基礎の 5/6、G5 で 2/3 に短縮される(ゲーム内確認による。
+  // データ上はチャージ型のみ type9 短縮量が明示されており、短縮量=基礎の1/6・1/3)。
+  // チャージ型(PVECoolTime=1)は type9 の G3 短縮量×6 から基礎値を逆算する。
+  // CD_REDUCTION_EXEMPT_AOYI_IDS(虚蝕オーガ・変身型)は短縮なし。
+  function resolveImagineCooldowns(aoyiId, secSuffix) {
+    const reductions = aoyiCdReductionMs[aoyiId];
+    let base = pveCoolTimeBySkillId[aoyiId];
+    if (base === 1 && reductions?.[3]) base = (reductions[3] / 1000) * 6;
+    if (!base) return ['', '', '', '', '', ''];
+    const noReduction = CD_REDUCTION_EXEMPT_AOYI_IDS.has(aoyiId);
+    const vals = [];
+    for (let rank = 0; rank <= 5; rank++) {
+      let cd = base;
+      if (!noReduction) {
+        if (reductions) cd = base - (reductions[rank] ?? 0) / 1000;
+        else if (rank >= 3) cd = Math.round(base * (rank >= 5 ? 2 / 3 : 5 / 6));
+      }
+      vals.push(`${cd}${secSuffix}`);
+    }
+    return vals;
+  }
+
+  // IMAGINE_EFFECT_VALUE_MAP に基づく formula 空欄行(バフ効果行)のランク別値。
+  function resolveMappedEffectValue(mapping, rank, aoyiId, effectId, secSuffix) {
+    const [key, unit, fixedText] = mapping;
+    if (unit === 'fixed') return fixedText;
+    const base = fightLvlFloatPar[String(effectId)]?.[key] ?? 0;
+    const increment = rank > 0 ? (aoyiRankFloatPar[aoyiId]?.[rank]?.[key] ?? 0) : 0;
+    const total = base + increment;
+    switch (unit) {
+      case 'percent':
+        return formatUpPercent(total);
+      case 'flat':
+        return String(total);
+      case 'seconds':
+        return `${parseFloat((total / 1000).toFixed(2))}${secSuffix}`;
+      default:
+        return '';
+    }
   }
 
   const battleImagines = {};
@@ -1584,23 +1745,40 @@ function extractLocaleText(
 
     // activeEffectParams: label + per-rank values from SkillEffectTable.SkillAttrDes
     // [[label, [r0val, r1val, r2val, r3val, r4val, r5val]], ...]
+    // formula 空欄行はリキャスト系ならランク短縮込みのクールタイム、
+    // バフ効果行なら IMAGINE_EFFECT_VALUE_MAP で解決する
+    // (マッピング未定義の行は空値とし、表示側のフィルタで行ごと非表示になる)。
     const effectEntry = skillEffectBySkillId[entry.Id];
     const activeEffectParams = [];
     if (effectEntry?.SkillAttrDes) {
-      for (const [label, formula] of effectEntry.SkillAttrDes) {
-        if (!label) continue;
-        if (!formula) {
-          const coolTime = pveCoolTimeBySkillId[entry.Id];
-          const val = coolTime ? `${coolTime}秒` : '';
-          activeEffectParams.push([label, [val, val, val, val, val, val]]);
-        } else {
-          const vals = [];
+      const secSuffix = SECONDS_SUFFIX[basename(langDir)] ?? '秒';
+      const valueMap =
+        (basename(langDir) === 'english'
+          ? IMAGINE_EFFECT_VALUE_MAP_EN_OVERRIDES[entry.Id]
+          : undefined) ??
+        IMAGINE_EFFECT_VALUE_MAP[entry.Id] ??
+        {};
+      effectEntry.SkillAttrDes.forEach(([label, formula], rowIdx) => {
+        if (!label) return;
+        const vals = [];
+        if (formula) {
           for (let rank = 0; rank <= 5; rank++) {
             vals.push(resolveSkillAttrDesValue(formula, rank, entry.Id, effectEntry.Id));
           }
-          activeEffectParams.push([label, vals]);
+        } else if (COOLDOWN_ATTR_LABELS.has(label)) {
+          vals.push(...resolveImagineCooldowns(entry.Id, secSuffix));
+        } else {
+          const mapping = valueMap[rowIdx];
+          for (let rank = 0; rank <= 5; rank++) {
+            vals.push(
+              mapping
+                ? resolveMappedEffectValue(mapping, rank, entry.Id, effectEntry.Id, secSuffix)
+                : '',
+            );
+          }
         }
-      }
+        activeEffectParams.push([label, vals]);
+      });
     }
 
     const imagineSkillLabel = resolveSkillLabel(sk?.EffectIDs);

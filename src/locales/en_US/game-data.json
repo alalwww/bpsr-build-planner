@@ -26308,26 +26308,26 @@
         [
           "Total DMG",
           [
-            "171% ATK/MATK +17 (Resilience Break: 11)",
-            "197% ATK/MATK +17 (Resilience Break: 11)",
-            "222% ATK/MATK +17 (Resilience Break: 11)",
-            "248% ATK/MATK +17 (Resilience Break: 11)",
-            "274% ATK/MATK +17 (Resilience Break: 11)",
-            "299% ATK/MATK +17 (Resilience Break: 11)"
+            "1197% ATK/MATK +119 (Resilience Break: 77)",
+            "1376.2% ATK/MATK +119 (Resilience Break: 77)",
+            "1556.1% ATK/MATK +119 (Resilience Break: 77)",
+            "1735.3% ATK/MATK +119 (Resilience Break: 77)",
+            "1915.2% ATK/MATK +119 (Resilience Break: 77)",
+            "2094.4% ATK/MATK +119 (Resilience Break: 77)"
           ]
         ],
         [
           "Total Healing",
           [
-            "107% ATK/MATK +10",
-            "115% ATK/MATK +10",
-            "123% ATK/MATK +10",
-            "147% ATK/MATK +10",
-            "155% ATK/MATK +10",
-            "163% ATK/MATK +10"
+            "749% ATK/MATK +70",
+            "805.14% ATK/MATK +70",
+            "861.28% ATK/MATK +70",
+            "1029.84% ATK/MATK +70",
+            "1086.05% ATK/MATK +70",
+            "1142.19% ATK/MATK +70"
           ]
         ],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Direct healing", "Shield"]
     },
@@ -26351,14 +26351,14 @@
           "Total DMG",
           [
             "1050% ATK/MATK +105 (Resilience Break: 100)",
-            "1207% ATK/MATK +105 (Resilience Break: 100)",
+            "1207.4% ATK/MATK +105 (Resilience Break: 100)",
             "1365% ATK/MATK +105 (Resilience Break: 100)",
-            "1523% ATK/MATK +105 (Resilience Break: 100)",
+            "1522.5% ATK/MATK +105 (Resilience Break: 100)",
             "1680% ATK/MATK +105 (Resilience Break: 100)",
-            "1838% ATK/MATK +105 (Resilience Break: 100)"
+            "1837.5% ATK/MATK +105 (Resilience Break: 100)"
           ]
         ],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE", "Crowd Control"]
     },
@@ -26378,10 +26378,10 @@
         ]
       ],
       "activeEffectParams": [
-        ["ATK bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Ally ATK bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["ATK bonus", ["15%", "18%", "21%", "24%", "27%", "30%"]],
+        ["Ally ATK bonus", ["5%", "6%", "7%", "8%", "9%", "10%"]],
         ["Duration", ["15s", "15s", "15s", "15s", "15s", "15s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Increased Damage"]
     },
@@ -26412,10 +26412,10 @@
             "1050% ATK/MATK +60 (Resilience Break: 100)"
           ]
         ],
-        ["Crit bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Crit DMG bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Crit bonus", ["1792", "2150", "2508", "2867", "3225", "3584"]],
+        ["Crit DMG bonus", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "Single Target", "Crit"]
     },
@@ -26446,9 +26446,9 @@
             "2625% ATK/MATK +150 (Resilience Break: 200)"
           ]
         ],
-        ["Special Attack bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Special Attack bonus", ["16%", "19.2%", "22.4%", "25.6%", "28.8%", "32%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -26468,17 +26468,17 @@
         [
           "Total DMG",
           [
-            "420% ATK/MATK +42 (Resilience Break: 4200)",
-            "483% ATK/MATK +42 (Resilience Break: 4200)",
-            "546% ATK/MATK +42 (Resilience Break: 4200)",
-            "609% ATK/MATK +42 (Resilience Break: 4200)",
-            "672% ATK/MATK +42 (Resilience Break: 4200)",
-            "735% ATK/MATK +42 (Resilience Break: 4200)"
+            "1500% ATK/MATK +150 (Resilience Break: 15000)",
+            "1724% ATK/MATK +150 (Resilience Break: 15000)",
+            "1950% ATK/MATK +150 (Resilience Break: 15000)",
+            "2175% ATK/MATK +150 (Resilience Break: 15000)",
+            "2400% ATK/MATK +150 (Resilience Break: 15000)",
+            "2625% ATK/MATK +150 (Resilience Break: 15000)"
           ]
         ],
-        ["Resilience Break bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Resilience Break bonus", ["45%", "54%", "63%", "72%", "81%", "90%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Stagger", "Frozen"]
     },
@@ -26492,16 +26492,16 @@
           "Total DMG",
           [
             "525% ATK/MATK +52 (Resilience Break: 100)",
-            "604% ATK/MATK +52 (Resilience Break: 100)",
-            "683% ATK/MATK +52 (Resilience Break: 100)",
-            "761% ATK/MATK +52 (Resilience Break: 100)",
+            "603.7% ATK/MATK +52 (Resilience Break: 100)",
+            "682.5% ATK/MATK +52 (Resilience Break: 100)",
+            "761.2% ATK/MATK +52 (Resilience Break: 100)",
             "840% ATK/MATK +52 (Resilience Break: 100)",
-            "919% ATK/MATK +52 (Resilience Break: 100)"
+            "918.7% ATK/MATK +52 (Resilience Break: 100)"
           ]
         ],
-        ["Intellect bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Intellect bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE", "Main attribute"]
     },
@@ -26524,17 +26524,17 @@
         [
           "Total Healing",
           [
-            "100% ATK/MATK + 10",
-            "115% ATK/MATK + 10",
-            "130% ATK/MATK + 10",
-            "145% ATK/MATK + 10",
-            "160% ATK/MATK + 10",
-            "175% ATK/MATK + 10"
+            "600% ATK/MATK + 60",
+            "690% ATK/MATK + 60",
+            "780% ATK/MATK + 60",
+            "870% ATK/MATK + 60",
+            "960% ATK/MATK + 60",
+            "1050% ATK/MATK + 60"
           ]
         ],
-        ["Healing Received up", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Healing Received up", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["10s", "10s", "10s", "10s", "10s", "10s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "HoT", "AoE", "Healing Boost"]
     },
@@ -26549,24 +26549,24 @@
           [
             "402% ATK/MATK +36 (Resilience Break: 36)",
             "462% ATK/MATK +36 (Resilience Break: 36)",
-            "523% ATK/MATK +36 (Resilience Break: 36)",
-            "583% ATK/MATK +36 (Resilience Break: 36)",
-            "643% ATK/MATK +36 (Resilience Break: 36)",
-            "703% ATK/MATK +36 (Resilience Break: 36)"
+            "522.6% ATK/MATK +36 (Resilience Break: 36)",
+            "582.6% ATK/MATK +36 (Resilience Break: 36)",
+            "643.2% ATK/MATK +36 (Resilience Break: 36)",
+            "703.2% ATK/MATK +36 (Resilience Break: 36)"
           ]
         ],
         [
           "Single Decay DMG per hit",
           [
             "24% ATK/MATK +2 (Resilience Break: 2)",
-            "28% ATK/MATK +2 (Resilience Break: 2)",
-            "31% ATK/MATK +2 (Resilience Break: 2)",
-            "35% ATK/MATK +2 (Resilience Break: 2)",
-            "38% ATK/MATK +2 (Resilience Break: 2)",
+            "27.6% ATK/MATK +2 (Resilience Break: 2)",
+            "31.2% ATK/MATK +2 (Resilience Break: 2)",
+            "34.8% ATK/MATK +2 (Resilience Break: 2)",
+            "38.4% ATK/MATK +2 (Resilience Break: 2)",
             "42% ATK/MATK +2 (Resilience Break: 2)"
           ]
         ],
-        ["CD", ["60秒", "60秒", "60秒", "60秒", "60秒", "60秒"]]
+        ["CD", ["60s", "60s", "60s", "60s", "60s", "60s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -26584,9 +26584,9 @@
       "activeSkillName": "Arcane! Heart of Flame",
       "description": "<style=\"accent-gn\">Summons</style> Tatta to grant Battle Will to the entire team, preventing all allies from being defeated and ensuring their HP does not fall below a certain threshold for a period of time. <br><style=\"accent-gn\">Exhausted: Cannot be affected by the same type of effect within 60s (Exhausted effects are enhanced in party dungeons of Nightmare mode).</style>",
       "activeEffectParams": [
-        ["Min. HP", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
-        ["Duration", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
-        ["CD", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]]
+        ["Min. HP", ["1%", "2.8%", "4.6%", "6.4%", "8.2%", "10%"]],
+        ["Duration", ["3s", "3.9s", "4.8s", "5.7s", "6.6s", "7.5s"]],
+        ["CD", ["150s", "150s", "150s", "125s", "125s", "100s"]]
       ],
       "skillLabel": ["Resonance Skill", "Protect"]
     },
@@ -26610,16 +26610,16 @@
           "Total DMG",
           [
             "750% ATK/MATK +75 (Resilience Break: 100)",
-            "806% ATK/MATK +75 (Resilience Break: 100)",
-            "863% ATK/MATK +75 (Resilience Break: 100)",
-            "1031% ATK/MATK +75 (Resilience Break: 100)",
-            "1088% ATK/MATK +75 (Resilience Break: 100)",
-            "1144% ATK/MATK +75 (Resilience Break: 100)"
+            "806.25% ATK/MATK +75 (Resilience Break: 100)",
+            "862.5% ATK/MATK +75 (Resilience Break: 100)",
+            "1031.25% ATK/MATK +75 (Resilience Break: 100)",
+            "1087.5% ATK/MATK +75 (Resilience Break: 100)",
+            "1143.75% ATK/MATK +75 (Resilience Break: 100)"
           ]
         ],
-        ["Expertise Skill Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Expertise Skill Bonus", ["16%", "19.2%", "22.4%", "25.6%", "28.8%", "32%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Increased Damage"]
     },
@@ -26632,19 +26632,19 @@
         [
           "Total DMG",
           [
-            "200% ATK/MATK +20 (Resilience Break: 33)",
-            "230% ATK/MATK +20 (Resilience Break: 33)",
-            "260% ATK/MATK +20 (Resilience Break: 33)",
-            "290% ATK/MATK +20 (Resilience Break: 33)",
-            "320% ATK/MATK +20 (Resilience Break: 33)",
-            "350% ATK/MATK +20 (Resilience Break: 33)"
+            "600% ATK/MATK +60 (Resilience Break: 99)",
+            "690% ATK/MATK +60 (Resilience Break: 99)",
+            "780% ATK/MATK +60 (Resilience Break: 99)",
+            "870% ATK/MATK +60 (Resilience Break: 99)",
+            "960% ATK/MATK +60 (Resilience Break: 99)",
+            "1050% ATK/MATK +60 (Resilience Break: 99)"
           ]
         ],
-        ["Block DMG Reduction Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Block DMG Reduction Bonus", ["7.5%", "9%", "10.5%", "12%", "13.5%", "15%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Armor Penetration", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Armor Penetration", ["200", "240", "280", "320", "360", "400"]],
         ["Duration", ["10s", "10s", "10s", "10s", "10s", "10s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -26674,18 +26674,18 @@
         [
           "Total DMG",
           [
-            "225% ATK/MATK +22 (Resilience Break: 25)",
-            "259% ATK/MATK +22 (Resilience Break: 25)",
-            "293% ATK/MATK +22 (Resilience Break: 25)",
-            "326% ATK/MATK +22 (Resilience Break: 25)",
-            "360% ATK/MATK +22 (Resilience Break: 25)",
-            "394% ATK/MATK +22 (Resilience Break: 25)"
+            "900% ATK/MATK +88 (Resilience Break: 100)",
+            "1034.8% ATK/MATK +88 (Resilience Break: 100)",
+            "1170% ATK/MATK +88 (Resilience Break: 100)",
+            "1304.8% ATK/MATK +88 (Resilience Break: 100)",
+            "1440% ATK/MATK +88 (Resilience Break: 100)",
+            "1574.8% ATK/MATK +88 (Resilience Break: 100)"
           ]
         ],
-        ["Luck Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Lucky Strike Multiplier", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Luck Bonus", ["1792", "2150", "2508", "2867", "3225", "3584"]],
+        ["Lucky Strike Multiplier", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Luck"]
     },
@@ -26709,22 +26709,22 @@
           "Strike I",
           [
             "90% ATK/MATK +9 (Resilience Break: 15)",
-            "104% ATK/MATK +9 (Resilience Break: 15)",
+            "103.5% ATK/MATK +9 (Resilience Break: 15)",
             "117% ATK/MATK +9 (Resilience Break: 15)",
-            "131% ATK/MATK +9 (Resilience Break: 15)",
+            "130.5% ATK/MATK +9 (Resilience Break: 15)",
             "144% ATK/MATK +9 (Resilience Break: 15)",
-            "158% ATK/MATK +9 (Resilience Break: 15)"
+            "157.5% ATK/MATK +9 (Resilience Break: 15)"
           ]
         ],
         [
           "Strike II",
           [
             "150% ATK/MATK +15 (Resilience Break: 25)",
-            "173% ATK/MATK +15 (Resilience Break: 25)",
+            "172.5% ATK/MATK +15 (Resilience Break: 25)",
             "195% ATK/MATK +15 (Resilience Break: 25)",
-            "218% ATK/MATK +15 (Resilience Break: 25)",
+            "217.5% ATK/MATK +15 (Resilience Break: 25)",
             "240% ATK/MATK +15 (Resilience Break: 25)",
-            "263% ATK/MATK +15 (Resilience Break: 25)"
+            "262.5% ATK/MATK +15 (Resilience Break: 25)"
           ]
         ],
         [
@@ -26738,8 +26738,8 @@
             "630% ATK/MATK +36 (Resilience Break: 60)"
           ]
         ],
-        ["Damage per stack", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Damage per stack", ["15%", "15%", "15%", "15%", "15%", "15%"]],
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -26755,8 +26755,8 @@
       "activeSkillName": "Arcane! Blessing of Life",
       "description": "<style=\"accent-gn\">Summons</style> Airona. After a brief cast, revives up to <style=\"accent-gn\">4</style> nearby teammates. <style=\"accent-gn\">Weakness: Cannot be affected by the same type of effect within 60s (Weakness effects are enhanced in party dungeons of Nightmare mode).</style>",
       "activeEffectParams": [
-        ["Revived HP", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
-        ["CD", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]]
+        ["Revived HP", ["10%", "20%", "30%", "30%", "40%", "50%"]],
+        ["CD", ["150s", "150s", "150s", "125s", "125s", "100s"]]
       ],
       "skillLabel": ["Resonance Skill"]
     },
@@ -26766,9 +26766,9 @@
       "activeSkillName": "Arcane! Time Decree",
       "description": "<style=\"accent-gn\">Summons</style> Tina to channel the power of time, reducing the <style=\"accent-gn\">Skill CDs</style> of yourself and up to <style=\"accent-gn\">10</style> surrounding allies for a certain period. <br><style=\"accent-gn\">(Cannot be affected by the same type of effect within 60s.)</style>",
       "activeEffectParams": [
-        ["CD decrease", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["CD decrease", ["50%", "60%", "70%", "80%", "90%", "100%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]]
+        ["CD", ["150s", "150s", "150s", "125s", "125s", "100s"]]
       ],
       "skillLabel": ["Resonance Skill", "Acceleration"]
     },
@@ -26782,10 +26782,10 @@
           "Total DMG",
           [
             "612% ATK/MATK +58 (Resilience Break: 51)",
-            "704% ATK/MATK +58 (Resilience Break: 51)",
-            "796% ATK/MATK +58 (Resilience Break: 51)",
-            "887% ATK/MATK +58 (Resilience Break: 51)",
-            "979% ATK/MATK +58 (Resilience Break: 51)",
+            "703.5% ATK/MATK +58 (Resilience Break: 51)",
+            "795.6% ATK/MATK +58 (Resilience Break: 51)",
+            "887.4% ATK/MATK +58 (Resilience Break: 51)",
+            "979.2% ATK/MATK +58 (Resilience Break: 51)",
             "1071% ATK/MATK +58 (Resilience Break: 51)"
           ]
         ],
@@ -26793,15 +26793,15 @@
           "Explosion Damage",
           [
             "105% ATK/MATK +10 (Resilience Break: 8)",
-            "121% ATK/MATK +10 (Resilience Break: 8)",
-            "137% ATK/MATK +10 (Resilience Break: 8)",
-            "152% ATK/MATK +10 (Resilience Break: 8)",
+            "120.7% ATK/MATK +10 (Resilience Break: 8)",
+            "136.5% ATK/MATK +10 (Resilience Break: 8)",
+            "152.2% ATK/MATK +10 (Resilience Break: 8)",
             "168% ATK/MATK +10 (Resilience Break: 8)",
-            "184% ATK/MATK +10 (Resilience Break: 8)"
+            "183.7% ATK/MATK +10 (Resilience Break: 8)"
           ]
         ],
-        ["Probability", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Probability", ["40%", "52%", "64%", "76%", "88%", "100%"]],
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Magic", "Direct DMG", "AoE", "Crowd Control"]
     },
@@ -26822,10 +26822,10 @@
             "1750% ATK/MATK +100 (Resilience Break: 100)"
           ]
         ],
-        ["Crit bonus", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
-        ["Crit DMG bonus", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
+        ["Crit bonus", ["2240", "2688", "3136", "3584", "4032", "4480"]],
+        ["Crit DMG bonus", ["20%", "24%", "28%", "32%", "36%", "40%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Charge Time", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]]
+        ["Charge Time", ["90s", "90s", "90s", "75s", "75s", "60s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Crit"]
     },
@@ -26839,16 +26839,16 @@
           "Total DMG",
           [
             "900% ATK/MATK +90 (Resilience Break: 1500)",
-            "1035% ATK/MATK +90 (Resilience Break: 1500)",
+            "1034.9% ATK/MATK +90 (Resilience Break: 1500)",
             "1170% ATK/MATK +90 (Resilience Break: 1500)",
             "1305% ATK/MATK +90 (Resilience Break: 1500)",
             "1440% ATK/MATK +90 (Resilience Break: 1500)",
             "1575% ATK/MATK +90 (Resilience Break: 1500)"
           ]
         ],
-        ["Resilience Break bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Resilience Break bonus", ["25%", "30%", "35%", "40%", "45%", "50%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "Single Target", "Stagger"]
     },
@@ -26871,18 +26871,18 @@
         [
           "Total DMG",
           [
-            "210% ATK/MATK +21 (Resilience Break: 20)",
-            "241% ATK/MATK +21 (Resilience Break: 20)",
-            "273% ATK/MATK +21 (Resilience Break: 20)",
-            "305% ATK/MATK +21 (Resilience Break: 20)",
-            "336% ATK/MATK +21 (Resilience Break: 20)",
-            "368% ATK/MATK +21 (Resilience Break: 20)"
+            "1050% ATK/MATK +105 (Resilience Break: 100)",
+            "1207% ATK/MATK +105 (Resilience Break: 100)",
+            "1365% ATK/MATK +105 (Resilience Break: 100)",
+            "1522.5% ATK/MATK +105 (Resilience Break: 100)",
+            "1680% ATK/MATK +105 (Resilience Break: 100)",
+            "1837.5% ATK/MATK +105 (Resilience Break: 100)"
           ]
         ],
-        ["Luck Bonus", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
-        ["Luck Effect bonus", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["Luck Bonus", ["2240", "2688", "3136", "3584", "4032", "4480"]],
+        ["Luck Effect bonus", ["16%", "19.2%", "22.4%", "25.6%", "28.8%", "32%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]]
+        ["CD", ["150s", "150s", "150s", "125s", "125s", "100s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE", "Luck"]
     },
@@ -26896,16 +26896,16 @@
           "Total DMG",
           [
             "750% ATK/MATK+ 75 (Resilience Break: 100)",
-            "863% ATK/MATK+ 75 (Resilience Break: 100)",
+            "862.5% ATK/MATK+ 75 (Resilience Break: 100)",
             "975% ATK/MATK+ 75 (Resilience Break: 100)",
-            "1088% ATK/MATK+ 75 (Resilience Break: 100)",
+            "1087.5% ATK/MATK+ 75 (Resilience Break: 100)",
             "1200% ATK/MATK+ 75 (Resilience Break: 100)",
-            "1313% ATK/MATK+ 75 (Resilience Break: 100)"
+            "1312.5% ATK/MATK+ 75 (Resilience Break: 100)"
           ]
         ],
-        ["Strength Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Strength Bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Main attribute"]
     },
@@ -26928,15 +26928,15 @@
         [
           "Total DMG",
           [
-            "38% ATK/MATK +3 (Resilience Break: 5)",
-            "44% ATK/MATK +3 (Resilience Break: 5)",
-            "49% ATK/MATK +3 (Resilience Break: 5)",
-            "55% ATK/MATK +3 (Resilience Break: 5)",
-            "61% ATK/MATK +3 (Resilience Break: 5)",
-            "67% ATK/MATK +3 (Resilience Break: 5)"
+            "760% ATK/MATK +60 (Resilience Break: 100)",
+            "874% ATK/MATK +60 (Resilience Break: 100)",
+            "988% ATK/MATK +60 (Resilience Break: 100)",
+            "1102% ATK/MATK +60 (Resilience Break: 100)",
+            "1216% ATK/MATK +60 (Resilience Break: 100)",
+            "1330% ATK/MATK +60 (Resilience Break: 100)"
           ]
         ],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -26961,7 +26961,7 @@
           "After you take <style=\"accent-gn\">10</style> hits, your Armor increases <style=\"accent-gn\">1125</style> for <style=\"accent-gn\">15s</style>"
         ]
       ],
-      "activeEffectParams": [["CD", ["90秒", "90秒", "90秒", "90秒", "90秒", "90秒"]]],
+      "activeEffectParams": [["CD", ["90s", "90s", "90s", "75s", "75s", "60s"]]],
       "skillLabel": ["Resonance Skill", "Protect"]
     },
     "3930": {
@@ -26970,10 +26970,10 @@
       "activeSkillName": "Stunt! Earth Shield",
       "description": "<style=\"accent-gn\">Transforms into Elite</style>: Brigand Guard Captain to grant Earth Shield, recovering a percentage of lost HP when you are attacked, up to <style=\"accent-gn\">9</style> times. During this, your <style=\"accent-gn\">Endurance</style> is increased.",
       "activeEffectParams": [
-        ["HP Recover", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Endurance Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["HP Recover", ["10%", "12%", "14%", "16%", "18%", "20%"]],
+        ["Endurance Bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["15s", "15s", "15s", "15s", "15s", "15s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Direct healing", "Protect"]
     },
@@ -26987,16 +26987,16 @@
           "Total DMG",
           [
             "750% ATK/MATK +75 (Resilience Break: 100)",
-            "862% ATK/MATK +75 (Resilience Break: 100)",
+            "862.4% ATK/MATK +75 (Resilience Break: 100)",
             "975% ATK/MATK +75 (Resilience Break: 100)",
-            "1088% ATK/MATK +75 (Resilience Break: 100)",
+            "1087.5% ATK/MATK +75 (Resilience Break: 100)",
             "1200% ATK/MATK +75 (Resilience Break: 100)",
-            "1313% ATK/MATK +75 (Resilience Break: 100)"
+            "1312.5% ATK/MATK +75 (Resilience Break: 100)"
           ]
         ],
-        ["Agility Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Agility Bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "Single Target", "Main attribute"]
     },
@@ -27010,10 +27010,10 @@
           "DMG per hit",
           [
             "12% ATK +5 (Resilience Break: 1)",
-            "14% ATK +5 (Resilience Break: 1)",
-            "16% ATK +5 (Resilience Break: 1)",
-            "17% ATK +5 (Resilience Break: 1)",
-            "19% ATK +5 (Resilience Break: 1)",
+            "13.8% ATK +5 (Resilience Break: 1)",
+            "15.6% ATK +5 (Resilience Break: 1)",
+            "17.4% ATK +5 (Resilience Break: 1)",
+            "19.2% ATK +5 (Resilience Break: 1)",
             "21% ATK +5 (Resilience Break: 1)"
           ]
         ],
@@ -27022,7 +27022,7 @@
           ["30% Max HP", "36% Max HP", "42% Max HP", "48% Max HP", "54% Max HP", "60% Max HP"]
         ],
         ["Duration", ["15s", "15s", "15s", "15s", "15s", "15s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -27041,17 +27041,17 @@
         [
           "Total DMG",
           [
-            "75% ATK/MATK +7 (Resilience Break: 10)",
-            "86% ATK/MATK +7 (Resilience Break: 10)",
-            "98% ATK/MATK +7 (Resilience Break: 10)",
-            "109% ATK/MATK +7 (Resilience Break: 10)",
-            "120% ATK/MATK +7 (Resilience Break: 10)",
-            "131% ATK/MATK +7 (Resilience Break: 10)"
+            "750% ATK/MATK +70 (Resilience Break: 100)",
+            "862% ATK/MATK +70 (Resilience Break: 100)",
+            "975% ATK/MATK +70 (Resilience Break: 100)",
+            "1087% ATK/MATK +70 (Resilience Break: 100)",
+            "1200% ATK/MATK +70 (Resilience Break: 100)",
+            "1312% ATK/MATK +70 (Resilience Break: 100)"
           ]
         ],
-        ["Ice Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Ice Bonus", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "Silence", "AoE"]
     },
@@ -27075,17 +27075,17 @@
           "Total DMG",
           [
             "650% ATK/MATK +65 (Resilience Break: 100)",
-            "748% ATK/MATK +65 (Resilience Break: 100)",
+            "747.5% ATK/MATK +65 (Resilience Break: 100)",
             "845% ATK/MATK +65 (Resilience Break: 100)",
-            "943% ATK/MATK +65 (Resilience Break: 100)",
+            "942.5% ATK/MATK +65 (Resilience Break: 100)",
             "1040% ATK/MATK +65 (Resilience Break: 100)",
-            "1138% ATK/MATK +65 (Resilience Break: 100)"
+            "1137.5% ATK/MATK +65 (Resilience Break: 100)"
           ]
         ],
-        ["Luck Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Lucky Strike Multiplier", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Luck Bonus", ["1792", "2150", "2508", "2867", "3225", "3584"]],
+        ["Lucky Strike Multiplier", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE", "Luck"]
     },
@@ -27099,16 +27099,16 @@
           "Total DMG",
           [
             "1500% ATK/MATK +150 (Resilience Break: 100)",
-            "1613% ATK/MATK +150 (Resilience Break: 100)",
+            "1612.5% ATK/MATK +150 (Resilience Break: 100)",
             "1725% ATK/MATK +150 (Resilience Break: 100)",
-            "2063% ATK/MATK +150 (Resilience Break: 100)",
+            "2062.5% ATK/MATK +150 (Resilience Break: 100)",
             "2175% ATK/MATK +150 (Resilience Break: 100)",
-            "2288% ATK/MATK +150 (Resilience Break: 100)"
+            "2287.5% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["Mastery bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Mastery bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Mastery"]
     },
@@ -27122,16 +27122,16 @@
           "Total DMG",
           [
             "900% ATK/MATK +90 (Resilience Break: 100)",
-            "1035% ATK/MATK +90 (Resilience Break: 100)",
+            "1034.9% ATK/MATK +90 (Resilience Break: 100)",
             "1170% ATK/MATK +90 (Resilience Break: 100)",
             "1305% ATK/MATK +90 (Resilience Break: 100)",
             "1440% ATK/MATK +90 (Resilience Break: 100)",
             "1575% ATK/MATK +90 (Resilience Break: 100)"
           ]
         ],
-        ["Light Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Light Bonus", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Increased Damage"]
     },
@@ -27144,17 +27144,17 @@
         [
           "Total DMG",
           [
-            "75% ATK/MATK +7 (Resilience Break: 10)",
-            "86% ATK/MATK +7 (Resilience Break: 10)",
-            "98% ATK/MATK +7 (Resilience Break: 10)",
-            "109% ATK/MATK +7 (Resilience Break: 10)",
-            "120% ATK/MATK +7 (Resilience Break: 10)",
-            "131% ATK/MATK +7 (Resilience Break: 10)"
+            "750% ATK/MATK +70 (Resilience Break: 100)",
+            "862% ATK/MATK +70 (Resilience Break: 100)",
+            "975% ATK/MATK +70 (Resilience Break: 100)",
+            "1087% ATK/MATK +70 (Resilience Break: 100)",
+            "1200% ATK/MATK +70 (Resilience Break: 100)",
+            "1312% ATK/MATK +70 (Resilience Break: 100)"
           ]
         ],
-        ["Wind Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Wind Bonus", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -27181,8 +27181,8 @@
         ]
       ],
       "activeEffectParams": [
-        ["Transformation Duration", ["90秒", "90秒", "90秒", "90秒", "90秒", "90秒"]],
-        ["CD", ["90秒", "90秒", "90秒", "90秒", "90秒", "90秒"]]
+        ["Transformation Duration", ["15s", "18s", "21s", "24s", "27s", "30s"]],
+        ["CD", ["90s", "90s", "90s", "75s", "75s", "60s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG"]
     },
@@ -27196,34 +27196,28 @@
           "Blast DMG",
           [
             "150% ATK/MATK +15 (Resilience Break: 10)",
-            "161% ATK/MATK +15 (Resilience Break: 10)",
-            "173% ATK/MATK +15 (Resilience Break: 10)",
-            "206% ATK/MATK +15 (Resilience Break: 10)",
-            "218% ATK/MATK +15 (Resilience Break: 10)",
-            "229% ATK/MATK +15 (Resilience Break: 10)"
+            "161.25% ATK/MATK +15 (Resilience Break: 10)",
+            "172.5% ATK/MATK +15 (Resilience Break: 10)",
+            "206.25% ATK/MATK +15 (Resilience Break: 10)",
+            "217.5% ATK/MATK +15 (Resilience Break: 10)",
+            "228.75% ATK/MATK +15 (Resilience Break: 10)"
           ]
         ],
         [
           "Single DoT",
           [
             "94% ATK/MATK +9 (Resilience Break: 6)",
-            "101% ATK/MATK +9 (Resilience Break: 6)",
-            "108% ATK/MATK +9 (Resilience Break: 6)",
-            "129% ATK/MATK +9 (Resilience Break: 6)",
-            "136% ATK/MATK +9 (Resilience Break: 6)",
-            "143% ATK/MATK +9 (Resilience Break: 6)"
+            "101.05% ATK/MATK +9 (Resilience Break: 6)",
+            "108.1% ATK/MATK +9 (Resilience Break: 6)",
+            "129.25% ATK/MATK +9 (Resilience Break: 6)",
+            "136.3% ATK/MATK +9 (Resilience Break: 6)",
+            "143.35% ATK/MATK +9 (Resilience Break: 6)"
           ]
         ],
-        [
-          "Vulnerability (applies to yourself)",
-          ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]
-        ],
-        [
-          "Vulnerability (applies to allies)",
-          ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]
-        ],
+        ["Vulnerability (applies to yourself)", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
+        ["Vulnerability (applies to allies)", ["4%", "4.8%", "5.6%", "6.4%", "7.2%", "8%"]],
         ["Duration", ["8s", "8s", "8s", "8s", "8s", "8s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "DoT", "AoE", "Vulnerability"]
     },
@@ -27254,7 +27248,7 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Wound"]
     },
@@ -27275,9 +27269,9 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["Haste Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Haste Bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "Ice", "Single Target", "Haste"]
     },
@@ -27308,7 +27302,7 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "Ice", "AoE", "Silence"]
     },
@@ -27318,94 +27312,88 @@
       "activeSkillName": "Arcane! Goblin March",
       "description": "Resonates with the power of Boss: Goblin King, summoning <style=\"accent-gn\">1–3</style> goblins at random to cast skills.<br><style=\"accent-gn\">Always</style> summons 1 from Elite: Goblin Guard or Elite: Goblin Warrior.<br>Has <style=\"accent-gn\">a chance</style> to additionally summon 1 Elite: Jungle Goblin Warrior.<br>Has <style=\"accent-gn\">a chance</style> to summon 1 from Elite: Storm Goblin Axe or Boss: Storm Goblin King. Has a <style=\"accent-gn\">30%</style> chance to summon the Boss.",
       "activeEffectParams": [
-        ["Extra Elite Summon Probability", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["Extra Elite Summon Probability", ["60%", "80%", "80%", "100%", "100%", "100%"]],
         [
           "Additional Probability to Summon Elite or Boss",
-          ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]
+          ["40%", "60%", "60%", "80%", "80%", "100%"]
         ],
-        ["CD", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["CD", ["150s", "150s", "150s", "125s", "125s", "100s"]],
         [
           "\"Blade Sweep\"<br>Total DMG",
           [
-            "200% ATK/MATK +20 (Resilience Break: 33)",
-            "230% ATK/MATK +20 (Resilience Break: 33)",
-            "260% ATK/MATK +20 (Resilience Break: 33)",
-            "290% ATK/MATK +20 (Resilience Break: 33)",
-            "320% ATK/MATK +20 (Resilience Break: 33)",
-            "350% ATK/MATK +20 (Resilience Break: 33)"
+            "600% ATK/MATK +60 (Resilience Break: 99)",
+            "690% ATK/MATK +60 (Resilience Break: 99)",
+            "780% ATK/MATK +60 (Resilience Break: 99)",
+            "870% ATK/MATK +60 (Resilience Break: 99)",
+            "960% ATK/MATK +60 (Resilience Break: 99)",
+            "1050% ATK/MATK +60 (Resilience Break: 99)"
           ]
         ],
         [
           "\"Blade Sweep\" Block DMG Reduction Bonus",
-          ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]
+          ["7.5%", "9%", "10.5%", "12%", "13.5%", "15%"]
         ],
         [
           "\"Blade Sweep\" Block DMG Reduction Duration",
           ["20s", "20s", "20s", "20s", "20s", "20s"]
         ],
-        [
-          "\"Blade Sweep\" Armor Penetration",
-          ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]
-        ],
+        ["\"Blade Sweep\" Armor Penetration", ["200", "240", "280", "320", "360", "400"]],
         ["\"Blade Sweep\" Penetration Duration", ["10s", "10s", "10s", "10s", "10s", "10s"]],
         [
           "\"Frenzied Shot\"<br>Total DMG",
           [
-            "225% ATK/MATK +22 (Resilience Break: 25)",
-            "259% ATK/MATK +22 (Resilience Break: 25)",
-            "293% ATK/MATK +22 (Resilience Break: 25)",
-            "326% ATK/MATK +22 (Resilience Break: 25)",
-            "360% ATK/MATK +22 (Resilience Break: 25)",
-            "394% ATK/MATK +22 (Resilience Break: 25)"
+            "900% ATK/MATK +88 (Resilience Break: 100)",
+            "1034.8% ATK/MATK +88 (Resilience Break: 100)",
+            "1170% ATK/MATK +88 (Resilience Break: 100)",
+            "1304.8% ATK/MATK +88 (Resilience Break: 100)",
+            "1440% ATK/MATK +88 (Resilience Break: 100)",
+            "1574.8% ATK/MATK +88 (Resilience Break: 100)"
           ]
         ],
-        ["\"Frenzied Shot\" Luck Bonus", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
-        [
-          "\"Frenzied Shot\" Lucky Strike Multiplier",
-          ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]
-        ],
+        ["\"Frenzied Shot\" Luck Bonus", ["1792", "2150", "2508", "2867", "3225", "3584"]],
+        ["\"Frenzied Shot\" Lucky Strike Multiplier", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["\"Frenzied Shot\" Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
         [
           "\"Roar Command\" <br>Total DMG",
           [
             "750% ATK/MATK+ 75 (Resilience Break: 100)",
-            "863% ATK/MATK+ 75 (Resilience Break: 100)",
+            "862.5% ATK/MATK+ 75 (Resilience Break: 100)",
             "975% ATK/MATK+ 75 (Resilience Break: 100)",
-            "1088% ATK/MATK+ 75 (Resilience Break: 100)",
+            "1087.5% ATK/MATK+ 75 (Resilience Break: 100)",
             "1200% ATK/MATK+ 75 (Resilience Break: 100)",
-            "1313% ATK/MATK+ 75 (Resilience Break: 100)"
+            "1312.5% ATK/MATK+ 75 (Resilience Break: 100)"
           ]
         ],
-        ["\"Roar Command\" Strength Bonus", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["\"Roar Command\" Strength Bonus", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["\"Roar Command\" Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
         [
           "\"Whirlwind Strike\"<br>Total DMG",
           [
-            "75% ATK/MATK +7 (Resilience Break: 10)",
-            "86% ATK/MATK +7 (Resilience Break: 10)",
-            "98% ATK/MATK +7 (Resilience Break: 10)",
-            "109% ATK/MATK +7 (Resilience Break: 10)",
-            "120% ATK/MATK +7 (Resilience Break: 10)",
-            "131% ATK/MATK +7 (Resilience Break: 10)"
+            "750% ATK/MATK +70 (Resilience Break: 100)",
+            "862% ATK/MATK +70 (Resilience Break: 100)",
+            "975% ATK/MATK +70 (Resilience Break: 100)",
+            "1087% ATK/MATK +70 (Resilience Break: 100)",
+            "1200% ATK/MATK +70 (Resilience Break: 100)",
+            "1312% ATK/MATK +70 (Resilience Break: 100)"
           ]
         ],
-        ["\"Whirlwind Strike\" Wind Bonus", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["\"Whirlwind Strike\" Wind Bonus", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
         ["\"Whirlwind Strike\" Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
         [
           "\"Meteor Shower\"<br>Total DMG",
           [
-            "210% ATK/MATK +21 (Resilience Break: 20)",
-            "241% ATK/MATK +21 (Resilience Break: 20)",
-            "273% ATK/MATK +21 (Resilience Break: 20)",
-            "305% ATK/MATK +21 (Resilience Break: 20)",
-            "336% ATK/MATK +21 (Resilience Break: 20)",
-            "368% ATK/MATK +21 (Resilience Break: 20)"
+            "1050% ATK/MATK +105 (Resilience Break: 100)",
+            "1207% ATK/MATK +105 (Resilience Break: 100)",
+            "1365% ATK/MATK +105 (Resilience Break: 100)",
+            "1522.5% ATK/MATK +105 (Resilience Break: 100)",
+            "1680% ATK/MATK +105 (Resilience Break: 100)",
+            "1837.5% ATK/MATK +105 (Resilience Break: 100)"
           ]
         ],
-        ["\"Meteor Shower\" Luck Bonus", ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]],
+        ["\"Meteor Shower\" Luck Bonus", ["2240", "2688", "3136", "3584", "4032", "4480"]],
         [
           "\"Meteor Shower\" Increased Luck effects",
-          ["150秒", "150秒", "150秒", "150秒", "150秒", "150秒"]
+          ["16%", "19.2%", "22.4%", "25.6%", "28.8%", "32%"]
         ],
         ["\"Meteor Shower\" Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]]
       ],
@@ -27421,16 +27409,16 @@
           "Total DMG",
           [
             "900% ATK/MATK +90 (Resilience Break: 100)",
-            "1035% ATK/MATK +90 (Resilience Break: 100)",
+            "1034.9% ATK/MATK +90 (Resilience Break: 100)",
             "1170% ATK/MATK +90 (Resilience Break: 100)",
             "1305% ATK/MATK +90 (Resilience Break: 100)",
             "1440% ATK/MATK +90 (Resilience Break: 100)",
             "1575% ATK/MATK +90 (Resilience Break: 100)"
           ]
         ],
-        ["Thunder Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Thunder Bonus", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["CD", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["CD", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -27450,18 +27438,18 @@
           "Total DMG",
           [
             "1500% ATK/MATK+ 149 (Resilience Break: 100)",
-            "1725% ATK/MATK+ 149 (Resilience Break: 100)",
+            "1724.6% ATK/MATK+ 149 (Resilience Break: 100)",
             "1950% ATK/MATK+ 149 (Resilience Break: 100)",
-            "2175% ATK/MATK+ 149 (Resilience Break: 100)",
+            "2174.9% ATK/MATK+ 149 (Resilience Break: 100)",
             "2400% ATK/MATK+ 149 (Resilience Break: 100)",
-            "2625% ATK/MATK+ 149 (Resilience Break: 100)"
+            "2624.9% ATK/MATK+ 149 (Resilience Break: 100)"
           ]
         ],
-        ["DMG Boost", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
-        ["Extra DMG Boost", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
-        ["Life Steal Ratio", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
+        ["DMG Boost", ["10%", "12%", "14%", "16%", "18%", "20%"]],
+        ["Extra DMG Boost", ["1.2%", "1.44%", "1.68%", "1.92%", "2.16%", "2.4%"]],
+        ["Life Steal Ratio", ["1%", "1%", "1%", "1%", "1%", "1%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Overdrive Time", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]]
+        ["Overdrive Time", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Increased Damage"]
     },
@@ -27471,7 +27459,7 @@
       "activeSkillName": "Arcane! Illusion Resonance",
       "description": "<style=\"accent-gn\">Transforms into</style> Dorothy, replacing basic attack modules and gaining <linktext=1210><style=\"ItemQuality_5\">Artisan's Power</style></linktext>. <br>Passive: Dealing damage has a <style=\"accent-gn\">40%</style> chance to trigger Chain Lightning (trigger interval: at least <style=\"accent-gn\">0.5s</style>).<br>① Charges and fires a powerful shot at the target, dealing <style=\"physical\">Attack DMG</style>. Each additional charge increases the damage by <style=\"accent-gn\">150%</style>.<br>② Leaps into the air and launches a Thunderstorm Bolt at the target, dealing <style=\"physical\">Attack DMG</style> and creating a Thunderstorm Zone at the target for 7s. Thunderstorm Zone deals <style=\"physical\">Attack DMG</style> per second to enemies within and <linktext=3011><style=\"ItemQuality_5\">slows</style></linktext> them. <br>③ Continuously unleashes Thunder Tracers, dealing <style=\"physical\">Attack DMG</style> and inflicting <linktext=3008><style=\"ItemQuality_5\">Paralysis</style></linktext> on hit. <br>④ Fires an Oblivion Bomb, which explodes after traveling a distance or upon impact, dealing <style=\"physical\">Attack DMG</style>.",
       "activeEffectParams": [
-        ["Transformation Cooldown", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
+        ["Transformation Cooldown", ["20s", "20s", "20s", "20s", "20s", "20s"]],
         ["[Passive]", ["Effect", "Effect", "Effect", "Effect", "Effect", "Effect"]],
         [
           "Lightning Chain",
@@ -27499,12 +27487,12 @@
         [
           "Basic Attack 2nd Hit",
           [
-            "400% ATK/MATK +20",
-            "480% ATK/MATK +20",
-            "560% ATK/MATK +20",
-            "640% ATK/MATK +20",
-            "720% ATK/MATK +20",
-            "800% ATK/MATK +20"
+            "800% ATK/MATK +40",
+            "960% ATK/MATK +40",
+            "1120% ATK/MATK +40",
+            "1280% ATK/MATK +40",
+            "1440% ATK/MATK +40",
+            "1600% ATK/MATK +40"
           ]
         ],
         [
@@ -27547,10 +27535,10 @@
           "Thunderstorm Zone DMG per Hit",
           [
             "384% ATK/MATK +19",
-            "461% ATK/MATK +19",
-            "538% ATK/MATK +19",
-            "614% ATK/MATK +19",
-            "691% ATK/MATK +19",
+            "460.8% ATK/MATK +19",
+            "537.6% ATK/MATK +19",
+            "614.4% ATK/MATK +19",
+            "691.2% ATK/MATK +19",
             "768% ATK/MATK +19"
           ]
         ],
@@ -27560,10 +27548,10 @@
           "Thunder Tracer",
           [
             "267% ATK/MATK +13",
-            "320% ATK/MATK +13",
-            "374% ATK/MATK +13",
-            "427% ATK/MATK +13",
-            "481% ATK/MATK +13",
+            "320.4% ATK/MATK +13",
+            "373.8% ATK/MATK +13",
+            "427.2% ATK/MATK +13",
+            "480.6% ATK/MATK +13",
             "534% ATK/MATK +13"
           ]
         ],
@@ -27594,19 +27582,19 @@
           "Total DMG",
           [
             "1050% ATK/MATK +105 (Resilience Break: 100)",
-            "1207% ATK/MATK +105 (Resilience Break: 100)",
+            "1207.4% ATK/MATK +105 (Resilience Break: 100)",
             "1365% ATK/MATK +105 (Resilience Break: 100)",
-            "1523% ATK/MATK +105 (Resilience Break: 100)",
+            "1522.5% ATK/MATK +105 (Resilience Break: 100)",
             "1680% ATK/MATK +105 (Resilience Break: 100)",
-            "1838% ATK/MATK +105 (Resilience Break: 100)"
+            "1837.5% ATK/MATK +105 (Resilience Break: 100)"
           ]
         ],
-        ["ATK Boost", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
-        ["Extra ATK Boost", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
-        ["Attack SPD Boost", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
-        ["Casting SPD Boost", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]],
+        ["ATK Boost", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
+        ["Extra ATK Boost", ["1%", "1.2%", "1.4%", "1.6%", "1.8%", "2%"]],
+        ["Attack SPD Boost", ["5%", "6%", "7%", "8%", "9%", "10%"]],
+        ["Casting SPD Boost", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Overdrive Time", ["1秒", "1秒", "1秒", "1秒", "1秒", "1秒"]]
+        ["Overdrive Time", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Ice", "Direct DMG", "AoE", "Increased Damage"]
     },
@@ -27616,7 +27604,7 @@
       "activeSkillName": "Arcane! Guardian's Boundary",
       "description": "<style=\"accent-gn\">Summons</style> Fafala to create a field. </style><br>You and allies within the field gain <style=\"accent-gn\">Final DMG Reduction</style> and <style=\"accent-gn\">Super Armor</style>. When you deal damage from inside the field, inflict bonus damage based on a percentage of your DEF (can trigger at most once every <style=\"accent-gn\">1s</style>). When you take damage, reduce the CD of this Skill by <style=\"accent-gn\">1s</style> (can trigger at most once every <style=\"accent-gn\">2s</style>).<br><style=\"accent-gn\">[This effect does not stack. Only one instance of this effect can be active at a time.</style>",
       "activeEffectParams": [
-        ["Final DMG Reduction", ["90秒", "90秒", "90秒", "90秒", "90秒", "90秒"]],
+        ["Final DMG Reduction", ["15%", "18%", "21%", "24%", "27%", "30%"]],
         [
           "Extra Armor DMG",
           [
@@ -27629,7 +27617,7 @@
           ]
         ],
         ["Duration", ["15s", "15s", "15s", "15s", "15s", "15s"]],
-        ["Cooldown", ["90秒", "90秒", "90秒", "90秒", "90秒", "90秒"]]
+        ["Cooldown", ["90s", "90s", "90s", "75s", "75s", "60s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Protect"]
     },
@@ -27660,10 +27648,10 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["Attack SPD Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Casting SPD Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Attack SPD Boost", ["10%", "12%", "14%", "16%", "18%", "20%"]],
+        ["Casting SPD Boost", ["30%", "36%", "42%", "48%", "54%", "60%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Fire", "Direct DMG", "AoE", "Haste"]
     },
@@ -27694,9 +27682,9 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["Expertise Skill Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Expertise Skill Boost", ["22%", "26.4%", "30.8%", "35.2%", "39.6%", "44%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -27734,9 +27722,9 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["Companion ATK Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Companion ATK Boost", ["20%", "24%", "28%", "32%", "36%", "40%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Increased Damage"]
     },
@@ -27767,7 +27755,7 @@
             "2625% ATK/MATK +150 (Resilience Break: 100)"
           ]
         ],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": [
         "Resonance Skill",
@@ -27801,7 +27789,7 @@
           "Total DMG",
           [
             "1500% ATK/MATK +150 (Resilience Break: 100)",
-            "1725% ATK/MATK +150 (Resilience Break: 100)",
+            "1724.8% ATK/MATK +150 (Resilience Break: 100)",
             "1950% ATK/MATK +150 (Resilience Break: 100)",
             "2175% ATK/MATK +150 (Resilience Break: 100)",
             "2400% ATK/MATK +150 (Resilience Break: 100)",
@@ -27812,15 +27800,15 @@
           "Luck Effect DMG",
           [
             "50% ATK/MATK +5",
-            "58% ATK/MATK +5",
+            "57.5% ATK/MATK +5",
             "65% ATK/MATK +5",
-            "73% ATK/MATK +5",
+            "72.5% ATK/MATK +5",
             "80% ATK/MATK +5",
-            "88% ATK/MATK +5"
+            "87.5% ATK/MATK +5"
           ]
         ],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Luck"]
     },
@@ -27833,17 +27821,17 @@
         [
           "Total DMG",
           [
-            "250% ATK/MATK +25 (Resilience Break: 16)",
-            "287% ATK/MATK +25 (Resilience Break: 16)",
-            "325% ATK/MATK +25 (Resilience Break: 16)",
-            "363% ATK/MATK +25 (Resilience Break: 16)",
-            "400% ATK/MATK +25 (Resilience Break: 16)",
-            "438% ATK/MATK +25 (Resilience Break: 16)"
+            "1500% ATK/MATK +150 (Resilience Break: 96)",
+            "1724.4% ATK/MATK +150 (Resilience Break: 96)",
+            "1950% ATK/MATK +150 (Resilience Break: 96)",
+            "2175% ATK/MATK +150 (Resilience Break: 96)",
+            "2400% ATK/MATK +150 (Resilience Break: 96)",
+            "2625% ATK/MATK +150 (Resilience Break: 96)"
           ]
         ],
-        ["All-Element Bonus", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["All-Element Bonus", ["5%", "6%", "7%", "8%", "9%", "10%"]],
         ["Duration", ["10s", "10s", "10s", "10s", "10s", "10s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Increased Damage"]
     },
@@ -27856,17 +27844,17 @@
         [
           "Total DMG",
           [
-            "125% ATK/MATK +12 (Resilience Break: 16)",
-            "144% ATK/MATK +12 (Resilience Break: 16)",
-            "163% ATK/MATK +12 (Resilience Break: 16)",
-            "181% ATK/MATK +12 (Resilience Break: 16)",
-            "200% ATK/MATK +12 (Resilience Break: 16)",
-            "219% ATK/MATK +12 (Resilience Break: 16)"
+            "750% ATK/MATK +72 (Resilience Break: 96)",
+            "862.2% ATK/MATK +72 (Resilience Break: 96)",
+            "975% ATK/MATK +72 (Resilience Break: 96)",
+            "1087.2% ATK/MATK +72 (Resilience Break: 96)",
+            "1200% ATK/MATK +72 (Resilience Break: 96)",
+            "1312.2% ATK/MATK +72 (Resilience Break: 96)"
           ]
         ],
-        ["Versatility Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Versatility Boost", ["6.5%", "7.8%", "9.1%", "10.4%", "11.7%", "13%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Versatility"]
     },
@@ -27880,11 +27868,11 @@
           "Total DMG",
           [
             "525% ATK/MATK +52 (Resilience Break: 100)",
-            "604% ATK/MATK +52 (Resilience Break: 100)",
-            "683% ATK/MATK +52 (Resilience Break: 100)",
-            "761% ATK/MATK +52 (Resilience Break: 100)",
+            "603.7% ATK/MATK +52 (Resilience Break: 100)",
+            "682.5% ATK/MATK +52 (Resilience Break: 100)",
+            "761.2% ATK/MATK +52 (Resilience Break: 100)",
             "840% ATK/MATK +52 (Resilience Break: 100)",
-            "919% ATK/MATK +52 (Resilience Break: 100)"
+            "918.7% ATK/MATK +52 (Resilience Break: 100)"
           ]
         ],
         [
@@ -27899,7 +27887,7 @@
           ]
         ],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE"]
     },
@@ -27923,14 +27911,14 @@
           "Total DMG",
           [
             "650% ATK/MATK +65 (Resilience Break: 20)",
-            "748% ATK/MATK +65 (Resilience Break: 20)",
+            "747.5% ATK/MATK +65 (Resilience Break: 20)",
             "845% ATK/MATK +65 (Resilience Break: 20)",
-            "943% ATK/MATK +65 (Resilience Break: 20)",
+            "942.5% ATK/MATK +65 (Resilience Break: 20)",
             "1040% ATK/MATK +65 (Resilience Break: 20)",
-            "1138% ATK/MATK +65 (Resilience Break: 20)"
+            "1137.5% ATK/MATK +65 (Resilience Break: 20)"
           ]
         ],
-        ["Cooldown", ["90秒", "90秒", "90秒", "90秒", "90秒", "90秒"]]
+        ["Cooldown", ["90s", "90s", "90s", "75s", "75s", "60s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE"]
     },
@@ -27961,7 +27949,7 @@
             "525% ATK/MATK +30"
           ]
         ],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE"]
     },
@@ -27985,11 +27973,11 @@
           "Total DMG",
           [
             "525% ATK/MATK +52 (Resilience Break: 100)",
-            "604% ATK/MATK +52 (Resilience Break: 100)",
-            "683% ATK/MATK +52 (Resilience Break: 100)",
-            "761% ATK/MATK +52 (Resilience Break: 100)",
+            "603.7% ATK/MATK +52 (Resilience Break: 100)",
+            "682.5% ATK/MATK +52 (Resilience Break: 100)",
+            "761.2% ATK/MATK +52 (Resilience Break: 100)",
             "840% ATK/MATK +52 (Resilience Break: 100)",
-            "919% ATK/MATK +52 (Resilience Break: 100)"
+            "918.7% ATK/MATK +52 (Resilience Break: 100)"
           ]
         ],
         [
@@ -28003,7 +27991,7 @@
             "525% ATK/MATK +30"
           ]
         ],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE"]
     },
@@ -28017,16 +28005,16 @@
           "Total DMG",
           [
             "750% ATK/MATK +74 (Resilience Break: 100)",
-            "862% ATK/MATK +74 (Resilience Break: 100)",
+            "862.4% ATK/MATK +74 (Resilience Break: 100)",
             "975% ATK/MATK +74 (Resilience Break: 100)",
-            "1087% ATK/MATK +74 (Resilience Break: 100)",
+            "1087.4% ATK/MATK +74 (Resilience Break: 100)",
             "1200% ATK/MATK +74 (Resilience Break: 100)",
-            "1312% ATK/MATK +74 (Resilience Break: 100)"
+            "1312.4% ATK/MATK +74 (Resilience Break: 100)"
           ]
         ],
-        ["Mastery Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Mastery Boost", ["6.5%", "7.8%", "9.1%", "10.4%", "11.7%", "13%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Mastery"]
     },
@@ -28049,22 +28037,22 @@
         [
           "Total DMG",
           [
-            "375% ATK/MATK +37 (Resilience Break: 50)",
-            "431% ATK/MATK +37 (Resilience Break: 50)",
-            "488% ATK/MATK +37 (Resilience Break: 50)",
-            "544% ATK/MATK +37 (Resilience Break: 50)",
-            "600% ATK/MATK +37 (Resilience Break: 50)",
-            "656% ATK/MATK +37 (Resilience Break: 50)"
+            "750% ATK/MATK +74 (Resilience Break: 100)",
+            "862.4% ATK/MATK +74 (Resilience Break: 100)",
+            "975% ATK/MATK +74 (Resilience Break: 100)",
+            "1087.4% ATK/MATK +74 (Resilience Break: 100)",
+            "1200% ATK/MATK +74 (Resilience Break: 100)",
+            "1312.4% ATK/MATK +74 (Resilience Break: 100)"
           ]
         ],
-        ["Tier 1 Crit Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Tier 1 Crit DMG Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Tier 2 Crit Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Tier 2 Crit DMG Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Tier 3 Crit Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
-        ["Tier 3 Crit DMG Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Tier 1 Crit Boost", ["1344", "1612", "1881", "2150", "2419", "2688"]],
+        ["Tier 1 Crit DMG Boost", ["6%", "7.2%", "8.4%", "9.6%", "10.8%", "12%"]],
+        ["Tier 2 Crit Boost", ["1792", "2150", "2508", "2867", "3225", "3584"]],
+        ["Tier 2 Crit DMG Boost", ["8%", "9.6%", "11.2%", "12.8%", "14.4%", "16%"]],
+        ["Tier 3 Crit Boost", ["2240", "2688", "3136", "3584", "4032", "4480"]],
+        ["Tier 3 Crit DMG Boost", ["10%", "12%", "14%", "16%", "18%", "20%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Crit"]
     },
@@ -28088,14 +28076,14 @@
           "DMG per hit",
           [
             "333% ATK/MATK +33 (Resilience Break: 33)",
-            "383% ATK/MATK +33 (Resilience Break: 33)",
-            "433% ATK/MATK +33 (Resilience Break: 33)",
-            "483% ATK/MATK +33 (Resilience Break: 33)",
-            "533% ATK/MATK +33 (Resilience Break: 33)",
-            "583% ATK/MATK +33 (Resilience Break: 33)"
+            "382.9% ATK/MATK +33 (Resilience Break: 33)",
+            "432.9% ATK/MATK +33 (Resilience Break: 33)",
+            "482.8% ATK/MATK +33 (Resilience Break: 33)",
+            "532.8% ATK/MATK +33 (Resilience Break: 33)",
+            "582.7% ATK/MATK +33 (Resilience Break: 33)"
           ]
         ],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Magic", "Direct DMG", "AoE"]
     },
@@ -28108,17 +28096,17 @@
         [
           "Total DMG",
           [
-            "375% ATK/MATK +37 (Resilience Break: 50)",
-            "403% ATK/MATK +37 (Resilience Break: 50)",
-            "431% ATK/MATK +37 (Resilience Break: 50)",
-            "516% ATK/MATK +37 (Resilience Break: 50)",
-            "544% ATK/MATK +37 (Resilience Break: 50)",
-            "572% ATK/MATK +37 (Resilience Break: 50)"
+            "750% ATK/MATK +74 (Resilience Break: 100)",
+            "806.24% ATK/MATK +74 (Resilience Break: 100)",
+            "862.5% ATK/MATK +74 (Resilience Break: 100)",
+            "1031.24% ATK/MATK +74 (Resilience Break: 100)",
+            "1087.5% ATK/MATK +74 (Resilience Break: 100)",
+            "1143.74% ATK/MATK +74 (Resilience Break: 100)"
           ]
         ],
-        ["Haste Boost", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]],
+        ["Haste Boost", ["6.5%", "7.8%", "9.1%", "10.4%", "11.7%", "13%"]],
         ["Duration", ["20s", "20s", "20s", "20s", "20s", "20s"]],
-        ["Cooldown", ["120秒", "120秒", "120秒", "120秒", "120秒", "120秒"]]
+        ["Cooldown", ["120s", "120s", "120s", "100s", "100s", "80s"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical", "Direct DMG", "AoE", "Haste"]
     },
@@ -28128,8 +28116,8 @@
       "activeSkillName": "Secret Art! Celestial Spirit Mage",
       "description": "<style=\"accent-gn\">Transform into </style>Celestial Spirit Mage - Lucy, replacing your skill set while gaining <linktext=1217><style=\"ItemQuality_5\">Ability Conversion</style></linktext>.<br>Passive: Dealing damage converts <style=\"accent-gn\">50%</style> of the damage dealt into healing for up to <style=\"physical\">10</style> nearby allies (prioritizing teammates).<br>1. <style=\"accent-gn\">Fleuve d'Étoiles</style>: Manifests the Fleuve d'Étoiles and swings it continuously, dealing Light <style=\"magic\">Magic DMG</style> to targets.<br>2. <style=\"accent-gn\">Celestial Guardian</style>: Harnesses the power of Celestial Spirits to grant a shield lasting <style=\"accent-gn\">20s</style> to up to <style=\"accent-gn\">10</style> allies within range (prioritizing teammates). Simultaneously inflicts debuffs on up to <style=\"accent-gn\">5</style> enemies within range, reducing ATK, applying Vulnerability, and reducing Element Resistance for <style=\"accent-gn\">10s</style>.<br>3. <style=\"accent-gn\">Aqua Records</style>: Draws upon the power of Aquarius to unleash waves forward, dealing Water <style=\"magic\">Magic DMG</style> to targets in their path, with an additional <style=\"accent-gn\">50%</style> of the damage dealt converted into healing.",
       "activeEffectParams": [
-        ["Transformation Duration", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
-        ["CD", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
+        ["Transformation Duration", ["", "", "", "", "", ""]],
+        ["CD", ["20s", "20s", "20s", "20s", "20s", "20s"]],
         [
           "[Basic Attack]<br>Basic Attack I",
           [
@@ -28186,11 +28174,11 @@
             "15%  Target's Max HP"
           ]
         ],
-        ["Celestial Spirit Guard ATK Reduction", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
-        ["Celestial Spirit Guard Vulnerability", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
+        ["Celestial Spirit Guard ATK Reduction", ["3%", "3.6%", "4.2%", "4.8%", "5.4%", "6%"]],
+        ["Celestial Spirit Guard Vulnerability", ["3%", "3.6%", "4.2%", "4.8%", "5.4%", "6%"]],
         [
           "Celestial Spirit Guard Elemental Resistance Reduction",
-          ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]
+          ["3%", "3.6%", "4.2%", "4.8%", "5.4%", "6%"]
         ],
         [
           "Celestial Spirit Guard Cooldown",
@@ -28199,12 +28187,12 @@
         [
           "[Aqua Metria] <br>Aqua Metria DMG",
           [
-            "1200% ATK/MATK +60",
-            "1560% ATK/MATK +60",
-            "1920% ATK/MATK +60",
-            "2280% ATK/MATK +60",
-            "2640% ATK/MATK +60",
-            "3000% ATK/MATK +60"
+            "2400% ATK/MATK +60",
+            "3120% ATK/MATK +60",
+            "3840% ATK/MATK +60",
+            "4560% ATK/MATK +60",
+            "5280% ATK/MATK +60",
+            "6000% ATK/MATK +60"
           ]
         ]
       ],
@@ -28216,9 +28204,9 @@
       "activeSkillName": "Secret Art! Dragon Slayer",
       "description": "<style=\"accent-gn\">Transform into </style>Fire Dragon Slayer - Natsu, replacing your skill set while gaining <linktext=1217><style=\"ItemQuality_5\">Ability Conversion</style></linktext>.<br>Passive: Casting skills other than an Ultimate Skill grants stacks of <style=\"accent-gn\">Dragon Flame</style> based on the skill type. Every 10 stacks of <style=\"accent-gn\">Dragon Flame</style> automatically converts into 1 stack of <style=\"accent-gn\">Dragon Force</style>. <style=\"accent-gn\">Dragon Force</style> can stack up to 5 times. Each stack of <style=\"accent-gn\">Dragon Force</style> grants a Fire Bonus.<br>1. <style=\"accent-gn\">Fire Dragon's Iron Fist</style>: Charges briefly before unleashing a blazing punch forward, dealing Fire <style=\"physical\">Attack DMG</style> and accumulating 5 stacks of <style=\"accent-gn\">Dragon Flame</style>.<br>2. <style=\"accent-gn\">Fire Dragon's Wing Attack</style>: Leaps fiercely and dashes forward, dealing Fire <style=\"physical\">Attack DMG</style> and accumulating 5 stacks of <style=\"accent-gn\">Dragon Flame</style>.<br>3. <style=\"accent-gn\">Fire Dragon's Roar</style>: Gathers the power of flames to spew a massive blast of fire forward, dealing Fire <style=\"physical\">Attack DMG</style>. If at max <style=\"accent-gn\">Dragon Force</style> stacks, consumes all stacks of <style=\"accent-gn\">Dragon Force</style> to gain CD reduction for Natsu's skills and a Fire Bonus. This effect persists for the duration of the current transformation and can stack up to <style=\"accent-gn\">3</style> times.",
       "activeEffectParams": [
-        ["Dragon Force Element Bonus", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
-        ["Transformation Duration", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
-        ["CD", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
+        ["Dragon Force Element Bonus", ["9%", "9%", "9%", "11.7%", "11.7%", "14.4%"]],
+        ["Transformation Duration", ["", "", "", "", "", ""]],
+        ["CD", ["20s", "20s", "20s", "20s", "20s", "20s"]],
         [
           "[Basic Attack]<br>Basic Attack I",
           [
@@ -28246,7 +28234,7 @@
           [
             "450% ATK/MATK +22",
             "540% ATK/MATK +22",
-            "630% ATK/MATK +22",
+            "629.9% ATK/MATK +22",
             "720% ATK/MATK +22",
             "810% ATK/MATK +22",
             "900% ATK/MATK +22"
@@ -28267,28 +28255,28 @@
         [
           "[Fire Dragon's Wing Attack]<br>Fire Dragon's Wing Attack DMG",
           [
-            "1000% ATK/MATK +50",
-            "1200% ATK/MATK +50",
-            "1400% ATK/MATK +50",
-            "1600% ATK/MATK +50",
-            "1800% ATK/MATK +50",
-            "2000% ATK/MATK +50"
+            "4000% ATK/MATK +200",
+            "4800% ATK/MATK +200",
+            "5600% ATK/MATK +200",
+            "6400% ATK/MATK +200",
+            "7200% ATK/MATK +200",
+            "8000% ATK/MATK +200"
           ]
         ],
         ["CD", ["15s", "15s", "15s", "15s", "15s", "15s"]],
         [
           "[Fire Dragon’s Roar]<br>Fire Dragon’s Roar DMG",
           [
-            "409% ATK/MATK +20",
-            "450% ATK/MATK +20",
-            "491% ATK/MATK +20",
-            "614% ATK/MATK +20",
-            "654% ATK/MATK +20",
-            "695% ATK/MATK +20"
+            "4499% ATK/MATK +220",
+            "4948.9% ATK/MATK +220",
+            "5398.8% ATK/MATK +220",
+            "6748.5% ATK/MATK +220",
+            "7198.4% ATK/MATK +220",
+            "7648.3% ATK/MATK +220"
           ]
         ],
-        ["Fire Dragon’s Roar CD Reduction", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]],
-        ["Fire Dragon’s Roar Element Bonus", ["20秒", "20秒", "20秒", "20秒", "20秒", "20秒"]]
+        ["Fire Dragon’s Roar CD Reduction", ["25%", "25%", "25%", "32.5%", "32.5%", "40%"]],
+        ["Fire Dragon’s Roar Element Bonus", ["56.2%", "56.2%", "56.2%", "73%", "73%", "89.9%"]]
       ],
       "skillLabel": ["Resonance Skill", "Physical"]
     }
