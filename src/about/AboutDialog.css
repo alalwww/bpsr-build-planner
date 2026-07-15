@@ -1,0 +1,8 @@
+/* Web版 About ダイアログ(AboutDialog)のシェルスタイル。
+   コンテンツ部分は about-panel.css を参照。 */
+
+.draggable-dialog.about-dialog {
+  min-width: 420px;
+  max-width: 500px;
+  max-height: 80vh;
+}

@@ -8,7 +8,7 @@ function formatEntryDate(iso: string): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-// 変更履歴エントリの一覧表示。ChangelogDialog(Web)と AboutApp(クライアント)で共用する。
+// 変更履歴エントリの一覧表示。AboutPanel 経由で Web版/クライアント版の双方から使われる。
 function ChangelogList() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language.startsWith('ja') ? 'ja' : 'en';

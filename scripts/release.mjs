@@ -24,14 +24,14 @@ const PACKAGE_JSON = join(ROOT, 'package.json');
 const CARGO_TOML = join(ROOT, 'src-tauri/Cargo.toml');
 const CARGO_LOCK = join(ROOT, 'src-tauri/Cargo.lock'); // gitignored; local convenience only
 const TAURI_CONF = join(ROOT, 'src-tauri/tauri.conf.json');
-const CHANGELOG_JSON = join(ROOT, 'src/changelog/changelog.json');
+const CHANGELOG_JSON = join(ROOT, 'src/about/changelog.json');
 const CARGO_CRATE_NAME = 'bpsr-build-planner';
 
 const TARGET_FILES_FOR_GIT = [
   'package.json',
   'src-tauri/Cargo.toml',
   'src-tauri/tauri.conf.json',
-  'src/changelog/changelog.json',
+  'src/about/changelog.json',
 ];
 
 function parseArgs(argv) {

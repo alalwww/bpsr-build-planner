@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatBuildTime } from './buildInfo';
-import ChangelogDialog from './changelog/ChangelogDialog';
-import { latestChangelogVersion } from './changelog/changelogData';
-import { hasUnreadChangelog, markChangelogSeen } from './changelog/changelogStorage';
+import AboutDialog from './about/AboutDialog';
+import { latestChangelogVersion } from './about/changelogData';
+import { hasUnreadChangelog, markChangelogSeen } from './about/changelogStorage';
 import './Footer.css';
 
 function Footer() {
@@ -31,7 +31,7 @@ function Footer() {
           )}
         </button>
       </footer>
-      {showChangelog && <ChangelogDialog onClose={() => setShowChangelog(false)} />}
+      {showChangelog && <AboutDialog onClose={() => setShowChangelog(false)} />}
     </>
   );
 }
