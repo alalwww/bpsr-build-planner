@@ -23,6 +23,7 @@ interface SkillTooltipKey {
   skillId: number;
   isImagine: boolean;
   rank: number;
+  level?: number;
   score?: number;
   align: 'right' | 'left';
 }
@@ -91,7 +92,8 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
     rank = 0,
     score?: number,
     align: 'right' | 'left' = 'right',
-  ): CircleHandlers => makeHandlers({ skillId, isImagine, rank, score, align }, align);
+    level?: number,
+  ): CircleHandlers => makeHandlers({ skillId, isImagine, rank, level, score, align }, align);
 
   const normalSkillLabel = tUi('buildPlanner.skill.masterySkills', {
     defaultValue: 'マスタリースキル',
@@ -144,6 +146,7 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
                 fixedRanks[i] ?? 6,
                 fixedSkillScore(i),
                 i === 2 ? 'left' : 'right',
+                fixedLevels[i] ?? 30,
               )}
             />
           ))}
@@ -179,6 +182,7 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
                   false,
                 ),
                 i === 2 || i === 5 ? 'left' : 'right',
+                masteryLevels[i] ?? 30,
               )}
             />
           ))}

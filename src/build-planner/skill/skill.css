@@ -523,6 +523,10 @@
   padding: 0;
 }
 
+.skill-tooltip__effect-list--skill {
+  margin-top: 16px;
+}
+
 .skill-tooltip__effect-item {
   display: flex;
   align-items: flex-start;

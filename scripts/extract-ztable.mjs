@@ -56,6 +56,47 @@ const SECONDS_SUFFIX = {
   english: 's',
 };
 
+// "up" 書式: 1/100 したパーセント表記(小数は最大2桁、ゲーム内表示に一致)。
+function formatUpPercent(total) {
+  const pct = total / 100;
+  return (pct % 1 === 0 ? String(Math.round(pct)) : String(parseFloat(pct.toFixed(2)))) + '%';
+}
+
+// リキャスト系のうちチャージ時間を表すラベル(完全一致)。
+const CHARGE_TIME_ATTR_LABELS = new Set(['チャージ時間', 'Charge Time', 'Overdrive Time']);
+
+// クラススキルの SkillAttrDes formula 空欄行(バフ効果行)の値解決マッピング。
+// ゲーム内表示との突き合わせ(sample/skill-effect-survey.txt)で確定したもの、
+// および確定パターンからの類推(コメント参照)を登録する。未登録の行は空値=非表示。
+// skillId -> SkillAttrDes 行index -> テンプレート配列
+//   要素: 固定文字列 | [FloatParameterキー, 単位]
+//   単位: percent(raw/100の%) | flat(実数) | seconds(ミリ秒→秒)
+//   値 = SkillFightLevelTable のレベル別基礎値 + WeaponStarTable のランク別増分
+const SKILL_EFFECT_VALUE_MAP = {
+  // --- ゲーム内確認済み ---
+  1243: {
+    0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']],
+    1: [['time', 'seconds']],
+  },
+  1524: { 0: [['attr', 'percent']], 1: [['mAtk', 'flat']], 2: [['time', 'seconds']] },
+  1528: { 0: [['attr', 'percent'], '+', ['attrAdd', 'flat']], 1: [['subCd', 'seconds']] },
+  1730: { 0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
+  1936: { 0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
+  1938: { 0: [['attr', 'percent']], 1: [['time', 'seconds']] },
+  2209: { 2: ['10%'] }, // 脆弱: 出所データなし・ゲーム内表示は固定10%
+  2231: {
+    0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']],
+    1: [['time', 'seconds']],
+  },
+  2316: { 0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
+  2405: { 1: [['attrPer', 'percent']] },
+  2408: { 1: [['attrPer', 'percent']] },
+  2415: { 0: [['attrAdd', 'flat']], 1: [['attrPer', 'percent']] },
+  // --- 確定パターンからの類推(要ゲーム内確認) ---
+  // 「%+実数」複合はスポットライト(2316)と同族
+  1420: { 1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
+};
+
 // バトルイマジンの SkillAttrDes formula 空欄行(バフ効果行)の値解決マッピング。
 // ゲーム内ポップアップとの突き合わせ調査(sample/imagine-effect-survey.txt)で全行確定済み。
 // aoyiId -> SkillAttrDes 行index -> [FloatParameterキー, 単位] または [null, 'fixed', 表示文字列]
@@ -1292,6 +1333,42 @@ function extractLocaleText(
 
   const bdTagTable = readTable(langDir, 'BdTagTable');
   const skillEffectTable = readTable(langDir, 'SkillEffectTable');
+  const damageAttrTable = readTable(langDir, 'DamageAttrTable');
+  const skillFightLvlTable = readTable(langDir, 'SkillFightLevelTable');
+
+  // Build SkillId -> first SkillEffectTable entry map
+  const skillEffectBySkillId = {};
+  for (const entry of Object.values(skillEffectTable)) {
+    if (!skillEffectBySkillId[entry.SkillId]) skillEffectBySkillId[entry.SkillId] = entry;
+  }
+
+  // skillId -> level -> { FloatParameter object, PVECoolTime }
+  // (クラススキルは SkillFightLevelTable にレベル1-30の行を持つ)
+  const fightLvlBySkillLevel = {};
+  for (const entry of Object.values(skillFightLvlTable)) {
+    if (!entry.SkillId) continue;
+    (fightLvlBySkillLevel[entry.SkillId] ??= {})[entry.Level] = {
+      floatPar: Object.fromEntries((entry.FloatParameter || []).map(([k, v]) => [k, Number(v)])),
+      coolTime: entry.PVECoolTime,
+    };
+  }
+
+  // skillId -> rank(1-6) -> { key: 増分 }
+  // クラススキルのランク(G)強化は WeaponStarTable。FloatParameter の増分が
+  // スキル効果値に加算される(ゲーム内表示と突き合わせて確認済み)。
+  const weaponStarTable = readTable(langDir, 'WeaponStarTable');
+  const skillStarIncByRank = {};
+  for (const entry of Object.values(weaponStarTable)) {
+    if (!entry.SkillId) continue;
+    (skillStarIncByRank[entry.SkillId] ??= {})[entry.Level] = Object.fromEntries(
+      (entry.FloatParameter || []).map(([k, v]) => [k, Number(v)]),
+    );
+  }
+
+  // クラススキル効果値: レベル別基礎値(SkillFightLevelTable) + ランク別増分(WeaponStarTable)
+  const skillEffectValue = (skillId, key, rank, level) =>
+    (fightLvlBySkillLevel[skillId]?.[level]?.floatPar?.[key] ?? 0) +
+    (rank > 0 ? (skillStarIncByRank[skillId]?.[rank]?.[key] ?? 0) : 0);
 
   // スキルのタグ表示(skillLabel): EffectIDs→SkillEffectTable.Tags→BdTagTable.TagName を
   // Tags配列の順序で必要な数だけ解決する。
@@ -1310,15 +1387,185 @@ function extractLocaleText(
     return tagIds.map((tagId) => bdTagTable[String(tagId)]?.TagName).filter(Boolean);
   }
 
+  const SKILL_MAX_LEVEL = 30;
+  const SKILL_MAX_RANK = 6; // G0-G6
+
+  // evaluate(rank, level) を全ランク・全レベルで評価し、変動する次元に応じた
+  // part を parts へ追加する共通処理。
+  //   定数 → 文字列 / ランクのみ → { r: 7要素 } / レベルのみ → { l: 30要素 }
+  //   両方 → { u: 書式, l: レベル別基礎値(数値), r: ランク別増分(数値) }
+  //   (両方の場合は 値 = l[level-1] + r[rank] を表示側で書式化する)
+  function pushEffectValues(parts, pushText, evaluate, fmt, formatCode, skillId) {
+    const byLevel = [];
+    for (let level = 1; level <= SKILL_MAX_LEVEL; level++) {
+      byLevel.push(evaluate(0, level));
+    }
+    const incByRank = [];
+    for (let rank = 0; rank <= SKILL_MAX_RANK; rank++) {
+      incByRank.push(evaluate(rank, SKILL_MAX_LEVEL) - evaluate(0, SKILL_MAX_LEVEL));
+    }
+    const levelVaries = new Set(byLevel).size > 1;
+    const rankVaries = incByRank.some((v) => v !== 0);
+    if (rankVaries && levelVaries) {
+      if (formatCode !== 'up' && formatCode !== 'un') {
+        // 表示側の書式化は up/un のみ対応(秒等の両次元変動は現データに存在しない)
+        console.warn(
+          `[extract-ztable] skill ${skillId}: 両次元変動の値が未対応書式(${formatCode})`,
+        );
+        parts.push({ l: byLevel.map(fmt) });
+        return;
+      }
+      parts.push({ u: formatCode, l: byLevel, r: incByRank });
+    } else if (rankVaries) {
+      parts.push({ r: incByRank.map((inc) => fmt(byLevel[0] + inc)) });
+    } else if (levelVaries) {
+      parts.push({ l: byLevel.map(fmt) });
+    } else {
+      pushText(fmt(byLevel[0]));
+    }
+  }
+
+  // クラススキルの SkillAttrDes formula をトークン分解し、値 parts へ変換する。
+  // 表示側が選択中のレベル・ランクで組み立てる。
+  // DamageAttrTable の PVEDamageRadio は7要素=ランク別、
+  // PVEFixedParameter/PVEStunnedDamage は30要素=レベル別。
+  // skillpara.effect は skillEffectValue(レベル別基礎値+ランク別増分)で解決する。
+  function resolveSkillAttrDesParts(formula, skillId) {
+    const parts = [];
+    const pushText = (text) => {
+      const cleaned = text.replace(/<br>/gi, ' ');
+      if (!cleaned) return;
+      if (typeof parts[parts.length - 1] === 'string') parts[parts.length - 1] += cleaned;
+      else parts.push(cleaned);
+    };
+    const pushValues = (evaluate, format) => {
+      const fmt = (v) => (format === 'up' ? formatUpPercent(v) : String(v));
+      pushEffectValues(parts, pushText, evaluate, fmt, format, skillId);
+    };
+
+    const tokenRe =
+      /\{\*skillpara\.damageMerge\(\{([^}]+)\},\{([^}]+)\},"([^"]+)","([^"]+)"\)\*\}|\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*\}/g;
+    let last = 0;
+    let m;
+    while ((m = tokenRe.exec(formula)) !== null) {
+      pushText(formula.slice(last, m.index));
+      if (m[1] !== undefined) {
+        const ids = m[1].split(',').map((s) => s.trim());
+        const counts = m[2].split(',').map((s) => Number(s.trim()));
+        const fieldName = m[3];
+        pushValues((rank, level) => {
+          let total = 0;
+          ids.forEach((id, i) => {
+            const arr = damageAttrTable[id]?.[fieldName];
+            let value = 0;
+            if (Array.isArray(arr) && arr.length > 0) {
+              const idx =
+                arr.length === SKILL_MAX_RANK + 1 ? rank : Math.min(level - 1, arr.length - 1);
+              value = arr[idx];
+            } else if (typeof arr === 'number') {
+              value = arr;
+            }
+            total += value * (counts[i] || 1);
+          });
+          return total;
+        }, m[4]);
+      } else {
+        const key = m[5];
+        pushValues((rank, level) => skillEffectValue(skillId, key, rank, level), m[6]);
+      }
+      last = tokenRe.lastIndex;
+    }
+    pushText(formula.slice(last));
+    if (typeof parts[0] === 'string') parts[0] = parts[0].trimStart();
+    const lastPart = parts[parts.length - 1];
+    if (typeof lastPart === 'string') {
+      const trimmed = lastPart.trimEnd();
+      if (trimmed) parts[parts.length - 1] = trimmed;
+      else parts.pop();
+    }
+    return parts;
+  }
+
+  // SKILL_EFFECT_VALUE_MAP のテンプレート配列を parts へ変換する。
+  function resolveSkillMappedParts(template, skillId, secSuffix) {
+    const parts = [];
+    const pushText = (text) => {
+      if (!text) return;
+      if (typeof parts[parts.length - 1] === 'string') parts[parts.length - 1] += text;
+      else parts.push(text);
+    };
+    for (const item of template) {
+      if (typeof item === 'string') {
+        pushText(item);
+        continue;
+      }
+      const [key, unit] = item;
+      const fmt = (v) => {
+        if (unit === 'percent') return formatUpPercent(v);
+        if (unit === 'seconds') return `${parseFloat((v / 1000).toFixed(2))}${secSuffix}`;
+        return String(v);
+      };
+      const formatCode = unit === 'percent' ? 'up' : unit === 'flat' ? 'un' : 'seconds';
+      pushEffectValues(
+        parts,
+        pushText,
+        (rank, level) => skillEffectValue(skillId, key, rank, level),
+        fmt,
+        formatCode,
+        skillId,
+      );
+    }
+    return parts;
+  }
+
+  // クラススキルの activeEffectParams: [[label, parts], ...]
+  // formula 空欄行の解決:
+  //   チャージ時間 → SkillTable.EnergyChargeTime(ミリ秒)
+  //   リキャスト   → PVECoolTime。ただし 0/1 はチャージ型のプレースホルダのため、
+  //                  EnergyChargeTime があればそちらを表示(フェラルシード15秒等で確認)
+  //   バフ効果行   → SKILL_EFFECT_VALUE_MAP(未登録は空=非表示)
+  function resolveSkillActiveEffectParams(skillId) {
+    const effectEntry = skillEffectBySkillId[skillId];
+    if (!effectEntry?.SkillAttrDes?.length) return [];
+    const secSuffix = SECONDS_SUFFIX[basename(langDir)] ?? '秒';
+    const valueMap = SKILL_EFFECT_VALUE_MAP[skillId] ?? {};
+    const rows = [];
+    effectEntry.SkillAttrDes.forEach(([label, formula], rowIdx) => {
+      if (!label) return;
+      if (formula) {
+        rows.push([label, resolveSkillAttrDesParts(formula, skillId)]);
+        return;
+      }
+      if (COOLDOWN_ATTR_LABELS.has(label)) {
+        const chargeTime = skillTable[String(skillId)]?.EnergyChargeTime ?? 0;
+        const coolTime = fightLvlBySkillLevel[skillId]?.[1]?.coolTime ?? 0;
+        let seconds;
+        if (CHARGE_TIME_ATTR_LABELS.has(label)) {
+          seconds = chargeTime > 0 ? chargeTime / 1000 : coolTime;
+        } else {
+          seconds =
+            (coolTime === 0 || coolTime === 1) && chargeTime > 0 ? chargeTime / 1000 : coolTime;
+        }
+        rows.push([label, seconds ? [`${seconds}${secSuffix}`] : []]);
+        return;
+      }
+      const mapping = valueMap[rowIdx];
+      rows.push([label, mapping ? resolveSkillMappedParts(mapping, skillId, secSuffix) : []]);
+    });
+    return rows;
+  }
+
   const skills = {};
   for (const id of skillIds) {
     const entry = skillTable[String(id)];
     if (!entry) continue;
     const skillLabel = resolveSkillLabel(entry.EffectIDs);
+    const activeEffectParams = resolveSkillActiveEffectParams(id);
     skills[id] = {
       name: entry.Name,
       description: entry.Desc || '',
       ...(skillLabel.length > 0 ? { skillLabel } : {}),
+      ...(activeEffectParams.length > 0 ? { activeEffectParams } : {}),
     };
   }
 
@@ -1572,8 +1819,6 @@ function extractLocaleText(
   //   ランク非依存の値("15秒"等)は全6要素が同一文字列となる。
   const aoyiTable = readTable(langDir, 'SkillAoyiTable');
   const aoyiStarTableForLocale = readTable(langDir, 'SkillAoyiStarTable');
-  const damageAttrTable = readTable(langDir, 'DamageAttrTable');
-  const skillFightLvlTable = readTable(langDir, 'SkillFightLevelTable');
 
   // Build per-rank BuffPar map: aoyiId -> level(1-5) -> number[]
   const aoyiRankBufPar = {};
@@ -1604,12 +1849,6 @@ function extractLocaleText(
       pveCoolTimeBySkillId[entry.SkillId] = entry.PVECoolTime;
   }
 
-  // Build SkillId -> first SkillEffectTable entry map
-  const skillEffectBySkillId = {};
-  for (const entry of Object.values(skillEffectTable)) {
-    if (!skillEffectBySkillId[entry.SkillId]) skillEffectBySkillId[entry.SkillId] = entry;
-  }
-
   // Substitute {*Decision.fn(N)*} placeholders with computed values from params array
   function substituteBuffParams(template, params) {
     return template.replace(/\{\*Decision\.(\w+)\((\d+)\)\*\}/g, (_, fnName, idxStr) => {
@@ -1626,12 +1865,6 @@ function extractLocaleText(
       }
       return String(val); // unmarknormal etc.
     });
-  }
-
-  // "up" 書式: 1/100 したパーセント表記(小数は最大2桁、ゲーム内表示に一致)。
-  function formatUpPercent(total) {
-    const pct = total / 100;
-    return (pct % 1 === 0 ? String(Math.round(pct)) : String(parseFloat(pct.toFixed(2)))) + '%';
   }
 
   // Resolve skill formula tokens in a SkillAttrDes value string.
