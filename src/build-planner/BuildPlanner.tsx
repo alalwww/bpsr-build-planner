@@ -97,54 +97,62 @@ function BuildPlanner() {
                 {t(`buildPlanner.tabs.${tab}`)}
               </button>
             ))}
-            <div className="nav-lang" ref={langMenuRef}>
-              <button
-                type="button"
-                className="build-planner__nav-lang"
-                onClick={() => setLangMenuOpen((v) => !v)}
-                title="Language"
+            <div className="build-planner__nav-right">
+              <span
+                className="build-planner__season-badge"
+                title={t('buildPlanner.seasonBadgeTitle')}
               >
-                🌐
-              </button>
-              {langMenuOpen && (
-                <div className="nav-lang__dropdown">
-                  <button
-                    type="button"
-                    className={`nav-lang__item${i18n.language === 'ja_JP' ? ' nav-lang__item--active' : ''}`}
-                    onClick={() => changeLanguage('ja_JP')}
-                  >
-                    日本語
-                  </button>
-                  <button
-                    type="button"
-                    className={`nav-lang__item${i18n.language === 'en_US' ? ' nav-lang__item--active' : ''}`}
-                    onClick={() => changeLanguage('en_US')}
-                  >
-                    English
-                  </button>
-                </div>
-              )}
-            </div>
-            {isTauri && (
-              <div className="nav-lang" ref={appMenuRef}>
+                {t('buildPlanner.seasonBadge')}
+              </span>
+              <div className="nav-lang" ref={langMenuRef}>
                 <button
                   type="button"
                   className="build-planner__nav-lang"
-                  onClick={() => setAppMenuOpen((v) => !v)}
-                  title={t('about.menuTitle')}
+                  onClick={() => setLangMenuOpen((v) => !v)}
+                  title="Language"
                 >
-                  ⚙️
+                  🌐
                 </button>
-                {appMenuOpen && (
+                {langMenuOpen && (
                   <div className="nav-lang__dropdown">
-                    <hr />
-                    <button type="button" className="nav-lang__item" onClick={openAbout}>
-                      {t('about.menu')}
+                    <button
+                      type="button"
+                      className={`nav-lang__item${i18n.language === 'ja_JP' ? ' nav-lang__item--active' : ''}`}
+                      onClick={() => changeLanguage('ja_JP')}
+                    >
+                      日本語
+                    </button>
+                    <button
+                      type="button"
+                      className={`nav-lang__item${i18n.language === 'en_US' ? ' nav-lang__item--active' : ''}`}
+                      onClick={() => changeLanguage('en_US')}
+                    >
+                      English
                     </button>
                   </div>
                 )}
               </div>
-            )}
+              {isTauri && (
+                <div className="nav-lang" ref={appMenuRef}>
+                  <button
+                    type="button"
+                    className="build-planner__nav-lang"
+                    onClick={() => setAppMenuOpen((v) => !v)}
+                    title={t('about.menuTitle')}
+                  >
+                    ⚙️
+                  </button>
+                  {appMenuOpen && (
+                    <div className="nav-lang__dropdown">
+                      <hr />
+                      <button type="button" className="nav-lang__item" onClick={openAbout}>
+                        {t('about.menu')}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </nav>
           <div
             className={`build-planner__content${isPhantomTab ? ' build-planner__content--phantom' : ''}`}

@@ -37,6 +37,8 @@
   "buildPlanner": {
     "newPlan": "New Build Plan",
     "buildPlanPlaceholder": "Build Plan Name",
+    "seasonBadge": "Season 2",
+    "seasonBadgeTitle": "Season 3 data is not yet supported",
     "abilityScore": "Ability Score",
     "abilityScoreBreakdown": {
       "source": "Source",

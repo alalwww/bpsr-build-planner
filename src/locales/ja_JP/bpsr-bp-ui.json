@@ -37,6 +37,8 @@
   "buildPlanner": {
     "newPlan": "新しいビルドプラン",
     "buildPlanPlaceholder": "ビルドプラン名",
+    "seasonBadge": "Season 2",
+    "seasonBadgeTitle": "Season 3のデータには未対応です",
     "abilityScore": "能力スコア",
     "abilityScoreBreakdown": {
       "source": "ソース",

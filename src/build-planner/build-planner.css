@@ -28,16 +28,31 @@
   flex-shrink: 0;
 }
 
-.nav-lang {
+/* 右端寄せグループ(Seasonバッジ + 言語切替 + [クライアント版]設定メニュー) */
+.build-planner__nav-right {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.build-planner__season-badge {
+  border: 1px solid #f4a13a;
+  border-radius: 4px;
+  padding: 3px 8px;
+  color: #f4a13a;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.nav-lang {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-/* 2つ目以降のナビメニューは右端に詰めて並べる(margin-left:auto を重複させない) */
-.nav-lang ~ .nav-lang {
-  margin-left: 0;
 }
 
 .build-planner__nav-lang {
