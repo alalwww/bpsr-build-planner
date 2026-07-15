@@ -16,6 +16,19 @@
     "github": "GitHub",
     "ok": "OK"
   },
+  "updater": {
+    "checkNow": "更新を確認",
+    "checking": "確認中...",
+    "latest": "最新のバージョンです",
+    "available": "新しいバージョン {{version}} が利用可能です",
+    "availableTitle": "アップデート",
+    "availableMsg": "新しいバージョン {{version}} が利用可能です。今すぐ更新しますか？",
+    "installNow": "更新して再起動",
+    "later": "後で",
+    "installing": "ダウンロード中...",
+    "checkError": "更新の確認に失敗しました",
+    "installError": "更新のインストールに失敗しました"
+  },
   "changelog": {
     "title": "変更履歴",
     "unreadBadge": "未読の変更履歴があります",

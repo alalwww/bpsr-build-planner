@@ -16,6 +16,19 @@
     "github": "GitHub",
     "ok": "OK"
   },
+  "updater": {
+    "checkNow": "Check for Updates",
+    "checking": "Checking...",
+    "latest": "You are up to date",
+    "available": "Version {{version}} is available",
+    "availableTitle": "Update Available",
+    "availableMsg": "Version {{version}} is available. Update now?",
+    "installNow": "Update & Restart",
+    "later": "Later",
+    "installing": "Downloading...",
+    "checkError": "Failed to check for updates",
+    "installError": "Failed to install the update"
+  },
   "changelog": {
     "title": "Changelog",
     "unreadBadge": "Unread changelog",

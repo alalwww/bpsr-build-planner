@@ -3,6 +3,7 @@ import BuildPlanner from './build-planner/BuildPlanner';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './Footer';
 import { isTauri } from './platform';
+import UpdateChecker from './updater/UpdateChecker';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         </ErrorBoundary>
       </main>
       {!isTauri && <Footer />}
+      {isTauri && <UpdateChecker />}
     </>
   );
 }
