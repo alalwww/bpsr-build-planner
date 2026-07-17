@@ -17,11 +17,13 @@ export const SEASON_CONSTANTS: {
 } = seasonConstantsRaw;
 
 // 系列A(diminishingA)のうち、実数値0のときに既に乗っている基礎%。
-// ステータスごとに異なる(出典: Wikiの実数値↔%グラフのx=0時点のy値)。
+// ステータスごとに異なる(出典: Wikiの実数値↔%グラフのx=0時点のy値。ただしhasteはS2時代の
+// 値(6%)がS3では実測と合わず、ゲーム内実測(俊敏538・装備なしでreal=430/0.85%、
+// real=100×430/(430+50000)=0.8536%と一致)によりS3では0%に変更済み)。
 export const DIMINISHING_A_BASE_PERCENT = {
   crit: 5,
   luck: 5,
-  haste: 6,
+  haste: 0,
   mastery: 6,
   resist: 0,
 } as const;

@@ -5,6 +5,10 @@ export const COMMON_STAT_COEFFICIENTS = {
   physicalDefPerStrengthPoint: 0.2,
   // 知力1ptあたりの魔法防御力上昇量
   magicalDefPerIntellectPoint: 0.2,
-  // 敏捷1ptあたりのファスト(実数値)上昇量
-  hastePerAgilityPoint: 0.45,
+  // 敏捷1ptあたりのファスト(実数値)上昇量。
+  // ゲーム内実測(装備・アビリティ・イマジン全て未取得の状態で俊敏315→ファスト実数252、
+  // 複数クラス(ストームブレイド/フロストメイジ/ヴァーダントオラクル/シールドファイター/
+  // ビートパフォーマー)で同一値であることを確認済み。クラス差はなく、R1アビリティ等による
+  // 追加補正はconversionRateBonusとして別途加算される。
+  hastePerAgilityPoint: 0.8,
 } as const;
