@@ -14,8 +14,8 @@
           "装備にシーズン３の要素を追加",
           "潜在心相晶の心相投影ツリーをシーズン３用に更新",
           "ステータス計算をシーズン３のものに更新",
-          "　※アビリティ・潜在因子などにステータスへ反映されないものが残っています",
-          "　※端数の丸め処理や計算方法の変更に伴いステータス計算式が不明で誤差が出る項目があります",
+          "※アビリティ・潜在因子などにステータスへ反映されないものが残っています",
+          "※端数の丸め処理や計算方法の変更に伴いステータス計算式が不明で誤差が出る項目があります",
           "装着効果選択時、リストから選んでもホバーのツールチップが表示され続ける不具合を修正",
           "ドロップダウンパネルがスクロールに追従せず、開いた際に選択中の項目までスクロールしない不具合を修正"
         ],
@@ -25,8 +25,8 @@
           "Add Season 3 equipment content",
           "Update the phantom factor's season-talent tree for Season 3",
           "Update stat calculations for Season 3",
-          "  Note: Some ability/phantom-factor effects still aren't reflected in stat calculations",
-          "  Note: Some stats may show inaccuracies due to unclear formulas around rounding and calculation method changes",
+          "Note: Some ability/phantom-factor effects still aren't reflected in stat calculations",
+          "Note: Some stats may show inaccuracies due to unclear formulas around rounding and calculation method changes",
           "Fix the enchant hover tooltip staying visible after selecting from the list",
           "Fix the dropdown panel not following scroll and not scrolling to the selected item on open"
         ]
@@ -114,10 +114,7 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": [
-          "精錬攻撃・全属性攻撃の計算修正",
-          "フッターのビルド日時のタイムゾーン変換表示"
-        ],
+        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
