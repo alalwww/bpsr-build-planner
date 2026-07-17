@@ -12,6 +12,7 @@ import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import {
   classifyEvoDisplay,
   getEvoVariantFamily,
+  getLegendaryAffixGroupPoolKey,
   getLegendaryAffixGroups,
   getMaxPerfectline,
   getRefineForSlot,
@@ -316,13 +317,19 @@ function EquipmentSlotPicker({
     ) : null;
 
   // 蒼海武器の4枠選択式レアステータス: 既存のLegendaryAffixPickerを縦に4つ並べる。
-  // 同じ効果(attrId)は複数枠で重複選択できないため、他枠で選択済みのattrIdは候補から除外する。
+  // 同じ効果(attrId)の重複禁止は、選択肢セット(候補リストの中身)が完全一致する枠同士
+  // のみに適用する(実機確認済み: 4枠は「上2枠」「下2枠」の2プールに分かれ、プールが
+  // 異なれば同じ効果でも両方選択できる)。
   const legendaryAffixGroupPickers =
     legendaryAffixGroups && legendaryAffixGroups.length > 0
       ? legendaryAffixGroups.map((group, i) => {
+          const poolKey = getLegendaryAffixGroupPoolKey(group);
           const otherSelectedAttrIds = new Set(
             (selectedLegendaryAffixGroup ?? [])
-              .filter((_, j) => j !== i)
+              .filter(
+                (_, j) =>
+                  j !== i && getLegendaryAffixGroupPoolKey(legendaryAffixGroups[j]) === poolKey,
+              )
               .map((sel) => sel?.attrId)
               .filter((attrId): attrId is number => attrId !== undefined),
           );
@@ -517,9 +524,7 @@ function EquipmentSlotPicker({
                         !isCandidateGsMatch(candidate, candidateGsFilter);
                       return (
                         <Fragment key={candidate.id}>
-                          {showGroupDivider && (
-                            <div className="equipment-dialog__select-divider" />
-                          )}
+                          {showGroupDivider && <div className="equipment-dialog__select-divider" />}
                           <button
                             type="button"
                             className={`equipment-dialog__select-option${candidate.id === equippedId ? ' equipment-dialog__select-option--selected' : ''}`}

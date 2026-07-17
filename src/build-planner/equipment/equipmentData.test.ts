@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { EquipmentItem } from '../types';
-import { getEvoVariantFamily } from './equipmentData';
+import type { EquipmentItem, LegendaryAffixEntry } from '../types';
+import { getEvoVariantFamily, getLegendaryAffixGroupPoolKey } from './equipmentData';
 
 function makeEquipmentItem(overrides: Partial<EquipmentItem> = {}): EquipmentItem {
   return {
@@ -107,5 +107,41 @@ describe('getEvoVariantFamily', () => {
 
     expect(getEvoVariantFamily(twoSlot, [twoSlot, oneSlot])).toBeNull();
     expect(getEvoVariantFamily(oneSlot, [twoSlot, oneSlot])).toBeNull();
+  });
+});
+
+function makeAffixEntry(attrId: number, effectType = 1): LegendaryAffixEntry {
+  return { effectType, attrId, isPercent: true, values: [600], fightValues: [240] };
+}
+
+describe('getLegendaryAffixGroupPoolKey', () => {
+  it('returns the same key for groups with identical options regardless of order', () => {
+    const groupA = [makeAffixEntry(11712), makeAffixEntry(11932), makeAffixEntry(11952)];
+    const groupB = [makeAffixEntry(11952), makeAffixEntry(11712), makeAffixEntry(11932)];
+
+    expect(getLegendaryAffixGroupPoolKey(groupA)).toBe(getLegendaryAffixGroupPoolKey(groupB));
+  });
+
+  it('returns different keys for groups with different options (even if some overlap)', () => {
+    // 蒼海武器の実例: 上2枠(会心/ファスト/幸運/器用さ/万能)と下2枠(敏捷/物理攻撃力/...)は
+    // どちらも「幸運」を含むが、選択肢セット全体は異なるため別プール扱いになるべき。
+    const upperPool = [
+      makeAffixEntry(11712),
+      makeAffixEntry(11932),
+      makeAffixEntry(11782),
+      makeAffixEntry(11942),
+      makeAffixEntry(11952),
+    ];
+    const lowerPool = [
+      makeAffixEntry(11034),
+      makeAffixEntry(11334),
+      makeAffixEntry(2400003, 3),
+      makeAffixEntry(13142),
+      makeAffixEntry(11952),
+    ];
+
+    expect(getLegendaryAffixGroupPoolKey(upperPool)).not.toBe(
+      getLegendaryAffixGroupPoolKey(lowerPool),
+    );
   });
 });

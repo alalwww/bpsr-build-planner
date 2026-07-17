@@ -247,3 +247,15 @@ export function getLegendaryAffixGroups(
 ): LegendaryAffixEntry[][] | null {
   return item.legendaryAffixGroups?.[String(talentSchoolId)] ?? null;
 }
+
+// 蒼海武器の4枠選択式レアステータスは、選択肢セット(候補リストの中身)が完全一致する
+// 枠同士のみ相互排他(同じ効果を2回選べない)。選択肢セットが異なる枠同士は独立で、
+// 同じ効果(attrId)が両方に含まれていてもそれぞれ選択できる(実機確認済み: 4枠が
+// 「上2枠(同一選択肢)」「下2枠(同一選択肢、上とは別セット)」の2プールに分かれる)。
+// 候補リストの中身(attrId+effectType)をソートして文字列化したものをプールキーとする。
+export function getLegendaryAffixGroupPoolKey(group: LegendaryAffixEntry[]): string {
+  return group
+    .map((e) => `${e.effectType}_${e.attrId}`)
+    .sort()
+    .join(',');
+}
