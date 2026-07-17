@@ -309,21 +309,31 @@ function EquipmentSlotPicker({
     ) : null;
 
   // 蒼海武器の4枠選択式レアステータス: 既存のLegendaryAffixPickerを縦に4つ並べる。
+  // 同じ効果(attrId)は複数枠で重複選択できないため、他枠で選択済みのattrIdは候補から除外する。
   const legendaryAffixGroupPickers =
     legendaryAffixGroups && legendaryAffixGroups.length > 0
-      ? legendaryAffixGroups.map((group, i) => (
-          <LegendaryAffixPicker
-            key={i}
-            legendaryAffixList={group}
-            selectedLegendaryAffix={selectedLegendaryAffixGroup?.[i]}
-            isOpen={affixGroupOpenIndex === i}
-            onToggleOpen={() => setAffixGroupOpenIndex(affixGroupOpenIndex === i ? null : i)}
-            onSet={(sel) => {
-              onSetLegendaryAffixGroup(i, sel);
-              setAffixGroupOpenIndex(null);
-            }}
-          />
-        ))
+      ? legendaryAffixGroups.map((group, i) => {
+          const otherSelectedAttrIds = new Set(
+            (selectedLegendaryAffixGroup ?? [])
+              .filter((_, j) => j !== i)
+              .map((sel) => sel?.attrId)
+              .filter((attrId): attrId is number => attrId !== undefined),
+          );
+          const availableGroup = group.filter((entry) => !otherSelectedAttrIds.has(entry.attrId));
+          return (
+            <LegendaryAffixPicker
+              key={i}
+              legendaryAffixList={availableGroup}
+              selectedLegendaryAffix={selectedLegendaryAffixGroup?.[i]}
+              isOpen={affixGroupOpenIndex === i}
+              onToggleOpen={() => setAffixGroupOpenIndex(affixGroupOpenIndex === i ? null : i)}
+              onSet={(sel) => {
+                onSetLegendaryAffixGroup(i, sel);
+                setAffixGroupOpenIndex(null);
+              }}
+            />
+          );
+        })
       : null;
 
   // ホバー中の候補を「希望グレード」で解決した表示ビュー(名前/効果は精・極に応じて変化)。
