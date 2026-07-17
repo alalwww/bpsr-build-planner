@@ -236,10 +236,13 @@ function writeJson(dir, fileName, data) {
 // 解放される図鑑システム)と連動し、SkillLevel 1-4 でランクアップする。全Talentに
 // 共通で追加する。
 const UNIVERSAL_ROLE_SKILLS = [3021, 3022, 3023, 3024, 3025, 3026, 3027, 3028];
+// 3011系は強制被弾(挑発)・+45%ダメージ軽減("・御"接尾辞)を含みタンク専用。
+// 3611系は挑発なしの弱い被ダメ軽減("・御"なし)・ST回復でDPS向け。
+// スキル説明文(SkillAttrDes)で確認済み: Talent=1(DPS)には3611系、Talent=3(タンク)には3011系が正。
 const TALENT_ROLE_SKILLS = {
-  1: [3011, 3012, 3013, 3014, ...UNIVERSAL_ROLE_SKILLS],
+  1: [3611, 3612, 3613, 3614, ...UNIVERSAL_ROLE_SKILLS],
   2: [3311, 3312, 3313, 3314, ...UNIVERSAL_ROLE_SKILLS],
-  3: [3611, 3612, 3613, 3614, ...UNIVERSAL_ROLE_SKILLS],
+  3: [3011, 3012, 3013, 3014, ...UNIVERSAL_ROLE_SKILLS],
 };
 
 // classes.json: ProfessionSystemTable keyed by ProfessionId. IsOpen:false

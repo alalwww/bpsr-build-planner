@@ -26415,27 +26415,27 @@
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020204": {
-      "name": " ",
+      "name": "",
       "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
     },
     "3020205": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020206": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020207": {
-      "name": " ",
+      "name": "",
       "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
     },
     "3020208": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020209": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020211": {
@@ -26451,27 +26451,27 @@
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020214": {
-      "name": " ",
+      "name": "",
       "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
     },
     "3020215": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020216": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020217": {
-      "name": " ",
+      "name": "",
       "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
     },
     "3020218": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020219": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020221": {
@@ -26487,27 +26487,27 @@
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020224": {
-      "name": " ",
+      "name": "",
       "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
     },
     "3020225": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020226": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020227": {
-      "name": " ",
+      "name": "",
       "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
     },
     "3020228": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020229": {
-      "name": " ",
+      "name": "",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "8000001": {
@@ -47487,7 +47487,7 @@
     },
     "1523": {
       "name": "Regen Pulse",
-      "description": "Chants for <style=\"accent-gn\">2.3s</style>, then consumes <style=\"accent-gn\">40</style> <style=\"accent-gn\">Energy</style> to release a pulse from the caster. The pulse <style=\"accent-gn\">heals</style> the caster and all affected allies.<br><br><size=22><style=\"tipsYellow\">Tips: In AoE-heavy healing encounters, use this skill carefully to avoid wasting its dispel and putting it on CD too early.</style></size> ",
+      "description": "Chants for <style=\"accent-gn\">2.3s</style>, then consumes <style=\"accent-gn\">40</style> <style=\"accent-gn\">Energy</style> to release a pulse from the caster. The pulse <style=\"accent-gn\">heals</style> the caster and all affected allies.<br><br><size=22><style=\"tipsYellow\">Tips: In AoE-heavy healing encounters, use this skill carefully to avoid wasting its dispel and putting it on CD too early.</style></size>",
       "skillLabel": [
         "Expertise Skill",
         "Magic",

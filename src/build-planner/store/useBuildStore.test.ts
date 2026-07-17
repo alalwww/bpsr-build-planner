@@ -138,7 +138,7 @@ describe('skillSlice', () => {
     useBuildStore.getState().resetSkillForProfessionChange('shieldFighter');
 
     const state = useBuildStore.getState();
-    expect(state.roleSkillSlots).toEqual([3611, 3612, 3613, 3614]);
+    expect(state.roleSkillSlots).toEqual([3011, 3012, 3013, 3014]);
     expect(state.roleSkillRanks).toEqual([0, 0, 0, 0]);
   });
 
@@ -280,7 +280,7 @@ describe('planSlice', () => {
       .applyPlanState({ ...planWithoutRoleSkills, professionKey: 'shieldFighter' });
 
     const state = useBuildStore.getState();
-    expect(state.roleSkillSlots).toEqual([3611, 3612, 3613, 3614]);
+    expect(state.roleSkillSlots).toEqual([3011, 3012, 3013, 3014]);
     expect(state.roleSkillRanks).toEqual([0, 0, 0, 0]);
   });
 
