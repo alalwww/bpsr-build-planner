@@ -123,6 +123,7 @@ function EquipmentSlotPicker({
     open: openEnchantTooltip,
     cancelClose: cancelEnchantTooltipClose,
     scheduleClose: hideEnchantTooltip,
+    close: closeEnchantTooltip,
   } = useAnchorTooltip<{ enchant: EnchantItem; x: number; y: number }>();
   const [candidateTooltip, setCandidateTooltip] = useState<{
     item: EquipmentItem;
@@ -913,6 +914,7 @@ function EquipmentSlotPicker({
                               data-selected={selectedEnchant === view.id}
                               onClick={() => {
                                 onSetEnchant(view.id);
+                                closeEnchantTooltip();
                                 close();
                               }}
                               onMouseEnter={(e) => showEnchantTooltip(enchant, e)}
