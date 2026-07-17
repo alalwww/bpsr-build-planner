@@ -30,6 +30,7 @@ function baseInput(): CalculateRawStatsInput {
   return {
     equipped: {},
     legendaryAffixState: {},
+    legendaryAffixGroupState: {},
     refineLevels: uniformSlotRecord(0),
     perfectlines: uniformSlotRecord(100),
     evolutionStats: {},

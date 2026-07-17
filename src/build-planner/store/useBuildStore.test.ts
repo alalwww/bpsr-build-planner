@@ -38,11 +38,15 @@ describe('equipmentSlice', () => {
     expect(state.slotEnchants.weapon).toBeUndefined();
   });
 
-  it('resetEquipmentForProfessionChange: メインステータス変更時は上下半身装備も外す', () => {
+  it('resetEquipmentForProfessionChange: メインステータス変更時は上下半身装備も外し、装着効果・伝説刻印・レアステータスも消去する', () => {
     const weapon = getItemsBySlot('weapon')[0];
     const head = getItemsBySlot('head')[0];
     useBuildStore.getState().equip('weapon', weapon);
     useBuildStore.getState().equip('head', head);
+    useBuildStore.getState().setSlotEnchant('weapon', 999);
+    useBuildStore.getState().setSlotEnchant('head', 998);
+    useBuildStore.getState().setLegendaryAffix('weapon', { attrId: 1, value: 100 });
+    useBuildStore.getState().setLegendaryAffixGroup('head', 0, { attrId: 2, value: 200 });
 
     useBuildStore.getState().resetEquipmentForProfessionChange(true);
 
@@ -50,19 +54,29 @@ describe('equipmentSlice', () => {
     expect(state.equipped.weapon).toBeUndefined();
     expect(state.equipped.head).toBeUndefined();
     expect(state.evolutionStats).toEqual({});
+    expect(state.slotEnchants.weapon).toBeUndefined();
+    expect(state.slotEnchants.head).toBeUndefined();
+    expect(state.legendaryAffixState.weapon).toBeUndefined();
+    expect(state.legendaryAffixGroupState.head).toBeUndefined();
   });
 
-  it('resetEquipmentForProfessionChange: メインステータス不変時は武器のみ外す', () => {
+  it('resetEquipmentForProfessionChange: メインステータス不変時は武器のみ外し、武器の装着効果・伝説刻印のみ消去する', () => {
     const weapon = getItemsBySlot('weapon')[0];
     const head = getItemsBySlot('head')[0];
     useBuildStore.getState().equip('weapon', weapon);
     useBuildStore.getState().equip('head', head);
+    useBuildStore.getState().setSlotEnchant('weapon', 999);
+    useBuildStore.getState().setSlotEnchant('head', 998);
+    useBuildStore.getState().setLegendaryAffix('weapon', { attrId: 1, value: 100 });
 
     useBuildStore.getState().resetEquipmentForProfessionChange(false);
 
     const state = useBuildStore.getState();
     expect(state.equipped.weapon).toBeUndefined();
     expect(state.equipped.head).toEqual(head);
+    expect(state.slotEnchants.weapon).toBeUndefined();
+    expect(state.slotEnchants.head).toBe(998);
+    expect(state.legendaryAffixState.weapon).toBeUndefined();
   });
 });
 
@@ -115,6 +129,29 @@ describe('skillSlice', () => {
     const state = useBuildStore.getState();
     expect(state.battleImagines).toEqual([42, null]);
     expect(state.masteryLevels.every((lv) => lv === 30)).toBe(true);
+  });
+
+  it('resetSkillForProfessionChange: ロールスキルは新クラスのTalent別固定スキルにリセットされる', () => {
+    useBuildStore.getState().setRoleSkillSlotsState([3021, 3022, 3023, 3024]);
+    useBuildStore.getState().setRoleSkillRanksState([2, 3, 1, 4]);
+
+    useBuildStore.getState().resetSkillForProfessionChange('shieldFighter');
+
+    const state = useBuildStore.getState();
+    expect(state.roleSkillSlots).toEqual([3611, 3612, 3613, 3614]);
+    expect(state.roleSkillRanks).toEqual([0, 0, 0, 0]);
+  });
+
+  it('setRoleSkillSlot/setRoleSkillRank: 指定indexのみ更新する', () => {
+    useBuildStore.getState().setRoleSkillSlotsState([3011, 3012, 3013, 3014]);
+    useBuildStore.getState().setRoleSkillRanksState([0, 0, 0, 0]);
+
+    useBuildStore.getState().setRoleSkillSlot(1, 3021);
+    useBuildStore.getState().setRoleSkillRank(1, 3);
+
+    const state = useBuildStore.getState();
+    expect(state.roleSkillSlots).toEqual([3011, 3021, 3013, 3014]);
+    expect(state.roleSkillRanks).toEqual([0, 3, 0, 0]);
   });
 });
 
@@ -227,6 +264,24 @@ describe('planSlice', () => {
 
     expect(result).toBe('failed');
     expect(useBuildStore.getState().planName).toBe(before);
+  });
+
+  it('applyPlanState: roleSkillSlots/roleSkillRanksが無いプラン(旧データ)はクラスのロール専用4種にフォールバックする', () => {
+    useBuildStore.getState().setRoleSkillSlotsState([3021, 3022, 3023, 3024]);
+    useBuildStore.getState().setRoleSkillRanksState([2, 3, 1, 4]);
+    const plan = useBuildStore.getState().buildAutoSaveState('旧データ再現');
+    // roleSkillSlots/roleSkillRanksが未設定の状態(旧バージョンのプラン)を再現する。
+    const { roleSkillSlots: _slots, roleSkillRanks: _ranks, ...planWithoutRoleSkills } = plan;
+    void _slots;
+    void _ranks;
+
+    useBuildStore
+      .getState()
+      .applyPlanState({ ...planWithoutRoleSkills, professionKey: 'shieldFighter' });
+
+    const state = useBuildStore.getState();
+    expect(state.roleSkillSlots).toEqual([3611, 3612, 3613, 3614]);
+    expect(state.roleSkillRanks).toEqual([0, 0, 0, 0]);
   });
 
   it('resetPlan: 装備をデフォルトの初期ロードアウトへ戻す', () => {

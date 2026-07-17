@@ -14,7 +14,11 @@ const imagineIcon = createAssetMap(
 
 export function getSkillIconUrl(iconPath: string): string | undefined {
   const filename = iconPath.split('/').pop();
-  return filename ? skillIcon(filename) : undefined;
+  if (!filename) return undefined;
+  // 汎用ロールスキル(全ロール共通、シーズン3)はSkillTable上のアイコンが
+  // バトルイマジンと同じ skill_aoyi_skill_icon_* を指すため、専用の
+  // src/assets/skills/ に無ければ src/assets/skills_imagines/ にフォールバックする。
+  return skillIcon(filename) ?? imagineIcon(filename);
 }
 
 export function getImagineIconUrl(iconName: string): string | undefined {

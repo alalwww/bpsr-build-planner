@@ -122,7 +122,7 @@ export type BondBuffStatEffect =
   | { type: 'ratio_of'; sourceStat: StatId; targetStat: StatId; ratio: number };
 
 export const BOND_BUFF_STAT_EFFECTS: Partial<Record<number, BondBuffStatEffect[]>> = {
-  // 幻夢強度+100。耐久力+500
+  // 滅妄強度+100。耐久力+500
   3003610: [
     { type: 'static', stat: 'illusionPower', value: 100 },
     { type: 'static', stat: 'endurance', value: 500 },
@@ -281,14 +281,17 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 };
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリのうち、
-// 会心/幸運/ファスト/器用さの"%"バリアント。既存のflat系attrId(11112/11132/11122/11142)と
-// game-data.json上で同名のため、収益逓減カーブ適用後の最終%への乗算ボーナスとして扱う
+// 会心/幸運/ファスト/器用さ/万能の"%"バリアント。既存のflat系attrId(11112/11132/11122/11142/
+// 11152)とgame-data.json上で同名のため、収益逓減カーブ適用後の最終%への乗算ボーナスとして扱う
 // (IMAGINE_PCT_FINALと同じ意味・同じ単位: 1/10000)。
+// 11952(万能)は蒼海武器レアステータスでのみ確認。他4件と同じ命名規則・並び(11712/11782/
+// 11932/11942の次)であることからの類推であり、ゲーム内表示での実測未確認。
 export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11712: 'crit',
   11782: 'luck',
   11932: 'haste',
   11942: 'mastery',
+  11952: 'versatility',
 };
 
 // 刻印(伝説刻印) AttrId → 最終ステータスへの%乗算(武器/アクセサリのみ・isPercent=true)。

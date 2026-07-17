@@ -13,6 +13,7 @@ import type {
   ModuleSlots,
   SlotEnchants,
   SlotEvolutionStats,
+  SlotLegendaryAffixGroups,
   SlotRefineLevels,
   StatId,
 } from '../types';
@@ -104,6 +105,7 @@ function truncate2(value: number): number {
 export interface CalculateRawStatsInput {
   equipped: EquippedItems;
   legendaryAffixState: Partial<Record<EquipmentSlotId, LegendaryAffixSelection | undefined>>;
+  legendaryAffixGroupState: SlotLegendaryAffixGroups;
   refineLevels: SlotRefineLevels;
   perfectlines: SlotRefineLevels;
   evolutionStats: SlotEvolutionStats;
@@ -170,6 +172,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const {
     equipped,
     legendaryAffixState,
+    legendaryAffixGroupState,
     refineLevels,
     perfectlines,
     evolutionStats,
@@ -289,6 +292,37 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           calcStatValue(equipmentItem.reforgeEvoMin, equipmentItem.reforgeEvoMax, pLine),
         );
       }
+    }
+
+    // 蒼海武器等の4枠選択式レアステータス: fixedEvolutionStatsと同じAttrId体系のため、
+    // 同じ経路(EVO_PCT_FINAL/EVO_PCT/EVO_ATTR)で加算する。筋力/知力/敏捷%(IMAGINE_PCT_BASE)は
+    // 別経路、物理/魔法攻撃力%(AFFIX_STAT_EFFECTS)はapplyFinalStatModifiers側で処理するため
+    // ここでは扱わない(未対応の関数効果系attrIdも同様に、ここでは黙って無視する)。
+    const groupSelections = legendaryAffixGroupState[slotKey];
+    const affixGroups = equipmentItem.legendaryAffixGroups?.[String(talentSchoolId)];
+    if (groupSelections && affixGroups) {
+      const selectedEffects: FixedEvoEffect[] = [];
+      for (let i = 0; i < affixGroups.length; i++) {
+        const sel = groupSelections[i];
+        if (!sel) continue;
+        const entry = affixGroups[i]?.find((a) => a.attrId === sel.attrId);
+        if (!entry) continue;
+        const pctBaseStatId = IMAGINE_PCT_BASE[sel.attrId];
+        if (pctBaseStatId !== undefined) {
+          addPctBonus(pctBaseStatId, sel.value);
+          continue;
+        }
+        selectedEffects.push([
+          entry.effectType,
+          sel.attrId,
+          sel.value,
+          sel.value,
+          entry.isPercent,
+          0,
+          0,
+        ]);
+      }
+      if (selectedEffects.length > 0) applyFixedEvoEffects(selectedEffects);
     }
   }
 
@@ -699,6 +733,8 @@ export function applyFinalStatModifiers(
   // 進化ステータス(蒼海武器等)の会心/幸運/ファスト/器用さ"%"バリアントによる、最終結果への
   // 直接加算ボーナス(鼓舞/HP変動と同じ加算方式。単位: 1/100)。
   finalPctAddend: Partial<Record<StatId, number>> = {},
+  // 蒼海武器等の4枠選択式レアステータス選択(スロットごとに枠数分)。
+  legendaryAffixGroupState: SlotLegendaryAffixGroups = {},
 ): ApplyFinalStatModifiersResult {
   // 伝説刻印(武器/アクセサリの物理/魔法攻撃力%): 複数刻印は加算してから一度だけ乗算する。
   let atkPctBonus = 0;
@@ -709,6 +745,15 @@ export function applyFinalStatModifiers(
     if (!eff) continue;
     if (eff.statId === 'atk') atkPctBonus += selection.value;
     if (eff.statId === 'matk') matkPctBonus += selection.value;
+  }
+  for (const selections of Object.values(legendaryAffixGroupState)) {
+    for (const selection of selections ?? []) {
+      if (!selection) continue;
+      const eff = AFFIX_STAT_EFFECTS[selection.attrId];
+      if (!eff) continue;
+      if (eff.statId === 'atk') atkPctBonus += selection.value;
+      if (eff.statId === 'matk') matkPctBonus += selection.value;
+    }
   }
   const atkMult = roundClean(1 + atkPctBonus / PERCENT_BASIS_POINTS);
   const matkMult = roundClean(1 + matkPctBonus / PERCENT_BASIS_POINTS);

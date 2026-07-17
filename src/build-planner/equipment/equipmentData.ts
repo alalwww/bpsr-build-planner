@@ -192,3 +192,58 @@ export function classifyEvoDisplay(item: EquipmentItem, talentSchoolId: number):
     item.evo.length === 0 ? 'selectable' : hasDistinctEvoAttrs(item.evo) ? 'dataEvo' : 'sameEvo';
   return { kind, isFixedStat, fixedEvoEffects: null };
 }
+
+// evo(attrId相異="dataEvo")以外の全フィールドが一致するアイテムを「同一装備の進化
+// ステータス組み合わせ違い」とみなすための比較キー。[極]系装備(evo2要素の組み合わせ違い)・
+// [匠]系装備(evo1要素の単一ステータス違い)等、外見・基礎ステータス・伝説刻印・装着効果は
+// 完全に同一で evo だけが異なる別アイテムIDが大量に存在するため、それらをグループ化するのに使う。
+function evoVariantSignature(item: EquipmentItem): string {
+  return JSON.stringify([
+    item.part,
+    item.equipGs,
+    item.quality,
+    item.icon,
+    item.weaponProfessionId ?? null,
+    item.baseStats,
+    item.reforgeMaxPerfectline,
+    item.reforgeEvoMin,
+    item.reforgeEvoMax,
+    item.reforgeEvoFvMin,
+    item.reforgeEvoFvMax,
+    item.fixedEvolutionStats,
+    item.btGroupId ?? null,
+    item.btTime ?? null,
+    item.legendaryAffix ?? null,
+    item.legendaryAffixGroups ?? null,
+    item.enchantId ?? null,
+    item.suitId ?? null,
+  ]);
+}
+
+// item と同じ evoVariantSignature を持つ候補(自身を含む)を返す。2件未満(=バリアントを
+// 持たない単独アイテム)の場合は null。EquipmentSlotPicker の突破(btGroupId)切り替えと
+// 同様、進化ステータスの組み合わせ違いをグループとして切り替え可能にするために使う。
+// evo の要素数(1件=[匠]系の単一ステータス違い、2件=[極]系の組み合わせ違い)が異なる
+// 候補は同一ファミリーとみなさない。
+export function getEvoVariantFamily(
+  item: EquipmentItem,
+  candidates: EquipmentItem[],
+): EquipmentItem[] | null {
+  if (item.evo.length === 0 || !hasDistinctEvoAttrs(item.evo)) return null;
+  const key = evoVariantSignature(item);
+  const family = candidates.filter(
+    (c) =>
+      c.evo.length === item.evo.length &&
+      hasDistinctEvoAttrs(c.evo) &&
+      evoVariantSignature(c) === key,
+  );
+  return family.length > 1 ? family : null;
+}
+
+/** 蒼海武器等の4枠選択式レアステータス: クラス型(talentSchoolId)に対応する枠別候補群を返す。 */
+export function getLegendaryAffixGroups(
+  item: EquipmentItem,
+  talentSchoolId: number,
+): LegendaryAffixEntry[][] | null {
+  return item.legendaryAffixGroups?.[String(talentSchoolId)] ?? null;
+}

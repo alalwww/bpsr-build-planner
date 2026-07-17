@@ -95,6 +95,15 @@ const SKILL_EFFECT_VALUE_MAP = {
   // --- 確定パターンからの類推(要ゲーム内確認) ---
   // 「%+実数」複合はスポットライト(2316)と同族
   1420: { 1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
+  // --- シーズン3: 全ロール共通スキル(UNIVERSAL_ROLE_SKILLS)。FloatParameterキー名が
+  // ラベルと直訳一致するため高確度の類推だが、ゲーム内表示との突き合わせは未実施。
+  // (time=持続時間、num=人数、shield=バリア、attr/attrPer=%効果値)
+  3022: { 1: [['attr', 'percent']], 2: [['time', 'seconds']] }, // 追加ダメージ軽減/持続時間
+  3024: { 1: [['attr', 'percent']], 2: [['time', 'seconds']] }, // 重傷/持続時間
+  3025: { 1: [['time', 'seconds']] }, // 持続時間 (バリア自体は skillpara.effect("shield") で解決済み)
+  3026: { 1: [['time', 'seconds']] }, // 沈黙持続時間
+  3027: { 0: [['num', 'flat']], 1: [['attrPer', 'percent']] }, // 復活人数/復活後の基本HP
+  3028: { 0: [['attr', 'percent']] }, // 追加ダメージ軽減
 };
 
 // バトルイマジンの SkillAttrDes formula 空欄行(バフ効果行)の値解決マッピング。
@@ -170,6 +179,18 @@ const IMAGINE_EFFECT_VALUE_MAP = {
   3966: { 1: ['attrPer', 'percent'] },
   3982: { 7: ['attrA', 'percent'], 8: ['attrB', 'percent'], 9: ['attrC', 'percent'] },
   3983: { 0: ['attr', 'percent'], 10: ['attrA', 'percent'], 11: ['attrB', 'percent'] },
+  // --- シーズン3: 新規バトルイマジン(3968-3981)。FloatParameterキー名がラベルと
+  // 直訳一致する高確度の類推だが、ゲーム内表示との突き合わせは未実施(要確認)。
+  // 3968/3969 はキー4件に対しラベル3件で1対1対応が確定できないため未登録のまま
+  // (空欄表示。調査が必要な残項目は sample/season3-imagine-effect-todo.txt 参照)。
+  3970: { 3: ['attr', 'percent'], 6: ['subAoyiCdPct', 'percent'] },
+  3971: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'] },
+  3972: { 1: ['attrElse', 'percent'], 2: ['attrMax', 'percent'] },
+  3974: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'], 3: ['attrC', 'percent'] },
+  3975: { 1: ['attrDef', 'percent'], 2: ['attrHp', 'percent'] },
+  3978: { 1: ['time', 'percent'] },
+  3979: { 1: ['attr', 'percent'] },
+  3980: { 1: ['attr', 'percent'] },
 };
 
 // 英語版の SkillAttrDes は一部イマジンで行構成が日本語版と異なる(変身持続時間などの
@@ -209,10 +230,16 @@ function writeJson(dir, fileName, data) {
 // Talent値 → ロールスキル(DutySkill)IDの対応。SkillTableのiconが
 // ui/textures/dutyskill/ 配下のスキル群がロールスキルに相当する。
 // Talent=1: DPS, Talent=2: ヒーラー/サポート, Talent=3: タンク
+//
+// シーズン3で追加された 3021-3028 は SkillDutyTable.Type=[1,2,3] (全ロール共通)。
+// 「幻想図鑑」(SkillAoyiGuideTable/SkillAoyiGuideEffectTable、バトルイマジンの育成度で
+// 解放される図鑑システム)と連動し、SkillLevel 1-4 でランクアップする。全Talentに
+// 共通で追加する。
+const UNIVERSAL_ROLE_SKILLS = [3021, 3022, 3023, 3024, 3025, 3026, 3027, 3028];
 const TALENT_ROLE_SKILLS = {
-  1: [3011, 3012, 3013, 3014],
-  2: [3311, 3312, 3313, 3314],
-  3: [3611, 3612, 3613, 3614],
+  1: [3011, 3012, 3013, 3014, ...UNIVERSAL_ROLE_SKILLS],
+  2: [3311, 3312, 3313, 3314, ...UNIVERSAL_ROLE_SKILLS],
+  3: [3611, 3612, 3613, 3614, ...UNIVERSAL_ROLE_SKILLS],
 };
 
 // classes.json: ProfessionSystemTable keyed by ProfessionId. IsOpen:false
@@ -274,6 +301,7 @@ function extractSkills(langDir, referencedSkillIds) {
   const skillTable = readTable(langDir, 'SkillTable');
   const skillSystemTable = readTable(langDir, 'SkillSystemTable');
   const skillUpgradeTable = readTable(langDir, 'SkillUpgradeTable');
+  const skillDutyTable = readTable(langDir, 'SkillDutyTable');
 
   // Build upgradeId → maxRank (max SlotNumber) map
   const maxRankByUpgradeId = {};
@@ -281,10 +309,23 @@ function extractSkills(langDir, referencedSkillIds) {
     const cur = maxRankByUpgradeId[entry.UpgradeId] ?? 0;
     maxRankByUpgradeId[entry.UpgradeId] = Math.max(cur, entry.SlotNumber);
   }
+  // Build upgradeId → maxLevel (max SkillLevel) map。全ロール共通スキル
+  // (SkillDutyTable由来、SlotNumber=0固定・SkillLevelでランクが変わる)専用。
+  const maxLevelByUpgradeId = {};
+  for (const entry of Object.values(skillUpgradeTable)) {
+    const cur = maxLevelByUpgradeId[entry.UpgradeId] ?? 0;
+    maxLevelByUpgradeId[entry.UpgradeId] = Math.max(cur, entry.SkillLevel);
+  }
   // Build skillBaseId → upgradeId map
   const upgradeIdBySkillId = {};
   for (const entry of Object.values(skillSystemTable)) {
     upgradeIdBySkillId[entry.SkillBaseId] = entry.UpgradeId;
+  }
+  // SkillDutyTable: 全ロール共通スキル(UNIVERSAL_ROLE_SKILLS)は SkillSystemTable に
+  // 登録がないため、UpgradeId をここから直接補う。
+  const dutyUpgradeIdBySkillId = {};
+  for (const entry of Object.values(skillDutyTable)) {
+    if (entry.UpgradeId) dutyUpgradeIdBySkillId[entry.Id] = entry.UpgradeId;
   }
 
   const result = {};
@@ -294,8 +335,14 @@ function extractSkills(langDir, referencedSkillIds) {
       console.warn(`[extract-ztable] no SkillTable entry for referenced skill id ${id}, skipping`);
       continue;
     }
-    const upgradeId = upgradeIdBySkillId[id];
-    const maxRank = upgradeId != null ? (maxRankByUpgradeId[upgradeId] ?? 0) : 0;
+    const isDutySkill = dutyUpgradeIdBySkillId[id] != null;
+    const upgradeId = upgradeIdBySkillId[id] ?? dutyUpgradeIdBySkillId[id];
+    const maxRank =
+      upgradeId == null
+        ? 0
+        : isDutySkill
+          ? (maxLevelByUpgradeId[upgradeId] ?? 0)
+          : (maxRankByUpgradeId[upgradeId] ?? 0);
     result[id] = {
       id,
       icon: entry.Icon || '',
@@ -513,8 +560,9 @@ function extractSuits(langDir) {
 
 // enchants.json: EnchantId → available enchant items with effects.
 //   Gem-based (EnchantId 1001–1003, Gs≤100): flat list from RecommendedGem.
-//   Seal-based (EnchantId 2001–2004, Gs>100): from EnchantItemList; each base item
-//     includes "refined" and "perfect" variants at baseId+1 / baseId+2.
+//   Seal-based (EnchantId 2001–2004 [Gs>100] / 3001–3004 [Gs≥220, Lv190+]):
+//     from EnchantItemList; each base item includes "refined" and "perfect"
+//     variants at baseId+1 / baseId+2.
 //   effects: [[attrId, value], ...] from EnchantItemEffect + EnchantItemPar.
 function extractEnchants(langDir) {
   const enchantTable = readTable(langDir, 'EquipEnchantTable');
@@ -567,8 +615,8 @@ function extractEnchants(langDir) {
     enchantSets[enchantId] = items;
   }
 
-  // Seal-based (EnchantId 2001–2004): base item + 精 (id+1) + 極 (id+2) variants
-  for (const enchantId of [2001, 2002, 2003, 2004]) {
+  // Seal-based (EnchantId 2001–2004 / 3001–3004): base item + 精 (id+1) + 極 (id+2) variants
+  for (const enchantId of [2001, 2002, 2003, 2004, 3001, 3002, 3003, 3004]) {
     const entry = enchantByIdType1.get(enchantId);
     if (!entry || entry.EnchantItemList.length === 0) continue;
     const items = [];
@@ -579,12 +627,18 @@ function extractEnchants(langDir) {
       const baseEnchantData = enchantItemTable[String(baseId)];
       const baseCost = baseEnchantData?.OrdinaryConsume ?? [];
       for (const [costItemId] of baseCost) usedEnchantItemIds.add(costItemId);
+      // 上級装着コスト: 精/極(高レベル)結果を狙う場合のコスト。通常/精/極いずれのIDでも
+      // 同一トリオ内ではOrdinaryConsume/AdvancedConsumeが完全に一致するため、baseId側の
+      // 値のみ保持し、精/極側は個別に持たない(表示側でbaseの値を共通参照する)。
+      const advancedCost = baseEnchantData?.AdvancedConsume ?? [];
+      for (const [costItemId] of advancedCost) usedEnchantItemIds.add(costItemId);
       const sealItem = {
         id: baseId,
         quality: item.Quality,
         icon: item.Icon || '',
         level: baseEnchantData?.EnchantItemLevel ?? 0,
         cost: baseCost,
+        advancedCost,
         effects: getEffects(baseId),
         fightValue: baseEnchantData?.FightValue ?? 0,
       };
@@ -636,6 +690,12 @@ function extractEquipment(langDir) {
   const equipAttrSchoolLibTable = readTable(langDir, 'EquipAttrSchoolLibTable');
   const profileAttrTable = readTable(langDir, 'ProfileAttrTable');
   const professionSystemTable = readTable(langDir, 'ProfessionSystemTable');
+  // レアステータス(シーズン3、通称「レアステータス」): quality>=4 かつ非セット装備の
+  // 一部で、装備自体は QualityChildAttrLibId を持たず、TransformId 経由の
+  // EquipTransformTable.QualityAttrLibId からのみ選択可能ステータスを取得できる
+  // (クラフト品の「匠」系列で確認)。ドロップ品の「極」系列は装備自体に
+  // QualityChildAttrLibId を直接持つ(TransformId側は同じ値の重複)。
+  const equipTransformTable = readTable(langDir, 'EquipTransformTable');
 
   // ProfileAttrTable を AttrId でインデックス化(isPercent 判定に使用)。
   // 装備ボーナスAttrId (末尾2) の「末尾0」のエントリが ProfileAttrTable に存在する場合は
@@ -741,6 +801,65 @@ function extractEquipment(langDir) {
     });
   }
 
+  // 蒼海武器等の4枠選択式レアステータス: EquipTransformTable.QualityAttrLibId(tableType=2)の
+  // libId配列(枠ごとに対応、同じlibIdが複数枠で重複することがある)から、
+  // TalentSchoolIdごとの枠別候補リストを構築する。各libIdはEquipAttrSchoolLibTableの
+  // SchoolNumberごとに異なるattrIdを1つ持つ「選択肢」の集まり(fixedEvolutionStatsと同じ
+  // テーブル・同じTalentSchoolId軸だが、固定ではなく選択式)。
+  // 戻り値: { [talentSchoolId]: LegendaryAffixEntry[][] (枠数分、libIds と同じ並び) } | null
+  function buildLegendaryAffixGroups(libIds, equipPart, professionId) {
+    if (!libIds.length) return null;
+    const bySchool = {};
+    let hasAny = false;
+    for (let slotIndex = 0; slotIndex < libIds.length; slotIndex++) {
+      const entries = (schoolLibByLibId[libIds[slotIndex]] ?? []).filter((e) =>
+        (e.AllowPart ?? []).includes(equipPart),
+      );
+      const bySchoolForSlot = new Map();
+      for (const e of entries) {
+        const key = String(e.TalentSchoolId ?? '');
+        (bySchoolForSlot.get(key) ?? bySchoolForSlot.set(key, []).get(key)).push(e);
+      }
+      for (const [schoolKey, schoolEntries] of bySchoolForSlot) {
+        const byEffect = new Map();
+        for (const e of schoolEntries) {
+          const [effectType, attrId] = e.AttrEffect[0];
+          const key = `${effectType}_${attrId}`;
+          if (!byEffect.has(key)) {
+            byEffect.set(key, { effectType, attrId, isPercent: true, pairs: [] });
+          }
+          const data = byEffect.get(key);
+          const val = e.AttrEffectConfig[0]?.[0] ?? 0;
+          const fv = e.FightValue[0]?.[0] ?? 0;
+          data.pairs.push({ val, fv });
+        }
+        const group = [...byEffect.values()].map(({ effectType, attrId, isPercent, pairs }) => {
+          pairs.sort((a, b) => a.val - b.val);
+          return {
+            effectType,
+            attrId,
+            isPercent,
+            values: pairs.map((p) => p.val),
+            fightValues: pairs.map((p) => p.fv),
+          };
+        });
+        if (group.length === 0) continue;
+        hasAny = true;
+        const list = (bySchool[schoolKey] ??= Array.from({ length: libIds.length }, () => []));
+        list[slotIndex] = group;
+      }
+    }
+    if (!hasAny) return null;
+    // TalentSchoolId=[] → type1 TalentSchoolId にリマップ(buildFixedEvoStatsと同じ)。
+    if ('' in bySchool) {
+      const talentIds = profToTalentSchools.get(professionId);
+      const type1Key = talentIds ? String(talentIds[0]) : '101';
+      bySchool[type1Key] = bySchool[''];
+      delete bySchool[''];
+    }
+    return bySchool;
+  }
+
   // EquipBreakThroughTable: EquipId → BT エントリ配列 のマップを構築。
   // 突破後の装備は EquipTable に存在しないため、ここから合成アイテムを生成する。
   const btTable = readTable(langDir, 'EquipBreakThroughTable');
@@ -838,14 +957,41 @@ function extractEquipment(langDir) {
       }
     }
 
-    // 伝説刻印: QualityChildAttrLibId から選択可能ステータスを抽出。
+    // 伝説刻印/レアステータス: QualityChildAttrLibId から選択可能ステータスを抽出。
     const rawAffixIds = Array.isArray(equip.QualityChildAttrLibId)
       ? equip.QualityChildAttrLibId
       : [];
     const affixLibId = rawAffixIds.length >= 2 ? rawAffixIds[1] : 0;
-    const legendaryAffix = buildLegendaryAffixEntries(affixLibId, equip.EquipPart);
+    let legendaryAffix = buildLegendaryAffixEntries(affixLibId, equip.EquipPart);
+    // 装備自体に QualityChildAttrLibId が無い場合、TransformId 経由でレアステータスを
+    // 補う。tableType=1(EquipAttrLibTable経由、クラフト品「匠」系列)は単一選択の
+    // legendaryAffix、tableType=2(蒼海武器等、EquipAttrSchoolLibTable経由)は
+    // 4枠選択式の legendaryAffixGroups として抽出する(互いに排他)。
+    let legendaryAffixGroups = null;
+    if (!legendaryAffix && equip.TransformId) {
+      const transformEntry = equipTransformTable[String(equip.TransformId)];
+      const rawQualityIds = Array.isArray(transformEntry?.QualityAttrLibId)
+        ? transformEntry.QualityAttrLibId
+        : [];
+      if (rawQualityIds[0] === 1 && rawQualityIds[1]) {
+        legendaryAffix = buildLegendaryAffixEntries(rawQualityIds[1], equip.EquipPart);
+      } else if (rawQualityIds[0] === 2 && rawQualityIds.length > 1) {
+        legendaryAffixGroups = buildLegendaryAffixGroups(
+          rawQualityIds.slice(1),
+          equip.EquipPart,
+          weaponEntry?.ProfessionId,
+        );
+      }
+    }
     if (legendaryAffix) {
       for (const { attrId } of legendaryAffix) usedLegendaryAttrIds.add(attrId);
+    }
+    if (legendaryAffixGroups) {
+      for (const groups of Object.values(legendaryAffixGroups)) {
+        for (const group of groups) {
+          for (const { attrId } of group) usedLegendaryAttrIds.add(attrId);
+        }
+      }
     }
 
     const part = (byPart[equip.EquipPart] ??= {});
@@ -865,6 +1011,7 @@ function extractEquipment(langDir) {
       reforgeEvoFvMax,
       fixedEvolutionStats,
       ...(legendaryAffix ? { legendaryAffix } : {}),
+      ...(legendaryAffixGroups ? { legendaryAffixGroups } : {}),
       ...(equip.EnchantId ? { enchantId: equip.EnchantId } : {}),
       ...(equip.SuitId ? { suitId: equip.SuitId } : {}),
       // BreakThrough グループ: BT を持つ装備は btGroupId=自身ID, btTime=0 を付与する。
@@ -983,6 +1130,9 @@ function extractEquipment(langDir) {
         fixedEvolutionStats,
         // BT アイテムは ZTable に QualityChildAttrLibId がないためベースアイテムの刻印を継承。
         ...(baseItem.legendaryAffix ? { legendaryAffix: baseItem.legendaryAffix } : {}),
+        ...(baseItem.legendaryAffixGroups
+          ? { legendaryAffixGroups: baseItem.legendaryAffixGroups }
+          : {}),
         ...(baseItem.enchantId ? { enchantId: baseItem.enchantId } : {}),
         ...(baseItem.suitId ? { suitId: baseItem.suitId } : {}),
         btGroupId: equipId,
@@ -1085,8 +1235,15 @@ function extractSeasonTalents(langDir) {
   const advancedTable = readTable(langDir, 'SeasonTalentEffectAdvancedTable');
   const holeTable = readTable(langDir, 'SeasonTalentAdvancedHoleTable');
 
+  // BelongFunction: 800522="潜在心相晶"(FunctionTable.Note: 赛季养成线：赛季通用 = シーズン
+  // 共通、プレイヤーが選択する通常の心相投影, 800523="滅妄心相晶"(Note: 大秘境专用 = 「大秘境」
+  // という別ゲームモード専用の別UI)。後者(20001-20006, シーズン3新規)はビルドプランナーの
+  // 通常フローでは選択対象外のため、抽出時点で除外する。
+  const SEASON_TALENT_SELECTABLE_FUNCTION_ID = 800522;
+
   const templates = {};
   for (const entry of Object.values(templateTable)) {
+    if (entry.BelongFunction !== SEASON_TALENT_SELECTABLE_FUNCTION_ID) continue;
     templates[entry.Id] = {
       sortId: entry.SortId,
       advancedEffectId: entry.AdvancedEffectId,
@@ -1098,6 +1255,7 @@ function extractSeasonTalents(langDir) {
 
   const treeNodes = {};
   for (const entry of Object.values(treeTable)) {
+    if (!templates[entry.TemplateId]) continue;
     treeNodes[entry.Id] = {
       templateId: entry.TemplateId,
       nodeType: entry.NodeType,
@@ -1161,10 +1319,18 @@ function extractSeasonTalents(langDir) {
 }
 
 // phantom-factors.json: 潜在心相晶に装着する幻影因子データ。
-//   factorTypes[typeId]: タイプ名 (1=共通攻撃, 2=共通防御, 3=クラス攻撃, 4=クラス防御, 5=クラス狂想)
+//   factorTypes[typeId]: タイプ名 (シーズン3: 1=極性, 2=恒常性, 3=第六感, 4=クラス恒常性,
+//     5=クラス狂想, 6=真実。旧シーズンの typeId 1-5 は「共通攻撃/共通防御/クラス攻撃/
+//     クラス防御/クラス狂想」を指していたが、番号を維持したまま意味が変わった)
 //   byClass[factorItemClass]:
-//     typeId: FactorItemTypeId
+//     typeId: FactorItemTypeId (旧シーズンとtypeId番号が重複するため、単独でクラスの
+//       「種別」を判別する用途には使えない。seasonId と併せて判定すること)
 //     professionIds: 対象クラス [] (空=全クラス共通)
+//     seasonId: SeasonTalentFactorItemTable.SeasonId[0]。過去シーズンの因子
+//       (例: SeasonId=2)は現シーズンでは無効(AttrDescription側で「この因子は現シーズン
+//       では無効です」と明記されている)だが、過去のセーブデータ互換のためデータからは
+//       削除しない。表示側(phantom/phantomView.ts)で「現在の最大seasonId」と比較し、
+//       それより古いものを無効表記・後方ソートする。
 //     grades: G1-G10 の効果配列 (FactorItemLevel 昇順)
 //       { id, level, effects: [[effectType, buffId/attrId, param]], buffPars? }
 //       effectType=1: ステータス加算 (attrId で直接参照, 13002=極性攻撃力, 13202=恒常性防御力等)
@@ -1196,6 +1362,7 @@ function extractPhantomFactors(langDir) {
       byClass[cls] = {
         typeId: entry.FactorItemTypeId,
         professionIds: entry.ProfessionId,
+        seasonId: entry.SeasonId?.[0] ?? 0,
         grades: [],
       };
     }
@@ -1239,6 +1406,13 @@ const LEGENDARY_SPECIAL_ATTR_NAMES = {
   english: { 2400001: 'ATK Bonus', 2400002: 'MATK Bonus' },
 };
 
+// ZTable上の名称がシーズン更新に追従していないAttrIdの上書き名(言語別)。
+// 英語版は正しい訳文が未確認のため上書きしない(ZTable由来の旧名のまま)。
+const ATTR_NAME_OVERRIDES = {
+  japanese: { 11442: '滅妄強度' },
+  english: {},
+};
+
 // FightAttrTable.AttrAdd → 対応する ProfileAttrTable の display AttrId。
 // ProfileAttrTable に直接エントリが存在しないフラット値AttrIdのために使用。
 // 確認済みの対応: 11122→ファスト(11930), 11132→幸運(11780), 11142→器用さ(11940)
@@ -1272,6 +1446,16 @@ function extractLocaleText(
   const equipWeaponTable = readTable(langDir, 'EquipWeaponTable');
   const skillTable = readTable(langDir, 'SkillTable');
   const professionSystemTable = readTable(langDir, 'ProfessionSystemTable');
+  // 全ロール共通スキル(UNIVERSAL_ROLE_SKILLS、SkillDutyTable.UpgradeId!=0)は
+  // SkillFightLevelTable.Level が 1-4(幻想図鑑ランク)のみで、通常のクラススキルの
+  // 「レベル1-30 × ランクG0-G6(WeaponStarTable)」という2軸とは異なる1軸(ランクのみ)の
+  // 値を持つ。resolveSkillActiveEffectParams 系の関数はこのIDを見て専用ロジックに切り替える。
+  const skillDutyTable = readTable(langDir, 'SkillDutyTable');
+  const universalRoleSkillIds = new Set(
+    Object.values(skillDutyTable)
+      .filter((e) => e.UpgradeId)
+      .map((e) => e.Id),
+  );
   const equipPartTable = readTable(langDir, 'EquipPartTable');
   const profileAttrTable = readTable(langDir, 'ProfileAttrTable');
   const attrDescTable = readTable(langDir, 'AttrDescription');
@@ -1284,6 +1468,23 @@ function extractLocaleText(
       .filter((e) => e.AttrAdd && e.OfficialName)
       .map((e) => [e.AttrAdd, e.OfficialName]),
   );
+
+  // TempAttrTable: 季節限定の「シーズン強度」系ステータス(装備のbaseStatsに直接AttrIdとして
+  // 現れる、通常のProfileAttrTable体系とは異なる番号帯)。名前解決の最終フォールバックに使う。
+  // 例: 98982(旧S2シーズン強度=幻夢強度)は AttrDesc が既に「幻夢強度（無効）{v}」となっており、
+  // シーズン3では無効化されたステータスであることがゲームデータ側で明示されている。
+  const tempAttrNameById = {};
+  try {
+    const tempAttrTableForNames = readTable(langDir, 'TempAttrTable');
+    const tempAttrRows = Array.isArray(tempAttrTableForNames)
+      ? tempAttrTableForNames
+      : Object.values(tempAttrTableForNames);
+    for (const e of tempAttrRows) {
+      if (e.Id && e.AttrDesc) tempAttrNameById[e.Id] = nameFromAttrDesc(e.AttrDesc);
+    }
+  } catch (_) {
+    // ignore
+  }
 
   const items = {};
   for (const part of Object.values(equipmentByPart)) {
@@ -1395,7 +1596,19 @@ function extractLocaleText(
   //   定数 → 文字列 / ランクのみ → { r: 7要素 } / レベルのみ → { l: 30要素 }
   //   両方 → { u: 書式, l: レベル別基礎値(数値), r: ランク別増分(数値) }
   //   (両方の場合は 値 = l[level-1] + r[rank] を表示側で書式化する)
-  function pushEffectValues(parts, pushText, evaluate, fmt, formatCode, skillId) {
+  //
+  // 全ロール共通スキル(isRoleSkill)の場合: SkillFightLevelTable.Level(1-4)を
+  // そのまま「ランク」軸として評価し、{ r: [dummy, lv1, lv2, lv3, lv4] } (5要素) を返す。
+  // UI側のランク値(1-4、未設定時0)がそのままインデックスとして使える
+  // (index0=dummyはrank未設定時のフォールバック用にLv1の値を入れておく)。
+  function pushEffectValues(parts, pushText, evaluate, fmt, formatCode, skillId, isRoleSkill) {
+    if (isRoleSkill) {
+      const byRoleLevel = [1, 1, 2, 3, 4].map((lvl) => evaluate(0, lvl));
+      const varies = new Set(byRoleLevel.slice(1)).size > 1;
+      if (varies) parts.push({ r: byRoleLevel.map(fmt) });
+      else pushText(fmt(byRoleLevel[0]));
+      return;
+    }
     const byLevel = [];
     for (let level = 1; level <= SKILL_MAX_LEVEL; level++) {
       byLevel.push(evaluate(0, level));
@@ -1430,7 +1643,7 @@ function extractLocaleText(
   // DamageAttrTable の PVEDamageRadio は7要素=ランク別、
   // PVEFixedParameter/PVEStunnedDamage は30要素=レベル別。
   // skillpara.effect は skillEffectValue(レベル別基礎値+ランク別増分)で解決する。
-  function resolveSkillAttrDesParts(formula, skillId) {
+  function resolveSkillAttrDesParts(formula, skillId, isRoleSkill) {
     const parts = [];
     const pushText = (text) => {
       const cleaned = text.replace(/<br>/gi, ' ');
@@ -1440,7 +1653,7 @@ function extractLocaleText(
     };
     const pushValues = (evaluate, format) => {
       const fmt = (v) => (format === 'up' ? formatUpPercent(v) : String(v));
-      pushEffectValues(parts, pushText, evaluate, fmt, format, skillId);
+      pushEffectValues(parts, pushText, evaluate, fmt, format, skillId, isRoleSkill);
     };
 
     const tokenRe =
@@ -1487,7 +1700,7 @@ function extractLocaleText(
   }
 
   // SKILL_EFFECT_VALUE_MAP のテンプレート配列を parts へ変換する。
-  function resolveSkillMappedParts(template, skillId, secSuffix) {
+  function resolveSkillMappedParts(template, skillId, secSuffix, isRoleSkill) {
     const parts = [];
     const pushText = (text) => {
       if (!text) return;
@@ -1513,6 +1726,7 @@ function extractLocaleText(
         fmt,
         formatCode,
         skillId,
+        isRoleSkill,
       );
     }
     return parts;
@@ -1529,15 +1743,26 @@ function extractLocaleText(
     if (!effectEntry?.SkillAttrDes?.length) return [];
     const secSuffix = SECONDS_SUFFIX[basename(langDir)] ?? '秒';
     const valueMap = SKILL_EFFECT_VALUE_MAP[skillId] ?? {};
+    const isRoleSkill = universalRoleSkillIds.has(skillId);
     const rows = [];
     effectEntry.SkillAttrDes.forEach(([label, formula], rowIdx) => {
       if (!label) return;
       if (formula) {
-        rows.push([label, resolveSkillAttrDesParts(formula, skillId)]);
+        rows.push([label, resolveSkillAttrDesParts(formula, skillId, isRoleSkill)]);
         return;
       }
       if (COOLDOWN_ATTR_LABELS.has(label)) {
         const chargeTime = skillTable[String(skillId)]?.EnergyChargeTime ?? 0;
+        if (isRoleSkill) {
+          // 全ロール共通スキルはリキャストが幻想図鑑ランク(Level 1-4)で短縮される。
+          const secs = [1, 1, 2, 3, 4].map(
+            (lvl) => fightLvlBySkillLevel[skillId]?.[lvl]?.coolTime ?? 0,
+          );
+          const fmtSec = (s) => (s ? `${s}${secSuffix}` : '');
+          const varies = new Set(secs.slice(1)).size > 1;
+          rows.push([label, varies ? [{ r: secs.map(fmtSec) }] : secs[0] ? [fmtSec(secs[0])] : []]);
+          return;
+        }
         const coolTime = fightLvlBySkillLevel[skillId]?.[1]?.coolTime ?? 0;
         let seconds;
         if (CHARGE_TIME_ATTR_LABELS.has(label)) {
@@ -1550,7 +1775,10 @@ function extractLocaleText(
         return;
       }
       const mapping = valueMap[rowIdx];
-      rows.push([label, mapping ? resolveSkillMappedParts(mapping, skillId, secSuffix) : []]);
+      rows.push([
+        label,
+        mapping ? resolveSkillMappedParts(mapping, skillId, secSuffix, isRoleSkill) : [],
+      ]);
     });
     return rows;
   }
@@ -1636,18 +1864,24 @@ function extractLocaleText(
     if (attributes[attrId]) continue;
     if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
+    } else if (tempAttrNameById[attrId]) {
+      // TempAttrTable由来(季節限定「シーズン強度」系)のフォールバック。
+      attributes[attrId] = tempAttrNameById[attrId];
     }
   }
   // 伝説刻印 AttrId の名前を解決して追加。
   // x14 系 (11014/11024/11034): attrId-2 が ProfileAttrTable に存在。
   // x34 系 (11334/11344): attrId-4 が ProfileAttrTable に存在。
-  // type=3 効果ID (2400001/2400002): テーブルに存在しないためハードコード名を使用。
+  // type=3 効果ID: AttrDescription.json に表示名があればそれを使用(例: 2400004/2408030)。
+  // 存在しないもの(2400001/2400002)のみ下のハードコード名にフォールバックする。
   for (const attrId of legendaryAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId - 2]) {
       attributes[attrId] = attrByAttrId[attrId - 2].Name;
     } else if (attrByAttrId[attrId - 4]) {
       attributes[attrId] = attrByAttrId[attrId - 4].Name;
+    } else if (attrDescById[attrId]) {
+      attributes[attrId] = nameFromAttrDesc(attrDescById[attrId].Description);
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     }
@@ -1716,6 +1950,15 @@ function extractLocaleText(
     } else {
       console.warn(`[extract-ztable] no attribute name for battle imagine attrId ${attrId}`);
     }
+  }
+  // ZTable側のテキストがシーズン更新に追従していないAttrId名の上書き。
+  // AttrId 11442(装備由来、attrId-2=11440 のProfileAttrTable名を継承)はシーズン3で
+  // GS90-180装備から廃止され、GS190+装備の新効果に意味が変わった(ゲーム内表示は
+  // 「滅妄強度」)が、ProfileAttrTable.Name(11440)はまだ旧名「幻夢強度」のまま
+  // (2026-07-16時点、ユーザー報告による)。
+  const attrNameOverrides = ATTR_NAME_OVERRIDES[localeName] ?? {};
+  for (const [id, name] of Object.entries(attrNameOverrides)) {
+    attributes[Number(id)] = name;
   }
 
   // talents: TalentTable の名前と説明文。
@@ -2129,6 +2372,29 @@ function extractLocaleText(
 //     全シーズンレベルで共通の値 (uniformなため1エントリのみ保持)
 //   skillUnlocks[]: { buffId, buffName, activeLevel }
 //     レベルで解放されるアクション/スキル
+// season-constants.json: 実数値→%変換に使う「収益減少曲線」の係数(K値)。
+// FightAttrTranTable.json は Id=1/2/3 がそれぞれシーズン1/2/3に対応する(SeasonIdフィールド
+// 自体は無いため、Idをそのままシーズン番号とみなす)。現在の最大Id = 現行シーズンとして、
+// そのエントリから系列A/B/Cの係数を取り出す。docs/STATUS_CALCULATION.md「実数値→%変換の
+// 共通モデル」参照。base%(会心5%等)やFIXED_BASE_*系はこのテーブルには存在しない
+// (Wiki由来の実測値)ため、引き続き src/build-planner/stats/seasonConstants.ts 側で
+// 手動管理する。
+function extractSeasonConstants(langDir) {
+  const tranTable = readTable(langDir, 'FightAttrTranTable');
+  const ids = Object.keys(tranTable)
+    .map(Number)
+    .sort((a, b) => a - b);
+  const currentEntry = tranTable[String(ids[ids.length - 1])];
+  return {
+    // 系列A: 会心/ファスト/幸運/器用さ/レジストの実数値→%変換係数
+    diminishingA: currentEntry.CriToCrit?.[0] ?? 0,
+    // 系列B: 万能の実数値→%変換係数
+    diminishingVersatility: currentEntry.VersatilityToVersatilityPct?.[0] ?? 0,
+    // 系列C: 物理/魔法増強・属性強度/属性耐性の実数値→%変換係数
+    diminishingEnhance: currentEntry.PhyPowerToDam?.[0] ?? 0,
+  };
+}
+
 function extractPlayerLevels(langDir) {
   const playerLevelTable = readTable(langDir, 'PlayerLevelTable');
   const seasonLevelTable = readTable(langDir, 'SeasonLevelTable');
@@ -2144,10 +2410,17 @@ function extractPlayerLevels(langDir) {
       nacsStandard: entry.NacsStandard ?? [],
     }));
 
-  // SeasonLevelTable は全レベルで同一値のため代表値のみ保持
-  const seasonSample = Object.values(seasonLevelTable)[0] ?? {};
+  // SeasonLevelTable は過去シーズン分のエントリも SeasonId 別に残ったまま(例:
+  // シーズン2=SeasonFightValue 4, シーズン3=6)なので、現行シーズン(最大SeasonId)の
+  // エントリのみを対象にする。同一シーズン内はレベルによらず同一値のため代表値でよい。
+  const seasonLevelEntries = Object.values(seasonLevelTable);
+  const currentFactorSeasonId = Math.max(0, ...seasonLevelEntries.map((e) => e.SeasonId ?? 0));
+  const currentSeasonEntries = seasonLevelEntries.filter(
+    (e) => (e.SeasonId ?? 0) === currentFactorSeasonId,
+  );
+  const seasonSample = currentSeasonEntries[0] ?? {};
   const season = {
-    count: Object.keys(seasonLevelTable).length,
+    count: currentSeasonEntries.length,
     levelUpAttr: seasonSample.SeasonLevelUpAttr ?? [],
     fightValue: seasonSample.SeasonFightValue ?? 0,
     expNum: seasonSample.SeasonExpNum ?? 0,
@@ -2312,6 +2585,12 @@ function main() {
   const playerLevelsPath = writeJson(dataOut, 'player-levels.json', playerLevelsData);
   console.log(
     `[extract-ztable] wrote player-levels.json (${playerLevelsData.levels.length} levels, season x${playerLevelsData.season.count}, ${playerLevelsData.skillUnlocks.length} skill unlocks) to ${playerLevelsPath}`,
+  );
+
+  const seasonConstantsData = extractSeasonConstants(structuralDir);
+  const seasonConstantsPath = writeJson(dataOut, 'season-constants.json', seasonConstantsData);
+  console.log(
+    `[extract-ztable] wrote season-constants.json (diminishingA=${seasonConstantsData.diminishingA}, diminishingVersatility=${seasonConstantsData.diminishingVersatility}, diminishingEnhance=${seasonConstantsData.diminishingEnhance}) to ${seasonConstantsPath}`,
   );
 
   const classesPath = writeJson(dataOut, 'classes.json', classes);

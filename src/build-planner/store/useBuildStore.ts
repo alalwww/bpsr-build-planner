@@ -35,6 +35,7 @@ function selectAutoSaveFields(state: BuildStore) {
     state.perfectlines,
     state.evolutionStats,
     state.legendaryAffixState,
+    state.legendaryAffixGroupState,
     state.slotEnchants,
     state.masteryEquipped,
     state.masteryLevels,

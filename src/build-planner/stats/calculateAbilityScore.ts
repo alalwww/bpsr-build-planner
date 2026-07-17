@@ -11,6 +11,7 @@ import type {
   SlotEnchants,
   SlotEvolutionStats,
   SlotLegendaryAffix,
+  SlotLegendaryAffixGroups,
   SlotRefineLevels,
 } from '../types';
 import type {
@@ -49,6 +50,7 @@ export interface CalculateAbilityScoreInput {
   evolutionStats: SlotEvolutionStats;
   refineLevels: SlotRefineLevels;
   legendaryAffixState: SlotLegendaryAffix;
+  legendaryAffixGroupState: SlotLegendaryAffixGroups;
   slotEnchants: SlotEnchants;
   profession: Profession;
   professionTypeKey: ProfessionTypeKey;
@@ -91,6 +93,7 @@ export function calculateEquipmentSlotAbilityScore(
   refineLevel: number,
   profession: Profession,
   professionTypeKey: ProfessionTypeKey,
+  legendaryAffixGroupSelections?: Array<LegendaryAffixSelection | undefined>,
 ): EquipmentSlotAbilityScoreBreakdown {
   const pLine = Math.min(perfectline, getMaxPerfectline(item));
   const talentSchoolIdFv = getTalentSchoolId(profession, professionTypeKey);
@@ -129,6 +132,18 @@ export function calculateEquipmentSlotAbilityScore(
     if (affixEntry?.fightValues) {
       const tierIdx = affixEntry.values.indexOf(legendaryAffix.value);
       if (tierIdx >= 0) evolution += affixEntry.fightValues[tierIdx] ?? 0;
+    }
+  }
+  const affixGroups = item.legendaryAffixGroups?.[String(talentSchoolIdFv)];
+  if (affixGroups && legendaryAffixGroupSelections) {
+    for (let i = 0; i < affixGroups.length; i++) {
+      const sel = legendaryAffixGroupSelections[i];
+      if (!sel) continue;
+      const affixEntry = affixGroups[i]?.find((a) => a.attrId === sel.attrId);
+      if (affixEntry?.fightValues) {
+        const tierIdx = affixEntry.values.indexOf(sel.value);
+        if (tierIdx >= 0) evolution += affixEntry.fightValues[tierIdx] ?? 0;
+      }
     }
   }
 
@@ -202,6 +217,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     evolutionStats,
     refineLevels,
     legendaryAffixState,
+    legendaryAffixGroupState,
     slotEnchants,
     profession,
     professionTypeKey,
@@ -264,6 +280,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
       refineLevels[slotKey] ?? 0,
       profession,
       professionTypeKey,
+      legendaryAffixGroupState[slotKey],
     );
     fv.equipmentBase += breakdown.baseStats + breakdown.evolution;
     fv.equipmentEnchant += breakdown.enchant;

@@ -2946,14 +2946,14 @@
     "levelUpAttr": [
       [
         11442,
-        7
+        10
       ],
       [
         11042,
-        20
+        30
       ]
     ],
-    "fightValue": 4,
+    "fightValue": 6,
     "expNum": 1200000
   },
   "skillUnlocks": [

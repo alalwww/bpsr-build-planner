@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
+import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
 import type { LegendaryAffixEntry, LegendaryAffixSelection } from '../types';
 
 interface LegendaryAffixPickerProps {
@@ -10,6 +12,10 @@ interface LegendaryAffixPickerProps {
   onSet: (selection: LegendaryAffixSelection | undefined) => void;
 }
 
+function formatAffixValue(isPercent: boolean, value: number): string {
+  return isPercent ? `+${value / 100}%` : `+${value}`;
+}
+
 function LegendaryAffixPicker({
   legendaryAffixList,
   selectedLegendaryAffix,
@@ -18,18 +24,18 @@ function LegendaryAffixPicker({
   onSet,
 }: LegendaryAffixPickerProps) {
   const { t } = useTranslation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  useCloseOnOutsideClick(containerRef, isOpen, onToggleOpen);
   const selectedAffixEntry = legendaryAffixList.find(
     (e) => e.attrId === selectedLegendaryAffix?.attrId,
   );
   const selectedAffixDisplayValue =
     selectedAffixEntry && selectedLegendaryAffix
-      ? selectedAffixEntry.isPercent
-        ? `+${selectedLegendaryAffix.value / 100}%`
-        : `+${selectedLegendaryAffix.value}`
+      ? formatAffixValue(selectedAffixEntry.isPercent, selectedLegendaryAffix.value)
       : null;
 
   return (
-    <div className="equip-evo-slot equip-affix-slot">
+    <div className="equip-evo-slot equip-affix-slot" ref={containerRef}>
       <button
         type="button"
         className={`equip-evo-slot__btn${selectedLegendaryAffix != null ? ' equip-evo-slot__btn--set' : ''}`}
@@ -54,31 +60,28 @@ function LegendaryAffixPicker({
           >
             {t('buildPlanner.evolutionStatUnset')}
           </button>
-          {legendaryAffixList.map(({ attrId, isPercent, values }) => (
-            <div key={attrId} className="equip-affix-option-row">
-              <span className="equip-affix-option-row__name">
-                {t(`attributes.${attrId}`, { ns: 'game-data' })}
-              </span>
-              <div className="equip-affix-option-row__tiers">
-                {values.map((val) => {
-                  const displayVal = isPercent ? `+${val / 100}%` : `+${val}`;
-                  const isSelected =
-                    selectedLegendaryAffix?.attrId === attrId &&
-                    selectedLegendaryAffix?.value === val;
-                  return (
-                    <button
-                      key={val}
-                      type="button"
-                      className={`equip-affix-tier-btn${isSelected ? ' equip-affix-tier-btn--selected' : ''}`}
-                      onClick={() => onSet({ attrId, value: val })}
-                    >
-                      {displayVal}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+          {legendaryAffixList.flatMap(({ attrId, isPercent, values }) =>
+            values.map((value) => {
+              const isSelected =
+                selectedLegendaryAffix?.attrId === attrId &&
+                selectedLegendaryAffix?.value === value;
+              return (
+                <button
+                  key={`${attrId}-${value}`}
+                  type="button"
+                  className={`equip-evo-option equip-affix-option${isSelected ? ' equip-evo-option--selected' : ''}`}
+                  onClick={() => onSet({ attrId, value })}
+                >
+                  <span className="equip-affix-option__name">
+                    {t(`attributes.${attrId}`, { ns: 'game-data' })}
+                  </span>
+                  <span className="equip-affix-option__value">
+                    {formatAffixValue(isPercent, value)}
+                  </span>
+                </button>
+              );
+            }),
+          )}
         </div>
       )}
     </div>

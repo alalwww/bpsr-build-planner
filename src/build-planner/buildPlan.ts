@@ -7,6 +7,7 @@ import type {
   LegendaryAffixSelection,
   ModuleSlots,
   SlotEnchants,
+  SlotLegendaryAffixGroups,
   SlotRefineLevels,
 } from './types';
 import type { PhantomFactorSlotValue } from './phantom/phantomData';
@@ -23,6 +24,8 @@ export interface BuildPlanData {
   perfectlines: SlotRefineLevels;
   evolutionStats: Partial<Record<EquipmentSlotId, Array<EvolutionStatId | undefined>>>;
   legendaryAffixState: Partial<Record<EquipmentSlotId, LegendaryAffixSelection | undefined>>;
+  // 蒼海武器等の4枠選択式レアステータスの選択状態。
+  legendaryAffixGroupState: SlotLegendaryAffixGroups;
   masteryEquipped: boolean[];
   masteryLevels: number[];
   masteryRanks: number[];
@@ -30,6 +33,16 @@ export interface BuildPlanData {
   fixedRanks: number[];
   battleImagines: (number | null)[];
   imagineRanks: number[];
+  // ロールスキル(classData.roleSkill = 固定4種+全ロール共通8種の計12候補)から
+  // 4枠に選んで配置する方式(バトルイマジンと同じUIパターン)。null=未設定スロット。
+  // デフォルト値はプロフェッション(Talent)依存(先頭固定4種)のため、他の固定デフォルト値を
+  // 持つフィールドと異なり optional にしている。値が無い(旧データ・破損データ)場合は
+  // undefinedのままにし、呼び出し側(applyPlanState等)でprofessionKey別のロール専用4種に
+  // フォールバックする(planCode.ts側でnull埋め配列にフォールバックしないこと)。
+  roleSkillSlots?: (number | null)[];
+  // 各スロットのランク。固定ロールスキル(maxRank=0)を配置したスロットは未使用。
+  // 全ロール共通スキル(シーズン3、maxRank=4)を配置したスロットのみ意味を持つ。
+  roleSkillRanks?: number[];
   talentR1EnabledIds: number[];
   talentR2EnabledIds: number[];
   slotEnchants: SlotEnchants;

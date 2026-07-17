@@ -98,12 +98,7 @@ function BuildPlanner() {
               </button>
             ))}
             <div className="build-planner__nav-right">
-              <span
-                className="build-planner__season-badge"
-                title={t('buildPlanner.seasonBadgeTitle')}
-              >
-                {t('buildPlanner.seasonBadge')}
-              </span>
+              <span className="build-planner__season-badge">{t('buildPlanner.seasonBadge')}</span>
               <div className="nav-lang" ref={langMenuRef}>
                 <button
                   type="button"

@@ -5,7 +5,10 @@ import { createAssetMap } from '../assetMap';
 // ---- assets ----
 
 const stAsset = createAssetMap(
-  import.meta.glob<{ default: string }>('../../assets/season_talents/*.png', { eager: true }),
+  import.meta.glob<{ default: string }>(
+    ['../../assets/season_talents/*.png', '!../../assets/season_talents/* #*.png'],
+    { eager: true },
+  ),
 );
 
 // 心相投影(シーズンタレント)関連アセットの解決。呼び出し側の従来仕様に合わせて
@@ -80,6 +83,10 @@ export interface PhantomFactorGrade {
 export interface PhantomFactorClass {
   typeId: number;
   professionIds: number[];
+  // SeasonTalentFactorItemTable.SeasonId[0]。過去シーズンの因子は現シーズンでは無効
+  // (ゲーム内説明文で明記)だが、過去のセーブデータ互換のためデータは残している。
+  // 表示側は CURRENT_FACTOR_SEASON_ID との比較で無効表記・後方ソートする。
+  seasonId: number;
   grades: PhantomFactorGrade[];
   icon?: string;
 }

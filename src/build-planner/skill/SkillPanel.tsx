@@ -3,7 +3,7 @@ import { useShallow } from 'zustand/react/shallow';
 import './skill.css';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
-import { classesData, getSkillData } from './skillData';
+import { classesData } from './skillData';
 import { calculateSkillAbilityScore } from '../stats/calculateAbilityScore';
 import {
   selectRoleSkills,
@@ -11,10 +11,11 @@ import {
   selectTalentNodesById,
 } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
-import SkillCircle, { type CircleHandlers } from './SkillCircle';
+import type { CircleHandlers } from './SkillCircle';
 import FixedSkillCard from './FixedSkillCard';
 import MasterySkillCard from './MasterySkillCard';
 import BattleImagineSlot from './BattleImagineSlot';
+import RoleSkillSlot from './RoleSkillSlot';
 import SkillTooltip from './SkillTooltip';
 import { useDragReorder } from './useDragReorder';
 import { useCursorTooltip } from '../components/useCursorTooltip';
@@ -49,6 +50,8 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
     fixedRanks,
     battleImagines,
     imagineRanks,
+    roleSkillSlots,
+    roleSkillRanks,
     talentR1EnabledIds,
     talentR2EnabledIds,
   } = useBuildStore(
@@ -60,6 +63,8 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
       fixedRanks: s.fixedRanks,
       battleImagines: s.battleImagines,
       imagineRanks: s.imagineRanks,
+      roleSkillSlots: s.roleSkillSlots,
+      roleSkillRanks: s.roleSkillRanks,
       talentR1EnabledIds: s.talentR1EnabledIds,
       talentR2EnabledIds: s.talentR2EnabledIds,
     })),
@@ -72,6 +77,8 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
   const onSetBattleImagine = useBuildStore((s) => s.setBattleImagine);
   const onReorderBattleImagines = useBuildStore((s) => s.reorderBattleImagines);
   const onSetImagineRank = useBuildStore((s) => s.setImagineRank);
+  const onSetRoleSkillSlot = useBuildStore((s) => s.setRoleSkillSlot);
+  const onSetRoleSkillRank = useBuildStore((s) => s.setRoleSkillRank);
 
   const professionId = PROFESSIONS[professionKey].professionId;
   const roleSkills = selectRoleSkills(professionId);
@@ -228,22 +235,26 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
           <span>{roleSkillLabel}</span>
         </div>
         <div className="role-skill-row">
-          {roleSkills.map((skillId, i) => {
-            const sd = getSkillData(skillId);
-            const name = t(`skills.${skillId}.name`, { defaultValue: String(skillId) });
+          {roleSkillSlots.map((skillId, i) => {
+            const rank = roleSkillRanks[i] ?? 0;
             const align = i === 2 || i === 3 ? 'left' : 'right';
             return (
-              <div key={skillId} className="skill-card skill-card--role">
-                <div
-                  className="skill-circle-zone"
-                  {...makeCircleHandlers(skillId, false, 0, undefined, align)}
-                >
-                  <SkillCircle iconPath={sd?.icon} size="md" />
-                </div>
-                <div className="skill-card__body">
-                  <div className="skill-card__name">{name}</div>
-                </div>
-              </div>
+              <RoleSkillSlot
+                key={i}
+                index={i}
+                id={skillId}
+                rank={rank}
+                candidateIds={roleSkills}
+                excludeIds={roleSkillSlots}
+                onSet={(newId) => onSetRoleSkillSlot(i, newId)}
+                onSetRank={(v) => onSetRoleSkillRank(i, v)}
+                onClear={() => onSetRoleSkillSlot(i, null)}
+                circleHandlers={
+                  skillId != null
+                    ? makeCircleHandlers(skillId, false, rank, undefined, align)
+                    : undefined
+                }
+              />
             );
           })}
         </div>

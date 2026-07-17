@@ -61,6 +61,9 @@ export interface EnchantItem {
   icon?: string;
   level?: number;
   cost?: [number, number][];
+  // 上級装着コスト: 精/極を狙う場合に必要なコスト。base/refined/perfectで共通(同一トリオ内は
+  // ゲームデータ上完全に一致するため、baseの値のみ保持する)。
+  advancedCost?: [number, number][];
   effects: [number, number][];
   fightValue?: number;
   refined?: EnchantVariant;
@@ -103,6 +106,39 @@ export function resolveEnchantSelection(
         : 'base';
   const data = grade === 'refined' ? base?.refined : grade === 'perfect' ? base?.perfect : base;
   return { base, grade, data };
+}
+
+export interface EnchantGradeView {
+  /** 要求したグレードのバリアントが存在しない場合は 'base' にフォールバックした結果を返す。 */
+  grade: EnchantGrade;
+  id: number;
+  effects: [number, number][];
+}
+
+// enchant(基本アイテム)を指定したグレードで解決した表示用ビューを返す。候補一覧のホバー/
+// 選択時に「希望グレード」を適用するために使う(resolveEnchantSelectionはID→グレードの
+// 逆引き、こちらはグレード→IDの正引き)。
+export function resolveEnchantGradeView(
+  enchant: EnchantItem,
+  grade: EnchantGrade,
+): EnchantGradeView {
+  if (grade === 'refined' && enchant.refined) {
+    return { grade: 'refined', id: enchant.refined.id, effects: enchant.refined.effects };
+  }
+  if (grade === 'perfect' && enchant.perfect) {
+    return { grade: 'perfect', id: enchant.perfect.id, effects: enchant.perfect.effects };
+  }
+  return { grade: 'base', id: enchant.id, effects: enchant.effects };
+}
+
+// EnchantId 3001-3004(Gs220+/Lv190+)の候補には、S3新規追加アイテム(id>=3000000, 302xxxx)と
+// 旧シーズンから引き継がれたS2アイテム(id<3000000, 1024xxx)が混在する。アイテムIDの帯がそのまま
+// シーズンの境界と一致するため、この閾値で判定する(全EnchantIdセットで確認済み: S2以前は max
+// 1024771、S3新規は min 3020001)。
+const ENCHANT_SEASON3_MIN_ITEM_ID = 3000000;
+
+export function isSeason3EnchantItem(item: EnchantItem): boolean {
+  return item.id >= ENCHANT_SEASON3_MIN_ITEM_ID;
 }
 
 // ---- 装備アイコン読み込み (プレビューボックス用) ----
@@ -206,3 +242,24 @@ export function getPlaceholderStatIds(slot: EquipmentSlotId, profession: Profess
 
 // stats/statValue.ts と同一実装が重複していたため、そちらを単一の定義元として再エクスポートする。
 export { calcStatValue } from '../stats/statValue';
+
+// ---- 装備選択候補の絞り込み(GS帯フィルター) ----
+// 除外ではなく「優先表示」のためのフィルター: isCandidateGsMatch が真の候補を先頭側に
+// ソートするだけで、非該当の候補も一覧には残す(現在の選択値との紐付けを維持するため)。
+// 「S3装備」(GS>190)はGS降順ソートと結果が完全に一致する(GS>190の候補は元々先頭に
+// 来るため)ため、実質的な意味を持たず削除済み。「全て」ボタンも、選択中のボタンを
+// 再クリックすると解除(未選択=絞り込みなし)できるため削除済み(null で表現する)。
+export type CandidateGsFilter = 'lv220' | 'lv240' | 'lv260';
+
+export const CANDIDATE_GS_FILTERS: CandidateGsFilter[] = ['lv220', 'lv240', 'lv260'];
+
+export function isCandidateGsMatch(item: EquipmentItem, filter: CandidateGsFilter): boolean {
+  switch (filter) {
+    case 'lv220':
+      return item.equipGs >= 220 && item.equipGs < 240;
+    case 'lv240':
+      return item.equipGs >= 240 && item.equipGs < 260;
+    case 'lv260':
+      return item.equipGs >= 260;
+  }
+}

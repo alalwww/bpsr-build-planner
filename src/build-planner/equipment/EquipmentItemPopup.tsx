@@ -38,6 +38,7 @@ interface EquipmentItemPopupProps {
   professionTypeKey: ProfessionTypeKey;
   evolutionStats: Array<EvolutionStatId | undefined>;
   selectedLegendaryAffix: LegendaryAffixSelection | undefined;
+  selectedLegendaryAffixGroup?: Array<LegendaryAffixSelection | undefined>;
   selectedEnchant: number | undefined;
 }
 
@@ -56,6 +57,7 @@ function EquipmentItemPopup({
   professionTypeKey,
   evolutionStats,
   selectedLegendaryAffix,
+  selectedLegendaryAffixGroup,
   selectedEnchant,
 }: EquipmentItemPopupProps) {
   const { t } = useTranslation();
@@ -96,6 +98,18 @@ function EquipmentItemPopup({
         : `+${selectedLegendaryAffix.value}`
       : null;
 
+  const affixGroups = item.legendaryAffixGroups?.[String(talentSchoolId)];
+  const selectedAffixGroupRows = (affixGroups ?? [])
+    .map((group, i) => {
+      const sel = selectedLegendaryAffixGroup?.[i];
+      if (!sel) return null;
+      const entry = group.find((e) => e.attrId === sel.attrId);
+      if (!entry) return null;
+      const value = entry.isPercent ? `+${sel.value / 100}%` : `+${sel.value}`;
+      return { attrId: sel.attrId, value };
+    })
+    .filter((row): row is { attrId: number; value: string } => row !== null);
+
   const name = t(`items.${item.id}.name`, { ns: 'game-data' });
 
   const abilityScoreTotal = calculateEquipmentSlotAbilityScore(
@@ -107,6 +121,7 @@ function EquipmentItemPopup({
     refineLevel,
     profession,
     professionTypeKey,
+    selectedLegendaryAffixGroup,
   ).total;
 
   return (
@@ -130,7 +145,9 @@ function EquipmentItemPopup({
         </div>
       )}
 
-      {(evoKind !== 'selectable' || selectedLegendaryAffix) && (
+      {(evoKind !== 'selectable' ||
+        selectedLegendaryAffix ||
+        selectedAffixGroupRows.length > 0) && (
         <div className="equip-item-popup__section">
           <h4 className="equip-details-section__heading equip-item-popup__heading--underline">
             {t('buildPlanner.evolutionStats')}
@@ -142,6 +159,14 @@ function EquipmentItemPopup({
               value={affixDisplayValue}
             />
           )}
+          {selectedAffixGroupRows.map((row) => (
+            <StatRow
+              key={row.attrId}
+              className="equip-item-popup__affix-row"
+              name={t(`attributes.${row.attrId}`, { ns: 'game-data' })}
+              value={row.value}
+            />
+          ))}
           {evoKind === 'seriesFixed' &&
             fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
               <StatRow

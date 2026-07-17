@@ -13,6 +13,7 @@ import { useBuildStore } from '../store/useBuildStore';
 import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
 import EquipmentItemPopup from './EquipmentItemPopup';
+import type { CandidateGsFilter } from './equipmentSlotPickerData';
 import { isSeaBreezeSeries, qualityToAssetIndex } from './equipmentSlotPickerData';
 import { createAssetMap } from '../assetMap';
 import type { EquipmentItem, EquipmentSlotId } from '../types';
@@ -119,6 +120,7 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
     perfectlines,
     evolutionStats,
     legendaryAffixState,
+    legendaryAffixGroupState,
     slotEnchants,
   } = useBuildStore(
     useShallow((s) => ({
@@ -127,6 +129,7 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
       perfectlines: s.perfectlines,
       evolutionStats: s.evolutionStats,
       legendaryAffixState: s.legendaryAffixState,
+      legendaryAffixGroupState: s.legendaryAffixGroupState,
       slotEnchants: s.slotEnchants,
     })),
   );
@@ -136,8 +139,13 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
   const onPerfectline = useBuildStore((s) => s.setPerfectline);
   const onSetEvolutionStat = useBuildStore((s) => s.setEvolutionStat);
   const onSetLegendaryAffix = useBuildStore((s) => s.setLegendaryAffix);
+  const onSetLegendaryAffixGroup = useBuildStore((s) => s.setLegendaryAffixGroup);
   const onSetEnchant = useBuildStore((s) => s.setSlotEnchant);
   const [openSlot, setOpenSlot] = useState<EquipmentSlotId | null>(null);
+  // 装備選択候補のGS帯フィルター。ダイアログを開き直しても選択が消えないよう、
+  // ダイアログ本体(EquipmentSlotPicker)ではなくこのパネル側で保持する
+  // (localStorageへは保存せず、セッション中のみ有効)。null = 未選択(絞り込みなし)。
+  const [candidateGsFilter, setCandidateGsFilter] = useState<CandidateGsFilter | null>('lv220');
   const [hoveredSlot, setHoveredSlot] = useState<{
     slot: EquipmentSlotId;
     x: number;
@@ -193,13 +201,17 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
           professionTypeKey={professionTypeKey}
           evolutionStats={evolutionStats[openSlot] ?? []}
           selectedLegendaryAffix={legendaryAffixState[openSlot]}
+          selectedLegendaryAffixGroup={legendaryAffixGroupState[openSlot]}
           selectedEnchant={slotEnchants[openSlot] ?? undefined}
+          candidateGsFilter={candidateGsFilter}
+          onSetCandidateGsFilter={setCandidateGsFilter}
           onSelect={(selected) => onEquip(openSlot, selected)}
           onUnequip={() => onUnequip(openSlot)}
           onRefineLevel={(level) => onRefineLevel(openSlot, level)}
           onPerfectline={(value) => onPerfectline(openSlot, value)}
           onSetEvolutionStat={(idx, statId) => onSetEvolutionStat(openSlot, idx, statId)}
           onSetLegendaryAffix={(sel) => onSetLegendaryAffix(openSlot, sel)}
+          onSetLegendaryAffixGroup={(idx, sel) => onSetLegendaryAffixGroup(openSlot, idx, sel)}
           onSetEnchant={(itemId) => onSetEnchant(openSlot, itemId)}
           onClose={() => setOpenSlot(null)}
         />
@@ -218,6 +230,7 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
           professionTypeKey={professionTypeKey}
           evolutionStats={evolutionStats[hoveredSlot.slot] ?? []}
           selectedLegendaryAffix={legendaryAffixState[hoveredSlot.slot]}
+          selectedLegendaryAffixGroup={legendaryAffixGroupState[hoveredSlot.slot]}
           selectedEnchant={slotEnchants[hoveredSlot.slot] ?? undefined}
         />
       )}

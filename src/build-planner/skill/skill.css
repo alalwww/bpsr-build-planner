@@ -315,16 +315,15 @@
   background: #201a10 !important;
 }
 
-/* Role skills */
+/* Role skills: 4スロット固定のピッカー式UI(バトルイマジンと同じパターン) */
 .role-skill-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
 
-.skill-card--role {
-  flex: 1;
-  min-width: 120px;
-  opacity: 0.8;
+.skill-card--role-slot {
+  min-height: 74px;
 }
 
 /* empty / clear buttons */

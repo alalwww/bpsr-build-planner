@@ -65,7 +65,13 @@ function SkillTooltip({
     returnObjects: true,
     defaultValue: [],
   }) as string[];
-  const dialogue = isImagine ? t(`battleImagines.${skillId}.dialogue`, { defaultValue: '' }) : '';
+  // ZTable未実装分は Dialogue に本文の代わりにテクスチャ名がそのまま入っている
+  // (例: "skill_aoyi_advanced_texture025")。フレーバーテキストとして意味を持たないため、
+  // dialogueを空扱いにして直下の区切り線(hr)ごと非表示にする。
+  const rawDialogue = isImagine
+    ? t(`battleImagines.${skillId}.dialogue`, { defaultValue: '' })
+    : '';
+  const dialogue = rawDialogue.startsWith('skill_aoyi_advanced_texture') ? '' : rawDialogue;
   const passiveEffects = isImagine
     ? ((sd as BattleImagineData | undefined)?.passiveEffects ?? [])
     : [];
@@ -130,7 +136,9 @@ function SkillTooltip({
         {iconUrl && <img className="skill-tooltip__icon" src={iconUrl} alt="" />}
         <span className="skill-tooltip__name">{name}</span>
       </div>
-      {!isImagine && skillLabel.length > 0 && (
+      {/* イマジン: フレーバーテキスト(dialogue) → hr → タグ → アクティブ効果 → hr → パッシブ */}
+      {isImagine && dialogue && <p className="skill-tooltip__dialogue">&quot;{dialogue}&quot;</p>}
+      {skillLabel.length > 0 && (
         <div className="skill-tooltip__tags">
           {skillLabel.map((tag, i) => (
             <span key={i} className="skill-tooltip__tag">
@@ -139,18 +147,7 @@ function SkillTooltip({
           ))}
         </div>
       )}
-      {/* イマジン: フレーバーテキスト → hr → タグ → アクティブ効果 → hr → パッシブ */}
-      {dialogue && <p className="skill-tooltip__dialogue">{dialogue}</p>}
-      {(dialogue || !isImagine) && hasActiveContent && <hr className="skill-tooltip__hr" />}
-      {isImagine && skillLabel.length > 0 && (
-        <div className="skill-tooltip__tags">
-          {skillLabel.map((tag, i) => (
-            <span key={i} className="skill-tooltip__tag">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
+      {hasActiveContent && <hr className="skill-tooltip__hr" />}
       {activeSkillName && <div className="skill-tooltip__active-name">{activeSkillName}</div>}
       {desc && <p className="skill-tooltip__desc">{renderMarkup(desc)}</p>}
       {/* クラススキル: 説明(戦略行)の下に1行分空けて性能値を表示 */}

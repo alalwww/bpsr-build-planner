@@ -34,6 +34,7 @@ function baseInput(): CalculateAbilityScoreInput {
     evolutionStats: {},
     refineLevels: uniformSlotRecord(0),
     legendaryAffixState: {},
+    legendaryAffixGroupState: {},
     slotEnchants: {},
     profession: PROFESSIONS.stormBlade,
     professionTypeKey: 'type1',

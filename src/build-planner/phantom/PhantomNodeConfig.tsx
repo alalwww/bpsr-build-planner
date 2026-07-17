@@ -43,7 +43,7 @@ export default function PhantomNodeConfig({
     <FactorSlot
       groupId={groupId}
       current={phantomFactorSlots[groupId] ?? null}
-      options={getFactorBaseOptions(tg, groupId, professionId)}
+      options={getFactorBaseOptions(tg, t, groupId, professionId)}
       getDesc={(classKey, grade) => getFactorEffectDesc(tg, classKey, grade)}
       unequippedLabel={unequippedLabel}
       onSet={onPhantomFactorSlot}

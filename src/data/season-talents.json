@@ -4,11 +4,11 @@
       "sortId": 5,
       "advancedEffectId": 100,
       "rootNodeId": 1001,
-      "icon": "ui/textures/season_talent/s2talent01_01",
+      "icon": "ui/atlas/season_talent/s2talent01_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           17
         ]
       ]
@@ -17,11 +17,11 @@
       "sortId": 6,
       "advancedEffectId": 101,
       "rootNodeId": 1101,
-      "icon": "ui/textures/season_talent/s2talent02_01",
+      "icon": "ui/atlas/season_talent/s2talent02_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           24
         ]
       ]
@@ -30,11 +30,11 @@
       "sortId": 7,
       "advancedEffectId": 102,
       "rootNodeId": 1201,
-      "icon": "ui/textures/season_talent/s2talent03_01",
+      "icon": "ui/atlas/season_talent/s2talent03_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           28
         ]
       ]
@@ -43,11 +43,11 @@
       "sortId": 8,
       "advancedEffectId": 103,
       "rootNodeId": 1301,
-      "icon": "ui/textures/season_talent/s2talent04_01",
+      "icon": "ui/atlas/season_talent/s2talent04_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ]
@@ -56,18 +56,18 @@
       "sortId": 1,
       "advancedEffectId": 104,
       "rootNodeId": 1401,
-      "icon": "ui/textures/season_talent/s2talent05_01",
+      "icon": "ui/atlas/season_talent/s2talent05_01",
       "unlockCondition": []
     },
     "6": {
       "sortId": 4,
       "advancedEffectId": 105,
       "rootNodeId": 1501,
-      "icon": "ui/textures/season_talent/s2talent06_01",
+      "icon": "ui/atlas/season_talent/s2talent06_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ]
@@ -76,11 +76,11 @@
       "sortId": 2,
       "advancedEffectId": 106,
       "rootNodeId": 1601,
-      "icon": "ui/textures/season_talent/s2talent07_01",
+      "icon": "ui/atlas/season_talent/s2talent07_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ]
@@ -89,60 +89,12 @@
       "sortId": 3,
       "advancedEffectId": 107,
       "rootNodeId": 1701,
-      "icon": "ui/textures/season_talent/s2talent08_01",
+      "icon": "ui/atlas/season_talent/s2talent08_01",
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           9
-        ]
-      ]
-    },
-    "20001": {
-      "sortId": 1,
-      "advancedEffectId": 0,
-      "rootNodeId": 5001,
-      "icon": "ui/textures/season_talent/s2talent051_01",
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ]
-    },
-    "20002": {
-      "sortId": 2,
-      "advancedEffectId": 0,
-      "rootNodeId": 5101,
-      "icon": "ui/textures/season_talent/s2talent052_01",
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ]
-    },
-    "20003": {
-      "sortId": 3,
-      "advancedEffectId": 0,
-      "rootNodeId": 5201,
-      "icon": "ui/textures/season_talent/s2talent053_01",
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ]
-    },
-    "20004": {
-      "sortId": 4,
-      "advancedEffectId": 0,
-      "rootNodeId": 5301,
-      "icon": "ui/textures/season_talent/s2talent054_01",
-      "unlockCondition": [
-        [
-          9,
-          40201
         ]
       ]
     }
@@ -152,14 +104,17 @@
       "templateId": 1,
       "nodeType": 2,
       "groupId": 100,
-      "preNodes": [],
+      "preNodes": [
+        1002,
+        1003
+      ],
       "nextNodes": [
         103
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -180,7 +135,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -199,7 +154,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -218,7 +173,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -237,7 +192,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -253,12 +208,13 @@
       ],
       "nextNodes": [
         1008,
-        1009
+        1009,
+        217
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -273,12 +229,13 @@
       ],
       "nextNodes": [
         1004,
-        1005
+        1005,
+        216
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -299,7 +256,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -318,7 +275,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -337,7 +294,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -357,7 +314,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -378,7 +335,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -397,7 +354,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -416,7 +373,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -435,7 +392,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -451,12 +408,13 @@
       ],
       "nextNodes": [
         1108,
-        1109
+        1109,
+        219
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -471,12 +429,13 @@
       ],
       "nextNodes": [
         1104,
-        1105
+        1105,
+        218
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -497,7 +456,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -516,7 +475,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -535,7 +494,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -555,7 +514,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -576,7 +535,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -595,7 +554,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -614,7 +573,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -633,7 +592,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -649,12 +608,13 @@
       ],
       "nextNodes": [
         1208,
-        1209
+        1209,
+        221
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -669,12 +629,13 @@
       ],
       "nextNodes": [
         1204,
-        1205
+        1205,
+        220
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -695,7 +656,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -714,7 +675,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -733,7 +694,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -753,7 +714,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -774,7 +735,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -793,7 +754,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -812,7 +773,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -831,7 +792,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -847,12 +808,13 @@
       ],
       "nextNodes": [
         1308,
-        1309
+        1309,
+        223
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -867,12 +829,13 @@
       ],
       "nextNodes": [
         1304,
-        1305
+        1305,
+        222
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -893,7 +856,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -912,7 +875,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -931,7 +894,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -951,7 +914,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -972,7 +935,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -991,7 +954,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1010,7 +973,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -1029,7 +992,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1045,12 +1008,13 @@
       ],
       "nextNodes": [
         1408,
-        1409
+        1409,
+        225
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -1065,12 +1029,13 @@
       ],
       "nextNodes": [
         1404,
-        1405
+        1405,
+        224
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -1091,7 +1056,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -1110,7 +1075,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1129,7 +1094,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1149,7 +1114,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -1170,7 +1135,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -1189,7 +1154,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1208,7 +1173,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1224,12 +1189,13 @@
       ],
       "nextNodes": [
         1509,
-        1508
+        1508,
+        227
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -1248,7 +1214,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -1263,12 +1229,13 @@
       ],
       "nextNodes": [
         1504,
-        1505
+        1505,
+        226
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -1289,7 +1256,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -1308,7 +1275,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1327,7 +1294,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1346,7 +1313,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -1367,7 +1334,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -1387,7 +1354,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1406,7 +1373,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -1425,7 +1392,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1441,12 +1408,13 @@
       ],
       "nextNodes": [
         1608,
-        1609
+        1609,
+        229
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -1461,12 +1429,13 @@
       ],
       "nextNodes": [
         1603,
-        1604
+        1604,
+        228
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -1488,7 +1457,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -1508,7 +1477,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1527,7 +1496,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1547,7 +1516,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           5
         ]
       ],
@@ -1568,7 +1537,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ],
@@ -1587,7 +1556,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1606,7 +1575,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ],
@@ -1625,7 +1594,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
@@ -1641,12 +1610,13 @@
       ],
       "nextNodes": [
         1708,
-        1709
+        1709,
+        231
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           50
         ]
       ],
@@ -1661,12 +1631,13 @@
       ],
       "nextNodes": [
         1704,
-        1705
+        1705,
+        230
       ],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           15
         ]
       ],
@@ -1685,7 +1656,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           45
         ]
       ],
@@ -1706,7 +1677,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           35
         ]
       ],
@@ -1725,673 +1696,280 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           30
         ]
       ],
       "sameGroupId": 179
     },
-    "180": {
-      "templateId": 20001,
+    "216": {
+      "templateId": 1,
       "nodeType": 2,
-      "groupId": 180,
+      "groupId": 216,
       "preNodes": [
-        5001
+        106
       ],
-      "nextNodes": [
-        5002,
-        5003
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40201
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "181": {
-      "templateId": 20001,
+    "217": {
+      "templateId": 1,
       "nodeType": 2,
-      "groupId": 181,
+      "groupId": 217,
       "preNodes": [
-        5003,
-        5002
+        105
       ],
-      "nextNodes": [
-        5007
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40219
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "182": {
-      "templateId": 20001,
+    "218": {
+      "templateId": 2,
       "nodeType": 2,
-      "groupId": 182,
+      "groupId": 218,
       "preNodes": [
-        5007
+        116
       ],
-      "nextNodes": [
-        5004
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 182
-    },
-    "183": {
-      "templateId": 20001,
-      "nodeType": 2,
-      "groupId": 183,
-      "preNodes": [
-        5007
-      ],
-      "nextNodes": [
-        5005
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 182
-    },
-    "184": {
-      "templateId": 20001,
-      "nodeType": 2,
-      "groupId": 184,
-      "preNodes": [
-        5004,
-        5005
-      ],
-      "nextNodes": [
-        5009,
-        188
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "185": {
-      "templateId": 20001,
+    "219": {
+      "templateId": 2,
       "nodeType": 2,
-      "groupId": 185,
+      "groupId": 219,
       "preNodes": [
-        188
+        115
       ],
-      "nextNodes": [
-        5006
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 185
-    },
-    "186": {
-      "templateId": 20001,
-      "nodeType": 2,
-      "groupId": 186,
-      "preNodes": [
-        188
-      ],
-      "nextNodes": [
-        5006
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 185
-    },
-    "187": {
-      "templateId": 20001,
-      "nodeType": 2,
-      "groupId": 187,
-      "preNodes": [
-        5006
-      ],
-      "nextNodes": [
-        5008
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40226
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "188": {
-      "templateId": 20001,
+    "220": {
+      "templateId": 3,
       "nodeType": 2,
-      "groupId": 188,
+      "groupId": 220,
       "preNodes": [
-        184
+        126
       ],
-      "nextNodes": [
-        185,
-        186
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40223
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "189": {
-      "templateId": 20002,
+    "221": {
+      "templateId": 3,
       "nodeType": 2,
-      "groupId": 189,
+      "groupId": 221,
       "preNodes": [
-        5101
+        125
       ],
-      "nextNodes": [
-        5102,
-        5103
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40201
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "190": {
-      "templateId": 20002,
+    "222": {
+      "templateId": 4,
       "nodeType": 2,
-      "groupId": 190,
+      "groupId": 222,
       "preNodes": [
-        5102,
-        5103
+        136
       ],
-      "nextNodes": [
-        5107
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40219
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "191": {
-      "templateId": 20002,
+    "223": {
+      "templateId": 4,
       "nodeType": 2,
-      "groupId": 191,
+      "groupId": 223,
       "preNodes": [
-        5107
+        135
       ],
-      "nextNodes": [
-        5104
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 191
-    },
-    "192": {
-      "templateId": 20002,
-      "nodeType": 2,
-      "groupId": 192,
-      "preNodes": [
-        5107
-      ],
-      "nextNodes": [
-        5105
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 191
-    },
-    "193": {
-      "templateId": 20002,
-      "nodeType": 2,
-      "groupId": 193,
-      "preNodes": [
-        5105,
-        5104
-      ],
-      "nextNodes": [
-        5109
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "194": {
-      "templateId": 20002,
+    "224": {
+      "templateId": 5,
       "nodeType": 2,
-      "groupId": 194,
+      "groupId": 224,
       "preNodes": [
-        197
+        146
       ],
-      "nextNodes": [
-        5106
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 194
-    },
-    "195": {
-      "templateId": 20002,
-      "nodeType": 2,
-      "groupId": 195,
-      "preNodes": [
-        197
-      ],
-      "nextNodes": [
-        5106
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 194
-    },
-    "196": {
-      "templateId": 20002,
-      "nodeType": 2,
-      "groupId": 196,
-      "preNodes": [
-        5106
-      ],
-      "nextNodes": [
-        5108
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40226
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "197": {
-      "templateId": 20002,
+    "225": {
+      "templateId": 5,
       "nodeType": 2,
-      "groupId": 197,
+      "groupId": 225,
       "preNodes": [
-        5109
+        145
       ],
-      "nextNodes": [
-        194,
-        195
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40223
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "198": {
-      "templateId": 20003,
+    "226": {
+      "templateId": 6,
       "nodeType": 2,
-      "groupId": 198,
+      "groupId": 226,
       "preNodes": [
-        5201
+        156
       ],
-      "nextNodes": [
-        5202,
-        5203
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40201
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "199": {
-      "templateId": 20003,
+    "227": {
+      "templateId": 6,
       "nodeType": 2,
-      "groupId": 199,
+      "groupId": 227,
       "preNodes": [
-        5203,
-        5202
+        154
       ],
-      "nextNodes": [
-        5207
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40219
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "200": {
-      "templateId": 20003,
+    "228": {
+      "templateId": 7,
       "nodeType": 2,
-      "groupId": 200,
+      "groupId": 228,
       "preNodes": [
-        5207
+        166
       ],
-      "nextNodes": [
-        5204
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 200
-    },
-    "201": {
-      "templateId": 20003,
-      "nodeType": 2,
-      "groupId": 201,
-      "preNodes": [
-        5207
-      ],
-      "nextNodes": [
-        5205
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 200
-    },
-    "202": {
-      "templateId": 20003,
-      "nodeType": 2,
-      "groupId": 202,
-      "preNodes": [
-        5204,
-        5205
-      ],
-      "nextNodes": [
-        5209
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "203": {
-      "templateId": 20003,
+    "229": {
+      "templateId": 7,
       "nodeType": 2,
-      "groupId": 203,
+      "groupId": 229,
       "preNodes": [
-        206
+        165
       ],
-      "nextNodes": [
-        5206
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 203
-    },
-    "204": {
-      "templateId": 20003,
-      "nodeType": 2,
-      "groupId": 204,
-      "preNodes": [
-        206
-      ],
-      "nextNodes": [
-        5206
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 203
-    },
-    "205": {
-      "templateId": 20003,
-      "nodeType": 2,
-      "groupId": 205,
-      "preNodes": [
-        5206
-      ],
-      "nextNodes": [
-        5208
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40226
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
     },
-    "206": {
-      "templateId": 20003,
+    "230": {
+      "templateId": 8,
       "nodeType": 2,
-      "groupId": 206,
+      "groupId": 230,
       "preNodes": [
-        5209
+        176
       ],
-      "nextNodes": [
-        203,
-        204
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40223
+          93,
+          3,
+          20
         ]
       ],
       "sameGroupId": 0
     },
-    "207": {
-      "templateId": 20004,
+    "231": {
+      "templateId": 8,
       "nodeType": 2,
-      "groupId": 207,
+      "groupId": 231,
       "preNodes": [
-        5301
+        175
       ],
-      "nextNodes": [
-        5302,
-        5303
-      ],
+      "nextNodes": [],
       "unlockCondition": [
         [
-          9,
-          40201
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "208": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 208,
-      "preNodes": [
-        5303,
-        5302
-      ],
-      "nextNodes": [
-        5307
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40219
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "209": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 209,
-      "preNodes": [
-        5307
-      ],
-      "nextNodes": [
-        5304
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 209
-    },
-    "210": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 210,
-      "preNodes": [
-        5307
-      ],
-      "nextNodes": [
-        5305
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40220
-        ]
-      ],
-      "sameGroupId": 209
-    },
-    "211": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 211,
-      "preNodes": [
-        5305,
-        5304
-      ],
-      "nextNodes": [
-        5309
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "212": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 212,
-      "preNodes": [
-        215
-      ],
-      "nextNodes": [
-        5306
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 212
-    },
-    "213": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 213,
-      "preNodes": [
-        215
-      ],
-      "nextNodes": [
-        5306
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40224
-        ]
-      ],
-      "sameGroupId": 212
-    },
-    "214": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 214,
-      "preNodes": [
-        5306
-      ],
-      "nextNodes": [
-        5308
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40226
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "215": {
-      "templateId": 20004,
-      "nodeType": 2,
-      "groupId": 215,
-      "preNodes": [
-        5309
-      ],
-      "nextNodes": [
-        212,
-        213
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40223
+          93,
+          3,
+          55
         ]
       ],
       "sameGroupId": 0
@@ -2401,7 +1979,10 @@
       "nodeType": 1,
       "groupId": 1001,
       "preNodes": [],
-      "nextNodes": [],
+      "nextNodes": [
+        1002,
+        1003
+      ],
       "unlockCondition": [],
       "sameGroupId": 0
     },
@@ -2444,7 +2025,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2463,7 +2044,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2482,7 +2063,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -2501,7 +2082,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -2520,7 +2101,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -2539,7 +2120,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -2549,15 +2130,12 @@
       "templateId": 1,
       "nodeType": 1,
       "groupId": 1010,
-      "preNodes": [
-        1009,
-        1008
-      ],
+      "preNodes": [],
       "nextNodes": [],
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -2614,7 +2192,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2633,7 +2211,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2652,7 +2230,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -2671,7 +2249,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -2690,7 +2268,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -2709,7 +2287,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -2727,7 +2305,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -2784,7 +2362,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2803,7 +2381,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2822,7 +2400,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -2841,7 +2419,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -2860,7 +2438,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -2879,7 +2457,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -2897,7 +2475,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -2954,7 +2532,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2973,7 +2551,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -2992,7 +2570,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3011,7 +2589,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3030,7 +2608,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3049,7 +2627,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3067,7 +2645,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -3124,7 +2702,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3143,7 +2721,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3162,7 +2740,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3181,7 +2759,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3200,7 +2778,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3219,7 +2797,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3237,7 +2815,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -3294,7 +2872,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3313,7 +2891,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3332,7 +2910,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3351,7 +2929,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3370,7 +2948,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3389,7 +2967,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3407,7 +2985,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -3450,7 +3028,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3469,7 +3047,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3488,7 +3066,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3508,7 +3086,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3527,7 +3105,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3546,7 +3124,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3565,7 +3143,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3583,7 +3161,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ],
@@ -3640,7 +3218,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3659,7 +3237,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           20
         ]
       ],
@@ -3678,7 +3256,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3697,7 +3275,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ],
@@ -3716,7 +3294,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3735,7 +3313,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           55
         ]
       ],
@@ -3753,646 +3331,8 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5001": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5001,
-      "preNodes": [],
-      "nextNodes": [
-        180
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5002": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5002,
-      "preNodes": [
-        180
-      ],
-      "nextNodes": [
-        181
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5002
-    },
-    "5003": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5003,
-      "preNodes": [
-        180
-      ],
-      "nextNodes": [
-        181
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5002
-    },
-    "5004": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5004,
-      "preNodes": [
-        182
-      ],
-      "nextNodes": [
-        184
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5004
-    },
-    "5005": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5005,
-      "preNodes": [
-        183
-      ],
-      "nextNodes": [
-        184
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5004
-    },
-    "5006": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5006,
-      "preNodes": [
-        185,
-        186
-      ],
-      "nextNodes": [
-        187
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40225
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5007": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5007,
-      "preNodes": [
-        181
-      ],
-      "nextNodes": [
-        182,
-        183
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40219
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5008": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5008,
-      "preNodes": [
-        187
-      ],
-      "nextNodes": [],
-      "unlockCondition": [
-        [
-          9,
-          40226
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5009": {
-      "templateId": 20001,
-      "nodeType": 1,
-      "groupId": 5009,
-      "preNodes": [
-        184
-      ],
-      "nextNodes": [],
-      "unlockCondition": [
-        [
-          9,
-          40222
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5101": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5101,
-      "preNodes": [],
-      "nextNodes": [
-        189
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5102": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5102,
-      "preNodes": [
-        189
-      ],
-      "nextNodes": [
-        190
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5102
-    },
-    "5103": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5103,
-      "preNodes": [
-        189
-      ],
-      "nextNodes": [
-        190
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5102
-    },
-    "5104": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5104,
-      "preNodes": [
-        191
-      ],
-      "nextNodes": [
-        193
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5104
-    },
-    "5105": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5105,
-      "preNodes": [
-        192
-      ],
-      "nextNodes": [
-        193
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5104
-    },
-    "5106": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5106,
-      "preNodes": [
-        194,
-        195
-      ],
-      "nextNodes": [
-        196
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40225
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5107": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5107,
-      "preNodes": [
-        190
-      ],
-      "nextNodes": [
-        191,
-        192
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40219
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5108": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5108,
-      "preNodes": [
-        196
-      ],
-      "nextNodes": [],
-      "unlockCondition": [
-        [
-          9,
-          40226
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5109": {
-      "templateId": 20002,
-      "nodeType": 1,
-      "groupId": 5109,
-      "preNodes": [
-        193
-      ],
-      "nextNodes": [
-        197
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5201": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5201,
-      "preNodes": [],
-      "nextNodes": [
-        198
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5202": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5202,
-      "preNodes": [
-        198
-      ],
-      "nextNodes": [
-        199
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5202
-    },
-    "5203": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5203,
-      "preNodes": [
-        198
-      ],
-      "nextNodes": [
-        199
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5202
-    },
-    "5204": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5204,
-      "preNodes": [
-        200
-      ],
-      "nextNodes": [
-        202
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5204
-    },
-    "5205": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5205,
-      "preNodes": [
-        201
-      ],
-      "nextNodes": [
-        202
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5204
-    },
-    "5206": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5206,
-      "preNodes": [
-        204,
-        203
-      ],
-      "nextNodes": [
-        205
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40225
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5207": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5207,
-      "preNodes": [
-        199
-      ],
-      "nextNodes": [
-        200,
-        201
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40219
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5208": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5208,
-      "preNodes": [
-        205
-      ],
-      "nextNodes": [],
-      "unlockCondition": [
-        [
-          9,
-          40226
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5209": {
-      "templateId": 20003,
-      "nodeType": 1,
-      "groupId": 5209,
-      "preNodes": [
-        202
-      ],
-      "nextNodes": [
-        206
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5301": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5301,
-      "preNodes": [],
-      "nextNodes": [
-        207
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40201
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5302": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5302,
-      "preNodes": [
-        207
-      ],
-      "nextNodes": [
-        208
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5302
-    },
-    "5303": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5303,
-      "preNodes": [
-        207
-      ],
-      "nextNodes": [
-        208
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40218
-        ]
-      ],
-      "sameGroupId": 5302
-    },
-    "5304": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5304,
-      "preNodes": [
-        209
-      ],
-      "nextNodes": [
-        211
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5304
-    },
-    "5305": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5305,
-      "preNodes": [
-        210
-      ],
-      "nextNodes": [
-        211
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40221
-        ]
-      ],
-      "sameGroupId": 5304
-    },
-    "5306": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5306,
-      "preNodes": [
-        212,
-        213
-      ],
-      "nextNodes": [
-        214
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40225
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5307": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5307,
-      "preNodes": [
-        208
-      ],
-      "nextNodes": [
-        209,
-        210
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40219
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5308": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5308,
-      "preNodes": [
-        214
-      ],
-      "nextNodes": [],
-      "unlockCondition": [
-        [
-          9,
-          40226
-        ]
-      ],
-      "sameGroupId": 0
-    },
-    "5309": {
-      "templateId": 20004,
-      "nodeType": 1,
-      "groupId": 5309,
-      "preNodes": [
-        211
-      ],
-      "nextNodes": [
-        215
-      ],
-      "unlockCondition": [
-        [
-          9,
-          40222
         ]
       ],
       "sameGroupId": 0
@@ -4422,7 +3362,7 @@
       "icon": "ui/atlas/season_talent/s2talent01_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4451,7 +3391,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4480,7 +3420,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4509,7 +3449,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4538,7 +3478,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4567,7 +3507,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4596,7 +3536,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4625,7 +3565,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4654,7 +3594,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_09",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4683,7 +3623,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_10",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4712,7 +3652,7 @@
       "icon": "ui/atlas/season_talent/s2talent02_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4741,7 +3681,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4770,7 +3710,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4799,7 +3739,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4828,7 +3768,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4857,7 +3797,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4886,7 +3826,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4915,7 +3855,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4944,7 +3884,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_09",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -4973,7 +3913,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent02_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5002,7 +3942,7 @@
       "icon": "ui/atlas/season_talent/s2talent03_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5031,7 +3971,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5060,7 +4000,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5089,7 +4029,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5118,7 +4058,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5147,7 +4087,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5176,7 +4116,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5205,7 +4145,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5234,7 +4174,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_09",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5263,7 +4203,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5292,7 +4232,7 @@
       "icon": "ui/atlas/season_talent/s2talent04_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5321,7 +4261,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5350,7 +4290,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5379,7 +4319,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5408,7 +4348,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5437,7 +4377,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5466,7 +4406,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5495,7 +4435,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5524,7 +4464,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5553,7 +4493,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent04_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5582,7 +4522,7 @@
       "icon": "ui/atlas/season_talent/s2talent05_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5611,7 +4551,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent05_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5640,7 +4580,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent05_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5669,7 +4609,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent05_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5698,7 +4638,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent05_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5727,7 +4667,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent05_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5756,7 +4696,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5785,7 +4725,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5814,7 +4754,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_09",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5843,7 +4783,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent05_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5872,7 +4812,7 @@
       "icon": "ui/atlas/season_talent/s2talent06_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5901,7 +4841,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5930,7 +4870,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5959,7 +4899,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -5988,7 +4928,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6017,7 +4957,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6046,7 +4986,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6075,7 +5015,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6104,7 +5044,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent03_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6133,7 +5073,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent06_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6162,7 +5102,7 @@
       "icon": "ui/atlas/season_talent/s2talent07_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6191,7 +5131,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6220,7 +5160,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6249,7 +5189,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6278,7 +5218,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6307,7 +5247,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6336,7 +5276,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6365,7 +5305,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6394,7 +5334,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6423,7 +5363,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent07_09",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6452,7 +5392,7 @@
       "icon": "ui/atlas/season_talent/s2talent08_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6481,7 +5421,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6510,7 +5450,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6539,7 +5479,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6568,7 +5508,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6597,7 +5537,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6626,7 +5566,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_07",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6655,7 +5595,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6684,7 +5624,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent01_09",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6713,7 +5653,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent08_08",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6742,7 +5682,7 @@
       "icon": "ui/atlas/season_talent/s2talent051_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6771,7 +5711,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6800,7 +5740,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6829,7 +5769,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6858,7 +5798,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6887,7 +5827,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6916,7 +5856,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6945,7 +5885,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -6974,7 +5914,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7003,7 +5943,7 @@
       "icon": "ui/atlas/season_talent/s2talent052_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7032,7 +5972,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent052_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7061,7 +6001,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent052_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7090,7 +6030,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent052_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7119,7 +6059,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7148,7 +6088,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7177,7 +6117,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent052_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7206,7 +6146,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent052_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7235,7 +6175,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7264,7 +6204,7 @@
       "icon": "ui/atlas/season_talent/s2talent053_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7293,7 +6233,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent053_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7322,7 +6262,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent053_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7351,7 +6291,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent053_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7380,7 +6320,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7409,7 +6349,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7438,7 +6378,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent053_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7467,7 +6407,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent053_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7496,7 +6436,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7525,7 +6465,7 @@
       "icon": "ui/atlas/season_talent/s2talent054_01",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7554,7 +6494,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent054_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7583,7 +6523,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent054_03",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7612,7 +6552,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent054_04",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7641,7 +6581,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7670,7 +6610,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_06",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7699,7 +6639,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent054_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7728,7 +6668,7 @@
       "icon": "ui/atlas/season_talent_icon/s2talent054_02",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
           1
         ]
       ],
@@ -7757,7 +6697,529 @@
       "icon": "ui/atlas/season_talent_icon/s2talent051_05",
       "unlockConsume": [
         [
-          1220004,
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5401": {
+      "id": 5401,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004610,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent055_01",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5402": {
+      "id": 5402,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_02",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5403": {
+      "id": 5403,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004630,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_03",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5404": {
+      "id": 5404,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004640,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_04",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5405": {
+      "id": 5405,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5406": {
+      "id": 5406,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_06",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5407": {
+      "id": 5407,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_02",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5408": {
+      "id": 5408,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004620,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent052_02",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5409": {
+      "id": 5409,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5501": {
+      "id": 5501,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004810,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent/s2talent056_01",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5502": {
+      "id": 5502,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_02",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5503": {
+      "id": 5503,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004830,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_03",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5504": {
+      "id": 5504,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004840,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_04",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5505": {
+      "id": 5505,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5506": {
+      "id": 5506,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004460,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_06",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5507": {
+      "id": 5507,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_02",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5508": {
+      "id": 5508,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004820,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent054_02",
+      "unlockConsume": [
+        [
+          1220005,
+          1
+        ]
+      ],
+      "fightValue": 0
+    },
+    "5509": {
+      "id": 5509,
+      "level": 1,
+      "effects": [
+        [
+          3,
+          3004450,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "icon": "ui/atlas/season_talent_icon/s2talent051_05",
+      "unlockConsume": [
+        [
+          1220005,
           1
         ]
       ],
@@ -7808,6 +7270,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7824,6 +7287,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7840,6 +7304,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7856,6 +7321,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7908,6 +7374,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7924,6 +7391,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7940,6 +7408,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -7956,6 +7425,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8008,6 +7478,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8024,6 +7495,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8040,6 +7512,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8056,6 +7529,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8108,6 +7582,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8124,6 +7599,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8140,6 +7616,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8156,6 +7633,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8208,6 +7686,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8224,6 +7703,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8240,6 +7720,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8256,6 +7737,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8308,6 +7790,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8324,6 +7807,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8340,6 +7824,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8356,6 +7841,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8408,6 +7894,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8424,6 +7911,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8440,6 +7928,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8456,6 +7945,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8508,6 +7998,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8524,6 +8015,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8540,6 +8032,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8556,6 +8049,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8572,6 +8066,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8588,6 +8083,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8616,6 +8112,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8644,6 +8141,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8660,6 +8158,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8676,6 +8175,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8692,6 +8192,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8720,6 +8221,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8748,6 +8250,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8764,6 +8267,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8780,6 +8284,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8796,6 +8301,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8824,6 +8330,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8852,6 +8359,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8868,6 +8376,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8884,6 +8393,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8900,6 +8410,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8928,6 +8439,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8956,6 +8468,7 @@
       "professionIds": [
         1,
         2,
+        3,
         4,
         5,
         9,
@@ -8972,6 +8485,497 @@
       "professionIds": [
         1,
         2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "216": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "217": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "218": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "219": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "220": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "221": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "222": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "223": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "224": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "225": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "226": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "227": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "228": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "229": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "230": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "231": {
+      "factorTypes": [
+        6
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "232": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "233": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "234": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "235": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "236": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "237": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "238": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "239": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "240": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "241": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "242": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "243": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "244": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "245": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality1"
+    },
+    "246": {
+      "factorTypes": [],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality2"
+    },
+    "247": {
+      "factorTypes": [
+        2
+      ],
+      "professionIds": [],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality4"
+    },
+    "248": {
+      "factorTypes": [
+        5
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        9,
+        11,
+        12,
+        13
+      ],
+      "icon": "ui/atlas/season_talent/img_season_talent_tree_quality5"
+    },
+    "249": {
+      "factorTypes": [
+        3
+      ],
+      "professionIds": [
+        1,
+        2,
+        3,
         4,
         5,
         9,
@@ -9005,7 +9009,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "102": {
       "effectId": 100,
@@ -9029,7 +9033,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "103": {
       "effectId": 100,
@@ -9053,7 +9057,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao144",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "104": {
       "effectId": 100,
@@ -9077,7 +9081,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "105": {
       "effectId": 100,
@@ -9101,7 +9105,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "106": {
       "effectId": 100,
@@ -9125,7 +9129,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao144",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "107": {
       "effectId": 101,
@@ -9149,7 +9153,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "108": {
       "effectId": 101,
@@ -9173,7 +9177,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao136",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "109": {
       "effectId": 101,
@@ -9197,7 +9201,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "110": {
       "effectId": 101,
@@ -9221,7 +9225,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "111": {
       "effectId": 101,
@@ -9245,7 +9249,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao136",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "112": {
       "effectId": 101,
@@ -9269,7 +9273,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "113": {
       "effectId": 102,
@@ -9293,7 +9297,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "114": {
       "effectId": 102,
@@ -9317,7 +9321,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "115": {
       "effectId": 102,
@@ -9341,7 +9345,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "116": {
       "effectId": 102,
@@ -9365,7 +9369,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "117": {
       "effectId": 102,
@@ -9389,7 +9393,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "118": {
       "effectId": 102,
@@ -9413,7 +9417,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "119": {
       "effectId": 103,
@@ -9437,7 +9441,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "120": {
       "effectId": 103,
@@ -9461,7 +9465,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "121": {
       "effectId": 103,
@@ -9485,7 +9489,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "122": {
       "effectId": 103,
@@ -9509,7 +9513,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "123": {
       "effectId": 103,
@@ -9533,7 +9537,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "124": {
       "effectId": 103,
@@ -9557,7 +9561,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "125": {
       "effectId": 104,
@@ -9581,7 +9585,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "126": {
       "effectId": 104,
@@ -9605,7 +9609,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "127": {
       "effectId": 104,
@@ -9629,7 +9633,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao144",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "128": {
       "effectId": 104,
@@ -9653,7 +9657,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_fullattack",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "129": {
       "effectId": 104,
@@ -9677,7 +9681,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_draw",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "130": {
       "effectId": 104,
@@ -9701,7 +9705,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao144",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "131": {
       "effectId": 105,
@@ -9725,7 +9729,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "132": {
       "effectId": 105,
@@ -9749,7 +9753,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao136",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "133": {
       "effectId": 105,
@@ -9773,7 +9777,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "134": {
       "effectId": 105,
@@ -9797,7 +9801,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_instant",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "135": {
       "effectId": 105,
@@ -9821,7 +9825,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/taidao136",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "136": {
       "effectId": 105,
@@ -9845,7 +9849,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_pursue",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "137": {
       "effectId": 106,
@@ -9869,7 +9873,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "138": {
       "effectId": 106,
@@ -9893,7 +9897,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "139": {
       "effectId": 106,
@@ -9917,7 +9921,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "140": {
       "effectId": 106,
@@ -9941,7 +9945,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_swordbullet",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "141": {
       "effectId": 106,
@@ -9965,7 +9969,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thundermastery",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "142": {
       "effectId": 106,
@@ -9989,7 +9993,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_skill_360105",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     },
     "143": {
       "effectId": 107,
@@ -10013,7 +10017,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
       "unlockFraction": 2,
-      "fightValue": 100
+      "fightValue": 125
     },
     "144": {
       "effectId": 107,
@@ -10037,7 +10041,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
       "unlockFraction": 5,
-      "fightValue": 200
+      "fightValue": 250
     },
     "145": {
       "effectId": 107,
@@ -10061,7 +10065,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
       "unlockFraction": 12,
-      "fightValue": 350
+      "fightValue": 435
     },
     "146": {
       "effectId": 107,
@@ -10085,7 +10089,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderstrike",
       "unlockFraction": 20,
-      "fightValue": 450
+      "fightValue": 560
     },
     "147": {
       "effectId": 107,
@@ -10109,7 +10113,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderrepro",
       "unlockFraction": 25,
-      "fightValue": 600
+      "fightValue": 745
     },
     "148": {
       "effectId": 107,
@@ -10133,7 +10137,7 @@
       ],
       "icon": "ui/atlas/talent_passive_1/talent_passive_icon_general_dps_thunderseed",
       "unlockFraction": 35,
-      "fightValue": 800
+      "fightValue": 1000
     }
   },
   "bondSlots": {
@@ -10148,7 +10152,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10159,7 +10163,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10170,7 +10174,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10181,7 +10185,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10197,7 +10201,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10208,7 +10212,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10219,7 +10223,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10230,7 +10234,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10246,7 +10250,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10257,7 +10261,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10268,7 +10272,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10279,7 +10283,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10295,7 +10299,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10306,7 +10310,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10317,7 +10321,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10328,7 +10332,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10344,7 +10348,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10355,7 +10359,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10366,7 +10370,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10377,7 +10381,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10393,7 +10397,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10404,7 +10408,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10415,7 +10419,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10426,7 +10430,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10442,7 +10446,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10453,7 +10457,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10464,7 +10468,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10475,7 +10479,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]
@@ -10491,7 +10495,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           10
         ]
       ]
@@ -10502,7 +10506,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           25
         ]
       ]
@@ -10513,7 +10517,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           40
         ]
       ]
@@ -10524,7 +10528,7 @@
       "unlockCondition": [
         [
           93,
-          2,
+          3,
           60
         ]
       ]

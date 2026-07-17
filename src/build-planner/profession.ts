@@ -19,7 +19,8 @@ export type ProfessionKey =
   | 'divineArcher'
   | 'frostMage'
   | 'verdantOracle'
-  | 'beatPerformer';
+  | 'beatPerformer'
+  | 'twinStriker';
 
 // 「クラスの型」(器用さの効果がクラスごとに2種類に分かれる、docs/STATUS_CALCULATION.md
 // 「器用さ」章の表に対応)。型名はクラス毎に異なる(ロケールファイルの
@@ -71,7 +72,9 @@ export interface Profession {
 // | shieldFighter  | 12 | シールドファイター |
 // | beatPerformer  | 13 | ビートパフォーマー |
 //
-// `isOpen: false` のID(3, 8, 10, 14, 15)は未実装/特殊クラスのため対象外。
+// | twinStriker    | 3  | ツインストライカー(シーズン3で isOpen: true 化) |
+//
+// `isOpen: false` のID(8, 10, 14, 15)は未実装/特殊クラスのため対象外。
 export const PROFESSIONS: Record<ProfessionKey, Profession> = {
   heavyGuardian: {
     key: 'heavyGuardian',
@@ -168,6 +171,22 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     castSpeedPerHastePercent: 2,
     staminaRegenPerSecond: 240,
     talentSchoolIds: [119, 120],
+  },
+  // TODO(シーズン3): 係数は未確認。近接・物理・筋力ベースの他クラス(galeLancer/
+  // stormBlade)の値を暫定採用している。docs/STATUS_CALCULATION.md 方式でのゲーム内
+  // 確認が取れ次第、正しい値に差し替えること。talentSchoolIds はZTable
+  // (ProfessionSystemTable.ShowTalentStage)由来のため確定値。
+  twinStriker: {
+    key: 'twinStriker',
+    professionId: 3,
+    mainStat: 'strength',
+    attackType: 'physical',
+    atkPerMainStatPoint: 0.6,
+    hpPerEndurancePoint: 6,
+    atkSpeedPerHastePercent: 0.6,
+    castSpeedPerHastePercent: 1,
+    staminaRegenPerSecond: 185,
+    talentSchoolIds: [128, 129],
   },
 };
 

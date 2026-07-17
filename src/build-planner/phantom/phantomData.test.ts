@@ -17,6 +17,7 @@ describe('buildTreeSteps', () => {
       { kind: 'solo-factor', nodeIds: [103], sameGroupId: 0 },
       { kind: 'solo-factor', nodeIds: [106], sameGroupId: 0 },
       { kind: 'choice-ordinary', nodeIds: [1004, 1005], sameGroupId: 1005 },
+      { kind: 'solo-factor', nodeIds: [216], sameGroupId: 0 },
       { kind: 'solo-factor', nodeIds: [101], sameGroupId: 0 },
       { kind: 'choice-factor-type', nodeIds: [104, 109], sameGroupId: 109 },
       { kind: 'solo-factor', nodeIds: [107], sameGroupId: 0 },
@@ -24,6 +25,7 @@ describe('buildTreeSteps', () => {
       { kind: 'path-factor', nodeIds: [108, 102], sameGroupId: 102 },
       { kind: 'solo-factor', nodeIds: [105], sameGroupId: 0 },
       { kind: 'choice-ordinary', nodeIds: [1008, 1009], sameGroupId: 1009 },
+      { kind: 'solo-factor', nodeIds: [217], sameGroupId: 0 },
       { kind: 'fixed-ordinary', nodeIds: [1010], sameGroupId: 0 },
     ]);
   });
@@ -43,7 +45,7 @@ describe('getActivePhantomNodeIds', () => {
     const active = getActivePhantomNodeIds(ROOT_ID, TEMPLATE_ID, selections);
 
     expect([...active].sort((a, b) => a - b)).toEqual([
-      100, 101, 102, 103, 104, 105, 106, 107, 1001, 1002, 1004, 1007, 1008, 1010,
+      100, 101, 102, 103, 104, 105, 106, 107, 216, 217, 1001, 1002, 1004, 1007, 1008, 1010,
     ]);
     // 選ばなかった側(1003/1005/109/1006/108/1009)は含まれない
     for (const unchosen of [1003, 1005, 109, 1006, 108, 1009]) {

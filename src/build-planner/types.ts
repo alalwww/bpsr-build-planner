@@ -128,6 +128,10 @@ export interface EquipmentItem {
   // isPercent=true: 値/100 が %; false: 実数値加算。
   // values: 段階ごとの値を昇順で格納。
   legendaryAffix?: LegendaryAffixEntry[];
+  // 蒼海武器等の4枠選択式レアステータス: EquipTransformTable.QualityAttrLibId(tableType=2、
+  // EquipAttrSchoolLibTable経由)から抽出。TalentSchoolId(クラス型)ごとに、4枠(重複する枠あり)
+  // 分の候補リストを保持する。legendaryAffix(単一選択)とは排他。
+  legendaryAffixGroups?: Record<string, LegendaryAffixEntry[][]>;
   // 装着効果グループID: EquipTable.EnchantId から取得。未設定の場合は装着効果なし。
   enchantId?: number;
   // セットID: EquipTable.SuitId。0または未設定の場合はセットなし。
@@ -146,6 +150,12 @@ export interface LegendaryAffixEntry {
 // undefined は未設定。
 export type SlotLegendaryAffix = Partial<
   Record<EquipmentSlotId, LegendaryAffixSelection | undefined>
+>;
+
+// 蒼海武器等、4枠選択式レアステータスの選択状態: スロットごとに枠数分の選択を配列で保持。
+// 各要素 undefined は当該枠が未設定。
+export type SlotLegendaryAffixGroups = Partial<
+  Record<EquipmentSlotId, (LegendaryAffixSelection | undefined)[]>
 >;
 
 export interface LegendaryAffixSelection {

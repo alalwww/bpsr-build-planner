@@ -6,7 +6,11 @@ import { DEFAULT_COOKING_BUFF } from '../stats/cookingBuff';
 import type { AutoSaveState, BuildPlanData, LegacySource } from '../buildPlan';
 import { loadBuildPlans, persistBuildPlans } from '../buildPlan';
 import { decodePlanCode, encodePlanCode } from '../planCode';
-import { getDefaultAutoSaveState, STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
+import {
+  getDefaultAutoSaveState,
+  getDefaultProfessionState,
+  STATIC_AUTOSAVE_DEFAULTS,
+} from '../planDefaults';
 import { initPhantomNodeSelections } from '../phantom/phantomData';
 import type { CookingBuffState, EquipmentSlotId, EquippedItems } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
@@ -118,6 +122,7 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
         perfectlines: state.perfectlines,
         evolutionStats: state.evolutionStats,
         legendaryAffixState: state.legendaryAffixState,
+        legendaryAffixGroupState: state.legendaryAffixGroupState,
         masteryEquipped: state.masteryEquipped,
         masteryLevels: state.masteryLevels,
         masteryRanks: state.masteryRanks,
@@ -125,6 +130,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
         fixedRanks: state.fixedRanks,
         battleImagines: state.battleImagines,
         imagineRanks: state.imagineRanks,
+        roleSkillSlots: state.roleSkillSlots,
+        roleSkillRanks: state.roleSkillRanks,
         talentR1EnabledIds: [...state.talentR1EnabledIds],
         talentR2EnabledIds: [...state.talentR2EnabledIds],
         slotEnchants: { ...state.slotEnchants },
@@ -153,6 +160,9 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setPerfectlines(plan.perfectlines);
       state.setEvolutionStatsState(plan.evolutionStats);
       state.setLegendaryAffixState(plan.legendaryAffixState);
+      state.setLegendaryAffixGroupState(
+        plan.legendaryAffixGroupState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixGroupState,
+      );
       set({ professionKey: plan.professionKey, professionTypeKey: plan.professionTypeKey });
       const count = normalSkillCount(plan.professionKey);
       state.setMasteryEquippedState(plan.masteryEquipped.slice(0, count));
@@ -162,6 +172,9 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setFixedRanksState(plan.fixedRanks);
       state.setBattleImaginesState(plan.battleImagines ?? STATIC_AUTOSAVE_DEFAULTS.battleImagines);
       state.setImagineRanksState(plan.imagineRanks ?? STATIC_AUTOSAVE_DEFAULTS.imagineRanks);
+      const roleSkillDefaults = getDefaultProfessionState(plan.professionKey);
+      state.setRoleSkillSlotsState(plan.roleSkillSlots ?? roleSkillDefaults.roleSkillSlots);
+      state.setRoleSkillRanksState(plan.roleSkillRanks ?? roleSkillDefaults.roleSkillRanks);
       state.setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
       state.setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
       state.setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
@@ -245,6 +258,7 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setPerfectlines(defaults.perfectlines);
       state.setEvolutionStatsState(defaults.evolutionStats);
       state.setLegendaryAffixState(defaults.legendaryAffixState);
+      state.setLegendaryAffixGroupState(defaults.legendaryAffixGroupState);
       state.setSlotEnchants(defaults.slotEnchants);
       set({ cookingBuff: DEFAULT_COOKING_BUFF });
       set({ professionKey: defaults.professionKey, professionTypeKey: defaults.professionTypeKey });
@@ -257,6 +271,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setFixedRanksState(defaults.fixedRanks);
       state.setBattleImaginesState(defaults.battleImagines);
       state.setImagineRanksState(defaults.imagineRanks);
+      state.setRoleSkillSlotsState(defaults.roleSkillSlots);
+      state.setRoleSkillRanksState(defaults.roleSkillRanks);
       state.setModuleSlotsState(defaults.moduleSlots);
       set({ adventurerLevel: defaults.adventurerLevel });
       state.setPhantomEnabled(defaults.phantomEnabled);

@@ -37,8 +37,7 @@
   "buildPlanner": {
     "newPlan": "新しいビルドプラン",
     "buildPlanPlaceholder": "ビルドプラン名",
-    "seasonBadge": "Season 2",
-    "seasonBadgeTitle": "Season 3のデータには未対応です",
+    "seasonBadge": "Season 3",
     "abilityScore": "能力スコア",
     "abilityScoreBreakdown": {
       "source": "ソース",
@@ -107,6 +106,12 @@
     "emptySlot": "空き",
     "unequip": "外す",
     "selectEquipmentTitle": "{{slot}}を選択",
+    "candidateFilter": {
+      "toggle": "絞り込み",
+      "lv220": "Lv220台",
+      "lv240": "Lv240台",
+      "lv260": "Lv260台"
+    },
     "selectProfessionTitle": "クラス選択",
     "professionLabel": "クラス",
     "professionTypeLabel": "型",
@@ -142,11 +147,13 @@
     "autoSaveLoadErrorMsg": "自動保存データの読み込みに失敗しました。データが破損している可能性があります。",
     "baseStats": "基礎ステータス",
     "evolutionStats": "進化ステータス",
+    "rareStats": "レアステータス",
     "evolutionStatUnset": "未設定",
     "reforgedSlot": "改鋳",
     "breakthrough": "突破",
     "equippedEffects": "装着効果",
     "enchantCost": "コスト",
+    "enchantAdvancedCost": "上級装着コスト",
     "enchantGradeBase": "通常",
     "enchantGradeRefined": "精",
     "enchantGradePerfect": "極",
@@ -157,6 +164,7 @@
       "masterySkills": "マスタリースキル",
       "rank": "ランク",
       "selectImagine": "イマジン選択",
+      "selectRoleSkill": "ロールスキルを選択",
       "equip": "装着"
     },
     "module": {
@@ -210,7 +218,7 @@
       "agility": "俊敏",
       "intellect": "知力",
       "endurance": "耐久力",
-      "illusionPower": "幻夢強度",
+      "illusionPower": "滅妄強度",
       "crit": "会心",
       "haste": "ファスト",
       "luck": "幸運",
@@ -265,6 +273,8 @@
       "title": "セット効果",
       "suit100": "第一世代セット",
       "suit101": "第二世代セット",
+      "suit102": "幻夢セット",
+      "suit103": "虚蝕セット",
       "tierLabel": "{{n}}点セット"
     },
     "phantom": {
@@ -278,6 +288,7 @@
       "nodeEffectPlaceholder": "ノードをクリックするとノード効果が表示されます",
       "factorSlot": "幻影因子スロット",
       "factorUnequipped": "未装着",
+      "legacyFactorSuffix": "（無効）",
       "pathUndecided": "（パス未確定）",
       "enabledOn": "ON",
       "enabledOff": "OFF",

@@ -34,6 +34,7 @@ function fullAutoSaveState(): AutoSaveState {
     perfectlines: uniformSlotRecord(90),
     evolutionStats: {},
     legendaryAffixState: {},
+    legendaryAffixGroupState: {},
     masteryEquipped: [true, false, true],
     masteryLevels: [30, 25, 10],
     masteryRanks: [6, 3, 0],
@@ -41,6 +42,8 @@ function fullAutoSaveState(): AutoSaveState {
     fixedRanks: [6, 5, 4],
     battleImagines: [3944, null, 3957],
     imagineRanks: [5, 5, 3],
+    roleSkillSlots: [3011, 3021, null, 3025],
+    roleSkillRanks: [0, 2, 0, 4],
     talentR1EnabledIds: [101, 102, 103],
     talentR2EnabledIds: [201, 202],
     slotEnchants: {},
@@ -88,6 +91,8 @@ describe('encodePlanCode / decodePlanCode', () => {
       phantomEnabled: undefined,
       phantomLevel: undefined,
       phantomBondPoints: undefined,
+      roleSkillSlots: undefined,
+      roleSkillRanks: undefined,
     };
     const code = encodePlanCode(state);
     expect(decodePlanCode(code)?.state).toEqual(state);
@@ -166,6 +171,25 @@ describe('encodePlanCode / decodePlanCode', () => {
     expect(decoded!.state.adventurerLevel).toBeUndefined();
     // unaffected fields still decode normally
     expect(decoded!.state.masteryRanks).toEqual(state.masteryRanks);
+  });
+
+  it('decodes roleSkillSlots/roleSkillRanks as undefined when absent from an older code (no null-filled fallback)', () => {
+    // 旧バージョン(roleSkillSlots/roleSkillRanks追加前)のコードを模して、構造データ配列の
+    // 末尾3要素(roleSkillSlots/roleSkillRanks、およびその後に追加されたlegendaryAffixGroupState)
+    // を取り除いた状態でデコードする。
+    // ここでplanCode.ts側がnull埋め配列にフォールバックしてしまうと、呼び出し側
+    // (applyPlanState)の「クラスのロール専用4種」へのフォールバックが機能しなくなるため、
+    // 必ずundefinedのまま返ることを確認する。
+    const state = fullAutoSaveState();
+    const code = encodePlanCode(state);
+    const truncatedCode = withCorruptedStructuralArray(code, (arr) => {
+      arr.length -= 3;
+    });
+    const decoded = decodePlanCode(truncatedCode);
+    expect(decoded).not.toBeNull();
+    expect(decoded!.state.roleSkillSlots).toBeUndefined();
+    expect(decoded!.state.roleSkillRanks).toBeUndefined();
+    expect(decoded!.state.legendaryAffixGroupState).toEqual({});
   });
 
   it('does not throw when array-shaped fields contain malformed tuples', () => {

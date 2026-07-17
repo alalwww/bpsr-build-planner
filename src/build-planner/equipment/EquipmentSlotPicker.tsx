@@ -10,6 +10,8 @@ import StatRow from '../components/StatRow';
 import Stepper from '../components/Stepper';
 import {
   classifyEvoDisplay,
+  getEvoVariantFamily,
+  getLegendaryAffixGroups,
   getMaxPerfectline,
   getRefineForSlot,
   getRestrictedEvoStat,
@@ -24,9 +26,10 @@ import type {
   EvolutionStatId,
   LegendaryAffixSelection,
 } from '../types';
-import type { EnchantItem } from './equipmentSlotPickerData';
+import type { CandidateGsFilter, EnchantGrade, EnchantItem } from './equipmentSlotPickerData';
 import {
   calcStatValue,
+  CANDIDATE_GS_FILTERS,
   enchantsData,
   EVOLUTION_STAT_IDS,
   getEnchantIconUrl,
@@ -36,7 +39,10 @@ import {
   getPlaceholderStatIds,
   getQualityColor,
   getSuitInfo,
+  isCandidateGsMatch,
+  isSeason3EnchantItem,
   REFINE_LEVEL_MILESTONES,
+  resolveEnchantGradeView,
   resolveEnchantSelection,
 } from './equipmentSlotPickerData';
 import EquipmentItemPopup from './EquipmentItemPopup';
@@ -55,13 +61,22 @@ interface EquipmentSlotPickerProps {
   professionTypeKey: ProfessionTypeKey;
   evolutionStats: Array<EvolutionStatId | undefined>;
   selectedLegendaryAffix: LegendaryAffixSelection | undefined;
+  selectedLegendaryAffixGroup: Array<LegendaryAffixSelection | undefined> | undefined;
   selectedEnchant: number | undefined;
+  // 装備選択候補のGS帯フィルター。ダイアログの開閉で消えないよう親(EquipmentPanel)側で保持する。
+  // null = 未選択(絞り込みなし、選択中のボタンを再クリックすると解除される)。
+  candidateGsFilter: CandidateGsFilter | null;
+  onSetCandidateGsFilter: (filter: CandidateGsFilter | null) => void;
   onSelect: (item: EquipmentItem) => void;
   onUnequip: () => void;
   onRefineLevel: (level: number) => void;
   onPerfectline: (value: number) => void;
   onSetEvolutionStat: (slotIndex: number, statId: EvolutionStatId | undefined) => void;
   onSetLegendaryAffix: (selection: LegendaryAffixSelection | undefined) => void;
+  onSetLegendaryAffixGroup: (
+    groupIndex: number,
+    selection: LegendaryAffixSelection | undefined,
+  ) => void;
   onSetEnchant: (itemId: number | undefined) => void;
   onClose: () => void;
 }
@@ -78,19 +93,36 @@ function EquipmentSlotPicker({
   professionTypeKey,
   evolutionStats,
   selectedLegendaryAffix,
+  selectedLegendaryAffixGroup,
   selectedEnchant,
+  candidateGsFilter,
+  onSetCandidateGsFilter,
   onSelect,
   onUnequip,
   onRefineLevel,
   onPerfectline,
   onSetEvolutionStat,
   onSetLegendaryAffix,
+  onSetLegendaryAffixGroup,
   onSetEnchant,
   onClose,
 }: EquipmentSlotPickerProps) {
   const { t } = useTranslation();
   const [editingEvoSlot, setEditingEvoSlot] = useState<number | null>(null);
   const [affixPickerOpen, setAffixPickerOpen] = useState(false);
+  const [affixGroupOpenIndex, setAffixGroupOpenIndex] = useState<number | null>(null);
+  // 装着効果の希望グレード(通常/精/極)。候補一覧からの選択・ホバープレビューに
+  // 自動適用される「常時表示」の永続的な選好状態(常にどれかを選択中)。
+  const [enchantGradePreference, setEnchantGradePreference] = useState<EnchantGrade>('base');
+  // 装備選択候補のGS帯フィルター折りたたみ領域の開閉状態。選択中のフィルター自体は
+  // ダイアログの開閉で消えないよう親(candidateGsFilter プロップ)側で保持する。
+  const [candidateFilterExpanded, setCandidateFilterExpanded] = useState(true);
+  // クリック直後、マウスがまだボタン上に乗ったままの間はホバースタイルを抑制する対象。
+  // クリックで状態が切り替わった瞬間に「新しい状態のホバー時スタイル」が即座に出て
+  // 紛らわしくなるのを防ぐため、マウスが実際に離れるまでは通常時の見た目を維持する。
+  const [hoverSuppressedFilter, setHoverSuppressedFilter] = useState<CandidateGsFilter | null>(
+    null,
+  );
   const {
     tooltip: enchantTooltip,
     open: openEnchantTooltip,
@@ -130,6 +162,7 @@ function EquipmentSlotPicker({
         refineLevel,
         profession,
         professionTypeKey,
+        selectedLegendaryAffixGroup,
       )
     : { total: 0, baseStats: 0, evolution: 0, enchant: 0, refine: 0 };
 
@@ -142,10 +175,15 @@ function EquipmentSlotPicker({
     : undefined;
 
   // 装着効果データ (enchantId がある場合のみ)
-  // 装備レベル降順 → レア度降順 → 名前昇順 → ID昇順
+  // GS帯フィルター一致(優先表示、除外はしない) → 装備レベル降順 → レア度降順 → 名前昇順 → ID昇順
   const sortedCandidates = useMemo(
     () =>
       [...candidates].sort((a, b) => {
+        if (candidateGsFilter) {
+          const matchA = isCandidateGsMatch(a, candidateGsFilter);
+          const matchB = isCandidateGsMatch(b, candidateGsFilter);
+          if (matchA !== matchB) return matchA ? -1 : 1;
+        }
         if (b.equipGs !== a.equipGs) return b.equipGs - a.equipGs;
         if (b.quality !== a.quality) return b.quality - a.quality;
         const na = t(`items.${a.id}.name`, { ns: 'game-data' });
@@ -154,22 +192,25 @@ function EquipmentSlotPicker({
         if (nc !== 0) return nc;
         return a.id - b.id;
       }),
-    [candidates, t],
+    [candidates, candidateGsFilter, t],
   );
 
   const enchantsList = equippedItem?.enchantId
     ? (enchantsData[String(equippedItem.enchantId)] ?? [])
     : [];
-  const sortedEnchants = [...enchantsList].sort(
-    (a, b) => (b.level ?? 0) - (a.level ?? 0) || b.id - a.id,
-  );
+  // シーズン降順(S3→S2) → レア度降順 → レベル降順 → ID降順。
+  const sortedEnchants = [...enchantsList].sort((a, b) => {
+    const seasonDiff = Number(isSeason3EnchantItem(b)) - Number(isSeason3EnchantItem(a));
+    if (seasonDiff !== 0) return seasonDiff;
+    if (b.quality !== a.quality) return b.quality - a.quality;
+    return (b.level ?? 0) - (a.level ?? 0) || b.id - a.id;
+  });
   // selectedEnchant は基本/精/極いずれかのID。base → refined/perfect を逆引き。
-  const { base: baseEnchantItem, data: selectedEnchantData } = resolveEnchantSelection(
-    sortedEnchants,
-    selectedEnchant,
-  );
-  const hasEnchantGrades =
-    !!baseEnchantItem && (!!baseEnchantItem.refined || !!baseEnchantItem.perfect);
+  const {
+    base: baseEnchantItem,
+    grade: selectedEnchantGrade,
+    data: selectedEnchantData,
+  } = resolveEnchantSelection(sortedEnchants, selectedEnchant);
 
   // 進化ステータス表示パターンの分類(classifyEvoDisplay、計算側 calculateRawStats と共有)。
   const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
@@ -178,6 +219,13 @@ function EquipmentSlotPicker({
   // 全ステータスが min===max の場合は固定ステータス装備（蒼海シリーズ等）。
   const isFixedStat = evoInfo?.isFixedStat ?? false;
   const fixedEvoEffects = evoInfo?.fixedEvoEffects ?? null;
+  // dataEvo(Evo1/Evo2固定)装備のうち、外見・基礎ステータス等が完全一致でEvo1/Evo2の
+  // 組み合わせだけが異なる別アイテムIDが存在する場合、そのバリアント一覧([極]系装備等)。
+  const evoVariantFamily = useMemo(
+    () =>
+      equippedItem && evoKind === 'dataEvo' ? getEvoVariantFamily(equippedItem, candidates) : null,
+    [equippedItem, evoKind, candidates],
+  );
   const maxPerfectline = equippedItem ? getMaxPerfectline(equippedItem) : 80;
   const sliderValue = isFixedStat ? 100 : perfectline;
   const sliderDisabled = isFixedStat || !equippedItem;
@@ -204,11 +252,13 @@ function EquipmentSlotPicker({
   const restrictedEvoStat = equippedItem ? getRestrictedEvoStat(equippedItem, slot) : null;
 
   // 他スロットで選択済み、または部位制限に該当するステータスを除いた選択肢を返す。
+  // 改鋳スロット(index=2)は他の通常スロットと重複選択可能な独立枠のため、
+  // 重複チェックの対象・対象外どちらからも除外する(スロット0⇔1のみ相互排他)。
   const availableEvoStats = (slotIdx: number): EvolutionStatId[] =>
     EVOLUTION_STAT_IDS.filter(
       (statId) =>
         statId !== restrictedEvoStat &&
-        !evolutionStats.some((s, i) => i !== slotIdx && s === statId),
+        (slotIdx === 2 || !evolutionStats.some((s, i) => i !== slotIdx && i !== 2 && s === statId)),
     );
 
   // BT グループ: 同 btGroupId のバリアントを equipGs 降順で並べる。
@@ -229,6 +279,8 @@ function EquipmentSlotPicker({
         valueLabel={reforgedStat ? `+${reforgeEvoValue}` : ''}
         selectedStat={reforgedStat}
         availableStats={EVOLUTION_STAT_IDS}
+        getLabel={(statId) => t(`buildPlanner.stats.${statId}`)}
+        unsetLabel={t('buildPlanner.evolutionStatUnset')}
         isEditing={editingEvoSlot === 2}
         onToggleEdit={() => setEditingEvoSlot(editingEvoSlot === 2 ? null : 2)}
         onSelect={(statId) => {
@@ -241,6 +293,10 @@ function EquipmentSlotPicker({
 
   // 伝説刻印: quality=4 かつ legendaryAffix データがある場合のみ表示。
   const legendaryAffixList = equippedItem?.legendaryAffix ?? null;
+  // 蒼海武器等の4枠選択式レアステータス: legendaryAffixList とは排他。
+  const legendaryAffixGroups = equippedItem
+    ? getLegendaryAffixGroups(equippedItem, talentSchoolId)
+    : null;
 
   const legendaryAffixPicker =
     legendaryAffixList && legendaryAffixList.length > 0 ? (
@@ -256,45 +312,80 @@ function EquipmentSlotPicker({
       />
     ) : null;
 
-  const enchantTooltipNode = enchantTooltip
-    ? createPortal(
-        <FloatingTooltip
-          x={enchantTooltip.x}
-          y={enchantTooltip.y}
-          clamp
-          className="equip-enchant-tooltip"
-          onMouseEnter={cancelEnchantTooltipClose}
-          onMouseLeave={hideEnchantTooltip}
-        >
-          <div
-            className="equip-item-popup__name"
-            style={{ color: getQualityColor(enchantTooltip.enchant.quality) }}
+  // 蒼海武器の4枠選択式レアステータス: 既存のLegendaryAffixPickerを縦に4つ並べる。
+  const legendaryAffixGroupPickers =
+    legendaryAffixGroups && legendaryAffixGroups.length > 0
+      ? legendaryAffixGroups.map((group, i) => (
+          <LegendaryAffixPicker
+            key={i}
+            legendaryAffixList={group}
+            selectedLegendaryAffix={selectedLegendaryAffixGroup?.[i]}
+            isOpen={affixGroupOpenIndex === i}
+            onToggleOpen={() => setAffixGroupOpenIndex(affixGroupOpenIndex === i ? null : i)}
+            onSet={(sel) => {
+              onSetLegendaryAffixGroup(i, sel);
+              setAffixGroupOpenIndex(null);
+            }}
+          />
+        ))
+      : null;
+
+  // ホバー中の候補を「希望グレード」で解決した表示ビュー(名前/効果は精・極に応じて変化)。
+  const enchantTooltipView = enchantTooltip
+    ? resolveEnchantGradeView(enchantTooltip.enchant, enchantGradePreference)
+    : null;
+  const enchantTooltipNode =
+    enchantTooltip && enchantTooltipView
+      ? createPortal(
+          <FloatingTooltip
+            x={enchantTooltip.x}
+            y={enchantTooltip.y}
+            clamp
+            className="equip-enchant-tooltip"
+            onMouseEnter={cancelEnchantTooltipClose}
+            onMouseLeave={hideEnchantTooltip}
           >
-            {t(`items.${enchantTooltip.enchant.id}.name`, { ns: 'game-data' })}
-          </div>
-          <div className="equip-item-popup__section">
-            {enchantTooltip.enchant.effects.map(([attrId, value]) => (
-              <StatRow
-                key={attrId}
-                name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-                value={`+${value}`}
-              />
-            ))}
-          </div>
-          {enchantTooltip.enchant.cost && enchantTooltip.enchant.cost.length > 0 && (
-            <div className="equip-enchant-cost">
-              {t('buildPlanner.enchantCost')}:
-              {enchantTooltip.enchant.cost.map(([itemId, qty]) => (
-                <div key={itemId} className="equip-enchant-cost__row">
-                  {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
-                </div>
+            <div
+              className="equip-item-popup__name"
+              style={{ color: getQualityColor(enchantTooltip.enchant.quality) }}
+            >
+              {t(`items.${enchantTooltipView.id}.name`, { ns: 'game-data' })}
+            </div>
+            <div className="equip-item-popup__section">
+              {enchantTooltipView.effects.map(([attrId, value]) => (
+                <StatRow
+                  key={attrId}
+                  name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                  value={`+${value}`}
+                />
               ))}
             </div>
-          )}
-        </FloatingTooltip>,
-        document.body,
-      )
-    : null;
+            {enchantTooltip.enchant.cost && enchantTooltip.enchant.cost.length > 0 && (
+              <div className="equip-enchant-cost">
+                {t('buildPlanner.enchantCost')}:
+                {enchantTooltip.enchant.cost.map(([itemId, qty]) => (
+                  <div key={itemId} className="equip-enchant-cost__row">
+                    {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                  </div>
+                ))}
+              </div>
+            )}
+            {enchantTooltipView.grade !== 'base' &&
+              enchantTooltip.enchant.advancedCost &&
+              enchantTooltip.enchant.advancedCost.length > 0 && (
+                <div className="equip-enchant-cost equip-enchant-cost--advanced">
+                  {t('buildPlanner.enchantAdvancedCost')}:
+                  {enchantTooltip.enchant.advancedCost.map(([itemId, qty]) => (
+                    <div key={itemId} className="equip-enchant-cost__row">
+                      {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                    </div>
+                  ))}
+                </div>
+              )}
+          </FloatingTooltip>,
+          document.body,
+        )
+      : null;
 
   // 装備選択候補ホバー時の詳細ポップアップ。同名で能力値違いのアイテムを判別しやすくする。
   // 選択中の候補は現在の完成度/伝説刻印をそのまま、それ以外は装備した瞬間の状態(最大完成度・刻印未選択)をプレビューする。
@@ -317,6 +408,9 @@ function EquipmentSlotPicker({
           evolutionStats={evolutionStats}
           selectedLegendaryAffix={
             candidateTooltip.item.id === equippedId ? selectedLegendaryAffix : undefined
+          }
+          selectedLegendaryAffixGroup={
+            candidateTooltip.item.id === equippedId ? selectedLegendaryAffixGroup : undefined
           }
           selectedEnchant={selectedEnchant}
         />,
@@ -348,6 +442,36 @@ function EquipmentSlotPicker({
 
             <div className="equip-details-section">
               <label className="equipment-dialog__label">{slotLabel}</label>
+              <button
+                type="button"
+                className="equip-candidate-filter-toggle"
+                onClick={() => setCandidateFilterExpanded((v) => !v)}
+              >
+                <span>{t('buildPlanner.candidateFilter.toggle')}</span>
+                <Chevron open={candidateFilterExpanded} />
+              </button>
+              {candidateFilterExpanded && (
+                <div className="equip-candidate-filter-options" role="radiogroup">
+                  {CANDIDATE_GS_FILTERS.map((filter) => (
+                    <button
+                      key={filter}
+                      type="button"
+                      role="radio"
+                      aria-checked={candidateGsFilter === filter}
+                      className={`equip-candidate-filter-btn${candidateGsFilter === filter ? ' equip-candidate-filter-btn--selected' : ''}${hoverSuppressedFilter === filter ? ' equip-candidate-filter-btn--hover-suppressed' : ''}`}
+                      onClick={() => {
+                        onSetCandidateGsFilter(candidateGsFilter === filter ? null : filter);
+                        setHoverSuppressedFilter(filter);
+                      }}
+                      onMouseLeave={() =>
+                        setHoverSuppressedFilter((cur) => (cur === filter ? null : cur))
+                      }
+                    >
+                      {t(`buildPlanner.candidateFilter.${filter}`)}
+                    </button>
+                  ))}
+                </div>
+              )}
               <Dropdown
                 autoFocus
                 panelWidthScale={1.3}
@@ -511,10 +635,12 @@ function EquipmentSlotPicker({
                 )}
               </div>
 
-              {/* 伝説刻印ピッカー: 進化ステータスの先頭に表示 */}
-              {legendaryAffixPicker}
-
-              {evoKind === 'seriesFixed' ? (
+              {!equippedItem ? (
+                // 未装備: 選択しても意味がないためドロップダウンは表示しない。
+                <p className="equip-stat-row__value--placeholder equip-details-section__placeholder">
+                  ---
+                </p>
+              ) : evoKind === 'seriesFixed' ? (
                 // シリーズ装備: クラス型に応じた固定値を読み取り専用で表示。改鋳なし。
                 <div className="equip-evo-fixed">
                   {fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
@@ -554,6 +680,8 @@ function EquipmentSlotPicker({
                         valueLabel={`+${evoValue}`}
                         selectedStat={selected}
                         availableStats={available}
+                        getLabel={(statId) => t(`buildPlanner.stats.${statId}`)}
+                        unsetLabel={t('buildPlanner.evolutionStatUnset')}
                         isEditing={isEditing}
                         onToggleEdit={() => setEditingEvoSlot(isEditing ? null : i)}
                         onSelect={(statId) => {
@@ -567,14 +695,67 @@ function EquipmentSlotPicker({
                 </div>
               ) : evoKind === 'dataEvo' ? (
                 // 通常装備(type=1、Evo1/Evo2 が異なる attrId): 固定表示 + 改鋳のみ選択可能。
+                // ただし外見・基礎ステータス等が完全一致で evo だけが異なる別アイテムID
+                // (evoVariantFamily)が存在する場合は、evo の要素数分の連動ドロップダウンで
+                // その組み合わせを直接切り替え可能にする([極]系=2要素、[匠]系=1要素等)。
                 <div className="equip-evo-mixed">
-                  {equippedItem!.evo.map(([attrId, min, max], i) => (
-                    <StatRow
-                      key={i}
-                      name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      value={`+${calcStatValue(min, max, sliderValue)}`}
-                    />
-                  ))}
+                  {evoVariantFamily ? (
+                    <>
+                      {equippedItem!.evo.map((_, i) => {
+                        const currentAttrIds = equippedItem!.evo.map(([attrId]) => attrId);
+                        // 位置iの選択肢: 位置0..i-1が現在の選択と一致するファミリーメンバーの
+                        // evo[i]のattrId(ドミナントを変えると、それに紐づく候補のみに絞られる)。
+                        const membersForSlot = evoVariantFamily.filter((m) =>
+                          currentAttrIds
+                            .slice(0, i)
+                            .every((attrId, idx) => m.evo[idx][0] === attrId),
+                        );
+                        const available = [...new Set(membersForSlot.map((m) => m.evo[i][0]))];
+                        const [, min, max] = equippedItem!.evo[i];
+                        return (
+                          <EvoSlotPicker
+                            key={i}
+                            valueLabel={`+${calcStatValue(min, max, sliderValue)}`}
+                            selectedStat={currentAttrIds[i]}
+                            availableStats={available}
+                            getLabel={(attrId) => t(`attributes.${attrId}`, { ns: 'game-data' })}
+                            isEditing={editingEvoSlot === i}
+                            onToggleEdit={() => setEditingEvoSlot(editingEvoSlot === i ? null : i)}
+                            onSelect={(newAttrId) => {
+                              setEditingEvoSlot(null);
+                              if (newAttrId === undefined) return;
+                              // 位置i以外は現状を維持できるメンバーを優先し、なければ位置0..i-1
+                              // (現在確定済みの部分)のみ一致する先頭メンバーにフォールバックする。
+                              const exactMatch = evoVariantFamily.find((m) =>
+                                currentAttrIds.every((attrId, idx) =>
+                                  idx === i
+                                    ? m.evo[idx][0] === newAttrId
+                                    : m.evo[idx][0] === attrId,
+                                ),
+                              );
+                              const prefixMatch = evoVariantFamily.find(
+                                (m) =>
+                                  currentAttrIds
+                                    .slice(0, i)
+                                    .every((attrId, idx) => m.evo[idx][0] === attrId) &&
+                                  m.evo[i][0] === newAttrId,
+                              );
+                              const target = exactMatch ?? prefixMatch;
+                              if (target) onSelect(target);
+                            }}
+                          />
+                        );
+                      })}
+                    </>
+                  ) : (
+                    equippedItem!.evo.map(([attrId, min, max], i) => (
+                      <StatRow
+                        key={i}
+                        name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                        value={`+${calcStatValue(min, max, sliderValue)}`}
+                      />
+                    ))
+                  )}
                   {reforgeSection}
                 </div>
               ) : (
@@ -591,6 +772,8 @@ function EquipmentSlotPicker({
                         tag={isReforge ? t('buildPlanner.reforgedSlot') : undefined}
                         selectedStat={selected}
                         availableStats={available}
+                        getLabel={(statId) => t(`buildPlanner.stats.${statId}`)}
+                        unsetLabel={t('buildPlanner.evolutionStatUnset')}
                         isEditing={isEditing}
                         onToggleEdit={() => setEditingEvoSlot(isEditing ? null : i)}
                         onSelect={(statId) => {
@@ -603,6 +786,22 @@ function EquipmentSlotPicker({
                 </div>
               )}
             </section>
+
+            {/* レアステータス */}
+            {legendaryAffixList && legendaryAffixList.length > 0 && (
+              <section className="equip-details-section equip-rare-stats-section">
+                <h3 className="equip-details-section__heading">{t('buildPlanner.rareStats')}</h3>
+                {legendaryAffixPicker}
+              </section>
+            )}
+
+            {/* レアステータス(蒼海武器等の4枠選択式) */}
+            {legendaryAffixGroupPickers && (
+              <section className="equip-details-section equip-rare-stats-section equip-rare-stats-section--groups">
+                <h3 className="equip-details-section__heading">{t('buildPlanner.rareStats')}</h3>
+                <div className="equip-affix-group-list">{legendaryAffixGroupPickers}</div>
+              </section>
+            )}
 
             {/* セット効果 */}
             {suitInfo && (
@@ -651,26 +850,24 @@ function EquipmentSlotPicker({
                 <h3 className="equip-details-section__heading">
                   {t('buildPlanner.equippedEffects')}
                 </h3>
-                {hasEnchantGrades && (
+                {/* 装着効果の希望グレード: 装備中のみ表示し、候補一覧のホバー/選択に自動適用する。
+                    未装備時は選択しても意味がないため表示しない。 */}
+                {equippedItem && (
                   <div className="equip-bt-selector">
                     <select
                       className="equip-bt-selector__select"
-                      value={String(selectedEnchant)}
-                      onChange={(e) => onSetEnchant(Number(e.target.value))}
+                      value={enchantGradePreference}
+                      onChange={(e) => {
+                        const grade = e.target.value as EnchantGrade;
+                        setEnchantGradePreference(grade);
+                        if (baseEnchantItem) {
+                          onSetEnchant(resolveEnchantGradeView(baseEnchantItem, grade).id);
+                        }
+                      }}
                     >
-                      <option value={String(baseEnchantItem!.id)}>
-                        {t('buildPlanner.enchantGradeBase')}
-                      </option>
-                      {baseEnchantItem!.refined && (
-                        <option value={String(baseEnchantItem!.refined.id)}>
-                          {t('buildPlanner.enchantGradeRefined')}
-                        </option>
-                      )}
-                      {baseEnchantItem!.perfect && (
-                        <option value={String(baseEnchantItem!.perfect.id)}>
-                          {t('buildPlanner.enchantGradePerfect')}
-                        </option>
-                      )}
+                      <option value="base">{t('buildPlanner.enchantGradeBase')}</option>
+                      <option value="refined">{t('buildPlanner.enchantGradeRefined')}</option>
+                      <option value="perfect">{t('buildPlanner.enchantGradePerfect')}</option>
                     </select>
                   </div>
                 )}
@@ -722,13 +919,15 @@ function EquipmentSlotPicker({
                           const enchantIcon = enchant.icon
                             ? getEnchantIconUrl(enchant.icon)
                             : undefined;
+                          // 希望グレード(通常/精/極)を適用した表示名・選択先ID。
+                          const view = resolveEnchantGradeView(enchant, enchantGradePreference);
                           return (
                             <button
                               key={enchant.id}
                               type="button"
-                              className={`equip-enchant-option${selectedEnchant === enchant.id ? ' equip-enchant-option--selected' : ''}`}
+                              className={`equip-enchant-option${selectedEnchant === view.id ? ' equip-enchant-option--selected' : ''}`}
                               onClick={() => {
-                                onSetEnchant(enchant.id);
+                                onSetEnchant(view.id);
                                 close();
                               }}
                               onMouseEnter={(e) => showEnchantTooltip(enchant, e)}
@@ -738,7 +937,7 @@ function EquipmentSlotPicker({
                                 <img className="equip-enchant-icon" src={enchantIcon} alt="" />
                               )}
                               <span style={{ color: getQualityColor(enchant.quality) }}>
-                                {t(`items.${enchant.id}.name`, { ns: 'game-data' })}
+                                {t(`items.${view.id}.name`, { ns: 'game-data' })}
                               </span>
                             </button>
                           );
@@ -766,6 +965,18 @@ function EquipmentSlotPicker({
                           ))}
                         </div>
                       )}
+                      {selectedEnchantGrade !== 'base' &&
+                        baseEnchantItem?.advancedCost &&
+                        baseEnchantItem.advancedCost.length > 0 && (
+                          <div className="equip-enchant-cost equip-enchant-cost--advanced">
+                            {t('buildPlanner.enchantAdvancedCost')}:
+                            {baseEnchantItem.advancedCost.map(([itemId, qty]) => (
+                              <div key={itemId} className="equip-enchant-cost__row">
+                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                     </div>
                   )}
                 </div>

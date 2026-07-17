@@ -15,6 +15,7 @@ import type {
   SlotEnchants,
   SlotEvolutionStats,
   SlotLegendaryAffix,
+  SlotLegendaryAffixGroups,
   SlotRefineLevels,
 } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
@@ -26,6 +27,7 @@ export interface EquipmentSlice {
   perfectlines: SlotRefineLevels;
   evolutionStats: SlotEvolutionStats;
   legendaryAffixState: SlotLegendaryAffix;
+  legendaryAffixGroupState: SlotLegendaryAffixGroups;
   slotEnchants: SlotEnchants;
   // 生の全体セッター。プラン読込/リセット専用。
   setEquipped: (equipped: EquippedItems) => void;
@@ -33,6 +35,7 @@ export interface EquipmentSlice {
   setPerfectlines: (perfectlines: SlotRefineLevels) => void;
   setEvolutionStatsState: (stats: SlotEvolutionStats) => void;
   setLegendaryAffixState: (state: SlotLegendaryAffix) => void;
+  setLegendaryAffixGroupState: (state: SlotLegendaryAffixGroups) => void;
   setSlotEnchants: (enchants: SlotEnchants) => void;
   equip: (slot: EquipmentSlotId, equipmentItem: EquipmentItem) => void;
   unequip: (slot: EquipmentSlotId) => void;
@@ -45,6 +48,11 @@ export interface EquipmentSlice {
   ) => void;
   setLegendaryAffix: (
     slot: EquipmentSlotId,
+    selection: LegendaryAffixSelection | undefined,
+  ) => void;
+  setLegendaryAffixGroup: (
+    slot: EquipmentSlotId,
+    groupIndex: number,
     selection: LegendaryAffixSelection | undefined,
   ) => void;
   setSlotEnchant: (slot: EquipmentSlotId, itemId: number | undefined) => void;
@@ -62,6 +70,8 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
     evolutionStats: autoSaveOnMount?.evolutionStats ?? STATIC_AUTOSAVE_DEFAULTS.evolutionStats,
     legendaryAffixState:
       autoSaveOnMount?.legendaryAffixState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixState,
+    legendaryAffixGroupState:
+      autoSaveOnMount?.legendaryAffixGroupState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixGroupState,
     slotEnchants: autoSaveOnMount?.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants,
 
     setEquipped: (equipped) => set({ equipped }),
@@ -69,6 +79,7 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
     setPerfectlines: (perfectlines) => set({ perfectlines }),
     setEvolutionStatsState: (evolutionStats) => set({ evolutionStats }),
     setLegendaryAffixState: (legendaryAffixState) => set({ legendaryAffixState }),
+    setLegendaryAffixGroupState: (legendaryAffixGroupState) => set({ legendaryAffixGroupState }),
     setSlotEnchants: (slotEnchants) => set({ slotEnchants }),
 
     setRefineLevel: (slot, level) =>
@@ -88,10 +99,13 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
       set((state) => {
         const nextLegendaryAffixState = { ...state.legendaryAffixState };
         delete nextLegendaryAffixState[slot];
+        const nextLegendaryAffixGroupState = { ...state.legendaryAffixGroupState };
+        delete nextLegendaryAffixGroupState[slot];
         return {
           equipped: { ...state.equipped, [slot]: equipmentItem },
           perfectlines: { ...state.perfectlines, [slot]: getMaxPerfectline(equipmentItem) },
           legendaryAffixState: nextLegendaryAffixState,
+          legendaryAffixGroupState: nextLegendaryAffixGroupState,
         };
       }),
 
@@ -99,6 +113,15 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
       set((state) => ({
         legendaryAffixState: { ...state.legendaryAffixState, [slot]: selection },
       })),
+
+    setLegendaryAffixGroup: (slot, groupIndex, selection) =>
+      set((state) => {
+        const current = [...(state.legendaryAffixGroupState[slot] ?? [])];
+        current[groupIndex] = selection;
+        return {
+          legendaryAffixGroupState: { ...state.legendaryAffixGroupState, [slot]: current },
+        };
+      }),
 
     unequip: (slot) =>
       set((state) => {
@@ -108,12 +131,15 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
         delete nextEvolutionStats[slot];
         const nextLegendaryAffixState = { ...state.legendaryAffixState };
         delete nextLegendaryAffixState[slot];
+        const nextLegendaryAffixGroupState = { ...state.legendaryAffixGroupState };
+        delete nextLegendaryAffixGroupState[slot];
         const nextSlotEnchants = { ...state.slotEnchants };
         delete nextSlotEnchants[slot];
         return {
           equipped: nextEquipped,
           evolutionStats: nextEvolutionStats,
           legendaryAffixState: nextLegendaryAffixState,
+          legendaryAffixGroupState: nextLegendaryAffixGroupState,
           slotEnchants: nextSlotEnchants,
         };
       }),
@@ -123,14 +149,28 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
 
     resetEquipmentForProfessionChange: (mainStatChanged) =>
       set((state) => {
+        const unequippedSlots: EquipmentSlotId[] = mainStatChanged
+          ? ['weapon', ...EQUIPMENT_TOP_SLOTS, ...EQUIPMENT_BOTTOM_SLOTS]
+          : ['weapon'];
+
         const nextEquipped = { ...state.equipped };
-        delete nextEquipped.weapon;
-        if (mainStatChanged) {
-          for (const slot of [...EQUIPMENT_TOP_SLOTS, ...EQUIPMENT_BOTTOM_SLOTS]) {
-            delete nextEquipped[slot];
-          }
+        const nextLegendaryAffixState = { ...state.legendaryAffixState };
+        const nextLegendaryAffixGroupState = { ...state.legendaryAffixGroupState };
+        const nextSlotEnchants = { ...state.slotEnchants };
+        for (const slot of unequippedSlots) {
+          delete nextEquipped[slot];
+          delete nextLegendaryAffixState[slot];
+          delete nextLegendaryAffixGroupState[slot];
+          delete nextSlotEnchants[slot];
         }
-        return { equipped: nextEquipped, evolutionStats: {} };
+
+        return {
+          equipped: nextEquipped,
+          evolutionStats: {},
+          legendaryAffixState: nextLegendaryAffixState,
+          legendaryAffixGroupState: nextLegendaryAffixGroupState,
+          slotEnchants: nextSlotEnchants,
+        };
       }),
   };
 };

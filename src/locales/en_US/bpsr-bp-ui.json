@@ -37,8 +37,7 @@
   "buildPlanner": {
     "newPlan": "New Build Plan",
     "buildPlanPlaceholder": "Build Plan Name",
-    "seasonBadge": "Season 2",
-    "seasonBadgeTitle": "Season 3 data is not yet supported",
+    "seasonBadge": "Season 3",
     "abilityScore": "Ability Score",
     "abilityScoreBreakdown": {
       "source": "Source",
@@ -107,6 +106,12 @@
     "emptySlot": "Empty",
     "unequip": "Unequip",
     "selectEquipmentTitle": "Select {{slot}}",
+    "candidateFilter": {
+      "toggle": "Filter",
+      "lv220": "Lv220s",
+      "lv240": "Lv240s",
+      "lv260": "Lv260s"
+    },
     "selectProfessionTitle": "Select Class",
     "professionLabel": "Class",
     "professionTypeLabel": "Type",
@@ -142,11 +147,13 @@
     "autoSaveLoadErrorMsg": "Failed to load your auto-saved data. The data may be corrupted.",
     "baseStats": "Base Stats",
     "evolutionStats": "Evolution Stats",
+    "rareStats": "Rare Stats",
     "evolutionStatUnset": "Unset",
     "reforgedSlot": "Reforged",
     "breakthrough": "Breakthrough",
     "equippedEffects": "Equipped Effects",
     "enchantCost": "Cost",
+    "enchantAdvancedCost": "Advanced Attach Cost",
     "enchantGradeBase": "Normal",
     "enchantGradeRefined": "Refined",
     "enchantGradePerfect": "Perfect",
@@ -157,6 +164,7 @@
       "masterySkills": "Mastery Skills",
       "rank": "Rank",
       "selectImagine": "Select Imagine",
+      "selectRoleSkill": "Select Role Skill",
       "equip": "Equip"
     },
     "module": {
@@ -265,6 +273,8 @@
       "title": "Set Effects",
       "suit100": "Gen 1 Set",
       "suit101": "Gen 2 Set",
+      "suit102": "Phantom Set",
+      "suit103": "Void Corruption Set",
       "tierLabel": "{{n}}-Piece Set"
     },
     "phantom": {
@@ -278,6 +288,7 @@
       "nodeEffectPlaceholder": "Click a node to view its effect",
       "factorSlot": "Phantom Factor Slot",
       "factorUnequipped": "Unequipped",
+      "legacyFactorSuffix": " (Expired)",
       "pathUndecided": "(Path undecided)",
       "enabledOn": "ON",
       "enabledOff": "OFF",

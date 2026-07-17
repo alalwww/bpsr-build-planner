@@ -176,6 +176,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
   const rawStatsResult = selectRawStatsResult({
     equipped: state.equipped,
     legendaryAffixState: state.legendaryAffixState,
+    legendaryAffixGroupState: state.legendaryAffixGroupState,
     refineLevels: state.refineLevels,
     perfectlines: state.perfectlines,
     evolutionStats: state.evolutionStats,
@@ -218,6 +219,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     state.imagineRanks,
     rawStatsResult.phantomFinalPct,
     rawStatsResult.finalPctAddend,
+    state.legendaryAffixGroupState,
   );
 
   const cookingAtkStatId: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
@@ -248,6 +250,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     evolutionStats: state.evolutionStats,
     refineLevels: state.refineLevels,
     legendaryAffixState: state.legendaryAffixState,
+    legendaryAffixGroupState: state.legendaryAffixGroupState,
     slotEnchants: state.slotEnchants,
     profession,
     professionTypeKey: state.professionTypeKey,

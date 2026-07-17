@@ -10,6 +10,7 @@ const classIcon = createAssetMap(
 const PROF_ID_ICON: Record<number, string> = {
   1: 'profession_horizontal_03',
   2: 'profession_horizontal_05',
+  3: 'profession_horizontal_09',
   4: 'profession_horizontal_02',
   5: 'profession_horizontal_04',
   9: 'profession_horizontal_06',

@@ -11,6 +11,7 @@ import type {
   SlotEnchants,
   SlotEvolutionStats,
   SlotLegendaryAffix,
+  SlotLegendaryAffixGroups,
   SlotRefineLevels,
 } from './types';
 import type { ProfessionKey, ProfessionTypeKey } from './profession';
@@ -183,6 +184,26 @@ function decodeLegendaryAffix(arr: unknown): SlotLegendaryAffix {
       return undefined;
     }
     return { attrId: raw[0], value: raw[1] } satisfies LegendaryAffixSelection;
+  });
+}
+
+function encodeLegendaryAffixGroups(
+  state: SlotLegendaryAffixGroups,
+): Nullable<Nullable<[number, number]>[]>[] {
+  return mapSlots(state, (selections) =>
+    selections.map((sel) => (sel ? [sel.attrId, sel.value] : null)),
+  );
+}
+
+function decodeLegendaryAffixGroups(arr: unknown): SlotLegendaryAffixGroups {
+  return unmapSlots(arr, (raw) => {
+    if (!Array.isArray(raw)) return undefined;
+    return raw.map((entry) => {
+      if (!Array.isArray(entry) || typeof entry[0] !== 'number' || typeof entry[1] !== 'number') {
+        return undefined;
+      }
+      return { attrId: entry[0], value: entry[1] } satisfies LegendaryAffixSelection;
+    });
   });
 }
 
@@ -425,6 +446,24 @@ const FIELD_SPECS = [
     'phantomFactorSlots',
     (s) => encodePhantomFactorSlots(s.phantomFactorSlots ?? {}),
     (raw) => decodePhantomFactorSlots(raw),
+  ),
+  field(
+    'roleSkillSlots',
+    (s) => s.roleSkillSlots,
+    // 値がない(旧データ・破損データ)場合は undefined のまま返す。ここで固定デフォルトに
+    // フォールバックすると、呼び出し側(applyPlanState)のprofessionKey別「ロール専用4種」への
+    // フォールバックが機能しなくなる。
+    (raw) => asNullableNumberArray(raw),
+  ),
+  field(
+    'roleSkillRanks',
+    (s) => s.roleSkillRanks,
+    (raw) => asNumberArray(raw),
+  ),
+  field(
+    'legendaryAffixGroupState',
+    (s) => encodeLegendaryAffixGroups(s.legendaryAffixGroupState),
+    (raw) => decodeLegendaryAffixGroups(raw),
   ),
 ] as const;
 

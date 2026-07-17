@@ -498,6 +498,90 @@
   color: #8a8a96;
 }
 
+/* 装備選択候補のGS帯フィルター(折りたたみ領域) */
+.equip-candidate-filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #8a8a96;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.equip-candidate-filter-toggle:hover {
+  color: #c8c6d1;
+}
+
+.equip-candidate-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.equip-candidate-filter-btn {
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  color: #c8c6d1;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.1s,
+    border-color 0.1s,
+    color 0.1s;
+}
+
+/* 未選択ボタン: ホバーで「選択後」の見た目に近づけ、押すとこうなると分かるようにする。 */
+.equip-candidate-filter-btn:not(.equip-candidate-filter-btn--selected):hover {
+  background: #332a18;
+  border-color: #c9822f;
+  color: #f0b060;
+}
+
+.equip-candidate-filter-btn--selected {
+  background: #3a2f1a;
+  border-color: #f4a13a;
+  color: #f4a13a;
+  font-weight: 600;
+}
+
+/* 選択中ボタン: ホバーで未選択時に近い見た目へ寄せ、押すと解除されることを直感的に示す。
+   ただし完全に同一だと素の未選択ボタンとの区別がつかなくなるため、琥珀色を薄く残す。 */
+.equip-candidate-filter-btn--selected:hover {
+  background: #262019;
+  border-color: #8a6a3a;
+  color: #c9a876;
+  font-weight: normal;
+}
+
+.equip-candidate-filter-btn:focus-visible {
+  outline: 1px solid #f4a13a;
+  outline-offset: 1px;
+}
+
+/* クリックで状態が切り替わった直後、マウスがまだボタン上に乗ったままの間はホバー
+   スタイルを抑制し、通常時の見た目を維持する(マウスが実際に離れるまで解除しない)。
+   クリック直後に「新しい状態のホバー時スタイル」へ即座に切り替わって紛らわしくなるのを防ぐ。 */
+.equip-candidate-filter-btn.equip-candidate-filter-btn--hover-suppressed:not(
+    .equip-candidate-filter-btn--selected
+  ):hover {
+  background: #1c1c24;
+  border-color: #3a3a45;
+  color: #c8c6d1;
+}
+
+.equip-candidate-filter-btn--hover-suppressed.equip-candidate-filter-btn--selected:hover {
+  background: #3a2f1a;
+  border-color: #f4a13a;
+  color: #f4a13a;
+  font-weight: 600;
+}
+
 .equipment-dialog__select-trigger {
   width: 100%;
   max-width: 100%;
@@ -824,47 +908,38 @@
   padding: 4px 0;
 }
 
-.equip-affix-option-row {
+/* 蒼海武器の4枠選択式レアステータス: 既存の伝説刻印ピッカーを縦に並べる。 */
+.equip-affix-group-list {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 4px 10px;
-}
-
-.equip-affix-option-row__name {
-  font-size: 11px;
-  color: #c084fc;
-}
-
-.equip-affix-option-row__tiers {
-  display: flex;
   gap: 4px;
-  flex-wrap: wrap;
-  padding-left: 4px;
 }
 
-.equip-affix-tier-btn {
-  background: #2a2a22;
-  border: 1px solid #4a4a3a;
-  color: #c8c4bc;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition:
-    background 0.1s,
-    border-color 0.1s;
+.equip-affix-group-list .equip-affix-slot {
+  margin-bottom: 0;
 }
 
-.equip-affix-tier-btn:hover {
-  background: #3a3a2a;
-  border-color: #7a5a8a;
+/* 伝説刻印(レアステータス)の選択肢: ラベル+効果値を1行に並べたフラットな行。
+   トリガーボタンと同様、テキストは常に紫(#c084fc)で表示する。 */
+.equip-affix-slot .equip-affix-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.equip-affix-tier-btn--selected {
-  background: #3a2a4a;
-  border-color: #c084fc;
+.equip-affix-slot .equip-affix-option,
+.equip-affix-slot .equip-affix-option:hover {
   color: #c084fc;
+}
+
+.equip-affix-slot .equip-affix-option.equip-evo-option--selected {
+  background: #3a2a4a;
+}
+
+.equip-affix-option__value {
+  font-size: 11px;
+  flex-shrink: 0;
 }
 
 /* Refine level effects */
@@ -1013,4 +1088,9 @@
 
 .equip-enchant-cost__row {
   word-break: break-word;
+}
+
+/* 上級装着コスト(精/極を狙う場合): 通常コストと区別できるよう色味を変える。 */
+.equip-enchant-cost--advanced {
+  color: #c9a227;
 }
