@@ -8,6 +8,7 @@ import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
 import StatRow from '../components/StatRow';
 import Stepper from '../components/Stepper';
+import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import {
   classifyEvoDisplay,
   getEvoVariantFamily,
@@ -117,12 +118,6 @@ function EquipmentSlotPicker({
   // 装備選択候補のGS帯フィルター折りたたみ領域の開閉状態。選択中のフィルター自体は
   // ダイアログの開閉で消えないよう親(candidateGsFilter プロップ)側で保持する。
   const [candidateFilterExpanded, setCandidateFilterExpanded] = useState(true);
-  // クリック直後、マウスがまだボタン上に乗ったままの間はホバースタイルを抑制する対象。
-  // クリックで状態が切り替わった瞬間に「新しい状態のホバー時スタイル」が即座に出て
-  // 紛らわしくなるのを防ぐため、マウスが実際に離れるまでは通常時の見た目を維持する。
-  const [hoverSuppressedFilter, setHoverSuppressedFilter] = useState<CandidateGsFilter | null>(
-    null,
-  );
   const {
     tooltip: enchantTooltip,
     open: openEnchantTooltip,
@@ -451,26 +446,12 @@ function EquipmentSlotPicker({
                 <Chevron open={candidateFilterExpanded} />
               </button>
               {candidateFilterExpanded && (
-                <div className="equip-candidate-filter-options" role="radiogroup">
-                  {CANDIDATE_GS_FILTERS.map((filter) => (
-                    <button
-                      key={filter}
-                      type="button"
-                      role="radio"
-                      aria-checked={candidateGsFilter === filter}
-                      className={`equip-candidate-filter-btn${candidateGsFilter === filter ? ' equip-candidate-filter-btn--selected' : ''}${hoverSuppressedFilter === filter ? ' equip-candidate-filter-btn--hover-suppressed' : ''}`}
-                      onClick={() => {
-                        onSetCandidateGsFilter(candidateGsFilter === filter ? null : filter);
-                        setHoverSuppressedFilter(filter);
-                      }}
-                      onMouseLeave={() =>
-                        setHoverSuppressedFilter((cur) => (cur === filter ? null : cur))
-                      }
-                    >
-                      {t(`buildPlanner.candidateFilter.${filter}`)}
-                    </button>
-                  ))}
-                </div>
+                <ToggleButtonGroup
+                  options={CANDIDATE_GS_FILTERS}
+                  value={candidateGsFilter}
+                  getLabel={(filter) => t(`buildPlanner.candidateFilter.${filter}`)}
+                  onChange={onSetCandidateGsFilter}
+                />
               )}
               <Dropdown
                 autoFocus

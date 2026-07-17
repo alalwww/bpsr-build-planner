@@ -390,3 +390,69 @@
   color: #f4a13a;
   background: #27271f;
 }
+
+/* ToggleButtonGroup / ToggleChip (ラジオボタン形式・再クリックで解除可能なボタングループ) */
+.toggle-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.toggle-chip {
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  color: #c8c6d1;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.1s,
+    border-color 0.1s,
+    color 0.1s;
+}
+
+/* 未選択チップ: ホバーで「選択後」の見た目に近づけ、押すとこうなると分かるようにする。 */
+.toggle-chip:not(.toggle-chip--selected):hover {
+  background: #332a18;
+  border-color: #c9822f;
+  color: #f0b060;
+}
+
+.toggle-chip--selected {
+  background: #3a2f1a;
+  border-color: #f4a13a;
+  color: #f4a13a;
+  font-weight: 600;
+}
+
+/* 選択中チップ: ホバーで未選択時に近い見た目へ寄せ、押すと解除されることを直感的に示す。
+   ただし完全に同一だと素の未選択チップとの区別がつかなくなるため、琥珀色を薄く残す。 */
+.toggle-chip--selected:hover {
+  background: #262019;
+  border-color: #8a6a3a;
+  color: #c9a876;
+  font-weight: normal;
+}
+
+.toggle-chip:focus-visible {
+  outline: 1px solid #f4a13a;
+  outline-offset: 1px;
+}
+
+/* クリックで状態が切り替わった直後、マウスがまだチップ上に乗ったままの間はホバー
+   スタイルを抑制し、通常時の見た目を維持する(マウスが実際に離れるまで解除しない)。
+   クリック直後に「新しい状態のホバー時スタイル」へ即座に切り替わって紛らわしくなるのを防ぐ。 */
+.toggle-chip.toggle-chip--hover-suppressed:not(.toggle-chip--selected):hover {
+  background: #1c1c24;
+  border-color: #3a3a45;
+  color: #c8c6d1;
+}
+
+.toggle-chip--hover-suppressed.toggle-chip--selected:hover {
+  background: #3a2f1a;
+  border-color: #f4a13a;
+  color: #f4a13a;
+  font-weight: 600;
+}
