@@ -161,6 +161,11 @@ export function getPowerCoreLevel(slots: ModuleSlots, effectId: number): 0 | 5 |
 export interface ImagineData {
   id: number;
   rarityType: number;
+  // SkillAoyiTable.SeasonId (1=S1, 2=S2, 3=S3)。classification=4(コラボ)の場合は
+  // フィルター上コラボ扱いとし、この値は無視する(imagineFilterData.ts参照)。
+  seasonId: number;
+  // SkillAoyiTable.Classification (1=紫品質, 2=通常橙品質, 3=特殊金品質, 4=コラボ限定)
+  classification: number;
   icon: string;
   maxRank: number;
   passiveEffects?: number[][];

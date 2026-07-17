@@ -2,6 +2,8 @@
   "3901": {
     "id": 3901,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_017",
     "showSkillType": [
       11,
@@ -46,6 +48,8 @@
   "3902": {
     "id": 3902,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_014",
     "showSkillType": [
       10,
@@ -106,6 +110,8 @@
   "3903": {
     "id": 3903,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_018",
     "showSkillType": [
       5,
@@ -163,6 +169,8 @@
   "3904": {
     "id": 3904,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_026",
     "showSkillType": [
       4,
@@ -213,6 +221,8 @@
   "3905": {
     "id": 3905,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_001",
     "showSkillType": [
       9,
@@ -264,6 +274,8 @@
   "3906": {
     "id": 3906,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_015",
     "showSkillType": [
       9,
@@ -295,6 +307,8 @@
   "3907": {
     "id": 3907,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_008",
     "showSkillType": [
       2,
@@ -334,6 +348,8 @@
   "3908": {
     "id": 3908,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_012",
     "showSkillType": [
       10,
@@ -398,6 +414,8 @@
   "3910": {
     "id": 3910,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_009",
     "showSkillType": [
       11,
@@ -446,6 +464,8 @@
   "3911": {
     "id": 3911,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_042",
     "showSkillType": [
       1,
@@ -516,6 +536,8 @@
   "3913": {
     "id": 3913,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_010",
     "showSkillType": [
       9,
@@ -568,6 +590,8 @@
   "3914": {
     "id": 3914,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_019",
     "showSkillType": [
       11,
@@ -602,6 +626,8 @@
   "3915": {
     "id": 3915,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_020",
     "showSkillType": [
       5,
@@ -652,6 +678,8 @@
   "3917": {
     "id": 3917,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_022",
     "showSkillType": [
       9,
@@ -698,6 +726,8 @@
   "3920": {
     "id": 3920,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_013",
     "showSkillType": [
       1,
@@ -768,6 +798,8 @@
   "3921": {
     "id": 3921,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_016",
     "showSkillType": [
       1,
@@ -838,6 +870,8 @@
   "3922": {
     "id": 3922,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_025",
     "showSkillType": [
       1,
@@ -908,6 +942,8 @@
   "3923": {
     "id": 3923,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_005",
     "showSkillType": [
       4,
@@ -945,6 +981,8 @@
   "3925": {
     "id": 3925,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_034",
     "showSkillType": [
       9,
@@ -976,6 +1014,8 @@
   "3926": {
     "id": 3926,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_029",
     "showSkillType": [
       5,
@@ -1025,6 +1065,8 @@
   "3927": {
     "id": 3927,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_030",
     "showSkillType": [
       1,
@@ -1063,6 +1105,8 @@
   "3928": {
     "id": 3928,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_031",
     "showSkillType": [
       9,
@@ -1113,6 +1157,8 @@
   "3929": {
     "id": 3929,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_032",
     "showSkillType": [
       11,
@@ -1177,6 +1223,8 @@
   "3930": {
     "id": 3930,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_033",
     "showSkillType": [
       11,
@@ -1211,6 +1259,8 @@
   "3934": {
     "id": 3934,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_037",
     "showSkillType": [
       3,
@@ -1246,6 +1296,8 @@
   "3935": {
     "id": 3935,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_038",
     "showSkillType": [
       10,
@@ -1279,6 +1331,8 @@
   "3936": {
     "id": 3936,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_039",
     "showSkillType": [
       9,
@@ -1311,6 +1365,8 @@
   "3937": {
     "id": 3937,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_040",
     "showSkillType": [
       5,
@@ -1361,6 +1417,8 @@
   "3938": {
     "id": 3938,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_041",
     "showSkillType": [
       7,
@@ -1402,6 +1460,8 @@
   "3939": {
     "id": 3939,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_043",
     "showSkillType": [
       9,
@@ -1436,6 +1496,8 @@
   "3940": {
     "id": 3940,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_044",
     "showSkillType": [
       9,
@@ -1468,6 +1530,8 @@
   "3941": {
     "id": 3941,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_045",
     "showSkillType": [
       5,
@@ -1512,6 +1576,8 @@
   "3942": {
     "id": 3942,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_046",
     "showSkillType": [
       1,
@@ -1562,6 +1628,8 @@
   "3943": {
     "id": 3943,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_047",
     "showSkillType": [
       11,
@@ -1609,6 +1677,8 @@
   "3944": {
     "id": 3944,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_048",
     "showSkillType": [
       6,
@@ -1649,6 +1719,8 @@
   "3945": {
     "id": 3945,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_049",
     "showSkillType": [
       9,
@@ -1692,6 +1764,8 @@
   "3946": {
     "id": 3946,
     "rarityType": 2,
+    "seasonId": 1,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_050",
     "showSkillType": [
       8,
@@ -1723,6 +1797,8 @@
   "3947": {
     "id": 3947,
     "rarityType": 1,
+    "seasonId": 1,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_051",
     "showSkillType": [
       9,
@@ -1755,6 +1831,8 @@
   "3948": {
     "id": 3948,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_052",
     "showSkillType": [
       1,
@@ -1813,6 +1891,8 @@
   "3949": {
     "id": 3949,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_053",
     "showSkillType": [
       1,
@@ -1882,6 +1962,8 @@
   "3950": {
     "id": 3950,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_055",
     "showSkillType": [
       1,
@@ -1939,6 +2021,8 @@
   "3951": {
     "id": 3951,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_054",
     "showSkillType": [
       1,
@@ -1994,6 +2078,8 @@
   "3952": {
     "id": 3952,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_060",
     "showSkillType": [
       9,
@@ -2038,6 +2124,8 @@
   "3953": {
     "id": 3953,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_063",
     "showSkillType": [
       9,
@@ -2082,6 +2170,8 @@
   "3954": {
     "id": 3954,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_068",
     "showSkillType": [
       9,
@@ -2126,6 +2216,8 @@
   "3955": {
     "id": 3955,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_066",
     "showSkillType": [
       1,
@@ -2222,6 +2314,8 @@
   "3956": {
     "id": 3956,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_070",
     "showSkillType": [
       5,
@@ -2284,6 +2378,8 @@
   "3957": {
     "id": 3957,
     "rarityType": 2,
+    "seasonId": 2,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_057",
     "showSkillType": [
       1,
@@ -2341,6 +2437,8 @@
   "3958": {
     "id": 3958,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_056",
     "showSkillType": [
       8,
@@ -2389,6 +2487,8 @@
   "3959": {
     "id": 3959,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_058",
     "showSkillType": [
       11,
@@ -2423,6 +2523,8 @@
   "3960": {
     "id": 3960,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_059",
     "showSkillType": [
       12,
@@ -2482,6 +2584,8 @@
   "3961": {
     "id": 3961,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_061",
     "showSkillType": [
       5,
@@ -2542,6 +2646,8 @@
   "3962": {
     "id": 3962,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_062",
     "showSkillType": [
       10,
@@ -2600,6 +2706,8 @@
   "3963": {
     "id": 3963,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_067",
     "showSkillType": [
       7,
@@ -2634,6 +2742,8 @@
   "3964": {
     "id": 3964,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_064",
     "showSkillType": [
       4,
@@ -2688,6 +2798,8 @@
   "3965": {
     "id": 3965,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_065",
     "showSkillType": [
       5,
@@ -2734,6 +2846,8 @@
   "3966": {
     "id": 3966,
     "rarityType": 1,
+    "seasonId": 2,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_069",
     "showSkillType": [
       6,
@@ -2768,6 +2882,8 @@
   "3968": {
     "id": 3968,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_071",
     "showSkillType": [
       11,
@@ -2820,6 +2936,8 @@
   "3969": {
     "id": 3969,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_072",
     "showSkillType": [
       9,
@@ -2873,6 +2991,8 @@
   "3970": {
     "id": 3970,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_073",
     "showSkillType": [
       9,
@@ -2968,6 +3088,8 @@
   "3971": {
     "id": 3971,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 3,
     "icon": "skill_aoyi_skill_icon_074",
     "showSkillType": [
       1,
@@ -3021,6 +3143,8 @@
   "3972": {
     "id": 3972,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_075",
     "showSkillType": [
       9,
@@ -3079,6 +3203,8 @@
   "3973": {
     "id": 3973,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_076",
     "showSkillType": [
       9,
@@ -3124,6 +3250,8 @@
   "3974": {
     "id": 3974,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_077",
     "showSkillType": [
       10,
@@ -3174,6 +3302,8 @@
   "3975": {
     "id": 3975,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_078",
     "showSkillType": [
       11,
@@ -3238,6 +3368,8 @@
   "3976": {
     "id": 3976,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 2,
     "icon": "skill_aoyi_skill_icon_079",
     "showSkillType": [
       9,
@@ -3285,6 +3417,8 @@
   "3977": {
     "id": 3977,
     "rarityType": 1,
+    "seasonId": 3,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_080",
     "showSkillType": [
       5,
@@ -3338,6 +3472,8 @@
   "3978": {
     "id": 3978,
     "rarityType": 1,
+    "seasonId": 3,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_081",
     "showSkillType": [
       9,
@@ -3381,6 +3517,8 @@
   "3979": {
     "id": 3979,
     "rarityType": 1,
+    "seasonId": 3,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_082",
     "showSkillType": [
       9,
@@ -3415,6 +3553,8 @@
   "3980": {
     "id": 3980,
     "rarityType": 1,
+    "seasonId": 3,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_083",
     "showSkillType": [
       11,
@@ -3449,6 +3589,8 @@
   "3981": {
     "id": 3981,
     "rarityType": 1,
+    "seasonId": 3,
+    "classification": 1,
     "icon": "skill_aoyi_skill_icon_084",
     "showSkillType": [
       11,
@@ -3483,6 +3625,8 @@
   "3982": {
     "id": 3982,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 4,
     "icon": "skill_aoyi_skill_icon_086",
     "showSkillType": [
       9
@@ -3530,6 +3674,8 @@
   "3983": {
     "id": 3983,
     "rarityType": 2,
+    "seasonId": 3,
+    "classification": 4,
     "icon": "skill_aoyi_skill_icon_085",
     "showSkillType": [
       10

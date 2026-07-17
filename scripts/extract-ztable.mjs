@@ -359,6 +359,11 @@ function extractSkills(langDir, referencedSkillIds) {
 // battle-imagines.json: SkillAoyiTable の全エントリ。
 //   id: エントリID (3901-3983)
 //   rarityType: 1=エリート(bg_on_1), 2=ボス/キャラ(bg_on_2)
+//   seasonId: SkillAoyiTable.SeasonId (1=S1, 2=S2, 3=S3)
+//   classification: SkillAoyiTable.Classification (1=紫品質, 2=通常橙品質,
+//     3=特殊金品質, 4=コラボ限定。コラボはSeasonIdの値に関わらずシーズン/品質
+//     どちらのフィルターからも独立して扱う。実データでの対応関係(ルーシィ/ナツ=4等)
+//     はImaginePickerDialogのフィルターロジック側で確認済み)
 //   icon, showSkillType, maxRank, skillId: 既存フィールド
 //   baseFv: G0時のベースFV (SkillFightLevelTable.Level=1 のFightValue)
 //   fightValues: [G1,G2,...Gmax] の累積FV (SkillAoyiStarTable)
@@ -430,6 +435,8 @@ function extractBattleImagines(langDir) {
     result[entry.Id] = {
       id: entry.Id,
       rarityType: entry.RarityType ?? 1,
+      seasonId: entry.SeasonId,
+      classification: entry.Classification,
       icon: iconNum ? `skill_aoyi_skill_icon_${iconNum}` : '',
       showSkillType: entry.ShowSkillType,
       maxRank,

@@ -167,6 +167,18 @@
       "selectRoleSkill": "Select Role Skill",
       "equip": "Equip"
     },
+    "imagineFilter": {
+      "toggle": "Filter",
+      "seasonLabel": "Season",
+      "qualityLabel": "Quality",
+      "s1": "S1",
+      "s2": "S2",
+      "s3": "S3",
+      "collab": "Collab",
+      "spOrange": "Sp Orange",
+      "orange": "Orange",
+      "purple": "Purple"
+    },
     "module": {
       "slot": "Module {{n}}",
       "typeAttack": "Attack",

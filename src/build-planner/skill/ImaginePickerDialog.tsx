@@ -1,12 +1,23 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
+import Chevron from '../components/Chevron';
 import DraggableDialog from '../components/DraggableDialog';
-import Stepper from '../components/Stepper';
+import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
+import {
+  IMAGINE_QUALITY_FILTERS,
+  IMAGINE_SEASON_FILTERS,
+  isImagineFilterMatch,
+  type ImagineQualityFilter,
+  type ImagineSeasonFilter,
+} from './imagineFilterData';
 import SkillCircle from './SkillCircle';
 import SkillTooltip from './SkillTooltip';
 import { battleImaginesData } from './skillData';
+
+// G0〜G5の6段階固定(常にいずれか1つを選択、全解除不可のラジオボタン形式)。
+const IMAGINE_RANKS = [0, 1, 2, 3, 4, 5];
 
 function ImaginePickerDialog({
   excludeIds,
@@ -20,6 +31,9 @@ function ImaginePickerDialog({
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
   const [rank, setRank] = useState(5);
+  const [filterExpanded, setFilterExpanded] = useState(false);
+  const [seasonFilter, setSeasonFilter] = useState<ImagineSeasonFilter | null>(null);
+  const [qualityFilter, setQualityFilter] = useState<ImagineQualityFilter | null>(null);
   const {
     tooltip: hoverTooltip,
     open: openHover,
@@ -32,6 +46,18 @@ function ImaginePickerDialog({
     openHover({ skillId: id, x: rect.right + 10, y: rect.top });
   };
 
+  // コラボは品質(特殊金/橙/紫)を持たない排他カテゴリのため、コラボ⇔品質フィルターは
+  // 互いに一方を選ぶと他方を解除する(同時選択すると0件になってしまうため)。
+  const handleSeasonFilterChange = (value: ImagineSeasonFilter | null) => {
+    setSeasonFilter(value);
+    if (value === 'collab') setQualityFilter(null);
+  };
+
+  const handleQualityFilterChange = (value: ImagineQualityFilter | null) => {
+    setQualityFilter(value);
+    if (value !== null && seasonFilter === 'collab') setSeasonFilter(null);
+  };
+
   return (
     <>
       <DraggableDialog
@@ -41,20 +67,65 @@ function ImaginePickerDialog({
         resizable
         initialSize={{ w: 560, h: 560 }}
         minSize={{ w: 360, h: 300 }}
-        headerExtra={
-          <Stepper
-            className="skill-stepper"
-            label={tUi('buildPlanner.skill.rank')}
-            value={rank}
-            min={0}
-            max={5}
-            formatValue={(v) => `G${v}`}
-            onChange={setRank}
-          />
-        }
       >
+        <div className="skill-picker-dialog__toolbar">
+          <div className="skill-picker-dialog__rank-radio" role="radiogroup">
+            <span className="skill-picker-dialog__rank-radio-label">
+              {tUi('buildPlanner.skill.rank')}
+            </span>
+            {IMAGINE_RANKS.map((r) => (
+              <button
+                key={r}
+                type="button"
+                role="radio"
+                aria-checked={rank === r}
+                className={`toggle-chip${rank === r ? ' toggle-chip--selected' : ''}`}
+                onClick={() => setRank(r)}
+              >
+                {`G${r}`}
+              </button>
+            ))}
+          </div>
+          <div className="skill-picker-dialog__filter-block">
+            <button
+              type="button"
+              className="skill-picker-dialog__filter-toggle"
+              onClick={() => setFilterExpanded((v) => !v)}
+            >
+              <span>{tUi('buildPlanner.imagineFilter.toggle')}</span>
+              <Chevron open={filterExpanded} />
+            </button>
+            {filterExpanded && (
+              <div className="skill-picker-dialog__filter-groups">
+                <div className="skill-picker-dialog__filter-row">
+                  <span className="skill-picker-dialog__filter-label">
+                    {tUi('buildPlanner.imagineFilter.seasonLabel')}
+                  </span>
+                  <ToggleButtonGroup
+                    options={IMAGINE_SEASON_FILTERS}
+                    value={seasonFilter}
+                    getLabel={(filter) => tUi(`buildPlanner.imagineFilter.${filter}`)}
+                    onChange={handleSeasonFilterChange}
+                  />
+                </div>
+                <div className="skill-picker-dialog__filter-row">
+                  <span className="skill-picker-dialog__filter-label">
+                    {tUi('buildPlanner.imagineFilter.qualityLabel')}
+                  </span>
+                  <ToggleButtonGroup
+                    options={IMAGINE_QUALITY_FILTERS}
+                    value={qualityFilter}
+                    getLabel={(filter) => tUi(`buildPlanner.imagineFilter.${filter}`)}
+                    onChange={handleQualityFilterChange}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
         <div className="skill-picker-dialog__grid">
           {Object.values(battleImaginesData)
+            .filter((bi) => isImagineFilterMatch(bi, seasonFilter, qualityFilter))
             .sort((a, b) => b.rarityType - a.rarityType || a.id - b.id)
             .map((bi) => {
               const disabled = excludeIds.includes(bi.id);

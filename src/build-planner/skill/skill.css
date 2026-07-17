@@ -372,11 +372,92 @@
 .skill-picker-dialog__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  /* align-content省略時(既定normal)はgrid既定挙動でrow trackが余白を吸って伸びる
+     ため、候補数が少ない(1行のみ等)場合に各アイテムが縦長になる。startで固定する。 */
+  align-content: start;
   gap: 8px;
   padding: 12px;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+
+/* 見出し直下のツールバー(左: ランクのラジオボタン、右: 絞り込みトグル+開閉フィルター)。
+   絞り込みを開くと右側だけ縦に伸びるため、align-items: flex-start でランク行を
+   上端に固定する。justify-content は space-between ではなく flex-start + 固定 gap
+   にする(space-betweenだとfilter-blockが右端アンカーになり、開閉でfilter-blockの
+   幅が変わるたびに「絞り込み」トグルの左端位置がずれてしまうため)。 */
+.skill-picker-dialog__toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 24px;
+  padding: 8px 12px 0;
+}
+
+.skill-picker-dialog__rank-radio {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.skill-picker-dialog__rank-radio-label {
+  margin-right: 2px;
+  color: #8a8a96;
+  font-size: 11px;
+}
+
+/* 絞り込みトグル+開閉フィルター本体をひとまとまりにし、ツールバー右側(絞り込み
+   トグルの真下)に配置する。 */
+.skill-picker-dialog__filter-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* イマジン選択候補のシーズン/品質フィルターの開閉トグル。
+   操作可能であることはカーソル(pointer)と開閉記号(Chevron)だけで示し、
+   背景色・枠線は持たせない(装備選択のGS帯フィルタートグルと同じ最小限の見た目)。 */
+.skill-picker-dialog__filter-toggle {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #8a8a96;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.skill-picker-dialog__filter-toggle:hover {
+  color: #c8c6d1;
+}
+
+.skill-picker-dialog__filter-groups {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.skill-picker-dialog__filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-picker-dialog__filter-label {
+  flex-shrink: 0;
+  width: 44px;
+  text-align: right;
+  font-size: 11px;
+  color: #8a8a96;
 }
 
 .skill-picker-dialog__item {
@@ -388,6 +469,9 @@
   border: 1px solid #2a2a33;
   border-radius: 8px;
   padding: 10px 6px;
+  /* 幅(grid-template-columnsのminmax(110px, 1fr))と同様、高さも上限を固定して
+     候補数が少ない時に縦長にならないようにする。 */
+  max-height: 92px;
   cursor: pointer;
   transition:
     border-color 0.15s,
