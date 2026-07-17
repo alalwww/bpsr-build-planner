@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
@@ -506,25 +506,36 @@ function EquipmentSlotPicker({
                     >
                       {t('buildPlanner.emptySlot')}
                     </button>
-                    {sortedCandidates.map((candidate) => {
+                    {sortedCandidates.map((candidate, i) => {
                       const name = t(`items.${candidate.id}.name`, { ns: 'game-data' });
+                      // GS帯フィルター適用中、一致グループ→非一致グループの境界にのみ区切りを挿入する。
+                      const prevCandidate = sortedCandidates[i - 1];
+                      const showGroupDivider =
+                        candidateGsFilter !== null &&
+                        prevCandidate !== undefined &&
+                        isCandidateGsMatch(prevCandidate, candidateGsFilter) &&
+                        !isCandidateGsMatch(candidate, candidateGsFilter);
                       return (
-                        <button
-                          key={candidate.id}
-                          type="button"
-                          className={`equipment-dialog__select-option${candidate.id === equippedId ? ' equipment-dialog__select-option--selected' : ''}`}
-                          data-selected={candidate.id === equippedId}
-                          style={{ color: getItemNameColor(candidate) }}
-                          onClick={() => {
-                            onSelect(candidate);
-                            hideCandidateTooltip();
-                            close();
-                          }}
-                          onMouseMove={(e) => showCandidateTooltip(candidate, e)}
-                          onMouseLeave={hideCandidateTooltip}
-                        >
-                          {`${candidate.equipGs} ${name}`}
-                        </button>
+                        <Fragment key={candidate.id}>
+                          {showGroupDivider && (
+                            <div className="equipment-dialog__select-divider" />
+                          )}
+                          <button
+                            type="button"
+                            className={`equipment-dialog__select-option${candidate.id === equippedId ? ' equipment-dialog__select-option--selected' : ''}`}
+                            data-selected={candidate.id === equippedId}
+                            style={{ color: getItemNameColor(candidate) }}
+                            onClick={() => {
+                              onSelect(candidate);
+                              hideCandidateTooltip();
+                              close();
+                            }}
+                            onMouseMove={(e) => showCandidateTooltip(candidate, e)}
+                            onMouseLeave={hideCandidateTooltip}
+                          >
+                            {`${candidate.equipGs} ${name}`}
+                          </button>
+                        </Fragment>
                       );
                     })}
                   </>

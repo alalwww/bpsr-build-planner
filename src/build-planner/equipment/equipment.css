@@ -579,6 +579,12 @@
   background: #2a3040;
 }
 
+/* GS帯フィルター適用中、一致グループとそれ以外の境界を隙間+区切り線で明示する。 */
+.equipment-dialog__select-divider {
+  margin: 6px 0;
+  border-top: 1px solid #4a4a58;
+}
+
 .equipment-dialog__slider-value {
   margin-left: 8px;
   color: #e8e6e1;
