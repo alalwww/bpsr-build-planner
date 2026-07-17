@@ -120,7 +120,9 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
           }
         >
           <span className="character-panel__label">{t('buildPlanner.abilityScore')}</span>
-          <span className="character-panel__value">{abilityScore.total.toLocaleString()}</span>
+          <span className="character-panel__value">
+            {Math.round(abilityScore.total).toLocaleString()}
+          </span>
         </button>
         <button
           type="button"

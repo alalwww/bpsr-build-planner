@@ -105,9 +105,70 @@ describe('calculateRawStats', () => {
 
     const result = calculateRawStats(input);
 
-    // calcStatValue(100, 200, 100) = floor(100 + 100 * 1) = 200
+    // calcStatValue(100, 200, 100) = 100 + 100 * 1 = 200
     expect(result.rawStats.atk).toBe(200);
     expect(result.rawStats.strength).toBe(BASE_STATS.strength);
+  });
+
+  it('rounds each equipped item’s reforge (改鋳) stat contribution individually before summing (regression: verified against real 滅妄強度 in-game values)', () => {
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      perfectlines: { ...uniformSlotRecord(100), weapon: 50, head: 50 },
+      equipped: {
+        weapon: makeEquipmentItem({
+          slot: 'weapon',
+          part: 200,
+          quality: 4,
+          reforgeEvoMin: 0,
+          reforgeEvoMax: 101, // calcStatValue(0, 101, 50) = 50.5 -> round = 51
+        }),
+        head: makeEquipmentItem({
+          slot: 'head',
+          part: 201,
+          quality: 4,
+          reforgeEvoMin: 0,
+          reforgeEvoMax: 99, // calcStatValue(0, 99, 50) = 49.5 -> round = 50
+        }),
+      },
+      evolutionStats: {
+        weapon: [undefined, undefined, 'crit'],
+        head: [undefined, undefined, 'crit'],
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    // 51 + 50 = 101 (先に合算してから丸める(floor(50.5+49.5)=100)場合と結果が異なる)。
+    expect(result.rawStats.crit).toBe(BASE_STATS.crit + 101);
+  });
+
+  it('rounds each equipped item’s baseStats contribution individually before summing (regression: 滅妄強度/illusionPower, attrId 11442, range 45-120)', () => {
+    // 実際の装備データ(GS220帯の装備、attrId 11442, min-max=45-120)を模したケース。
+    // ユーザー実測: 完成度(perfectline)7 -> 50, 6 -> 49 が装備1つぶんのゲーム内表示値。
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      perfectlines: { ...uniformSlotRecord(100), weapon: 7, head: 6 },
+      equipped: {
+        weapon: makeEquipmentItem({
+          slot: 'weapon',
+          part: 200,
+          quality: 4,
+          baseStats: [[11442, 45, 120]], // calcStatValue(45,120,7) = 50.25 -> round = 50
+        }),
+        head: makeEquipmentItem({
+          slot: 'head',
+          part: 201,
+          quality: 4,
+          baseStats: [[11442, 45, 120]], // calcStatValue(45,120,6) = 49.5 -> round = 50
+        }),
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    // 50 + 50 = 100 (先に合算してから丸める場合は floor(50.25+49.5)=floor(99.75)=99 になり、
+    // 個別丸めの結果(100)と異なる)。
+    expect(result.rawStats.illusionPower).toBe(BASE_STATS.illusionPower + 100);
   });
 
   it('applies refine cumulative + milestone effects for the equipped slot only', () => {

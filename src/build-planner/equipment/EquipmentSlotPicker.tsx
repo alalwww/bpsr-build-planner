@@ -45,6 +45,7 @@ import {
   REFINE_LEVEL_MILESTONES,
   resolveEnchantGradeView,
   resolveEnchantSelection,
+  truncate1Str,
 } from './equipmentSlotPickerData';
 import EquipmentItemPopup from './EquipmentItemPopup';
 import EvoSlotPicker from './EvoSlotPicker';
@@ -238,10 +239,16 @@ function EquipmentSlotPicker({
   );
 
   // 改鋳ステータス値: 装備の完成度(sliderValue)のみで決まる。
+  // 他の個別ステータス表示と異なり、この値は四捨五入した整数として合算されるため
+  // (calculateRawStats.tsの改鋳スロット処理を参照)、表示も同じ四捨五入値にする。
   const reforgeEvoValue =
     equippedItem && equippedItem.reforgeMaxPerfectline > 0
-      ? calcStatValue(equippedItem.reforgeEvoMin, equippedItem.reforgeEvoMax, sliderValue)
-      : 0;
+      ? String(
+          Math.round(
+            calcStatValue(equippedItem.reforgeEvoMin, equippedItem.reforgeEvoMax, sliderValue),
+          ),
+        )
+      : '0';
   const reforgedStat = evolutionStats[2];
 
   // 選択不可 Evo ステータス（部位 × 装備属性タイプによる制限）
@@ -547,23 +554,23 @@ function EquipmentSlotPicker({
               <StatRow
                 className="equip-ability-score-row--total"
                 name={t('buildPlanner.abilityScoreBreakdown.total')}
-                value={abilityScoreBreakdown.total.toLocaleString()}
+                value={Math.round(abilityScoreBreakdown.total).toLocaleString()}
               />
               <StatRow
                 name={t('buildPlanner.baseStats')}
-                value={abilityScoreBreakdown.baseStats.toLocaleString()}
+                value={Math.round(abilityScoreBreakdown.baseStats).toLocaleString()}
               />
               <StatRow
                 name={t('buildPlanner.evolutionStats')}
-                value={abilityScoreBreakdown.evolution.toLocaleString()}
+                value={Math.round(abilityScoreBreakdown.evolution).toLocaleString()}
               />
               <StatRow
                 name={t('buildPlanner.equippedEffects')}
-                value={abilityScoreBreakdown.enchant.toLocaleString()}
+                value={Math.round(abilityScoreBreakdown.enchant).toLocaleString()}
               />
               <StatRow
                 name={t('buildPlanner.refineEffect')}
-                value={abilityScoreBreakdown.refine.toLocaleString()}
+                value={Math.round(abilityScoreBreakdown.refine).toLocaleString()}
               />
             </section>
           </div>
@@ -579,7 +586,7 @@ function EquipmentSlotPicker({
                     <StatRow
                       key={attrId}
                       name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      value={calcStatValue(min, max, perfectline)}
+                      value={truncate1Str(calcStatValue(min, max, perfectline))}
                     />
                   ))
                 ) : (
@@ -653,7 +660,9 @@ function EquipmentSlotPicker({
                       key={i}
                       name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                       value={
-                        isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`
+                        isPercent
+                          ? `+${min / 100}%`
+                          : `+${truncate1Str(calcStatValue(min, max, sliderValue))}`
                       }
                     />
                   ))}
@@ -667,7 +676,7 @@ function EquipmentSlotPicker({
                     const isEditing = editingEvoSlot === i;
                     const available = availableEvoStats(i);
                     const [, evoMin, evoMax] = equippedItem!.evo[i] ?? [0, 0, 0];
-                    const evoValue = calcStatValue(evoMin, evoMax, sliderValue);
+                    const evoValue = truncate1Str(calcStatValue(evoMin, evoMax, sliderValue));
                     return (
                       <EvoSlotPicker
                         key={i}
@@ -709,7 +718,7 @@ function EquipmentSlotPicker({
                         return (
                           <EvoSlotPicker
                             key={i}
-                            valueLabel={`+${calcStatValue(min, max, sliderValue)}`}
+                            valueLabel={`+${truncate1Str(calcStatValue(min, max, sliderValue))}`}
                             selectedStat={currentAttrIds[i]}
                             availableStats={available}
                             getLabel={(attrId) => t(`attributes.${attrId}`, { ns: 'game-data' })}
@@ -746,7 +755,7 @@ function EquipmentSlotPicker({
                       <StatRow
                         key={i}
                         name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-                        value={`+${calcStatValue(min, max, sliderValue)}`}
+                        value={`+${truncate1Str(calcStatValue(min, max, sliderValue))}`}
                       />
                     ))
                   )}

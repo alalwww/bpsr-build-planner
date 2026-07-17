@@ -112,7 +112,7 @@ function AbilityScoreDialog({
                     {t(`buildPlanner.abilityScoreBreakdown.${group.key}`)}
                   </td>
                   <td className="ability-score-dialog__td ability-score-dialog__td--right">
-                    {group.total.toLocaleString()}
+                    {Math.round(group.total).toLocaleString()}
                   </td>
                 </tr>
                 {isExpanded &&
@@ -129,7 +129,7 @@ function AbilityScoreDialog({
                           {t(`buildPlanner.abilityScoreBreakdown.${child.key}`)}
                         </td>
                         <td className="ability-score-dialog__td ability-score-dialog__td--right">
-                          {child.value.toLocaleString()}
+                          {Math.round(child.value).toLocaleString()}
                         </td>
                       </tr>
                     );
@@ -144,7 +144,7 @@ function AbilityScoreDialog({
               {t('buildPlanner.abilityScoreBreakdown.total')}
             </td>
             <td className="ability-score-dialog__td ability-score-dialog__td--right">
-              {bd.total.toLocaleString()}
+              {Math.round(bd.total).toLocaleString()}
             </td>
           </tr>
         </tfoot>

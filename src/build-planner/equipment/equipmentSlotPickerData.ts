@@ -241,7 +241,7 @@ export function getPlaceholderStatIds(slot: EquipmentSlotId, profession: Profess
 }
 
 // stats/statValue.ts と同一実装が重複していたため、そちらを単一の定義元として再エクスポートする。
-export { calcStatValue } from '../stats/statValue';
+export { calcStatValue, truncate1Str } from '../stats/statValue';
 
 // ---- 装備選択候補の絞り込み(GS帯フィルター) ----
 // 除外ではなく「優先表示」のためのフィルター: isCandidateGsMatch が真の候補を先頭側に

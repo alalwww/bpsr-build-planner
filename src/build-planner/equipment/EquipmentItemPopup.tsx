@@ -17,6 +17,7 @@ import {
   getItemNameColor,
   getSuitInfo,
   resolveEnchantSelection,
+  truncate1Str,
 } from './equipmentSlotPickerData';
 import { calculateEquipmentSlotAbilityScore } from '../stats/calculateAbilityScore';
 
@@ -73,10 +74,12 @@ function EquipmentItemPopup({
   const sliderValue = isFixedStat ? 100 : perfectline;
 
   const reforgedStat = evolutionStats[2];
+  // 他の個別ステータス表示と異なり、この値は四捨五入した整数として合算されるため
+  // (calculateRawStats.tsの改鋳スロット処理を参照)、表示も同じ四捨五入値にする。
   const reforgeEvoValue =
     item.reforgeMaxPerfectline > 0
-      ? calcStatValue(item.reforgeEvoMin, item.reforgeEvoMax, sliderValue)
-      : 0;
+      ? String(Math.round(calcStatValue(item.reforgeEvoMin, item.reforgeEvoMax, sliderValue)))
+      : '0';
   const showReforgeRow =
     (evoKind === 'btFixed' || evoKind === 'dataEvo' || evoKind === 'sameEvo') && !!reforgedStat;
 
@@ -139,7 +142,7 @@ function EquipmentItemPopup({
             <StatRow
               key={attrId}
               name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-              value={calcStatValue(min, max, perfectline)}
+              value={truncate1Str(calcStatValue(min, max, perfectline))}
             />
           ))}
         </div>
@@ -180,7 +183,11 @@ function EquipmentItemPopup({
               <StatRow
                 key={i}
                 name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-                value={isPercent ? `+${min / 100}%` : `+${calcStatValue(min, max, sliderValue)}`}
+                value={
+                  isPercent
+                    ? `+${min / 100}%`
+                    : `+${truncate1Str(calcStatValue(min, max, sliderValue))}`
+                }
               />
             ))}
           {evoKind === 'sameEvo' &&
@@ -192,7 +199,7 @@ function EquipmentItemPopup({
                 <StatRow
                   key={i}
                   name={t(`buildPlanner.stats.${statId}`)}
-                  value={`+${calcStatValue(evoMin, evoMax, sliderValue)}`}
+                  value={`+${truncate1Str(calcStatValue(evoMin, evoMax, sliderValue))}`}
                 />
               );
             })}
@@ -201,7 +208,7 @@ function EquipmentItemPopup({
               <StatRow
                 key={i}
                 name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-                value={`+${calcStatValue(min, max, sliderValue)}`}
+                value={`+${truncate1Str(calcStatValue(min, max, sliderValue))}`}
               />
             ))}
           {showReforgeRow && (
@@ -279,7 +286,7 @@ function EquipmentItemPopup({
       <StatRow
         className="equip-ability-score-row--total"
         name={t('buildPlanner.abilityScore')}
-        value={abilityScoreTotal.toLocaleString()}
+        value={Math.round(abilityScoreTotal).toLocaleString()}
       />
     </FloatingTooltip>
   );

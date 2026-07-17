@@ -225,6 +225,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   let atkSpeedFinalPctAddend = 0;
 
   // 装備ステータス
+  // 装備1つぶんの実数値(基礎/進化/改鋳)は、ここで四捨五入してから合算する(合算後に丸めるのでは
+  // ない)。実測(滅妄強度、装備11部位を1つずつ残してゲーム内表示と比較)で、各装備の素の補間値を
+  // Math.roundした後に合算した値が完全一致することを確認済み。%ボーナス系(finalPctAddend等)は
+  // 対象外(実数値ではなく%空間の値のため丸めない)。
+  const roundStat = (value: number) => Math.round(value);
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
     const slotKey = slotId as EquipmentSlotId;
     const pLine = Math.min(
@@ -236,7 +241,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     for (const [attrId, min, max] of equipmentItem.baseStats) {
       const statId = EQUIP_ATTR_TO_STAT[attrId];
       if (statId !== undefined) {
-        addStat(statId, calcStatValue(min, max, pLine));
+        addStat(statId, roundStat(calcStatValue(min, max, pLine)));
       }
     }
 
@@ -250,13 +255,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         const finalStatId = EVO_PCT_FINAL_ATTR_TO_STAT[attrId];
         if (finalStatId !== undefined) {
           // 会心/幸運/ファスト/器用さの"%"バリアント: 鼓舞/HP変動と同じく、収益逓減カーブ適用後の
-          // 最終%表示値に直接加算する(乗算ではない)。
+          // 最終%表示値に直接加算する(乗算ではない)。%空間の値のため丸めない。
           finalPctAddend[finalStatId] =
             (finalPctAddend[finalStatId] ?? 0) + calcStatValue(min, max, pLine);
           continue;
         }
         const statId = isPercent ? EVO_PCT_ATTR_TO_STAT[attrId] : EVO_ATTR_TO_STAT[attrId];
-        if (statId !== undefined) addStat(statId, calcStatValue(min, max, pLine));
+        if (statId !== undefined) addStat(statId, roundStat(calcStatValue(min, max, pLine)));
       }
     };
 
@@ -270,7 +275,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (!evo) continue;
         const [attrId, evoMin, evoMax] = evo;
         const statId = EVO_ATTR_TO_STAT[attrId];
-        if (statId !== undefined) addStat(statId, calcStatValue(evoMin, evoMax, pLine));
+        if (statId !== undefined) addStat(statId, roundStat(calcStatValue(evoMin, evoMax, pLine)));
       }
     } else {
       // sameEvo / selectable: ユーザー選択を使用
@@ -279,7 +284,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         const evo = equipmentItem.evo[i];
         if (statId && evo) {
           const [, evoMin, evoMax] = evo;
-          addStat(statId, calcStatValue(evoMin, evoMax, pLine));
+          addStat(statId, roundStat(calcStatValue(evoMin, evoMax, pLine)));
         }
       }
     }
@@ -289,7 +294,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       if (reforgedStatId && equipmentItem.reforgeEvoMax > 0) {
         addStat(
           reforgedStatId,
-          calcStatValue(equipmentItem.reforgeEvoMin, equipmentItem.reforgeEvoMax, pLine),
+          roundStat(calcStatValue(equipmentItem.reforgeEvoMin, equipmentItem.reforgeEvoMax, pLine)),
         );
       }
     }
