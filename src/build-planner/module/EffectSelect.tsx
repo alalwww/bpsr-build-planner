@@ -68,6 +68,7 @@ function EffectSelect({
             <button
               type="button"
               className={`mod-effect-option${value === null ? ' mod-effect-option--selected' : ''}`}
+              data-selected={value === null}
               onClick={() => {
                 onChange(null);
                 close();
@@ -87,6 +88,7 @@ function EffectSelect({
                   <button
                     type="button"
                     className={`mod-effect-option${value === effectId ? ' mod-effect-option--selected' : ''}`}
+                    data-selected={value === effectId}
                     onClick={() => {
                       onChange(effectId);
                       close();

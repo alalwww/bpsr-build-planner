@@ -479,6 +479,7 @@ function EquipmentSlotPicker({
                     <button
                       type="button"
                       className={`equipment-dialog__select-option${equippedId === undefined ? ' equipment-dialog__select-option--selected' : ''}`}
+                      data-selected={equippedId === undefined}
                       onClick={() => {
                         onUnequip();
                         hideCandidateTooltip();
@@ -494,6 +495,7 @@ function EquipmentSlotPicker({
                           key={candidate.id}
                           type="button"
                           className={`equipment-dialog__select-option${candidate.id === equippedId ? ' equipment-dialog__select-option--selected' : ''}`}
+                          data-selected={candidate.id === equippedId}
                           style={{ color: getItemNameColor(candidate) }}
                           onClick={() => {
                             onSelect(candidate);
@@ -889,6 +891,7 @@ function EquipmentSlotPicker({
                         <button
                           type="button"
                           className={`equip-enchant-option${selectedEnchant === undefined ? ' equip-enchant-option--selected' : ''}`}
+                          data-selected={selectedEnchant === undefined}
                           onClick={() => {
                             onSetEnchant(undefined);
                             close();
@@ -907,6 +910,7 @@ function EquipmentSlotPicker({
                               key={enchant.id}
                               type="button"
                               className={`equip-enchant-option${selectedEnchant === view.id ? ' equip-enchant-option--selected' : ''}`}
+                              data-selected={selectedEnchant === view.id}
                               onClick={() => {
                                 onSetEnchant(view.id);
                                 close();

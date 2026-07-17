@@ -54,6 +54,7 @@ function CustomDropdown({
             {placeholder !== undefined && (
               <div
                 className={`phantom-dropdown__item${!value ? ' phantom-dropdown__item--active' : ''}`}
+                data-selected={!value}
                 onClick={() => {
                   onChange('');
                   close();
@@ -67,6 +68,7 @@ function CustomDropdown({
               <div
                 key={opt.value}
                 className={`phantom-dropdown__item${opt.value === value ? ' phantom-dropdown__item--active' : ''}`}
+                data-selected={opt.value === value}
                 onClick={() => {
                   onChange(opt.value);
                   close();
