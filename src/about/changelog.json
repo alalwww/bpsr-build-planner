@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.6.0",
+      "date": "2026-07-17T20:45:36.212Z",
+      "summary": {
+        "ja": "イマジン選択の絞り込みフィルター追加とロールスキル/レアステータスの不具合修正",
+        "en": "Add imagine picker filters and fix role skill/legendary affix bugs"
+      },
+      "changes": {
+        "ja": [
+          "イマジン選択にシーズン/品質による絞り込みフィルターを追加(ランクの選択もラジオボタン形式に変更)",
+          "装備選択のGS帯絞り込みで、一致候補とそれ以外の間に区切り線を表示するよう改善",
+          "タンク/攻撃(アタッカー)ロールのロールスキルが入れ替わっていた不具合を修正",
+          "蒼海武器等のレアステータス4枠選択で、本来独立して選べる効果同士が誤って排他扱いされていた不具合を修正"
+        ],
+        "en": [
+          "Add season/quality filters to the imagine picker (and switch rank selection to radio buttons)",
+          "Show a divider between matched and unmatched candidates when filtering equipment by GS",
+          "Fix the tank/attacker role skill mapping being swapped",
+          "Fix legendary affix slots on Canghai-type weapons being treated as mutually exclusive across independent option pools"
+        ]
+      }
+    },
+    {
       "version": "0.5.0",
       "date": "2026-07-17T18:41:33.439Z",
       "summary": {
@@ -114,7 +136,10 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "ja": [
+          "精錬攻撃・全属性攻撃の計算修正",
+          "フッターのビルド日時のタイムゾーン変換表示"
+        ],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
