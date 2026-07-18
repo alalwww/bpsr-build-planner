@@ -1,6 +1,7 @@
 import enchantsDataRaw from '../../data/enchants.json';
 import suitsDataRaw from '../../data/suits.json';
 import { createAssetMap } from '../assetMap';
+import { getGsScheduleTier } from '../seasonSchedule';
 import type {
   EquipmentItem,
   EquipmentSlotId,
@@ -262,4 +263,12 @@ export function isCandidateGsMatch(item: EquipmentItem, filter: CandidateGsFilte
     case 'lv260':
       return item.equipGs >= 260;
   }
+}
+
+// EquipmentPanelのGS帯フィルター初期値。クライアントの現在日時に応じて、その時点で
+// 実質的に一番「旬」なGS帯を既定選択にする(ユーザーが毎回手動で切り替えずに済むように)。
+// CandidateGsFilterはGsScheduleTierと同じ3値('lv220'/'lv240'/'lv260')のため、
+// スケジュール判定(seasonSchedule.ts)をそのまま利用できる。
+export function getDefaultCandidateGsFilter(now: Date = new Date()): CandidateGsFilter {
+  return getGsScheduleTier(now);
 }

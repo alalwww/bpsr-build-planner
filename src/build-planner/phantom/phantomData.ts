@@ -1,6 +1,7 @@
 import seasonTalentsRaw from '../../data/season-talents.json';
 import phantomFactorsRaw from '../../data/phantom-factors.json';
 import { createAssetMap } from '../assetMap';
+import { getGsScheduleTier } from '../seasonSchedule';
 
 // ---- assets ----
 
@@ -330,6 +331,14 @@ export function initPhantomNodeSelections(templateId: number): Record<number, nu
 export interface PhantomFactorSlotValue {
   classKey: string;
   grade: number; // 1-10
+}
+
+// 因子未装着スロットの初期選択グレード。装備GS帯フィルター(equipmentSlotPickerData.ts)と
+// 同じスケジュール(seasonSchedule.ts)を、Lv220台=G4/Lv240台=G7/Lv260台=G10に対応付ける。
+const DEFAULT_FACTOR_GRADE_BY_TIER = { lv220: 4, lv240: 7, lv260: 10 } as const;
+
+export function getDefaultFactorGrade(now: Date = new Date()): number {
+  return DEFAULT_FACTOR_GRADE_BY_TIER[getGsScheduleTier(now)];
 }
 
 // ロード対象のphantomFactorSlots(自動保存/保存プラン/プランコード共通)に、無効化された

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import Stepper from '../components/Stepper';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
-import type { PhantomFactorSlotValue } from './phantomData';
+import { getDefaultFactorGrade, type PhantomFactorSlotValue } from './phantomData';
 
 export interface FactorSlotProps {
   groupId: number;
@@ -21,7 +21,7 @@ function FactorSlot({
   unequippedLabel,
   onSet,
 }: FactorSlotProps) {
-  const [pendingGrade, setPendingGrade] = useState(10);
+  const [pendingGrade, setPendingGrade] = useState(getDefaultFactorGrade);
   const grade = current?.grade ?? pendingGrade;
 
   const optionsWithDesc = useMemo(

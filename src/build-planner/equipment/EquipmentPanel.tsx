@@ -14,7 +14,11 @@ import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
 import EquipmentItemPopup from './EquipmentItemPopup';
 import type { CandidateGsFilter } from './equipmentSlotPickerData';
-import { isSeaBreezeSeries, qualityToAssetIndex } from './equipmentSlotPickerData';
+import {
+  getDefaultCandidateGsFilter,
+  isSeaBreezeSeries,
+  qualityToAssetIndex,
+} from './equipmentSlotPickerData';
 import { createAssetMap } from '../assetMap';
 import type { EquipmentItem, EquipmentSlotId } from '../types';
 
@@ -145,7 +149,10 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
   // 装備選択候補のGS帯フィルター。ダイアログを開き直しても選択が消えないよう、
   // ダイアログ本体(EquipmentSlotPicker)ではなくこのパネル側で保持する
   // (localStorageへは保存せず、セッション中のみ有効)。null = 未選択(絞り込みなし)。
-  const [candidateGsFilter, setCandidateGsFilter] = useState<CandidateGsFilter | null>('lv220');
+  // 初期値はクライアントの現在日時から決める(getDefaultCandidateGsFilter)。
+  const [candidateGsFilter, setCandidateGsFilter] = useState<CandidateGsFilter | null>(() =>
+    getDefaultCandidateGsFilter(),
+  );
   const [hoveredSlot, setHoveredSlot] = useState<{
     slot: EquipmentSlotId;
     x: number;

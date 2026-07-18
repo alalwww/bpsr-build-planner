@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { EquipmentItem } from '../types';
-import { isCandidateGsMatch } from './equipmentSlotPickerData';
+import { getDefaultCandidateGsFilter, isCandidateGsMatch } from './equipmentSlotPickerData';
 
 function itemWithGs(equipGs: number): EquipmentItem {
   return {
@@ -40,5 +40,13 @@ describe('isCandidateGsMatch', () => {
     expect(isCandidateGsMatch(itemWithGs(259), 'lv260')).toBe(false);
     expect(isCandidateGsMatch(itemWithGs(260), 'lv260')).toBe(true);
     expect(isCandidateGsMatch(itemWithGs(280), 'lv260')).toBe(true);
+  });
+});
+
+describe('getDefaultCandidateGsFilter', () => {
+  // 境界の網羅的なテストは seasonSchedule.test.ts (getGsScheduleTier) 側で行う。
+  // ここでは CandidateGsFilter への委譲が正しく繋がっていることだけ確認する。
+  it('delegates to getGsScheduleTier (a pre-schedule date resolves to lv220)', () => {
+    expect(getDefaultCandidateGsFilter(new Date('2026-01-01T00:00:00+09:00'))).toBe('lv220');
   });
 });

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { buildTreeSteps, getActivePhantomNodeIds, getUnlockLevel, stData } from './phantomData';
+import {
+  buildTreeSteps,
+  getActivePhantomNodeIds,
+  getDefaultFactorGrade,
+  getUnlockLevel,
+  stData,
+} from './phantomData';
 
 // これらは実データ(src/data/season-talents.json)に対する性格づけ(characterization)テスト。
 // stData.templates/treeNodes をクローズオーバーしているため合成フィクスチャに差し替えられず、
@@ -62,5 +68,15 @@ describe('getUnlockLevel', () => {
 
   it('returns 0 (always unlocked) for an empty unlockCondition', () => {
     expect(getUnlockLevel([])).toBe(0);
+  });
+});
+
+describe('getDefaultFactorGrade', () => {
+  // 境界の網羅的なテストは seasonSchedule.test.ts (getGsScheduleTier) 側で行う。
+  // ここでは Lv220台=G4 / Lv240台=G7 / Lv260台=G10 の対応付けを確認する。
+  it('maps lv220/lv240/lv260 to G4/G7/G10 respectively', () => {
+    expect(getDefaultFactorGrade(new Date('2026-01-01T00:00:00+09:00'))).toBe(4);
+    expect(getDefaultFactorGrade(new Date('2026-08-10T05:00:00+09:00'))).toBe(7);
+    expect(getDefaultFactorGrade(new Date('2026-09-21T05:00:00+09:00'))).toBe(10);
   });
 });
