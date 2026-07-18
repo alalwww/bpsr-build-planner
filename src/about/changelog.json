@@ -1,6 +1,36 @@
 {
   "entries": [
     {
+      "version": "0.6.1",
+      "date": "2026-07-18T11:46:01.087Z",
+      "summary": {
+        "ja": "潜在Lv不足の心相投影ツリー/ノードの効果が計算に反映されてしまう不具合の修正",
+        "en": "Fix phantom projection effects being applied despite insufficient Phantom Level"
+      },
+      "changes": {
+        "ja": [
+          "潜在Lv不足の心相投影ツリー/ノードの効果が計算に反映されてしまう不具合の修正(未開放のツリーを選択すると心相投影は自動でOFFになり、開放されるまでONに戻せない)",
+          "シーズン2の潜在心相晶(幻影因子)を装備したままのデータを読込時に自動リセットする対応(選択肢からも除外)",
+          "絆レベル効果の数値誤り(耐久力・ステータス上昇量など)の修正",
+          "ストームブレイド/ツインストライカー/ゲイルランサーの「迅速」「疾転」(ファスト→攻撃速度変換)が能力計算に反映されていなかった不具合の修正",
+          "「新しいビルドプラン」の廃止と、保存ボタン直下の専用ボタンから現在のビルドをリセットする方式への変更",
+          "心相投影のツリー・ノード・絆スロットへの、開放に必要な潜在Lv表示の追加",
+          "装備のGS帯フィルター・潜在因子の初期選択ランクを実施日程に応じて自動切り替える機能の追加",
+          "潜在因子ドロップダウンの表示崩れ(ツールチップ位置のずれ、長い名前の文字欠け)の修正"
+        ],
+        "en": [
+          "Fix phantom projection effects being applied despite insufficient Phantom Level (a locked tree now auto-disables and can't be re-enabled until unlocked)",
+          "Auto-reset save data that still has a Season 2 Phantom Factor equipped on load, and exclude Season 2 factors from the picker",
+          "Fix incorrect Bond Level effect values (endurance, stat boosts, etc.)",
+          "Fix Storm Blade / Twin Striker / Gale Lancer's R1 ability (haste-to-attack-speed conversion) not being applied to stat calculations",
+          "Replace \"New Build Plan\" with a dedicated reset button under the save button for resetting the current build",
+          "Show the required Phantom Level for locked Phantom Projection trees, nodes, and Bond Slots",
+          "Auto-switch the equipment GS-tier filter and default Phantom Factor rank based on the current date",
+          "Fix Phantom Factor dropdown layout issues (tooltip position, text clipping)"
+        ]
+      }
+    },
+    {
       "version": "0.6.0",
       "date": "2026-07-17T20:45:36.212Z",
       "summary": {
