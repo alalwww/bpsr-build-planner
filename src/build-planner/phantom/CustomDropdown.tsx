@@ -8,6 +8,8 @@ export interface DropdownOption {
   label: string;
   icon?: string;
   description?: string;
+  /** ラベル末尾に添える補足(例: 未開放テンプレートの「（Lv.30で開放）」)。本文より小さく細字で表示。 */
+  sublabel?: string;
 }
 
 function CustomDropdown({
@@ -40,7 +42,12 @@ function CustomDropdown({
                 {selected.icon && (
                   <img src={selected.icon} className="phantom-dropdown__icon" alt="" />
                 )}
-                <span className="phantom-dropdown__label">{selected.label}</span>
+                <span className="phantom-dropdown__label">
+                  {selected.label}
+                  {selected.sublabel && (
+                    <span className="phantom-dropdown__sublabel">{selected.sublabel}</span>
+                  )}
+                </span>
               </>
             ) : (
               <span className="phantom-dropdown__placeholder">{placeholder ?? '選択'}</span>
@@ -83,7 +90,12 @@ function CustomDropdown({
                 onMouseLeave={() => setTooltip(null)}
               >
                 {opt.icon && <img src={opt.icon} className="phantom-dropdown__icon" alt="" />}
-                <span className="phantom-dropdown__item-label">{opt.label}</span>
+                <span className="phantom-dropdown__item-label">
+                  {opt.label}
+                  {opt.sublabel && (
+                    <span className="phantom-dropdown__sublabel">{opt.sublabel}</span>
+                  )}
+                </span>
               </div>
             ))}
           </>

@@ -495,8 +495,8 @@
 }
 
 .phantom-template-dropdown {
-  min-width: 250px;
-  max-width: 300px;
+  min-width: 375px;
+  max-width: 450px;
 }
 
 .phantom-factor-dropdown {
@@ -588,6 +588,14 @@
 .phantom-dropdown__item-label {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* 未開放テンプレートの「（Lv.Nで開放）」等、ラベル末尾の補足テキスト */
+.phantom-dropdown__sublabel {
+  font-size: 13px;
+  font-weight: 400;
+  color: #8a8a9a;
+  margin-left: 2px;
 }
 
 .phantom-dropdown__tooltip {

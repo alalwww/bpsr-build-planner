@@ -548,7 +548,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // 潜在因子効果 (enabled 時のみ)
   if (phantomEnabled && phantomTemplateId != null) {
     const tmpl = seasonTalentData.templates[String(phantomTemplateId)];
-    if (tmpl) {
+    // ツリー(テンプレート)自体が未開放の場合、個々のノードの開放Lvに関わらず全ノードを
+    // 未解放として扱う(効果を一切反映しない)。
+    if (tmpl && phantomLevel >= getUnlockLevel(tmpl.unlockCondition)) {
       const activeIds = getActivePhantomNodeIds(
         tmpl.rootNodeId,
         phantomTemplateId,

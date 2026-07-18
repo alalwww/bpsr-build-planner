@@ -541,6 +541,33 @@ describe('calculateRawStats', () => {
     expect(withFactor.rawStats.endurance).toBe(withoutFactor.rawStats.endurance);
   });
 
+  it("treats every node as locked when the selected tree (template) itself isn't unlocked yet, even if a node's own unlock level is already satisfied", () => {
+    // src/data/season-talents.json: template 1 (イマジンインパクト) requires phantomLevel>=17,
+    // but its node 100 (groupId=100, solo-factor, reachable via selecting choice-group 1002)
+    // individually only requires phantomLevel>=5. classKey 202190 is a current-season (S3)
+    // factor: grade1 effects=[[1,11012,42],[1,11014,60]] -> strength +42 flat, +60(=0.6%) pct.
+    const input = (phantomLevel: number): CalculateRawStatsInput => ({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel,
+      phantomTemplateId: 1,
+      phantomNodeSelections: { 1002: 1002 },
+      phantomFactorSlots: { 100: { classKey: '202190', grade: 1 } },
+    });
+
+    // Node's own level (5) is satisfied, but the template's own level (17) isn't yet.
+    const templateLocked = calculateRawStats(input(10));
+    const baselineAtLevel10 = calculateRawStats({ ...input(10), phantomFactorSlots: {} });
+    expect(templateLocked.rawStats.strength).toBe(baselineAtLevel10.rawStats.strength);
+
+    // Once phantomLevel also clears the template's own requirement, the node's effect applies.
+    const templateUnlocked = calculateRawStats(input(17));
+    const baselineAtLevel17 = calculateRawStats({ ...input(17), phantomFactorSlots: {} });
+    expect(templateUnlocked.rawStats.strength).toBeCloseTo(
+      (baselineAtLevel17.rawStats.strength + 42) * 1.006,
+    );
+  });
+
   it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {
     // src/data/season-talents.json: template 1 (advancedEffectId=100), levels 1-5 are shared
     // across all 8 templates: unlockFraction 2/5/12/20/25 -> buffId 3003610/20/30/40/50.

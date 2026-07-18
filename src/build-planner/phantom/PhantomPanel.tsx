@@ -88,20 +88,18 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const templateOptions: DropdownOption[] = useMemo(
     () =>
       sortedTemplates.map((tmpl) => {
-        const name = tg(`seasonTalents.templates.${tmpl.id}`);
         const requiredLevel = getUnlockLevel(tmpl.unlockCondition);
-        const label =
-          requiredLevel > phantomLevel
-            ? name +
-              t('buildPlanner.phantom.templateLockedSuffix', {
-                level: requiredLevel,
-                defaultValue: `（Lv.${requiredLevel}で開放）`,
-              })
-            : name;
+        const locked = requiredLevel > phantomLevel;
         return {
           value: String(tmpl.id),
-          label,
+          label: tg(`seasonTalents.templates.${tmpl.id}`),
           icon: getSTAsset(iconPathToFile(tmpl.icon)),
+          ...(locked && {
+            sublabel: t('buildPlanner.phantom.templateLockedSuffix', {
+              level: requiredLevel,
+              defaultValue: `（Lv.${requiredLevel}で開放）`,
+            }),
+          }),
         };
       }),
     [sortedTemplates, tg, t, phantomLevel],
@@ -140,8 +138,13 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
 
   // ノード個別の開放Lv(潜在Lv)に達しているノードの集合。選択/因子装着自体は制限しないが、
   // 未達のノードは不活性表示にし、効果は反映されない(calculateRawStats.ts側の同判定と対応)。
+  // ツリー(テンプレート)自体が未開放の場合は、個々のノードの開放Lvに関わらず全ノードを
+  // 未解放として扱う。
   const levelUnlockedNodeIds = useMemo(() => {
     const result = new Set<number>();
+    if (phantomTemplateId == null) return result;
+    const tmpl = stData.templates[String(phantomTemplateId)];
+    if (!tmpl || phantomLevel < getUnlockLevel(tmpl.unlockCondition)) return result;
     for (const step of treeSteps) {
       for (const nodeId of step.nodeIds) {
         const node = stData.treeNodes[String(nodeId)];
@@ -149,7 +152,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       }
     }
     return result;
-  }, [treeSteps, phantomLevel]);
+  }, [treeSteps, phantomLevel, phantomTemplateId]);
 
   return (
     <div className="phantom-panel">
