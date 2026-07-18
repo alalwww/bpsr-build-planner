@@ -1,6 +1,10 @@
 import type { StateCreator } from 'zustand';
 import { STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
-import { initPhantomNodeSelections, type PhantomFactorSlotValue } from '../phantom/phantomData';
+import {
+  hasLegacyPhantomFactor,
+  initPhantomNodeSelections,
+  type PhantomFactorSlotValue,
+} from '../phantom/phantomData';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
 import type { BuildStore } from './types';
 
@@ -26,21 +30,33 @@ export interface PhantomSlice {
 
 export const createPhantomSlice: StateCreator<BuildStore, [], [], PhantomSlice> = (set) => {
   const autoSaveOnMount = getAutoSaveOnMount().state;
+  // 過去シーズン(S2)の幻影因子が装着されたままの自動保存データは、潜在Lv/絆レベルポイント/
+  // 因子装着/ノード選択状況をリセットする(通知はPlanSlice側のphantomLegacyFactorResetNotice、
+  // 同じhasLegacyPhantomFactor判定をautoSaveOnMount.state.phantomFactorSlotsに対して行う)。
+  const hasLegacyFactorOnMount = hasLegacyPhantomFactor(autoSaveOnMount?.phantomFactorSlots);
 
   return {
     phantomEnabled: autoSaveOnMount?.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled,
-    phantomLevel: autoSaveOnMount?.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel,
+    phantomLevel: hasLegacyFactorOnMount
+      ? 1
+      : (autoSaveOnMount?.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel),
     phantomTemplateId:
       autoSaveOnMount?.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId,
-    phantomBondPoints:
-      autoSaveOnMount?.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints,
-    phantomNodeSelections: autoSaveOnMount?.phantomNodeSelections
-      ? autoSaveOnMount.phantomNodeSelections
-      : autoSaveOnMount?.phantomTemplateId != null
+    phantomBondPoints: hasLegacyFactorOnMount
+      ? 0
+      : (autoSaveOnMount?.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints),
+    phantomNodeSelections: hasLegacyFactorOnMount
+      ? autoSaveOnMount?.phantomTemplateId != null
         ? initPhantomNodeSelections(autoSaveOnMount.phantomTemplateId)
-        : {},
-    phantomFactorSlots:
-      autoSaveOnMount?.phantomFactorSlots ?? STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots,
+        : {}
+      : autoSaveOnMount?.phantomNodeSelections
+        ? autoSaveOnMount.phantomNodeSelections
+        : autoSaveOnMount?.phantomTemplateId != null
+          ? initPhantomNodeSelections(autoSaveOnMount.phantomTemplateId)
+          : {},
+    phantomFactorSlots: hasLegacyFactorOnMount
+      ? {}
+      : (autoSaveOnMount?.phantomFactorSlots ?? STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots),
 
     setPhantomEnabled: (phantomEnabled) => set({ phantomEnabled }),
     setPhantomLevel: (phantomLevel) => set({ phantomLevel }),

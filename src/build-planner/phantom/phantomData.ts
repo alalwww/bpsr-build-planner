@@ -315,3 +315,16 @@ export interface PhantomFactorSlotValue {
   classKey: string;
   grade: number; // 1-10
 }
+
+// ロード対象のphantomFactorSlots(自動保存/保存プラン/プランコード共通)に、無効化された
+// 過去シーズンの因子が1つでも含まれているか。含まれる場合、呼び出し側(store)は因子の
+// 装着状態・潜在Lv・絆レベルポイント・ノード選択状況をリセットし、ユーザーに通知する
+// (docs/CHARACTER_DATA_MODEL.md の「心相投影・幻影因子」章を参照)。
+export function hasLegacyPhantomFactor(
+  phantomFactorSlots: Record<number, PhantomFactorSlotValue | null> | undefined,
+): boolean {
+  if (!phantomFactorSlots) return false;
+  return Object.values(phantomFactorSlots).some(
+    (slot) => slot != null && isFactorClassLegacy(slot.classKey),
+  );
+}

@@ -2,6 +2,10 @@ import type { DropdownOption } from './CustomDropdown';
 import { formatPercentParam, renderEffectDesc } from '../components/gameText';
 import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from './phantomData';
 
+// 過去シーズン(S2)の因子はゲーム内で無効化されているため、選択肢からは常に除外する
+// (無効なままロードされたデータはstore側(hasLegacyPhantomFactor)で装着解除・リセットされる
+// ため、UI側で「(無効)」表記を出す必要はない)。
+
 // 心相投影パネル各所(ツリーSVG/ノード設定/効果表示)で共用する表示用ヘルパー。
 // PhantomPanel から抽出したもので、React state には依存しない。
 
@@ -19,9 +23,8 @@ export function factorBaseName(tg: GameDataT, classKey: string): string {
   return tg(`items.${g1Id}.name`).replace(/・G\d+$/, '');
 }
 
-// スロット(groupId)に装着可能な因子クラスの一覧。
-// 現在のクラス専用 → 共通 → 他クラスの順、かつ現行シーズンの因子を過去シーズンより先に並べる
-// (過去シーズンの因子は名前が同じままゲーム内で無効化されているため、紛らわしさを避ける)。
+// スロット(groupId)に装着可能な因子クラスの一覧。過去シーズン(S2)の因子は除外する。
+// 現在のクラス専用 → 共通 → 他クラスの順に並べる。
 export function getFactorsForSlot(
   groupId: number,
   professionId: number,
@@ -32,15 +35,13 @@ export function getFactorsForSlot(
   const result: Array<{ classKey: string; typeId: number; profId: number }> = [];
   for (const [classKey, fc] of Object.entries(pfData.byClass)) {
     if (!validTypes.includes(fc.typeId)) continue;
+    if (isFactorClassLegacy(classKey)) continue;
     result.push({ classKey, typeId: fc.typeId, profId: fc.professionIds[0] ?? 0 });
   }
   result.sort((a, b) => {
     const aM = a.profId === professionId ? 0 : a.profId === 0 ? 1 : 2;
     const bM = b.profId === professionId ? 0 : b.profId === 0 ? 1 : 2;
     if (aM !== bM) return aM - bM;
-    const aLegacy = isFactorClassLegacy(a.classKey);
-    const bLegacy = isFactorClassLegacy(b.classKey);
-    if (aLegacy !== bLegacy) return aLegacy ? 1 : -1;
     if (a.typeId !== b.typeId) return a.typeId - b.typeId;
     if (a.profId !== b.profId) return a.profId - b.profId;
     return a.classKey.localeCompare(b.classKey);
@@ -49,10 +50,8 @@ export function getFactorsForSlot(
 }
 
 // スロット(groupId)の因子選択ドロップダウン用オプション。
-// tUi(デフォルト名前空間)は過去シーズンの因子に付与する「(無効)」サフィックス用。
 export function getFactorBaseOptions(
   tg: GameDataT,
-  tUi: GameDataT,
   groupId: number,
   professionId: number,
 ): DropdownOption[] {
@@ -60,10 +59,7 @@ export function getFactorBaseOptions(
     const name = factorBaseName(tg, f.classKey);
     const iconName = pfData.byClass[f.classKey]?.icon;
     const icon = iconName ? getSTAsset(iconName + '.png') : '';
-    const label = isFactorClassLegacy(f.classKey)
-      ? name + tUi('buildPlanner.phantom.legacyFactorSuffix')
-      : name;
-    return { value: f.classKey, label, icon };
+    return { value: f.classKey, label: name, icon };
   });
 }
 

@@ -218,6 +218,58 @@ describe('planSlice', () => {
     expect(useBuildStore.getState().planName).toBe('テストプラン');
   });
 
+  it('savePlan → loadPlan: 過去シーズン(S2)の幻影因子が装着されたプランは、読込時に潜在Lv1/絆Pt0/因子全解除/ノード選択初期化にリセットされ、通知フラグが立つ', () => {
+    // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3)。
+    useBuildStore.getState().setPhantomTemplateIdState(1);
+    useBuildStore.getState().setPhantomLevel(50);
+    useBuildStore.getState().setPhantomBondPoints(25);
+    useBuildStore.getState().setPhantomNodeSelection(1, 12345);
+    useBuildStore.getState().setPhantomFactorSlot(163, { classKey: '201001', grade: 1 });
+    useBuildStore.getState().savePlan('S2因子プラン');
+    const saved = useBuildStore.getState().buildPlans[0];
+
+    // 保存後、編集中の状態だけを変えてから読込む(保存済みプラン一覧はそのまま)。
+    useBuildStore.getState().setPhantomTemplateIdState(null);
+    useBuildStore.getState().setPhantomLevel(1);
+    useBuildStore.getState().setPhantomBondPoints(35);
+    expect(useBuildStore.getState().phantomLegacyFactorResetNotice).toBe(false);
+
+    useBuildStore.getState().loadPlan(saved.id);
+
+    const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBe(1); // テンプレート自体は維持する
+    expect(state.phantomLevel).toBe(1);
+    expect(state.phantomBondPoints).toBe(0);
+    expect(state.phantomFactorSlots).toEqual({});
+    expect(state.phantomNodeSelections[1]).not.toBe(12345); // テンプレートの初期選択に戻る
+    expect(state.phantomLegacyFactorResetNotice).toBe(true);
+
+    useBuildStore.getState().dismissPhantomLegacyFactorResetNotice();
+    expect(useBuildStore.getState().phantomLegacyFactorResetNotice).toBe(false);
+  });
+
+  it('savePlan → loadPlan: 現行シーズンの幻影因子が装着されたプランはリセットされない', () => {
+    // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current)。
+    useBuildStore.getState().setPhantomTemplateIdState(1);
+    useBuildStore.getState().setPhantomLevel(50);
+    useBuildStore.getState().setPhantomBondPoints(25);
+    useBuildStore.getState().setPhantomFactorSlot(163, { classKey: '202201', grade: 1 });
+    useBuildStore.getState().savePlan('S3因子プラン');
+    const saved = useBuildStore.getState().buildPlans[0];
+
+    useBuildStore.getState().setPhantomLevel(1);
+    useBuildStore.getState().setPhantomBondPoints(0);
+    useBuildStore.getState().setPhantomFactorSlot(163, null);
+
+    useBuildStore.getState().loadPlan(saved.id);
+
+    const state = useBuildStore.getState();
+    expect(state.phantomLevel).toBe(50);
+    expect(state.phantomBondPoints).toBe(25);
+    expect(state.phantomFactorSlots).toEqual({ 163: { classKey: '202201', grade: 1 } });
+    expect(state.phantomLegacyFactorResetNotice).toBe(false);
+  });
+
   it('deletePlan: 指定idのプランのみ削除する', () => {
     useBuildStore.getState().savePlan('A');
     useBuildStore.getState().savePlan('B');

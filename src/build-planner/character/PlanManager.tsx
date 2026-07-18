@@ -26,6 +26,7 @@ function PlanManager() {
     autoSaveLegacySource,
     planLoadError,
     autoSaveLoadError,
+    phantomLegacyFactorResetNotice,
   } = useBuildStore(
     useShallow((s) => ({
       professionKey: s.professionKey,
@@ -36,6 +37,7 @@ function PlanManager() {
       autoSaveLegacySource: s.autoSaveLegacySource,
       planLoadError: s.planLoadError,
       autoSaveLoadError: s.autoSaveLoadError,
+      phantomLegacyFactorResetNotice: s.phantomLegacyFactorResetNotice,
     })),
   );
   const onResaveBuildPlans = useBuildStore((s) => s.resaveBuildPlans);
@@ -43,6 +45,9 @@ function PlanManager() {
   const onDismissAutoSaveLegacyNotice = useBuildStore((s) => s.dismissAutoSaveLegacyNotice);
   const onDismissPlanLoadError = useBuildStore((s) => s.dismissPlanLoadError);
   const onDismissAutoSaveLoadError = useBuildStore((s) => s.dismissAutoSaveLoadError);
+  const onDismissPhantomLegacyFactorResetNotice = useBuildStore(
+    (s) => s.dismissPhantomLegacyFactorResetNotice,
+  );
   const onPlanNameChange = useBuildStore((s) => s.setPlanName);
   const onSavePlan = useBuildStore((s) => s.savePlan);
   const onOverwritePlan = useBuildStore((s) => s.overwritePlan);
@@ -347,6 +352,18 @@ function PlanManager() {
           })}
           confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
           onConfirm={onDismissAutoSaveLoadError}
+        />
+      )}
+
+      {/* ロードしたデータに無効化されたS2幻影因子が含まれていたため心相投影をリセットした通知
+          (確認不要・単一ボタン) */}
+      {phantomLegacyFactorResetNotice && (
+        <ConfirmDialog
+          message={t('buildPlanner.phantomLegacyFactorResetMsg', {
+            defaultValue: 'シーズン２の潜在心相晶は無効化されたため、リセットします。',
+          })}
+          confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
+          onConfirm={onDismissPhantomLegacyFactorResetNotice}
         />
       )}
 

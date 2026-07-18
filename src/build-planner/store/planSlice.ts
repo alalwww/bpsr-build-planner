@@ -11,7 +11,7 @@ import {
   getDefaultProfessionState,
   STATIC_AUTOSAVE_DEFAULTS,
 } from '../planDefaults';
-import { initPhantomNodeSelections } from '../phantom/phantomData';
+import { hasLegacyPhantomFactor, initPhantomNodeSelections } from '../phantom/phantomData';
 import type { CookingBuffState, EquipmentSlotId, EquippedItems } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
 import { normalSkillCount } from './skillSlice';
@@ -35,6 +35,9 @@ export interface PlanSlice {
   // localStorageのデータ破損等でロードに失敗したかどうか(失敗通知UI用)。
   planLoadError: boolean;
   autoSaveLoadError: boolean;
+  // ロードしたデータ(自動保存/保存プラン/プランコード)に無効化された過去シーズンの幻影因子が
+  // 含まれていたため、心相投影の状態をリセットしたかどうか(通知UI用)。
+  phantomLegacyFactorResetNotice: boolean;
 
   setCookingBuff: (patch: Partial<CookingBuffState>) => void;
   setAdventurerLevel: (level: number) => void;
@@ -66,6 +69,7 @@ export interface PlanSlice {
   dismissAutoSaveLegacyNotice: () => void;
   dismissPlanLoadError: () => void;
   dismissAutoSaveLoadError: () => void;
+  dismissPhantomLegacyFactorResetNotice: () => void;
 }
 
 export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set, get) => {
@@ -84,6 +88,9 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
     autoSaveLegacySource: autoSaveOnMount.legacySource,
     planLoadError: buildPlansOnMount.loadError,
     autoSaveLoadError: autoSaveOnMount.loadError,
+    phantomLegacyFactorResetNotice: hasLegacyPhantomFactor(
+      autoSaveOnMount.state?.phantomFactorSlots,
+    ),
 
     setCookingBuff: (patch) =>
       set((state) => ({ cookingBuff: { ...state.cookingBuff, ...patch } })),
@@ -181,9 +188,22 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setModuleSlotsState(plan.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots);
       set({ adventurerLevel: plan.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel });
       state.setPhantomEnabled(plan.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled);
-      state.setPhantomLevel(plan.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel);
       const newTid = plan.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId;
       state.setPhantomTemplateIdState(newTid);
+      // 過去シーズン(S2)の幻影因子が装着されたままのデータは、潜在Lv/絆レベルポイント/
+      // 因子装着/ノード選択状況をリセットし、ユーザーに通知する
+      // (テンプレート自体は維持し、ノード選択のみそのテンプレートの初期状態に戻す)。
+      if (hasLegacyPhantomFactor(plan.phantomFactorSlots)) {
+        state.setPhantomLevel(1);
+        state.setPhantomBondPoints(0);
+        state.setPhantomNodeSelectionsState(
+          newTid != null ? initPhantomNodeSelections(newTid) : {},
+        );
+        state.setPhantomFactorSlotsState({});
+        set({ phantomLegacyFactorResetNotice: true });
+        return;
+      }
+      state.setPhantomLevel(plan.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel);
       state.setPhantomBondPoints(
         plan.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints,
       );
@@ -292,5 +312,6 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
     dismissAutoSaveLegacyNotice: () => set({ autoSaveLegacySource: null }),
     dismissPlanLoadError: () => set({ planLoadError: false }),
     dismissAutoSaveLoadError: () => set({ autoSaveLoadError: false }),
+    dismissPhantomLegacyFactorResetNotice: () => set({ phantomLegacyFactorResetNotice: false }),
   };
 };
