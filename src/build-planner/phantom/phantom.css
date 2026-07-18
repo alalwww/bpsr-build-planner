@@ -541,10 +541,19 @@
   max-width: 450px;
 }
 
+/* max-widthを設けず flex:1 のみで幅を決める。ランク変更のStepper側は flex-shrink:0
+   (行のもう片方の要素)のため、ドロップダウンは「行の残り幅」を超えて広がらず、
+   Stepperが画面外にはみ出すことはない。実像因子等の長い名前でも文字欠けしにくいよう、
+   文字サイズも他のドロップダウン(テンプレート選択)より少し小さくする。 */
 .phantom-factor-dropdown {
   flex: 1;
   min-width: 0;
-  max-width: 300px;
+}
+
+.phantom-factor-dropdown .phantom-dropdown__trigger,
+.phantom-factor-dropdown .phantom-dropdown__label,
+.phantom-dropdown__list.phantom-factor-dropdown .phantom-dropdown__item {
+  font-size: 15px;
 }
 
 .phantom-dropdown__trigger {

@@ -34,7 +34,7 @@ function CustomDropdown({
     <div className={`phantom-dropdown${className ? ` ${className}` : ''}`}>
       <Dropdown
         triggerClassName="phantom-dropdown__trigger"
-        panelClassName="phantom-dropdown__list"
+        panelClassName={`phantom-dropdown__list${className ? ` ${className}` : ''}`}
         renderTrigger={(isOpen) => (
           <>
             {selected ? (
