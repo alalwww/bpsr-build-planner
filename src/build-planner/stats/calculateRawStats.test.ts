@@ -541,31 +541,28 @@ describe('calculateRawStats', () => {
     expect(withFactor.rawStats.endurance).toBe(withoutFactor.rawStats.endurance);
   });
 
-  it("treats every node as locked when the selected tree (template) itself isn't unlocked yet, even if a node's own unlock level is already satisfied", () => {
+  it("applies a node's effect once its own unlock level is satisfied, even if the template's own unlock level is still unmet (that combination is now prevented at the store level by auto-disabling phantomEnabled, not here)", () => {
     // src/data/season-talents.json: template 1 (イマジンインパクト) requires phantomLevel>=17,
     // but its node 100 (groupId=100, solo-factor, reachable via selecting choice-group 1002)
     // individually only requires phantomLevel>=5. classKey 202190 is a current-season (S3)
     // factor: grade1 effects=[[1,11012,42],[1,11014,60]] -> strength +42 flat, +60(=0.6%) pct.
-    const input = (phantomLevel: number): CalculateRawStatsInput => ({
+    const withoutFactor = calculateRawStats({
       ...baseInput(),
       phantomEnabled: true,
-      phantomLevel,
+      phantomLevel: 10,
+      phantomTemplateId: 1,
+      phantomNodeSelections: { 1002: 1002 },
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 10,
       phantomTemplateId: 1,
       phantomNodeSelections: { 1002: 1002 },
       phantomFactorSlots: { 100: { classKey: '202190', grade: 1 } },
     });
 
-    // Node's own level (5) is satisfied, but the template's own level (17) isn't yet.
-    const templateLocked = calculateRawStats(input(10));
-    const baselineAtLevel10 = calculateRawStats({ ...input(10), phantomFactorSlots: {} });
-    expect(templateLocked.rawStats.strength).toBe(baselineAtLevel10.rawStats.strength);
-
-    // Once phantomLevel also clears the template's own requirement, the node's effect applies.
-    const templateUnlocked = calculateRawStats(input(17));
-    const baselineAtLevel17 = calculateRawStats({ ...input(17), phantomFactorSlots: {} });
-    expect(templateUnlocked.rawStats.strength).toBeCloseTo(
-      (baselineAtLevel17.rawStats.strength + 42) * 1.006,
-    );
+    expect(withFactor.rawStats.strength).toBeCloseTo((withoutFactor.rawStats.strength + 42) * 1.006);
   });
 
   it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {

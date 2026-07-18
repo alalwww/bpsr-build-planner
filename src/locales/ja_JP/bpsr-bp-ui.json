@@ -307,6 +307,7 @@
       "pathUndecided": "（パス未確定）",
       "enabledOn": "ON",
       "enabledOff": "OFF",
+      "enabledLockedTitle": "選択中のツリーが未開放のためONにできません",
       "resetTooltip": "クリックでリセット"
     },
     "detailStats": {

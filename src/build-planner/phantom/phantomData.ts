@@ -127,6 +127,15 @@ export function isFactorClassLegacy(classKey: string): boolean {
   return fc != null && fc.seasonId < CURRENT_FACTOR_SEASON_ID;
 }
 
+// 指定テンプレートが現在の潜在Lvでまだ開放されていないか。テンプレート未選択(null)は
+// 「未開放」扱いしない(この関数はONトグルの自動OFF判定にのみ使う想定のため)。
+export function isTemplateLocked(templateId: number | null, phantomLevel: number): boolean {
+  if (templateId == null) return false;
+  const tmpl = stData.templates[String(templateId)];
+  if (!tmpl) return false;
+  return phantomLevel < getUnlockLevel(tmpl.unlockCondition);
+}
+
 // ---- tree step types ----
 
 export type TreeStepKind =

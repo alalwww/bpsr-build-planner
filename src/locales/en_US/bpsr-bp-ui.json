@@ -307,6 +307,7 @@
       "pathUndecided": "(Path undecided)",
       "enabledOn": "ON",
       "enabledOff": "OFF",
+      "enabledLockedTitle": "Can't enable: the selected tree isn't unlocked yet",
       "resetTooltip": "Click to reset"
     },
     "detailStats": {

@@ -9,6 +9,7 @@ import {
   getSTAsset,
   getUnlockLevel,
   iconPathToFile,
+  isTemplateLocked,
   stData,
 } from './phantomData';
 import type { ProfessionKey } from '../profession';
@@ -59,6 +60,8 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       phantomFactorSlots: s.phantomFactorSlots,
     })),
   );
+  // 未開放のツリー選択中はONへの切り替えを禁止する(store側のsetPhantomEnabledガードと対応)。
+  const currentTemplateLocked = isTemplateLocked(phantomTemplateId, phantomLevel);
   const onPhantomEnabledChange = useBuildStore((s) => s.setPhantomEnabled);
   const onPhantomLevelChange = useBuildStore((s) => s.setPhantomLevel);
   const onPhantomTemplateIdChange = useBuildStore((s) => s.setPhantomTemplateId);
@@ -138,13 +141,10 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
 
   // ノード個別の開放Lv(潜在Lv)に達しているノードの集合。選択/因子装着自体は制限しないが、
   // 未達のノードは不活性表示にし、効果は反映されない(calculateRawStats.ts側の同判定と対応)。
-  // ツリー(テンプレート)自体が未開放の場合は、個々のノードの開放Lvに関わらず全ノードを
-  // 未解放として扱う。
+  // ツリー(テンプレート)自体が未開放の場合はphantomEnabledが自動的にfalseになる(store側)ため、
+  // ここではノード個別の開放Lvのみ判定すればよい。
   const levelUnlockedNodeIds = useMemo(() => {
     const result = new Set<number>();
-    if (phantomTemplateId == null) return result;
-    const tmpl = stData.templates[String(phantomTemplateId)];
-    if (!tmpl || phantomLevel < getUnlockLevel(tmpl.unlockCondition)) return result;
     for (const step of treeSteps) {
       for (const nodeId of step.nodeIds) {
         const node = stData.treeNodes[String(nodeId)];
@@ -152,7 +152,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       }
     }
     return result;
-  }, [treeSteps, phantomLevel, phantomTemplateId]);
+  }, [treeSteps, phantomLevel]);
 
   return (
     <div className="phantom-panel">
@@ -182,10 +182,15 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             type="button"
             className={`phantom-enabled-toggle${phantomEnabled ? ' phantom-enabled-toggle--on' : ' phantom-enabled-toggle--off'}`}
             onClick={() => onPhantomEnabledChange(!phantomEnabled)}
+            disabled={!phantomEnabled && currentTemplateLocked}
             title={
-              phantomEnabled
-                ? t('buildPlanner.phantom.enabledOn')
-                : t('buildPlanner.phantom.enabledOff')
+              !phantomEnabled && currentTemplateLocked
+                ? t('buildPlanner.phantom.enabledLockedTitle', {
+                    defaultValue: '選択中のツリーが未開放のためONにできません',
+                  })
+                : phantomEnabled
+                  ? t('buildPlanner.phantom.enabledOn')
+                  : t('buildPlanner.phantom.enabledOff')
             }
           >
             {phantomEnabled

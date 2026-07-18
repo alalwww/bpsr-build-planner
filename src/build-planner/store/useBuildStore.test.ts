@@ -194,6 +194,82 @@ describe('phantomSlice', () => {
     expect(state.phantomTemplateId).toBe(999);
     expect(state.phantomNodeSelections).toEqual({ 1: 100 });
   });
+
+  it('setPhantomTemplateId: 未開放のツリー(テンプレート)を選択するとONがOFFに自動で切り替わる', () => {
+    // src/data/season-talents.json: template 1(イマジンインパクト)はphantomLevel>=17が必要。
+    useBuildStore.getState().setPhantomLevel(10);
+    useBuildStore.getState().setPhantomEnabled(true);
+
+    useBuildStore.getState().setPhantomTemplateId(1);
+
+    const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBe(1);
+    expect(state.phantomEnabled).toBe(false);
+  });
+
+  it('setPhantomEnabled: 未開放のツリーを選択中は手動でONにする操作を無視する', () => {
+    useBuildStore.getState().setPhantomLevel(10);
+    useBuildStore.getState().setPhantomTemplateId(1); // Lv17必要、自動でOFFになる
+
+    useBuildStore.getState().setPhantomEnabled(true);
+
+    expect(useBuildStore.getState().phantomEnabled).toBe(false);
+  });
+
+  it('setPhantomEnabled: 開放済みのツリーならONにできる', () => {
+    useBuildStore.getState().setPhantomLevel(1);
+    useBuildStore.getState().setPhantomTemplateId(5); // 夢幻の力、常時開放
+
+    useBuildStore.getState().setPhantomEnabled(true);
+
+    expect(useBuildStore.getState().phantomEnabled).toBe(true);
+  });
+
+  it('setPhantomEnabled: 未開放のツリーを選択中でもOFFにする操作は常に通す', () => {
+    useBuildStore.getState().setPhantomLevel(1);
+    useBuildStore.getState().setPhantomTemplateId(5);
+    useBuildStore.getState().setPhantomEnabled(true);
+    useBuildStore.getState().setPhantomLevel(10);
+    useBuildStore.getState().setPhantomTemplateId(1); // 未開放へ切替、自動OFF済み
+
+    useBuildStore.getState().setPhantomEnabled(false);
+
+    expect(useBuildStore.getState().phantomEnabled).toBe(false);
+  });
+
+  it('setPhantomTemplateId: 開放済みのツリーを選択してもONのままにする', () => {
+    // template 5(夢幻の力)はunlockConditionが空(常時開放)。
+    useBuildStore.getState().setPhantomLevel(1);
+    useBuildStore.getState().setPhantomEnabled(true);
+
+    useBuildStore.getState().setPhantomTemplateId(5);
+
+    const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBe(5);
+    expect(state.phantomEnabled).toBe(true);
+  });
+
+  it('setPhantomLevel: 選択中のツリーが未開放になった場合もONがOFFに自動で切り替わる', () => {
+    useBuildStore.getState().setPhantomLevel(20);
+    useBuildStore.getState().setPhantomTemplateId(1); // Lv17必要、20は満たすので選択できる
+    useBuildStore.getState().setPhantomEnabled(true);
+
+    useBuildStore.getState().setPhantomLevel(10); // 17を下回る
+
+    const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBe(1);
+    expect(state.phantomEnabled).toBe(false);
+  });
+
+  it('setPhantomLevel: 選択中のツリーが開放範囲内のままなら自動でOFFにしない', () => {
+    useBuildStore.getState().setPhantomLevel(20);
+    useBuildStore.getState().setPhantomTemplateId(1);
+    useBuildStore.getState().setPhantomEnabled(true);
+
+    useBuildStore.getState().setPhantomLevel(25);
+
+    expect(useBuildStore.getState().phantomEnabled).toBe(true);
+  });
 });
 
 describe('planSlice', () => {
@@ -275,6 +351,25 @@ describe('planSlice', () => {
     expect(state.phantomBondPoints).toBe(25);
     expect(state.phantomFactorSlots).toEqual({ 163: { classKey: '202201', grade: 1 } });
     expect(state.phantomLegacyFactorResetNotice).toBe(false);
+  });
+
+  it('applyPlanState: 未開放のツリーがON状態のまま保存されていた(旧バージョン由来等の)プランは、読込時にOFFへ矯正する', () => {
+    // template 1(イマジンインパクト)はphantomLevel>=17が必要。setPhantomLevel/setPhantomTemplateId
+    // 経由では作れない不整合(enabled=true×未開放テンプレート)を手動で再現する。
+    const plan = useBuildStore.getState().buildAutoSaveState('不整合プラン');
+    useBuildStore.getState().applyPlanState({
+      ...plan,
+      phantomEnabled: true,
+      phantomLevel: 10,
+      phantomTemplateId: 1,
+      phantomNodeSelections: {},
+      phantomFactorSlots: {},
+    });
+
+    const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBe(1);
+    expect(state.phantomLevel).toBe(10);
+    expect(state.phantomEnabled).toBe(false);
   });
 
   it('deletePlan: 指定idのプランのみ削除する', () => {

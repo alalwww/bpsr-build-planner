@@ -62,6 +62,16 @@
   color: #aaa;
 }
 
+.phantom-enabled-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.phantom-enabled-toggle--off:disabled:hover {
+  border-color: #3a3a4a;
+  color: #888;
+}
+
 .phantom-empty {
   flex: 1;
   display: flex;

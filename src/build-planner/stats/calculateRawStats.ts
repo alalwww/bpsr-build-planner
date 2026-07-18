@@ -545,12 +545,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     }
   }
 
-  // 潜在因子効果 (enabled 時のみ)
+  // 潜在因子効果 (enabled 時のみ)。ツリー(テンプレート)自体が未開放の場合はphantomEnabledが
+  // 自動的にfalseになる(store側、setPhantomTemplateId/setPhantomLevel)ため、ここでは
+  // テンプレート自体の開放Lvは見ずノード個別の開放Lvのみ判定すればよい。
   if (phantomEnabled && phantomTemplateId != null) {
     const tmpl = seasonTalentData.templates[String(phantomTemplateId)];
-    // ツリー(テンプレート)自体が未開放の場合、個々のノードの開放Lvに関わらず全ノードを
-    // 未解放として扱う(効果を一切反映しない)。
-    if (tmpl && phantomLevel >= getUnlockLevel(tmpl.unlockCondition)) {
+    if (tmpl) {
       const activeIds = getActivePhantomNodeIds(
         tmpl.rootNodeId,
         phantomTemplateId,
