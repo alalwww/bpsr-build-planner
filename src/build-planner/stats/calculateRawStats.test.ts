@@ -390,6 +390,42 @@ describe('calculateRawStats', () => {
     expect(result.atkSpeedFinalPctAddend).toBe(0);
   });
 
+  it('routes a type=4 effect targeting the attack-speed attrId to atkSpeedPerHastePercentBonus (stormBlade "迅速", talentId 135)', () => {
+    // src/data/talent-tree.json: nodes["135"].effects = [[4, 4, 11722, 10000]] (stage:0 = R1)
+    // "ファスト1%につき攻撃速度+1%" -> a bonus to the haste%->atkSpeed% conversion rate itself,
+    // not a flat/final addend (that's talentId 1135, tested above) and not a rawStats StatId.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.stormBlade,
+      talentR1EnabledIds: new Set([1]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 135,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.atkSpeedPerHastePercentBonus).toBe(1);
+    expect(result.conversionRateBonus.haste).toBeUndefined();
+  });
+
+  it('leaves atkSpeedPerHastePercentBonus at 0 when no such ability is enabled', () => {
+    const result = calculateRawStats(baseInput());
+
+    expect(result.atkSpeedPerHastePercentBonus).toBe(0);
+  });
+
   it('keeps a flat crit attrId and a %-variant crit attrId separate (蒼海武器 fixed-evo bug report)', () => {
     // src/data/equipment.json: item 8000019 (galeLancer, 乱風型/talentSchoolId 108, isFixedStat)
     // fixedEvolutionStats["108"] includes both 11112(flat, isPercent=false, +1240) and

@@ -163,6 +163,10 @@ export interface CalculateRawStatsResult {
   // atkSpeedPercentはDerivedStats側の値(rawStats/StatIdに存在しない)のため、deriveStats()に
   // 直接渡す(finalPctAddendやphantomFinalPctの仕組みには乗らない)。
   atkSpeedFinalPctAddend: number;
+  // アビリティ(例: ストームブレイド/ツインストライカー/ゲイルランサー「迅速」)による
+  // 「ファスト%→攻撃速度%」変換率へのボーナス(単位: 1pt=1%、例 1.0)。deriveStats()に渡して
+  // profession.atkSpeedPerHastePercentに加算する。
+  atkSpeedPerHastePercentBonus: number;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -223,6 +227,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // アビリティによる攻撃速度への直接加算量(%、例: ディバインアーチャー「迅射」)。
   // atkSpeedPercentはDerivedStats側の値のためderiveStats()に渡す。
   let atkSpeedFinalPctAddend = 0;
+  // アビリティによる「ファスト%→攻撃速度%」変換率へのボーナス(例: ストームブレイド/
+  // ツインストライカー/ゲイルランサー「迅速」。profession.atkSpeedPerHastePercentに加算する)。
+  let atkSpeedPerHastePercentBonus = 0;
 
   // 装備ステータス
   // 装備1つぶんの実数値(基礎/進化/改鋳)は、ここで四捨五入してから合算する(合算後に丸めるのでは
@@ -405,10 +412,16 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
           // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
-          const statId = TALENT_ATTR_TO_STAT[eff[2]];
-          if (statId !== undefined) {
-            conversionRateBonus[statId] =
-              (conversionRateBonus[statId] ?? 0) + eff[3] / PERCENT_BASIS_POINTS;
+          if (eff[2] === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+            // ファスト%→攻撃速度%の変換率自体へのボーナス(例: ストームブレイド/ツインストライカー/
+            // ゲイルランサー「迅速」)。rawStats側のStatIdを持たないため個別集計する。
+            atkSpeedPerHastePercentBonus += eff[3] / PERCENT_BASIS_POINTS;
+          } else {
+            const statId = TALENT_ATTR_TO_STAT[eff[2]];
+            if (statId !== undefined) {
+              conversionRateBonus[statId] =
+                (conversionRateBonus[statId] ?? 0) + eff[3] / PERCENT_BASIS_POINTS;
+            }
           }
         }
       }
@@ -714,6 +727,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     breakdown,
     highestStatFinalPctBonus,
     atkSpeedFinalPctAddend,
+    atkSpeedPerHastePercentBonus,
   };
 }
 

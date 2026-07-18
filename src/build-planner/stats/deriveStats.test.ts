@@ -199,6 +199,22 @@ describe('deriveStats', () => {
     expect(withAbility.castSpeedPercent).toBe(withoutAbility.castSpeedPercent);
   });
 
+  it('multiplies hastePercent by atkSpeedPerHastePercentBonus (e.g. stormBlade "迅速") on top of the base per-class rate', () => {
+    const profession = PROFESSIONS.stormBlade; // atkSpeedPerHastePercent = 0.6
+    const raw: Record<StatId, number> = { ...zeroRaw(), agility: 200, haste: 500 };
+
+    const withoutAbility = deriveStats(raw, profession);
+    const withAbility = deriveStats(raw, profession, {}, 0, 1);
+
+    expect(withAbility.hastePercent).toBe(withoutAbility.hastePercent);
+    expect(withAbility.atkSpeedPercent).toBeCloseTo(
+      withAbility.hastePercent * (profession.atkSpeedPerHastePercent + 1),
+    );
+    expect(withAbility.atkSpeedPercent).toBeGreaterThan(withoutAbility.atkSpeedPercent);
+    // castSpeedPercentはファスト%→攻撃速度%の変換率とは独立しているため変化しない。
+    expect(withAbility.castSpeedPercent).toBe(withoutAbility.castSpeedPercent);
+  });
+
   it('ignores unrelated conversionRateBonus keys (magical attacker does not get an atk bonus meant for physical)', () => {
     const profession = PROFESSIONS.frostMage; // magical, mainStat=intellect
     const raw: Record<StatId, number> = { ...zeroRaw(), atk: 100, intellect: 150 };

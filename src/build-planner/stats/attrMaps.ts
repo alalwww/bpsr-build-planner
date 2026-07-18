@@ -84,6 +84,12 @@ export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1Only
 // atkSpeedPercentはStatId(rawStats)ではなくDerivedStats側の値のため、TALENT_ATTR_TO_STAT/
 // IMAGINE_PCT_FINALには乗らず、deriveStats()への直接加算として個別に扱う
 // (例: ディバインアーチャー「迅射」talentId 1135、他に talentId 41/42 も同じattrIdを使う)。
+//
+// 同じattrIdはtype=4(TALENT_EFFECT_TYPE_CONVERSION_RATE)効果でも使われるが、そちらは
+// 「ファスト%→攻撃速度%の変換率そのものへのボーナス」という別の意味(例: ストームブレイド/
+// ツインストライカー/ゲイルランサー「迅速」talentId 135/301/435「ファスト1%につき攻撃速度+1%」)。
+// TALENT_ATTR_TO_STATにはrawStats側のStatIdしか載せられないため、calculateRawStats.tsの
+// type=4分岐でこの定数と直接比較し、atkSpeedPerHastePercentBonusとして個別集計する。
 export const TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID = 11722;
 
 // アビリティ type=3 効果(BuffId参照)のうち、「会心/ファスト/幸運/器用さ/万能のうち

@@ -77,6 +77,10 @@ export function deriveStats(
   // アビリティ(例: ディバインアーチャー「迅射」)による攻撃速度への直接加算量(%そのままの数値)。
   // calculateRawStatsのatkSpeedFinalPctAddendをそのまま渡す。
   atkSpeedFinalPctAddend = 0,
+  // アビリティ(例: ストームブレイド/ツインストライカー/ゲイルランサー「迅速」)による
+  // 「ファスト%→攻撃速度%」変換率へのボーナス。calculateRawStatsのatkSpeedPerHastePercentBonus
+  // をそのまま渡す(profession.atkSpeedPerHastePercentに加算する)。
+  atkSpeedPerHastePercentBonus = 0,
 ): DerivedStats {
   const enduranceMaxHpBonus = raw.endurance * profession.hpPerEndurancePoint;
   const maxHp = raw.maxHp + enduranceMaxHpBonus;
@@ -164,7 +168,9 @@ export function deriveStats(
     hasteReal,
     hasteAgilityBonus,
     hastePercent,
-    atkSpeedPercent: hastePercent * profession.atkSpeedPerHastePercent + atkSpeedFinalPctAddend,
+    atkSpeedPercent:
+      hastePercent * (profession.atkSpeedPerHastePercent + atkSpeedPerHastePercentBonus) +
+      atkSpeedFinalPctAddend,
     castSpeedPercent: hastePercent * profession.castSpeedPerHastePercent,
 
     luckPercent,
