@@ -253,6 +253,8 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                   <PhantomNodeEffect
                     selectedNodeId={selectedNodeId}
                     phantomFactorSlots={phantomFactorSlots}
+                    phantomLevel={phantomLevel}
+                    phantomTemplateId={phantomTemplateId}
                   />
                 </div>
               )}

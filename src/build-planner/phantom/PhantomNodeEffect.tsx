@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { PhantomFactorSlotValue } from './phantomData';
-import { getSTAsset, iconPathToFile, stData } from './phantomData';
+import { getSTAsset, getUnlockLevel, iconPathToFile, stData } from './phantomData';
 import { factorBaseName, getFactorEffectDesc, getNodeEffectDesc } from './phantomView';
 
 // 選択中ノードの効果詳細表示(固定ノード=ステータス/バフ効果、因子スロット=装着中の因子効果)。
@@ -9,11 +9,16 @@ import { factorBaseName, getFactorEffectDesc, getNodeEffectDesc } from './phanto
 interface PhantomNodeEffectProps {
   selectedNodeId: number | null;
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
+  /** 未開放ノードの説明末尾に「(Lv.Nで開放)」を付け足すための現在の潜在Lv/テンプレートID。 */
+  phantomLevel: number;
+  phantomTemplateId: number | null;
 }
 
 export default function PhantomNodeEffect({
   selectedNodeId,
   phantomFactorSlots,
+  phantomLevel,
+  phantomTemplateId,
 }: PhantomNodeEffectProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
@@ -27,6 +32,24 @@ export default function PhantomNodeEffect({
   }
   const node = stData.treeNodes[String(selectedNodeId)];
   if (!node) return null;
+
+  // ツリー(テンプレート)自体が未開放の場合、ノード個別の開放Lvに関わらず、より高い方の
+  // Lvを「実際に開放される潜在Lv」として表示する(calculateRawStats.ts/PhantomPanelの
+  // levelUnlockedNodeIdsと同じ判定基準)。
+  const tmpl = phantomTemplateId != null ? stData.templates[String(phantomTemplateId)] : undefined;
+  const requiredLevel = Math.max(
+    tmpl ? getUnlockLevel(tmpl.unlockCondition) : 0,
+    getUnlockLevel(node.unlockCondition),
+  );
+  const lockedNote =
+    requiredLevel > phantomLevel ? (
+      <div className="phantom-desc-locked-note">
+        {t('buildPlanner.phantom.templateLockedSuffix', {
+          level: requiredLevel,
+          defaultValue: `（Lv.${requiredLevel}で開放）`,
+        })}
+      </div>
+    ) : null;
 
   if (node.nodeType === 1) {
     const name = tg(`seasonTalents.ordinaryEffects.${selectedNodeId}`);
@@ -55,6 +78,7 @@ export default function PhantomNodeEffect({
             <div className="phantom-desc-effect phantom-desc-effect--buff">{effectDesc}</div>
           )}
         </div>
+        {lockedNote}
       </>
     );
   } else {
@@ -80,6 +104,7 @@ export default function PhantomNodeEffect({
           </div>
         )}
         {factorEffectDesc && <div className="phantom-desc-text">{factorEffectDesc}</div>}
+        {lockedNote}
       </>
     );
   }

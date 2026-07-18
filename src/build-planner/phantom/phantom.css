@@ -331,6 +331,14 @@
   line-height: 1.5;
 }
 
+/* 未開放ノードの説明末尾に付く「（Lv.Nで開放）」 */
+.phantom-desc-locked-note {
+  color: #8a8a9a;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
 /* ---- ノード設定 ---- */
 .phantom-node-config {
   flex: 1;
