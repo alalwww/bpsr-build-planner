@@ -468,36 +468,77 @@ describe('calculateRawStats', () => {
   it('excludes a legacy (past-season) phantom factor from stat effects entirely', () => {
     // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3),
     // slotted into template 7's groupId=163 (reachable with no node selections needed).
+    // src/data/season-talents.json: treeNodes["163"].unlockCondition=[[93,3,10]] -> needs
+    // phantomLevel>=10; set to 10 here so the level gate isn't what's excluding the effect.
     // Game design says past-season factors are inert; the effect being an unmapped type=3
     // buffId already yields 0 today, but this asserts the explicit seasonId guard so a future
     // FACTOR_POLARITY_EFFECTS/PHANTOM_ATTR_TO_STAT addition can't silently reactivate it.
-    const input: CalculateRawStatsInput = {
+    // Compared against a same-phantomLevel baseline (not BASE_STATS.endurance directly) since
+    // phantomLevel>0 alone already adds endurance via playerLevelSeasonData (separate mechanism).
+    const withoutFactor = calculateRawStats({
       ...baseInput(),
       phantomEnabled: true,
+      phantomLevel: 10,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+    });
+    const withLegacyFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 10,
       phantomTemplateId: 7,
       phantomNodeSelections: {},
       phantomFactorSlots: { 163: { classKey: '201001', grade: 1 } },
-    };
+    });
 
-    const result = calculateRawStats(input);
-
-    expect(result.rawStats.endurance).toBe(BASE_STATS.endurance);
+    expect(withLegacyFactor.rawStats.endurance).toBe(withoutFactor.rawStats.endurance);
   });
 
-  it('applies a current-season phantom factor slotted into the same groupId', () => {
+  it("applies a current-season phantom factor slotted into the same groupId, once phantomLevel reaches the node's unlock level", () => {
     // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current), grade 1
     // effects=[[1,11042,168],[1,11044,100]] -> endurance +168 flat, +100(=1%) pct bonus.
-    const input: CalculateRawStatsInput = {
+    // treeNodes["163"].unlockCondition=[[93,3,10]] -> needs phantomLevel>=10.
+    const withoutFactor = calculateRawStats({
       ...baseInput(),
       phantomEnabled: true,
+      phantomLevel: 10,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 10,
       phantomTemplateId: 7,
       phantomNodeSelections: {},
       phantomFactorSlots: { 163: { classKey: '202201', grade: 1 } },
-    };
+    });
 
-    const result = calculateRawStats(input);
+    expect(withFactor.rawStats.endurance).toBeCloseTo(
+      (withoutFactor.rawStats.endurance + 168) * 1.01,
+    );
+  });
 
-    expect(result.rawStats.endurance).toBeCloseTo((BASE_STATS.endurance + 168) * 1.01);
+  it("suppresses a node's effect (fixed or factor) while phantomLevel is below that node's own unlock level, even though tree selection itself isn't restricted", () => {
+    // Same setup as above (current-season factor, would normally add endurance+168/+1%),
+    // but phantomLevel=9 is 1 below treeNodes["163"].unlockCondition's required 10.
+    const withoutFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 9,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 9,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+      phantomFactorSlots: { 163: { classKey: '202201', grade: 1 } },
+    });
+
+    expect(withFactor.rawStats.endurance).toBe(withoutFactor.rawStats.endurance);
   });
 
   it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {

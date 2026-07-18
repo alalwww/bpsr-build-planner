@@ -295,6 +295,7 @@
       "template": "心相投影",
       "templatePlaceholder": "未選択",
       "templateSelectPrompt": "心相投影を選択してください",
+      "templateLockedSuffix": "（Lv.{{level}}で開放）",
       "bondPoints": "合計絆ポイント",
       "bondEffects": "絆レベル効果",
       "nodeEffect": "ノード効果",

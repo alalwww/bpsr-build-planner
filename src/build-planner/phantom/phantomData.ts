@@ -44,6 +44,13 @@ export interface IntermediateSlot {
   icon: string;
 }
 
+// SeasonTreeNode.unlockCondition / SeasonTemplate.unlockCondition は全件
+// [[93, 3, N]] (潜在Lv N 以上で開放) の形式(全ノード・全テンプレートで確認済み、他の
+// 条件パターンは存在しない)。条件なし(空配列)は常時開放を意味し、必要Lvは0として扱う。
+export function getUnlockLevel(unlockCondition: number[][]): number {
+  return unlockCondition[0]?.[2] ?? 0;
+}
+
 export interface OrdinaryEffect {
   id: number;
   level: number;

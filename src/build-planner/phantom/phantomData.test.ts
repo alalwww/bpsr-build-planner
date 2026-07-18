@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildTreeSteps, getActivePhantomNodeIds, stData } from './phantomData';
+import { buildTreeSteps, getActivePhantomNodeIds, getUnlockLevel, stData } from './phantomData';
 
 // これらは実データ(src/data/season-talents.json)に対する性格づけ(characterization)テスト。
 // stData.templates/treeNodes をクローズオーバーしているため合成フィクスチャに差し替えられず、
@@ -51,5 +51,16 @@ describe('getActivePhantomNodeIds', () => {
     for (const unchosen of [1003, 1005, 109, 1006, 108, 1009]) {
       expect(active.has(unchosen)).toBe(false);
     }
+  });
+});
+
+describe('getUnlockLevel', () => {
+  it('reads the required phantomLevel from the [[93, 3, N]] condition format (root node 1001, template 1 node 100)', () => {
+    expect(getUnlockLevel(stData.treeNodes['1001'].unlockCondition)).toBe(0);
+    expect(getUnlockLevel(stData.treeNodes['100'].unlockCondition)).toBe(5);
+  });
+
+  it('returns 0 (always unlocked) for an empty unlockCondition', () => {
+    expect(getUnlockLevel([])).toBe(0);
   });
 });

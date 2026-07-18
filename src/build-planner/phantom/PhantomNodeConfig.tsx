@@ -11,6 +11,8 @@ interface PhantomNodeConfigProps {
   treeSteps: TreeStep[];
   /** 選択状態から算出したアクティブノード集合(path-factor の行種別判定に使用)。 */
   activeNodeIds: ReadonlySet<number>;
+  /** 潜在Lvがノード個別の開放Lvに達しているノードの集合。未達なら不活性表示にする。 */
+  levelUnlockedNodeIds: ReadonlySet<number>;
   selectedNodeId: number | null;
   phantomTemplateId: number;
   phantomNodeSelections: Record<number, number>;
@@ -24,6 +26,7 @@ interface PhantomNodeConfigProps {
 export default function PhantomNodeConfig({
   treeSteps,
   activeNodeIds,
+  levelUnlockedNodeIds,
   selectedNodeId,
   phantomTemplateId,
   phantomNodeSelections,
@@ -37,6 +40,8 @@ export default function PhantomNodeConfig({
   const { t: tg } = useTranslation('game-data');
 
   const unequippedLabel = t('buildPlanner.phantom.factorUnequipped');
+  // 選択/因子装着自体は妨げないため、クリックハンドラは変更せずスタイルのみ不活性化する。
+  const isLocked = (nodeId: number) => !levelUnlockedNodeIds.has(nodeId);
 
   // 因子スロット本体(全factor系行で共通)
   const renderFactorSlot = (groupId: number) => (
@@ -55,7 +60,9 @@ export default function PhantomNodeConfig({
     const iconSrc = getNodeIcon(groupId, 2);
     const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
     return (
-      <div className="phantom-factor-with-label">
+      <div
+        className={`phantom-factor-with-label${isLocked(groupId) ? ' phantom-config-locked' : ''}`}
+      >
         <div
           className={`phantom-factor-slot-header phantom-config-node-clickable${selectedNodeId === groupId ? ' phantom-config-node-clickable--highlight' : ''}`}
           onClick={() => onToggleNode(groupId)}
@@ -71,7 +78,9 @@ export default function PhantomNodeConfig({
   // 因子タイプ選択ボタン群 + 選択中タイプの因子スロット
   // (choice-factor-type / path-factor 複数アクティブ)。選択変更時は旧スロットの因子をクリアする。
   const renderFactorTypeChoice = (nodeIds: number[], selected: number, sameGroupId: number) => (
-    <div className="phantom-factor-with-label">
+    <div
+      className={`phantom-factor-with-label${isLocked(selected) ? ' phantom-config-locked' : ''}`}
+    >
       <div className="phantom-factor-type-btns">
         {nodeIds.map((nodeId) => {
           const slotName = tg(`seasonTalents.intermediateSlots.${nodeId}`);
@@ -80,7 +89,7 @@ export default function PhantomNodeConfig({
             <button
               key={nodeId}
               type="button"
-              className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}`}
+              className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
               onClick={() => {
                 if (nodeId !== selected && phantomFactorSlots[selected]) {
                   onPhantomFactorSlot(selected, null);
@@ -111,7 +120,7 @@ export default function PhantomNodeConfig({
         <div key={rowKey} className="phantom-config-row phantom-config-row--fixed">
           {num}
           <div
-            className={`phantom-config-node-clickable${selectedNodeId === nodeId ? ' phantom-config-node-clickable--highlight' : ''}`}
+            className={`phantom-config-node-clickable${selectedNodeId === nodeId ? ' phantom-config-node-clickable--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
             onClick={() => onToggleNode(nodeId)}
           >
             {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
@@ -153,7 +162,7 @@ export default function PhantomNodeConfig({
                 <button
                   key={nodeId}
                   type="button"
-                  className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}`}
+                  className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
                   onClick={() => {
                     handleChoiceOrdinary(nodeId);
                     onToggleNode(nodeId);

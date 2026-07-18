@@ -7,6 +7,7 @@ import {
   buildTreeSteps,
   getActivePhantomNodeIds,
   getSTAsset,
+  getUnlockLevel,
   iconPathToFile,
   stData,
 } from './phantomData';
@@ -86,12 +87,24 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
 
   const templateOptions: DropdownOption[] = useMemo(
     () =>
-      sortedTemplates.map((tmpl) => ({
-        value: String(tmpl.id),
-        label: tg(`seasonTalents.templates.${tmpl.id}`),
-        icon: getSTAsset(iconPathToFile(tmpl.icon)),
-      })),
-    [sortedTemplates, tg],
+      sortedTemplates.map((tmpl) => {
+        const name = tg(`seasonTalents.templates.${tmpl.id}`);
+        const requiredLevel = getUnlockLevel(tmpl.unlockCondition);
+        const label =
+          requiredLevel > phantomLevel
+            ? name +
+              t('buildPlanner.phantom.templateLockedSuffix', {
+                level: requiredLevel,
+                defaultValue: `（Lv.${requiredLevel}で開放）`,
+              })
+            : name;
+        return {
+          value: String(tmpl.id),
+          label,
+          icon: getSTAsset(iconPathToFile(tmpl.icon)),
+        };
+      }),
+    [sortedTemplates, tg, t, phantomLevel],
   );
 
   const treeSteps = useMemo((): TreeStep[] => {
@@ -124,6 +137,19 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
     }
     return result;
   }, [activeNodeIds, treeSteps, phantomNodeSelections]);
+
+  // ノード個別の開放Lv(潜在Lv)に達しているノードの集合。選択/因子装着自体は制限しないが、
+  // 未達のノードは不活性表示にし、効果は反映されない(calculateRawStats.ts側の同判定と対応)。
+  const levelUnlockedNodeIds = useMemo(() => {
+    const result = new Set<number>();
+    for (const step of treeSteps) {
+      for (const nodeId of step.nodeIds) {
+        const node = stData.treeNodes[String(nodeId)];
+        if (node && phantomLevel >= getUnlockLevel(node.unlockCondition)) result.add(nodeId);
+      }
+    }
+    return result;
+  }, [treeSteps, phantomLevel]);
 
   return (
     <div className="phantom-panel">
@@ -190,6 +216,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                 treeSteps={treeSteps}
                 phantomTemplateId={phantomTemplateId}
                 visuallyActiveNodeIds={visuallyActiveNodeIds}
+                levelUnlockedNodeIds={levelUnlockedNodeIds}
                 selectedNodeId={selectedNodeId}
                 phantomNodeSelections={phantomNodeSelections}
                 phantomFactorSlots={phantomFactorSlots}
@@ -231,6 +258,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             <PhantomNodeConfig
               treeSteps={treeSteps}
               activeNodeIds={activeNodeIds}
+              levelUnlockedNodeIds={levelUnlockedNodeIds}
               selectedNodeId={selectedNodeId}
               phantomTemplateId={phantomTemplateId}
               phantomNodeSelections={phantomNodeSelections}

@@ -397,6 +397,12 @@
   background: rgba(255, 224, 102, 0.1);
 }
 
+/* 潜在Lvがノードの開放Lvに未達な行/ボタン。選択・因子装着は妨げないため見た目のみ暗くする。 */
+.phantom-config-locked {
+  opacity: 0.4;
+  filter: grayscale(0.6);
+}
+
 .phantom-choice-btn--highlight {
   outline: 2px solid #ffe066;
   outline-offset: 1px;

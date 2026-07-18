@@ -21,6 +21,7 @@ import type { PhantomFactorSlotValue } from '../phantom/phantomData';
 import {
   CURRENT_FACTOR_SEASON_ID,
   getActivePhantomNodeIds,
+  getUnlockLevel,
   pfData as phantomFactorData,
   stData as seasonTalentData,
 } from '../phantom/phantomData';
@@ -556,6 +557,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       for (const nodeId of activeIds) {
         const node = seasonTalentData.treeNodes[String(nodeId)];
         if (!node) continue;
+        // ノード個別の開放Lv(潜在Lv)未満の場合、固定ノード効果・因子効果ともに反映しない
+        // (ツリーの選択自体は許可されるが、潜在Lvが足りない間は効果を発揮しない)。
+        if (phantomLevel < getUnlockLevel(node.unlockCondition)) continue;
         if (node.nodeType === 1) {
           // 固定ノード(ordinaryEffect): 大半はスキル固有/条件付き効果のため対象外。
           // ORDINARY_EFFECT_BONUS に対応付けがある単純なステータスボーナスのみ反映する。

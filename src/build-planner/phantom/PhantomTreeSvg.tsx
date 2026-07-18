@@ -32,6 +32,8 @@ interface PhantomTreeSvgProps {
   phantomTemplateId: number;
   /** path-factor の未選択側を除いた、視覚的にアクティブなノード集合。 */
   visuallyActiveNodeIds: ReadonlySet<number>;
+  /** 潜在Lvがノード個別の開放Lvに達しているノードの集合。未達なら不活性表示にする。 */
+  levelUnlockedNodeIds: ReadonlySet<number>;
   selectedNodeId: number | null;
   phantomNodeSelections: Record<number, number>;
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
@@ -43,12 +45,16 @@ export default function PhantomTreeSvg({
   treeSteps,
   phantomTemplateId,
   visuallyActiveNodeIds,
+  levelUnlockedNodeIds,
   selectedNodeId,
   phantomNodeSelections,
   phantomFactorSlots,
   zoom,
   onToggleNode,
 }: PhantomTreeSvgProps) {
+  // パス上アクティブ、かつ潜在Lvがそのノードの開放Lvに達している場合のみ「取得済み」扱い。
+  const isEffectivelyActive = (nodeId: number) =>
+    visuallyActiveNodeIds.has(nodeId) && levelUnlockedNodeIds.has(nodeId);
   const nodePositions = useMemo(() => {
     const map = new Map<number, [number, number]>();
     treeSteps.forEach((step, idx) => {
@@ -96,8 +102,7 @@ export default function PhantomTreeSvg({
           const [nnx, nny] = nextPos;
           const toR = nodeRadii.get(nextId) ?? R_NODE;
           const toY = nny - toR;
-          const isActivePath =
-            visuallyActiveNodeIds.has(nodeId) && visuallyActiveNodeIds.has(nextId);
+          const isActivePath = isEffectivelyActive(nodeId) && isEffectivelyActive(nextId);
           return [
             <line
               key={`${nodeId}-${nextId}`}
@@ -118,7 +123,7 @@ export default function PhantomTreeSvg({
     const node = stData.treeNodes[String(nodeId)];
     if (!node) return null;
     const [nx, ny] = nodePositions.get(nodeId) ?? [CX, 0];
-    const isActive = visuallyActiveNodeIds.has(nodeId);
+    const isActive = isEffectivelyActive(nodeId);
     const isSelected = selectedNodeId === nodeId;
     const isRoot = si === 0;
     const isChosenChoice =

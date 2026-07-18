@@ -295,6 +295,7 @@
       "template": "Projection",
       "templatePlaceholder": "Not Selected",
       "templateSelectPrompt": "Select a Phantom Projection",
+      "templateLockedSuffix": " (Unlocks at Lv.{{level}})",
       "bondPoints": "Total Bond Points",
       "bondEffects": "Bond Level Effects",
       "nodeEffect": "Node Effect",
