@@ -1,7 +1,8 @@
 # キャラクター/ビルドデータ仕様(検討メモ)
 
 ZTable(`../../BPSRData/ZTable/`)の実データ調査を踏まえた、キャラクタービルドのデータ構造案。
-実装前の仕様整理であり、Rust/TS側のデータモデルはこれを元に別途設計する。
+実装済みの箇所は各セクションで実装ファイルを明示している。未実装・保留の項目は
+「未確定・要調査事項」章にまとめてある。
 
 ## クラス (Profession)
 
@@ -32,8 +33,23 @@ ZTable(`../../BPSRData/ZTable/`)の実データ調査を踏まえた、キャラ
 | `UltimateSkill`     | アルティメットスキル(固定)                                |
 | `NormalSkill`       | スキル選択候補プール。この中から**任意4個**を選択して使用 |
 | `TalentSkill`       | アビリティ(talent)選択候補プール。**任意に複数選択可能**  |
+| `roleSkill`(シーズン3で追加) | ロールスキル選択候補プール(下記参照)。この中から**任意4個**を選択して使用 |
 
-固定スキル3種 + 選択スキル4種(NormalSkillより) + 任意選択のアビリティ(TalentSkillより)、という構成。
+固定スキル3種 + 選択スキル4種(NormalSkillより) + 任意選択のアビリティ(TalentSkillより)
++ 選択ロールスキル4種(roleSkillより)、という構成。
+
+#### ロールスキル(RoleSkill、シーズン3で追加)
+
+`classes.json`の`roleSkill`配列(12候補)は2種類のスキルからなる:
+
+- **ロール固定4種**: `Talent`(1=攻撃/2=支援/3=防御)ごとに固定された4種(`TALENT_ROLE_SKILLS`)。
+- **全ロール共通8種**(ID 3021〜3028): `SkillDutyTable`(`Type=[1,2,3]`)に登録され、
+  全クラス・全ロールで共通。「幻想図鑑」(`SkillAoyiGuideTable`/`SkillAoyiGuideEffectTable`、
+  バトルイマジンの育成度で解放される図鑑システム)と連動し、通常スキルの
+  「レベル1〜30 × ランクG0〜G6」とは異なる**幻想図鑑ランク(Level 1〜4)のみの1軸**で強化される。
+
+12候補の中から任意4個を選択してスロットに配置する(`roleSkillSlots`/`roleSkillRanks`、
+デフォルトはロール固定4種)。
 
 - スキルレベル: 1〜最大30
 - スキルランク: 0〜最大6
@@ -85,7 +101,8 @@ UIのスロット配置と一致する連番ID(`EquipPartTable.json`、`extract-
 > `EquipAttrLibTable.json` の `AttrEffect`/`AllowPart` 等が個々のロール内容を保持していると見られるが、
 > 数値ロジックの完全な解読は未着手。装備の性能計算を実装する際に別途詳細調査が必要。
 
-シーズン固有能力(`SeasonTalentFactorItemTable` 等)について、その計画を立てる機能は**現段階ではスコープ外**とする。
+シーズン固有能力(`SeasonTalentFactorItemTable` 等)は「心相投影(潜在)」「幻影因子」として
+**実装済み**(当初はスコープ外としていたが方針転換。詳細は後述の「心相投影・幻影因子」章を参照)。
 
 ## モジュール (Module)
 
@@ -101,17 +118,15 @@ UIのスロット配置と一致する連番ID(`EquipPartTable.json`、`extract-
 - クラス
 - 選択中のアビリティ(Talent)
 - 選択中のスキル(NormalSkillからの4個 + 固定3スキル) + 各スキルのレベル・ランク
+- 選択中のロールスキル(roleSkillからの4個、シーズン3で追加) + 各スキルのランク
 - 装備(各部位) + 各装備の可変部分の性能(サブステータス・特別オプション等)
-- モジュール + 各モジュールの可変部分の性能
+- モジュール(シーズン3以降5枠) + 各モジュールの可変部分の性能
+- 心相投影(シーズンタレント)のツリー選択状態 + 幻影因子の装着状態
 
 ## 未確定・要調査事項
 
 - 装備のサブステータス/特別オプションの選択UI・データ構造(一旦保留)
 - 装備のサブステータス/特別オプションの数値解決方法(`EquipAttrLibTable`等の完全な解読)
-
-## 現段階のスコープ外
-
-- シーズン固有能力(`SeasonTalentFactorItemTable` 等)の計画機能
 
 ## 装着効果 (Enchant)
 
@@ -137,31 +152,88 @@ UIのスロット配置と一致する連番ID(`EquipPartTable.json`、`extract-
     それ以外(物理攻撃力+等)は `false`(実数値加算)
 - UIは `EquipmentSlotPicker.tsx` に実装済み(紫色表示、ティア選択ボタン)
 
+## 心相投影・幻影因子 (Season Talent / Phantom Factor)
+
+「シーズン固有能力」(`SeasonTalentFactorItemTable` 等)は当初スコープ外としていたが、
+**実装済み**(`src/build-planner/phantom/` 配下のPhantomPanel)。旧記載で「潜在」と
+呼んでいたものが心相投影に相当する。
+
+### 心相投影(シーズンタレント、`src/data/season-talents.json`)
+
+ツリー状のノードを辿って強化を積む、シーズン専用のタレントシステム。
+
+- `templates`: ツリーのルート/アンロック条件
+- `treeNodes`: ノード(`nodeType`1=通常効果ノード/2=因子ノード、`groupId`/`sameGroupId`で
+  選択分岐を表現)
+- `ordinaryEffects` / `advancedEffects`: 通常ノード/上級ノードの効果データ
+- `intermediateSlots`: 因子ノードの中間スロット(装着可能な因子タイプ・対応クラスを制約)
+- `bondSlots`: 絆(バインド)スロット
+
+UIは `PhantomTreeSvg.tsx`(ツリー描画)・`PhantomNodeConfig.tsx` / `PhantomNodeEffect.tsx`
+(ノード選択・効果表示)・`PhantomBondSection.tsx`(絆スロット)。
+
+### 幻影因子(`src/data/phantom-factors.json`)
+
+心相投影の因子ノードに装着する追加ステータス/効果。6種の因子タイプ(`factorTypes`)を持つ:
+
+| typeId | 名称           |
+| ------ | -------------- |
+| 1      | 極性           |
+| 2      | 恒常性         |
+| 3      | 第六感         |
+| 4      | クラス恒常性   |
+| 5      | クラス狂想     |
+| 6      | 真実           |
+
+- `byClass`: クラス(`professionIds`)×因子タイプごとのグレード別効果(`grades`、G1〜G10相当)
+- 各因子は `seasonId`(`SeasonTalentFactorItemTable.SeasonId[0]`)を持ち、過去シーズンの因子は
+  現シーズンでは無効(ゲーム内説明文で明記)。旧セーブデータ互換のためデータ自体は保持しつつ、
+  UI側は現行シーズンの最大 `seasonId` との比較で無効表記・並び替えを行う
+  (`CURRENT_FACTOR_SEASON_ID`, `phantomView.ts`)。
+
 ## 改鋳進化ステータス (Kaitchu)
 
-改鋳後の装備に付与される選択可能な進化ステータス(精錬レベルとは別)。
+改鋳後の装備に付与される選択可能な進化ステータス(精錬レベルとは別、`reforgeEvoMin`/
+`reforgeEvoMax`/`reforgeMaxPerfectline`)。
 
-- ステータスの最小値/最大値/最大完成度はZTableに存在しないため、実測値から逆算した近似式で導出
-  (`extract-ztable.mjs` `getKaitchuEvoParams()`)
-- 計算式: `floor(min + (max - min) × 完成度% / 100)` (完成度0〜100%)
-
-| GS帯   | 最大完成度 | 防具 min | 防具 max |
-| ------ | ---------- | -------- | -------- |
-| Gs≤80  | 8          | 26       | 37       |
-| Gs≤150 | 100        | 159      | 226      |
-| Gs160+ | 100        | 202      | 286      |
-
-武器は防具の2倍の値を適用。実測値(Gs=160防具): 完成度5→206, 8→208, 11→211, 14→213, 100→286。
+- 最小値/最大値は `EquipTable.RecastingAttrLibId` → `EquipAttrLibTable.AttrEffectConfig`
+  から**ZTableより直接抽出**する(`extract-ztable.mjs` `extractEquipment()`)。旧実装では
+  ZTableに存在しないためと考えて実測値からの近似式で導出していたが、実際には
+  `AttrEffectConfig`に格納されておりZTable側で確定できることが判明したため直接参照に変更した。
+- 最大完成度(`reforgeMaxPerfectline`)のみ引き続きヒューリスティック
+  (`equip.EquipGs <= 80 ? 8 : 100`、実測ベース。ZTableに直接の対応フィールドなし)。
+- 完成度(0〜100%)からの実数値解決: `min + (max - min) × 完成度 / 100`
+  (`src/build-planner/stats/statValue.ts` `calcStatValue()`。丸めは合算後・表示直前のみ行う)。
+- 武器は防具の2倍の値を持つ(min/maxとも)。
+- Gs帯: 低GS(≤80)は完成度上限8%の小規模なステータス、Gs120〜170は完成度0〜100%、
+  シーズン3で追加されたGs220〜260(Lv190+装備)はさらに大きい数値帯になる。
+  部位・GSごとの具体的なmin/maxは`src/data/equipment.json`の`reforgeEvoMin`/`reforgeEvoMax`
+  を参照(ZTable由来のため、シーズン更新時は`npm run extract:ztable`で自動追従)。
 
 ## データ抽出の出力構成 (`scripts/extract-ztable.mjs`)
 
-- **言語非依存データ** (`src/data/`):
-  - `equipment.json`: EquipPart毎にグループ化。各エントリに `enchantId`/`legendaryAffix` を含む
-  - `enchants.json`: EnchantIdをキーとした装着可能アイテムリスト(宝石36件/刻印8〜17件)
+- **言語非依存データ** (`src/data/`、以下は現時点の全ファイル):
+  - `equipment.json`: EquipPart毎にグループ化。各エントリに `enchantId`/`legendaryAffix`/
+    `legendaryAffixGroups`/`reforgeEvoMin`/`reforgeEvoMax`等を含む
+  - `enchants.json`: EnchantIdをキーとした装着可能アイテムリスト(宝石/刻印。詳細は
+    `docs/EQUIPMENT_ENCHANT.md`)
   - `refine.json`: 精錬効果データ(累積効果/マイルストーン)
-  - `skills.json`: クラスから参照されるスキルのみ
-  - `classes.json`: IsOpen:false も含む全クラス
+  - `skills.json`: クラスから参照されるスキルのみ(NormalSkill/TalentSkill/RoleSkill)
+  - `skill-fight-values.json` / `skill-rank-fight-values.json`: 能力スコア算出用の
+    スキルレベル別/ランク別戦力値
+  - `classes.json`: IsOpen:false も含む全クラス(`roleSkill`含む、上記「アビリティ・スキル」章参照)
+  - `talent-tree.json`: R1/R2アビリティのタレントツリー(ノード・効果・type=4のクラス係数
+    ボーナス効果を含む)
+  - `battle-imagines.json`: バトルイマジンのデータ
+  - `modules.json`: モジュールのデータ(効果・パワーコア・リンク等。専用docsは未作成、
+    `src/build-planner/module/moduleData.ts` を参照)
+  - `suits.json`: セット効果(`suitId`ごとのtier別効果)
+  - `season-talents.json`: 心相投影(シーズンタレント)。`season-constants.json`とは無関係の別データ
+  - `phantom-factors.json`: 幻影因子
+  - `season-constants.json`: `docs/STATUS_CALCULATION.md`のシーズン定数(K値、現行シーズンの
+    ものを自動抽出)
+  - `player-levels.json`: プレイヤーレベル関連(シーズン経験値上限等)
 - **ロケール毎の表示テキスト** (`src/locales/<locale>/game-data.json`): `items`/`skills`/
   `classes`/`parts`/`attributes` の5セクションをIDキーで保持。
-  `items` には宝石/刻印アイテム名も含む(ID 1024001〜1024773)。
+  `items` には宝石/刻印アイテム名も含む。
   手書きのUI文言 (`bpsr-bp-ui.json`) とは別ファイル。
