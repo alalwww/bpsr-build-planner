@@ -19,6 +19,7 @@ import type {
 } from '../types';
 import type { PhantomFactorSlotValue } from '../phantom/phantomData';
 import {
+  CURRENT_FACTOR_SEASON_ID,
   getActivePhantomNodeIds,
   pfData as phantomFactorData,
   stData as seasonTalentData,
@@ -577,6 +578,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (!slot) continue;
         const factorClass = phantomFactorData.byClass[slot.classKey];
         if (!factorClass) continue;
+        // 過去シーズンの因子(seasonId < 現行シーズン)はゲーム内で無効化されている
+        // (ゲーム内説明文で明記)。旧セーブデータ互換でスロットの選択自体は残るが、
+        // 効果は加算しない(表示側のisFactorClassLegacyと同じ判定基準)。
+        if (factorClass.seasonId < CURRENT_FACTOR_SEASON_ID) continue;
         // クラス攻撃/クラス防御等のクラス限定因子は、現在のクラスと一致する場合のみ加算
         if (
           factorClass.professionIds.length > 0 &&

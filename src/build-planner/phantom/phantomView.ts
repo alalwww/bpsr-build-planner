@@ -1,6 +1,6 @@
 import type { DropdownOption } from './CustomDropdown';
 import { formatPercentParam, renderEffectDesc } from '../components/gameText';
-import { getSTAsset, iconPathToFile, pfData, stData } from './phantomData';
+import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from './phantomData';
 
 // 心相投影パネル各所(ツリーSVG/ノード設定/効果表示)で共用する表示用ヘルパー。
 // PhantomPanel から抽出したもので、React state には依存しない。
@@ -11,20 +11,6 @@ export type GameDataT = (key: string, options?: Record<string, unknown>) => stri
 
 // 潜在因子 effectType=1 のうち、値が%乗算(単位:1/100=1%)であるAttrId
 const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([11014, 11024, 11034, 11044, 11324, 11354]);
-
-// 現在有効な因子シーズン(データ中の最大seasonId)。これより古いseasonIdの因子は
-// ゲーム側で無効化されている(FactorItemClassの意味は同じtypeId番号のまま変わるため、
-// 名前だけでは新旧を区別できない)。過去のセーブデータで装着されている可能性があるため
-// データからは削除せず、表示側で「(無効)」表記・ソート後方回しのみ行う。
-const CURRENT_FACTOR_SEASON_ID = Math.max(
-  0,
-  ...Object.values(pfData.byClass).map((fc) => fc.seasonId ?? 0),
-);
-
-export function isFactorClassLegacy(classKey: string): boolean {
-  const fc = pfData.byClass[classKey];
-  return fc != null && fc.seasonId < CURRENT_FACTOR_SEASON_ID;
-}
 
 // 因子クラスの表示名(G1アイテム名から「・G1」を除いた基底名)
 export function factorBaseName(tg: GameDataT, classKey: string): string {

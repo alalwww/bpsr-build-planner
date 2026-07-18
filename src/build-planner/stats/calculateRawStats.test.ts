@@ -464,6 +464,79 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.luck).toBe(1240);
     expect(result.finalPctAddend.luck).toBe(600);
   });
+
+  it('excludes a legacy (past-season) phantom factor from stat effects entirely', () => {
+    // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3),
+    // slotted into template 7's groupId=163 (reachable with no node selections needed).
+    // Game design says past-season factors are inert; the effect being an unmapped type=3
+    // buffId already yields 0 today, but this asserts the explicit seasonId guard so a future
+    // FACTOR_POLARITY_EFFECTS/PHANTOM_ATTR_TO_STAT addition can't silently reactivate it.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+      phantomFactorSlots: { 163: { classKey: '201001', grade: 1 } },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.endurance).toBe(BASE_STATS.endurance);
+  });
+
+  it('applies a current-season phantom factor slotted into the same groupId', () => {
+    // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current), grade 1
+    // effects=[[1,11042,168],[1,11044,100]] -> endurance +168 flat, +100(=1%) pct bonus.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+      phantomFactorSlots: { 163: { classKey: '202201', grade: 1 } },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.endurance).toBeCloseTo((BASE_STATS.endurance + 168) * 1.01);
+  });
+
+  it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {
+    // src/data/season-talents.json: template 1 (advancedEffectId=100), levels 1-5 are shared
+    // across all 8 templates: unlockFraction 2/5/12/20/25 -> buffId 3003610/20/30/40/50.
+    // Level 6 (unlockFraction 35) is template-specific and excluded here (bondPoints=25).
+    // Per src/locales/*/game-data.json attrDescs: each of 3003610/20/40 grants
+    // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each
+    // (their "highest_of" component lands on rawStats.crit here since everything ties at 0).
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomTemplateId: 1,
+      phantomBondPoints: 25,
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.illusionPower).toBe(BASE_STATS.illusionPower + 100 * 3);
+    expect(result.rawStats.endurance).toBe(BASE_STATS.endurance + 750 * 5);
+    expect(result.rawStats.crit).toBe(BASE_STATS.crit + 750 + 1250);
+  });
+
+  it("applies template 8's unique level-6 bond reward (main stat +150) once bondPoints reaches 35", () => {
+    // src/data/season-talents.json: template 8 (advancedEffectId=107), level 6 -> buffId
+    // 3003730 "現在のメインステータス+150". stormBlade's mainStat is 'agility'.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.stormBlade,
+      phantomEnabled: true,
+      phantomTemplateId: 8,
+      phantomBondPoints: 35,
+    };
+
+    const result = calculateRawStats(input);
+
+    // +750*5 (shared tiers) 分の endurance と同様、mainStat(agility) には +150 のみ乗る。
+    expect(result.rawStats.agility).toBe(BASE_STATS.agility + 150);
+  });
 });
 
 function zeroDerivedStats(): DerivedStats {

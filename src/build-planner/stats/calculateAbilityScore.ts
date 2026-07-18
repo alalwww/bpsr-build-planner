@@ -21,6 +21,7 @@ import type {
   PhantomFactorSlotValue,
 } from '../phantom/phantomData';
 import {
+  CURRENT_FACTOR_SEASON_ID,
   getActivePhantomNodeIds,
   pfData as phantomFactorData,
   stData as seasonTalentData,
@@ -353,9 +354,11 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
           if (eff) fv.phantom += eff.fightValue;
         } else if (node.nodeType === 2) {
           const slot = phantomFactorSlots[node.groupId];
-          if (slot) {
-            const grade = phantomFactorData.byClass[slot.classKey]?.grades[slot.grade - 1] as
-              PhantomFactorGrade | undefined;
+          const factorClass = slot ? phantomFactorData.byClass[slot.classKey] : undefined;
+          // 過去シーズンの因子(seasonId < 現行シーズン)はゲーム内で無効化されているため、
+          // 戦力スコアにも計上しない(calculateRawStatsの同名ガードと同じ判定基準)。
+          if (slot && factorClass && factorClass.seasonId >= CURRENT_FACTOR_SEASON_ID) {
+            const grade = factorClass.grades[slot.grade - 1] as PhantomFactorGrade | undefined;
             if (grade) fv.phantom += grade.fightValue;
           }
         }

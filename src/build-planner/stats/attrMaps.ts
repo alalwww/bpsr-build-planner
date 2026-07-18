@@ -127,46 +127,56 @@ export type BondBuffStatEffect =
   // 現時点のtotal[sourceStat]にratioを乗じてtargetStatへ加算
   | { type: 'ratio_of'; sourceStat: StatId; targetStat: StatId; ratio: number };
 
+// レベル1〜5(unlockFraction 2/5/12/20/25)は全8テンプレート共通の絆報酬(累積加算される)。
+// レベル6(unlockFraction 35)のみテンプレートごとに異なる固有報酬(buffId 3003660〜3003730、
+// テンプレート1体につき1種類)。値は`src/locales/*/game-data.json`の`attrDescs.{buffId}`
+// (ゲーム内説明文、静的テキストでbuffPars非依存)から直接確認済み。
 export const BOND_BUFF_STAT_EFFECTS: Partial<Record<number, BondBuffStatEffect[]>> = {
-  // 滅妄強度+100。耐久力+500
+  // Lv1(2pt)/Lv2(5pt)/Lv4(20pt) 共通: 滅妄強度+100。耐久力+750
   3003610: [
     { type: 'static', stat: 'illusionPower', value: 100 },
-    { type: 'static', stat: 'endurance', value: 500 },
+    { type: 'static', stat: 'endurance', value: 750 },
   ],
   3003620: [
     { type: 'static', stat: 'illusionPower', value: 100 },
-    { type: 'static', stat: 'endurance', value: 500 },
+    { type: 'static', stat: 'endurance', value: 750 },
   ],
   3003640: [
     { type: 'static', stat: 'illusionPower', value: 100 },
-    { type: 'static', stat: 'endurance', value: 500 },
+    { type: 'static', stat: 'endurance', value: 750 },
   ],
-  // 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+300。耐久力+500
+  // Lv3(12pt): 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+750。耐久力+750
   3003630: [
     {
       type: 'highest_of',
       stats: ['crit', 'haste', 'luck', 'mastery', 'versatility'],
-      value: 300,
+      value: 750,
     },
-    { type: 'static', stat: 'endurance', value: 500 },
+    { type: 'static', stat: 'endurance', value: 750 },
   ],
-  // 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+500。耐久力+500
+  // Lv5(25pt): 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+1250。耐久力+750
   3003650: [
     {
       type: 'highest_of',
       stats: ['crit', 'haste', 'luck', 'mastery', 'versatility'],
-      value: 500,
+      value: 1250,
     },
-    { type: 'static', stat: 'endurance', value: 500 },
+    { type: 'static', stat: 'endurance', value: 750 },
   ],
-  // 幸運+1%
+  // Lv6(35pt)固有報酬。テンプレート1「幸運+1%」
   3003660: [{ type: 'final_pct', stat: 'luck', value: 100 }],
-  // 会心+1%
+  // テンプレート2「会心+1%」
   3003670: [{ type: 'final_pct', stat: 'crit', value: 100 }],
-  // 物理防御力50ptにつき、攻撃力+1pt
-  3003720: [{ type: 'ratio_of', sourceStat: 'physicalDef', targetStat: 'atk', ratio: 1 / 50 }],
-  // 現在のメインステータス+100
-  3003730: [{ type: 'main_stat', value: 100 }],
+  // テンプレート3「マスタリースキルの虚妄ダメージ+6%」はスキル固有効果のため対象外
+  // (静的ステータスモデルでは表現不可)。
+  // テンプレート4「滅妄ダメージ+4%」・テンプレート5「滅妄ダメージ+2%」も対応するStatIdが
+  // 存在しないため対象外(illusionPowerは実数値の"滅妄強度"であり、ダメージ%とは別軸)。
+  // テンプレート6「寂滅の夢の影響を受けている対象を攻撃すると、会心確率、幸運確率+2%」は
+  // 対象の状態異常に依存する条件付き効果のため対象外。
+  // テンプレート7「物理防御力75ptにつき、攻撃力+1pt」
+  3003720: [{ type: 'ratio_of', sourceStat: 'physicalDef', targetStat: 'atk', ratio: 1 / 75 }],
+  // テンプレート8「現在のメインステータス+150」
+  3003730: [{ type: 'main_stat', value: 150 }],
 };
 
 // 潜在因子 effectType=1 AttrId → StatId マッピング（平坦加算値。末尾が2のIDは加算、4のIDは%乗算のため別扱い）
