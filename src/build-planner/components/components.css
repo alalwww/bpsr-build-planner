@@ -456,3 +456,25 @@
   color: #f4a13a;
   font-weight: 600;
 }
+
+/* 折りたたみ領域の開閉トグル(装備選択のGS帯フィルター/イマジン選択のシーズン・品質
+   フィルターで共通利用)。操作可能であることはカーソル(pointer)と開閉記号(Chevron)
+   だけで示し、背景色・枠線は持たせない。 */
+.filter-toggle-btn {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #8a8a96;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.filter-toggle-btn:hover {
+  color: #c8c6d1;
+}

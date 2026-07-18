@@ -498,23 +498,6 @@
   color: #8a8a96;
 }
 
-/* 装備選択候補のGS帯フィルター(折りたたみ領域) */
-.equip-candidate-filter-toggle {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  padding: 0;
-  color: #8a8a96;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.equip-candidate-filter-toggle:hover {
-  color: #c8c6d1;
-}
-
 .equipment-dialog__select-trigger {
   width: 100%;
   max-width: 100%;

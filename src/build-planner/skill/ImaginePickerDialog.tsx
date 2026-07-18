@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import Chevron from '../components/Chevron';
 import DraggableDialog from '../components/DraggableDialog';
 import ToggleButtonGroup from '../components/ToggleButtonGroup';
+import ToggleChip from '../components/ToggleChip';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import {
   IMAGINE_QUALITY_FILTERS,
@@ -58,6 +59,14 @@ function ImaginePickerDialog({
     if (value !== null && seasonFilter === 'collab') setSeasonFilter(null);
   };
 
+  const filteredImagines = useMemo(
+    () =>
+      Object.values(battleImaginesData)
+        .filter((bi) => isImagineFilterMatch(bi, seasonFilter, qualityFilter))
+        .sort((a, b) => b.rarityType - a.rarityType || a.id - b.id),
+    [seasonFilter, qualityFilter],
+  );
+
   return (
     <>
       <DraggableDialog
@@ -74,22 +83,18 @@ function ImaginePickerDialog({
               {tUi('buildPlanner.skill.rank')}
             </span>
             {IMAGINE_RANKS.map((r) => (
-              <button
+              <ToggleChip
                 key={r}
-                type="button"
-                role="radio"
-                aria-checked={rank === r}
-                className={`toggle-chip${rank === r ? ' toggle-chip--selected' : ''}`}
+                selected={rank === r}
+                label={`G${r}`}
                 onClick={() => setRank(r)}
-              >
-                {`G${r}`}
-              </button>
+              />
             ))}
           </div>
           <div className="skill-picker-dialog__filter-block">
             <button
               type="button"
-              className="skill-picker-dialog__filter-toggle"
+              className="filter-toggle-btn"
               onClick={() => setFilterExpanded((v) => !v)}
             >
               <span>{tUi('buildPlanner.imagineFilter.toggle')}</span>
@@ -124,30 +129,27 @@ function ImaginePickerDialog({
           </div>
         </div>
         <div className="skill-picker-dialog__grid">
-          {Object.values(battleImaginesData)
-            .filter((bi) => isImagineFilterMatch(bi, seasonFilter, qualityFilter))
-            .sort((a, b) => b.rarityType - a.rarityType || a.id - b.id)
-            .map((bi) => {
-              const disabled = excludeIds.includes(bi.id);
-              const name = t(`battleImagines.${bi.id}.name`, { defaultValue: String(bi.id) });
-              return (
-                <button
-                  key={bi.id}
-                  type="button"
-                  className={`skill-picker-dialog__item${disabled ? ' skill-picker-dialog__item--disabled' : ''}`}
-                  disabled={disabled}
-                  onClick={() => {
-                    onSelect(bi.id, rank);
-                    onClose();
-                  }}
-                  onMouseEnter={(e) => showHover(bi.id, e)}
-                  onMouseLeave={hideHover}
-                >
-                  <SkillCircle iconPath={bi.icon} isImagine rarityType={bi.rarityType} size="sm" />
-                  <span className="skill-picker-dialog__item-name">{name}</span>
-                </button>
-              );
-            })}
+          {filteredImagines.map((bi) => {
+            const disabled = excludeIds.includes(bi.id);
+            const name = t(`battleImagines.${bi.id}.name`, { defaultValue: String(bi.id) });
+            return (
+              <button
+                key={bi.id}
+                type="button"
+                className={`skill-picker-dialog__item${disabled ? ' skill-picker-dialog__item--disabled' : ''}`}
+                disabled={disabled}
+                onClick={() => {
+                  onSelect(bi.id, rank);
+                  onClose();
+                }}
+                onMouseEnter={(e) => showHover(bi.id, e)}
+                onMouseLeave={hideHover}
+              >
+                <SkillCircle iconPath={bi.icon} isImagine rarityType={bi.rarityType} size="sm" />
+                <span className="skill-picker-dialog__item-name">{name}</span>
+              </button>
+            );
+          })}
         </div>
       </DraggableDialog>
       {hoverTooltip &&

@@ -192,6 +192,14 @@ function EquipmentSlotPicker({
       }),
     [candidates, candidateGsFilter, t],
   );
+  // GS帯フィルター適用中、一致グループ→非一致グループへ切り替わる境界のインデックス
+  // (sortedCandidatesは一致優先でソート済みのため、境界は最大1箇所)。未適用時・先頭から
+  // 非一致(=一致が1件もない)場合は-1(区切りを表示しない)。
+  const candidateDividerIndex = useMemo(() => {
+    if (!candidateGsFilter) return -1;
+    const index = sortedCandidates.findIndex((c) => !isCandidateGsMatch(c, candidateGsFilter));
+    return index > 0 ? index : -1;
+  }, [sortedCandidates, candidateGsFilter]);
 
   const enchantsList = equippedItem?.enchantId
     ? (enchantsData[String(equippedItem.enchantId)] ?? [])
@@ -322,32 +330,31 @@ function EquipmentSlotPicker({
   // 異なれば同じ効果でも両方選択できる)。
   const legendaryAffixGroupPickers =
     legendaryAffixGroups && legendaryAffixGroups.length > 0
-      ? legendaryAffixGroups.map((group, i) => {
-          const poolKey = getLegendaryAffixGroupPoolKey(group);
-          const otherSelectedAttrIds = new Set(
-            (selectedLegendaryAffixGroup ?? [])
-              .filter(
-                (_, j) =>
-                  j !== i && getLegendaryAffixGroupPoolKey(legendaryAffixGroups[j]) === poolKey,
-              )
-              .map((sel) => sel?.attrId)
-              .filter((attrId): attrId is number => attrId !== undefined),
-          );
-          const availableGroup = group.filter((entry) => !otherSelectedAttrIds.has(entry.attrId));
-          return (
-            <LegendaryAffixPicker
-              key={i}
-              legendaryAffixList={availableGroup}
-              selectedLegendaryAffix={selectedLegendaryAffixGroup?.[i]}
-              isOpen={affixGroupOpenIndex === i}
-              onToggleOpen={() => setAffixGroupOpenIndex(affixGroupOpenIndex === i ? null : i)}
-              onSet={(sel) => {
-                onSetLegendaryAffixGroup(i, sel);
-                setAffixGroupOpenIndex(null);
-              }}
-            />
-          );
-        })
+      ? (() => {
+          const poolKeys = legendaryAffixGroups.map(getLegendaryAffixGroupPoolKey);
+          return legendaryAffixGroups.map((group, i) => {
+            const otherSelectedAttrIds = new Set(
+              (selectedLegendaryAffixGroup ?? [])
+                .filter((_, j) => j !== i && poolKeys[j] === poolKeys[i])
+                .map((sel) => sel?.attrId)
+                .filter((attrId): attrId is number => attrId !== undefined),
+            );
+            const availableGroup = group.filter((entry) => !otherSelectedAttrIds.has(entry.attrId));
+            return (
+              <LegendaryAffixPicker
+                key={i}
+                legendaryAffixList={availableGroup}
+                selectedLegendaryAffix={selectedLegendaryAffixGroup?.[i]}
+                isOpen={affixGroupOpenIndex === i}
+                onToggleOpen={() => setAffixGroupOpenIndex(affixGroupOpenIndex === i ? null : i)}
+                onSet={(sel) => {
+                  onSetLegendaryAffixGroup(i, sel);
+                  setAffixGroupOpenIndex(null);
+                }}
+              />
+            );
+          });
+        })()
       : null;
 
   // ホバー中の候補を「希望グレード」で解決した表示ビュー(名前/効果は精・極に応じて変化)。
@@ -464,7 +471,7 @@ function EquipmentSlotPicker({
               <label className="equipment-dialog__label">{slotLabel}</label>
               <button
                 type="button"
-                className="equip-candidate-filter-toggle"
+                className="filter-toggle-btn"
                 onClick={() => setCandidateFilterExpanded((v) => !v)}
               >
                 <span>{t('buildPlanner.candidateFilter.toggle')}</span>
@@ -515,16 +522,11 @@ function EquipmentSlotPicker({
                     </button>
                     {sortedCandidates.map((candidate, i) => {
                       const name = t(`items.${candidate.id}.name`, { ns: 'game-data' });
-                      // GS帯フィルター適用中、一致グループ→非一致グループの境界にのみ区切りを挿入する。
-                      const prevCandidate = sortedCandidates[i - 1];
-                      const showGroupDivider =
-                        candidateGsFilter !== null &&
-                        prevCandidate !== undefined &&
-                        isCandidateGsMatch(prevCandidate, candidateGsFilter) &&
-                        !isCandidateGsMatch(candidate, candidateGsFilter);
                       return (
                         <Fragment key={candidate.id}>
-                          {showGroupDivider && <div className="equipment-dialog__select-divider" />}
+                          {i === candidateDividerIndex && (
+                            <div className="equipment-dialog__select-divider" />
+                          )}
                           <button
                             type="button"
                             className={`equipment-dialog__select-option${candidate.id === equippedId ? ' equipment-dialog__select-option--selected' : ''}`}

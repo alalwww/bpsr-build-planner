@@ -417,28 +417,6 @@
   gap: 6px;
 }
 
-/* イマジン選択候補のシーズン/品質フィルターの開閉トグル。
-   操作可能であることはカーソル(pointer)と開閉記号(Chevron)だけで示し、
-   背景色・枠線は持たせない(装備選択のGS帯フィルタートグルと同じ最小限の見た目)。 */
-.skill-picker-dialog__filter-toggle {
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
-  background: none;
-  border: none;
-  padding: 0;
-  color: #8a8a96;
-  font-size: 11px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.skill-picker-dialog__filter-toggle:hover {
-  color: #c8c6d1;
-}
-
 .skill-picker-dialog__filter-groups {
   display: flex;
   flex-direction: column;
