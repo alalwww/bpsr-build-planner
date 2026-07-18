@@ -84,7 +84,8 @@ function CustomDropdown({
                 onMouseEnter={(e) => {
                   if (opt.description) {
                     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                    setTooltip({ opt, x: rect.right + 6, y: rect.top });
+                    // リストの右側(画面右端に近く潰れやすい)ではなく左側に表示する。
+                    setTooltip({ opt, x: rect.left - 6, y: rect.top });
                   }
                 }}
                 onMouseLeave={() => setTooltip(null)}
@@ -102,7 +103,13 @@ function CustomDropdown({
         )}
       </Dropdown>
       {tooltip && tooltip.opt.description && (
-        <FloatingTooltip x={tooltip.x} y={tooltip.y} className="phantom-dropdown__tooltip">
+        <FloatingTooltip
+          x={tooltip.x}
+          y={tooltip.y}
+          clamp
+          align="left"
+          className="phantom-dropdown__tooltip"
+        >
           <div className="phantom-dropdown__tooltip-name">{tooltip.opt.label}</div>
           <div className="phantom-dropdown__tooltip-desc">{tooltip.opt.description}</div>
         </FloatingTooltip>
