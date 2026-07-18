@@ -244,6 +244,28 @@
   font-size: 11px;
 }
 
+/* 絆スロット1〜5の開放Lv一覧(絆レベル効果の折り畳み末尾に表示) */
+.phantom-bond-slots-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 4px 0 0;
+  padding: 4px 0 2px;
+  border-top: 1px dashed #2a2a38;
+  list-style: none;
+}
+
+.phantom-bond-slot {
+  color: #6a6a8a;
+  opacity: 0.45;
+  font-size: 11px;
+}
+
+.phantom-bond-slot--active {
+  color: #9090c0;
+  opacity: 1;
+}
+
 /* ---- ノード効果エリア ---- */
 .phantom-desc-area {
   border-bottom: 1px solid #2a2a33;

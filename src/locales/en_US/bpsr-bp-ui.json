@@ -298,6 +298,8 @@
       "templateLockedSuffix": " (Unlocks at Lv.{{level}})",
       "bondPoints": "Total Bond Points",
       "bondEffects": "Bond Level Effects",
+      "bondSlotLevel": "Bond Slot {{index}}: Lv.{{level}}",
+      "bondSlotAlways": "Bond Slot {{index}}: Always unlocked",
       "nodeEffect": "Node Effect",
       "nodeEffectPlaceholder": "Click a node to view its effect",
       "factorSlot": "Phantom Factor Slot",

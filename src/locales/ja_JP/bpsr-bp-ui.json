@@ -298,6 +298,8 @@
       "templateLockedSuffix": "（Lv.{{level}}で開放）",
       "bondPoints": "合計絆ポイント",
       "bondEffects": "絆レベル効果",
+      "bondSlotLevel": "絆スロット{{index}}: Lv.{{level}}",
+      "bondSlotAlways": "絆スロット{{index}}: 常時開放",
       "nodeEffect": "ノード効果",
       "nodeEffectPlaceholder": "ノードをクリックするとノード効果が表示されます",
       "factorSlot": "幻影因子スロット",

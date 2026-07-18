@@ -236,6 +236,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
               phantomTemplateId={phantomTemplateId}
               phantomBondPoints={phantomBondPoints}
               onBondPointsChange={onPhantomBondPointsChange}
+              phantomLevel={phantomLevel}
             />
 
             {/* ノード効果（折り畳み可能） */}
