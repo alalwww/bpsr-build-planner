@@ -70,6 +70,42 @@
   color: #f4a13a;
 }
 
+/* 保存ボタン直下の「現在のビルドをリセット」行 */
+.character-panel__reset-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.character-panel__reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.character-panel__reset-btn:hover {
+  background: rgba(248, 113, 113, 0.12);
+}
+
+.character-panel__reset-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  background-color: #f87171;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
 .character-panel__plan-list {
   position: absolute;
   top: calc(100% + 2px);
@@ -131,19 +167,6 @@
 .character-panel__plan-load:hover {
   background: rgba(255, 255, 255, 0.07);
   color: #f4f0e8;
-}
-
-.character-panel__plan-item--new {
-  border-top: 1px solid #3a3a50;
-  border-bottom: none;
-}
-
-.character-panel__plan-new {
-  color: #7ab0d8;
-}
-
-.character-panel__plan-new:hover {
-  color: #a8d0f0;
 }
 
 .character-panel__plan-item--code-actions {

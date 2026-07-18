@@ -9,6 +9,7 @@ import { PROFESSIONS } from '../profession';
 import type { BuildPlanData } from '../buildPlan';
 import { useBuildStore } from '../store/useBuildStore';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
+import resetIconUrl from '../../assets/ui/com_btn_delete.png';
 
 // プラン管理(名称入力・保存・一覧・読込/リネーム/削除・コードのインポート/エクスポート・
 // 旧フォーマット移行/読込エラー通知)のヘッダー行とダイアログ群。
@@ -65,7 +66,7 @@ function PlanManager() {
   const [loadConfirmTarget, setLoadConfirmTarget] = useState<{ id: string; name: string } | null>(
     null,
   );
-  const [confirmNewPlan, setConfirmNewPlan] = useState(false);
+  const [confirmResetPlan, setConfirmResetPlan] = useState(false);
   const [renameTarget, setRenameTarget] = useState<{ id: string; currentName: string } | null>(
     null,
   );
@@ -150,15 +151,15 @@ function PlanManager() {
     setLoadConfirmTarget({ id, name: plan.name });
   };
 
-  const handleNewPlanConfirmed = () => {
+  const handleResetPlanConfirmed = () => {
     onResetPlan();
-    setConfirmNewPlan(false);
+    setConfirmResetPlan(false);
     setIsPlanListOpen(false);
     setDeleteConfirmId(null);
   };
 
-  const handleNewPlan = () => {
-    setConfirmNewPlan(true);
+  const handleResetPlanClick = () => {
+    setConfirmResetPlan(true);
   };
 
   const handleOpenExportDialog = () => {
@@ -264,11 +265,25 @@ function PlanManager() {
             onLoadPlan={handleLoadPlan}
             onOpenRenameDialog={openRenameDialog}
             onDeletePlan={onDeletePlan}
-            onNewPlan={handleNewPlan}
             onOpenExportDialog={handleOpenExportDialog}
             onOpenImportDialog={handleOpenImportDialog}
           />
         )}
+      </div>
+
+      {/* 現在のビルドを初期値にリセットする行(保存ボタンの直下) */}
+      <div className="character-panel__reset-row">
+        <button
+          type="button"
+          className="character-panel__reset-btn"
+          title={t('buildPlanner.resetPlan', { defaultValue: 'Reset current build' })}
+          onClick={handleResetPlanClick}
+        >
+          <span
+            className="character-panel__reset-icon"
+            style={{ WebkitMaskImage: `url(${resetIconUrl})`, maskImage: `url(${resetIconUrl})` }}
+          />
+        </button>
       </div>
 
       {/* プラン読み込み確認モーダル */}
@@ -367,16 +382,17 @@ function PlanManager() {
         />
       )}
 
-      {/* 新規プラン確認モーダル */}
-      {confirmNewPlan && (
+      {/* 現在のビルドのリセット確認モーダル */}
+      {confirmResetPlan && (
         <ConfirmDialog
-          message={t('buildPlanner.confirmNewPlanMsg', {
-            defaultValue: '新しいビルドプランを作成します。現在の変更はリセットされます。',
+          message={t('buildPlanner.confirmResetPlanMsg', {
+            defaultValue:
+              '現在のビルドを初期値にリセットします（保存済みビルドプランは削除されません）',
           })}
           confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
-          onConfirm={handleNewPlanConfirmed}
+          onConfirm={handleResetPlanConfirmed}
           cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
-          onCancel={() => setConfirmNewPlan(false)}
+          onCancel={() => setConfirmResetPlan(false)}
         />
       )}
 

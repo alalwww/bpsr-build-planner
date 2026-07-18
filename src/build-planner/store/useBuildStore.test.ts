@@ -167,6 +167,13 @@ describe('moduleSlice', () => {
 });
 
 describe('phantomSlice', () => {
+  it('initial state (no autosave data): 潜在Lv1・絆レベルポイント0・テンプレート未選択・OFF', () => {
+    expect(initialState.phantomEnabled).toBe(false);
+    expect(initialState.phantomLevel).toBe(1);
+    expect(initialState.phantomTemplateId).toBeNull();
+    expect(initialState.phantomBondPoints).toBe(0);
+  });
+
   it('setPhantomTemplateId: テンプレート変更時にnode/factor選択をリセットする', () => {
     useBuildStore.getState().setPhantomNodeSelection(1, 100);
     useBuildStore.getState().setPhantomFactorSlot(1, { classKey: 'stormBlade', grade: 3 });
@@ -346,5 +353,25 @@ describe('planSlice', () => {
     const state = useBuildStore.getState();
     expect(state.planName).toBe('');
     expect(state.equipped).toEqual(DEFAULT_LOADOUT);
+  });
+
+  it('resetPlan: 心相投影(潜在Lv/絆レベルポイント/テンプレート/ノード選択/因子装着)も初期値へ戻す', () => {
+    useBuildStore.getState().setPhantomEnabled(true);
+    useBuildStore.getState().setPhantomTemplateIdState(1);
+    useBuildStore.getState().setPhantomLevel(50);
+    useBuildStore.getState().setPhantomBondPoints(25);
+    useBuildStore.getState().setPhantomNodeSelection(1, 12345);
+    // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current)。
+    useBuildStore.getState().setPhantomFactorSlot(163, { classKey: '202201', grade: 1 });
+
+    useBuildStore.getState().resetPlan();
+
+    const state = useBuildStore.getState();
+    expect(state.phantomEnabled).toBe(false);
+    expect(state.phantomTemplateId).toBeNull();
+    expect(state.phantomLevel).toBe(1);
+    expect(state.phantomBondPoints).toBe(0);
+    expect(state.phantomNodeSelections).toEqual({});
+    expect(state.phantomFactorSlots).toEqual({});
   });
 });

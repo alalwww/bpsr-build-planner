@@ -51,10 +51,11 @@ export const STATIC_AUTOSAVE_DEFAULTS = {
   imagineRanks: [5, 5],
   moduleSlots: [null, null, null, null, null],
   adventurerLevel: 60,
-  phantomEnabled: true,
-  phantomLevel: 100,
+  // 心相投影(潜在)は何のデータもない初期状態では未選択・OFFとする(潜在Lv1・絆レベルポイント0)。
+  phantomEnabled: false,
+  phantomLevel: 1,
   phantomTemplateId: null,
-  phantomBondPoints: 35,
+  phantomBondPoints: 0,
   phantomNodeSelections: {},
   phantomFactorSlots: {},
 } satisfies Partial<AutoSaveState>;

@@ -12,7 +12,6 @@ interface PlanListDropdownProps {
   onLoadPlan: (id: string) => void;
   onOpenRenameDialog: (plan: BuildPlanData) => void;
   onDeletePlan: (id: string) => void;
-  onNewPlan: () => void;
   onOpenExportDialog: () => void;
   onOpenImportDialog: () => void;
 }
@@ -24,7 +23,6 @@ function PlanListDropdown({
   onLoadPlan,
   onOpenRenameDialog,
   onDeletePlan,
-  onNewPlan,
   onOpenExportDialog,
   onOpenImportDialog,
 }: PlanListDropdownProps) {
@@ -98,15 +96,6 @@ function PlanListDropdown({
           );
         })
       )}
-      <div className="character-panel__plan-item character-panel__plan-item--new">
-        <button
-          type="button"
-          className="character-panel__plan-load character-panel__plan-new"
-          onClick={onNewPlan}
-        >
-          {t('buildPlanner.newPlan')}
-        </button>
-      </div>
       <div className="character-panel__plan-item character-panel__plan-item--code-actions">
         <button
           type="button"

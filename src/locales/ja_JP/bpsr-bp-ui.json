@@ -35,7 +35,7 @@
     "empty": "変更履歴がありません"
   },
   "buildPlanner": {
-    "newPlan": "新しいビルドプラン",
+    "resetPlan": "現在のビルドをリセット",
     "buildPlanPlaceholder": "ビルドプラン名",
     "seasonBadge": "Season 3",
     "abilityScore": "能力スコア",
@@ -131,7 +131,7 @@
     "confirmOverwriteMsg": "「{{name}}」は既に存在します。上書きしますか？",
     "overwrite": "上書き",
     "confirmLoadMsg": "「{{name}}」を読み込みます。現在の変更はリセットされます。",
-    "confirmNewPlanMsg": "新しいビルドプランを作成します。現在の変更はリセットされます。",
+    "confirmResetPlanMsg": "現在のビルドを初期値にリセットします（保存済みビルドプランは削除されません）",
     "exportPlan": "エクスポート",
     "exportPlanMsg": "現在編集中のビルドプランをコードとして出力しました。",
     "copyCode": "コピー",

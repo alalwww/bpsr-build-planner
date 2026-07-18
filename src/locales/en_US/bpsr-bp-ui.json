@@ -35,7 +35,7 @@
     "empty": "No changelog entries"
   },
   "buildPlanner": {
-    "newPlan": "New Build Plan",
+    "resetPlan": "Reset current build",
     "buildPlanPlaceholder": "Build Plan Name",
     "seasonBadge": "Season 3",
     "abilityScore": "Ability Score",
@@ -131,7 +131,7 @@
     "confirmOverwriteMsg": "\"{{name}}\" already exists. Overwrite?",
     "overwrite": "Overwrite",
     "confirmLoadMsg": "Load \"{{name}}\"? Current changes will be reset.",
-    "confirmNewPlanMsg": "Create a new build plan? Current changes will be reset.",
+    "confirmResetPlanMsg": "This will reset the current build to its defaults (saved build plans will not be deleted).",
     "exportPlan": "Export",
     "exportPlanMsg": "The current build plan has been exported as a code.",
     "copyCode": "Copy",
