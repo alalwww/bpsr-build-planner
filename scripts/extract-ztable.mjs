@@ -769,8 +769,12 @@ function extractEquipment(langDir) {
 
   // 伝説刻印: AllowPart=[] は防具部位には適用されない(武器/アクセサリのみ)。
   const LEGENDARY_ARMOR_PARTS = new Set([201, 202, 203, 204, 208, 209]);
-  // 防具刻印の中でも %表示になるステータス(筋力/知力/敏捷は値/100が%)。
-  const LEGENDARY_ARMOR_PERCENT_ATTR_IDS = new Set([11014, 11024, 11034]);
+  // 防具刻印の中でも %表示になるステータス(筋力/知力/敏捷/攻撃速度/詠唱速度/回復力/
+  // バリア強度万分率は値/100が%。他の装備部位カテゴリ(武器/アクセサリ)では同じattrIdが
+  // 常にisPercent:trueで出現しているため、防具側だけこの一覧から漏れていた4件を追加した)。
+  const LEGENDARY_ARMOR_PERCENT_ATTR_IDS = new Set([
+    11014, 11024, 11034, 11722, 11732, 11792, 11812,
+  ]);
 
   // QualityChildAttrLibId から部位別の選択可能刻印ステータスを抽出する。
   // libId < 5000000 (テスト/プレースホルダ) は除外。
