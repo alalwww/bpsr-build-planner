@@ -142,12 +142,15 @@
     "importPlaceholder": "エクスポートしたコードを貼り付け",
     "importErrorMsg": "コードを読み込めませんでした。正しいコードか確認してください。",
     "shareBuild": "共有",
-    "switchToShare": "共有へ切替",
+    "sharePanelLabel": "シェア",
+    "switchToShare": "シェアへ切り替え",
     "switchToExport": "エクスポートへ切替",
     "generateShortUrl": "共有リンクを作成",
     "generatingShortUrl": "作成中…",
+    "shortUrlCreated": "作成済み",
     "shortUrlRateLimitNote": [
       "共有用リンクを生成します。",
+      "プラン名は共有されません。",
       "短時間で複数回の生成はできません。",
       "失敗した場合時間をおいてお試し下さい。"
     ],

@@ -459,11 +459,14 @@ function PlanManager() {
           })}
           confirmLabel={t('buildPlanner.close', { defaultValue: '閉じる' })}
           onConfirm={() => setExportDialogOpen(false)}
-          cancelLabel={t('buildPlanner.switchToShare', { defaultValue: '共有へ切替' })}
+          cancelLabel={t('buildPlanner.switchToShare', { defaultValue: 'シェアへ切り替え' })}
           onCancel={() => {
             setExportDialogOpen(false);
             setShareDialogOpen(true);
           }}
+          onDismiss={() => setExportDialogOpen(false)}
+          closeOnOverlayClick={false}
+          closeIcon
         >
           <textarea
             className="confirm-dialog__textarea"

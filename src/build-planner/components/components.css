@@ -18,9 +18,37 @@
 
 /* Confirm dialog (共通確認モーダル: プラン保存/削除/読込確認・タレントリセット確認等) */
 .confirm-dialog {
+  position: relative;
   padding: 20px 24px;
   min-width: 280px;
   max-width: 360px;
+}
+
+/* closeIcon=true の時、下部の確定ボタンの代わりに右上へ出す閉じるアイコン。 */
+.confirm-dialog__close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: #8a8a96;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.confirm-dialog__close-icon:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f4f0e8;
 }
 
 .confirm-dialog__title {

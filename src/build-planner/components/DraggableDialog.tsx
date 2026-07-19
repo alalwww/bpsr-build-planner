@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 import { useDraggable } from './useDraggable';
+import { useFocusTrap } from './useFocusTrap';
 
 interface Size {
   w: number;
@@ -28,6 +29,9 @@ interface DraggableDialogProps {
   headerExtra?: ReactNode;
   /** 背景を暗転させ、外側クリックで閉じるオーバーレイを表示するか。既定 true。 */
   overlay?: boolean;
+  /** overlay=true の場合、外側クリックでonCloseを呼ぶか。既定 true。falseにすると
+   * 背景は暗転するが外側クリックでは閉じなくなる(誤操作で閉じられたくないダイアログ用)。 */
+  closeOnOverlayClick?: boolean;
   /** リサイズハンドルを表示し、位置をドラッグ+リサイズ可能にするか。既定 false(中央固定+ドラッグ移動のみ)。 */
   resizable?: boolean;
   /** OSネイティブウィンドウ内での表示か。true時はタイトルバー/オーバーレイ/自前ドラッグ・リサイズを
@@ -51,6 +55,7 @@ function DraggableDialog({
   className,
   headerExtra,
   overlay = true,
+  closeOnOverlayClick = true,
   resizable = false,
   windowed = false,
   initialPos,
@@ -69,6 +74,10 @@ function DraggableDialog({
   const [size, setSize] = useState<Size>(initialSize);
   const dragRef = useRef<{ ox: number; oy: number; px: number; py: number } | null>(null);
   const resizeRef = useRef<{ ox: number; oy: number; w: number; h: number } | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // オーバーレイ付きモーダル(windowedを除く)の間、Tabでダイアログ外へフォーカスが
+  // 逃げないようにする。
+  useFocusTrap(dialogRef, overlay && !windowed);
 
   const onFixedHeaderMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -136,6 +145,7 @@ function DraggableDialog({
 
   const dialogBox = (
     <div
+      ref={dialogRef}
       className={`draggable-dialog${resizable ? ' draggable-dialog--resizable' : ''}${className ? ` ${className}` : ''}`}
       style={dialogStyle}
       onClick={(e) => e.stopPropagation()}
@@ -162,7 +172,7 @@ function DraggableDialog({
   if (!overlay) return dialogBox;
 
   return (
-    <div className="draggable-dialog-overlay" onClick={onClose}>
+    <div className="draggable-dialog-overlay" onClick={closeOnOverlayClick ? onClose : undefined}>
       {dialogBox}
     </div>
   );

@@ -142,12 +142,15 @@
     "importPlaceholder": "Paste an exported code",
     "importErrorMsg": "Could not read the code. Please check that it is valid.",
     "shareBuild": "Share",
+    "sharePanelLabel": "Share",
     "switchToShare": "Switch to Share",
     "switchToExport": "Switch to Export",
     "generateShortUrl": "Create share link",
     "generatingShortUrl": "Creating…",
+    "shortUrlCreated": "Created",
     "shortUrlRateLimitNote": [
       "Generates a shareable link.",
+      "The plan name is not shared.",
       "Can't be generated repeatedly in a short time.",
       "If it fails, please try again later."
     ],

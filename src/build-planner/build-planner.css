@@ -130,10 +130,33 @@
   line-height: 1.6;
 }
 
+/* URL入力欄とシェアボタン群をまとめて角丸の枠で囲む。position:relativeは
+   左上にfieldsetのlegendのように乗せるラベル(share-dialog__panel-label)の基準。 */
+.share-dialog__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px 10px 10px;
+  border: 1px solid #3a3a50;
+  border-radius: 10px;
+}
+
+.share-dialog__panel-label {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  padding: 0 6px;
+  background: #22222b;
+  color: #8a8a96;
+  font-size: 11px;
+  line-height: 1;
+}
+
 .share-dialog__url-row {
   display: flex;
   gap: 8px;
-  margin-top: 10px;
 }
 
 .share-dialog__input--muted {
@@ -142,45 +165,35 @@
 
 .share-dialog__icons {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
+  justify-content: center;
+  gap: 12px;
 }
 
+/* 強調は色ではなく透過度(opacity)だけで表現する: 非活性35%・活性(通常)80%・
+   ホバー100%。背景・アイコン色そのものは状態に関わらず固定。 */
 .share-dialog__icon-btn {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 34px;
-  background: rgba(255, 255, 255, 0.05);
+  width: 68px;
+  height: 68px;
+  background: #f4f0e8;
   border: 1px solid #3a3a50;
-  border-radius: 6px;
-  color: #c8c6d1;
-  font-size: 14px;
+  border-radius: 50%;
+  color: #1c1c24;
+  font-size: 28px;
   cursor: pointer;
-  transition:
-    color 0.15s,
-    background 0.15s,
-    border-color 0.15s;
+  opacity: 0.8;
+  transition: opacity 0.15s;
 }
 
 .share-dialog__icon-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  color: #f4f0e8;
+  opacity: 1;
 }
 
 .share-dialog__icon-btn:disabled {
-  color: #4a4a5a;
+  opacity: 0.35;
   cursor: default;
-}
-
-.share-dialog__icon-btn--x:hover:not(:disabled) {
-  border-color: #e8e6e1;
-}
-
-.share-dialog__icon-btn--line:hover:not(:disabled) {
-  border-color: #06c755;
-  color: #06c755;
 }
 
 .build-planner__tab {
