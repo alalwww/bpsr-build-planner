@@ -179,4 +179,27 @@ describe('findEffectivePath', () => {
     });
     expect(findEffectivePath(4, new Set([1, 2]), diamond, () => true)).toEqual([2, 4]);
   });
+
+  it('中継ノードがアンロック条件を満たしていない場合、そこを経由する経路はnullになる', () => {
+    // 1(root, 取得済み) → 2(未取得, アンロック未達) → 3(未取得)
+    // 2自身のクリックはhandleNodeClick側で別途弾かれる想定のため、ここでは
+    // 「2を経由しないと辿り着けない3」がisUnlockMet経由でブロックされることを確認する。
+    const chain = buildTree({
+      1: { next: [2] },
+      2: { pre: [1], next: [3] },
+      3: { pre: [2] },
+    });
+    const isUnlockMet = (n: TreeNode) => n.id !== 2;
+    expect(findEffectivePath(3, new Set([1]), chain, () => true, isUnlockMet)).toBeNull();
+  });
+
+  it('中継ノードがアンロック条件を満たしていれば従来通り経路を返す', () => {
+    const chain = buildTree({
+      1: { next: [2] },
+      2: { pre: [1], next: [3] },
+      3: { pre: [2] },
+    });
+    const isUnlockMet = () => true;
+    expect(findEffectivePath(3, new Set([1]), chain, () => true, isUnlockMet)).toEqual([1, 2, 3]);
+  });
 });

@@ -189,7 +189,7 @@ export default function TalentTreePanel({
     if (enabledIds.has(hoveredId)) return null;
     const hovNode = nodesById.get(hoveredId);
     if (hovNode && !isUnlockMet(hovNode)) return null;
-    return findEffectivePath(hoveredId, enabledIds, nodesById, stageFilter);
+    return findEffectivePath(hoveredId, enabledIds, nodesById, stageFilter, isUnlockMet);
   }, [hoveredId, enabledIds, nodesById, stageFilter, isUnlockMet]);
 
   const hoverPathSet = useMemo(

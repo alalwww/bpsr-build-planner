@@ -160,6 +160,9 @@ export function findEffectivePath(
   enabledIds: ReadonlySet<number>,
   nodesById: ReadonlyMap<number, TreeNode>,
   stageFilter: (n: TreeNode) => boolean,
+  // 中継ノード(対象ノード自身は除く)がアンロック条件(type=3の総消費ポイント等)を
+  // 満たしているか。省略時は常にtrue(条件を考慮しない、既存呼び出し互換用)。
+  isUnlockMet: (n: TreeNode) => boolean = () => true,
 ): number[] | null {
   if (enabledIds.has(target)) return null;
 
@@ -184,6 +187,9 @@ export function findEffectivePath(
 
     const node = nodesById.get(nodeId);
     if (!node || !stageFilter(node)) continue;
+    // 未取得の中継ノードがアンロック条件を満たしていなければ、そこを経由する経路は
+    // 成立しない(このノードより先を辿らない)。対象ノード自身は呼び出し側で別途判定する。
+    if (nodeId !== target && !isUnlockMet(node)) continue;
 
     for (const pre of node.preNodes) {
       if (!path.includes(pre)) {
