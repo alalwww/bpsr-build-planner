@@ -1,0 +1,96 @@
+name: Deploy Backend to xrea
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-backend
+  cancel-in-progress: false
+
+jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # workflow_dispatchは常にデプロイする。タグpushの場合のみ、直前のリリースタグとの
+      # 間でbackend/配下に変更があるかを見て、なければスキップする。
+      - name: Check whether backend/ changed since the previous release tag
+        id: diff
+        run: |
+          if [ "${{ github.event_name }}" != "push" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          current_tag="${GITHUB_REF_NAME}"
+          prev_tag=""
+          found_current=false
+          for t in $(git tag --list 'v*' --sort=-v:refname); do
+            if [ "$found_current" = true ]; then
+              prev_tag="$t"
+              break
+            fi
+            if [ "$t" = "$current_tag" ]; then
+              found_current=true
+            fi
+          done
+
+          if [ -z "$prev_tag" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$prev_tag" "$current_tag" -- backend/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: check-changes
+    if: needs.check-changes.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      # Secretsをrunスクリプト内に直接文字列展開すると、値に含まれる引用符等でスクリプトが
+      # 壊れたりインジェクションの温床になったりするため、env経由でPHPのgetenv()から読む。
+      - name: Generate config.php from secrets
+        env:
+          DB_DSN: ${{ secrets.SHORTURL_DB_DSN }}
+          DB_USER: ${{ secrets.SHORTURL_DB_USER }}
+          DB_PASSWORD: ${{ secrets.SHORTURL_DB_PASSWORD }}
+          RATE_LIMIT_SALT: ${{ secrets.SHORTURL_RATE_LIMIT_SALT }}
+        run: |
+          php -r '
+            $config = [
+                "db" => [
+                    "dsn" => getenv("DB_DSN"),
+                    "user" => getenv("DB_USER"),
+                    "password" => getenv("DB_PASSWORD"),
+                ],
+                "rate_limit_salt" => getenv("RATE_LIMIT_SALT"),
+            ];
+            file_put_contents(
+                "backend/public/config.php",
+                "<?php\ndeclare(strict_types=1);\nreturn " . var_export($config, true) . ";\n"
+            );
+          '
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.XREA_FTP_HOST }}
+          username: ${{ secrets.XREA_FTP_USERNAME }}
+          password: ${{ secrets.XREA_FTP_PASSWORD }}
+          local-dir: backend/public/
+          server-dir: ${{ secrets.XREA_FTP_REMOTE_DIR }}

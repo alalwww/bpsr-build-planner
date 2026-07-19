@@ -4,9 +4,9 @@ import { useShallow } from 'zustand/react/shallow';
 import PlanListDropdown from './PlanListDropdown';
 import Chevron from '../components/Chevron';
 import ConfirmDialog from '../components/ConfirmDialog';
-import { getClassData } from '../classData';
-import { PROFESSIONS } from '../profession';
+import { formatProfessionLabel } from '../profession';
 import type { BuildPlanData } from '../buildPlan';
+import ShareBuildButton from '../ShareBuildButton';
 import { useBuildStore } from '../store/useBuildStore';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
 import resetIconUrl from '../../assets/ui/com_btn_delete.png';
@@ -74,6 +74,7 @@ function PlanManager() {
   const [exportDialogOpen, setExportDialogOpen] = useState(false);
   const [exportedCode, setExportedCode] = useState('');
   const [copied, setCopied] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importInput, setImportInput] = useState('');
   const [importError, setImportError] = useState(false);
@@ -102,16 +103,7 @@ function PlanManager() {
     if (renameTarget) renameInputRef.current?.focus();
   }, [renameTarget]);
 
-  const getDefaultName = () => {
-    const professionId = PROFESSIONS[professionKey].professionId;
-    const showTalentStage = getClassData(professionId)?.showTalentStage ?? [];
-    const typeStageId = showTalentStage[professionTypeKey === 'type1' ? 0 : 1];
-    const className = tGame(`classes.${professionId}.name`, { defaultValue: professionKey });
-    const typeName = typeStageId
-      ? tGame(`talentStages.${typeStageId}.typeName`, { defaultValue: professionTypeKey })
-      : professionTypeKey;
-    return `${className}(${typeName})`;
-  };
+  const getDefaultName = () => formatProfessionLabel(professionKey, professionTypeKey, tGame);
 
   const handleSave = () => {
     const name = planName.trim() || getDefaultName();
@@ -225,7 +217,7 @@ function PlanManager() {
 
   return (
     <>
-      {/* Header: plan name + expand + save */}
+      {/* Header: plan name + expand */}
       <div className="character-panel__header" ref={planListRef}>
         <input
           className="character-panel__name-input"
@@ -247,14 +239,6 @@ function PlanManager() {
         >
           <Chevron open={isPlanListOpen} />
         </button>
-        <button
-          type="button"
-          className="character-panel__plan-save"
-          title={t('buildPlanner.savePlan', { defaultValue: 'Save Plan' })}
-          onClick={handleSave}
-        >
-          <img src={saveIconUrl} className="character-panel__save-icon" alt="" />
-        </button>
 
         {/* プランドロップダウン */}
         {isPlanListOpen && (
@@ -271,7 +255,7 @@ function PlanManager() {
         )}
       </div>
 
-      {/* 現在のビルドを初期値にリセットする行(保存ボタンの直下) */}
+      {/* リセット(左端)・保存・共有(右端)の行 */}
       <div className="character-panel__reset-row">
         <button
           type="button"
@@ -284,6 +268,21 @@ function PlanManager() {
             style={{ WebkitMaskImage: `url(${resetIconUrl})`, maskImage: `url(${resetIconUrl})` }}
           />
         </button>
+        <div className="character-panel__action-group">
+          <ShareBuildButton
+            open={shareDialogOpen}
+            onOpenChange={setShareDialogOpen}
+            onSwitchToExport={handleOpenExportDialog}
+          />
+          <button
+            type="button"
+            className="character-panel__plan-save"
+            title={t('buildPlanner.savePlan', { defaultValue: 'Save Plan' })}
+            onClick={handleSave}
+          >
+            <img src={saveIconUrl} className="character-panel__save-icon" alt="" />
+          </button>
+        </div>
       </div>
 
       {/* プラン読み込み確認モーダル */}
@@ -460,6 +459,11 @@ function PlanManager() {
           })}
           confirmLabel={t('buildPlanner.close', { defaultValue: '閉じる' })}
           onConfirm={() => setExportDialogOpen(false)}
+          cancelLabel={t('buildPlanner.switchToShare', { defaultValue: '共有へ切替' })}
+          onCancel={() => {
+            setExportDialogOpen(false);
+            setShareDialogOpen(true);
+          }}
         >
           <textarea
             className="confirm-dialog__textarea"

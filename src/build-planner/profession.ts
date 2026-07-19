@@ -200,3 +200,20 @@ export function isProfessionOpen(profession: Profession): boolean {
 export function getOpenProfessions(): Profession[] {
   return Object.values(PROFESSIONS).filter(isProfessionOpen);
 }
+
+// "{クラス名}({型名})" 形式の表示ラベルを組み立てる(プラン名の初期値・共有テキスト等で共用)。
+// tGameは `useTranslation('game-data')` のtをそのまま渡す。
+export function formatProfessionLabel(
+  professionKey: ProfessionKey,
+  professionTypeKey: ProfessionTypeKey,
+  tGame: (key: string, options: { defaultValue: string }) => string,
+): string {
+  const professionId = PROFESSIONS[professionKey].professionId;
+  const showTalentStage = getClassData(professionId)?.showTalentStage ?? [];
+  const typeStageId = showTalentStage[professionTypeKey === 'type1' ? 0 : 1];
+  const className = tGame(`classes.${professionId}.name`, { defaultValue: professionKey });
+  const typeName = typeStageId
+    ? tGame(`talentStages.${typeStageId}.typeName`, { defaultValue: professionTypeKey })
+    : professionTypeKey;
+  return `${className}(${typeName})`;
+}

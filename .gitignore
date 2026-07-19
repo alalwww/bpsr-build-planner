@@ -162,6 +162,9 @@ dist/
 dist-web/
 sample/
 test-results/
+
+# 短縮URLバックエンド(backend/)のDB接続情報。デプロイ時にGitHub Secretsから生成する。
+backend/public/config.php
 *.tsbuildinfo
 /vite.config.js
 /vite.config.d.ts

@@ -1,0 +1,23 @@
+# 拡張子なしURL(/shorten)を内部的に実ファイル(shorten.php)へ書き換える。
+# 外部リダイレクト(301/302)ではなく内部リライトなので、末尾スラッシュの有無に関わらず
+# 同じ挙動になり、POSTメソッドが失われる事故が起きない (docs/SHORT_URL.md 参照)。
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# /shorten (および内部リライト後の shorten.php) 以外への直接アクセスは
+# トップページ(awairo.net)へ誘導する。config.phpや想定外のパスへの直叩き・
+# ディレクトリ探索的なアクセスに対して、素の403/404を返さないようにする。
+RewriteCond %{REQUEST_URI} !^/shorten$
+RewriteCond %{REQUEST_URI} !^/shorten\.php$
+RewriteRule ^ https://awairo.net/ [R=302,L]
+
+# DB接続情報を含むconfig.phpへの直アクセスを禁止する。
+# (上記リダイレクトで通常は到達しないが、リライト設定の変更等に備えた保険として維持する)
+<Files "config.php">
+    Require all denied
+</Files>
+
+# ディレクトリ一覧表示を無効化する。
+Options -Indexes

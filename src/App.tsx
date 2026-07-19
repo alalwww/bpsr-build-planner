@@ -1,5 +1,6 @@
 import './App.css';
 import BuildPlanner from './build-planner/BuildPlanner';
+import ShortUrlImporter from './build-planner/ShortUrlImporter';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './Footer';
 import { isTauri } from './platform';
@@ -14,6 +15,7 @@ function App() {
         </ErrorBoundary>
       </main>
       {!isTauri && <Footer />}
+      {!isTauri && <ShortUrlImporter />}
       {isTauri && <UpdateChecker />}
     </>
   );

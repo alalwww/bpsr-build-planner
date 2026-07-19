@@ -70,11 +70,35 @@
   color: #f4a13a;
 }
 
-/* 保存ボタン直下の「現在のビルドをリセット」行 */
+/* リセット(左端)・保存・共有(右端)をまとめる行 */
 .character-panel__reset-row {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.character-panel__action-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ShareBuildButtonはナビゲーションバー向けの余白・色で作っているため、この行では
+   保存ボタンと揃うようひとまわり小さく・明るい色にする。 */
+.character-panel__action-group .build-planner__nav-lang {
+  padding: 2px 5px;
+  font-size: 15px;
+  color: #c8c6d1;
+}
+
+.character-panel__action-group .build-planner__nav-lang:hover {
+  color: #f4f0e8;
+}
+
+.character-panel__action-group .build-planner__nav-lang svg {
+  width: 16px;
+  height: 16px;
 }
 
 .character-panel__reset-btn {

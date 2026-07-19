@@ -1,0 +1,33 @@
+# ローカル動作確認用(xreaへのデプロイには使わない)。PHP 7.4 + Apache(mod_rewrite) + MariaDB 10.6を
+# 起動する。使い方は README.md の「Dockerでのローカル動作確認」を参照。
+services:
+  php:
+    build: .
+    ports:
+      - '8080:80'
+    volumes:
+      - ./public:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.6
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bpsr_shorturl
+      # config.example.php の db.user/db.password と同じ値にしてあるので、
+      # config.phpを作る際は host を db に変える以外の変更が不要。
+      MARIADB_USER: db_user
+      MARIADB_PASSWORD: db_password
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    ports:
+      - '3307:3306'
+
+  # DBの中身をブラウザから確認したい場合用(必須ではない)。http://localhost:8081 でdbサービスに接続。
+  adminer:
+    image: adminer
+    ports:
+      - '8081:8080'
+    depends_on:
+      - db

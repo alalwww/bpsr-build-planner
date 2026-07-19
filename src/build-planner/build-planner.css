@@ -56,6 +56,9 @@
 }
 
 .build-planner__nav-lang {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #5a5a70;
@@ -117,6 +120,67 @@
 
 .nav-lang__item--active::before {
   content: '✓ ';
+}
+
+.share-dialog__notes {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: #8a8a96;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.share-dialog__url-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.share-dialog__input--muted {
+  opacity: 0.5;
+}
+
+.share-dialog__icons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.share-dialog__icon-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #3a3a50;
+  border-radius: 6px;
+  color: #c8c6d1;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.share-dialog__icon-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f4f0e8;
+}
+
+.share-dialog__icon-btn:disabled {
+  color: #4a4a5a;
+  cursor: default;
+}
+
+.share-dialog__icon-btn--x:hover:not(:disabled) {
+  border-color: #e8e6e1;
+}
+
+.share-dialog__icon-btn--line:hover:not(:disabled) {
+  border-color: #06c755;
+  color: #06c755;
 }
 
 .build-planner__tab {

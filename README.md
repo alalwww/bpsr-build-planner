@@ -69,11 +69,12 @@ cargo test    # Rust側のユニット/結合テスト
 .
 ├─ src-tauri/           # デスクトップ版アプリ本体 (Rust)
 ├─ src/                 # フロントエンド (React + TypeScript)
+├─ backend/             # 短縮URL機能のバックエンド (PHP、xreaへデプロイ)
 ├─ index.html           # メインウィンドウのエントリ
 ├─ settings.html        # 設定ウィンドウのエントリ (デスクトップ版のみ)
 ├─ vite.config.web.ts   # Web版ビルド設定 (`npm run build:web` → `dist-web/`)
 ├─ docs/                # 設計ドキュメント
-├─ .github/workflows/   # GitHub Pages デプロイ設定
+├─ .github/workflows/   # GitHub Pages / バックエンド デプロイ設定
 └─ mise.toml            # Node.jsツールバージョン管理
 ```
 
