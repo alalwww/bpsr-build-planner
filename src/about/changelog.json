@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.7.0",
+      "date": "2026-07-19T19:37:59.239Z",
+      "summary": {
+        "ja": "ビルドの共有用短縮URL機能の追加と、幻影因子・装備・アビリティツリー等の不具合修正",
+        "en": "Add short-URL build sharing and fix phantom-factor, equipment, and talent-tree bugs"
+      },
+      "changes": {
+        "ja": [
+          "ビルドプランを短縮URLで共有する機能の追加(X/LINE共有・クリップボードコピー対応)",
+          "シェア・エクスポートダイアログのUI刷新とモーダル動作の改善(フォーカストラップ・誤操作防止)",
+          "シーズン2の潜在心相晶リセット通知が起動のたびに再表示される不具合の修正",
+          "防具のレア詠唱速度など一部ステータスが誤表示(例: +2%が+200)される不具合の修正",
+          "短縮URLインポート時にビルドプラン名が空になる不具合の修正",
+          "アビリティツリーで解放条件未達の中継ノードを経由した一括選択ができてしまう不具合の修正"
+        ],
+        "en": [
+          "Add short-URL build sharing (X/LINE share and clipboard copy)",
+          "Redesign the share/export dialogs and harden modal focus/backdrop-click behavior",
+          "Fix the season 2 legacy phantom-factor reset notice reappearing on every restart",
+          "Fix armor legendary affixes (e.g. cast speed) displaying flat values instead of percentages",
+          "Fix short-URL imports blanking the saved build plan name",
+          "Fix bulk-selecting a talent-tree path through a node whose unlock condition isn't met"
+        ]
+      }
+    },
+    {
       "version": "0.6.1",
       "date": "2026-07-18T11:46:01.087Z",
       "summary": {
