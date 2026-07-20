@@ -201,9 +201,10 @@ function EquipmentSlotPicker({
     return index > 0 ? index : -1;
   }, [sortedCandidates, candidateGsFilter]);
 
-  const enchantsList = equippedItem?.enchantId
-    ? (enchantsData[String(equippedItem.enchantId)] ?? [])
-    : [];
+  // "F-"/"T-" 接頭辞付きアイテムは無接頭辞の同名(同効果)アイテムの重複エントリのため非表示にする。
+  const enchantsList = (
+    equippedItem?.enchantId ? (enchantsData[String(equippedItem.enchantId)] ?? []) : []
+  ).filter((e) => !/^[FT]-/.test(t(`items.${e.id}.name`, { ns: 'game-data' })));
   // シーズン降順(S3→S2) → レア度降順 → レベル降順 → ID降順。
   const sortedEnchants = [...enchantsList].sort((a, b) => {
     const seasonDiff = Number(isSeason3EnchantItem(b)) - Number(isSeason3EnchantItem(a));
