@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.7.1",
+      "date": "2026-07-20T08:23:55.991Z",
+      "summary": {
+        "ja": "装着効果(刻印)候補一覧の重複表示を修正",
+        "en": "Fix duplicate entries shown in the equipment enchant picker"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.7.0",
       "date": "2026-07-19T19:37:59.239Z",
       "summary": {
