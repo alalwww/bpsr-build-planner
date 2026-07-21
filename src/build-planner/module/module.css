@@ -454,7 +454,7 @@
 
 /* Level rows table */
 .mod-effect-popup__levels-wrap {
-  max-height: 300px;
+  max-height: 360px;
   overflow-y: auto;
 }
 
