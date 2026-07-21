@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.7.3",
+      "date": "2026-07-21T22:50:21.584Z",
+      "summary": {
+        "ja": "サイトを開いたまま別の短縮URLをアドレスバーに入力した際、読み込まれない不具合の修正",
+        "en": "Fix short URL links not being reloaded when entered in the address bar while the site is already open"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.7.2",
       "date": "2026-07-21T15:18:10.072Z",
       "summary": {
