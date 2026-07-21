@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';
-import { persistAutoSave } from '../buildPlan';
+import { persistAutoSave, persistBuildPlans } from '../buildPlan';
 import { createEquipmentSlice } from './equipmentSlice';
 import { createModuleSlice } from './moduleSlice';
 import { createPhantomSlice } from './phantomSlice';
@@ -28,6 +28,18 @@ export const useBuildStore = create<BuildStore>()(
 // 同じ判定が再び真になって通知が毎回出続けてしまう。
 if (useBuildStore.getState().phantomLegacyFactorResetNotice) {
   persistAutoSave(useBuildStore.getState().buildAutoSaveState());
+}
+
+// localStorageのデータ破損等でロードに失敗した場合、ストア自体はデフォルト状態で初期化
+// されるが、壊れたデータ自体はlocalStorageに残ったままになる。これを放置すると次回起動時も
+// 同じ破損データの読み込みに失敗し、何らかの変更を加えて再保存されるまで同じ失敗が
+// 繰り返されてしまう(通知をdismissしてもストア上のフラグが消えるだけでlocalStorageは
+// 直らない)。ロード失敗を検知した時点で、復元先となったデフォルト状態を即座に書き戻す。
+if (useBuildStore.getState().autoSaveLoadError) {
+  persistAutoSave(useBuildStore.getState().buildAutoSaveState());
+}
+if (useBuildStore.getState().planLoadError) {
+  persistBuildPlans(useBuildStore.getState().buildPlans);
 }
 
 // 自動保存: 元の useBuildState.ts の
