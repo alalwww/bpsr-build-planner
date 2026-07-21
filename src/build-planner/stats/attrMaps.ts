@@ -233,12 +233,22 @@ export const MOD_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11342: 'matk',
   11352: 'physicalDef',
   13002: 'allAttrStr',
+  // 会心ダメージ/会心回復(「集中・会心」等): EVO_PCT_ATTR_TO_STATと同じattrId・同じ単位
+  // (100=1%)のrawStats項目のため、他のMOD_ATTR_TO_STATエントリと同様addStat()にそのまま乗る。
+  12512: 'critDamageBonus',
+  12742: 'critRecoveryBonus',
 };
 
 // モジュール専用の「適応」効果 (EffectType=5)。クラスのメインステータス/攻撃タイプに
 // 応じて実際のステータスへ加算する。値は数値そのもの(%ではない)。
 export const MOD_ADAPTIVE_MAIN_STAT_ATTR_ID = 99005; // 適応筋力/知力/敏捷 → profession.mainStat
 export const MOD_ADAPTIVE_ATK_ATTR_ID = 99006; // 適応物理/魔法攻撃力 → profession.attackTypeに応じ atk/matk
+
+// モジュール専用: 詠唱速度の%finalバリアント(「集中・詠唱」等)。攻撃速度側の
+// TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID(11722)と同じ理由でStatId(rawStats)を持たず
+// castSpeedPercentはDerivedStats側の値のため、MOD_ATTR_TO_STATには含めず
+// calculateRawStats()内で個別集計し、deriveStats()へcastSpeedFinalPctAddendとして渡す。
+export const MOD_CAST_SPEED_FINAL_PCT_ATTR_ID = 11732;
 
 // 精錬効果(RefineTable)のAttrId。1つのattrIdが複数ステータス(実数値+内訳表示用の
 // refineXxx)へ加算されるため、他の attrId→StatId マップとは異なり個別定数として定義する。

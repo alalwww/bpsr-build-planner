@@ -215,6 +215,18 @@ describe('deriveStats', () => {
     expect(withAbility.castSpeedPercent).toBe(withoutAbility.castSpeedPercent);
   });
 
+  it('adds castSpeedFinalPctAddend (e.g. module "集中・詠唱") directly on top of the haste-derived castSpeedPercent', () => {
+    const profession = PROFESSIONS.divineArcher;
+    const raw: Record<StatId, number> = { ...zeroRaw(), agility: 200, haste: 500 };
+
+    const withoutModule = deriveStats(raw, profession);
+    const withModule = deriveStats(raw, profession, {}, 0, 0, 12);
+
+    expect(withModule.castSpeedPercent).toBeCloseTo(withoutModule.castSpeedPercent + 12);
+    // atkSpeedPercentは詠唱速度とは独立した値のため、attrIdがcastSpeed専用のこの加算では変化しない。
+    expect(withModule.atkSpeedPercent).toBe(withoutModule.atkSpeedPercent);
+  });
+
   it('ignores unrelated conversionRateBonus keys (magical attacker does not get an atk bonus meant for physical)', () => {
     const profession = PROFESSIONS.frostMage; // magical, mainStat=intellect
     const raw: Record<StatId, number> = { ...zeroRaw(), atk: 100, intellect: 150 };

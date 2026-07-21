@@ -4,11 +4,11 @@ import { formatEffectDesc } from './moduleData';
 const tgAttrDesc = (key: string) =>
   ({ '99005': '適応筋力/知力/敏捷+{v}', '99006': '適応物理/魔法攻撃力+{v}' })[key] ??
   `attrDescs.${key}`;
-const tgAttr = (key: string) =>
-  ({ '11722': '攻撃速度', '11732': '詠唱速度', '12512': '会心ダメージ', '12742': '会心回復' })[
-    key
-  ] ?? key;
-const tStat = (key: string) => key;
+const tgAttr = (key: string) => ({ '11722': '攻撃速度', '11732': '詠唱速度' })[key] ?? key;
+// 12512/12742はMOD_ATTR_TO_STATでcritDamageBonus/critRecoveryBonusにマッピング済みのため、
+// 実アプリと同様tStat(buildPlanner.stats.*)側の名前が使われる(tgAttrへは落ちない)。
+const tStat = (key: string) =>
+  ({ critDamageBonus: '会心ダメージ', critRecoveryBonus: '会心回復' })[key] ?? key;
 
 describe('formatEffectDesc', () => {
   it('formats attack-speed/cast-speed final-% and crit damage/recovery attrIds as percent (unit 100=1%)', () => {

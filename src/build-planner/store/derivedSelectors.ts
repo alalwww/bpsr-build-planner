@@ -209,6 +209,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStatsResult.conversionRateBonus,
     rawStatsResult.atkSpeedFinalPctAddend,
     rawStatsResult.atkSpeedPerHastePercentBonus,
+    rawStatsResult.castSpeedFinalPctAddend,
   );
 
   const finalStatsResult = selectFinalStatsResult(

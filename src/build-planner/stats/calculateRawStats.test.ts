@@ -602,6 +602,113 @@ describe('calculateRawStats', () => {
     // +750*5 (shared tiers) 分の endurance と同様、mainStat(agility) には +150 のみ乗る。
     expect(result.rawStats.agility).toBe(BASE_STATS.agility + 150);
   });
+
+  describe('モジュール効果(「集中」系パワーコア効果)', () => {
+    // src/data/modules.json: effectId 1409(「集中・会心」)のlv6(enhancementNum=20, totalLink>=20)
+    // config = [[1,11322,1800],[1,13002,80],[1,12512,1200],[1,12742,1200]]。
+    // 5500303は防御quality3(3穴)のmodId。2スロットに分けてhole0(最大10)を合算しtotalLink=20とする。
+    it('routes 会心ダメージ/会心回復 (attrId 12512/12742) to rawStats.critDamageBonus/critRecoveryBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        moduleSlots: [
+          {
+            modId: 5500303,
+            holes: [
+              { effectId: 1409, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          {
+            modId: 5500303,
+            holes: [
+              { effectId: 1409, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          null,
+          null,
+          null,
+        ],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 1200);
+      expect(result.rawStats.critRecoveryBonus).toBe(BASE_STATS.critRecoveryBonus + 1200);
+      // maxHp(既存のMOD_ATTR_TO_STATマッピング)も引き続き正しく積まれること。
+      expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp + 1800);
+    });
+
+    // effectId 1408(「集中・攻撃速度」)のlv6 config = [[5,99006,50],[1,11722,600]]。
+    // attrId 11722はrawStats(StatId)を持たないため、atkSpeedFinalPctAddend(単位100=1%)へ
+    // 個別集計される想定(値600 → +6)。
+    it('routes 攻撃速度 (attrId 11722) to atkSpeedFinalPctAddend instead of a rawStats entry', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        moduleSlots: [
+          {
+            modId: 5500303,
+            holes: [
+              { effectId: 1408, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          {
+            modId: 5500303,
+            holes: [
+              { effectId: 1408, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          null,
+          null,
+          null,
+        ],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.atkSpeedFinalPctAddend).toBe(6);
+    });
+
+    // effectId 1407(「集中・詠唱」)のlv6 config = [[5,99006,50],[1,11732,1200]]。
+    // attrId 11732も同様にrawStatsを持たず、castSpeedFinalPctAddendへ集計される想定
+    // (値1200 → +12)。
+    it('routes 詠唱速度 (attrId 11732) to castSpeedFinalPctAddend instead of a rawStats entry', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        moduleSlots: [
+          {
+            modId: 5500303,
+            holes: [
+              { effectId: 1407, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          {
+            modId: 5500303,
+            holes: [
+              { effectId: 1407, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          null,
+          null,
+          null,
+        ],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.castSpeedFinalPctAddend).toBe(12);
+    });
+  });
 });
 
 function zeroDerivedStats(): DerivedStats {

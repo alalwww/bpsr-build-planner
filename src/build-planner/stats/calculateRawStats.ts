@@ -51,6 +51,7 @@ import {
   MOD_ADAPTIVE_ATK_ATTR_ID,
   MOD_ADAPTIVE_MAIN_STAT_ATTR_ID,
   MOD_ATTR_TO_STAT,
+  MOD_CAST_SPEED_FINAL_PCT_ATTR_ID,
   MOD_EFFECT_TYPE_ADAPTIVE,
   MOD_EFFECT_TYPE_STAT,
   ORDINARY_EFFECT_BONUS,
@@ -169,6 +170,10 @@ export interface CalculateRawStatsResult {
   // 「ファスト%→攻撃速度%」変換率へのボーナス(単位: 1pt=1%、例 1.0)。deriveStats()に渡して
   // profession.atkSpeedPerHastePercentに加算する。
   atkSpeedPerHastePercentBonus: number;
+  // モジュール効果(例: 「集中・詠唱」)による詠唱速度への直接加算量(%そのままの数値)。
+  // castSpeedPercentはDerivedStats側の値(rawStats/StatIdに存在しない)のため、deriveStats()に
+  // 直接渡す(atkSpeedFinalPctAddendと同じ扱い)。
+  castSpeedFinalPctAddend: number;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -232,6 +237,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // アビリティによる「ファスト%→攻撃速度%」変換率へのボーナス(例: ストームブレイド/
   // ツインストライカー/ゲイルランサー「迅速」。profession.atkSpeedPerHastePercentに加算する)。
   let atkSpeedPerHastePercentBonus = 0;
+  // モジュール効果による詠唱速度への直接加算量(%、例: 「集中・詠唱」)。castSpeedPercentは
+  // DerivedStats側の値のためderiveStats()に直接渡す(atkSpeedFinalPctAddendと同じ扱い)。
+  let castSpeedFinalPctAddend = 0;
 
   // 装備ステータス
   // 装備1つぶんの実数値(基礎/進化/改鋳)は、ここで四捨五入してから合算する(合算後に丸めるのでは
@@ -477,6 +485,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       if (effectType === MOD_EFFECT_TYPE_STAT && attrId === 11502) {
         // 全属性攻撃力(enchant側と同じ扱い。精錬攻撃力とは別枠のためallAttrAtkにのみ積む)。
         addStat('allAttrAtk', value);
+      } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+        // 攻撃速度の%finalバリアント(「集中・攻撃速度」等)。単位はタレント側と同じ100=1%。
+        atkSpeedFinalPctAddend += value / 100;
+      } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID) {
+        // 詠唱速度の%finalバリアント(「集中・詠唱」等)。単位は攻撃速度側と同じ100=1%。
+        castSpeedFinalPctAddend += value / 100;
       } else if (effectType === MOD_EFFECT_TYPE_STAT) {
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
@@ -739,6 +753,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     highestStatFinalPctBonus,
     atkSpeedFinalPctAddend,
     atkSpeedPerHastePercentBonus,
+    castSpeedFinalPctAddend,
   };
 }
 

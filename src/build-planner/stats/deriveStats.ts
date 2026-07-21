@@ -81,6 +81,9 @@ export function deriveStats(
   // 「ファスト%→攻撃速度%」変換率へのボーナス。calculateRawStatsのatkSpeedPerHastePercentBonus
   // をそのまま渡す(profession.atkSpeedPerHastePercentに加算する)。
   atkSpeedPerHastePercentBonus = 0,
+  // モジュール効果(例: 「集中・詠唱」)による詠唱速度への直接加算量(%そのままの数値)。
+  // calculateRawStatsのcastSpeedFinalPctAddendをそのまま渡す。
+  castSpeedFinalPctAddend = 0,
 ): DerivedStats {
   const enduranceMaxHpBonus = raw.endurance * profession.hpPerEndurancePoint;
   const maxHp = raw.maxHp + enduranceMaxHpBonus;
@@ -171,7 +174,8 @@ export function deriveStats(
     atkSpeedPercent:
       hastePercent * (profession.atkSpeedPerHastePercent + atkSpeedPerHastePercentBonus) +
       atkSpeedFinalPctAddend,
-    castSpeedPercent: hastePercent * profession.castSpeedPerHastePercent,
+    castSpeedPercent:
+      hastePercent * profession.castSpeedPerHastePercent + castSpeedFinalPctAddend,
 
     luckPercent,
     luckyHitDamageMultiplierPercent:
