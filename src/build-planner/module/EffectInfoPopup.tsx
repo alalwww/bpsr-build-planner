@@ -1,8 +1,8 @@
-import { Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
 import type { ModuleSlots } from '../types';
+import { renderEffectDescLines } from './effectDescRender';
 import {
   calcEffectTotalLink,
   formatEffectDesc,
@@ -100,14 +100,7 @@ function EffectInfoPopup({
                     <td className="mod-effect-popup__level-badge">Lv{lv}</td>
                     <td className="mod-effect-popup__level-link">{enhancementNum}</td>
                     <td className="mod-effect-popup__level-desc">
-                      {descParts.length > 0
-                        ? descParts.map((line, i) => (
-                            <Fragment key={i}>
-                              {i > 0 && <br />}
-                              {line}
-                            </Fragment>
-                          ))
-                        : '—'}
+                      {descParts.length > 0 ? renderEffectDescLines(descParts) : '—'}
                     </td>
                     <td className="mod-effect-popup__level-score">{fightValue}</td>
                   </tr>

@@ -1,7 +1,8 @@
-import { Fragment, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ModuleSlots } from '../types';
 import type { Profession } from '../profession';
+import { renderEffectDescLines } from './effectDescRender';
 import {
   calcModuleSpecialEffects,
   calcModuleTotalStats,
@@ -96,12 +97,7 @@ function ModuleTotalStats({ moduleSlots, profession, getEffectHandlers }: Module
                   <img className="module-total-stats__special-icon" src={iconSrc} alt="" />
                 )}
                 <span className="module-total-stats__special-desc">
-                  {descParts.map((line, i) => (
-                    <Fragment key={i}>
-                      {i > 0 && <br />}
-                      {line}
-                    </Fragment>
-                  ))}
+                  {renderEffectDescLines(descParts)}
                 </span>
               </div>
             );

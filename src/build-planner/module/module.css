@@ -270,6 +270,13 @@
   line-height: 1.5;
 }
 
+/* 効果説明中の数値/%部分(module-total-stats__stat-valueと同系色で強調)。
+   EffectInfoPopupの各レベル説明・パワーコア効果の特殊効果説明の両方で共用。 */
+.mod-effect-value {
+  color: #7adfaa;
+  font-weight: 600;
+}
+
 /* リンク効果/パワーコア効果による能力スコア(最下部、一段空けて表示) */
 .module-total-stats__score {
   display: flex;
