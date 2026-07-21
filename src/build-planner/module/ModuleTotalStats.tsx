@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ModuleSlots } from '../types';
 import type { Profession } from '../profession';
@@ -66,15 +66,22 @@ function ModuleTotalStats({ moduleSlots, profession, getEffectHandlers }: Module
       {specialEffects.length > 0 && (
         <div className="module-total-stats__special">
           {specialEffects.map((eff) => {
-            const desc = formatEffectDesc(eff.config, eff.ev, tgAttrDesc, tgAttr, tStat);
-            if (!desc) return null;
+            const descParts = formatEffectDesc(eff.config, eff.ev, tgAttrDesc, tgAttr, tStat);
+            if (descParts.length === 0) return null;
             const iconSrc = eff.icon ? getEffectIcon(eff.icon) : undefined;
             return (
               <div key={eff.key} className="module-total-stats__special-row">
                 {iconSrc && (
                   <img className="module-total-stats__special-icon" src={iconSrc} alt="" />
                 )}
-                <span className="module-total-stats__special-desc">{desc}</span>
+                <span className="module-total-stats__special-desc">
+                  {descParts.map((line, i) => (
+                    <Fragment key={i}>
+                      {i > 0 && <br />}
+                      {line}
+                    </Fragment>
+                  ))}
+                </span>
               </div>
             );
           })}

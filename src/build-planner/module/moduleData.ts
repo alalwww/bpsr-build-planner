@@ -152,19 +152,28 @@ export function getMajorGroup(cat: number): number {
 }
 
 // --- Description formatting ---
+
+// et=1(通常のステータス加算)のうち、rawStatsへのポイント加算ではなく最終%への直接加算
+// として扱われるattrId(単位は他の%系attrIdと同じ100=1%)。攻撃速度/詠唱速度の%final
+// バリアント(11722/11732)と、会心ダメージ/会心回復(12512/12742)。MOD_ATTR_TO_STATに
+// 含めていないのはStatId(rawStats)を持たないため(atkSpeed/castSpeedはDerivedStats側の値)。
+const MOD_PCT_ATTR_IDS = new Set<number>([11722, 11732, 12512, 12742]);
+
+// 効果の説明文を行単位の配列で返す(呼び出し元で改行区切りに描画する)。
 export function formatEffectDesc(
   config: number[][],
   ev: number[],
   tgAttrDesc: (key: string) => string,
   tgAttr: (key: string) => string,
   tStat: (key: string) => string,
-): string {
+): string[] {
   const parts: string[] = [];
   for (const [et, attrId, val] of config) {
     if (et === 1) {
       const sid = MOD_ATTR_TO_STAT[attrId];
       const name = sid ? tStat(sid) : tgAttr(String(attrId));
-      parts.push(`${name} +${val}`);
+      const valueText = MOD_PCT_ATTR_IDS.has(attrId) ? `${(val / 100).toFixed(2)}%` : String(val);
+      parts.push(`${name} +${valueText}`);
     } else if (et === 3) {
       const template = tgAttrDesc(String(attrId));
       if (template && !template.startsWith('attrDescs.')) {
@@ -181,7 +190,7 @@ export function formatEffectDesc(
       }
     }
   }
-  return parts.join(' / ');
+  return parts;
 }
 
 // --- Stats helpers ---
