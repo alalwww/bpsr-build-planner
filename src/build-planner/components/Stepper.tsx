@@ -101,6 +101,7 @@ function Stepper({
             <input
               ref={inputRef}
               type="number"
+              inputMode="numeric"
               className={`${className}__input`}
               value={value}
               min={min}
@@ -116,6 +117,7 @@ function Stepper({
         ) : (
           <input
             type="number"
+            inputMode="numeric"
             className={`${className}__input`}
             value={value}
             min={min}
