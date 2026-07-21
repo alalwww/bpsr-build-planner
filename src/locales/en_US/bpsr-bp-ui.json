@@ -288,7 +288,11 @@
       "magicalEnhance": "Magical Boost",
       "critDamageBonus": "Crit Damage",
       "luckyHitDamageBonus": "Lucky Hit Damage Multiplier",
-      "critRecoveryBonus": "Crit Recovery"
+      "critRecoveryBonus": "Crit Recovery",
+      "physicalReductionBonus": "Physical Reduction",
+      "magicalReductionBonus": "Magical Reduction",
+      "luckyHitRecoveryBonus": "Lucky Hit Recovery Multiplier",
+      "physicalDefIgnoreBonus": "Physical Defense Ignore"
     },
     "slots": {
       "weapon": "Weapon",
@@ -382,6 +386,7 @@
         "castSpeed": "Cast Speed",
         "critDamage": "Crit Damage",
         "luckyHitDamage": "Lucky Hit Damage Multiplier",
+        "physicalDefIgnore": "Physical Defense Ignore",
         "endurance": "Endurance",
         "maxHp": "Max HP",
         "physicalDef": "Physical DEF",
@@ -392,6 +397,7 @@
         "resistDamageReduction": "Resist Damage Reduction",
         "critRecovery": "Crit Recovery",
         "luckyHitBoost": "Lucky Hit Boost",
+        "luckyHitRecovery": "Lucky Hit Recovery Multiplier",
         "mastery": "Mastery",
         "receivedRecovery": "Received Recovery",
         "barrierStrength": "Barrier Strength",

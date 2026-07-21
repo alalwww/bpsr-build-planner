@@ -64,6 +64,16 @@ export interface DerivedStats {
   // 会心回復(回復時に会心が発生した場合の回復量増加率。基礎値+装備等の加算)
   critRecoveryPercent: number;
 
+  // 物理軽減/魔法軽減(基礎値0% + モジュール「物理耐性」「魔法耐性」等由来の加算)
+  physicalReductionPercent: number;
+  magicalReductionPercent: number;
+
+  // 幸運の一撃回復の倍率(基礎値0% + モジュール「集中・幸運」等由来の加算)
+  luckyHitRecoveryMultiplierPercent: number;
+
+  // 物理防御力無視(基礎値0% + モジュール「筋力強化」等由来の加算)
+  physicalDefIgnorePercent: number;
+
   // 戦闘時のスタミナ秒間回復量(クラス基礎値 + 心相ツリー等由来の加算)
   staminaRegenPerSecond: number;
 }
@@ -195,6 +205,13 @@ export function deriveStats(
     magicalBoostPercent,
 
     critRecoveryPercent: FIXED_BASE_PERCENT.critRecovery + raw.critRecoveryBonus / 100,
+
+    physicalReductionPercent: raw.physicalReductionBonus / 100,
+    magicalReductionPercent: raw.magicalReductionBonus / 100,
+
+    luckyHitRecoveryMultiplierPercent: raw.luckyHitRecoveryBonus / 100,
+
+    physicalDefIgnorePercent: raw.physicalDefIgnoreBonus / 100,
 
     staminaRegenPerSecond: profession.staminaRegenPerSecond + raw.staminaRegen,
   };

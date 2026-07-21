@@ -62,6 +62,10 @@ describe('deriveStats', () => {
       critDamageBonus: 500,
       luckyHitDamageBonus: 300,
       critRecoveryBonus: 200,
+      physicalReductionBonus: 360,
+      magicalReductionBonus: 480,
+      luckyHitRecoveryBonus: 620,
+      physicalDefIgnoreBonus: 1880,
     };
 
     const result = deriveStats(raw, profession);
@@ -138,6 +142,10 @@ describe('deriveStats', () => {
     expect(result.critRecoveryPercent).toBe(
       FIXED_BASE_PERCENT.critRecovery + raw.critRecoveryBonus / 100,
     );
+    expect(result.physicalReductionPercent).toBe(raw.physicalReductionBonus / 100);
+    expect(result.magicalReductionPercent).toBe(raw.magicalReductionBonus / 100);
+    expect(result.luckyHitRecoveryMultiplierPercent).toBe(raw.luckyHitRecoveryBonus / 100);
+    expect(result.physicalDefIgnorePercent).toBe(raw.physicalDefIgnoreBonus / 100);
     expect(result.staminaRegenPerSecond).toBe(profession.staminaRegenPerSecond + raw.staminaRegen);
   });
 

@@ -47,4 +47,8 @@ export const BASE_STATS: Record<StatId, number> = {
   critDamageBonus: 0,
   luckyHitDamageBonus: 0,
   critRecoveryBonus: 0,
+  physicalReductionBonus: 0,
+  magicalReductionBonus: 0,
+  luckyHitRecoveryBonus: 0,
+  physicalDefIgnoreBonus: 0,
 };

@@ -7,6 +7,7 @@ import {
   calcModuleTotalStats,
   formatEffectDesc,
   getEffectIcon,
+  MOD_PCT_STAT_IDS,
   STAT_ORDER,
 } from './moduleData';
 import { calculateModuleAbilityScore } from '../stats/calculateAbilityScore';
@@ -24,13 +25,14 @@ interface ModuleTotalStatsProps {
 function ModuleTotalStats({ moduleSlots, profession, getEffectHandlers }: ModuleTotalStatsProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
-  const stats = useMemo(
+  const { stats, atkSpeedFinalPctAddend, castSpeedFinalPctAddend } = useMemo(
     () => calcModuleTotalStats(moduleSlots, profession),
     [moduleSlots, profession],
   );
   const specialEffects = useMemo(() => calcModuleSpecialEffects(moduleSlots), [moduleSlots]);
   const moduleScore = useMemo(() => calculateModuleAbilityScore(moduleSlots), [moduleSlots]);
-  const hasAny = STAT_ORDER.some((sid) => stats[sid]);
+  const hasAny =
+    STAT_ORDER.some((sid) => stats[sid]) || atkSpeedFinalPctAddend !== 0 || castSpeedFinalPctAddend !== 0;
 
   const tgAttrDesc = (key: string) => tg(`attrDescs.${key}`, { defaultValue: `attrDescs.${key}` });
   const tgAttr = (key: string) => tg(`attributes.${key}`, { defaultValue: key });
@@ -51,15 +53,34 @@ function ModuleTotalStats({ moduleSlots, profession, getEffectHandlers }: Module
           {STAT_ORDER.map((statId) => {
             const val = stats[statId];
             if (!val) return null;
+            const valueText = MOD_PCT_STAT_IDS.has(statId) ? `${(val / 100).toFixed(2)}%` : val;
             return (
               <div key={statId} className="module-total-stats__row">
                 <span className="module-total-stats__stat-name">
                   {t(`buildPlanner.stats.${statId}`)}
                 </span>
-                <span className="module-total-stats__stat-value">+{val}</span>
+                <span className="module-total-stats__stat-value">+{valueText}</span>
               </div>
             );
           })}
+          {/* 攻撃速度/詠唱速度の%finalバリアントはStatId(rawStats)を持たないためstatsに
+              含まれず、ここだけ別枠(atkSpeedFinalPctAddend/castSpeedFinalPctAddend)で描画する。 */}
+          {atkSpeedFinalPctAddend !== 0 && (
+            <div className="module-total-stats__row">
+              <span className="module-total-stats__stat-name">{tgAttr('11722')}</span>
+              <span className="module-total-stats__stat-value">
+                +{atkSpeedFinalPctAddend.toFixed(2)}%
+              </span>
+            </div>
+          )}
+          {castSpeedFinalPctAddend !== 0 && (
+            <div className="module-total-stats__row">
+              <span className="module-total-stats__stat-name">{tgAttr('11732')}</span>
+              <span className="module-total-stats__stat-value">
+                +{castSpeedFinalPctAddend.toFixed(2)}%
+              </span>
+            </div>
+          )}
         </div>
       )}
 

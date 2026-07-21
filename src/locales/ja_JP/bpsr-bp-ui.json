@@ -288,7 +288,11 @@
       "magicalEnhance": "魔法増強",
       "critDamageBonus": "会心ダメージ",
       "luckyHitDamageBonus": "幸運の一撃のダメージ倍率",
-      "critRecoveryBonus": "会心回復"
+      "critRecoveryBonus": "会心回復",
+      "physicalReductionBonus": "物理軽減",
+      "magicalReductionBonus": "魔法軽減",
+      "luckyHitRecoveryBonus": "幸運の一撃回復の倍率",
+      "physicalDefIgnoreBonus": "物理防御力無視"
     },
     "slots": {
       "weapon": "武器",
@@ -382,6 +386,7 @@
         "castSpeed": "詠唱速度",
         "critDamage": "会心ダメージ",
         "luckyHitDamage": "幸運の一撃のダメージ倍率",
+        "physicalDefIgnore": "物理防御力無視",
         "endurance": "耐久力",
         "maxHp": "最大HP",
         "physicalDef": "物理防御力",
@@ -392,6 +397,7 @@
         "resistDamageReduction": "レジストダメージ軽減",
         "critRecovery": "会心回復",
         "luckyHitBoost": "幸運の一撃の倍率",
+        "luckyHitRecovery": "幸運の一撃回復の倍率",
         "mastery": "回復力",
         "receivedRecovery": "被回復力",
         "barrierStrength": "バリア強度",

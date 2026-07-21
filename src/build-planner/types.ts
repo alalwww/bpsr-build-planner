@@ -44,7 +44,11 @@ export type StatId =
   | 'magicalEnhance'
   | 'critDamageBonus'
   | 'luckyHitDamageBonus'
-  | 'critRecoveryBonus';
+  | 'critRecoveryBonus'
+  | 'physicalReductionBonus'
+  | 'magicalReductionBonus'
+  | 'luckyHitRecoveryBonus'
+  | 'physicalDefIgnoreBonus';
 
 export interface StatDefinition {
   id: StatId;

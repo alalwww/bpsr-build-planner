@@ -708,6 +708,71 @@ describe('calculateRawStats', () => {
 
       expect(result.castSpeedFinalPctAddend).toBe(12);
     });
+
+    // 2枠のmodIdに同じeffectIdをlinkCount10ずつ振り分け、totalLink=20(lv6)へ到達させる
+    // 共通ヘルパー。上のテスト群と同じ組み立て方を関数化しただけ。
+    function twoSlotModuleInput(modId: number, effectId: number): CalculateRawStatsInput {
+      return {
+        ...baseInput(),
+        moduleSlots: [
+          {
+            modId,
+            holes: [
+              { effectId, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          {
+            modId,
+            holes: [
+              { effectId, linkCount: 10 },
+              { effectId: null, linkCount: 10 },
+              { effectId: null, linkCount: 5 },
+            ],
+          },
+          null,
+          null,
+          null,
+        ],
+      };
+    }
+
+    // effectId 1410(「集中・幸運」)のlv6 config includes [1,12532,780]/[1,12722,620]:
+    // 幸運の一撃ダメージ率/幸運の一撃回復の倍率(単位100=1%)。5500303=防御quality3(3穴)。
+    it('routes 幸運の一撃ダメージ率/回復の倍率 (attrId 12532/12722) to rawStats.luckyHitDamageBonus/luckyHitRecoveryBonus', () => {
+      const result = calculateRawStats(twoSlotModuleInput(5500303, 1410));
+
+      expect(result.rawStats.luckyHitDamageBonus).toBe(BASE_STATS.luckyHitDamageBonus + 780);
+      expect(result.rawStats.luckyHitRecoveryBonus).toBe(BASE_STATS.luckyHitRecoveryBonus + 620);
+    });
+
+    // effectId 1308(「物理耐性」)のlv6 config includes [1,12562,600]: 物理軽減(単位100=1%)。
+    // attrId 12562はProfileAttrTable(ZTable)に表示名を持たないが、rawStatsへの反映には影響しない。
+    it('routes 物理軽減 (attrId 12562, no ZTable display name) to rawStats.physicalReductionBonus', () => {
+      const result = calculateRawStats(twoSlotModuleInput(5500303, 1308));
+
+      expect(result.rawStats.physicalReductionBonus).toBe(
+        BASE_STATS.physicalReductionBonus + 600,
+      );
+    });
+
+    // effectId 1307(「魔法耐性」)のlv6 config includes [1,12582,600]: 魔法軽減(単位100=1%)。
+    it('routes 魔法軽減 (attrId 12582) to rawStats.magicalReductionBonus', () => {
+      const result = calculateRawStats(twoSlotModuleInput(5500303, 1307));
+
+      expect(result.rawStats.magicalReductionBonus).toBe(BASE_STATS.magicalReductionBonus + 600);
+    });
+
+    // effectId 1110(「筋力強化」、攻撃quality3=5500103)のlv6 config includes [1,11392,1880]:
+    // 物理防御力無視(単位100=1%)。
+    it('routes 物理防御力無視 (attrId 11392) to rawStats.physicalDefIgnoreBonus', () => {
+      const result = calculateRawStats(twoSlotModuleInput(5500103, 1110));
+
+      expect(result.rawStats.physicalDefIgnoreBonus).toBe(
+        BASE_STATS.physicalDefIgnoreBonus + 1880,
+      );
+    });
   });
 });
 
@@ -742,6 +807,10 @@ function zeroDerivedStats(): DerivedStats {
     physicalBoostPercent: 0,
     magicalBoostPercent: 0,
     critRecoveryPercent: 50,
+    physicalReductionPercent: 0,
+    magicalReductionPercent: 0,
+    luckyHitRecoveryMultiplierPercent: 0,
+    physicalDefIgnorePercent: 0,
     staminaRegenPerSecond: 0,
   };
 }

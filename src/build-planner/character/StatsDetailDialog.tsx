@@ -178,6 +178,10 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       label: te('stat.luckyHitDamage'),
       value: fmtPct(derivedStats.luckyHitDamageMultiplierPercent),
     },
+    {
+      label: te('stat.physicalDefIgnore'),
+      value: fmtPct(derivedStats.physicalDefIgnorePercent),
+    },
   ];
 
   const survivalRows = [
@@ -186,8 +190,8 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     { label: te('stat.physicalDef'), value: fmtDec2(stats.physicalDef) },
     { label: te('stat.magicalDef'), value: fmtDec2(stats.magicalDef) },
     { label: te('stat.refinedDef'), value: fmtDec2(rawStats.refineDef) },
-    { label: te('stat.physicalReduction'), value: fmtPct(0) },
-    { label: te('stat.magicalReduction'), value: fmtPct(0) },
+    { label: te('stat.physicalReduction'), value: fmtPct(derivedStats.physicalReductionPercent) },
+    { label: te('stat.magicalReduction'), value: fmtPct(derivedStats.magicalReductionPercent) },
     {
       label: te('stat.resistDamageReduction'),
       value: fmtPct(derivedStats.resistDamageReductionPercent),
@@ -197,6 +201,10 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   const supportRows = [
     { label: te('stat.critRecovery'), value: fmtPct(derivedStats.critRecoveryPercent) },
     { label: te('stat.luckyHitBoost'), value: fmtPct(derivedStats.luckyHitBoostPercent) },
+    {
+      label: te('stat.luckyHitRecovery'),
+      value: fmtPct(derivedStats.luckyHitRecoveryMultiplierPercent),
+    },
     { label: te('stat.mastery'), value: fmtDec2(rawStats.mastery) },
     { label: te('stat.receivedRecovery'), value: fmtDec2(rawStats.receivedRecovery) },
     { label: te('stat.barrierStrength'), value: fmtPct(rawStats.barrierStrength / 100) },

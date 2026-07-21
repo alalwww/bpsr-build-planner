@@ -237,6 +237,19 @@ export const MOD_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   // (100=1%)のrawStats項目のため、他のMOD_ATTR_TO_STATエントリと同様addStat()にそのまま乗る。
   12512: 'critDamageBonus',
   12742: 'critRecoveryBonus',
+  // 物理軽減/魔法軽減(「物理耐性」「魔法耐性」)。単位は他の%系attrIdと同じ100=1%。
+  // 12562はProfileAttrTable(ZTable)側に表示名を持たないattrIdだが、MOD_ATTR_TO_STATに
+  // マッピングすることでformatEffectDesc/tStat側の名前(buildPlanner.stats.*)が使われる
+  // ため、ZTableの名前欠落を気にせず解決できる(12512/12742と同じ理由)。
+  12562: 'physicalReductionBonus',
+  12582: 'magicalReductionBonus',
+  // 幸運の一撃ダメージ率(「集中・幸運」等): EVO_PCT_ATTR_TO_STATの12532と同じrawStats項目。
+  12532: 'luckyHitDamageBonus',
+  // 幸運の一撃回復の倍率(「集中・幸運」等)。12722もProfileAttrTableに表示名を持たない
+  // attrIdだが、12562/12582と同じ理由でMOD_ATTR_TO_STAT経由なら問題にならない。
+  12722: 'luckyHitRecoveryBonus',
+  // 物理防御力無視(「筋力強化」等)。
+  11392: 'physicalDefIgnoreBonus',
 };
 
 // モジュール専用の「適応」効果 (EffectType=5)。クラスのメインステータス/攻撃タイプに

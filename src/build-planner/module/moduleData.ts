@@ -10,7 +10,13 @@ import {
   MOD_ADAPTIVE_ATK_ATTR_ID,
   MOD_ADAPTIVE_MAIN_STAT_ATTR_ID,
   MOD_ATTR_TO_STAT,
+  MOD_CAST_SPEED_FINAL_PCT_ATTR_ID,
+  TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
 } from '../stats/attrMaps';
+
+// 全属性攻撃力(モジュールのet=1加算のうち、rawStats.allAttrAtkへ特殊対応するattrId)。
+// calculateRawStats.tsの同名の特殊分岐と対応を揃える(enchant側と同じ扱い)。
+const MOD_ALL_ATTR_ATK_ATTR_ID = 11502;
 
 export const recommendIconSrc = recommendIconSrcAsset;
 
@@ -100,6 +106,7 @@ export const STAT_ORDER = [
   'maxHp',
   'atk',
   'matk',
+  'allAttrAtk',
   'physicalDef',
   'strength',
   'agility',
@@ -110,7 +117,29 @@ export const STAT_ORDER = [
   'luck',
   'mastery',
   'versatility',
+  'allAttrStr',
+  'critDamageBonus',
+  'critRecoveryBonus',
+  'luckyHitDamageBonus',
+  'luckyHitRecoveryBonus',
+  'physicalReductionBonus',
+  'magicalReductionBonus',
+  'physicalDefIgnoreBonus',
 ];
+
+// STAT_ORDER のうち、rawStatsへの実数値ポイント加算ではなく%表示(単位100=1%)になる
+// もの(会心ダメージ/会心回復/幸運の一撃ダメージ率/回復の倍率/物理・魔法軽減/
+// 物理防御力無視)。formatEffectDesc側のMOD_PCT_ATTR_IDSと対象は同じだが、
+// こちらはStatId単位(装備効果合計欄の表示用)。
+export const MOD_PCT_STAT_IDS = new Set<string>([
+  'critDamageBonus',
+  'critRecoveryBonus',
+  'luckyHitDamageBonus',
+  'luckyHitRecoveryBonus',
+  'physicalReductionBonus',
+  'magicalReductionBonus',
+  'physicalDefIgnoreBonus',
+]);
 
 // --- Effect category classification ---
 const EFFECT_MOD_TYPES: Map<number, Set<number>> = (() => {
@@ -153,11 +182,15 @@ export function getMajorGroup(cat: number): number {
 
 // --- Description formatting ---
 
-// et=1(通常のステータス加算)のうち、rawStatsへのポイント加算ではなく最終%への直接加算
-// として扱われるattrId(単位は他の%系attrIdと同じ100=1%)。攻撃速度/詠唱速度の%final
-// バリアント(11722/11732)と、会心ダメージ/会心回復(12512/12742)。MOD_ATTR_TO_STATに
-// 含めていないのはStatId(rawStats)を持たないため(atkSpeed/castSpeedはDerivedStats側の値)。
-const MOD_PCT_ATTR_IDS = new Set<number>([11722, 11732, 12512, 12742]);
+// et=1(通常のステータス加算)のうち、rawStatsへのポイント加算ではなく%表示(単位100=1%)
+// になるattrId。攻撃速度/詠唱速度の%finalバリアント(11722/11732、StatIdを持たないため
+// MOD_ATTR_TO_STATには含まれない)、会心ダメージ/会心回復(12512/12742)、
+// 物理軽減/魔法軽減(12562/12582)、幸運の一撃ダメージ率/回復の倍率(12532/12722)、
+// 物理防御力無視(11392)。後者はMOD_ATTR_TO_STAT経由のrawStats項目だが、
+// 表示だけは他の%系ステータスと同様ここで変換する。
+const MOD_PCT_ATTR_IDS = new Set<number>([
+  11722, 11732, 12512, 12742, 12562, 12582, 12532, 12722, 11392,
+]);
 
 // 効果の説明文を行単位の配列で返す(呼び出し元で改行区切りに描画する)。
 export function formatEffectDesc(
@@ -217,17 +250,36 @@ function getAchievedModuleEffects(moduleSlots: ModuleSlots): AchievedModuleEffec
   return result;
 }
 
+export interface ModuleTotalStatsResult {
+  stats: Record<string, number>;
+  // 攻撃速度/詠唱速度の%finalバリアント(calculateRawStatsのatkSpeedFinalPctAddend/
+  // castSpeedFinalPctAddendと同じ単位: %そのままの数値)。StatId(rawStats)を持たないため
+  // statsには含まれず、ここだけ別枠で返す。
+  atkSpeedFinalPctAddend: number;
+  castSpeedFinalPctAddend: number;
+}
+
 // 通常のステータス加算(et=1)に加え、「適応筋力/知力/敏捷」「適応物理/魔法攻撃力」(et=5)も
 // クラスのメインステータス/攻撃タイプに応じた実ステータスへ合算する。
+// calculateRawStats.tsの同名処理と対応を揃えること(全属性攻撃力の特殊対応、攻撃速度/
+// 詠唱速度の%finalバリアントの個別集計)。
 export function calcModuleTotalStats(
   moduleSlots: ModuleSlots,
   profession: Profession,
-): Record<string, number> {
+): ModuleTotalStatsResult {
   const stats: Record<string, number> = {};
+  let atkSpeedFinalPctAddend = 0;
+  let castSpeedFinalPctAddend = 0;
   const atkStatId = profession.attackType === 'physical' ? 'atk' : 'matk';
   for (const eff of getAchievedModuleEffects(moduleSlots)) {
     for (const [et, attrId, val] of eff.config) {
-      if (et === 1) {
+      if (et === 1 && attrId === MOD_ALL_ATTR_ATK_ATTR_ID) {
+        stats.allAttrAtk = (stats.allAttrAtk ?? 0) + val;
+      } else if (et === 1 && attrId === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+        atkSpeedFinalPctAddend += val / 100;
+      } else if (et === 1 && attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID) {
+        castSpeedFinalPctAddend += val / 100;
+      } else if (et === 1) {
         const sid = MOD_ATTR_TO_STAT[attrId];
         if (sid) stats[sid] = (stats[sid] ?? 0) + val;
       } else if (et === 5 && attrId === MOD_ADAPTIVE_MAIN_STAT_ATTR_ID) {
@@ -237,7 +289,7 @@ export function calcModuleTotalStats(
       }
     }
   }
-  return stats;
+  return { stats, atkSpeedFinalPctAddend, castSpeedFinalPctAddend };
 }
 
 export interface ModuleSpecialEffect {
