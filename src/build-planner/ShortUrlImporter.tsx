@@ -5,9 +5,12 @@ import { formatProfessionLabel } from './profession';
 import { extractShortCodeFromHash, resolveShortCode } from './shortUrl';
 import { useBuildStore } from './store/useBuildStore';
 
-// 起動時、URLフラグメントが短縮URL形式(#/{code})であればAPIから解決してインポートする。
+// URLフラグメントが短縮URL形式(#/{code})であればAPIから解決してインポートする。
 // Web版のみ対象(docs/SHORT_URL.md参照、App.tsx側で!isTauriの時のみマウントする)。
 // 成功/失敗いずれの場合もハッシュは消し、リロード時の再解決・再インポートを防ぐ。
+// 初回マウント時だけでなくhashchangeも購読する。サイトを開いたままアドレスバーに別の短縮URLを
+// 貼ってEnterした場合、同一オリジン・フラグメントのみの変化はブラウザがページ内アンカー遷移
+// (フルリロードなし)として扱うため、mountのみのuseEffectでは2回目以降の短縮URLを検知できない。
 function ShortUrlImporter() {
   const { t } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
@@ -15,36 +18,49 @@ function ShortUrlImporter() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const code = extractShortCodeFromHash(window.location.hash);
-    if (!code) return;
+    let cancelCurrent: (() => void) | null = null;
 
-    let cancelled = false;
-    resolveShortCode(code)
-      .then((planCode) => {
-        if (cancelled) return;
-        if (onImportPlanCode(planCode) === 'failed') {
-          setError(true);
-          return;
-        }
-        // 短縮URL由来のplanCodeはプラン名を保存していないため常に空になる(docs/SHORT_URL.md参照)。
-        // 空のままだと自動保存フィールドとして書き戻り、編集中だった名前を消してしまうため、
-        // クラス名(型名)をデフォルト名として補う。
-        const state = useBuildStore.getState();
-        if (!state.planName.trim()) {
-          state.setPlanName(
-            formatProfessionLabel(state.professionKey, state.professionTypeKey, tGame),
-          );
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setError(true);
-      })
-      .finally(() => {
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
-      });
+    function runImport() {
+      cancelCurrent?.();
+      const code = extractShortCodeFromHash(window.location.hash);
+      if (!code) return;
 
+      let cancelled = false;
+      cancelCurrent = () => {
+        cancelled = true;
+      };
+      setError(false);
+
+      resolveShortCode(code)
+        .then((planCode) => {
+          if (cancelled) return;
+          if (onImportPlanCode(planCode) === 'failed') {
+            setError(true);
+            return;
+          }
+          // 短縮URL由来のplanCodeはプラン名を保存していないため常に空になる(docs/SHORT_URL.md参照)。
+          // 空のままだと自動保存フィールドとして書き戻り、編集中だった名前を消してしまうため、
+          // クラス名(型名)をデフォルト名として補う。
+          const state = useBuildStore.getState();
+          if (!state.planName.trim()) {
+            state.setPlanName(
+              formatProfessionLabel(state.professionKey, state.professionTypeKey, tGame),
+            );
+          }
+        })
+        .catch(() => {
+          if (!cancelled) setError(true);
+        })
+        .finally(() => {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        });
+    }
+
+    runImport();
+    window.addEventListener('hashchange', runImport);
     return () => {
-      cancelled = true;
+      cancelCurrent?.();
+      window.removeEventListener('hashchange', runImport);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
