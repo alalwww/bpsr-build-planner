@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.7.2",
+      "date": "2026-07-21T15:18:10.072Z",
+      "summary": {
+        "ja": "モジュールのパワーコア効果における単位表示・計算漏れの修正",
+        "en": "Fix unit display and calculation gaps in module power-core effects"
+      },
+      "changes": {
+        "ja": [
+          "モジュールのパワーコア効果(集中・会心/攻撃速度/詠唱速度、物理耐性、魔法耐性、筋力強化、集中・幸運等)における単位表示の誤りと、会心ダメージ/会心回復/攻撃速度/詠唱速度/物理軽減/魔法軽減/幸運の一撃ダメージ率・回復の倍率/物理防御力無視が実ステータス・装備効果合計に反映されていなかった不具合の修正",
+          "パワーコア効果の説明ツールチップの表示改善(効果値のハイライト表示、複数効果の改行区切り)",
+          "自動保存・保存プランの読み込みに失敗した際、壊れたデータが残り続け同じ失敗を繰り返す不具合の修正",
+          "ステッパーの入力欄で常にIMEを無効化するよう修正"
+        ],
+        "en": [
+          "Fix incorrect unit display and missing stat calculations (crit damage/recovery, attack/cast speed, physical/magical reduction, lucky hit damage/recovery multiplier, physical defense ignore) for several module power-core effects",
+          "Improve the power-core effect tooltip's readability (highlight effect values, break multiple effects onto separate lines)",
+          "Fix autosave/saved-plan data staying corrupted after a load failure, causing the same failure to repeat on every launch",
+          "Always disable IME in the stepper input fields"
+        ]
+      }
+    },
+    {
       "version": "0.7.1",
       "date": "2026-07-20T08:23:55.991Z",
       "summary": {
