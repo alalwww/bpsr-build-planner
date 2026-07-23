@@ -16,9 +16,10 @@
 // Usage:
 //   node scripts/extract-ztable.mjs [--src <ZTable dir>] [--data-out <dir>] [--locales-out <dir>]
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { basename, join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeJson } from './lib/json-file.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -236,13 +237,6 @@ function parseArgs(argv) {
 
 function readTable(dir, name) {
   return JSON.parse(readFileSync(join(dir, `${name}.json`), 'utf8'));
-}
-
-function writeJson(dir, fileName, data) {
-  mkdirSync(dir, { recursive: true });
-  const path = join(dir, fileName);
-  writeFileSync(path, JSON.stringify(data, null, 2) + '\n', 'utf8');
-  return path;
 }
 
 // Talent値 → ロールスキル(DutySkill)IDの対応。SkillTableのiconが

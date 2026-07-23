@@ -6,10 +6,11 @@
 // Usage:
 //   node scripts/derive-traditional-chinese.mjs [--locales-dir <dir>]
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as OpenCC from 'opencc-js';
+import { writeJson } from './lib/json-file.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -37,13 +38,12 @@ function main() {
   const convert = OpenCC.Converter({ from: 'cn', to: 'tw' });
   const srcDir = join(localesDir, 'zh_CN');
   const destDir = join(localesDir, 'zh_TW');
-  mkdirSync(destDir, { recursive: true });
 
   for (const fileName of ['bpsr-bp-ui.json', 'game-data.json']) {
     const src = JSON.parse(readFileSync(join(srcDir, fileName), 'utf8'));
     const converted = convertDeep(src, convert);
-    writeFileSync(join(destDir, fileName), JSON.stringify(converted, null, 2) + '\n', 'utf8');
-    console.log(`[derive-traditional-chinese] wrote ${fileName} to ${join(destDir, fileName)}`);
+    const path = writeJson(destDir, fileName, converted);
+    console.log(`[derive-traditional-chinese] wrote ${fileName} to ${path}`);
   }
 }
 
