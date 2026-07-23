@@ -2,7 +2,12 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
 import StatRow from '../components/StatRow';
-import { classifyEvoDisplay, getRefineForSlot, getTalentSchoolId } from './equipmentData';
+import {
+  classifyEvoDisplay,
+  getMaxPerfectline,
+  getRefineForSlot,
+  getTalentSchoolId,
+} from './equipmentData';
 import type { Profession, ProfessionTypeKey } from '../profession';
 import type {
   EquipmentItem,
@@ -72,6 +77,7 @@ function EquipmentItemPopup({
   const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
   const { kind: evoKind, isFixedStat, fixedEvoEffects } = classifyEvoDisplay(item, talentSchoolId);
   const sliderValue = isFixedStat ? 100 : perfectline;
+  const maxPerfectline = isFixedStat ? 100 : getMaxPerfectline(item);
 
   const reforgedStat = evolutionStats[2];
   // 他の個別ステータス表示と異なり、この値は四捨五入した整数として合算されるため
@@ -131,6 +137,24 @@ function EquipmentItemPopup({
     <FloatingTooltip x={x} y={mouseY} clamp align={align} className="equip-item-popup">
       <div className="equip-item-popup__name" style={{ color: getItemNameColor(item) }}>
         {name}
+      </div>
+
+      <div className="equip-item-popup__section">
+        <label className="equipment-dialog__label">
+          {t('buildPlanner.perfectline')}
+          <span className="equipment-dialog__slider-value">
+            {sliderValue}/{maxPerfectline}
+          </span>
+        </label>
+        <input
+          type="range"
+          className="equipment-dialog__slider"
+          min={1}
+          max={100}
+          value={sliderValue}
+          readOnly
+          tabIndex={-1}
+        />
       </div>
 
       {item.baseStats.length > 0 && (
