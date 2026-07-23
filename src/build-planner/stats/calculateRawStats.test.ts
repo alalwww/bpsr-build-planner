@@ -245,6 +245,27 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.intellect).toBe(BASE_STATS.intellect + 70);
   });
 
+  it('routes attack-speed/cast-speed-final legendary affixes (attrId 11722/11732) instead of dropping them', () => {
+    // src/data/equipment.json part 200 item 2000308 legendaryAffix attrId 11722 (攻撃速度final%):
+    // values [250,300,350] use the same 1/10000 unit as matk% (attrId 11344), so /100 -> "+2.5%" etc.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      equipped: {
+        weapon: makeEquipmentItem({ slot: 'weapon', part: 200 }),
+        head: makeEquipmentItem({ slot: 'head', part: 210 }),
+      },
+      legendaryAffixState: {
+        weapon: { attrId: 11722, value: 250 },
+        head: { attrId: 11732, value: 500 },
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.atkSpeedFinalPctAddend).toBe(2.5);
+    expect(result.castSpeedFinalPctAddend).toBe(5);
+  });
+
   it('sums multiple legendary-affix % bonuses before multiplying once (not compounding)', () => {
     // attrId 11014 (筋力%) は IMAGINE_PCT_BASE 経由で addPctBonus される。
     // +10% と +5% は 1.10*1.05 ではなく、合算した +15% を一度だけ乗算する。

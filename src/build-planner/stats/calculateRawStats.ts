@@ -480,6 +480,16 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       addStat(flatStatId, selection.value);
       continue;
     }
+    // 攻撃速度/詠唱速度の最終%直接加算(武器等の伝説刻印、例: attrId 11722/11732)。
+    // モジュール/アビリティ側と同じattrId・同じ単位(1/10000)のため、同じ/100変換を使う。
+    if (selection.attrId === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+      atkSpeedFinalPctAddend += selection.value / 100;
+      continue;
+    }
+    if (selection.attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID) {
+      castSpeedFinalPctAddend += selection.value / 100;
+      continue;
+    }
     const pctStatId = IMAGINE_PCT_BASE[selection.attrId];
     if (pctStatId !== undefined) addPctBonus(pctStatId, selection.value);
   }
