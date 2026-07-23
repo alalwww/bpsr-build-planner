@@ -17,7 +17,7 @@ export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   inspirationEnabled: false,
   inspirationVariant: 'lifebind',
   statResonanceEnabled: false,
-  statResonanceBaseValue: 6300,
+  statResonanceBaseValue: 7000,
   statResonanceMultiplierPercent: 24,
   luckyCritEnabled: false,
   luckyCritVariant: 'self',
