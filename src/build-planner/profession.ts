@@ -1,4 +1,5 @@
 import { getClassData } from './classData';
+import type { ElementId } from './types';
 
 // クラス(職業)の定義。"class" はプログラミング言語の予約語と紛らわしいため、
 // ゲーム内表記に合わせて "profession" の語で統一する。
@@ -42,6 +43,10 @@ export interface Profession {
   mainStat: MainStatId;
   // メインステータスが物理/魔法攻撃力のどちらに変換されるか
   attackType: AttackType;
+  // クラス固有の属性(`src/data/classes.json` の `element` フィールド由来。ZTableの
+  // ElementalRestraintTable.json のId順=1:火/2:氷/3:雷/4:森/5:風/6:岩/7:光/8:闇と対応)。
+  // 追加バフ効果ダイアログのシロップ/脊椎試薬属性選択の初期値に使用する。
+  element: ElementId;
   // メインステータス1ptあたりの攻撃力上昇量(基礎値。R1アビリティ取得時の追加分は含まない)
   atkPerMainStatPoint: number;
   // 耐久力1ptあたりの最大HP上昇量
@@ -81,6 +86,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 9,
     mainStat: 'strength',
     attackType: 'physical',
+    element: 'rock',
     atkPerMainStatPoint: 0.6,
     hpPerEndurancePoint: 12,
     atkSpeedPerHastePercent: 0.6,
@@ -93,6 +99,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 12,
     mainStat: 'strength',
     attackType: 'physical',
+    element: 'light',
     atkPerMainStatPoint: 0.6,
     hpPerEndurancePoint: 12,
     atkSpeedPerHastePercent: 0.6,
@@ -105,6 +112,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 4,
     mainStat: 'strength',
     attackType: 'physical',
+    element: 'wind',
     atkPerMainStatPoint: 0.6,
     hpPerEndurancePoint: 6,
     atkSpeedPerHastePercent: 0.6,
@@ -117,6 +125,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 1,
     mainStat: 'agility',
     attackType: 'physical',
+    element: 'thunder',
     atkPerMainStatPoint: 0.6,
     hpPerEndurancePoint: 6,
     atkSpeedPerHastePercent: 0.6,
@@ -129,6 +138,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 11,
     mainStat: 'agility',
     attackType: 'physical',
+    element: 'light',
     atkPerMainStatPoint: 0.58,
     hpPerEndurancePoint: 6,
     atkSpeedPerHastePercent: 0.6,
@@ -141,6 +151,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 2,
     mainStat: 'intellect',
     attackType: 'magical',
+    element: 'ice',
     atkPerMainStatPoint: 0.5,
     hpPerEndurancePoint: 6.5,
     atkSpeedPerHastePercent: 0.2,
@@ -153,6 +164,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 5,
     mainStat: 'intellect',
     attackType: 'magical',
+    element: 'forest',
     atkPerMainStatPoint: 0.5,
     hpPerEndurancePoint: 6,
     atkSpeedPerHastePercent: 0.2,
@@ -165,6 +177,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 13,
     mainStat: 'intellect',
     attackType: 'magical',
+    element: 'fire',
     atkPerMainStatPoint: 0.5,
     hpPerEndurancePoint: 6,
     atkSpeedPerHastePercent: 0.6,
@@ -181,6 +194,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     professionId: 3,
     mainStat: 'strength',
     attackType: 'physical',
+    element: 'fire',
     atkPerMainStatPoint: 0.6,
     hpPerEndurancePoint: 6,
     atkSpeedPerHastePercent: 0.6,

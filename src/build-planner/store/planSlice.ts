@@ -103,7 +103,11 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       const currentProfession = PROFESSIONS[state.professionKey];
       const mainStatChanged = newProfession.mainStat !== currentProfession.mainStat;
       state.resetEquipmentForProfessionChange(mainStatChanged);
-      set({ professionKey: key, professionTypeKey: 'type1' });
+      set({
+        professionKey: key,
+        professionTypeKey: 'type1',
+        cookingBuff: { ...state.cookingBuff, syrupElement: newProfession.element },
+      });
       // マスタリースキル・固定スキルをリセット (バトルイマジンは引き継ぐ)
       state.resetSkillForProfessionChange(key);
       // アビリティツリーをリセット
