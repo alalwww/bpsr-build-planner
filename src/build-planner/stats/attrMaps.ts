@@ -119,8 +119,11 @@ export const TALENT_FLAT_PCT_TO_STAT: Partial<Record<number, { stat: StatId; val
 // 対象は「%そのものの最終値」ではなく「カーブ適用前の実数値レーティング」である点に注意。
 // フロストメイジR2アビリティ「高速詠唱」: ファスト+2500(パーマフロスト中の詠唱速度+15%は
 // 状態依存の条件付き効果のため対象外)。
+// ヘヴィガーディアンR2アビリティ「剛岩精通」: 器用さ+6250(勇壮砦壁の有効中の器用さ+8%は
+// 状態依存の条件付き効果のため対象外)。
 export const TALENT_RAW_FLAT_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
   2204640: { stat: 'haste', value: 2500 },
+  2201720: { stat: 'mastery', value: 6250 },
 };
 
 export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {

@@ -412,6 +412,25 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 1000);
   });
 
+  it('adds a type=3 raw flat stat bonus to mastery (heavyGuardian R2 "剛岩精通", talentId 970: 器用さ+6250)', () => {
+    // src/data/talent-tree.json: nodes["970"].effects = [[3, 2201720, 1]] (stage:1 = R2)
+    // TALENT_RAW_FLAT_TO_STAT[2201720] = { stat: 'mastery', value: 6250 }
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 970, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.mastery).toBe(BASE_STATS.mastery + 6250);
+  });
+
   it('leaves highestStatFinalPctBonus at 0 when the ability is not enabled', () => {
     const result = calculateRawStats(baseInput());
 
