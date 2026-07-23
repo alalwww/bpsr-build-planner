@@ -9,6 +9,7 @@ import {
   calcLuckyCritBonus,
   calcStatResonanceBonus,
   DMG_STACK_PER_STACK,
+  ELITE_DAMAGE_OPTIONS,
   INSPIRATION_VALUES,
   LIFE_WAVE_VALUES,
   POWER_CORE_EFFECT_IDS,
@@ -90,16 +91,18 @@ function BuffEffectDialog({
               onChange({ cookingAtkValue: v }),
             )}
           />
-          <input
-            type="number"
-            className="buff-effect-dialog__input"
-            disabled
+          <select
+            className="buff-effect-dialog__select"
             title={t('buildPlanner.buffDialog.eliteDamage')}
-            placeholder={`${t('buildPlanner.buffDialog.eliteDamage')}%`}
-            {...toNumberInputProps(cookingBuff.cookingEliteDamagePercent, (v) =>
-              onChange({ cookingEliteDamagePercent: v }),
-            )}
-          />
+            value={cookingBuff.cookingEliteDamagePercent}
+            onChange={(e) => onChange({ cookingEliteDamagePercent: Number(e.target.value) })}
+          >
+            {ELITE_DAMAGE_OPTIONS.map((pct) => (
+              <option key={pct} value={pct}>
+                {pct === 0 ? '0%' : `+${pct}%`}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* シロップ/脊椎試薬 */}

@@ -91,6 +91,10 @@ export const INSPIRATION_PERCENT_STAT_IDS: StatId[] = [
 // 能力共鳴(響奏バフ)の平均倍率(%)の選択肢。
 export const STAT_RESONANCE_MULTIPLIER_OPTIONS = [8, 12, 16, 24, 32] as const;
 
+// 精鋭ダメージ(料理)の選択肢。反映先のステータスが現状存在しないため、選択できるだけで
+// 計算には使わない(将来対応するAttrId/StatIdが判明したら計算に組み込む)。
+export const ELITE_DAMAGE_OPTIONS = [0, 5, 10] as const;
+
 // 能力共鳴(Stat Resonance、響奏バフ): 基準値×倍率(%)÷100を算出する。
 export function calcStatResonanceBonus(cookingBuff: CookingBuffState): number {
   if (!cookingBuff.statResonanceEnabled || cookingBuff.statResonanceBaseValue === 0) return 0;
