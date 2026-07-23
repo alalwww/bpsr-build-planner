@@ -498,6 +498,15 @@
   color: #8a8a96;
 }
 
+/* 左列(完成度)の見出しラベルにも、能力スコア見出しと同じ下線を入れて統一する。
+   精錬レベル(右列)は対象外のため col-left 配下に限定する。 */
+.equipment-dialog__col-left .equip-details-section > .equipment-dialog__label {
+  display: block;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a2a33;
+  margin: 0 0 2px 0;
+}
+
 .equipment-dialog__select-trigger {
   width: 100%;
   max-width: 100%;
@@ -672,7 +681,6 @@
 .equip-ability-score-row--total {
   padding-top: 6px;
   margin-top: 4px;
-  border-top: 1px solid #2a2a33;
 }
 
 .equip-ability-score-row--total .equip-stat-row__name,

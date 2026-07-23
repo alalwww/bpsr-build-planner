@@ -469,7 +469,6 @@ function EquipmentSlotPicker({
             </div>
 
             <div className="equip-details-section">
-              <label className="equipment-dialog__label">{slotLabel}</label>
               <button
                 type="button"
                 className="filter-toggle-btn"
