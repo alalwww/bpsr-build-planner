@@ -70,6 +70,7 @@ import {
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
   TALENT_FLAT_PCT_TO_STAT,
   TALENT_HIGHEST_OF_FINAL_PCT,
+  TALENT_RAW_FLAT_TO_STAT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
 import {
@@ -419,6 +420,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           // 型に関わらず常時有効な、特定の1ステータスへの平坦加算(例: ビートパフォーマー「会心回復」)。
           const flatStatBonus = TALENT_FLAT_PCT_TO_STAT[eff[1]];
           if (flatStatBonus) addStat(flatStatBonus.stat, flatStatBonus.value);
+          // 型に関わらず常時有効な、rawStats側の実数値ステータスへの平坦加算
+          // (例: フロストメイジ「高速詠唱」ファスト+2500)。
+          const rawFlatBonus = TALENT_RAW_FLAT_TO_STAT[eff[1]];
+          if (rawFlatBonus) addStat(rawFlatBonus.stat, rawFlatBonus.value);
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
           // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。

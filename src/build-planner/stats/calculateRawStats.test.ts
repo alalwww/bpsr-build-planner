@@ -333,6 +333,26 @@ describe('calculateRawStats', () => {
     expect(result.highestStatFinalPctBonus).toBe(3.5);
   });
 
+  it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+2500)', () => {
+    // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
+    // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 2500 }
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.frostMage,
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 267, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 2500);
+  });
+
   it('leaves highestStatFinalPctBonus at 0 when the ability is not enabled', () => {
     const result = calculateRawStats(baseInput());
 

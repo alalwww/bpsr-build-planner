@@ -109,6 +109,16 @@ export const TALENT_FLAT_PCT_TO_STAT: Partial<Record<number, { stat: StatId; val
   2207210: { stat: 'critRecoveryBonus', value: 2500 },
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、rawStats側の実数値
+// ステータスへの平坦加算(TALENT_ATTR_TO_STATのtype=1加算と同じ単位・同じaddStat経路。
+// 会心/ファスト等は収益逓減カーブの対象になる)。TALENT_FLAT_PCT_TO_STATとは異なり、
+// 対象は「%そのものの最終値」ではなく「カーブ適用前の実数値レーティング」である点に注意。
+// フロストメイジR2アビリティ「高速詠唱」: ファスト+2500(パーマフロスト中の詠唱速度+15%は
+// 状態依存の条件付き効果のため対象外)。
+export const TALENT_RAW_FLAT_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
+  2204640: { stat: 'haste', value: 2500 },
+};
+
 export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
   11022: 'intellect',
