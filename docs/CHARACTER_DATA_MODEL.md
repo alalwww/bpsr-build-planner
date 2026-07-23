@@ -148,8 +148,13 @@ UIのスロット配置と一致する連番ID(`EquipPartTable.json`、`extract-
   (`src/build-planner/types.ts` `LegendaryAffixEntry`)
 - `isPercent` の判定ルール:
   - 武器/アクセサリ部位 → 常に `true`(全効果が%表示)
-  - 防具部位(頭/胴/腕/脚/腕輪) → 筋力(11014)/知力(11024)/俊敏(11034) は `true`、
-    それ以外(物理攻撃力+等)は `false`(実数値加算)
+  - 防具部位(頭/胴/腕/脚/腕輪) → `LEGENDARY_ARMOR_PERCENT_ATTR_IDS`(`extract-ztable.mjs`)に
+    列挙されたattrIdのみ `true`、それ以外(物理攻撃力+等)は `false`(実数値加算)。
+    このリストは筋力(11014)/知力(11024)/俊敏(11034)で開始したが、同じattrIdが武器/
+    アクセサリ側では常にisPercent:trueで出現するのに防具側だけ漏れていた4件
+    (攻撃速度11722/詠唱速度11732/回復力11792/バリア強度万分率11812)を2026-07-20に追加済み。
+    新しいattrIdを防具刻印に追加する際は、武器/アクセサリ側での実際の表示(%かどうか)と
+    揃っているか確認しこのリストの更新要否を判断すること。
 - UIは `EquipmentSlotPicker.tsx` に実装済み(紫色表示、ティア選択ボタン)
 
 ## 心相投影・幻影因子 (Season Talent / Phantom Factor)
