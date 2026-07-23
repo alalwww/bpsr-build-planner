@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.7.5",
+      "date": "2026-07-23T14:56:55.690Z",
+      "summary": {
+        "ja": "アビリティ・潜在ツリーの背景ドラッグスクロール機能の追加と、装備選択・追加バフ等の不具合修正・UI改善",
+        "en": "Add background drag-to-scroll for the ability/phantom trees, plus equipment and buff dialog fixes and UI improvements"
+      },
+      "changes": {
+        "ja": [
+          "アビリティツリー・潜在ツリーの背景をドラッグしてスクロールできる機能の追加",
+          "心相投影(潜在)ツリー内で同じ幻影因子を複数スロットへ重複装着できてしまう不具合の修正(選択時にどちらを残すか選べる入れ替え確認ダイアログを追加)",
+          "装備選択・イマジン選択ダイアログの絞り込みの開閉状態が、ダイアログを開き直すたびにリセットされる不具合の修正",
+          "装備選択ダイアログ左列の見出し下線が二重に表示される不具合と、部位名ラベルがダイアログタイトルと重複表示される不具合の修正",
+          "追加バフ効果「海風の宴」を、効果値を入力できる汎用的な「イベントバフ」に変更",
+          "追加バフ効果の「精鋭ダメージ」欄を、無効化されていた入力欄から選択可能なドロップダウン(0%/+5%/+10%)に変更"
+        ],
+        "en": [
+          "Add background drag-to-scroll for the ability tree and phantom projection tree",
+          "Fix the same Phantom Factor being equippable in multiple slots within one Phantom Projection tree (add a swap confirmation dialog to choose which slot keeps it)",
+          "Fix the equipment/battle-imagine picker filter's expanded/collapsed state resetting every time the dialog is reopened",
+          "Fix a duplicated underline below the equipment picker's left-column headings and a redundant slot-name label duplicating the dialog title",
+          "Replace the \"Sea Breeze Feast\" buff with a generic \"Event Buff\" whose bonus value can be entered",
+          "Change the \"Elite Damage\" field in the buff dialog from a disabled input into a selectable dropdown (0%/+5%/+10%)"
+        ]
+      }
+    },
+    {
       "version": "0.7.4",
       "date": "2026-07-23T10:53:17.196Z",
       "summary": {
