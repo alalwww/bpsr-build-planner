@@ -391,6 +391,27 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.haste).toBe(BASE_STATS.haste + 2500);
   });
 
+  it('adds a type=3 flat-pct stat bonus to critDamageBonus (stormBlade R2 "爆裂", talentId 152: 会心ダメージ+10%)', () => {
+    // src/data/talent-tree.json: nodes["152"].effects = [[3, 2200540, 1]] (stage:1 = R2)
+    // TALENT_FLAT_PCT_TO_STAT[2200540] = { stat: 'critDamageBonus', value: 1000 }
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 152, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    // rawStats.critDamageBonusの単位は100=1%(deriveStatsでraw.critDamageBonus/100として
+    // 最終%に変換される)ため、+10%はrawStats上では+1000。
+    expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 1000);
+  });
+
   it('leaves highestStatFinalPctBonus at 0 when the ability is not enabled', () => {
     const result = calculateRawStats(baseInput());
 
