@@ -8,6 +8,7 @@ import FloatingTooltip from '../components/FloatingTooltip';
 import ZoomControls from '../components/ZoomControls';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
+import { useDragScroll } from '../components/useDragScroll';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
@@ -110,6 +111,9 @@ export default function TalentTreePanel({
     setZoom: setZoomLevel,
     ref: canvasWrapperRef,
   } = useCtrlWheelZoom({ min: ZOOM_MIN, max: ZOOM_MAX, step: ZOOM_STEP });
+  // 背景ドラッグでのスクロール。ズームrefとは別要素(実際にoverflow:autoでスクロールする
+  // .talent-tree-panel__scroll)に付ける。
+  const { ref: scrollDragRef } = useDragScroll('.talent-tree-panel__node');
   const {
     tooltip: hoveredNodeInfo,
     open: openNodeTooltip,
@@ -500,6 +504,7 @@ export default function TalentTreePanel({
           className="talent-tree-panel__scroll"
           style={scrollStyle}
           onMouseLeave={scheduleTooltipClose}
+          ref={scrollDragRef}
         >
           <svg width={svgW} height={svgH} className="talent-tree-panel__svg">
             <defs>
@@ -663,6 +668,7 @@ export default function TalentTreePanel({
               return (
                 <g
                   key={`n${node.id}`}
+                  className="talent-tree-panel__node"
                   onClick={() => handleNodeClick(node.id)}
                   onMouseEnter={(e) => {
                     const rect = (e.currentTarget as SVGGElement).getBoundingClientRect();

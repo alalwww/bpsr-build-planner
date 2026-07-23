@@ -104,6 +104,7 @@
   background:
     radial-gradient(ellipse 80% 45% at 50% 100%, rgba(255, 210, 230, 0.22) 0%, transparent 70%),
     linear-gradient(to bottom, #2a0e1c 0%, #6b2845 100%);
+  cursor: grab;
 }
 
 /* ズームコントロール（スクロール外に固定） */

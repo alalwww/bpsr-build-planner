@@ -211,6 +211,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  cursor: grab;
 }
 
 .talent-tree-panel__points-badge {

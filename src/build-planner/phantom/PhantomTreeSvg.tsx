@@ -141,7 +141,12 @@ export default function PhantomTreeSvg({
           : 'img_season_talent_tree_bg2_lock.png';
       const iconR = r * 0.68;
       return (
-        <g key={nodeId} onClick={handleClick} style={{ cursor: 'pointer' }}>
+        <g
+          key={nodeId}
+          className="phantom-tree-node"
+          onClick={handleClick}
+          style={{ cursor: 'pointer' }}
+        >
           <image href={getSTAsset(bgFile)} x={nx - r} y={ny - r} width={r * 2} height={r * 2} />
           {iconFile && (
             <image
@@ -178,7 +183,12 @@ export default function PhantomTreeSvg({
       const factorIconSrc = factorIconName ? getSTAsset(factorIconName + '.png') : '';
       const iconR = r * 0.7;
       return (
-        <g key={nodeId} onClick={handleClick} style={{ cursor: 'pointer' }}>
+        <g
+          key={nodeId}
+          className="phantom-tree-node"
+          onClick={handleClick}
+          style={{ cursor: 'pointer' }}
+        >
           <image
             href={getSTAsset(qualityFile)}
             x={nx - r}

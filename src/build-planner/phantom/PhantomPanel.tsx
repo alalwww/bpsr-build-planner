@@ -19,6 +19,7 @@ import Chevron from '../components/Chevron';
 import Stepper from '../components/Stepper';
 import ZoomControls from '../components/ZoomControls';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
+import { useDragScroll } from '../components/useDragScroll';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import PhantomBondSection from './PhantomBondSection';
 import PhantomNodeConfig from './PhantomNodeConfig';
@@ -76,8 +77,14 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const {
     zoom,
     setZoom,
-    ref: treeAreaRef,
+    ref: treeAreaZoomRef,
   } = useCtrlWheelZoom({ min: ZOOM_MIN, max: ZOOM_MAX, step: ZOOM_STEP });
+  // 背景ドラッグでのスクロール。ズームrefと同じ要素(.phantom-tree-area)に付けるため合成する。
+  const { ref: treeAreaDragRef } = useDragScroll('.phantom-tree-node');
+  const treeAreaRef = (node: HTMLDivElement | null) => {
+    treeAreaZoomRef(node);
+    treeAreaDragRef(node);
+  };
 
   const sortedTemplates = useMemo(
     () =>
