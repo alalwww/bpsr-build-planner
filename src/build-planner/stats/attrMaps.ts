@@ -294,6 +294,9 @@ export const ENCHANT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11132: 'luck',
   11142: 'mastery',
   11152: 'versatility',
+  // 物理/魔法攻撃力(例: 「荒野カニクモの刻印」matk+38、耳飾り/首飾り/指輪等の装着効果)。
+  11332: 'atk',
+  11342: 'matk',
 };
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=false エントリ用)

@@ -213,6 +213,21 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.intellect).toBe(BASE_STATS.intellect + 50);
   });
 
+  it('routes the matk (attrId 11342) enchant effect to matk (荒野カニクモの刻印)', () => {
+    // src/data/enchants.json group "3020011" (荒野カニクモの刻印): effects [[11342,38]]
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      equipped: {
+        earring: makeEquipmentItem({ slot: 'earring', part: 260 }),
+      },
+      slotEnchants: { earring: 3020011 },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.matk).toBe(38);
+  });
+
   it('sums multiple legendary-affix % bonuses before multiplying once (not compounding)', () => {
     // attrId 11014 (筋力%) は IMAGINE_PCT_BASE 経由で addPctBonus される。
     // +10% と +5% は 1.10*1.05 ではなく、合算した +15% を一度だけ乗算する。
