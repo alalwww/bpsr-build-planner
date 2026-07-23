@@ -52,6 +52,7 @@ export type StatId =
   | 'healingPower'
   | 'breakEfficiency'
   | 'bossDamageBonus'
+  | 'bossDamageReduction'
   | 'moveSpeed';
 
 export interface StatDefinition {

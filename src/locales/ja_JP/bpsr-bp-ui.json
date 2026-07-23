@@ -296,6 +296,7 @@
       "healingPower": "回復力",
       "breakEfficiency": "ブレイク効率",
       "bossDamageBonus": "対ボスダメージボーナス",
+      "bossDamageReduction": "対ボスダメージ軽減",
       "moveSpeed": "移動速度"
     },
     "slots": {
@@ -409,6 +410,7 @@
         "healingPower": "回復力",
         "breakEfficiency": "ブレイク効率",
         "bossDamageBonus": "対ボスダメージボーナス",
+        "bossDamageReduction": "対ボスダメージ軽減",
         "moveSpeed": "移動速度",
         "maxStamina": "最大スタミナ",
         "staminaRegen": "戦闘時のスタミナ回復率"

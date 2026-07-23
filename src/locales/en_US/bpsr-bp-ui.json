@@ -296,6 +296,7 @@
       "healingPower": "Healing Power",
       "breakEfficiency": "Break Efficiency",
       "bossDamageBonus": "Boss Damage Bonus",
+      "bossDamageReduction": "Boss Damage Reduction",
       "moveSpeed": "Move Speed"
     },
     "slots": {
@@ -409,6 +410,7 @@
         "healingPower": "Healing Power",
         "breakEfficiency": "Break Efficiency",
         "bossDamageBonus": "Boss Damage Bonus",
+        "bossDamageReduction": "Boss Damage Reduction",
         "moveSpeed": "Move Speed",
         "maxStamina": "Max Stamina",
         "staminaRegen": "Combat Stamina Recovery"

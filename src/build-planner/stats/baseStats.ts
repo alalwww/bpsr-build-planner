@@ -54,5 +54,6 @@ export const BASE_STATS: Record<StatId, number> = {
   healingPower: 0,
   breakEfficiency: 0,
   bossDamageBonus: 0,
+  bossDamageReduction: 0,
   moveSpeed: 0,
 };

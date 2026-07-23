@@ -197,6 +197,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       label: te('stat.resistDamageReduction'),
       value: fmtPct(derivedStats.resistDamageReductionPercent),
     },
+    { label: te('stat.bossDamageReduction'), value: fmtPct(rawStats.bossDamageReduction / 100) },
   ];
 
   const supportRows = [

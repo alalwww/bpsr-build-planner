@@ -543,6 +543,24 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.healingPower).toBe(BASE_STATS.healingPower + 300);
   });
 
+  it('adds a type=1 flat effect to bossDamageReduction (heavyGuardian R2 "精鋭の牙", talentId 924: 対ボスダメージ軽減+800)', () => {
+    // src/data/talent-tree.json: nodes["924"].effects = [[1, 12642, 800]] (stage:1 = R2)
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 924, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.bossDamageReduction).toBe(BASE_STATS.bossDamageReduction + 800);
+  });
+
   it('routes a type=1 effect with a "%final" attrId to phantomFinalPct, not a flat addend (heavyGuardian "癒しの砂", talentId 912)', () => {
     // src/data/talent-tree.json: nodes["912"].effects = [[1, 11324, 1000]] (stage:0 = R1)
     // attrId 11324 is maxHp's IMAGINE_PCT_FINAL variant (unit 1/10000) -> +10% final, not +1000 flat.

@@ -58,6 +58,8 @@ export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11352: 'physicalDef',
   // 回復力(共通の小ノード、例: talentId 47「回復効果」)。
   11792: 'healingPower',
+  // 対ボスダメージ軽減(ヘヴィガーディアンR2アビリティ「精鋭の牙」talentId 924)。
+  12642: 'bossDamageReduction',
   // 属性攻撃力(個別属性): 全クラス共通の小ノード(例: talentId 20〜27)で使われる。
   11512: ELEMENT_ATK_STAT.fire,
   11522: ELEMENT_ATK_STAT.ice,
