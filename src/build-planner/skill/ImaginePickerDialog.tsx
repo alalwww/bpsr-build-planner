@@ -6,6 +6,7 @@ import DraggableDialog from '../components/DraggableDialog';
 import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import ToggleChip from '../components/ToggleChip';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
+import { useSessionState } from '../components/useSessionState';
 import {
   IMAGINE_QUALITY_FILTERS,
   IMAGINE_SEASON_FILTERS,
@@ -32,7 +33,10 @@ function ImaginePickerDialog({
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
   const [rank, setRank] = useState(5);
-  const [filterExpanded, setFilterExpanded] = useState(false);
+  // 絞り込み折りたたみ領域の開閉状態。2つのバトルイマジンスロットで共通の1状態とし、
+  // ダイアログを開き直しても(別スロットのダイアログでも)維持されるようにする
+  // (装備選択ダイアログのcandidateFilterExpandedと同じuseSessionState、非永続化)。
+  const [filterExpanded, setFilterExpanded] = useSessionState('imagineFilterExpanded', true);
   const [seasonFilter, setSeasonFilter] = useState<ImagineSeasonFilter | null>(null);
   const [qualityFilter, setQualityFilter] = useState<ImagineQualityFilter | null>(null);
   const {

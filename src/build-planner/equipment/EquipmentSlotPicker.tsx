@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
+import { useSessionState } from '../components/useSessionState';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
@@ -118,8 +119,13 @@ function EquipmentSlotPicker({
   // 自動適用される「常時表示」の永続的な選好状態(常にどれかを選択中)。
   const [enchantGradePreference, setEnchantGradePreference] = useState<EnchantGrade>('base');
   // 装備選択候補のGS帯フィルター折りたたみ領域の開閉状態。選択中のフィルター自体は
-  // ダイアログの開閉で消えないよう親(candidateGsFilter プロップ)側で保持する。
-  const [candidateFilterExpanded, setCandidateFilterExpanded] = useState(true);
+  // ダイアログの開閉で消えないよう親(candidateGsFilter プロップ)側で保持しているが、
+  // こちらは全部位で共通の1状態でよいため useSessionState (モジュールスコープ、非永続化)
+  // で持ち、部位を切り替えて別のダイアログを開いても開閉状態が維持されるようにする。
+  const [candidateFilterExpanded, setCandidateFilterExpanded] = useSessionState(
+    'equipmentCandidateFilterExpanded',
+    true,
+  );
   const {
     tooltip: enchantTooltip,
     open: openEnchantTooltip,
