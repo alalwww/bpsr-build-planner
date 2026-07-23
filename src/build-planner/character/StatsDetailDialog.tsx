@@ -207,7 +207,9 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       value: fmtPct(derivedStats.luckyHitRecoveryMultiplierPercent),
     },
     { label: te('stat.mastery'), value: fmtDec2(rawStats.mastery) },
-    { label: te('stat.receivedRecovery'), value: fmtDec2(rawStats.receivedRecovery) },
+    // 潜在因子データ(phantom-factors.json)で11812(バリア強度、"100=1%")と同一グレード内に
+    // 常に同スケールの数値(120〜300)で出現するため、バリア強度と同じ規約と判断しfmtPctにする。
+    { label: te('stat.receivedRecovery'), value: fmtPct(rawStats.receivedRecovery / 100) },
     { label: te('stat.barrierStrength'), value: fmtPct(rawStats.barrierStrength / 100) },
     { label: te('stat.receivedBarrier'), value: fmtPct(0) },
     { label: te('stat.healingPower'), value: fmtPct(rawStats.healingPower / 100) },
