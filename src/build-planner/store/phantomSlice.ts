@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import { STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
+import { STATIC_AUTOSAVE_DEFAULTS } from '../plan/planDefaults';
 import {
   hasLegacyPhantomFactor,
   initPhantomNodeSelections,

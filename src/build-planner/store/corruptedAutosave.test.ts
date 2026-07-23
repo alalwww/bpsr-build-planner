@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { decodePlanCode } from '../planCode';
+import { decodePlanCode } from '../plan/planCode';
 
 // vitestは environment: 'node' で動作しており、node には localStorage が存在しない。
 // phantomLegacyAutosave.test.ts と同様、モジュール評価(=ストア初期化時の

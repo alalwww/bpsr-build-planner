@@ -1,9 +1,9 @@
-import { DEFAULT_LOADOUT } from './equipment/equipmentData';
-import type { ProfessionKey } from './profession';
-import { PROFESSIONS } from './profession';
-import { getClassData, initTalentR1Ids, initTalentR2Ids } from './stats/gameData';
+import { DEFAULT_LOADOUT } from '../equipment/equipmentData';
+import type { ProfessionKey } from '../profession';
+import { PROFESSIONS } from '../profession';
+import { getClassData, initTalentR1Ids, initTalentR2Ids } from '../stats/gameData';
 import type { AutoSaveState } from './buildPlan';
-import type { SlotRefineLevels } from './types';
+import type { SlotRefineLevels } from '../types';
 
 // ビルドプランの各フィールドのデフォルト値をここに一元化する。
 // useBuildState.ts の useState初期値・resetPlan・applyPlanState のフォールバックが

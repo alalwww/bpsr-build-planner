@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { PROFESSIONS } from '../profession';
-import type { BuildPlanData } from '../buildPlan';
+import type { BuildPlanData } from '../plan/buildPlan';
 import { getClassIconUrl } from './classIcons';
 import renameIconUrl from '../../assets/ui/camera_icon_function_29.png';
 import deleteIconUrl from '../../assets/ui/com_btn_delete.png';

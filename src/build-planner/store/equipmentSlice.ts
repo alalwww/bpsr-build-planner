@@ -5,7 +5,7 @@ import {
   EQUIPMENT_TOP_SLOTS,
   getMaxPerfectline,
 } from '../equipment/equipmentData';
-import { STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
+import { STATIC_AUTOSAVE_DEFAULTS } from '../plan/planDefaults';
 import type {
   EquipmentItem,
   EquipmentSlotId,
@@ -71,7 +71,8 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
     legendaryAffixState:
       autoSaveOnMount?.legendaryAffixState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixState,
     legendaryAffixGroupState:
-      autoSaveOnMount?.legendaryAffixGroupState ?? STATIC_AUTOSAVE_DEFAULTS.legendaryAffixGroupState,
+      autoSaveOnMount?.legendaryAffixGroupState ??
+      STATIC_AUTOSAVE_DEFAULTS.legendaryAffixGroupState,
     slotEnchants: autoSaveOnMount?.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants,
 
     setEquipped: (equipped) => set({ equipped }),

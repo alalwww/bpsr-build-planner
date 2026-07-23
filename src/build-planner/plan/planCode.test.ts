@@ -2,7 +2,7 @@ import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from
 import { describe, expect, it } from 'vitest';
 import type { AutoSaveState } from './buildPlan';
 import { decodeName, decodePlanCode, encodePlanCode } from './planCode';
-import type { EquipmentSlotId, SlotRefineLevels } from './types';
+import type { EquipmentSlotId, SlotRefineLevels } from '../types';
 
 const ALL_SLOTS: EquipmentSlotId[] = [
   'weapon',

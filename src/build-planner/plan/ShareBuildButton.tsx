@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ConfirmDialog from './components/ConfirmDialog';
-import { formatProfessionLabel } from './profession';
+import ConfirmDialog from '../components/ConfirmDialog';
+import { formatProfessionLabel } from '../profession';
 import { buildLineShareIntentUrl, buildXShareIntentUrl, shortenPlanCode } from './shortUrl';
-import { computeStatsBundle } from './store/derivedSelectors';
-import { useBuildStore } from './store/useBuildStore';
-import { isTauri } from '../platform';
+import { computeStatsBundle } from '../store/derivedSelectors';
+import { useBuildStore } from '../store/useBuildStore';
+import { isTauri } from '../../platform';
 
 // シェア系のポップアップ(X/LINE)を、新しいタブではなく従来の共有ボタンに近い小さな
 // ポップアップウィンドウとして開く。noopenerによりwindow.openerは渡さない。

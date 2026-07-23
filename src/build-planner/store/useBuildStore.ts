@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';
-import { persistAutoSave, persistBuildPlans } from '../buildPlan';
+import { persistAutoSave, persistBuildPlans } from '../plan/buildPlan';
 import { createEquipmentSlice } from './equipmentSlice';
 import { createModuleSlice } from './moduleSlice';
 import { createPhantomSlice } from './phantomSlice';

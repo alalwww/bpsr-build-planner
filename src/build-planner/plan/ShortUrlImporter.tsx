@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ConfirmDialog from './components/ConfirmDialog';
-import { formatProfessionLabel } from './profession';
+import ConfirmDialog from '../components/ConfirmDialog';
+import { formatProfessionLabel } from '../profession';
 import { extractShortCodeFromHash, resolveShortCode } from './shortUrl';
-import { useBuildStore } from './store/useBuildStore';
+import { useBuildStore } from '../store/useBuildStore';
 
 // URLフラグメントが短縮URL形式(#/{code})であればAPIから解決してインポートする。
 // Web版のみ対象(docs/SHORT_URL.md参照、App.tsx側で!isTauriの時のみマウントする)。

@@ -1,5 +1,5 @@
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
-import { getItemsBySlot } from './equipment/equipmentData';
+import { getItemsBySlot } from '../equipment/equipmentData';
 import type { AutoSaveState } from './buildPlan';
 import type {
   EquipmentSlotId,
@@ -13,9 +13,9 @@ import type {
   SlotLegendaryAffix,
   SlotLegendaryAffixGroups,
   SlotRefineLevels,
-} from './types';
-import type { ProfessionKey, ProfessionTypeKey } from './profession';
-import type { PhantomFactorSlotValue } from './phantom/phantomData';
+} from '../types';
+import type { ProfessionKey, ProfessionTypeKey } from '../profession';
+import type { PhantomFactorSlotValue } from '../phantom/phantomData';
 import {
   DEFAULT_PERFECTLINES,
   DEFAULT_REFINE_LEVELS,

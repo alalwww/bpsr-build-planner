@@ -1,5 +1,5 @@
-import type { ProfessionKey, ProfessionTypeKey } from './profession';
-import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from './profession';
+import type { ProfessionKey, ProfessionTypeKey } from '../profession';
+import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from '../profession';
 import type {
   EquipmentSlotId,
   EquippedItems,
@@ -9,8 +9,8 @@ import type {
   SlotEnchants,
   SlotLegendaryAffixGroups,
   SlotRefineLevels,
-} from './types';
-import type { PhantomFactorSlotValue } from './phantom/phantomData';
+} from '../types';
+import type { PhantomFactorSlotValue } from '../phantom/phantomData';
 import { decodePlanCode, encodePlanCode } from './planCode';
 import { getDefaultAutoSaveState } from './planDefaults';
 

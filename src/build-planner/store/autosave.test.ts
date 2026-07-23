@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
-import { decodePlanCode } from '../planCode';
+import { decodePlanCode } from '../plan/planCode';
 import type { useBuildStore as UseBuildStoreType } from './useBuildStore';
 
 // vitestは environment: 'node' で動作しており、node には localStorage が存在しない。

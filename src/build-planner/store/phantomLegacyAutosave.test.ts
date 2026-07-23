@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { decodePlanCode } from '../planCode';
+import { decodePlanCode } from '../plan/planCode';
 import { CURRENT_FACTOR_SEASON_ID, pfData } from '../phantom/phantomData';
 
 // vitestは environment: 'node' で動作しており、node には localStorage が存在しない。

@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import { withIndex } from '../arrayState';
-import { STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
+import { STATIC_AUTOSAVE_DEFAULTS } from '../plan/planDefaults';
 import type { ModuleConfig, ModuleSlots } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
 import type { BuildStore } from './types';

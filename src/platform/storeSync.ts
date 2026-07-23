@@ -1,5 +1,5 @@
 import { shallow } from 'zustand/shallow';
-import type { AutoSaveState } from '../build-planner/buildPlan';
+import type { AutoSaveState } from '../build-planner/plan/buildPlan';
 import { useBuildStore } from '../build-planner/store/useBuildStore';
 import type { CookingBuffState } from '../build-planner/types';
 import { isTauri } from './index';

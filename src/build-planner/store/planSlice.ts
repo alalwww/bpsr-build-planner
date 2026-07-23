@@ -3,14 +3,14 @@ import { getItemsBySlot } from '../equipment/equipmentData';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from '../profession';
 import { DEFAULT_COOKING_BUFF } from '../stats/cookingBuff';
-import type { AutoSaveState, BuildPlanData, LegacySource } from '../buildPlan';
-import { loadBuildPlans, persistBuildPlans } from '../buildPlan';
-import { decodePlanCode, encodePlanCode } from '../planCode';
+import type { AutoSaveState, BuildPlanData, LegacySource } from '../plan/buildPlan';
+import { loadBuildPlans, persistBuildPlans } from '../plan/buildPlan';
+import { decodePlanCode, encodePlanCode } from '../plan/planCode';
 import {
   getDefaultAutoSaveState,
   getDefaultProfessionState,
   STATIC_AUTOSAVE_DEFAULTS,
-} from '../planDefaults';
+} from '../plan/planDefaults';
 import { hasLegacyPhantomFactor, initPhantomNodeSelections } from '../phantom/phantomData';
 import type { CookingBuffState, EquipmentSlotId, EquippedItems } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';

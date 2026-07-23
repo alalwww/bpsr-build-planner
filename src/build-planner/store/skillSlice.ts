@@ -3,7 +3,7 @@ import { swapAtIndex, withIndex } from '../arrayState';
 import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from '../profession';
 import type { ProfessionKey } from '../profession';
 import { getClassData } from '../stats/gameData';
-import { getDefaultProfessionState, STATIC_AUTOSAVE_DEFAULTS } from '../planDefaults';
+import { getDefaultProfessionState, STATIC_AUTOSAVE_DEFAULTS } from '../plan/planDefaults';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
 import type { BuildStore } from './types';
 
