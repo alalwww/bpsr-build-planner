@@ -82,7 +82,7 @@
       "inspiration": "鼓舞",
       "inspirationLifebind": "森愈",
       "inspirationSmite": "威懲",
-      "inspirationEffect": "（力量/智力/敏捷+{{mainStat}} 暴擊/幸運/急速/精巧/萬能+{{percent}}%）",
+      "inspirationEffect": "（力量/智力/敏捷/耐力+{{mainStat}} 暴擊/幸運/急速/精巧/萬能+{{percent}}% 物理防禦力+{{physDef}}）",
       "statResonance": "屬性共鳴（協奏）",
       "statResonanceBaseValue": "平均{{stat}}",
       "statResonanceMultiplier": "平均倍率",

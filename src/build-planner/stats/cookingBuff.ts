@@ -69,14 +69,20 @@ export function calcLuckyCritBonus(
   return { critDamage: base.critDamage * 2, luckyDamage: base.luckyDamage * 2 };
 }
 
-// 鼓舞(森癒・威咲)による加算量。mainStat=筋力/知力/俊敏全てへの平坦加算、
-// percent=会心/幸運/ファスト/器用さ/万能の最終計算結果への直接加算(%)。
+// 鼓舞(森癒・威咲)による加算量。ヴァーダントオラクルのアビリティツリー由来
+// (talentId 502「鼓舞」R1 base: 筋力/知力/俊敏/耐久+135pt・会心/幸運/ファスト/器用さ/万能+1.5%、
+// talentId 529「防御強化」R1: 物理防御力+400pt、talentId 568「鼓舞強化」森癒R2: 上記4ステータスに
+// さらに+135pt、talentId 557「鼓舞の極意」森癒R2: 鼓舞の効果を全て(物理防御力含む)2倍にする、
+// と実機で確認)。威咲はR1のみ(森癒限定のR2強化を受けられない)ため据え置き、森癒はR2強化込みで
+// (135+135)×2 = 270×2 = 540pt / 1.5%×2 = 3% / 物理防御力は400×2 = 800ptとなる。
+// mainStat=筋力/知力/俊敏/耐久全てへの平坦加算、percent=会心/幸運/ファスト/器用さ/万能の
+// 最終計算結果への直接加算(%)、physDef=物理防御力への平坦加算。
 export const INSPIRATION_VALUES: Record<
   CookingBuffState['inspirationVariant'],
-  { mainStat: number; percent: number }
+  { mainStat: number; percent: number; physDef: number }
 > = {
-  lifebind: { mainStat: 400, percent: 3 },
-  smite: { mainStat: 100, percent: 1.5 },
+  lifebind: { mainStat: 540, percent: 3, physDef: 800 },
+  smite: { mainStat: 135, percent: 1.5, physDef: 400 },
 };
 
 // 鼓舞のpercent効果(最終計算結果への直接加算)の対象ステータス。

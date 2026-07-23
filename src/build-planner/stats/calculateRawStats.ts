@@ -728,14 +728,16 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     addStat(profession.mainStat, cookingBuff.eventBuffValue);
   }
 
-  // 鼓舞(Inspiration、森癒/Lifebind・威咲/Smite): 選択中の効果に応じて筋力/知力/俊敏全てへ
-  // 平坦加算する(%ボーナス適用前)。会心/幸運/ファスト/器用さ/万能への追加分は最終計算結果への
-  // 直接加算のため、deriveStats後の最終値に対して加算する(useBuildState側で処理)。
+  // 鼓舞(Inspiration、森癒/Lifebind・威咲/Smite): 選択中の効果に応じて筋力/知力/俊敏/耐久全てと
+  // 物理防御力へ平坦加算する(%ボーナス適用前)。会心/幸運/ファスト/器用さ/万能への追加分は
+  // 最終計算結果への直接加算のため、deriveStats後の最終値に対して加算する(useBuildState側で処理)。
   if (cookingBuff.inspirationEnabled) {
-    const { mainStat } = INSPIRATION_VALUES[cookingBuff.inspirationVariant];
+    const { mainStat, physDef } = INSPIRATION_VALUES[cookingBuff.inspirationVariant];
     addStat('strength', mainStat);
     addStat('intellect', mainStat);
     addStat('agility', mainStat);
+    addStat('endurance', mainStat);
+    addStat('physicalDef', physDef);
   }
 
   // 幸運会心(モジュールパワーコア効果): 会心ダメージ/幸運ダメージへの加算。

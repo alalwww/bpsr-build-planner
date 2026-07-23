@@ -222,6 +222,7 @@ function BuffEffectDialog({
             {t('buildPlanner.buffDialog.inspirationEffect', {
               mainStat: inspirationEffect.mainStat,
               percent: inspirationEffect.percent,
+              physDef: inspirationEffect.physDef,
             })}
           </span>
         </div>

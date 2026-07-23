@@ -82,7 +82,7 @@
       "inspiration": "鼓舞",
       "inspirationLifebind": "森癒",
       "inspirationSmite": "威咲",
-      "inspirationEffect": "（筋力/知力/俊敏+{{mainStat}} 会心/幸運/ファスト/器用さ/万能+{{percent}}%）",
+      "inspirationEffect": "（筋力/知力/俊敏/耐久力+{{mainStat}} 会心/幸運/ファスト/器用さ/万能+{{percent}}% 物理防御力+{{physDef}}）",
       "statResonance": "能力共鳴（響奏）",
       "statResonanceBaseValue": "平均{{stat}}",
       "statResonanceMultiplier": "平均倍率",

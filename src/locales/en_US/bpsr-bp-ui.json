@@ -82,7 +82,7 @@
       "inspiration": "Inspiration",
       "inspirationLifebind": "Lifebind",
       "inspirationSmite": "Smite",
-      "inspirationEffect": "(STR/INT/AGI +{{mainStat}} Crit/Luck/Haste/Mastery/Versatility +{{percent}}%)",
+      "inspirationEffect": "(STR/INT/AGI/END +{{mainStat}} Crit/Luck/Haste/Mastery/Versatility +{{percent}}% Physical DEF +{{physDef}})",
       "statResonance": "Stat Resonance (Concerto)",
       "statResonanceBaseValue": "Avg {{stat}}",
       "statResonanceMultiplier": "Avg Multiplier",

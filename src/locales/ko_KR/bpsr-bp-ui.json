@@ -82,7 +82,7 @@
       "inspiration": "고무",
       "inspirationLifebind": "삼림 치유",
       "inspirationSmite": "위협의 일격",
-      "inspirationEffect": "（힘/지력/민첩 +{{mainStat}} 치명/행운/속공/숙련도/만능 +{{percent}}%）",
+      "inspirationEffect": "（힘/지력/민첩/내구 +{{mainStat}} 치명/행운/속공/숙련도/만능 +{{percent}}% 물리 방어력 +{{physDef}}）",
       "statResonance": "스탯 공명（협주）",
       "statResonanceBaseValue": "평균 {{stat}}",
       "statResonanceMultiplier": "평균 배율",
