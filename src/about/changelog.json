@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.7.4",
+      "date": "2026-07-23T10:53:17.196Z",
+      "summary": {
+        "ja": "実測ビルドとの差異報告を発端とした、ステータス計算・能力スコアの不具合修正",
+        "en": "Fix numerous stat calculation and ability score bugs found via a real-build discrepancy report"
+      },
+      "changes": {
+        "ja": [
+          "能力スコアに潜在Lv未達の心相投影ノードの戦力値が計上されてしまう不具合の修正",
+          "装着効果(エンチャント)・伝説刻印における物理/魔法攻撃力・適応筋力/知力/敏捷・攻撃速度/詠唱速度・バリア強度が実ステータスに反映されていなかった不具合の修正",
+          "一部R2アビリティ(高速詠唱・爆裂・炎舞破斬・剛岩精通・烈風・幸運の剛岩・知力強化・精鋭の牙)の効果が計算に反映されていなかった不具合の修正",
+          "回復力・被回復力・ブレイク効率・対ボスダメージボーナス/軽減・属性ボーナス(火/氷/森/雷/風/岩/光)等、未実装だったステータスの計算対応",
+          "レアステータス(移動速度)のラベルが正しく表示されない不具合の修正",
+          "ステータス詳細の「器用さ」ラベルがja_JPで「回復力」と誤表示される不具合の修正"
+        ],
+        "en": [
+          "Fix the ability score counting fight value from Phantom Projection nodes not yet unlocked by Phantom Level",
+          "Fix physical/magical attack, adaptive strength/intellect/agility, attack/cast speed, and barrier strength from equipment enchants and legendary affixes not being applied to actual stats",
+          "Fix several R2 ability effects (Fast Cast, Detonation, Flame Dance Break, Boulder Mastery, Gale Force, Lucky Boulder, Intellect Boost, Elite Fang) not being applied to stat calculations",
+          "Add calculation support for previously unimplemented stats (healing power, received recovery, break efficiency, boss damage bonus/reduction, and elemental bonus for fire/ice/forest/thunder/wind/rock/light)",
+          "Fix the rare-stat label for move speed not displaying correctly",
+          "Fix the \"Mastery\" label in the stats detail dialog incorrectly showing \"Healing Power\" in Japanese"
+        ]
+      }
+    },
+    {
       "version": "0.7.3",
       "date": "2026-07-21T22:50:21.584Z",
       "summary": {
