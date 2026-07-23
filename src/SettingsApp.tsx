@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import './settings.css';
 import { isTauri } from './platform';
 import { applyLanguage } from './platform/languageSync';
+import { SUPPORTED_LANGUAGES } from './platform/languages';
 
 interface SettingsAppProps {
   onClose?: () => void;
@@ -37,8 +38,11 @@ function SettingsApp({ onClose }: SettingsAppProps) {
       <label>
         {t('settings.language')}
         <select value={pendingLang} onChange={(e) => setPendingLang(e.target.value)}>
-          <option value="ja_JP">日本語</option>
-          <option value="en_US">English</option>
+          {SUPPORTED_LANGUAGES.map(({ code, label }) => (
+            <option key={code} value={code}>
+              {label}
+            </option>
+          ))}
         </select>
       </label>
       {isDirty && <button onClick={handleSave}>{t('settings.save')}</button>}

@@ -12,6 +12,7 @@ import SkillPanel from './skill/SkillPanel';
 import StatsDetailDialog from './character/StatsDetailDialog';
 import { isTauri } from '../platform';
 import { applyLanguage } from '../platform/languageSync';
+import { SUPPORTED_LANGUAGES } from '../platform/languages';
 import { showAboutWindow, showResidentWindow } from '../platform/residentWindow';
 import { useBuildStore } from './store/useBuildStore';
 import TalentTreePanel from './talent/TalentTreePanel';
@@ -110,20 +111,16 @@ function BuildPlanner() {
                 </button>
                 {langMenuOpen && (
                   <div className="nav-lang__dropdown">
-                    <button
-                      type="button"
-                      className={`nav-lang__item${i18n.language === 'ja_JP' ? ' nav-lang__item--active' : ''}`}
-                      onClick={() => changeLanguage('ja_JP')}
-                    >
-                      日本語
-                    </button>
-                    <button
-                      type="button"
-                      className={`nav-lang__item${i18n.language === 'en_US' ? ' nav-lang__item--active' : ''}`}
-                      onClick={() => changeLanguage('en_US')}
-                    >
-                      English
-                    </button>
+                    {SUPPORTED_LANGUAGES.map(({ code, label }) => (
+                      <button
+                        key={code}
+                        type="button"
+                        className={`nav-lang__item${i18n.language === code ? ' nav-lang__item--active' : ''}`}
+                        onClick={() => changeLanguage(code)}
+                      >
+                        {label}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>

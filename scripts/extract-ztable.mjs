@@ -23,9 +23,13 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 // ZTable directory name -> locale directory name used under src/locales.
+// zh_TW (Traditional Chinese) has no dedicated ZTable folder; it is derived
+// from zh_CN via scripts/derive-traditional-chinese.mjs after extraction.
 const LOCALES = {
   japanese: 'ja_JP',
   english: 'en_US',
+  korean: 'ko_KR',
+  chinese: 'zh_CN',
 };
 
 // Structural (non-text) fields are identical across languages, so they only
@@ -43,6 +47,12 @@ const COOLDOWN_ATTR_LABELS = new Set([
   'Charge Time',
   'Overdrive Time',
   'Transformation Cooldown',
+  '쿨타임',
+  '에너지 충전 시간',
+  '변신 쿨타임',
+  '冷却时间',
+  '充能时间',
+  '变身冷却时间',
 ]);
 
 // リキャスト短縮が適用されないイマジン(ゲーム内確認)。
@@ -54,6 +64,8 @@ const CD_REDUCTION_EXEMPT_AOYI_IDS = new Set([3910, 3949, 3982, 3983]);
 const SECONDS_SUFFIX = {
   japanese: '秒',
   english: 's',
+  korean: '초',
+  chinese: '秒',
 };
 
 // "up" 書式: 1/100 したパーセント表記(小数は最大2桁、ゲーム内表示に一致)。
@@ -63,7 +75,13 @@ function formatUpPercent(total) {
 }
 
 // リキャスト系のうちチャージ時間を表すラベル(完全一致)。
-const CHARGE_TIME_ATTR_LABELS = new Set(['チャージ時間', 'Charge Time', 'Overdrive Time']);
+const CHARGE_TIME_ATTR_LABELS = new Set([
+  'チャージ時間',
+  'Charge Time',
+  'Overdrive Time',
+  '에너지 충전 시간',
+  '充能时间',
+]);
 
 // クラススキルの SkillAttrDes formula 空欄行(バフ効果行)の値解決マッピング。
 // ゲーム内表示との突き合わせ(sample/skill-effect-survey.txt)で確定したもの、
