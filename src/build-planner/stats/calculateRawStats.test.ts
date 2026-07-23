@@ -228,6 +228,23 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.matk).toBe(38);
   });
 
+  it('routes the adaptive main stat (attrId 99005) enchant effect to profession.mainStat (キラーカニクモの刻印)', () => {
+    // src/data/enchants.json group "3020101" (キラーカニクモの刻印, 武器): effects [[11042,235],[99005,70]]
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.frostMage, // mainStat: 'intellect'
+      equipped: {
+        weapon: makeEquipmentItem({ slot: 'weapon', part: 200 }),
+      },
+      slotEnchants: { weapon: 3020101 },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.endurance).toBe(BASE_STATS.endurance + 235);
+    expect(result.rawStats.intellect).toBe(BASE_STATS.intellect + 70);
+  });
+
   it('sums multiple legendary-affix % bonuses before multiplying once (not compounding)', () => {
     // attrId 11014 (筋力%) は IMAGINE_PCT_BASE 経由で addPctBonus される。
     // +10% と +5% は 1.10*1.05 ではなく、合算した +15% を一度だけ乗算する。

@@ -459,6 +459,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         // 精錬攻撃力と同種の追加攻撃力だが、精錬攻撃力とは別枠のためrefinePhysAtk/
         // refineMagAtkには積まず、allAttrAtkにのみ積む。
         addStat('allAttrAtk', value);
+      } else if (attrId === MOD_ADAPTIVE_MAIN_STAT_ATTR_ID) {
+        // 適応筋力/知力/敏捷(例: 「キラーカニクモの刻印」武器装着効果): モジュールの
+        // MOD_EFFECT_TYPE_ADAPTIVEと同じattrIdだが、エンチャントにも同じ意味で出現する。
+        addStat(profession.mainStat, value);
       } else {
         const statId = ENCHANT_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
