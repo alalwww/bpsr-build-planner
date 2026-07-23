@@ -65,9 +65,11 @@ import {
   REFINE_MATK_ATTR_ID,
   TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
   TALENT_ATTR_TO_STAT,
+  TALENT_BASE_PCT_TO_STAT,
   TALENT_EFFECT_TYPE_CONVERSION_RATE,
   TALENT_EFFECT_TYPE_FLAT_STAT,
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
+  TALENT_FINAL_PCT_ADDEND_TO_STAT,
   TALENT_FLAT_PCT_TO_STAT,
   TALENT_HIGHEST_OF_FINAL_PCT,
   TALENT_RAW_FLAT_TO_STAT,
@@ -424,6 +426,17 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           // (例: フロストメイジ「高速詠唱」ファスト+2500)。
           const rawFlatBonus = TALENT_RAW_FLAT_TO_STAT[eff[1]];
           if (rawFlatBonus) addStat(rawFlatBonus.stat, rawFlatBonus.value);
+          // 型に関わらず常時有効な、特定1ステータスの最終%表示値への直接加算
+          // (例: ストームブレイド「烈風」器用さ+6%)。
+          const finalPctAddendBonus = TALENT_FINAL_PCT_ADDEND_TO_STAT[eff[1]];
+          if (finalPctAddendBonus) {
+            finalPctAddend[finalPctAddendBonus.stat] =
+              (finalPctAddend[finalPctAddendBonus.stat] ?? 0) + finalPctAddendBonus.value;
+          }
+          // 型に関わらず常時有効な、基礎ステータスへの%乗算ボーナス(例: フロストメイジ
+          // 「知力強化」知力+5%)。
+          const basePctBonus = TALENT_BASE_PCT_TO_STAT[eff[1]];
+          if (basePctBonus) addPctBonus(basePctBonus.stat, basePctBonus.value);
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
           // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。

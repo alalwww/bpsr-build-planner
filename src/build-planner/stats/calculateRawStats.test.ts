@@ -431,6 +431,65 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.mastery).toBe(BASE_STATS.mastery + 6250);
   });
 
+  it('adds a type=3 final-%-addend stat bonus to mastery (stormBlade R2 talentId 154: 器用さ+6%)', () => {
+    // src/data/talent-tree.json: nodes["154"].effects = [[3, 2200560, 1]] (stage:1 = R2)
+    // TALENT_FINAL_PCT_ADDEND_TO_STAT[2200560] = { stat: 'mastery', value: 600 }
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 154, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.finalPctAddend.mastery).toBe(600);
+  });
+
+  it('adds a type=3 final-%-addend stat bonus to luck (heavyGuardian R2 "幸運の剛岩", talentId 969: 幸運確率+5%)', () => {
+    // src/data/talent-tree.json: nodes["969"].effects = [[3, 2201710, 1]] (stage:1 = R2)
+    // TALENT_FINAL_PCT_ADDEND_TO_STAT[2201710] = { stat: 'luck', value: 500 }
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 969, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.finalPctAddend.luck).toBe(500);
+  });
+
+  it('adds a type=3 base-stat %-mult bonus to intellect (frostMage R2 "知力強化", talentId 271: 知力+5%)', () => {
+    // src/data/talent-tree.json: nodes["271"].effects = [[3, 2204680, 1]] (stage:1 = R2)
+    // TALENT_BASE_PCT_TO_STAT[2204680] = { stat: 'intellect', value: 500 }
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.frostMage,
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 271, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    // BASE_STATS.intellect(15) * 1.05 = 15.75
+    expect(result.rawStats.intellect).toBe(15.75);
+  });
+
   it('leaves highestStatFinalPctBonus at 0 when the ability is not enabled', () => {
     const result = calculateRawStats(baseInput());
 

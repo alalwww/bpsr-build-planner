@@ -126,6 +126,27 @@ export const TALENT_RAW_FLAT_TO_STAT: Partial<Record<number, { stat: StatId; val
   2201720: { stat: 'mastery', value: 6250 },
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、会心/ファスト/幸運/
+// 器用さ/万能いずれか1つの最終%表示値への直接加算(finalPctAddendと同じ単位: 100 = 1%。
+// TALENT_HIGHEST_OF_FINAL_PCTの「5ステータス中最大の1項目」ではなく、対象ステータスが
+// 固定されている点が異なる)。
+// ストームブレイドR2アビリティ「烈風」: 器用さ+6%。
+// ヘヴィガーディアンR2アビリティ「幸運の剛岩」: 幸運確率+5%(レジスト反撃の会心+50%は
+// スキル固有の条件付き効果のため対象外)。
+export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
+  2200560: { stat: 'mastery', value: 600 },
+  2201710: { stat: 'luck', value: 500 },
+};
+
+// アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、基礎ステータス
+// (筋力/知力/敏捷等)への%乗算ボーナス(IMAGINE_PCT_BASEと同じaddPctBonus経路・同じ単位:
+// 1/10000)。TALENT_FINAL_PCT_ADDEND_TO_STATとは異なり、対象は収益逓減カーブを経由しない
+// 素の基礎ステータスであるため、%表示値ではなく実数値そのものへの乗算として扱う。
+// フロストメイジR2アビリティ「知力強化」: 知力+5%。
+export const TALENT_BASE_PCT_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
+  2204680: { stat: 'intellect', value: 500 },
+};
+
 export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
   11022: 'intellect',
