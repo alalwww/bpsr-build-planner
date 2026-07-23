@@ -4,7 +4,7 @@
       "version": "0.8.0",
       "date": "2026-07-23T15:57:25.932Z",
       "summary": {
-        "ja": "韓国語・簡体字中国語・繁体字中国語への対応の追加",
+        "ja": "韓国語・簡体字中国語・繁体字中国語を追加",
         "en": "Add Korean, Simplified Chinese, and Traditional Chinese language support"
       },
       "changes": {

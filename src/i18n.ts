@@ -15,8 +15,8 @@ const savedLang = localStorage.getItem('bpsr-language') ?? 'ja_JP';
 
 void i18n.use(initReactI18next).init({
   resources: {
-    ja_JP: { translation: jaJpUi, 'game-data': jaJpGameData },
     en_US: { translation: enUsUi, 'game-data': enUsGameData },
+    ja_JP: { translation: jaJpUi, 'game-data': jaJpGameData },
     ko_KR: { translation: koKrUi, 'game-data': koKrGameData },
     zh_CN: { translation: zhCnUi, 'game-data': zhCnGameData },
     zh_TW: { translation: zhTwUi, 'game-data': zhTwGameData },

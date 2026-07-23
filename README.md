@@ -12,7 +12,7 @@ DPSメーターや戦闘ログ機能は初期実装の対象外です。
 
 - Rust + [Tauri v2](https://tauri.app/)(デスクトップ版アプリ本体)
 - React + TypeScript + [Vite](https://vitejs.dev/)(フロントエンドUI)
-- [i18next](https://www.i18next.com/) / react-i18next(多言語対応、初期は日本語・英語)
+- [i18next](https://www.i18next.com/) / react-i18next(多言語対応。日本語・英語・韓国語・簡体字中国語・繁体字中国語)
 - [mise](https://mise.jdx.dev/)(Node.jsのツールバージョン管理)
 - 実行プラットフォームはデスクトップ版(Tauri)がWindowsを想定、Web版はブラウザで動作
 

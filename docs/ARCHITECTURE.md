@@ -50,7 +50,7 @@ UI層 (Tauri WebView Frontend: React + TypeScript)
 │   ├─ platform/index.ts # `isTauri`判定(Tauri v2が注入する`__TAURI_INTERNALS__`の有無で分岐)
 │   ├─ i18n.ts
 │   ├─ platform/languages.ts # 対応言語一覧(`SUPPORTED_LANGUAGES`)。言語切替UIが共通で参照
-│   └─ locales/{ja_JP,en_US,ko_KR,zh_CN,zh_TW}/{bpsr-bp-ui,game-data}.json
+│   └─ locales/{en_US,ja_JP,ko_KR,zh_CN,zh_TW}/{bpsr-bp-ui,game-data}.json
 │       # zh_TW(繁体字)はZTableに専用データが無いため、zh_CNから
 │       # scripts/derive-traditional-chinese.mjs(OpenCC変換)で導出する
 ├─ index.html          # メインウィンドウのエントリ
@@ -81,7 +81,7 @@ UI層 (Tauri WebView Frontend: React + TypeScript)
 | Tauriバージョン      | v2                                                                            |
 | フロントエンド       | React + TypeScript (Vite)                                                     |
 | パッケージマネージャ | npm                                                                           |
-| i18n                 | i18next / react-i18next、`src/locales/{ja_JP,en_US,ko_KR,zh_CN,zh_TW}/*.json` |
+| i18n                 | i18next / react-i18next、`src/locales/{en_US,ja_JP,ko_KR,zh_CN,zh_TW}/*.json` |
 | Cargoワークスペース  | 単一crateでまず開始。capture実装着手時にworkspace化を検討                     |
 | ツールバージョン管理 | mise (`mise.toml`: node)                                                      |
 
