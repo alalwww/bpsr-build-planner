@@ -1888,6 +1888,8 @@ function extractLocaleText(
   // x34 系 (11334/11344): attrId-4 が ProfileAttrTable に存在。
   // type=3 効果ID: AttrDescription.json に表示名があればそれを使用(例: 2400004/2408030)。
   // 存在しないもの(2400001/2400002)のみ下のハードコード名にフォールバックする。
+  // TempAttrTable由来(例: 92000=移動速度)は、equipAttrIds/fixedEvoAttrIdsと同じく
+  // 最終フォールバックとして使う(装備のレアステータス枠にもTempAttrTable系AttrIdが出現するため)。
   for (const attrId of legendaryAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId - 2]) {
@@ -1898,6 +1900,8 @@ function extractLocaleText(
       attributes[attrId] = nameFromAttrDesc(attrDescById[attrId].Description);
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
+    } else if (tempAttrNameById[attrId]) {
+      attributes[attrId] = tempAttrNameById[attrId];
     }
   }
   // type=3 刻印効果IDのハードコード名 (2400001/2400002)
