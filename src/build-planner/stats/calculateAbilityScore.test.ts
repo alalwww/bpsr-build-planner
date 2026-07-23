@@ -92,6 +92,29 @@ describe('calculateAbilityScore', () => {
   });
 });
 
+describe('calculateAbilityScore phantom (潜在) tree', () => {
+  it('excludes fightValue from an active fixed-ordinary node whose unlock level exceeds phantomLevel', () => {
+    // src/data/season-talents.json template 8 (無限思考): node 1710 (groupId 1710, fixed-ordinary,
+    // unlockCondition=[[93,3,60]]) is reachable via selections {1709:1708} but requires 潜在Lv60.
+    // With phantomLevel=47, calculateRawStats already skips its stat effect (unlockLevel gate);
+    // calculateAbilityScore must skip its fightValue (260) the same way instead of always counting it.
+    const input: CalculateAbilityScoreInput = {
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 47,
+      phantomTemplateId: 8,
+      phantomNodeSelections: { 179: 179, 1703: 1702, 1705: 1704, 1707: 1706, 1709: 1708 },
+    };
+
+    const result = calculateAbilityScore(input);
+
+    // アクティブな全16ノードのnodeType=1(fixed-ordinary)合計fightValueは1950だが、うち
+    // node 1708(need Lv55, fv=260)とnode 1710(need Lv60, fv=260)は潜在Lv47では未開放のため
+    // 1950-520=1430が正しい(修正前は開放Lvを無視して1950を計上していた)。
+    expect(result.phantom).toBe(1430);
+  });
+});
+
 describe('calculateModuleAbilityScore', () => {
   it('resolves core/link fight values from real modules.json data', () => {
     // src/data/modules.json: effects["1110"].levels[3] = [29, 8, [...]] (fv=29, threshold=8)

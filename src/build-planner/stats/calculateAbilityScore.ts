@@ -23,6 +23,7 @@ import type {
 import {
   CURRENT_FACTOR_SEASON_ID,
   getActivePhantomNodeIds,
+  getUnlockLevel,
   pfData as phantomFactorData,
   stData as seasonTalentData,
 } from '../phantom/phantomData';
@@ -348,6 +349,9 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
       for (const nodeId of activeIds) {
         const node = seasonTalentData.treeNodes[String(nodeId)];
         if (!node) continue;
+        // ノード個別の開放Lv(潜在Lv)未満の場合、calculateRawStatsと同様に計上しない
+        // (ツリーの選択自体は許可されるが、潜在Lvが足りない間は効果を発揮しないため)。
+        if (phantomLevel < getUnlockLevel(node.unlockCondition)) continue;
         if (node.nodeType === 1) {
           const eff = seasonTalentData.ordinaryEffects[String(node.groupId)] as
             OrdinaryEffect | undefined;
