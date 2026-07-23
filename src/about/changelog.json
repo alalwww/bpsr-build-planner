@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "version": "0.8.1",
+      "date": "2026-07-23T20:39:57.111Z",
+      "summary": {
+        "ja": "装備ポップアップに完成度追加、追加バフダイアログ内の情報更新、その他小さな不具合修正など",
+        "en": "Add perfectline display to the equipment popup, refresh info in the Buff Effect dialog, and fix a few small bugs"
+      },
+      "changes": {
+        "ja": [
+          "鼓舞(森癒/威咲)の効果計算に耐久力・物理防御力が未反映だった不具合の修正",
+          "追加バフ効果ダイアログのシロップ/脊椎試薬の初期選択をクラスの属性に連動",
+          "装備詳細ポップアップへの完成度(現在値/最大値・スライドバー)表示の追加",
+          "料理の有効チェックがオフの際に精鋭ダメージのドロップダウンが操作可能だった不具合の修正",
+          "追加バフ効果ダイアログの数値入力欄でIMEが有効化される不具合の修正、および各初期値の調整"
+        ],
+        "en": [
+          "Fix Inspiration (Lifebind/Smite) effect calculation missing endurance and physical defense",
+          "Sync the syrup/reagent element default in the Buff Effect dialog to the selected class's element",
+          "Add a perfectline readout (current/max) and slider to the equipment detail popup",
+          "Fix the elite-damage dropdown staying interactive when the cooking buff checkbox is off",
+          "Fix the IME activating in the Buff Effect dialog's numeric inputs, and adjust a few default values"
+        ]
+      }
+    },
+    {
       "version": "0.8.0",
       "date": "2026-07-23T15:57:25.932Z",
       "summary": {
