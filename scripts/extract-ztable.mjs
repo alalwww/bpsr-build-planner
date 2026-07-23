@@ -570,13 +570,13 @@ function extractEquipment(langDir) {
     for (const libId of advLibIds) {
       for (const entry of schoolLibByLibId[libId] ?? []) {
         const key = String(entry.TalentSchoolId ?? '');
-        const effects = (stats[key] ??= []);
+        stats[key] ??= [];
         for (let i = 0; i < entry.AttrEffect.length; i++) {
           const [effectType, attrId] = entry.AttrEffect[i];
           const [min, max] = entry.AttrEffectConfig[i] ?? [0, 0];
           const [fvMin, fvMax] = entry.FightValue?.[i] ?? [0, 0];
           const isPercent = effectType === 3 || Boolean(profileAttrByAttrId[attrId - 2]);
-          effects.push([effectType, attrId, min, max, isPercent, fvMin, fvMax]);
+          stats[key].push([effectType, attrId, min, max, isPercent, fvMin, fvMax]);
           usedFixedEvoAttrIds.add(attrId);
         }
       }

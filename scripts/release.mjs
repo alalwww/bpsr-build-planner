@@ -100,11 +100,11 @@ function patchCargoTomlVersion(text, newVersion) {
   let inPackage = false;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    if (/^\[package\]\s*$/.test(line)) {
+    if (/^\[package]\s*$/.test(line)) {
       inPackage = true;
       continue;
     }
-    if (inPackage && /^\[.+\]\s*$/.test(line)) break;
+    if (inPackage && /^\[.+]\s*$/.test(line)) break;
     if (inPackage && /^version\s*=\s*"/.test(line)) {
       lines[i] = line.replace(/"[^"]*"/, `"${newVersion}"`);
       return lines.join('\n');

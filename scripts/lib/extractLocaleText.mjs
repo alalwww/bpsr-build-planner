@@ -190,8 +190,8 @@ const IMAGINE_EFFECT_VALUE_MAP_EN_OVERRIDES = {
 // "ダメージ系のマスタリースキルが魔法増強を{*...*}上昇させる" → "ダメージ系のマスタリースキルが魔法増強を上昇させる"
 function nameFromAttrDesc(description) {
   return description
-    .replace(/[+]\{[^}]+\}.*$/s, '') // "+{*...*}" 以降を除去
-    .replace(/\{[^}]+\}/g, '') // 残った "{*...*}" を除去
+    .replace(/[+]\{[^}]+}.*$/s, '') // "+{*...*}" 以降を除去
+    .replace(/\{[^}]+}/g, '') // 残った "{*...*}" を除去
     .replace(/を上昇させる$/, 'を上昇させる') // "を上昇させる" は保持(末尾処理なし)
     .replace(/。\s*$/, '') // 末尾の。を除去
     .trim();
@@ -454,7 +454,7 @@ export function extractLocaleText(
     };
 
     const tokenRe =
-      /\{\*skillpara\.damageMerge\(\{([^}]+)\},\{([^}]+)\},"([^"]+)","([^"]+)"\)\*\}|\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*\}/g;
+      /\{\*skillpara\.damageMerge\(\{([^}]+)},\{([^}]+)},"([^"]+)","([^"]+)"\)\*}|\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*}/g;
     let last = 0;
     let m;
     while ((m = tokenRe.exec(formula)) !== null) {
@@ -872,10 +872,9 @@ export function extractLocaleText(
   const aoyiCdReductionMs = {};
   for (const entry of Object.values(aoyiStarTableForLocale)) {
     (aoyiRankBufPar[entry.SkillId] ??= {})[entry.Level] = entry.BuffPar?.[0] ?? [];
-    const floatMap = Object.fromEntries(
+    (aoyiRankFloatPar[entry.SkillId] ??= {})[entry.Level] = Object.fromEntries(
       (entry.FloatParameter || []).map(([k, v]) => [k, Number(v)]),
     );
-    (aoyiRankFloatPar[entry.SkillId] ??= {})[entry.Level] = floatMap;
     for (const [type, , value] of entry.TransformationType || []) {
       if (type === 9) (aoyiCdReductionMs[entry.SkillId] ??= {})[entry.Level] = value;
     }
@@ -895,7 +894,7 @@ export function extractLocaleText(
 
   // Substitute {*Decision.fn(N)*} placeholders with computed values from params array
   function substituteBuffParams(template, params) {
-    return template.replace(/\{\*Decision\.(\w+)\((\d+)\)\*\}/g, (_, fnName, idxStr) => {
+    return template.replace(/\{\*Decision\.(\w+)\((\d+)\)\*}/g, (_, fnName, idxStr) => {
       const val = params[parseInt(idxStr) - 1];
       if (val == null) return '';
       if (fnName === 'unmarkpercent') {
@@ -920,7 +919,7 @@ export function extractLocaleText(
     // counts は ids と同順のヒット数で、合計値 = Σ value(id_i) × count_i
     // (フロストオーガ 10ヒット+1ヒット等でゲーム内表示と一致することを確認済み)。
     result = result.replace(
-      /\{\*skillpara\.damageMerge\(\{([^}]+)\},\{([^}]+)\},"([^"]+)","([^"]+)"\)\*\}/g,
+      /\{\*skillpara\.damageMerge\(\{([^}]+)},\{([^}]+)},"([^"]+)","([^"]+)"\)\*}/g,
       (_, idsStr, countsStr, fieldName, format) => {
         const ids = idsStr.split(',').map((s) => s.trim());
         const counts = countsStr.split(',').map((s) => Number(s.trim()));
@@ -945,7 +944,7 @@ export function extractLocaleText(
     // value = SkillFightLevelTable[effectId].FloatParameter["key"]
     //       + SkillAoyiStarTable[aoyiId][rank].FloatParameter["key"]  (rank>0 のみ)
     result = result.replace(
-      /\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*\}/g,
+      /\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*}/g,
       (_, key, format) => {
         const base = fightLvlFloatPar[String(effectId)]?.[key] ?? 0;
         const increment = rank > 0 ? (aoyiRankFloatPar[aoyiId]?.[rank]?.[key] ?? 0) : 0;
@@ -1127,7 +1126,7 @@ export function extractLocaleText(
     for (const e of attrDescData) {
       if (e.Id && e.Description) {
         attrDescs[String(e.Id)] = e.Description.replace(
-          /\{[*]Decision\.unmarkpercent\((\d+)\)[*]\}/g,
+          /\{[*]Decision\.unmarkpercent\((\d+)\)[*]}/g,
           '{p$1}',
         )
           .replace(/<br>/g, ' ')
@@ -1143,7 +1142,7 @@ export function extractLocaleText(
       : Object.values(tempAttrTable);
     for (const e of tempAttrData) {
       if (e.Id && e.AttrDesc) {
-        attrDescs[String(e.Id)] = e.AttrDesc.replace(/\{[*]tempAttr\.un[*]\}/g, '{v}').trim();
+        attrDescs[String(e.Id)] = e.AttrDesc.replace(/\{[*]tempAttr\.un[*]}/g, '{v}').trim();
       }
     }
   } catch (_) {}

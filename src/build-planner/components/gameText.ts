@@ -15,19 +15,19 @@ export function formatPercentParam(value: number, fractionDigits = 1): string {
 //   {pn}                          → pars[n-1](pAsPercent=true なら 1/100=1% として%表示)
 export function renderEffectDesc(template: string, pars: number[], pAsPercent = false): string {
   return template
-    .replace(/\{\*Decision\.unmarknormal\((\d+)\)\*\}/g, (_, n) => {
+    .replace(/\{\*Decision\.unmarknormal\((\d+)\)\*}/g, (_, n) => {
       const v = pars[parseInt(n) - 1];
       return v != null ? String(v) : '?';
     })
-    .replace(/\{\*Decision\.unmarkpercent\((\d+)\)\*\}/g, (_, n) => {
+    .replace(/\{\*Decision\.unmarkpercent\((\d+)\)\*}/g, (_, n) => {
       const v = pars[parseInt(n) - 1];
       return v != null ? (v / 100).toFixed(0) + '%' : '?';
     })
-    .replace(/\{\*Decision\.unmarktime\((\d+)\)\*\}/g, (_, n) => {
+    .replace(/\{\*Decision\.unmarktime\((\d+)\)\*}/g, (_, n) => {
       const v = pars[parseInt(n) - 1];
       return v != null ? (v / 1000).toFixed(1) + '秒' : '?';
     })
-    .replace(/\{p(\d+)\}/g, (_, n) => {
+    .replace(/\{p(\d+)}/g, (_, n) => {
       const v = pars[parseInt(n) - 1];
       if (v == null) return '?';
       if (pAsPercent) return formatPercentParam(v);

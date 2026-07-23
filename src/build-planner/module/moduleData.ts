@@ -210,7 +210,7 @@ export function formatEffectDesc(
     } else if (et === 3) {
       const template = tgAttrDesc(String(attrId));
       if (template && !template.startsWith('attrDescs.')) {
-        const desc = template.replace(/\{p(\d+)\}/g, (_: string, n: string) => {
+        const desc = template.replace(/\{p(\d+)}/g, (_: string, n: string) => {
           const pval = ev[parseInt(n) - 1] ?? 0;
           return `${(pval / 100).toFixed(2)}%`;
         });
@@ -219,7 +219,7 @@ export function formatEffectDesc(
     } else if (et === 5) {
       const template = tgAttrDesc(String(attrId));
       if (template && !template.startsWith('attrDescs.')) {
-        parts.push(template.replace(/\{v\}/g, String(val)));
+        parts.push(template.replace(/\{v}/g, String(val)));
       }
     }
   }
