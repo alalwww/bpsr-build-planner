@@ -266,6 +266,38 @@ describe('calculateRawStats', () => {
     expect(result.castSpeedFinalPctAddend).toBe(5);
   });
 
+  it('routes 回復力/バリア強度/ブレイク効率/対ボスダメージボーナス/移動速度 legendary affixes (single-select) via LEGENDARY_AFFIX_FLAT_STAT', () => {
+    // src/data/equipment.json legendaryAffix: 11792(healingPower)/11812(barrierStrength)/
+    // 11832(breakEfficiency)/12632(bossDamageBonus) are isPercent=true, "100=1%" rawStats
+    // convention (same as barrierStrength's pre-existing evo/phantom handling); 92000(moveSpeed)
+    // is isPercent=false and stored as a plain raw number.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      equipped: {
+        weapon: makeEquipmentItem({ slot: 'weapon', part: 200 }),
+        head: makeEquipmentItem({ slot: 'head', part: 210 }),
+        chest: makeEquipmentItem({ slot: 'chest', part: 220 }),
+        arms: makeEquipmentItem({ slot: 'arms', part: 230 }),
+        legs: makeEquipmentItem({ slot: 'legs', part: 240 }),
+      },
+      legendaryAffixState: {
+        weapon: { attrId: 11792, value: 300 },
+        head: { attrId: 11812, value: 250 },
+        chest: { attrId: 11832, value: 1200 },
+        arms: { attrId: 12632, value: 250 },
+        legs: { attrId: 92000, value: 400 },
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.healingPower).toBe(300);
+    expect(result.rawStats.barrierStrength).toBe(250);
+    expect(result.rawStats.breakEfficiency).toBe(1200);
+    expect(result.rawStats.bossDamageBonus).toBe(250);
+    expect(result.rawStats.moveSpeed).toBe(400);
+  });
+
   it('sums multiple legendary-affix % bonuses before multiplying once (not compounding)', () => {
     // attrId 11014 (筋力%) は IMAGINE_PCT_BASE 経由で addPctBonus される。
     // +10% と +5% は 1.10*1.05 ではなく、合算した +15% を一度だけ乗算する。
@@ -494,6 +526,21 @@ describe('calculateRawStats', () => {
     const result = calculateRawStats(baseInput());
 
     expect(result.highestStatFinalPctBonus).toBe(0);
+  });
+
+  it('adds a type=1 flat effect to healingPower (common node "回復効果", talentId 47: 回復力+300)', () => {
+    // src/data/talent-tree.json: nodes["47"].effects = [[1, 11792, 300]] (common node, weaponGroup 0)
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR1EnabledIds: new Set([1]),
+      talentNodesById: new Map([
+        [1, { id: 1, talentId: 47, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.healingPower).toBe(BASE_STATS.healingPower + 300);
   });
 
   it('routes a type=1 effect with a "%final" attrId to phantomFinalPct, not a flat addend (heavyGuardian "癒しの砂", talentId 912)', () => {

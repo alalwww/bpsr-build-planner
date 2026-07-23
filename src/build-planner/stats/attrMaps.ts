@@ -56,6 +56,8 @@ export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11332: 'atk',
   11342: 'matk',
   11352: 'physicalDef',
+  // 回復力(共通の小ノード、例: talentId 47「回復効果」)。
+  11792: 'healingPower',
   // 属性攻撃力(個別属性): 全クラス共通の小ノード(例: talentId 20〜27)で使われる。
   11512: ELEMENT_ATK_STAT.fire,
   11522: ELEMENT_ATK_STAT.ice,
@@ -358,6 +360,9 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   12512: 'critDamageBonus',
   12532: 'luckyHitDamageBonus',
   12742: 'critRecoveryBonus',
+  11792: 'healingPower',
+  11832: 'breakEfficiency',
+  12632: 'bossDamageBonus',
 };
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリのうち、
@@ -384,12 +389,22 @@ export const AFFIX_STAT_EFFECTS: Record<number, { statId: StatId }> = {
   2400002: { statId: 'matk' },
 };
 
-// 刻印(伝説刻印) AttrId → rawStatsへの平坦加算(防具のみ・isPercent=false)。
+// 刻印(伝説刻印、単体選択枠) AttrId → rawStatsへの平坦加算。
 // 筋力/知力/敏捷(11014/11024/11034)は防具でも%扱いのため IMAGINE_PCT_BASE 側で処理する。
+// 11792/11812/11832/12632は収益逓減カーブを経由しない"100=1%"のrawStats項目
+// (EVO_PCT_ATTR_TO_STAT/legendaryAffixGroup側と同じ単位)のため、isPercent=trueでも
+// そのままaddStatする(表示側のfmtPct(value/100)で%変換する)。
 export const LEGENDARY_AFFIX_FLAT_STAT: Partial<Record<number, StatId>> = {
   11322: 'maxHp',
   11352: 'physicalDef',
   13202: 'allAttrResist',
+  11792: 'healingPower',
+  11812: 'barrierStrength',
+  11832: 'breakEfficiency',
+  12632: 'bossDamageBonus',
+  // 92000(移動速度): isPercent=false・%換算の裏付けがないため、生の値をそのまま加算し
+  // %表記なしで表示する(表示側は fmtDec2、下記 StatsDetailDialog 参照)。
+  92000: 'moveSpeed',
 };
 
 // Base stat (strength/intellect/agility/endurance) percentage bonuses applied to rawStats before deriveStats.

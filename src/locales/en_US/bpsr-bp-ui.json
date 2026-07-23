@@ -292,7 +292,11 @@
       "physicalReductionBonus": "Physical Reduction",
       "magicalReductionBonus": "Magical Reduction",
       "luckyHitRecoveryBonus": "Lucky Hit Recovery Multiplier",
-      "physicalDefIgnoreBonus": "Physical Defense Ignore"
+      "physicalDefIgnoreBonus": "Physical Defense Ignore",
+      "healingPower": "Healing Power",
+      "breakEfficiency": "Break Efficiency",
+      "bossDamageBonus": "Boss Damage Bonus",
+      "moveSpeed": "Move Speed"
     },
     "slots": {
       "weapon": "Weapon",
@@ -402,6 +406,10 @@
         "receivedRecovery": "Received Recovery",
         "barrierStrength": "Barrier Strength",
         "receivedBarrier": "Received Barrier",
+        "healingPower": "Healing Power",
+        "breakEfficiency": "Break Efficiency",
+        "bossDamageBonus": "Boss Damage Bonus",
+        "moveSpeed": "Move Speed",
         "maxStamina": "Max Stamina",
         "staminaRegen": "Combat Stamina Recovery"
       }

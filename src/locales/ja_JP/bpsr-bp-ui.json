@@ -292,7 +292,11 @@
       "physicalReductionBonus": "物理軽減",
       "magicalReductionBonus": "魔法軽減",
       "luckyHitRecoveryBonus": "幸運の一撃回復の倍率",
-      "physicalDefIgnoreBonus": "物理防御力無視"
+      "physicalDefIgnoreBonus": "物理防御力無視",
+      "healingPower": "回復力",
+      "breakEfficiency": "ブレイク効率",
+      "bossDamageBonus": "対ボスダメージボーナス",
+      "moveSpeed": "移動速度"
     },
     "slots": {
       "weapon": "武器",
@@ -402,6 +406,10 @@
         "receivedRecovery": "被回復力",
         "barrierStrength": "バリア強度",
         "receivedBarrier": "被バリア強度",
+        "healingPower": "回復力",
+        "breakEfficiency": "ブレイク効率",
+        "bossDamageBonus": "対ボスダメージボーナス",
+        "moveSpeed": "移動速度",
         "maxStamina": "最大スタミナ",
         "staminaRegen": "戦闘時のスタミナ回復率"
       }

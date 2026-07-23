@@ -182,6 +182,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       label: te('stat.physicalDefIgnore'),
       value: fmtPct(derivedStats.physicalDefIgnorePercent),
     },
+    { label: te('stat.bossDamageBonus'), value: fmtPct(rawStats.bossDamageBonus / 100) },
   ];
 
   const survivalRows = [
@@ -209,6 +210,8 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     { label: te('stat.receivedRecovery'), value: fmtDec2(rawStats.receivedRecovery) },
     { label: te('stat.barrierStrength'), value: fmtPct(rawStats.barrierStrength / 100) },
     { label: te('stat.receivedBarrier'), value: fmtPct(0) },
+    { label: te('stat.healingPower'), value: fmtPct(rawStats.healingPower / 100) },
+    { label: te('stat.breakEfficiency'), value: fmtPct(rawStats.breakEfficiency / 100) },
   ];
 
   // 属性攻撃力(防御力を無視して防御減衰後に加算される、精錬攻撃力と同種の追加攻撃力):
@@ -259,6 +262,9 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   const miscRows = [
     { label: te('stat.maxStamina'), value: fmtDec2(FIXED_BASE_VALUE.maxStamina) },
     { label: te('stat.staminaRegen'), value: fmtDec2(derivedStats.staminaRegenPerSecond) },
+    // 92000(移動速度): isPercent=falseで%換算の裏付けがないため、生の値をそのまま表示する
+    // (attrMaps.ts の LEGENDARY_AFFIX_FLAT_STAT コメント参照)。
+    { label: te('stat.moveSpeed'), value: fmtDec2(rawStats.moveSpeed) },
   ];
 
   return (

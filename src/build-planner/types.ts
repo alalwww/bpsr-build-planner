@@ -48,7 +48,11 @@ export type StatId =
   | 'physicalReductionBonus'
   | 'magicalReductionBonus'
   | 'luckyHitRecoveryBonus'
-  | 'physicalDefIgnoreBonus';
+  | 'physicalDefIgnoreBonus'
+  | 'healingPower'
+  | 'breakEfficiency'
+  | 'bossDamageBonus'
+  | 'moveSpeed';
 
 export interface StatDefinition {
   id: StatId;
