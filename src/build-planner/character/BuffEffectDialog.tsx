@@ -93,6 +93,7 @@ function BuffEffectDialog({
           />
           <select
             className="buff-effect-dialog__select"
+            disabled={!cookingBuff.cookingEnabled}
             title={t('buildPlanner.buffDialog.eliteDamage')}
             value={cookingBuff.cookingEliteDamagePercent}
             onChange={(e) => onChange({ cookingEliteDamagePercent: Number(e.target.value) })}
