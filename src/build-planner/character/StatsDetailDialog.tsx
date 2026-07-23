@@ -5,7 +5,7 @@ import '../components/components.css';
 import './character.css';
 import DraggableDialog from '../components/DraggableDialog';
 import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
-import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT } from '../stats/attrMaps';
+import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT, ELEMENT_BONUS_STAT } from '../stats/attrMaps';
 import { diminishingPercent } from '../stats/formulas';
 import { FIXED_BASE_VALUE, SEASON_CONSTANTS } from '../stats/seasonConstants';
 import { computeStatsBundle } from '../store/derivedSelectors';
@@ -231,6 +231,13 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   const elemBonusPercent = (str: number): number =>
     diminishingPercent(str, SEASON_CONSTANTS.diminishingEnhance);
 
+  // 属性ボーナス%への直接加算(蒼海武器レアステータス等、収益逓減カーブを経由しない
+  // "実数値/100=%"のrawStats項目)。闇属性は対応するAttrIdがなく常に0。
+  const elemDirectBonusPercent = (elem: ElementId): number => {
+    const statId = ELEMENT_BONUS_STAT[elem];
+    return statId ? rawStats[statId] / 100 : 0;
+  };
+
   const elemBonusRows: { label: string; value: string }[] = [
     { label: elemName('all', 'str'), value: fmtDec2(rawStats.allAttrStr) },
     { label: elemName('all', 'bonus'), value: fmtPct(elemBonusPercent(rawStats.allAttrStr)) },
@@ -238,7 +245,10 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       const str = rawStats[ELEMENT_ATTR_STR_STAT[elem as ElementId]];
       return [
         { label: elemName(elem, 'str'), value: fmtDec2(str) },
-        { label: elemName(elem, 'bonus'), value: fmtPct(elemBonusPercent(str)) },
+        {
+          label: elemName(elem, 'bonus'),
+          value: fmtPct(elemBonusPercent(str) + elemDirectBonusPercent(elem as ElementId)),
+        },
       ];
     }),
   ];

@@ -41,6 +41,19 @@ export const ELEMENT_ATTR_STR_STAT: Record<ElementId, StatId> = {
   light: 'lightAttrStr',
   dark: 'darkAttrStr',
 };
+// 属性強度の収益逓減カーブを経由しない、属性ボーナス%への直接加算(蒼海武器の4枠選択式
+// レアステータス・一部装備の固定進化ステータスで確認、attrId 13112〜13172)。
+// 単位は他の"実数値/100=%"系(EVO_PCT_ATTR_TO_STAT等)と同じ。闇属性のみ対応するAttrIdが
+// ゲームデータ上に存在しないため未対応(Partialなのはこのため)。
+export const ELEMENT_BONUS_STAT: Partial<Record<ElementId, StatId>> = {
+  fire: 'fireBonus',
+  ice: 'iceBonus',
+  forest: 'forestBonus',
+  thunder: 'thunderBonus',
+  wind: 'windBonus',
+  rock: 'rockBonus',
+  light: 'lightBonus',
+};
 
 // アビリティ type=1 効果 (平坦加算) の AttrId → StatId マッピング
 export const TALENT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
@@ -365,6 +378,14 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11792: 'healingPower',
   11832: 'breakEfficiency',
   12632: 'bossDamageBonus',
+  // 属性ボーナス%への直接加算(蒼海武器4枠選択式レアステータス・一部固定進化ステータス)。
+  13112: 'fireBonus',
+  13122: 'iceBonus',
+  13132: 'forestBonus',
+  13142: 'thunderBonus',
+  13152: 'windBonus',
+  13162: 'rockBonus',
+  13172: 'lightBonus',
 };
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリのうち、

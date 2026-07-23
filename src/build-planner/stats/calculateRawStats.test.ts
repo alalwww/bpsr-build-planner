@@ -561,6 +561,31 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.bossDamageReduction).toBe(BASE_STATS.bossDamageReduction + 800);
   });
 
+  it('routes a fixedEvo direct element-bonus %addend (attrId 13142 -> thunderBonus)', () => {
+    // src/data/equipment.json: galeLancer 乱風型(talentSchoolId 108)items include
+    // fixedEvolutionStats["108"] entries with attrId 13142 (雷属性ボーナス, isPercent=true).
+    // Routes through EVO_PCT_ATTR_TO_STAT like barrierStrength/healingPower, not through the
+    // diminishing curve (that's a separate, StatsDetailDialog-side addend to elemBonusPercent).
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.galeLancer,
+      professionTypeKey: 'type2', // talentSchoolIds[1] = 108 (乱風型)
+      equipped: {
+        weapon: makeEquipmentItem({
+          slot: 'weapon',
+          part: 200,
+          fixedEvolutionStats: {
+            '108': [[1, 13142, 800, 800, true, 400, 400]],
+          },
+        }),
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.rawStats.thunderBonus).toBe(800);
+  });
+
   it('routes a type=1 effect with a "%final" attrId to phantomFinalPct, not a flat addend (heavyGuardian "癒しの砂", talentId 912)', () => {
     // src/data/talent-tree.json: nodes["912"].effects = [[1, 11324, 1000]] (stage:0 = R1)
     // attrId 11324 is maxHp's IMAGINE_PCT_FINAL variant (unit 1/10000) -> +10% final, not +1000 flat.

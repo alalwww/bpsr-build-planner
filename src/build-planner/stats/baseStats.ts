@@ -56,4 +56,11 @@ export const BASE_STATS: Record<StatId, number> = {
   bossDamageBonus: 0,
   bossDamageReduction: 0,
   moveSpeed: 0,
+  fireBonus: 0,
+  iceBonus: 0,
+  forestBonus: 0,
+  thunderBonus: 0,
+  windBonus: 0,
+  rockBonus: 0,
+  lightBonus: 0,
 };

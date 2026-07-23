@@ -53,7 +53,14 @@ export type StatId =
   | 'breakEfficiency'
   | 'bossDamageBonus'
   | 'bossDamageReduction'
-  | 'moveSpeed';
+  | 'moveSpeed'
+  | 'fireBonus'
+  | 'iceBonus'
+  | 'forestBonus'
+  | 'thunderBonus'
+  | 'windBonus'
+  | 'rockBonus'
+  | 'lightBonus';
 
 export interface StatDefinition {
   id: StatId;
