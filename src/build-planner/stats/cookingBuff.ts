@@ -9,7 +9,7 @@ export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   cookingEliteDamagePercent: 0,
   syrupEnabled: false,
   syrupElement: 'fire',
-  syrupElementStrength: 0,
+  syrupElementStrength: 1500,
   starOilEnabled: false,
   starOilValue: 0,
   eventBuffEnabled: false,

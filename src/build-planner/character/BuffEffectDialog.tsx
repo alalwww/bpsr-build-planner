@@ -84,6 +84,7 @@ function BuffEffectDialog({
           </label>
           <input
             type="number"
+            inputMode="numeric"
             className="buff-effect-dialog__input"
             disabled={!cookingBuff.cookingEnabled}
             placeholder={atkLabel}
@@ -133,6 +134,7 @@ function BuffEffectDialog({
           </select>
           <input
             type="number"
+            inputMode="numeric"
             className="buff-effect-dialog__input"
             disabled={!cookingBuff.syrupEnabled}
             placeholder={t('buildPlanner.buffDialog.elementStrength')}
@@ -155,6 +157,7 @@ function BuffEffectDialog({
           </label>
           <input
             type="number"
+            inputMode="numeric"
             className="buff-effect-dialog__input"
             disabled={!cookingBuff.starOilEnabled}
             placeholder={damageEnhanceLabel}
@@ -175,6 +178,7 @@ function BuffEffectDialog({
           </label>
           <input
             type="number"
+            inputMode="numeric"
             className="buff-effect-dialog__input"
             disabled={!cookingBuff.eventBuffEnabled}
             {...toNumberInputProps(cookingBuff.eventBuffValue, (v) =>
@@ -240,6 +244,7 @@ function BuffEffectDialog({
             </label>
             <input
               type="number"
+              inputMode="numeric"
               className="buff-effect-dialog__input"
               disabled={!cookingBuff.statResonanceEnabled}
               placeholder={t('buildPlanner.buffDialog.statResonanceBaseValue', {
