@@ -1,4 +1,4 @@
-# ローカル動作確認用(xreaへのデプロイには使わない)。PHP 7.4 + Apache(mod_rewrite) + MariaDB 10.6を
+# ローカル動作確認用(本番デプロイには使わない)。PHP 7.4 + Apache(mod_rewrite) + MariaDB 10.6を
 # 起動する。使い方は README.md の「Dockerでのローカル動作確認」を参照。
 services:
   php:

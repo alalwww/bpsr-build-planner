@@ -1,5 +1,5 @@
-# ローカル動作確認用(xreaへのデプロイには使わない。デプロイは.github/workflows/deploy-backend.ymlが
-# FTPで直接public/をアップロードする)。PHP 7.4 + Apache + mod_rewriteをxreaに合わせて再現する。
+# ローカル動作確認用(本番デプロイには使わない。デプロイは.github/workflows/deploy-backend.ymlが
+# FTPで直接public/をアップロードする)。PHP 7.4 + Apache + mod_rewriteを本番環境に合わせて再現する。
 FROM php:7.4-apache
 
 RUN docker-php-ext-install pdo_mysql \

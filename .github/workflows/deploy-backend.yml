@@ -1,4 +1,4 @@
-name: Deploy Backend to xrea
+name: Deploy Backend
 
 on:
   push:
@@ -89,8 +89,8 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.XREA_FTP_HOST }}
-          username: ${{ secrets.XREA_FTP_USERNAME }}
-          password: ${{ secrets.XREA_FTP_PASSWORD }}
+          server: ${{ secrets.SHORTURL_FTP_HOST }}
+          username: ${{ secrets.SHORTURL_FTP_USERNAME }}
+          password: ${{ secrets.SHORTURL_FTP_PASSWORD }}
           local-dir: backend/public/
-          server-dir: ${{ secrets.XREA_FTP_REMOTE_DIR }}
+          server-dir: ${{ secrets.SHORTURL_FTP_REMOTE_DIR }}

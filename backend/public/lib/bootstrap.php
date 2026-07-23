@@ -60,7 +60,7 @@ function shorturl_send_cors_headers(): void
 
 function shorturl_client_ip(): string
 {
-    // xrea側のプロキシ構成の詳細が不明なため、クライアントが自由に偽装できる
+    // ホスティング側のプロキシ構成の詳細が不明なため、クライアントが自由に偽装できる
     // X-Forwarded-For等は信頼せず、REMOTE_ADDRのみを正とする。
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }

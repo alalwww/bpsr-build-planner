@@ -1,4 +1,4 @@
--- 短縮URL機能 DBスキーマ (MariaDB 10.6 / xrea)
+-- 短縮URL機能 DBスキーマ (MariaDB 10.6)
 -- 適用方法: phpMyAdmin等でこの内容をそのまま実行する(自動マイグレーションは導入していない)。
 -- 詳細仕様は docs/SHORT_URL.md を参照。
 

@@ -4,18 +4,18 @@
 
 ## 構成
 
-- `public/` — xreaのドキュメントルート(`api.awairo.net`)にそのままデプロイする実体
+- `public/` — 本番ホスティングのドキュメントルート(`api.awairo.net`)にそのままデプロイする実体
   - `lib/` — `shorten.php`から読み込む共有ロジック。`public/`直下ではなく`public/lib/`に置くのは、
     FTPデプロイ(手動・GitHub Actions共に)を`public/`単一ディレクトリのアップロードだけで完結させる
     ため。直アクセスは`public/.htaccess`の直アクセスリダイレクトに加え`lib/.htaccess`でも拒否している
 - `schema.sql` — DBスキーマ(phpMyAdmin等で手動適用。Docker利用時はコンテナ初回起動時に自動適用)
 - `config.example.php` — 設定テンプレート(DB接続情報・レート制限ソルトのみ。CORS許可オリジンは
   秘密情報ではないため`public/lib/bootstrap.php`の`SHORTURL_ALLOWED_ORIGIN`定数に直書きしている)
-- `Dockerfile` / `docker-compose.yml` — ローカル動作確認用(xreaへのデプロイには使わない)
+- `Dockerfile` / `docker-compose.yml` — ローカル動作確認用(本番デプロイには使わない)
 
 ## ローカル動作確認(Docker)
 
-PHP 7.4 + Apache(mod_rewrite有効・`AllowOverride All`) + MariaDB 10.6をxreaに近い構成で
+PHP 7.4 + Apache(mod_rewrite有効・`AllowOverride All`) + MariaDB 10.6を本番に近い構成で
 起動する。`.htaccess`(拡張子非表示・直アクセス制限)込みで確認したい場合はこちらを使う。
 
 ```sh
@@ -66,14 +66,14 @@ curl "http://localhost:8000/shorten?code=xxxxx"
 
 本番デプロイは `.github/workflows/deploy-backend.yml` が担う。`backend/**` への変更のpush
 (mainブランチ)、または手動実行(workflow_dispatch)をトリガーに、GitHub Secretsから
-`config.php`を生成した上で`public/`配下をxreaへFTPアップロードする。必要なSecretsは以下の通り。
+`config.php`を生成した上で`public/`配下を本番サーバーへFTPアップロードする。必要なSecretsは以下の通り。
 
 | Secret名                   | 内容                                                             |
 | -------------------------- | ---------------------------------------------------------------- |
-| `XREA_FTP_HOST`            | FTPホスト名                                                      |
-| `XREA_FTP_USERNAME`        | FTPユーザー名                                                    |
-| `XREA_FTP_PASSWORD`        | FTPパスワード                                                    |
-| `XREA_FTP_REMOTE_DIR`      | アップロード先ディレクトリ(`api.awairo.net`のドキュメントルート) |
+| `SHORTURL_FTP_HOST`        | FTPホスト名                                                      |
+| `SHORTURL_FTP_USERNAME`    | FTPユーザー名                                                    |
+| `SHORTURL_FTP_PASSWORD`    | FTPパスワード                                                    |
+| `SHORTURL_FTP_REMOTE_DIR`  | アップロード先ディレクトリ(`api.awairo.net`のドキュメントルート) |
 | `SHORTURL_DB_DSN`          | PDO DSN(例: `mysql:host=...;dbname=...;charset=utf8mb4`)         |
 | `SHORTURL_DB_USER`         | DBユーザー名                                                     |
 | `SHORTURL_DB_PASSWORD`     | DBパスワード                                                     |
