@@ -1,5 +1,8 @@
 import type { CookingBuffState, StatId } from '../types';
 
+// イベントバフのメインステータス加算量の既定値(旧・海風の宴の固定効果量を踏襲)。
+export const DEFAULT_EVENT_BUFF_VALUE = 500;
+
 export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   cookingEnabled: false,
   cookingAtkValue: 0,
@@ -9,7 +12,8 @@ export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   syrupElementStrength: 0,
   starOilEnabled: false,
   starOilValue: 0,
-  seaBreezeEnabled: false,
+  eventBuffEnabled: false,
+  eventBuffValue: DEFAULT_EVENT_BUFF_VALUE,
   inspirationEnabled: false,
   inspirationVariant: 'lifebind',
   statResonanceEnabled: false,
@@ -64,10 +68,6 @@ export function calcLuckyCritBonus(
   const base = LUCKY_CRIT_VALUES[ownLevel];
   return { critDamage: base.critDamage * 2, luckyDamage: base.luckyDamage * 2 };
 }
-
-// 海風の宴によるメインステータス(筋力/知力/俊敏)への加算量。他のメインステータス加算源と同様に
-// %ボーナス適用前に加算するため、calculateRawStatsのaddStat内で直接この定数を使用する。
-export const SEA_BREEZE_MAIN_STAT_BONUS = 500;
 
 // 鼓舞(森癒・威咲)による加算量。mainStat=筋力/知力/俊敏全てへの平坦加算、
 // percent=会心/幸運/ファスト/器用さ/万能の最終計算結果への直接加算(%)。

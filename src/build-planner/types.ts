@@ -229,8 +229,12 @@ export interface CookingBuffState {
   starOilEnabled: boolean;
   // スターオイル: 物理/魔法ダメージ強化度(physicalEnhance/magicalEnhanceへの加算値)
   starOilValue: number;
-  // 海風の宴: クラスのメインステータス(筋力/知力/俊敏)に+500(他の加算源と同様に%ボーナス適用前)
-  seaBreezeEnabled: boolean;
+  // イベントバフ: 期間限定イベント等で付与される、クラスのメインステータス(筋力/知力/俊敏)への
+  // 加算バフの汎用枠(他の加算源と同様に%ボーナス適用前に加算)。元は「海風の宴」専用の固定+500
+  // だったが、同種の効果が今後も追加され得るため効果値を入力可能にして汎用化した
+  // (eventBuffValueの既定値500は旧・海風の宴の効果量を踏襲)。
+  eventBuffEnabled: boolean;
+  eventBuffValue: number;
   // 鼓舞(Inspiration): 森癒(+400/+3%)/威咲(+100/+1.5%)のいずれか一方を選択して有効化する(排他)
   inspirationEnabled: boolean;
   inspirationVariant: 'lifebind' | 'smite';

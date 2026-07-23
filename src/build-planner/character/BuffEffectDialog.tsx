@@ -158,16 +158,28 @@ function BuffEffectDialog({
           />
         </div>
 
-        {/* 海風の宴 */}
+        {/* イベントバフ: 期間限定イベント等で付与されるメインステータスアップバフの汎用枠
+            (旧・海風の宴を汎用化したもの。効果値は入力可能で、既定値のみ500を踏襲)。 */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
             <input
               type="checkbox"
-              checked={cookingBuff.seaBreezeEnabled}
-              onChange={(e) => onChange({ seaBreezeEnabled: e.target.checked })}
+              checked={cookingBuff.eventBuffEnabled}
+              onChange={(e) => onChange({ eventBuffEnabled: e.target.checked })}
             />
-            <span>{t('buildPlanner.buffDialog.seaBreeze')}</span>
+            <span>{t('buildPlanner.buffDialog.eventBuff')}</span>
           </label>
+          <input
+            type="number"
+            className="buff-effect-dialog__input"
+            disabled={!cookingBuff.eventBuffEnabled}
+            {...toNumberInputProps(cookingBuff.eventBuffValue, (v) =>
+              onChange({ eventBuffValue: v }),
+            )}
+          />
+          <span className="buff-effect-dialog__hint">
+            {t('buildPlanner.buffDialog.eventBuffHint', { stat: mainStatLabel })}
+          </span>
         </div>
 
         {/* 鼓舞(Inspiration): 森癒(Lifebind)/威咲(Smite)(排他選択) */}

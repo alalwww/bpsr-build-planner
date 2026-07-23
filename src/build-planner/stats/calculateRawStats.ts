@@ -31,7 +31,6 @@ import {
   calcStatResonanceBonus,
   INSPIRATION_VALUES,
   POWER_CORE_EFFECT_IDS,
-  SEA_BREEZE_MAIN_STAT_BONUS,
 } from './cookingBuff';
 import {
   AFFIX_STAT_EFFECTS,
@@ -722,10 +721,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     addStat(ELEMENT_ATTR_STR_STAT[cookingBuff.syrupElement], cookingBuff.syrupElementStrength);
   }
 
-  // 海風の宴: クラスのメインステータス(筋力/知力/俊敏)への平坦加算。他のメインステータス加算源
-  // (装備・アビリティ等)と同様に%ボーナス適用前に加算し、メインステータスへの%ボーナスの対象にする。
-  if (cookingBuff.seaBreezeEnabled) {
-    addStat(profession.mainStat, SEA_BREEZE_MAIN_STAT_BONUS);
+  // イベントバフ: クラスのメインステータス(筋力/知力/俊敏)への平坦加算。他のメインステータス
+  // 加算源(装備・アビリティ等)と同様に%ボーナス適用前に加算し、メインステータスへの%ボーナスの
+  // 対象にする(元は「海風の宴」専用の固定+500だったが、効果値を入力可能にして汎用化した)。
+  if (cookingBuff.eventBuffEnabled && cookingBuff.eventBuffValue !== 0) {
+    addStat(profession.mainStat, cookingBuff.eventBuffValue);
   }
 
   // 鼓舞(Inspiration、森癒/Lifebind・威咲/Smite): 選択中の効果に応じて筋力/知力/俊敏全てへ
