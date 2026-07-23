@@ -334,6 +334,8 @@
       "nodeEffectPlaceholder": "Click a node to view its effect",
       "factorSlot": "Phantom Factor Slot",
       "factorUnequipped": "Unequipped",
+      "factorDuplicateMsg": "\"{{factor}}\" is already equipped in \"{{slot}}\". Swap it here?",
+      "factorDuplicateConfirm": "Swap",
       "pathUndecided": "(Path undecided)",
       "enabledOn": "ON",
       "enabledOff": "OFF",

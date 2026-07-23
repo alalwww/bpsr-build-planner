@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ConfirmDialog from '../components/ConfirmDialog';
 import FactorSlot from './FactorSlot';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
 import { getActivePhantomNodeIds, stData } from './phantomData';
-import { getFactorBaseOptions, getFactorEffectDesc, getNodeIcon } from './phantomView';
+import { factorBaseName, getFactorBaseOptions, getFactorEffectDesc, getNodeIcon } from './phantomView';
 
 // ノード設定リスト(ツリーの各ステップに対応する行)。PhantomPanel から分離。
 // 行の種類: 固定ノード / 効果選択 / 因子スロット(単独・タイプ選択・経路依存)。
@@ -43,6 +45,44 @@ export default function PhantomNodeConfig({
   // 選択/因子装着自体は妨げないため、クリックハンドラは変更せずスタイルのみ不活性化する。
   const isLocked = (nodeId: number) => !levelUnlockedNodeIds.has(nodeId);
 
+  // スロット名(intermediateSlots由来)はタイプが同じスロット同士で重複する(例: 「極性」が
+  // 複数箇所に出る)ため、確認ダイアログではノード番号(行番号)を前置して一意に区別する。
+  const nodeStepNum = new Map<number, number>();
+  treeSteps.forEach((step, idx) => {
+    for (const nodeId of step.nodeIds) nodeStepNum.set(nodeId, idx + 1);
+  });
+  const numberedSlotName = (groupId: number) =>
+    `${nodeStepNum.get(groupId) ?? '?'}:${tg(`seasonTalents.intermediateSlots.${groupId}`)}`;
+
+  // 同一ツリー内では同じ因子(classKey)を複数スロットに装着できない。既に他スロットで
+  // 使用中の因子を選択した場合は即座に上書きせず、どちらを残すか確認ダイアログで決めさせる
+  // (候補リストからの単純なフィルター除外だと、入れ替えたいだけの場合に不便なため)。
+  const [pendingFactorSwap, setPendingFactorSwap] = useState<{
+    groupId: number;
+    value: PhantomFactorSlotValue;
+    conflictGroupId: number;
+    /** 操作中スロット(groupId)の変更前の値。入れ替え確定時にconflictGroupId側へ移す。 */
+    previousValue: PhantomFactorSlotValue | null;
+  } | null>(null);
+
+  const handleSetFactor = (groupId: number, value: PhantomFactorSlotValue | null) => {
+    if (value) {
+      const conflict = Object.entries(phantomFactorSlots).find(
+        ([gid, v]) => Number(gid) !== groupId && v?.classKey === value.classKey,
+      );
+      if (conflict) {
+        setPendingFactorSwap({
+          groupId,
+          value,
+          conflictGroupId: Number(conflict[0]),
+          previousValue: phantomFactorSlots[groupId] ?? null,
+        });
+        return;
+      }
+    }
+    onPhantomFactorSlot(groupId, value);
+  };
+
   // 因子スロット本体(全factor系行で共通)
   const renderFactorSlot = (groupId: number) => (
     <FactorSlot
@@ -51,7 +91,7 @@ export default function PhantomNodeConfig({
       options={getFactorBaseOptions(tg, groupId, professionId)}
       getDesc={(classKey, grade) => getFactorEffectDesc(tg, classKey, grade)}
       unequippedLabel={unequippedLabel}
-      onSet={onPhantomFactorSlot}
+      onSet={handleSetFactor}
     />
   );
 
@@ -233,6 +273,27 @@ export default function PhantomNodeConfig({
   };
 
   return (
-    <div className="phantom-node-config">{treeSteps.map((step, idx) => renderRow(step, idx))}</div>
+    <div className="phantom-node-config">
+      {treeSteps.map((step, idx) => renderRow(step, idx))}
+      {pendingFactorSwap && (
+        <ConfirmDialog
+          message={t('buildPlanner.phantom.factorDuplicateMsg', {
+            factor: factorBaseName(tg, pendingFactorSwap.value.classKey),
+            slot: numberedSlotName(pendingFactorSwap.conflictGroupId),
+          })}
+          confirmLabel={t('buildPlanner.phantom.factorDuplicateConfirm')}
+          onConfirm={() => {
+            const { groupId, value, conflictGroupId, previousValue } = pendingFactorSwap;
+            // 真の入れ替え: 操作中スロットには選んだ因子を、重複先には操作中スロットの
+            // 変更前の因子(未装着なら未装着)をそのまま移す。
+            onPhantomFactorSlot(groupId, value);
+            onPhantomFactorSlot(conflictGroupId, previousValue);
+            setPendingFactorSwap(null);
+          }}
+          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
+          onCancel={() => setPendingFactorSwap(null)}
+        />
+      )}
+    </div>
   );
 }

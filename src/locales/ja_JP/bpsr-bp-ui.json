@@ -334,6 +334,8 @@
       "nodeEffectPlaceholder": "ノードをクリックするとノード効果が表示されます",
       "factorSlot": "幻影因子スロット",
       "factorUnequipped": "未装着",
+      "factorDuplicateMsg": "『{{factor}}』は既に『{{slot}}』に装着されています。入れ替えますか？",
+      "factorDuplicateConfirm": "入れ替える",
       "pathUndecided": "（パス未確定）",
       "enabledOn": "ON",
       "enabledOff": "OFF",
