@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmDialog from '../components/ConfirmDialog';
 import FactorSlot from './FactorSlot';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
 import { getActivePhantomNodeIds, stData } from './phantomData';
-import { factorBaseName, getFactorBaseOptions, getFactorEffectDesc, getNodeIcon } from './phantomView';
+import {
+  factorBaseName,
+  getFactorBaseOptions,
+  getFactorEffectDesc,
+  getNodeIcon,
+} from './phantomView';
 
 // ノード設定リスト(ツリーの各ステップに対応する行)。PhantomPanel から分離。
 // 行の種類: 固定ノード / 効果選択 / 因子スロット(単独・タイプ選択・経路依存)。
@@ -44,6 +49,15 @@ export default function PhantomNodeConfig({
   const unequippedLabel = t('buildPlanner.phantom.factorUnequipped');
   // 選択/因子装着自体は妨げないため、クリックハンドラは変更せずスタイルのみ不活性化する。
   const isLocked = (nodeId: number) => !levelUnlockedNodeIds.has(nodeId);
+
+  // onToggleNode はツリー側と共有しており、同じノードを渡すと選択解除(トグルOFF)される。
+  // 行全体がクリック領域になったことで、ドロップダウンやStepperの操作のたびに
+  // 選択/解除が交互に切り替わってしまうため、設定側では「選択追従」のみ行い
+  // 解除はしない(すでに選択中のノードへの操作は無視する)。ツリー側の選択解除機能は
+  // そのまま残す。
+  const selectNode = (nodeId: number) => {
+    if (selectedNodeId !== nodeId) onToggleNode(nodeId);
+  };
 
   // スロット名(intermediateSlots由来)はタイプが同じスロット同士で重複する(例: 「極性」が
   // 複数箇所に出る)ため、確認ダイアログではノード番号(行番号)を前置して一意に区別する。
@@ -95,7 +109,8 @@ export default function PhantomNodeConfig({
     />
   );
 
-  // スロット名ヘッダー付きの因子スロット(solo-factor / path-factor 単一アクティブ)
+  // スロット名ヘッダー付きの因子スロット(solo-factor / path-factor 単一アクティブ)。
+  // クリック選択は行全体(phantom-config-row)側が担うため、ここでは表示のみ行う。
   const renderFactorSlotWithHeader = (groupId: number) => {
     const iconSrc = getNodeIcon(groupId, 2);
     const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
@@ -103,10 +118,7 @@ export default function PhantomNodeConfig({
       <div
         className={`phantom-factor-with-label${isLocked(groupId) ? ' phantom-config-locked' : ''}`}
       >
-        <div
-          className={`phantom-factor-slot-header phantom-config-node-clickable${selectedNodeId === groupId ? ' phantom-config-node-clickable--highlight' : ''}`}
-          onClick={() => onToggleNode(groupId)}
-        >
+        <div className="phantom-factor-slot-header">
           {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
           <span className="phantom-factor-label">{slotName}</span>
         </div>
@@ -117,6 +129,8 @@ export default function PhantomNodeConfig({
 
   // 因子タイプ選択ボタン群 + 選択中タイプの因子スロット
   // (choice-factor-type / path-factor 複数アクティブ)。選択変更時は旧スロットの因子をクリアする。
+  // ボタン自体は行全体のクリック(選択中タイプのノードを選択)とは別に、クリックしたタイプへの
+  // 切り替えを担うため stopPropagation で行のクリックハンドラへのバブルを止める。
   const renderFactorTypeChoice = (nodeIds: number[], selected: number, sameGroupId: number) => (
     <div
       className={`phantom-factor-with-label${isLocked(selected) ? ' phantom-config-locked' : ''}`}
@@ -130,12 +144,13 @@ export default function PhantomNodeConfig({
               key={nodeId}
               type="button"
               className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 if (nodeId !== selected && phantomFactorSlots[selected]) {
                   onPhantomFactorSlot(selected, null);
                 }
                 onPhantomNodeSelection(sameGroupId, nodeId);
-                onToggleNode(nodeId);
+                selectNode(nodeId);
               }}
             >
               {iconSrc && <img src={iconSrc} className="phantom-choice-btn-icon" alt="" />}
@@ -148,31 +163,37 @@ export default function PhantomNodeConfig({
     </div>
   );
 
+  // 行1つ分の描画に必要な情報。行番号を含む行全体をクリック領域・強調表示の対象とするため、
+  // 各行種別(kind)は「クリックで選択するノード(clickNodeId)」と「ツリー側選択との一致判定に
+  // 使うノード集合(highlightIds)」を用意し、実際の枠・クリックハンドラは renderRow 側で共通化する。
+  // choice系(2択/因子タイプ選択)は、選択中の項目(chosen)を切り替えるボタン操作と、行の
+  // 「どのノードを見ているか」の選択状態を別々に持つため、clickNodeId には常に現在の
+  // chosen ノードを充てる(行内の余白等をクリックした場合はchosenノードを選択したとみなす)。
   const renderRow = (step: TreeStep, stepIdx: number) => {
     const rowKey = `step-${stepIdx}`;
     const num = <span className="phantom-step-num">{stepIdx + 1}</span>;
+
+    let rowKindClassName = '';
+    let clickNodeId: number | null = null;
+    let highlightIds: number[] = [];
+    let content: ReactNode;
 
     if (step.kind === 'fixed-ordinary') {
       const nodeId = step.nodeIds[0];
       const node = stData.treeNodes[String(nodeId)];
       const iconSrc = node ? getNodeIcon(nodeId, node.nodeType as 1 | 2) : '';
-      return (
-        <div key={rowKey} className="phantom-config-row phantom-config-row--fixed">
-          {num}
-          <div
-            className={`phantom-config-node-clickable${selectedNodeId === nodeId ? ' phantom-config-node-clickable--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
-            onClick={() => onToggleNode(nodeId)}
-          >
-            {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
-            <span className="phantom-node-name">
-              {tg(`seasonTalents.ordinaryEffects.${nodeId}`)}
-            </span>
-          </div>
+      rowKindClassName = ' phantom-config-row--fixed';
+      clickNodeId = nodeId;
+      highlightIds = [nodeId];
+      content = (
+        <div
+          className={`phantom-config-node-content${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
+        >
+          {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
+          <span className="phantom-node-name">{tg(`seasonTalents.ordinaryEffects.${nodeId}`)}</span>
         </div>
       );
-    }
-
-    if (step.kind === 'choice-ordinary') {
+    } else if (step.kind === 'choice-ordinary') {
       const selected = phantomNodeSelections[step.sameGroupId];
       const handleChoiceOrdinary = (nodeId: number) => {
         // 選択変更により非アクティブになるノードの因子をクリア
@@ -192,84 +213,84 @@ export default function PhantomNodeConfig({
         }
         onPhantomNodeSelection(step.sameGroupId, nodeId);
       };
-      return (
-        <div key={rowKey} className="phantom-config-row">
-          {num}
-          <div className="phantom-choice-btns">
-            {step.nodeIds.map((nodeId) => {
-              const iconSrc = getNodeIcon(nodeId, 1);
-              return (
-                <button
-                  key={nodeId}
-                  type="button"
-                  className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
-                  onClick={() => {
-                    handleChoiceOrdinary(nodeId);
-                    onToggleNode(nodeId);
-                  }}
-                >
-                  {iconSrc && <img src={iconSrc} className="phantom-choice-btn-icon" alt="" />}
-                  {tg(`seasonTalents.ordinaryEffects.${nodeId}`)}
-                </button>
-              );
-            })}
-          </div>
+      clickNodeId = selected;
+      highlightIds = step.nodeIds;
+      content = (
+        <div className="phantom-choice-btns">
+          {step.nodeIds.map((nodeId) => {
+            const iconSrc = getNodeIcon(nodeId, 1);
+            return (
+              <button
+                key={nodeId}
+                type="button"
+                className={`phantom-choice-btn${selected === nodeId ? ' phantom-choice-btn--active' : ''}${selectedNodeId === nodeId ? ' phantom-choice-btn--highlight' : ''}${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleChoiceOrdinary(nodeId);
+                  selectNode(nodeId);
+                }}
+              >
+                {iconSrc && <img src={iconSrc} className="phantom-choice-btn-icon" alt="" />}
+                {tg(`seasonTalents.ordinaryEffects.${nodeId}`)}
+              </button>
+            );
+          })}
         </div>
       );
-    }
-
-    if (step.kind === 'solo-factor') {
-      return (
-        <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
-          {num}
-          {renderFactorSlotWithHeader(step.nodeIds[0])}
-        </div>
-      );
-    }
-
-    if (step.kind === 'choice-factor-type') {
+    } else if (step.kind === 'solo-factor') {
+      const nodeId = step.nodeIds[0];
+      rowKindClassName = ' phantom-config-row--factor';
+      clickNodeId = nodeId;
+      highlightIds = [nodeId];
+      content = renderFactorSlotWithHeader(nodeId);
+    } else if (step.kind === 'choice-factor-type') {
       const selected = phantomNodeSelections[step.sameGroupId] ?? step.nodeIds[0];
-      return (
-        <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
-          {num}
-          {renderFactorTypeChoice(step.nodeIds, selected, step.sameGroupId)}
-        </div>
-      );
-    }
-
-    if (step.kind === 'path-factor') {
+      rowKindClassName = ' phantom-config-row--factor';
+      clickNodeId = selected;
+      highlightIds = step.nodeIds;
+      content = renderFactorTypeChoice(step.nodeIds, selected, step.sameGroupId);
+    } else if (step.kind === 'path-factor') {
       const activeIds = step.nodeIds.filter((id) => activeNodeIds.has(id));
       if (activeIds.length === 0) {
-        return (
-          <div key={rowKey} className="phantom-config-row phantom-config-row--inactive">
-            {num}
-            <span className="phantom-inactive-label">
-              {t('buildPlanner.phantom.pathUndecided')}
-            </span>
-          </div>
+        rowKindClassName = ' phantom-config-row--inactive';
+        content = (
+          <span className="phantom-inactive-label">{t('buildPlanner.phantom.pathUndecided')}</span>
         );
+      } else if (activeIds.length === 1) {
+        rowKindClassName = ' phantom-config-row--factor';
+        clickNodeId = activeIds[0];
+        highlightIds = activeIds;
+        content = renderFactorSlotWithHeader(activeIds[0]);
+      } else {
+        // 複数アクティブ（例: 虚妄断罪で「断罪・癒」を選択）: choice-factor-type と同じ選択ボタン UI
+        const storedSel = phantomNodeSelections[step.sameGroupId];
+        const selected =
+          storedSel !== undefined && activeIds.includes(storedSel) ? storedSel : activeIds[0];
+        rowKindClassName = ' phantom-config-row--factor';
+        clickNodeId = selected;
+        highlightIds = activeIds;
+        content = renderFactorTypeChoice(activeIds, selected, step.sameGroupId);
       }
-      if (activeIds.length === 1) {
-        return (
-          <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
-            {num}
-            {renderFactorSlotWithHeader(activeIds[0])}
-          </div>
-        );
-      }
-      // 複数アクティブ（例: 虚妄断罪で「断罪・癒」を選択）: choice-factor-type と同じ選択ボタン UI
-      const storedSel = phantomNodeSelections[step.sameGroupId];
-      const selected =
-        storedSel !== undefined && activeIds.includes(storedSel) ? storedSel : activeIds[0];
-      return (
-        <div key={rowKey} className="phantom-config-row phantom-config-row--factor">
-          {num}
-          {renderFactorTypeChoice(activeIds, selected, step.sameGroupId)}
-        </div>
-      );
+    } else {
+      return null;
     }
 
-    return null;
+    const isRowSelected = selectedNodeId != null && highlightIds.includes(selectedNodeId);
+    const rowClassName =
+      `phantom-config-row${rowKindClassName}` +
+      (clickNodeId != null ? ' phantom-config-row--clickable' : '') +
+      (isRowSelected ? ' phantom-config-row--highlight' : '');
+
+    return (
+      <div
+        key={rowKey}
+        className={rowClassName}
+        onClick={clickNodeId != null ? () => selectNode(clickNodeId!) : undefined}
+      >
+        {num}
+        {content}
+      </div>
+    );
   };
 
   return (

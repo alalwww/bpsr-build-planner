@@ -387,9 +387,26 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  padding: 8px 0;
+  padding: 8px 4px;
+  margin: 0 -4px;
   border-bottom: 1px solid #1e1e28;
+  border-radius: 4px;
   min-height: 50px;
+}
+
+/* 行全体(行番号込み)がクリック領域・ツリー側選択との連動先になる行。 */
+.phantom-config-row--clickable {
+  cursor: pointer;
+}
+
+.phantom-config-row--clickable:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.phantom-config-row--highlight {
+  outline: 2px solid #ffe066;
+  outline-offset: -2px;
+  background: rgba(255, 224, 102, 0.08);
 }
 
 .phantom-config-row--fixed .phantom-node-name {
@@ -421,25 +438,11 @@
   margin-top: 2px;
 }
 
-/* ツリー側のノード選択と相互に連動する強調表示(クリックで選択トグル) */
-.phantom-config-node-clickable {
+/* fixed-ordinary行のアイコン+ラベル(クリック・強調は行全体側が担うためレイアウトのみ)。 */
+.phantom-config-node-content {
   display: flex;
   align-items: center;
   gap: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-  padding: 2px 4px;
-  margin: -2px -4px 3px;
-}
-
-.phantom-config-node-clickable:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.phantom-config-node-clickable--highlight {
-  outline: 2px solid #ffe066;
-  outline-offset: 1px;
-  background: rgba(255, 224, 102, 0.1);
 }
 
 /* 潜在Lvがノードの開放Lvに未達な行/ボタン。選択・因子装着は妨げないため見た目のみ暗くする。
