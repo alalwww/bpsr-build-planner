@@ -438,11 +438,32 @@
   margin-top: 2px;
 }
 
-/* fixed-ordinary行のアイコン+ラベル(クリック・強調は行全体側が担うためレイアウトのみ)。 */
+/* fixed-ordinary行のアイコン+ラベル(クリック・強調は行全体側が担うためレイアウトのみ)。
+   flex:1 で余白を占有し、ルート行では因子ランク一括変更コントロールを右端へ押し出す。 */
 .phantom-config-node-content {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ルートノード行右端の「因子ランク一括変更」。特別な操作だと分かるよう軽く強調する。 */
+.phantom-bulk-grade {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border: 1px solid #3a8a94;
+  border-radius: 6px;
+  background: rgba(74, 200, 223, 0.08);
+}
+
+.phantom-bulk-grade__label {
+  font-size: 13px;
+  color: #6ad0e0;
+  white-space: nowrap;
 }
 
 /* 潜在Lvがノードの開放Lvに未達な行/ボタン。選択・因子装着は妨げないため見た目のみ暗くする。

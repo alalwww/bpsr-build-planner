@@ -338,6 +338,7 @@
       "factorDuplicateMsg": "『{{factor}}』已裝載於『{{slot}}』。是否互換？",
       "factorDuplicateConfirm": "互換",
       "pathUndecided": "（路徑未確定）",
+      "bulkGradeLabel": "因子等級批量調整",
       "enabledOn": "開",
       "enabledOff": "關",
       "enabledLockedTitle": "所選樹尚未解鎖，無法開啟",

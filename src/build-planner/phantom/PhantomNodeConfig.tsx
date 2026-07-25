@@ -1,9 +1,10 @@
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import ConfirmDialog from '../components/ConfirmDialog';
+import Stepper from '../components/Stepper';
 import FactorSlot from './FactorSlot';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
-import { getActivePhantomNodeIds, stData } from './phantomData';
+import { getActivePhantomNodeIds, getDefaultFactorGrade, stData } from './phantomData';
 import {
   factorBaseName,
   getFactorBaseOptions,
@@ -97,11 +98,68 @@ export default function PhantomNodeConfig({
     onPhantomFactorSlot(groupId, value);
   };
 
+  // 未装着スロットの表示グレード(groupId単位)。FactorSlot自身はcontrolledにし、
+  // 因子ランク一括変更から未装着スロットの表示も上書きできるようにする。
+  // 保存対象(store)ではないため、リロードごとにリセットされる。
+  const [pendingGrades, setPendingGrades] = useState<Record<number, number>>({});
+
+  // 因子ランク一括変更(ルートノード行の右端)の表示値。各ノードの現在のグレードとは
+  // 独立したこのコントロール自身のローカル状態で、store に保存されないためリロード
+  // 毎にデフォルト値へ戻る。個別ノードのグレードStepper操作ではこの値を変更しない。
+  const [bulkGrade, setBulkGrade] = useState(getDefaultFactorGrade);
+
+  // renderRow の各factor系kindが「現在表示中のスロット」として選ぶgroupIdと同じロジック。
+  // 一括変更の対象を、画面に見えているスロットだけに絞るために使う。
+  const visibleFactorGroupIds = treeSteps.flatMap((step): number[] => {
+    if (step.kind === 'solo-factor') return [step.nodeIds[0]];
+    if (step.kind === 'choice-factor-type') {
+      return [phantomNodeSelections[step.sameGroupId] ?? step.nodeIds[0]];
+    }
+    if (step.kind === 'path-factor') {
+      const activeIds = step.nodeIds.filter((id) => activeNodeIds.has(id));
+      if (activeIds.length === 0) return [];
+      if (activeIds.length === 1) return activeIds;
+      const storedSel = phantomNodeSelections[step.sameGroupId];
+      return [storedSel !== undefined && activeIds.includes(storedSel) ? storedSel : activeIds[0]];
+    }
+    return [];
+  });
+
+  // 一括変更時は、画面に見えている因子スロットすべてを個々の現在値を無視してこの値に
+  // 統一する(装着済みは store 経由、未装着は pendingGrades 経由)。相対的な差分ではなく
+  // 絶対値での統一である点に注意。
+  const handleBulkGradeChange = (newValue: number) => {
+    setBulkGrade(newValue);
+    for (const gid of visibleFactorGroupIds) {
+      const current = phantomFactorSlots[gid] ?? null;
+      if (current) {
+        if (current.grade !== newValue) onPhantomFactorSlot(gid, { ...current, grade: newValue });
+      } else {
+        setPendingGrades((prev) => (prev[gid] === newValue ? prev : { ...prev, [gid]: newValue }));
+      }
+    }
+  };
+  const renderBulkGradeControl = () => (
+    <div className="phantom-bulk-grade">
+      <span className="phantom-bulk-grade__label">{t('buildPlanner.phantom.bulkGradeLabel')}</span>
+      <Stepper
+        className="phantom-grade-stepper"
+        value={bulkGrade}
+        min={1}
+        max={10}
+        formatValue={(v) => `G${v}`}
+        onChange={handleBulkGradeChange}
+      />
+    </div>
+  );
+
   // 因子スロット本体(全factor系行で共通)
   const renderFactorSlot = (groupId: number) => (
     <FactorSlot
       groupId={groupId}
       current={phantomFactorSlots[groupId] ?? null}
+      pendingGrade={pendingGrades[groupId] ?? getDefaultFactorGrade()}
+      onPendingGradeChange={(grade) => setPendingGrades((prev) => ({ ...prev, [groupId]: grade }))}
       options={getFactorBaseOptions(tg, groupId, professionId)}
       getDesc={(classKey, grade) => getFactorEffectDesc(tg, classKey, grade)}
       unequippedLabel={unequippedLabel}
@@ -186,12 +244,17 @@ export default function PhantomNodeConfig({
       clickNodeId = nodeId;
       highlightIds = [nodeId];
       content = (
-        <div
-          className={`phantom-config-node-content${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
-        >
-          {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
-          <span className="phantom-node-name">{tg(`seasonTalents.ordinaryEffects.${nodeId}`)}</span>
-        </div>
+        <>
+          <div
+            className={`phantom-config-node-content${isLocked(nodeId) ? ' phantom-config-locked' : ''}`}
+          >
+            {iconSrc && <img src={iconSrc} className="phantom-config-node-icon" alt="" />}
+            <span className="phantom-node-name">
+              {tg(`seasonTalents.ordinaryEffects.${nodeId}`)}
+            </span>
+          </div>
+          {stepIdx === 0 && renderBulkGradeControl()}
+        </>
       );
     } else if (step.kind === 'choice-ordinary') {
       const selected = phantomNodeSelections[step.sameGroupId];

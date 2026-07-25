@@ -338,6 +338,7 @@
       "factorDuplicateMsg": "『{{factor}}』은(는) 이미 『{{slot}}』에 장착되어 있습니다. 교체하시겠습니까?",
       "factorDuplicateConfirm": "교체",
       "pathUndecided": "（경로 미확정）",
+      "bulkGradeLabel": "인자 등급 일괄 변경",
       "enabledOn": "ON",
       "enabledOff": "OFF",
       "enabledLockedTitle": "선택한 트리가 아직 해금되지 않아 ON으로 할 수 없습니다",

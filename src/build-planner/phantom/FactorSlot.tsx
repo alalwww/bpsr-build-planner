@@ -1,27 +1,32 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import Stepper from '../components/Stepper';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
-import { getDefaultFactorGrade, type PhantomFactorSlotValue } from './phantomData';
+import type { PhantomFactorSlotValue } from './phantomData';
 
 export interface FactorSlotProps {
   groupId: number;
   current: PhantomFactorSlotValue | null;
+  /** 未装着時に表示するグレード。装着時にはこの値が初期グレードとして使われる。 */
+  pendingGrade: number;
+  onPendingGradeChange: (grade: number) => void;
   options: DropdownOption[];
   getDesc: (classKey: string, grade: number) => string;
   unequippedLabel: string;
   onSet: (groupId: number, factor: PhantomFactorSlotValue | null) => void;
 }
 
-// FactorSlot: 保留中(未装着時)のグレード状態を自前で保持するコンポーネント
+// FactorSlot: 未装着時のグレードは呼び出し元(親)が保持する制御コンポーネント
+// (因子ランク一括変更が未装着スロットの表示値も上書きできるようにするため)。
 function FactorSlot({
   groupId,
   current,
+  pendingGrade,
+  onPendingGradeChange,
   options,
   getDesc,
   unequippedLabel,
   onSet,
 }: FactorSlotProps) {
-  const [pendingGrade, setPendingGrade] = useState(getDefaultFactorGrade);
   const grade = current?.grade ?? pendingGrade;
 
   const optionsWithDesc = useMemo(
@@ -55,7 +60,7 @@ function FactorSlot({
             if (current) {
               onSet(groupId, { ...current, grade: v });
             } else {
-              setPendingGrade(v);
+              onPendingGradeChange(v);
             }
           }}
         />
