@@ -22,7 +22,7 @@ import {
   POWER_CORE_EFFECT_IDS,
 } from '../stats/cookingBuff';
 import { deriveStats } from '../stats/deriveStats';
-import { calculateMasteryElementBonus } from '../stats/masteryElementBonus';
+import { calculateMasteryStatEffects } from '../stats/masteryElementBonus';
 import {
   buildTalentNodesById,
   countR1Nodes,
@@ -92,9 +92,9 @@ export const selectCookingAdjustments = memoize1(
   (...args: Parameters<typeof computeCookingAdjustments>) => computeCookingAdjustments(...args),
 );
 
-// 器用さ→属性ボーナス(クラス×型固有効果)を適用したrawStats。1スロットメモ化しないと
-// (masteryElementBonusが非nullの場合)毎回新規オブジェクトを返してしまい、useShallowでの
-// 参照比較が常に「変化あり」判定になって無限再レンダリングを引き起こす。
+// 器用さ→ステータス(クラス×型固有効果)を適用したrawStats。1スロットメモ化しないと
+// (効果が1件以上ある場合)毎回新規オブジェクトを返してしまい、useShallowでの参照比較が
+// 常に「変化あり」判定になって無限再レンダリングを引き起こす。
 const selectRawStatsWithMasteryBonus = memoize1(
   (
     rawStats: Record<StatId, number>,
@@ -102,17 +102,17 @@ const selectRawStatsWithMasteryBonus = memoize1(
     professionTypeKey: BuildStore['professionTypeKey'],
     finalMasteryPercent: number,
   ): Record<StatId, number> => {
-    const masteryElementBonus = calculateMasteryElementBonus(
+    const effects = calculateMasteryStatEffects(
       professionKey,
       professionTypeKey,
       finalMasteryPercent,
     );
-    if (!masteryElementBonus) return rawStats;
-    return {
-      ...rawStats,
-      [masteryElementBonus.statId]:
-        rawStats[masteryElementBonus.statId] + masteryElementBonus.addend,
-    };
+    if (effects.length === 0) return rawStats;
+    const result = { ...rawStats };
+    for (const { statId, addend } of effects) {
+      result[statId] += addend;
+    }
+    return result;
   },
 );
 
@@ -271,11 +271,12 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     cookingAdjustments,
   );
 
-  // 器用さ→属性ボーナス(クラス×型固有効果)。実際にキャラクターパネルに表示される最終
-  // 器用さ%(料理バフの「ひらめき」等も含めすべての調整が終わった後のstats.mastery)に
-  // 依存するため、calculateRawStats内では計算できずここで後付けする(highestStatFinalPctBonus等
-  // と同じ理由)。ELEMENT_BONUS_STAT側のrawStatsに直接加算し、蒼海武器レアステータス等の
-  // 既存の属性ボーナス直接加算と同じ表示経路(StatsDetailDialogのelemDirectBonusPercent)に乗せる。
+  // 器用さ→ステータス(クラス×型固有効果。属性ボーナス/バリア強度/回復力)。実際に
+  // キャラクターパネルに表示される最終器用さ%(料理バフの「ひらめき」等も含めすべての
+  // 調整が終わった後のstats.mastery)に依存するため、calculateRawStats内では計算できず
+  // ここで後付けする(highestStatFinalPctBonus等と同じ理由)。対象StatIdのrawStatsに
+  // 直接加算し、蒼海武器レアステータス等の既存の直接加算と同じ表示経路
+  // (StatsDetailDialogのelemDirectBonusPercent/バリア強度・回復力行)に乗せる。
   const rawStatsWithMasteryBonus = selectRawStatsWithMasteryBonus(
     rawStats,
     state.professionKey,
