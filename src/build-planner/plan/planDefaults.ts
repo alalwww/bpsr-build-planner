@@ -63,6 +63,12 @@ export const STATIC_AUTOSAVE_DEFAULTS = {
 // ロールスキルスロット数(バトルイマジンと同じ「4枠に選んで配置する」方式)。
 export const ROLE_SKILL_SLOT_COUNT = 4;
 
+// マスタリースキルの初期装着状態(先頭3個を装着済みにする)。セーブデータなし/リセット/
+// 転職のいずれでも同じ初期値になるよう、ここを唯一の参照元にする。
+export function defaultMasteryEquipped(skillCount: number): boolean[] {
+  return Array.from({ length: skillCount }, (_, i) => i < 3);
+}
+
 // プロフェッション依存のデフォルト値(マスタリースキル配列長・アビリティ初期解放ノード)。
 export function getDefaultProfessionState(professionKey: ProfessionKey) {
   const professionId = PROFESSIONS[professionKey].professionId;
@@ -74,7 +80,7 @@ export function getDefaultProfessionState(professionKey: ProfessionKey) {
   return {
     professionKey,
     professionTypeKey: 'type1' as const,
-    masteryEquipped: Array(skillCount).fill(false) as boolean[],
+    masteryEquipped: defaultMasteryEquipped(skillCount),
     masteryLevels: Array(skillCount).fill(30) as number[],
     masteryRanks: Array(skillCount).fill(6) as number[],
     talentR1EnabledIds: [...initTalentR1Ids(professionId)],

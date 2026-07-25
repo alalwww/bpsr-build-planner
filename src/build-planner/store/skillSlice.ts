@@ -3,16 +3,16 @@ import { swapAtIndex, withIndex } from '../arrayState';
 import { DEFAULT_PROFESSION_KEY, PROFESSIONS } from '../profession';
 import type { ProfessionKey } from '../profession';
 import { getClassData } from '../stats/gameData';
-import { getDefaultProfessionState, STATIC_AUTOSAVE_DEFAULTS } from '../plan/planDefaults';
+import {
+  defaultMasteryEquipped,
+  getDefaultProfessionState,
+  STATIC_AUTOSAVE_DEFAULTS,
+} from '../plan/planDefaults';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
 import type { BuildStore } from './types';
 
 export function normalSkillCount(profKey: ProfessionKey): number {
   return getClassData(PROFESSIONS[profKey].professionId)?.normalSkill.length ?? 0;
-}
-
-function initMasteryEquipped(size: number): boolean[] {
-  return Array(size).fill(false);
 }
 
 function initMasteryLevels(size: number): number[] {
@@ -64,7 +64,7 @@ export const createSkillSlice: StateCreator<BuildStore, [], [], SkillSlice> = (s
   const defaultProfessionState = getDefaultProfessionState(initialProfessionKey);
 
   return {
-    masteryEquipped: autoSaveOnMount?.masteryEquipped ?? initMasteryEquipped(defaultCount),
+    masteryEquipped: autoSaveOnMount?.masteryEquipped ?? defaultMasteryEquipped(defaultCount),
     masteryLevels: autoSaveOnMount?.masteryLevels ?? initMasteryLevels(defaultCount),
     masteryRanks: autoSaveOnMount?.masteryRanks ?? initMasteryRanks(defaultCount),
     fixedLevels: autoSaveOnMount?.fixedLevels ?? STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
@@ -125,7 +125,7 @@ export const createSkillSlice: StateCreator<BuildStore, [], [], SkillSlice> = (s
       const newCount = normalSkillCount(profKey);
       const newDefaults = getDefaultProfessionState(profKey);
       set({
-        masteryEquipped: initMasteryEquipped(newCount),
+        masteryEquipped: defaultMasteryEquipped(newCount),
         masteryLevels: initMasteryLevels(newCount),
         masteryRanks: initMasteryRanks(newCount),
         fixedLevels: STATIC_AUTOSAVE_DEFAULTS.fixedLevels,
