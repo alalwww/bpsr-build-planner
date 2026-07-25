@@ -345,8 +345,9 @@
 }
 
 .equipment-panel__weapon .equipment-slot__icon--gear {
-  transform: scale(1.15);
-  transform-origin: center;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
 }
 
 .equipment-panel__weapon .equipment-slot__refine {
