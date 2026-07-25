@@ -22,6 +22,7 @@ import {
   POWER_CORE_EFFECT_IDS,
 } from '../stats/cookingBuff';
 import { deriveStats } from '../stats/deriveStats';
+import { calculateMasteryElementBonus } from '../stats/masteryElementBonus';
 import {
   buildTalentNodesById,
   countR1Nodes,
@@ -89,6 +90,30 @@ export const selectFinalStatsResult = memoize1(
 
 export const selectCookingAdjustments = memoize1(
   (...args: Parameters<typeof computeCookingAdjustments>) => computeCookingAdjustments(...args),
+);
+
+// 器用さ→属性ボーナス(クラス×型固有効果)を適用したrawStats。1スロットメモ化しないと
+// (masteryElementBonusが非nullの場合)毎回新規オブジェクトを返してしまい、useShallowでの
+// 参照比較が常に「変化あり」判定になって無限再レンダリングを引き起こす。
+const selectRawStatsWithMasteryBonus = memoize1(
+  (
+    rawStats: Record<StatId, number>,
+    professionKey: BuildStore['professionKey'],
+    professionTypeKey: BuildStore['professionTypeKey'],
+    finalMasteryPercent: number,
+  ): Record<StatId, number> => {
+    const masteryElementBonus = calculateMasteryElementBonus(
+      professionKey,
+      professionTypeKey,
+      finalMasteryPercent,
+    );
+    if (!masteryElementBonus) return rawStats;
+    return {
+      ...rawStats,
+      [masteryElementBonus.statId]:
+        rawStats[masteryElementBonus.statId] + masteryElementBonus.addend,
+    };
+  },
 );
 
 const selectStatsWithCooking = memoize1(
@@ -246,6 +271,18 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     cookingAdjustments,
   );
 
+  // 器用さ→属性ボーナス(クラス×型固有効果)。実際にキャラクターパネルに表示される最終
+  // 器用さ%(料理バフの「ひらめき」等も含めすべての調整が終わった後のstats.mastery)に
+  // 依存するため、calculateRawStats内では計算できずここで後付けする(highestStatFinalPctBonus等
+  // と同じ理由)。ELEMENT_BONUS_STAT側のrawStatsに直接加算し、蒼海武器レアステータス等の
+  // 既存の属性ボーナス直接加算と同じ表示経路(StatsDetailDialogのelemDirectBonusPercent)に乗せる。
+  const rawStatsWithMasteryBonus = selectRawStatsWithMasteryBonus(
+    rawStats,
+    state.professionKey,
+    state.professionTypeKey,
+    stats.mastery,
+  );
+
   const abilityScore = selectAbilityScore({
     equipped: state.equipped,
     perfectlines: state.perfectlines,
@@ -277,7 +314,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
   });
 
   return {
-    rawStats,
+    rawStats: rawStatsWithMasteryBonus,
     rawStatsBreakdown,
     derivedStats,
     stats,
