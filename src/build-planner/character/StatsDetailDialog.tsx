@@ -255,6 +255,8 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
 
   // 属性耐性→属性軽減%(系列C)。全属性耐性も特定の属性には効果を発揮せず「全属性」枠のみに
   // 乗る。属性別の耐性ソースは現状ゲームデータに存在しないため、個別属性の行は常に0。
+  // allAttrResistBonusは収益逓減カーブを経由しない直接加算(器用さのクラス×型固有効果
+  // 「全属性耐性」等、ELEMENT_BONUS_STATと同じ設計)。
   const elemResistRows: { label: string; value: string }[] = [
     {
       label: elemName('all', 'resist'),
@@ -263,7 +265,8 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     {
       label: elemName('all', 'reduction'),
       value: fmtPct(
-        diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance),
+        diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance) +
+          rawStats.allAttrResistBonus / 100,
       ),
     },
     ...ELEMENTS.slice(1).flatMap((elem) => [

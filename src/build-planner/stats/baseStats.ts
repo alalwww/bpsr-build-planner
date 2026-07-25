@@ -63,4 +63,5 @@ export const BASE_STATS: Record<StatId, number> = {
   windBonus: 0,
   rockBonus: 0,
   lightBonus: 0,
+  allAttrResistBonus: 0,
 };

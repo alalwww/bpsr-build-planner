@@ -75,6 +75,14 @@ export const MASTERY_STAT_EFFECTS: Partial<
     // (resistDamageReductionは現状base30%固定で実数値からの加算経路が未実装のため対象外、
     // docs/STATUS_CALCULATION.md 4章「レジストダメージ軽減」参照)
   },
+  shieldFighter: {
+    // MasteryDes[0](光砕型): "器用さ1%につき光明の盾の取得効率+2.5%、全属性耐性+0.2%"
+    // (光明の盾の取得効率は対応StatIdなし、対象外)
+    type1: [{ statId: 'allAttrResistBonus', baseRatePerPoint: 0.2 }],
+    // MasteryDes[1](光盾型): "器用さ1%につき光盾障壁のHPブースト効果+3%、全属性耐性+0.2%"
+    // (光盾障壁のHPブースト効果は対応StatIdなし、対象外)
+    type2: [{ statId: 'allAttrResistBonus', baseRatePerPoint: 0.2 }],
+  },
 };
 
 // 器用さ%(収益逓減カーブ・finalPctAddend・料理バフ等すべて適用済みの最終表示値)から、

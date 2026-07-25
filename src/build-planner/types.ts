@@ -60,7 +60,8 @@ export type StatId =
   | 'thunderBonus'
   | 'windBonus'
   | 'rockBonus'
-  | 'lightBonus';
+  | 'lightBonus'
+  | 'allAttrResistBonus';
 
 export interface StatDefinition {
   id: StatId;

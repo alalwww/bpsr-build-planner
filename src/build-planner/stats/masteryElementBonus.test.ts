@@ -4,7 +4,7 @@ import { calculateMasteryStatEffects } from './masteryElementBonus';
 
 describe('calculateMasteryStatEffects', () => {
   it('returns no effects for a class/type with no mastery conversion', () => {
-    expect(calculateMasteryStatEffects('shieldFighter', 'type1', 6)).toEqual([]);
+    expect(calculateMasteryStatEffects('stormBlade', 'type1', 6)).toEqual([]);
   });
 
   it('returns no effects when mastery is 0', () => {
@@ -64,5 +64,15 @@ describe('calculateMasteryStatEffects', () => {
 
   it('returns no effects for ヘヴィガーディアン剛守型 (レジストダメージ軽減は未実装)', () => {
     expect(calculateMasteryStatEffects('heavyGuardian', 'type2', 6)).toEqual([]);
+  });
+
+  it('applies allAttrResistBonus for シールドファイター光砕型/光盾型 (0.2%/pt)', () => {
+    const [type1] = calculateMasteryStatEffects('shieldFighter', 'type1', 6);
+    const [type2] = calculateMasteryStatEffects('shieldFighter', 'type2', 6);
+
+    expect(type1.statId).toBe('allAttrResistBonus');
+    expect(type1.addend / 100).toBeCloseTo(1.2);
+    expect(type2.statId).toBe('allAttrResistBonus');
+    expect(type2.addend / 100).toBeCloseTo(1.2);
   });
 });
