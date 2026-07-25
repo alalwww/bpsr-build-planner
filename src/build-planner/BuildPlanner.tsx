@@ -6,6 +6,7 @@ import './components/components.css';
 import CharacterPanel from './character/CharacterPanel';
 import EquipmentPanel from './equipment/EquipmentPanel';
 import ModulePanel from './module/ModulePanel';
+import { getSTAsset, iconPathToFile, stData } from './phantom/phantomData';
 import PhantomPanel from './phantom/PhantomPanel';
 import { PROFESSIONS } from './profession';
 import SkillPanel from './skill/SkillPanel';
@@ -60,11 +61,23 @@ function BuildPlanner() {
     setAppMenuOpen(false);
   };
 
-  const { professionKey, professionTypeKey } = useBuildStore(
-    useShallow((s) => ({ professionKey: s.professionKey, professionTypeKey: s.professionTypeKey })),
+  const { professionKey, professionTypeKey, phantomEnabled, phantomTemplateId } = useBuildStore(
+    useShallow((s) => ({
+      professionKey: s.professionKey,
+      professionTypeKey: s.professionTypeKey,
+      phantomEnabled: s.phantomEnabled,
+      phantomTemplateId: s.phantomTemplateId,
+    })),
   );
   const selectProfessionType = useBuildStore((s) => s.selectProfessionType);
   const profession = PROFESSIONS[professionKey];
+  // 潜在タブに表示する心相投影アイコン。有効時は選択中ツリーのアイコン、無効時は
+  // 同サイズの灰色の丸(潜在Lv自体は無効化されないので「潜在」自体が無効という
+  // 誤解を避けるため、テキストの(有効/無効)表記ではなくアイコンで示す)。
+  const phantomTemplateIcon =
+    phantomTemplateId != null ? stData.templates[String(phantomTemplateId)]?.icon : undefined;
+  const phantomTabIconUrl =
+    phantomEnabled && phantomTemplateIcon ? getSTAsset(iconPathToFile(phantomTemplateIcon)) : null;
 
   const [activeTab, setActiveTab] = useState<Tab>('skill');
   const [showTalentTree, setShowTalentTree] = useState(false);
@@ -96,6 +109,16 @@ function BuildPlanner() {
                 onClick={() => handleTabClick(tab)}
               >
                 {t(`buildPlanner.tabs.${tab}`)}
+                {tab === 'phantom' &&
+                  (phantomTabIconUrl ? (
+                    <img
+                      src={phantomTabIconUrl}
+                      className="build-planner__tab-phantom-icon"
+                      alt=""
+                    />
+                  ) : (
+                    <span className="build-planner__tab-phantom-icon build-planner__tab-phantom-icon--off" />
+                  ))}
               </button>
             ))}
             <div className="build-planner__nav-right">

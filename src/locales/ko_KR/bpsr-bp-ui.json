@@ -342,6 +342,7 @@
       "enabledOn": "활성화",
       "enabledOff": "비활성화",
       "enabledLockedTitle": "선택한 트리가 아직 해금되지 않아 ON으로 할 수 없습니다",
+      "disabledNotice": "심상 투영이 비활성화되어 있어 유대 레벨 효과 및 각 노드 효과가 스탯에 반영되지 않습니다",
       "resetTooltip": "클릭하면 초기화됩니다"
     },
     "detailStats": {

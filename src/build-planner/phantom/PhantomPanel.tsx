@@ -244,18 +244,25 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
         <div className="phantom-body">
           {/* 左: ツリー描画 */}
           <div className="phantom-tree-wrapper">
-            {/* ズームコントロール（スクロール外に固定） */}
-            <ZoomControls
-              zoom={zoom}
-              min={ZOOM_MIN}
-              max={ZOOM_MAX}
-              step={ZOOM_STEP}
-              onChange={setZoom}
-              resetTitle={t('buildPlanner.phantom.resetTooltip')}
-              className="phantom-zoom-controls"
-              buttonClassName="phantom-zoom-btn"
-              percentClassName="phantom-zoom-pct"
-            />
+            {/* ヘッダー（スクロール外に固定）: 無効時の注意書き(左詰め) + ズームコントロール */}
+            <div className="phantom-tree-header">
+              {!phantomEnabled && (
+                <span className="phantom-tree-header__notice">
+                  {t('buildPlanner.phantom.disabledNotice')}
+                </span>
+              )}
+              <ZoomControls
+                zoom={zoom}
+                min={ZOOM_MIN}
+                max={ZOOM_MAX}
+                step={ZOOM_STEP}
+                onChange={setZoom}
+                resetTitle={t('buildPlanner.phantom.resetTooltip')}
+                className="phantom-zoom-controls"
+                buttonClassName="phantom-zoom-btn"
+                percentClassName="phantom-zoom-pct"
+              />
+            </div>
             <div
               className="phantom-tree-area"
               ref={treeAreaRef}

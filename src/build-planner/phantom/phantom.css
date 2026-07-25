@@ -139,19 +139,37 @@
   cursor: grab;
 }
 
-/* ズームコントロール（スクロール外に固定） */
+/* ヘッダー（スクロール外に固定）: 無効時の注意書き(左詰め) + ズームコントロール(右詰め) */
+.phantom-tree-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+  background: rgba(30, 10, 20, 0.65);
+  border-bottom: 1px solid #2a2a33;
+  position: absolute;
+  width: calc(100% - 22px);
+  z-index: 1;
+}
+
+.phantom-tree-header__notice {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #e0a15e;
+}
+
 .phantom-zoom-controls {
   display: flex;
   align-items: center;
   gap: 2px;
-  padding: 3px 6px;
-  justify-content: flex-end;
-  background: rgba(30, 10, 20, 0.65);
-  border-bottom: 1px solid #2a2a33;
   flex-shrink: 0;
-  position: absolute;
-  width: calc(100% - 22px);
-  z-index: 1;
+  /* 注意書き(.phantom-tree-header__notice)の有無に関わらず右詰めにする。
+     justify-content: space-between だと注意書きが消えた際に子要素が1つになり、
+     左詰めになってしまうため使わない。 */
+  margin-left: auto;
 }
 
 .phantom-zoom-btn {

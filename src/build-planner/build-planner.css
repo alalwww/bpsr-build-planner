@@ -216,6 +216,22 @@
   cursor: default;
 }
 
+/* 潜在タブの心相投影アイコン。有効時は選択中ツリーのアイコン、無効時は同サイズの
+   灰色の丸(テキストで(有効/無効)を出すと潜在Lv自体が無効という誤解を招くため)。 */
+.build-planner__tab-phantom-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.build-planner__tab-phantom-icon--off {
+  background: #555;
+}
+
 .build-planner__content {
   display: flex;
   flex: 1;

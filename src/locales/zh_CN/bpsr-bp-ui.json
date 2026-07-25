@@ -342,6 +342,7 @@
       "enabledOn": "启用",
       "enabledOff": "禁用",
       "enabledLockedTitle": "所选树尚未解锁，无法开启",
+      "disabledNotice": "心相投影已禁用，羁绊等级效果及各节点效果不会反映到属性中",
       "resetTooltip": "点击重置"
     },
     "detailStats": {

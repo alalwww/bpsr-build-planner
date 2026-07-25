@@ -342,6 +342,7 @@
       "enabledOn": "Enabled",
       "enabledOff": "Disabled",
       "enabledLockedTitle": "Can't enable: the selected tree isn't unlocked yet",
+      "disabledNotice": "Phantom Projection is disabled, so Bond Level effects and node effects aren't applied to your stats",
       "resetTooltip": "Click to reset"
     },
     "detailStats": {
