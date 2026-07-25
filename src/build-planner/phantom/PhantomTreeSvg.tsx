@@ -12,10 +12,12 @@ const CX = SVG_VW / 2;
 const R_ROOT = 44;
 const R_NODE = 32;
 const R_FACTOR = 32;
-const BRANCH_OFFSET = 96;
+// 分岐(左右2点)から合流(下1点)までの菱形の対角線が正方形になるよう、
+// 分岐の横オフセットは分岐~合流の縦距離(ROW_H)と同じ値にする。
+const BRANCH_OFFSET = ROW_H;
 
-function nodePos(si: number, mi: number, total: number): [number, number] {
-  const y = si * ROW_H + ROW_H / 2;
+function nodePos(row: number, mi: number, total: number): [number, number] {
+  const y = row * ROW_H + ROW_H / 2;
   let x: number;
   if (total === 2) {
     x = mi === 0 ? CX - BRANCH_OFFSET : CX + BRANCH_OFFSET;
@@ -25,6 +27,20 @@ function nodePos(si: number, mi: number, total: number): [number, number] {
     x = CX;
   }
   return [x, y];
+}
+
+// 「分岐の共通の親からもう1本生えているだけの単独ノード(例: 真実ノード)」かどうかを判定する。
+// このようなノードは合流には参加せず、分岐と同じ行の中央に添える形で配置し、
+// 専用の行を消費しない(その分だけ後続行を詰める)。
+function isAttachedLeaf(step: TreeStep, prevStep: TreeStep | null): boolean {
+  if (step.nodeIds.length !== 1 || prevStep == null || prevStep.nodeIds.length < 2) return false;
+  const leaf = stData.treeNodes[String(step.nodeIds[0])];
+  if (!leaf || leaf.preNodes.length !== 1) return false;
+  const parentId = leaf.preNodes[0];
+  return prevStep.nodeIds.every((id) => {
+    const n = stData.treeNodes[String(id)];
+    return n != null && n.preNodes.length === 1 && n.preNodes[0] === parentId;
+  });
 }
 
 interface PhantomTreeSvgProps {
@@ -55,38 +71,30 @@ export default function PhantomTreeSvg({
   // パス上アクティブ、かつ潜在Lvがそのノードの開放Lvに達している場合のみ「取得済み」扱い。
   const isEffectivelyActive = (nodeId: number) =>
     visuallyActiveNodeIds.has(nodeId) && levelUnlockedNodeIds.has(nodeId);
-  const nodePositions = useMemo(() => {
+  // 各ステップに行(row)を割り当てて座標化する。「真実」ノードのような、分岐の共通の親から
+  // もう1本生えているだけの単独ノードは合流に参加しないため、専用の行を割かず分岐と同じ行の
+  // 中央に配置する(ゲーム内表示と同じレイアウト)。
+  const { nodePositions, rowCount } = useMemo(() => {
     const map = new Map<number, [number, number]>();
+    let row = 0;
     treeSteps.forEach((step, idx) => {
+      const prevStep = idx > 0 ? treeSteps[idx - 1] : null;
+      if (isAttachedLeaf(step, prevStep)) {
+        const branchY = map.get(prevStep!.nodeIds[0])?.[1] ?? row * ROW_H + ROW_H / 2;
+        map.set(step.nodeIds[0], [CX, branchY]);
+        return;
+      }
       step.nodeIds.forEach((nodeId, mi) => {
-        map.set(nodeId, nodePos(idx, mi, step.nodeIds.length));
+        map.set(nodeId, nodePos(row, mi, step.nodeIds.length));
       });
+      row += 1;
     });
-    return map;
-  }, [treeSteps]);
-
-  const nodeRadii = useMemo(() => {
-    const map = new Map<number, number>();
-    treeSteps.forEach((step, si) => {
-      step.nodeIds.forEach((nid) => {
-        const node = stData.treeNodes[String(nid)];
-        if (!node) {
-          map.set(nid, R_NODE);
-          return;
-        }
-        if (node.nodeType === 2) {
-          map.set(nid, R_FACTOR);
-          return;
-        }
-        map.set(nid, si === 0 ? R_ROOT : R_NODE);
-      });
-    });
-    return map;
+    return { nodePositions: map, rowCount: row };
   }, [treeSteps]);
 
   const childrenMap = useMemo(() => buildChildrenMap(phantomTemplateId), [phantomTemplateId]);
 
-  const svgHeight = treeSteps.length * ROW_H;
+  const svgHeight = rowCount * ROW_H;
 
   const renderLines = () =>
     treeSteps.flatMap((step) =>
@@ -94,25 +102,22 @@ export default function PhantomTreeSvg({
         const pos = nodePositions.get(nodeId);
         if (!pos) return [];
         const [nx, ny] = pos;
-        const fromR = nodeRadii.get(nodeId) ?? R_NODE;
-        const fromY = ny + fromR;
         return (childrenMap.get(nodeId) ?? []).flatMap((nextId) => {
           const nextPos = nodePositions.get(nextId);
           if (!nextPos) return [];
           const [nnx, nny] = nextPos;
-          const toR = nodeRadii.get(nextId) ?? R_NODE;
-          const toY = nny - toR;
           const isActivePath = isEffectivelyActive(nodeId) && isEffectivelyActive(nextId);
           return [
             <line
               key={`${nodeId}-${nextId}`}
               x1={nx}
-              y1={fromY}
+              y1={ny}
               x2={nnx}
-              y2={toY}
-              stroke={isActivePath ? '#f4a13a' : '#2a2a3a'}
+              y2={nny}
+              stroke={isActivePath ? '#ffb3d7' : '#2a2a3a'}
               strokeWidth={isActivePath ? 4 : 2}
               strokeDasharray={isActivePath ? undefined : '5 3'}
+              filter={isActivePath ? 'url(#phantom-tree-glow)' : undefined}
             />,
           ];
         });
@@ -135,7 +140,7 @@ export default function PhantomTreeSvg({
       const oe = stData.ordinaryEffects[String(nodeId)];
       const iconFile = oe ? iconPathToFile(oe.icon) : '';
       const bgFile = isRoot
-        ? 'img_season_talent_tree_big_bg_select.png'
+        ? 'img_season_talent_tree_quality5.png'
         : isActive
           ? 'img_season_talent_tree_bg2.png'
           : 'img_season_talent_tree_bg2_lock.png';
@@ -162,14 +167,12 @@ export default function PhantomTreeSvg({
             <circle cx={nx} cy={ny} r={r + 4} fill="none" stroke="#ffffff" strokeWidth={3} />
           )}
           {isSelected && (
-            <circle
-              cx={nx}
-              cy={ny}
-              r={r + 6}
-              fill="none"
-              stroke="#ffe066"
-              strokeWidth={3}
-              strokeDasharray="5 3"
+            <image
+              href={getSTAsset('img_season_talent_tree_big_bg_select.png')}
+              x={nx - (r + 8)}
+              y={ny - (r + 8)}
+              width={(r + 8) * 2}
+              height={(r + 8) * 2}
             />
           )}
         </g>
@@ -215,14 +218,12 @@ export default function PhantomTreeSvg({
             />
           )}
           {isSelected && (
-            <circle
-              cx={nx}
-              cy={ny}
-              r={r + 6}
-              fill="none"
-              stroke="#ffe066"
-              strokeWidth={3}
-              strokeDasharray="5 3"
+            <image
+              href={getSTAsset('img_season_talent_tree_big_bg_select.png')}
+              x={nx - (r + 8)}
+              y={ny - (r + 8)}
+              width={(r + 8) * 2}
+              height={(r + 8) * 2}
             />
           )}
         </g>
@@ -237,6 +238,23 @@ export default function PhantomTreeSvg({
       height={svgHeight * zoom}
       className="phantom-tree-svg"
     >
+      <defs>
+        {/* filterUnits既定だと真横/真縦のlineはbboxの幅または高さが0になり描画されなくなるため、userSpaceOnUseで回避 */}
+        <filter
+          id="phantom-tree-glow"
+          filterUnits="userSpaceOnUse"
+          x={-20}
+          y={-20}
+          width={SVG_VW + 40}
+          height={svgHeight + 40}
+        >
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
       {renderLines()}
       {treeSteps.flatMap((step, si) => step.nodeIds.map((nodeId) => renderNode(nodeId, si)))}
     </svg>
