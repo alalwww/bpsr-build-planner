@@ -210,7 +210,9 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
           />
           <button
             type="button"
-            className={`phantom-enabled-toggle${phantomEnabled ? ' phantom-enabled-toggle--on' : ' phantom-enabled-toggle--off'}`}
+            role="switch"
+            aria-checked={phantomEnabled}
+            className={`phantom-enabled-switch${phantomEnabled ? ' phantom-enabled-switch--on' : ''}`}
             onClick={() => onPhantomEnabledChange(!phantomEnabled)}
             disabled={!phantomEnabled && currentTemplateLocked}
             title={
@@ -223,9 +225,14 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                   : t('buildPlanner.phantom.enabledOff')
             }
           >
-            {phantomEnabled
-              ? t('buildPlanner.phantom.enabledOn')
-              : t('buildPlanner.phantom.enabledOff')}
+            <span className="phantom-enabled-switch__track">
+              <span className="phantom-enabled-switch__thumb" />
+            </span>
+            <span className="phantom-enabled-switch__label">
+              {phantomEnabled
+                ? t('buildPlanner.phantom.enabledOn')
+                : t('buildPlanner.phantom.enabledOff')}
+            </span>
           </button>
         </div>
       </div>

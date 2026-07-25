@@ -339,8 +339,8 @@
       "factorDuplicateConfirm": "Swap",
       "pathUndecided": "(Path undecided)",
       "bulkGradeLabel": "Bulk grade adjust",
-      "enabledOn": "ON",
-      "enabledOff": "OFF",
+      "enabledOn": "Enabled",
+      "enabledOff": "Disabled",
       "enabledLockedTitle": "Can't enable: the selected tree isn't unlocked yet",
       "resetTooltip": "Click to reset"
     },

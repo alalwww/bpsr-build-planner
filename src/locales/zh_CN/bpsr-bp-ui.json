@@ -339,8 +339,8 @@
       "factorDuplicateConfirm": "互换",
       "pathUndecided": "（路径未确定）",
       "bulkGradeLabel": "因子等级批量调整",
-      "enabledOn": "开",
-      "enabledOff": "关",
+      "enabledOn": "启用",
+      "enabledOff": "禁用",
       "enabledLockedTitle": "所选树尚未解锁，无法开启",
       "resetTooltip": "点击重置"
     },

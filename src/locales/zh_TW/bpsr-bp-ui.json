@@ -339,8 +339,8 @@
       "factorDuplicateConfirm": "互換",
       "pathUndecided": "（路徑未確定）",
       "bulkGradeLabel": "因子等級批量調整",
-      "enabledOn": "開",
-      "enabledOff": "關",
+      "enabledOn": "啟用",
+      "enabledOff": "停用",
       "enabledLockedTitle": "所選樹尚未解鎖，無法開啟",
       "resetTooltip": "點擊重置"
     },
