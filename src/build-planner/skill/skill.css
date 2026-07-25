@@ -230,7 +230,7 @@
   height: 16px;
   border: 1.5px solid #555565;
   border-radius: 3px;
-  background: transparent;
+  background: #26262f;
   padding: 0;
   flex-shrink: 0;
   cursor: pointer;
