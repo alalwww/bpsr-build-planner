@@ -88,8 +88,6 @@ function BuildPlanner() {
     setShowTalentTree(false);
   };
 
-  const isPhantomTab = !showTalentTree && activeTab === 'phantom';
-
   return (
     <>
       <div className="build-planner">
@@ -169,9 +167,7 @@ function BuildPlanner() {
               )}
             </div>
           </nav>
-          <div
-            className={`build-planner__content${isPhantomTab ? ' build-planner__content--phantom' : ''}`}
-          >
+          <div className="build-planner__content">
             {showTalentTree ? (
               <TalentTreePanel
                 professionKey={professionKey}
