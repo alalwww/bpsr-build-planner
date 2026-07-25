@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import perfectlineLockIconUrl from '../../assets/ui/profession_icon_lock01.png';
 import FloatingTooltip from '../components/FloatingTooltip';
 import StatRow from '../components/StatRow';
 import {
@@ -146,15 +147,25 @@ function EquipmentItemPopup({
             {sliderValue}/{maxPerfectline}
           </span>
         </label>
-        <input
-          type="range"
-          className="equipment-dialog__slider"
-          min={1}
-          max={100}
-          value={sliderValue}
-          readOnly
-          tabIndex={-1}
-        />
+        <div className="equipment-dialog__slider-wrap">
+          <input
+            type="range"
+            className="equipment-dialog__slider"
+            min={1}
+            max={100}
+            value={sliderValue}
+            readOnly
+            tabIndex={-1}
+          />
+          {maxPerfectline < 100 && (
+            <img
+              src={perfectlineLockIconUrl}
+              alt=""
+              className="equipment-dialog__slider-lock"
+              style={{ left: `${maxPerfectline}%` }}
+            />
+          )}
+        </div>
       </div>
 
       {item.baseStats.length > 0 && (

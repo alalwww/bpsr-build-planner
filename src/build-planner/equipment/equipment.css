@@ -595,6 +595,19 @@
   cursor: not-allowed;
 }
 
+.equipment-dialog__slider-wrap {
+  position: relative;
+}
+
+.equipment-dialog__slider-lock {
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  transform: translate(-15px, -60%);
+  pointer-events: none;
+}
+
 /* Equipment detail sections */
 
 .equip-details-section {

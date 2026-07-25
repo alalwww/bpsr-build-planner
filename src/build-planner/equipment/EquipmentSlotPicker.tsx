@@ -1,6 +1,7 @@
 import { Fragment, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import perfectlineLockIconUrl from '../../assets/ui/profession_icon_lock01.png';
 import Chevron from '../components/Chevron';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useSessionState } from '../components/useSessionState';
@@ -561,15 +562,25 @@ function EquipmentSlotPicker({
                 {t('buildPlanner.perfectline')}
                 <span className="equipment-dialog__slider-value">{sliderDisplay}</span>
               </label>
-              <input
-                type="range"
-                className="equipment-dialog__slider"
-                min={1}
-                max={100}
-                value={sliderValue}
-                onChange={(e) => onPerfectline(Math.min(Number(e.target.value), maxPerfectline))}
-                disabled={sliderDisabled}
-              />
+              <div className="equipment-dialog__slider-wrap">
+                <input
+                  type="range"
+                  className="equipment-dialog__slider"
+                  min={1}
+                  max={100}
+                  value={sliderValue}
+                  onChange={(e) => onPerfectline(Math.min(Number(e.target.value), maxPerfectline))}
+                  disabled={sliderDisabled}
+                />
+                {maxPerfectline < 100 && (
+                  <img
+                    src={perfectlineLockIconUrl}
+                    alt=""
+                    className="equipment-dialog__slider-lock"
+                    style={{ left: `${maxPerfectline}%` }}
+                  />
+                )}
+              </div>
             </div>
 
             {/* この部位で増える能力スコアと内訳 */}
