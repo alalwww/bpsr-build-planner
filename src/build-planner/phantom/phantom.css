@@ -94,6 +94,7 @@
   flex-direction: column;
   overflow: hidden;
   border-right: 1px solid #2a2a33;
+  position: relative;
 }
 
 .phantom-tree-area {
@@ -101,9 +102,9 @@
   overflow-y: auto;
   overflow-x: auto;
   padding: 4px 0 4px;
-  background:
-    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(255, 210, 230, 0.22) 0%, transparent 70%),
-    linear-gradient(to bottom, #2a0e1c 0%, #6b2845 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   cursor: grab;
 }
 
@@ -114,9 +115,12 @@
   gap: 2px;
   padding: 3px 6px;
   justify-content: flex-end;
-  background: rgba(30, 10, 20, 0.85);
+  background: rgba(30, 10, 20, 0.65);
   border-bottom: 1px solid #2a2a33;
   flex-shrink: 0;
+  position: absolute;
+  width: calc(100% - 22px);
+  z-index: 1;
 }
 
 .phantom-zoom-btn {
@@ -166,7 +170,7 @@
 
 .phantom-tree-svg {
   display: block;
-  margin: 0 auto;
+  margin: 300px auto;
 }
 
 .phantom-right {

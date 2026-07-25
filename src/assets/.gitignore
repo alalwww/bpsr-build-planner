@@ -351,8 +351,6 @@ modules/mod_effect_icon_047.png
 
 ## src/assets/season_talents/ (117件)
 # 背景系(3件)
-season_talents/img_season_talent_tree_bg1.png
-season_talents/img_season_talent_tree_bg2_select.png
 season_talents/img_season_talent_tree_bg3.png
 # クラスバッジ系・phantom-factors.jsonのicon命名規則(yinzi_s2_01_NNN)と一致しない(30件)
 season_talents/yinzi_s2_prof_101.png

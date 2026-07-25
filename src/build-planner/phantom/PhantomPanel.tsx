@@ -226,14 +226,17 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
               buttonClassName="phantom-zoom-btn"
               percentClassName="phantom-zoom-pct"
             />
-            <div className="phantom-tree-area" ref={treeAreaRef}>
+            <div
+              className="phantom-tree-area"
+              ref={treeAreaRef}
+              style={{ backgroundImage: `url(${getSTAsset('virtual_scene_bg_24.png')})` }}
+            >
               <PhantomTreeSvg
                 treeSteps={treeSteps}
                 phantomTemplateId={phantomTemplateId}
                 visuallyActiveNodeIds={visuallyActiveNodeIds}
                 levelUnlockedNodeIds={levelUnlockedNodeIds}
                 selectedNodeId={selectedNodeId}
-                phantomNodeSelections={phantomNodeSelections}
                 phantomFactorSlots={phantomFactorSlots}
                 zoom={zoom}
                 onToggleNode={toggleSelectedNode}

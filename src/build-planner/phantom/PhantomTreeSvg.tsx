@@ -9,14 +9,11 @@ import { buildChildrenMap, getSTAsset, iconPathToFile, pfData, stData } from './
 const ROW_H = 140;
 const SVG_VW = 480;
 const CX = SVG_VW / 2;
-const R_ROOT = 44;
-const R_NODE = 32;
-const R_FACTOR = 32;
-// 分岐(左右2点)から合流(下1点)までの菱形の対角線が正方形になるよう、
-// 分岐の横オフセットは分岐~合流の縦距離(ROW_H)と同じ値にする。
-const BRANCH_OFFSET = ROW_H;
 
 function nodePos(row: number, mi: number, total: number): [number, number] {
+  // 分岐(左右2点)から合流(下1点)までの菱形の対角線が正方形になるよう、
+  // 分岐の横オフセットは分岐~合流の縦距離(ROW_H)と同じ値にする。
+  const BRANCH_OFFSET = ROW_H;
   const y = row * ROW_H + ROW_H / 2;
   let x: number;
   if (total === 2) {
@@ -51,7 +48,6 @@ interface PhantomTreeSvgProps {
   /** 潜在Lvがノード個別の開放Lvに達しているノードの集合。未達なら不活性表示にする。 */
   levelUnlockedNodeIds: ReadonlySet<number>;
   selectedNodeId: number | null;
-  phantomNodeSelections: Record<number, number>;
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
   zoom: number;
   onToggleNode: (nodeId: number) => void;
@@ -63,7 +59,6 @@ export default function PhantomTreeSvg({
   visuallyActiveNodeIds,
   levelUnlockedNodeIds,
   selectedNodeId,
-  phantomNodeSelections,
   phantomFactorSlots,
   zoom,
   onToggleNode,
@@ -114,7 +109,7 @@ export default function PhantomTreeSvg({
               y1={ny}
               x2={nnx}
               y2={nny}
-              stroke={isActivePath ? '#ffb3d7' : '#2a2a3a'}
+              stroke={isActivePath ? 'rgb(255 170 238 / 0.71)' : '#323232'}
               strokeWidth={isActivePath ? 4 : 2}
               strokeDasharray={isActivePath ? undefined : '5 3'}
               filter={isActivePath ? 'url(#phantom-tree-glow)' : undefined}
@@ -131,20 +126,23 @@ export default function PhantomTreeSvg({
     const isActive = isEffectivelyActive(nodeId);
     const isSelected = selectedNodeId === nodeId;
     const isRoot = si === 0;
-    const isChosenChoice =
-      node.sameGroupId !== 0 && phantomNodeSelections[node.sameGroupId] === nodeId;
     const handleClick = () => onToggleNode(nodeId);
 
     if (node.nodeType === 1) {
-      const r = isRoot ? R_ROOT : R_NODE;
       const oe = stData.ordinaryEffects[String(nodeId)];
       const iconFile = oe ? iconPathToFile(oe.icon) : '';
       const bgFile = isRoot
-        ? 'img_season_talent_tree_quality5.png'
+        ? 'img_season_talent_tree_bg1.png'
         : isActive
           ? 'img_season_talent_tree_bg2.png'
           : 'img_season_talent_tree_bg2_lock.png';
-      const iconR = r * 0.68;
+      const r = isRoot ? 44 : 32;
+      const iconR = isRoot ? r * 0.85 : r * 0.68;
+      const bgWidth = isRoot ? r * 6 : r * 2;
+      const bgHeight = isRoot ? r * 2.75 : r * 2;
+      const bgXOffset = isRoot ? r * 3.03 : r;
+      const bgYOffset = isRoot ? r * 1.2 : r;
+      const iconOpacity = isRoot ? 0.8 : undefined;
       return (
         <g
           key={nodeId}
@@ -152,7 +150,13 @@ export default function PhantomTreeSvg({
           onClick={handleClick}
           style={{ cursor: 'pointer' }}
         >
-          <image href={getSTAsset(bgFile)} x={nx - r} y={ny - r} width={r * 2} height={r * 2} />
+          <image
+            href={getSTAsset(bgFile)}
+            x={nx - bgXOffset}
+            y={ny - bgYOffset}
+            width={bgWidth}
+            height={bgHeight}
+          />
           {iconFile && (
             <image
               href={getSTAsset(iconFile)}
@@ -160,15 +164,13 @@ export default function PhantomTreeSvg({
               y={ny - iconR}
               width={iconR * 2}
               height={iconR * 2}
+              opacity={iconOpacity}
             />
           )}
           {!isActive && !isRoot && <circle cx={nx} cy={ny} r={r} fill="rgba(0,0,0,0.5)" />}
-          {isChosenChoice && (
-            <circle cx={nx} cy={ny} r={r + 4} fill="none" stroke="#ffffff" strokeWidth={3} />
-          )}
           {isSelected && (
             <image
-              href={getSTAsset('img_season_talent_tree_big_bg_select.png')}
+              href={getSTAsset('img_season_talent_tree_bg2_select.png')}
               x={nx - (r + 8)}
               y={ny - (r + 8)}
               width={(r + 8) * 2}
@@ -178,7 +180,7 @@ export default function PhantomTreeSvg({
         </g>
       );
     } else {
-      const r = R_FACTOR;
+      const r = 32;
       const slot = stData.intermediateSlots[String(nodeId)];
       const qualityFile = slot ? iconPathToFile(slot.icon) : 'img_season_talent_tree_quality1.png';
       const current = phantomFactorSlots[node.groupId] ?? null;
