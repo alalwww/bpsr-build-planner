@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './phantom.css';
@@ -73,6 +73,29 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   // ツリー側のノード選択とノード設定側の該当行は同じ selectedNodeId を共有し、相互に強調表示する。
   const toggleSelectedNode = (nodeId: number) =>
     setSelectedNodeId((prev) => (prev === nodeId ? null : nodeId));
+  // 選択操作がツリー/設定リストどちらで行われたかを記録し、選択が変わるたびに
+  // 「操作していない側」だけを自動スクロールして選択中の行/ノードを画面内に収める。
+  const selectionOriginRef = useRef<'tree' | 'config' | null>(null);
+  const onToggleNodeFromTree = (nodeId: number) => {
+    selectionOriginRef.current = 'tree';
+    toggleSelectedNode(nodeId);
+  };
+  const onToggleNodeFromConfig = (nodeId: number) => {
+    selectionOriginRef.current = 'config';
+    toggleSelectedNode(nodeId);
+  };
+  useEffect(() => {
+    if (selectedNodeId == null) return;
+    if (selectionOriginRef.current === 'tree') {
+      document
+        .querySelector('.phantom-node-config .phantom-config-row--highlight')
+        ?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    } else if (selectionOriginRef.current === 'config') {
+      document
+        .querySelector('.phantom-tree-area .phantom-tree-node[data-selected="true"]')
+        ?.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+    }
+  }, [selectedNodeId]);
   const [descOpen, setDescOpen] = useState(true);
   const {
     zoom,
@@ -239,7 +262,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                 selectedNodeId={selectedNodeId}
                 phantomFactorSlots={phantomFactorSlots}
                 zoom={zoom}
-                onToggleNode={toggleSelectedNode}
+                onToggleNode={onToggleNodeFromTree}
               />
             </div>
           </div>
@@ -285,7 +308,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
               phantomNodeSelections={phantomNodeSelections}
               phantomFactorSlots={phantomFactorSlots}
               professionId={professionId}
-              onToggleNode={toggleSelectedNode}
+              onToggleNode={onToggleNodeFromConfig}
               onPhantomNodeSelection={onPhantomNodeSelection}
               onPhantomFactorSlot={onPhantomFactorSlot}
             />

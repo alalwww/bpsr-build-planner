@@ -149,6 +149,7 @@ export default function PhantomTreeSvg({
           className="phantom-tree-node"
           onClick={handleClick}
           style={{ cursor: 'pointer' }}
+          data-selected={isSelected || undefined}
         >
           <image
             href={getSTAsset(bgFile)}
@@ -193,6 +194,7 @@ export default function PhantomTreeSvg({
           className="phantom-tree-node"
           onClick={handleClick}
           style={{ cursor: 'pointer' }}
+          data-selected={isSelected || undefined}
         >
           <image
             href={getSTAsset(qualityFile)}
