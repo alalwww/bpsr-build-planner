@@ -593,16 +593,15 @@ function extractEquipment(langDir) {
     return stats;
   }
 
-  // 伝説刻印: AllowPart=[] は武器部位にのみ適用される。
-  // (実測: EquipAttrLibTable上、知力/敏捷アクセサリ用libId(例 5021002/5021003)の
-  // ブレイク効率/主要ステータスUP(11024/11034等)がAllowPart=[]のまま登録されているが、
-  // 筋力用libId(5021001)の対応行はAllowPart=[205,206,207,210]/[200]と明示されている
-  // ことから、これはアクセサリ側では選択不可のデータ側の記入漏れと判断。かつて
-  // AllowPart=[]を「防具以外(武器+アクセサリ)に適用」と解釈していたため、アクセサリの
-  // レアステータス選択肢にブレイク効率・知力UP等が誤って混入していた。武器(EquipPart=200)
-  // 側は他の全ステータスと同様に個別libIdでexplicitなAllowPart=[200]行が用意されている
-  // ため、フォールバックの対象を武器のみに絞っても実際の選択肢は変わらない。
-  const LEGENDARY_WEAPON_PART = 200;
+  // 伝説刻印: AllowPart=[] の行はどの部位にも適用しない。
+  // (実測: EquipAttrLibTable上、知力/敏捷用libId(例 5021002/5021003)のブレイク効率/
+  // 主要ステータスUP(11024/11034等)や、筋力用libId(5021001)の詠唱速度(11732)が
+  // AllowPart=[]のまま登録されている。同じlibId内で該当attrIdに武器(AllowPart=[200])の
+  // 明示行が一切無いことから、これは武器・アクセサリいずれでも選択不可のデータ側の
+  // 記入漏れ(または他システム用の残置データ)と判断。以前はAllowPart=[]を「防具以外
+  // (武器+アクセサリ)に適用」、次いで「武器のみに適用」と解釈していたため、武器の
+  // レアステータス選択肢に知力UP・ブレイク効率等が誤って混入していた。武器側も他の
+  // 部位と同様、選択肢は必ずAllowPart明示行から取得する。)
   const LEGENDARY_ARMOR_PARTS = new Set([201, 202, 203, 204, 208, 209]);
   // 防具刻印の中でも %表示になるステータス(筋力/知力/敏捷/攻撃速度/詠唱速度/回復力/
   // バリア強度万分率は値/100が%。他の装備部位カテゴリ(武器/アクセサリ)では同じattrIdが
@@ -618,9 +617,7 @@ function extractEquipment(langDir) {
   function buildLegendaryAffixEntries(libId, equipPart) {
     if (!libId || libId < 5000000) return null;
     const entries = (attrLibByLibId[libId] ?? []).filter(
-      (e) =>
-        (e.AllowPart.length > 0 && e.AllowPart.includes(equipPart)) ||
-        (e.AllowPart.length === 0 && equipPart === LEGENDARY_WEAPON_PART),
+      (e) => e.AllowPart.length > 0 && e.AllowPart.includes(equipPart),
     );
     if (entries.length === 0) return null;
     const isArmorPart = LEGENDARY_ARMOR_PARTS.has(equipPart);
