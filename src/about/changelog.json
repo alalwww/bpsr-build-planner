@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.8.2",
+      "date": "2026-07-25T14:30:18.124Z",
+      "summary": {
+        "ja": "レアステータス選択・蒼海武器の万能ボーナス・器用さ由来のクラス固有効果など、ステータス計算の不具合修正",
+        "en": "Fix stat-calculation bugs affecting rare-stat selection, Sea Breeze weapon universal bonus, and mastery-derived class effects"
+      },
+      "changes": {
+        "ja": [
+          "装備選択ダイアログのレアステータス候補に、本来選べないステータス(知力UP・ブレイク効率等)が混入していた不具合を修正",
+          "蒼海武器のレアステータス「万能+8%」等を選択しても反映されなかった不具合を修正",
+          "器用さによるクラス×型固有の属性ボーナス・バリア強度・回復力・全属性耐性がステータス詳細に未反映だった不具合を修正",
+          "マスタリースキルの装着チェックボックスの視認性を改善"
+        ],
+        "en": [
+          "Fix rare-stat picker showing options that shouldn't be selectable for some accessories (e.g. Intellect Up, Break Efficiency)",
+          "Fix Sea Breeze weapon rare stats like \"Versatility +8%\" not applying to final stats",
+          "Fix class-and-type-specific mastery effects (elemental bonus, barrier strength, healing power, all-element resistance) not appearing in the stats detail",
+          "Improve visibility of the mastery skill's equip checkbox"
+        ]
+      }
+    },
+    {
       "version": "0.8.1",
       "date": "2026-07-23T20:39:57.111Z",
       "summary": {
