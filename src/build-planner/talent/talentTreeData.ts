@@ -80,7 +80,6 @@ export interface RoleTheme {
   edgeColor: string;
   fillColor: string;
   bgColor: string;
-  bgTint: string;
 }
 
 // Role-specific background icon for dedicated-icon nodes (type 4/5)
@@ -95,19 +94,16 @@ export const ROLE_THEMES: Record<number, RoleTheme> = {
     edgeColor: '#f87171',
     fillColor: '#6b1d1d',
     bgColor: '#531d19',
-    bgTint: 'rgba(100,15,15,0.38)',
   },
   2: {
     edgeColor: '#4ade80',
     fillColor: '#0f3626',
     bgColor: '#0f503a',
-    bgTint: 'rgba(15,90,35,0.38)',
   },
   3: {
     edgeColor: '#60a5fa',
     fillColor: '#1e3a8a',
     bgColor: '#1e315e',
-    bgTint: 'rgba(15,35,110,0.38)',
   },
 };
 export const DEFAULT_ROLE_THEME = ROLE_THEMES[1];

@@ -247,16 +247,13 @@ export default function TalentTreePanel({
   // ---- 背景 ----
   const bgLeftUrl = getBgUrl(wt, 'left');
   const bgRightUrl = getBgUrl(wt, 'right');
-  const scrollStyle: React.CSSProperties = (() => {
-    const topColor = roleTheme.bgTint.replace(/[\d.]+\)$/, '0.9)');
-    const bottomColor = roleTheme.bgTint;
-    return {
-      backgroundImage: `linear-gradient(to bottom, ${topColor}, ${bottomColor})`,
-      backgroundPosition: '0 0',
-      backgroundSize: '100% 100%',
-      backgroundRepeat: 'no-repeat',
-    };
-  })();
+  // ロール(1:攻撃/2:支援/3:防御) ごとのシーン背景(virtual_scene_bg_3/4/5.png)。
+  // スクロール(.talent-tree-panel__scroll)に直接背景指定するとbackground-attachment
+  // の既定値(scroll)によりビューポート基準で固定され、中身のスクロールに追従しない。
+  const roleBgUrl = getTalentAsset(`virtual_scene_bg_${talentRole + 2}`);
+  const scrollStyle: React.CSSProperties = {
+    backgroundImage: roleBgUrl ? `url(${roleBgUrl})` : undefined,
+  };
 
   // ---- ハンドラ ----
 
