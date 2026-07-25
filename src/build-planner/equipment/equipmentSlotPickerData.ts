@@ -1,3 +1,4 @@
+import enchantMaterialIconsRaw from '../../data/enchant-material-icons.json';
 import enchantsDataRaw from '../../data/enchants.json';
 import suitsDataRaw from '../../data/suits.json';
 import { createAssetMap } from '../assetMap';
@@ -173,6 +174,14 @@ const enchantIcon = createAssetMap(
 export function getEnchantIconUrl(iconName: string): string | undefined {
   if (!iconName) return undefined;
   return enchantIcon(iconName);
+}
+
+// ---- 装着コスト素材(幻蝕の玉髄等)のアイコン読み込み ----
+const enchantMaterialIcons = enchantMaterialIconsRaw as unknown as Record<string, string>;
+
+export function getEnchantMaterialIconUrl(itemId: number): string | undefined {
+  const iconName = enchantMaterialIcons[String(itemId)];
+  return iconName ? enchantIcon(iconName) : undefined;
 }
 
 const itemBg = createAssetMap(

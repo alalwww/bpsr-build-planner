@@ -37,6 +37,7 @@ import {
   enchantsData,
   EVOLUTION_STAT_IDS,
   getEnchantIconUrl,
+  getEnchantMaterialIconUrl,
   getEquipBgUrlFrom,
   getItemNameColor,
   getPickerEquipUrl,
@@ -220,11 +221,10 @@ function EquipmentSlotPicker({
     return (b.level ?? 0) - (a.level ?? 0) || b.id - a.id;
   });
   // selectedEnchant は基本/精/極いずれかのID。base → refined/perfect を逆引き。
-  const {
-    base: baseEnchantItem,
-    grade: selectedEnchantGrade,
-    data: selectedEnchantData,
-  } = resolveEnchantSelection(sortedEnchants, selectedEnchant);
+  const { base: baseEnchantItem, data: selectedEnchantData } = resolveEnchantSelection(
+    sortedEnchants,
+    selectedEnchant,
+  );
 
   // 進化ステータス表示パターンの分類(classifyEvoDisplay、計算側 calculateRawStats と共有)。
   const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
@@ -398,23 +398,34 @@ function EquipmentSlotPicker({
             {enchantTooltip.enchant.cost && enchantTooltip.enchant.cost.length > 0 && (
               <div className="equip-enchant-cost">
                 {t('buildPlanner.enchantCost')}:
-                {enchantTooltip.enchant.cost.map(([itemId, qty]) => (
-                  <div key={itemId} className="equip-enchant-cost__row">
-                    {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
-                  </div>
-                ))}
+                {enchantTooltip.enchant.cost.map(([itemId, qty]) => {
+                  const materialIconUrl = getEnchantMaterialIconUrl(itemId);
+                  return (
+                    <div key={itemId} className="equip-enchant-cost__row">
+                      {materialIconUrl && (
+                        <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
+                      )}
+                      {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                    </div>
+                  );
+                })}
               </div>
             )}
-            {enchantTooltipView.grade !== 'base' &&
-              enchantTooltip.enchant.advancedCost &&
+            {enchantTooltip.enchant.advancedCost &&
               enchantTooltip.enchant.advancedCost.length > 0 && (
                 <div className="equip-enchant-cost equip-enchant-cost--advanced">
                   {t('buildPlanner.enchantAdvancedCost')}:
-                  {enchantTooltip.enchant.advancedCost.map(([itemId, qty]) => (
-                    <div key={itemId} className="equip-enchant-cost__row">
-                      {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
-                    </div>
-                  ))}
+                  {enchantTooltip.enchant.advancedCost.map(([itemId, qty]) => {
+                    const materialIconUrl = getEnchantMaterialIconUrl(itemId);
+                    return (
+                      <div key={itemId} className="equip-enchant-cost__row">
+                        {materialIconUrl && (
+                          <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
+                        )}
+                        {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
           </FloatingTooltip>,
@@ -999,25 +1010,43 @@ function EquipmentSlotPicker({
                       {selectedEnchantData.cost && selectedEnchantData.cost.length > 0 && (
                         <div className="equip-enchant-cost">
                           {t('buildPlanner.enchantCost')}:
-                          {selectedEnchantData.cost.map(([itemId, qty]) => (
-                            <div key={itemId} className="equip-enchant-cost__row">
-                              {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {selectedEnchantGrade !== 'base' &&
-                        baseEnchantItem?.advancedCost &&
-                        baseEnchantItem.advancedCost.length > 0 && (
-                          <div className="equip-enchant-cost equip-enchant-cost--advanced">
-                            {t('buildPlanner.enchantAdvancedCost')}:
-                            {baseEnchantItem.advancedCost.map(([itemId, qty]) => (
+                          {selectedEnchantData.cost.map(([itemId, qty]) => {
+                            const materialIconUrl = getEnchantMaterialIconUrl(itemId);
+                            return (
                               <div key={itemId} className="equip-enchant-cost__row">
+                                {materialIconUrl && (
+                                  <img
+                                    className="equip-enchant-cost__icon"
+                                    src={materialIconUrl}
+                                    alt=""
+                                  />
+                                )}
                                 {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
                               </div>
-                            ))}
-                          </div>
-                        )}
+                            );
+                          })}
+                        </div>
+                      )}
+                      {baseEnchantItem?.advancedCost && baseEnchantItem.advancedCost.length > 0 && (
+                        <div className="equip-enchant-cost equip-enchant-cost--advanced">
+                          {t('buildPlanner.enchantAdvancedCost')}:
+                          {baseEnchantItem.advancedCost.map(([itemId, qty]) => {
+                            const materialIconUrl = getEnchantMaterialIconUrl(itemId);
+                            return (
+                              <div key={itemId} className="equip-enchant-cost__row">
+                                {materialIconUrl && (
+                                  <img
+                                    className="equip-enchant-cost__icon"
+                                    src={materialIconUrl}
+                                    alt=""
+                                  />
+                                )}
+                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

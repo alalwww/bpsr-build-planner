@@ -501,7 +501,16 @@ function extractEnchants(langDir) {
     enchantSets[enchantId] = items;
   }
 
-  return { enchantSets, usedEnchantItemIds, usedEnchantAttrIds };
+  // 装着効果アイテム自体・その装着/上級装着コスト素材(幻蝕の玉髄等)のアイコンを
+  // itemId → ItemTable.Icon で引けるようにまとめる。装着効果選択欄・コスト表示欄の
+  // 両方でこのマップを共有する。
+  const itemIcons = {};
+  for (const id of usedEnchantItemIds) {
+    const icon = itemTable[String(id)]?.Icon;
+    if (icon) itemIcons[id] = icon;
+  }
+
+  return { enchantSets, usedEnchantItemIds, usedEnchantAttrIds, itemIcons };
 }
 
 // equipment.json: EquipTable grouped by EquipPart (slot). Each item includes:
@@ -1431,6 +1440,7 @@ function main() {
     enchantSets,
     usedEnchantItemIds: enchantItemIds,
     usedEnchantAttrIds: enchantAttrIds,
+    itemIcons: enchantItemIcons,
   } = extractEnchants(structuralDir);
   const {
     nodes: talentNodes,
@@ -1512,6 +1522,15 @@ function main() {
   const enchantsPath = writeJson(dataOut, 'enchants.json', enchantSets);
   console.log(
     `[extract-ztable] wrote enchants data (${Object.keys(enchantSets).length} sets, ${enchantsItemCount} base items) to ${enchantsPath}`,
+  );
+
+  const enchantMaterialIconsPath = writeJson(
+    dataOut,
+    'enchant-material-icons.json',
+    enchantItemIcons,
+  );
+  console.log(
+    `[extract-ztable] wrote enchant-material-icons.json (${Object.keys(enchantItemIcons).length} items) to ${enchantMaterialIconsPath}`,
   );
 
   const talentNodeCount = Object.keys(talentNodes).length;

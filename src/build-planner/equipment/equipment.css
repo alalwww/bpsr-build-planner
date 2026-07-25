@@ -1031,7 +1031,17 @@
 }
 
 .equip-enchant-cost__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   word-break: break-word;
+}
+
+.equip-enchant-cost__icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 /* 上級装着コスト(精/極を狙う場合): 通常コストと区別できるよう色味を変える。 */

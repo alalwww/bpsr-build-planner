@@ -284,7 +284,7 @@ classes/talent_tag_small_icon_1.png
 classes/talent_tag_small_icon_2.png
 classes/talent_tag_small_icon_3.png
 
-## src/assets/enchants/ (40件・enchants.jsonでは_2/_4の階層のみ使用されるため_1/_3系が余剰。roughstone系はicon参照が存在しない)
+## src/assets/enchants/ (40件・enchants.jsonでは_2/_4の階層のみ使用されるため_1/_3系が余剰)
 enchants/blue_crystal_stone_pear_1.png
 enchants/blue_crystal_stone_pear_3.png
 enchants/blue_crystal_stone_special_1.png
@@ -317,14 +317,6 @@ enchants/yellow_crystal_stone_square_1.png
 enchants/yellow_crystal_stone_square_3.png
 enchants/yellow_crystal_stone_triangle_1.png
 enchants/yellow_crystal_stone_triangle_3.png
-enchants/item_icons_blue_roughstone_04_product01.png
-enchants/item_icons_blue_roughstone_05_product01.png
-enchants/item_icons_green_roughstone_04_product01.png
-enchants/item_icons_green_roughstone_05_product01.png
-enchants/item_icons_red_roughstone_04_product01.png
-enchants/item_icons_red_roughstone_05_product01.png
-enchants/item_icons_yellow_roughstone_04_product01.png
-enchants/item_icons_yellow_roughstone_05_product01.png
 
 ## src/assets/modules/ (21件・mod_effect_icon_*のうち半数がmodules.jsonのeffect.iconと一致しない)
 modules/mod_effect_icon_001.png
