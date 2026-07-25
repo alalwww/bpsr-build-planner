@@ -865,7 +865,7 @@ export function applyFinalStatModifiers(
     haste: derived.hastePercent * ipct('haste') + (finalPctAddend.haste ?? 0) / 100,
     luck: derived.luckPercent + (finalPctAddend.luck ?? 0) / 100,
     mastery: derived.masteryPercent * ipct('mastery') + (finalPctAddend.mastery ?? 0) / 100,
-    versatility: derived.versatilityPercent * ipct('versatility'),
+    versatility: derived.versatilityPercent * ipct('versatility') + (finalPctAddend.versatility ?? 0) / 100,
     resist: derived.resistPercent,
   };
 

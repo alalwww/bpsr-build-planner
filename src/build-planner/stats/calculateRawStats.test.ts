@@ -1126,6 +1126,24 @@ describe('applyFinalStatModifiers', () => {
     expect(result.breakdown.haste.cookingBonus).toBeCloseTo(6);
   });
 
+  it('adds finalPctAddend directly to versatility (220以降蒼海武器の万能+8%等)', () => {
+    const derived = zeroDerivedStats();
+
+    const result = applyFinalStatModifiers(
+      BASE_STATS,
+      baseBreakdown(),
+      derived,
+      {},
+      [null, null],
+      [5, 5],
+      {}, // phantomFinalPct (乗算用) は空
+      { versatility: 800 }, // +8pt (単位: 1/100。蒼海武器の11952と同じ値)
+    );
+
+    expect(result.stats.versatility).toBeCloseTo(derived.versatilityPercent + 8);
+    expect(result.breakdown.versatility.cookingBonus).toBeCloseTo(8);
+  });
+
   it('leaves crit/luck/haste unchanged when neither bucket has an entry for them', () => {
     const derived = zeroDerivedStats();
 
