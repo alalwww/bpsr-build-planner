@@ -241,7 +241,10 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       {phantomTemplateId == null ? (
         <div className="phantom-empty">{t('buildPlanner.phantom.templateSelectPrompt')}</div>
       ) : (
-        <div className="phantom-body">
+        <div
+          className="phantom-body"
+          style={{ backgroundImage: `url(${getSTAsset('virtual_scene_bg_24.png')})` }}
+        >
           {/* 左: ツリー描画 */}
           <div className="phantom-tree-wrapper">
             {/* ヘッダー（スクロール外に固定）: 無効時の注意書き(左詰め) + ズームコントロール */}
@@ -263,11 +266,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                 percentClassName="phantom-zoom-pct"
               />
             </div>
-            <div
-              className="phantom-tree-area"
-              ref={treeAreaRef}
-              style={{ backgroundImage: `url(${getSTAsset('virtual_scene_bg_24.png')})` }}
-            >
+            <div className="phantom-tree-area" ref={treeAreaRef}>
               <PhantomTreeSvg
                 treeSteps={treeSteps}
                 phantomTemplateId={phantomTemplateId}

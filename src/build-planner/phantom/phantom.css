@@ -117,6 +117,9 @@
   display: flex;
   overflow: hidden;
   min-height: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .phantom-tree-wrapper {
@@ -133,9 +136,6 @@
   overflow-y: auto;
   overflow-x: auto;
   padding: 4px 0 4px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   cursor: grab;
 }
 
@@ -228,6 +228,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  /* 背景画像は.phantom-body(左右共通)側で敷いているため、右側だけ半透明グレーを
+     重ねて薄く見せる(左のツリー側は画像をそのまま見せる)。 */
+  background: rgba(28, 28, 36, 0.7);
 }
 
 /* ---- 絆ポイントセクション ---- */
@@ -261,7 +264,7 @@
   width: 100%;
   background: transparent;
   border: none;
-  color: #666;
+  color: #909090;
   font-size: 11px;
   padding: 2px 0;
   cursor: pointer;
@@ -474,7 +477,7 @@
   flex-shrink: 0;
   width: 26px;
   font-size: 15px;
-  color: #555;
+  color: #909090;
   text-align: right;
   padding-top: 4px;
 }
