@@ -499,13 +499,67 @@
   color: #8a8a96;
 }
 
-/* 左列(完成度)の見出しラベルにも、能力スコア見出しと同じ下線を入れて統一する。
-   精錬レベル(右列)は対象外のため col-left 配下に限定する。 */
-.equipment-dialog__col-left .equip-details-section > .equipment-dialog__label {
-  display: block;
+/* 完成度の見出し行: ラベル+Stepperを横並びにし、能力スコア見出しと同じ下線を入れて統一する。 */
+.equipment-dialog__perfectline-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding-bottom: 4px;
   border-bottom: 1px solid #2a2a33;
   margin: 0 0 2px 0;
+}
+
+/* 完成度Stepper: 値 + 上限ラベル("/80"等) + 上下ボタン(▲▼)。 */
+.equip-perfectline-stepper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.equip-perfectline-stepper__value {
+  font-size: 12px;
+  color: #e8e6e1;
+  min-width: 22px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.equip-perfectline-stepper__extra-label {
+  font-size: 11px;
+  color: #8a8a96;
+}
+
+.equip-perfectline-stepper__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.equip-perfectline-stepper__btn {
+  background: #23232d;
+  border: 1px solid #3a3a4a;
+  border-radius: 2px;
+  color: #a0a0b0;
+  font-size: 7px;
+  width: 16px;
+  height: 10px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.equip-perfectline-stepper__btn:hover:not(:disabled) {
+  background: #383848;
+  color: #e8e6e1;
+}
+
+.equip-perfectline-stepper__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .equipment-dialog__select-trigger {

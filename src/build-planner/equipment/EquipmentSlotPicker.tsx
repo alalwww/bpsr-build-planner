@@ -243,9 +243,6 @@ function EquipmentSlotPicker({
   const maxPerfectline = equippedItem ? getMaxPerfectline(equippedItem) : 80;
   const sliderValue = isFixedStat ? 100 : perfectline;
   const sliderDisabled = isFixedStat || !equippedItem;
-  const sliderDisplay = equippedItem
-    ? `${sliderValue}/${isFixedStat ? 100 : maxPerfectline}`
-    : '--';
   const cumulativeEffects =
     refineLevel > 0 ? (refineTypeData?.cumulative[refineLevel - 1] ?? null) : null;
 
@@ -569,10 +566,18 @@ function EquipmentSlotPicker({
             </div>
 
             <div className="equip-details-section">
-              <label className="equipment-dialog__label">
-                {t('buildPlanner.perfectline')}
-                <span className="equipment-dialog__slider-value">{sliderDisplay}</span>
-              </label>
+              <div className="equipment-dialog__perfectline-heading">
+                <label className="equipment-dialog__label">{t('buildPlanner.perfectline')}</label>
+                <Stepper
+                  className="equip-perfectline-stepper"
+                  value={sliderValue}
+                  min={1}
+                  max={isFixedStat ? 100 : maxPerfectline}
+                  extraLabel={`/${isFixedStat ? 100 : maxPerfectline}`}
+                  disabled={sliderDisabled}
+                  onChange={onPerfectline}
+                />
+              </div>
               <div className="equipment-dialog__slider-wrap">
                 <input
                   type="range"

@@ -387,6 +387,13 @@
   margin: 0;
 }
 
+/* 変動する値(input/combo)と±ボタンの間に挟む固定ラベル(例: 上限値 "/100")。 */
+.stepper-inline__extra-label {
+  color: #8a8a96;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 /* Stepper(inline): 既定でコンボボックス化(フォーカスインでリスト表示)。
    幅は各利用箇所の ${className}__input が決めるため、wrapは内容にフィットさせる
    (行全体に広げたい場合は利用箇所側で .stepper-combo-input-wrap に flex:1 を当てる)。 */

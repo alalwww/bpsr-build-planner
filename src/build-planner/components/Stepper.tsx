@@ -8,6 +8,8 @@ interface StepperProps {
   min: number;
   max: number;
   formatValue?: (v: number) => string;
+  /** 変動する値と±ボタンの間に表示する固定ラベル(例: 上限値 "/100")。 */
+  extraLabel?: string;
   onChange: (v: number) => void;
   /** ルートのBEM名(例: 'skill-stepper')。__label/__value/__btns/__btn/__input を派生させる。 */
   className: string;
@@ -22,6 +24,8 @@ interface StepperProps {
   options?: number[];
   /** inlineレイアウトでコンボボックス化(フォーカスインでの一覧表示)を無効にし、自由入力のみにする。 */
   disableList?: boolean;
+  /** true の場合、±ボタン・入力欄すべてを非活性にする(値の上下限に関わらず)。 */
+  disabled?: boolean;
 }
 
 // 値の増減を行う共通ステッパー。レイアウトを2種類サポートする:
@@ -33,12 +37,14 @@ function Stepper({
   min,
   max,
   formatValue,
+  extraLabel,
   onChange,
   className,
   modifierClassName,
   layout = 'stacked',
   options,
   disableList = false,
+  disabled = false,
 }: StepperProps) {
   const rootClassName = `${className}${modifierClassName ? ` ${modifierClassName}` : ''}`;
   const [isOpen, setIsOpen] = useState(false);
@@ -79,7 +85,7 @@ function Stepper({
   }, [isOpen, value]);
 
   const handleFocus = () => {
-    if (!comboOptions || !inputRef.current) return;
+    if (disabled || !comboOptions || !inputRef.current) return;
     const rect = inputRef.current.getBoundingClientRect();
     setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width });
     setIsOpen(true);
@@ -91,7 +97,7 @@ function Stepper({
         <button
           type="button"
           className={`${className}__btn`}
-          disabled={value <= min}
+          disabled={disabled || value <= min}
           onClick={() => onChange(Math.max(min, value - 1))}
         >
           −
@@ -106,6 +112,7 @@ function Stepper({
               value={value}
               min={min}
               max={max}
+              disabled={disabled}
               onFocus={handleFocus}
               onChange={(e) => {
                 const v = parseInt(e.target.value);
@@ -122,6 +129,7 @@ function Stepper({
             value={value}
             min={min}
             max={max}
+            disabled={disabled}
             onChange={(e) => {
               const v = parseInt(e.target.value);
               if (!isNaN(v)) onChange(Math.max(min, Math.min(max, v)));
@@ -159,10 +167,11 @@ function Stepper({
             </div>,
             document.body,
           )}
+        {extraLabel && <span className={`${className}__extra-label`}>{extraLabel}</span>}
         <button
           type="button"
           className={`${className}__btn`}
-          disabled={value >= max}
+          disabled={disabled || value >= max}
           onClick={() => onChange(Math.min(max, value + 1))}
         >
           ＋
@@ -175,12 +184,13 @@ function Stepper({
     <div className={rootClassName}>
       {label && <span className={`${className}__label`}>{label}.</span>}
       <span className={`${className}__value`}>{formatValue ? formatValue(value) : value}</span>
+      {extraLabel && <span className={`${className}__extra-label`}>{extraLabel}</span>}
       <div className={`${className}__btns`}>
         <button
           type="button"
           className={`${className}__btn`}
           onClick={() => onChange(Math.min(max, value + 1))}
-          disabled={value >= max}
+          disabled={disabled || value >= max}
         >
           ▲
         </button>
@@ -188,7 +198,7 @@ function Stepper({
           type="button"
           className={`${className}__btn`}
           onClick={() => onChange(Math.max(min, value - 1))}
-          disabled={value <= min}
+          disabled={disabled || value <= min}
         >
           ▼
         </button>
