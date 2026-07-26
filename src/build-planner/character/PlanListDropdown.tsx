@@ -12,8 +12,6 @@ interface PlanListDropdownProps {
   onLoadPlan: (id: string) => void;
   onOpenRenameDialog: (plan: BuildPlanData) => void;
   onDeletePlan: (id: string) => void;
-  onOpenExportDialog: () => void;
-  onOpenImportDialog: () => void;
 }
 
 function PlanListDropdown({
@@ -23,8 +21,6 @@ function PlanListDropdown({
   onLoadPlan,
   onOpenRenameDialog,
   onDeletePlan,
-  onOpenExportDialog,
-  onOpenImportDialog,
 }: PlanListDropdownProps) {
   const { t } = useTranslation();
   return (
@@ -96,22 +92,6 @@ function PlanListDropdown({
           );
         })
       )}
-      <div className="character-panel__plan-item character-panel__plan-item--code-actions">
-        <button
-          type="button"
-          className="character-panel__plan-load character-panel__plan-code-action"
-          onClick={onOpenExportDialog}
-        >
-          {t('buildPlanner.exportPlan', { defaultValue: 'エクスポート' })}
-        </button>
-        <button
-          type="button"
-          className="character-panel__plan-load character-panel__plan-code-action"
-          onClick={onOpenImportDialog}
-        >
-          {t('buildPlanner.importPlan', { defaultValue: 'インポート' })}
-        </button>
-      </div>
     </div>
   );
 }

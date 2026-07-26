@@ -11,6 +11,51 @@ import { useBuildStore } from '../store/useBuildStore';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
 import resetIconUrl from '../../assets/ui/com_btn_delete.png';
 
+// エクスポート/インポートのアイコン: 右辺が開いた四角(コード出入り口)+ 矢印。
+// 右向き矢印(四角の中から右へ出ていく)= エクスポート、左向き矢印(右から四角の中心へ
+// 入っていく)= インポート。矢印の向き以外は完全に同一の四角形を共有する。
+const CODE_BOX_PATH = 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4';
+
+function ExportIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={CODE_BOX_PATH} />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
+function ImportIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d={CODE_BOX_PATH} />
+      <polyline points="14 17 9 12 14 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
 // プラン管理(名称入力・保存・一覧・読込/リネーム/削除・コードのインポート/エクスポート・
 // 旧フォーマット移行/読込エラー通知)のヘッダー行とダイアログ群。
 // CharacterPanel(ステータス表示)から分離し、プラン管理の関心をこの1ファイルに閉じる。
@@ -249,8 +294,6 @@ function PlanManager() {
             onLoadPlan={handleLoadPlan}
             onOpenRenameDialog={openRenameDialog}
             onDeletePlan={onDeletePlan}
-            onOpenExportDialog={handleOpenExportDialog}
-            onOpenImportDialog={handleOpenImportDialog}
           />
         )}
       </div>
@@ -269,6 +312,22 @@ function PlanManager() {
           />
         </button>
         <div className="character-panel__action-group">
+          <button
+            type="button"
+            className="build-planner__nav-lang"
+            onClick={handleOpenImportDialog}
+            title={t('buildPlanner.importPlan', { defaultValue: 'インポート' })}
+          >
+            <ImportIcon />
+          </button>
+          <button
+            type="button"
+            className="build-planner__nav-lang"
+            onClick={handleOpenExportDialog}
+            title={t('buildPlanner.exportPlan', { defaultValue: 'エクスポート' })}
+          >
+            <ExportIcon />
+          </button>
           <ShareBuildButton
             open={shareDialogOpen}
             onOpenChange={setShareDialogOpen}
