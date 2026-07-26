@@ -43,6 +43,7 @@ function useDismissOnOutsideClick(
 
 function BuildPlanner() {
   const { t, i18n } = useTranslation();
+  const { t: tg } = useTranslation('game-data');
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement>(null);
   useDismissOnOutsideClick(langMenuOpen, langMenuRef, () => setLangMenuOpen(false));
@@ -82,6 +83,14 @@ function BuildPlanner() {
     phantomTemplateId != null ? stData.templates[String(phantomTemplateId)]?.icon : undefined;
   const phantomTabIconUrl =
     phantomEnabled && phantomTemplateIcon ? getSTAsset(iconPathToFile(phantomTemplateIcon)) : null;
+  const phantomTabIconTitle = phantomTabIconUrl
+    ? t('buildPlanner.phantom.tabTitleEnabled', {
+        name: tg(`seasonTalents.templates.${phantomTemplateId}`),
+        defaultValue: '{{name}}が有効です',
+      })
+    : t('buildPlanner.phantom.tabTitleDisabled', {
+        defaultValue: '心相投影ツリーが無効です',
+      });
 
   const [activeTab, setActiveTab] = useState<Tab>('skill');
   const [showTalentTree, setShowTalentTree] = useState(false);
@@ -149,9 +158,13 @@ function BuildPlanner() {
                         src={phantomTabIconUrl}
                         className="build-planner__tab-phantom-icon"
                         alt=""
+                        title={phantomTabIconTitle}
                       />
                     ) : (
-                      <span className="build-planner__tab-phantom-icon build-planner__tab-phantom-icon--off" />
+                      <span
+                        className="build-planner__tab-phantom-icon build-planner__tab-phantom-icon--off"
+                        title={phantomTabIconTitle}
+                      />
                     ))}
                 </button>
               ))}

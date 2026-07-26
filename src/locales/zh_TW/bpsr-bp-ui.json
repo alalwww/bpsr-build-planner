@@ -343,7 +343,9 @@
       "enabledOff": "停用",
       "enabledLockedTitle": "所選樹尚未解鎖，無法開啟",
       "disabledNotice": "心相投影已停用，羈絆等級效果及各節點效果不會反映到屬性中",
-      "resetTooltip": "點擊重置"
+      "resetTooltip": "點擊重置",
+      "tabTitleDisabled": "心相投影樹已停用",
+      "tabTitleEnabled": "{{name}}已啟用"
     },
     "detailStats": {
       "title": "屬性詳情",

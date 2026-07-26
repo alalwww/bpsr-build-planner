@@ -343,7 +343,9 @@
       "enabledOff": "無効",
       "enabledLockedTitle": "選択中のツリーが未開放のためONにできません",
       "disabledNotice": "心相投影が無効なため、絆レベル効果及び各ノード効果はステータスへ反映されません",
-      "resetTooltip": "クリックでリセット"
+      "resetTooltip": "クリックでリセット",
+      "tabTitleDisabled": "心相投影ツリーが無効です",
+      "tabTitleEnabled": "{{name}}が有効です"
     },
     "detailStats": {
       "title": "ステータス詳細",
