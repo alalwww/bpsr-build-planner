@@ -201,6 +201,17 @@
   cursor: default;
 }
 
+/* タブ切り替え時にアクティブタブの位置までスライドするインジケーター
+   (build-planner__tab-indicator)の位置決めコンテナ。インジケーターの高さ(2px)は、
+   各タブが個別に border-bottom を持っていた頃と同じ見た目になるよう、tab自身の
+   border-bottom(transparent、高さ確保用)と揃えている。 */
+.build-planner__tab-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .build-planner__tab {
   background: transparent;
   border: none;
@@ -217,8 +228,23 @@
 
 .build-planner__tab--active {
   color: #f4a13a;
-  border-bottom-color: #f4a13a;
   cursor: default;
+}
+
+.build-planner__tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background: #f4a13a;
+  pointer-events: none;
+  transition:
+    left 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease;
+}
+
+.build-planner__tab-indicator--hidden {
+  opacity: 0;
 }
 
 /* 潜在タブの心相投影アイコン。有効時は選択中ツリーのアイコン、無効時は同サイズの

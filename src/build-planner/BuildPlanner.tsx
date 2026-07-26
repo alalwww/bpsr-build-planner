@@ -1,4 +1,4 @@
-import { type RefObject, useEffect, useRef, useState } from 'react';
+import { type RefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './build-planner.css';
@@ -92,6 +92,34 @@ function BuildPlanner() {
     setShowTalentTree(false);
   };
 
+  // タブ下線をアクティブタブの位置までスライドさせるインジケーター。位置は実測値
+  // (offsetLeft/offsetWidth)で決まるため、タブ切り替え時だけでなく、アイコン読み込みや
+  // 言語切り替えによるラベル幅変化・ウィンドウリサイズでもズレないようResizeObserverで
+  // 追従させる。タレントツリー表示中はどのタブも「アクティブ」ではないため非表示にする。
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
+  const [tabIndicator, setTabIndicator] = useState<{ left: number; width: number } | null>(null);
+
+  const updateTabIndicator = () => {
+    const btn = tabRefs.current[activeTab];
+    if (!btn) return;
+    setTabIndicator({ left: btn.offsetLeft, width: btn.offsetWidth });
+  };
+  // ResizeObserverのコールバックは初回マウント時のクロージャで固定されるため、
+  // 常に最新のupdateTabIndicator(=最新のactiveTab)を参照できるようrefを介す。
+  const updateTabIndicatorRef = useRef(updateTabIndicator);
+  updateTabIndicatorRef.current = updateTabIndicator;
+
+  useLayoutEffect(updateTabIndicator, [activeTab, phantomTabIconUrl]);
+
+  useEffect(() => {
+    const container = tabListRef.current;
+    if (!container) return;
+    const observer = new ResizeObserver(() => updateTabIndicatorRef.current());
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <div className="build-planner">
@@ -103,26 +131,37 @@ function BuildPlanner() {
         />
         <div className="build-planner__right">
           <nav className="build-planner__tabs">
-            {TABS.map((tab) => (
-              <button
-                type="button"
-                key={tab}
-                className={`build-planner__tab${!showTalentTree && tab === activeTab ? ' build-planner__tab--active' : ''}`}
-                onClick={() => handleTabClick(tab)}
-              >
-                {t(`buildPlanner.tabs.${tab}`)}
-                {tab === 'phantom' &&
-                  (phantomTabIconUrl ? (
-                    <img
-                      src={phantomTabIconUrl}
-                      className="build-planner__tab-phantom-icon"
-                      alt=""
-                    />
-                  ) : (
-                    <span className="build-planner__tab-phantom-icon build-planner__tab-phantom-icon--off" />
-                  ))}
-              </button>
-            ))}
+            <div className="build-planner__tab-list" ref={tabListRef}>
+              {TABS.map((tab) => (
+                <button
+                  type="button"
+                  key={tab}
+                  ref={(el) => {
+                    tabRefs.current[tab] = el;
+                  }}
+                  className={`build-planner__tab${!showTalentTree && tab === activeTab ? ' build-planner__tab--active' : ''}`}
+                  onClick={() => handleTabClick(tab)}
+                >
+                  {t(`buildPlanner.tabs.${tab}`)}
+                  {tab === 'phantom' &&
+                    (phantomTabIconUrl ? (
+                      <img
+                        src={phantomTabIconUrl}
+                        className="build-planner__tab-phantom-icon"
+                        alt=""
+                      />
+                    ) : (
+                      <span className="build-planner__tab-phantom-icon build-planner__tab-phantom-icon--off" />
+                    ))}
+                </button>
+              ))}
+              {tabIndicator && (
+                <div
+                  className={`build-planner__tab-indicator${showTalentTree ? ' build-planner__tab-indicator--hidden' : ''}`}
+                  style={{ left: tabIndicator.left, width: tabIndicator.width }}
+                />
+              )}
+            </div>
             <div className="build-planner__nav-right">
               <span className="build-planner__season-badge">{t('buildPlanner.seasonBadge')}</span>
               <div className="nav-lang" ref={langMenuRef}>
