@@ -439,7 +439,9 @@
 }
 
 .character-panel__selector--class .character-panel__selector-name,
-.character-panel__selector--class .character-panel__selector-label {
+.character-panel__selector--class .character-panel__selector-label,
+.character-panel__selector--type .character-panel__selector-name,
+.character-panel__selector--type .character-panel__selector-label {
   text-shadow:
     0 0 4px #000000,
     0 0 8px #000000,
