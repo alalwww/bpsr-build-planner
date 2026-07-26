@@ -4,12 +4,15 @@ import { useShallow } from 'zustand/react/shallow';
 import PlanListDropdown from './PlanListDropdown';
 import Chevron from '../components/Chevron';
 import ConfirmDialog from '../components/ConfirmDialog';
+import { useDelayedUnmount } from '../components/useDelayedUnmount';
 import { formatProfessionLabel } from '../profession';
 import type { BuildPlanData } from '../plan/buildPlan';
 import ShareBuildButton from '../plan/ShareBuildButton';
 import { useBuildStore } from '../store/useBuildStore';
 import saveIconUrl from '../../assets/ui/weap_save_icon.png';
 import resetIconUrl from '../../assets/ui/com_btn_delete.png';
+
+const CLOSE_ANIM_MS = 150;
 
 // エクスポート/インポートのアイコン: 右辺が開いた四角(コード出入り口)+ 矢印。
 // 右向き矢印(四角の中から右へ出ていく)= エクスポート、左向き矢印(右から四角の中心へ
@@ -105,6 +108,7 @@ function PlanManager() {
   const onImportPlanCode = useBuildStore((s) => s.importPlanCode);
 
   const [isPlanListOpen, setIsPlanListOpen] = useState(false);
+  const shouldRenderPlanList = useDelayedUnmount(isPlanListOpen, CLOSE_ANIM_MS);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [saveConflictPlanId, setSaveConflictPlanId] = useState<string | null>(null);
   const [confirmNewSaveName, setConfirmNewSaveName] = useState<string | null>(null);
@@ -286,8 +290,9 @@ function PlanManager() {
         </button>
 
         {/* プランドロップダウン */}
-        {isPlanListOpen && (
+        {shouldRenderPlanList && (
           <PlanListDropdown
+            animClassName={`dropdown-panel-anim${isPlanListOpen ? '' : ' dropdown-panel-anim--closing'}`}
             buildPlans={buildPlans}
             deleteConfirmId={deleteConfirmId}
             onSetDeleteConfirmId={setDeleteConfirmId}

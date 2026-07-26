@@ -130,15 +130,20 @@
   mask-position: center;
 }
 
-.character-panel__plan-list {
+/* 開閉アニメーション(dropdown-panel-anim)の位置決めラッパー。実際の見た目・スクロールは
+   入れ子の.character-panel__plan-list側が担う。 */
+.character-panel__plan-list-anchor {
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
   right: 0;
+  z-index: 100;
+}
+
+.character-panel__plan-list {
   background: #1e1e28;
   border: 1px solid #3a3a50;
   border-radius: 6px;
-  z-index: 100;
   max-height: 240px;
   overflow-y: auto;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);

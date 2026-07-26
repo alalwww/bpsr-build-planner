@@ -571,11 +571,9 @@
 }
 
 .mod-effect-select-dropdown {
-  position: fixed;
   background: #1a1a22;
   border: 1px solid #4848aa;
   border-radius: 6px;
-  z-index: 9999;
   max-height: 240px;
   overflow-y: auto;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);

@@ -35,6 +35,55 @@
   min-height: 0;
 }
 
+/* ドロップダウン/ポップアップ選択肢パネル共通の開閉アニメーション(Dropdown.tsx、
+   EvoSlotPicker/LegendaryAffixPicker、PlanListDropdown、言語/アプリメニュー等で使用)。
+   collapsible-section__bodyと同じgrid-template-rows: 0fr⇄1frのトリックだが、これらの
+   パネルはuseDelayedUnmountでマウント/アンマウントされるため、transitionではなく
+   @keyframesのanimationで駆動する(transitionは「マウント後に値が変わった」ことを
+   検知して発火するため、マウントと同時に最終値を適用する初回レンダーでは発火しない。
+   animationはマウントと同時に自動再生されるためこの問題が起きない)。
+   パネルは常にトリガー直下(top基準)に固定表示されるため、0fr→1frで高さが伸びる様子が
+   「コンボボックスから中身が伸びてくる」ような見た目になる。
+   使い方: 外側に .dropdown-panel-anim(+開閉に応じ--closing)、
+   その直下に .dropdown-panel-anim__inner を1枚だけ挟んでから実際のパネル内容を置く。 */
+@keyframes dropdown-panel-grow {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@keyframes dropdown-panel-shrink {
+  from {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+.dropdown-panel-anim {
+  display: grid;
+  grid-template-rows: 1fr;
+  animation: dropdown-panel-grow 0.16s ease-out;
+}
+
+.dropdown-panel-anim--closing {
+  animation: dropdown-panel-shrink 0.14s ease-in forwards;
+  pointer-events: none;
+}
+
+.dropdown-panel-anim__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
 /* Confirm dialog (共通確認モーダル: プラン保存/削除/読込確認・タレントリセット確認等) */
 .confirm-dialog {
   position: relative;

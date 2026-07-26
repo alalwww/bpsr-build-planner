@@ -17,9 +17,11 @@ import { SUPPORTED_LANGUAGES } from '../platform/languages';
 import { showAboutWindow, showResidentWindow } from '../platform/residentWindow';
 import { useBuildStore } from './store/useBuildStore';
 import TalentTreePanel from './talent/TalentTreePanel';
+import { useDelayedUnmount } from './components/useDelayedUnmount';
 
 const TABS = ['skill', 'equipment', 'module', 'phantom'] as const;
 type Tab = (typeof TABS)[number];
+const CLOSE_ANIM_MS = 150;
 
 // 開いている間だけ、メニュー外クリックで閉じるハンドラを張る
 function useDismissOnOutsideClick(
@@ -44,6 +46,7 @@ function BuildPlanner() {
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement>(null);
   useDismissOnOutsideClick(langMenuOpen, langMenuRef, () => setLangMenuOpen(false));
+  const shouldRenderLangMenu = useDelayedUnmount(langMenuOpen, CLOSE_ANIM_MS);
 
   const changeLanguage = (lang: string) => {
     applyLanguage(lang);
@@ -55,6 +58,7 @@ function BuildPlanner() {
   const [appMenuOpen, setAppMenuOpen] = useState(false);
   const appMenuRef = useRef<HTMLDivElement>(null);
   useDismissOnOutsideClick(appMenuOpen, appMenuRef, () => setAppMenuOpen(false));
+  const shouldRenderAppMenu = useDelayedUnmount(appMenuOpen, CLOSE_ANIM_MS);
 
   const openAbout = () => {
     void showAboutWindow();
@@ -130,18 +134,24 @@ function BuildPlanner() {
                 >
                   🌐
                 </button>
-                {langMenuOpen && (
-                  <div className="nav-lang__dropdown">
-                    {SUPPORTED_LANGUAGES.map(({ code, label }) => (
-                      <button
-                        key={code}
-                        type="button"
-                        className={`nav-lang__item${i18n.language === code ? ' nav-lang__item--active' : ''}`}
-                        onClick={() => changeLanguage(code)}
-                      >
-                        {label}
-                      </button>
-                    ))}
+                {shouldRenderLangMenu && (
+                  <div
+                    className={`nav-lang__dropdown-anchor dropdown-panel-anim${langMenuOpen ? '' : ' dropdown-panel-anim--closing'}`}
+                  >
+                    <div className="dropdown-panel-anim__inner">
+                      <div className="nav-lang__dropdown-panel">
+                        {SUPPORTED_LANGUAGES.map(({ code, label }) => (
+                          <button
+                            key={code}
+                            type="button"
+                            className={`nav-lang__item${i18n.language === code ? ' nav-lang__item--active' : ''}`}
+                            onClick={() => changeLanguage(code)}
+                          >
+                            {label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -155,12 +165,18 @@ function BuildPlanner() {
                   >
                     ⚙️
                   </button>
-                  {appMenuOpen && (
-                    <div className="nav-lang__dropdown">
-                      <hr />
-                      <button type="button" className="nav-lang__item" onClick={openAbout}>
-                        {t('about.menu')}
-                      </button>
+                  {shouldRenderAppMenu && (
+                    <div
+                      className={`nav-lang__dropdown-anchor dropdown-panel-anim${appMenuOpen ? '' : ' dropdown-panel-anim--closing'}`}
+                    >
+                      <div className="dropdown-panel-anim__inner">
+                        <div className="nav-lang__dropdown-panel">
+                          <hr />
+                          <button type="button" className="nav-lang__item" onClick={openAbout}>
+                            {t('about.menu')}
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>

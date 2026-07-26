@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Chevron from './Chevron';
+import { useDelayedUnmount } from './useDelayedUnmount';
+
+const CLOSE_ANIM_MS = 150;
 
 interface StepperProps {
   label?: string;
@@ -51,6 +54,7 @@ function Stepper({
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const shouldRenderPanel = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
 
   const comboOptions =
     layout === 'inline' && !disableList
@@ -137,12 +141,11 @@ function Stepper({
           />
         )}
         {comboOptions &&
-          isOpen &&
+          shouldRenderPanel &&
           pos &&
           createPortal(
             <div
-              ref={panelRef}
-              className="stepper-combo-list"
+              className={`dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}`}
               style={{
                 position: 'fixed',
                 top: pos.top,
@@ -151,19 +154,23 @@ function Stepper({
                 zIndex: 1000,
               }}
             >
-              {comboOptions.map((opt) => (
-                <button
-                  key={opt}
-                  type="button"
-                  className={`stepper-combo-option${opt === value ? ' stepper-combo-option--selected' : ''}`}
-                  onClick={() => {
-                    onChange(opt);
-                    setIsOpen(false);
-                  }}
-                >
-                  {formatValue ? formatValue(opt) : opt}
-                </button>
-              ))}
+              <div className="dropdown-panel-anim__inner">
+                <div ref={panelRef} className="stepper-combo-list">
+                  {comboOptions.map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      className={`stepper-combo-option${opt === value ? ' stepper-combo-option--selected' : ''}`}
+                      onClick={() => {
+                        onChange(opt);
+                        setIsOpen(false);
+                      }}
+                    >
+                      {formatValue ? formatValue(opt) : opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>,
             document.body,
           )}

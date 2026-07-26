@@ -1,6 +1,9 @@
 import { useRef } from 'react';
 import Chevron from '../components/Chevron';
 import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
+import { useDelayedUnmount } from '../components/useDelayedUnmount';
+
+const CLOSE_ANIM_MS = 150;
 
 interface EvoSlotPickerProps<T extends string | number> {
   /** ボタン先頭に表示するタグ(改鋳スロット等)。省略時は非表示。 */
@@ -32,6 +35,7 @@ function EvoSlotPicker<T extends string | number>({
 }: EvoSlotPickerProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
   useCloseOnOutsideClick(containerRef, isEditing, onToggleEdit);
+  const shouldRenderPicker = useDelayedUnmount(isEditing, CLOSE_ANIM_MS);
   return (
     <div className="equip-evo-slot" ref={containerRef}>
       <button
@@ -46,27 +50,33 @@ function EvoSlotPicker<T extends string | number>({
         {valueLabel !== undefined && <span className="equip-evo-slot__value">{valueLabel}</span>}
         <Chevron open={isEditing} className="equip-evo-slot__arrow" />
       </button>
-      {isEditing && (
-        <div className="equip-evo-picker">
-          {unsetLabel !== undefined && (
-            <button
-              type="button"
-              className={`equip-evo-option${selectedStat == null ? ' equip-evo-option--selected' : ''}`}
-              onClick={() => onSelect(undefined)}
-            >
-              {unsetLabel}
-            </button>
-          )}
-          {availableStats.map((statId) => (
-            <button
-              type="button"
-              key={statId}
-              className={`equip-evo-option${selectedStat === statId ? ' equip-evo-option--selected' : ''}`}
-              onClick={() => onSelect(statId)}
-            >
-              {getLabel(statId)}
-            </button>
-          ))}
+      {shouldRenderPicker && (
+        <div
+          className={`equip-evo-picker-anchor dropdown-panel-anim${isEditing ? '' : ' dropdown-panel-anim--closing'}`}
+        >
+          <div className="dropdown-panel-anim__inner">
+            <div className="equip-evo-picker">
+              {unsetLabel !== undefined && (
+                <button
+                  type="button"
+                  className={`equip-evo-option${selectedStat == null ? ' equip-evo-option--selected' : ''}`}
+                  onClick={() => onSelect(undefined)}
+                >
+                  {unsetLabel}
+                </button>
+              )}
+              {availableStats.map((statId) => (
+                <button
+                  type="button"
+                  key={statId}
+                  className={`equip-evo-option${selectedStat === statId ? ' equip-evo-option--selected' : ''}`}
+                  onClick={() => onSelect(statId)}
+                >
+                  {getLabel(statId)}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

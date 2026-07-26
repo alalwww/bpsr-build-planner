@@ -1,5 +1,8 @@
 import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useDelayedUnmount } from './useDelayedUnmount';
+
+const CLOSE_ANIM_MS = 150;
 
 interface DropdownProps {
   triggerClassName: string | ((isOpen: boolean) => string);
@@ -28,6 +31,7 @@ function Dropdown({
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const shouldRender = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
 
   const close = () => setIsOpen(false);
 
@@ -92,12 +96,12 @@ function Dropdown({
       >
         {renderTrigger(isOpen)}
       </button>
-      {isOpen &&
+      {shouldRender &&
         pos &&
         createPortal(
           <div
             ref={panelRef}
-            className={panelClassName}
+            className={`dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}`}
             style={{
               position: 'fixed',
               top: pos.top,
@@ -106,7 +110,9 @@ function Dropdown({
               zIndex: 1000,
             }}
           >
-            {children(close)}
+            <div className="dropdown-panel-anim__inner">
+              <div className={panelClassName}>{children(close)}</div>
+            </div>
           </div>,
           document.body,
         )}

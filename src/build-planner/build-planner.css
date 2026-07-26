@@ -77,12 +77,9 @@
   background: rgba(255, 255, 255, 0.07);
 }
 
-.nav-lang__dropdown {
-  background: #1e1e28;
-  border: 1px solid #3a3a50;
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-  padding: 4px 0;
+/* 開閉アニメーション(dropdown-panel-anim)の位置決めラッパー。実際の見た目は
+   入れ子の.nav-lang__dropdown-panel側が担う。 */
+.nav-lang__dropdown-anchor {
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
@@ -90,7 +87,15 @@
   z-index: 200;
 }
 
-.nav-lang__dropdown hr {
+.nav-lang__dropdown-panel {
+  background: #1e1e28;
+  border: 1px solid #3a3a50;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  padding: 4px 0;
+}
+
+.nav-lang__dropdown-panel hr {
   border: none;
   border-top: 1px solid #3a3a50;
   width: 90%;

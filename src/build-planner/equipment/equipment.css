@@ -841,12 +841,17 @@
   color: #8a8a9a;
 }
 
-.equip-evo-picker {
+/* 開閉アニメーション(dropdown-panel-anim)の位置決めラッパー。実際の見た目
+   (背景/枠線/リスト方向)は入れ子の.equip-evo-picker側が担う。 */
+.equip-evo-picker-anchor {
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
   z-index: 10;
+}
+
+.equip-evo-picker {
   background: #1e1e27;
   border: 1px solid #3a3a45;
   border-top: none;

@@ -2,7 +2,10 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
 import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
+import { useDelayedUnmount } from '../components/useDelayedUnmount';
 import type { LegendaryAffixEntry, LegendaryAffixSelection } from '../types';
+
+const CLOSE_ANIM_MS = 150;
 
 interface LegendaryAffixPickerProps {
   legendaryAffixList: LegendaryAffixEntry[];
@@ -26,6 +29,7 @@ function LegendaryAffixPicker({
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   useCloseOnOutsideClick(containerRef, isOpen, onToggleOpen);
+  const shouldRenderPicker = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
   const selectedAffixEntry = legendaryAffixList.find(
     (e) => e.attrId === selectedLegendaryAffix?.attrId,
   );
@@ -51,37 +55,43 @@ function LegendaryAffixPicker({
         )}
         <Chevron open={isOpen} className="equip-evo-slot__arrow" />
       </button>
-      {isOpen && (
-        <div className="equip-evo-picker equip-affix-picker">
-          <button
-            type="button"
-            className={`equip-evo-option equip-affix-unset${selectedLegendaryAffix == null ? ' equip-evo-option--selected' : ''}`}
-            onClick={() => onSet(undefined)}
-          >
-            {t('buildPlanner.evolutionStatUnset')}
-          </button>
-          {legendaryAffixList.flatMap(({ attrId, isPercent, values }) =>
-            values.map((value) => {
-              const isSelected =
-                selectedLegendaryAffix?.attrId === attrId &&
-                selectedLegendaryAffix?.value === value;
-              return (
-                <button
-                  key={`${attrId}-${value}`}
-                  type="button"
-                  className={`equip-evo-option equip-affix-option${isSelected ? ' equip-evo-option--selected' : ''}`}
-                  onClick={() => onSet({ attrId, value })}
-                >
-                  <span className="equip-affix-option__name">
-                    {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                  </span>
-                  <span className="equip-affix-option__value">
-                    {formatAffixValue(isPercent, value)}
-                  </span>
-                </button>
-              );
-            }),
-          )}
+      {shouldRenderPicker && (
+        <div
+          className={`equip-evo-picker-anchor dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}`}
+        >
+          <div className="dropdown-panel-anim__inner">
+            <div className="equip-evo-picker equip-affix-picker">
+              <button
+                type="button"
+                className={`equip-evo-option equip-affix-unset${selectedLegendaryAffix == null ? ' equip-evo-option--selected' : ''}`}
+                onClick={() => onSet(undefined)}
+              >
+                {t('buildPlanner.evolutionStatUnset')}
+              </button>
+              {legendaryAffixList.flatMap(({ attrId, isPercent, values }) =>
+                values.map((value) => {
+                  const isSelected =
+                    selectedLegendaryAffix?.attrId === attrId &&
+                    selectedLegendaryAffix?.value === value;
+                  return (
+                    <button
+                      key={`${attrId}-${value}`}
+                      type="button"
+                      className={`equip-evo-option equip-affix-option${isSelected ? ' equip-evo-option--selected' : ''}`}
+                      onClick={() => onSet({ attrId, value })}
+                    >
+                      <span className="equip-affix-option__name">
+                        {t(`attributes.${attrId}`, { ns: 'game-data' })}
+                      </span>
+                      <span className="equip-affix-option__value">
+                        {formatAffixValue(isPercent, value)}
+                      </span>
+                    </button>
+                  );
+                }),
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
