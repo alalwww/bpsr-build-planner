@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "version": "0.8.4",
+      "date": "2026-07-26T12:45:58.708Z",
+      "summary": {
+        "ja": "レイアウトやスタイルのアップデート",
+        "en": "Layout and style updates"
+      },
+      "changes": {
+        "ja": [
+          "折りたたみUI・ドロップダウン・タブ切替へのアニメーション追加",
+          "潜在タブアイコンの有効/無効の色分けと、ツリー名を表示するtitle属性の追加",
+          "インポート/エクスポート/シェアダイアログの見た目統一(ヘッダーへのアイコン追加、シェアの呼称統一)"
+        ],
+        "en": [
+          "Add animations to collapsible UI, dropdowns, and tab switching",
+          "Add hover titles to the phantom tab icon (enabled tree name / disabled) and color it by enabled state",
+          "Unify the Import/Export/Share dialog look (header icons, consistent Share naming)"
+        ]
+      }
+    },
+    {
       "version": "0.8.3",
       "date": "2026-07-26T04:09:11.028Z",
       "summary": {
