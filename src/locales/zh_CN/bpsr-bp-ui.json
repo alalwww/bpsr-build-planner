@@ -143,7 +143,6 @@
     "importPlaceholder": "粘贴导出的代码",
     "importErrorMsg": "无法读取代码，请确认代码是否正确。",
     "shareBuild": "分享",
-    "sharePanelLabel": "分享",
     "switchToShare": "切换到分享",
     "switchToExport": "切换到导出",
     "switchToImport": "切换到导入",

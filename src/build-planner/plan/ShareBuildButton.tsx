@@ -184,12 +184,18 @@ function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildBu
         type="button"
         className="build-planner__nav-lang"
         onClick={handleOpen}
-        title={t('buildPlanner.shareBuild', { defaultValue: '共有' })}
+        title={t('buildPlanner.shareBuild', { defaultValue: 'シェア' })}
       >
         <Icon path={SHARE_ICON_PATH} size={18} />
       </button>
       {open && (
         <ConfirmDialog
+          title={
+            <>
+              <Icon path={SHARE_ICON_PATH} size={16} />
+              {t('buildPlanner.shareBuild', { defaultValue: 'シェア' })}
+            </>
+          }
           confirmLabel={t('buildPlanner.close', { defaultValue: '閉じる' })}
           onConfirm={() => onOpenChange(false)}
           secondaryLabel={t('buildPlanner.switchToExport', { defaultValue: 'エクスポートへ切替' })}
@@ -219,7 +225,7 @@ function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildBu
 
           <div className="share-dialog__panel">
             <span className="share-dialog__panel-label">
-              {t('buildPlanner.sharePanelLabel', { defaultValue: 'シェア' })}
+              {t('buildPlanner.shareBuild', { defaultValue: 'シェア' })}
             </span>
             {/* URL単体のコピー(貼り付け先を選ばない、最小限の共有) */}
             <div className="share-dialog__url-row">

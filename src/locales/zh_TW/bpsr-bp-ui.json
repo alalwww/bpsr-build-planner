@@ -143,7 +143,6 @@
     "importPlaceholder": "粘貼導出的代碼",
     "importErrorMsg": "無法讀取代碼，請確認代碼是否正確。",
     "shareBuild": "分享",
-    "sharePanelLabel": "分享",
     "switchToShare": "切換到分享",
     "switchToExport": "切換到導出",
     "switchToImport": "切換到導入",

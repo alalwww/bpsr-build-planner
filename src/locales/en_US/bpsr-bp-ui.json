@@ -143,7 +143,6 @@
     "importPlaceholder": "Paste an exported code",
     "importErrorMsg": "Could not read the code. Please check that it is valid.",
     "shareBuild": "Share",
-    "sharePanelLabel": "Share",
     "switchToShare": "Switch to Share",
     "switchToExport": "Switch to Export",
     "switchToImport": "Switch to Import",

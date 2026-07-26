@@ -517,7 +517,12 @@ function PlanManager() {
       {exportDialogOpen && (
         <ConfirmDialog
           className="confirm-dialog--wide"
-          title={t('buildPlanner.exportPlan', { defaultValue: 'エクスポート' })}
+          title={
+            <>
+              <ExportIcon size={16} />
+              {t('buildPlanner.exportPlan', { defaultValue: 'エクスポート' })}
+            </>
+          }
           message={t('buildPlanner.exportPlanMsg', {
             defaultValue: '現在編集中のビルドプランをコードとして出力しました。',
           })}
@@ -562,7 +567,12 @@ function PlanManager() {
       {importDialogOpen && (
         <ConfirmDialog
           className="confirm-dialog--wide"
-          title={t('buildPlanner.importPlan', { defaultValue: 'インポート' })}
+          title={
+            <>
+              <ImportIcon size={16} />
+              {t('buildPlanner.importPlan', { defaultValue: 'インポート' })}
+            </>
+          }
           message={t('buildPlanner.importPlanMsg', {
             defaultValue: 'コードからビルドプランを読み込みます。現在の変更はリセットされます。',
           })}
