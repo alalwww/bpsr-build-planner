@@ -1,6 +1,44 @@
 {
   "entries": [
     {
+      "version": "0.8.3",
+      "date": "2026-07-26T04:09:11.028Z",
+      "summary": {
+        "ja": "潜在タブの心相投影ツリーのレイアウト・エッジ・ノードデザインの刷新およびタブ全体のスタイルの見直し",
+        "en": "Overhaul the Phantom Projection tree's layout, edges, and node design in the Potential tab, and revise the tab's overall styling"
+      },
+      "changes": {
+        "ja": [
+          "潜在タブの心相投影ツリーのレイアウト・エッジ・ノードデザインの刷新およびタブ全体のスタイルの見直し",
+          "心相ツリーの選択操作を行全体に統一し、選択したノードと設定行が自動的に画面内へスクロールするよう変更",
+          "心相ツリーのルートノード行に因子グレードを一括変更するステッパーを追加",
+          "心相投影の有効/無効切替をスライドスイッチに変更し、タブに有効/無効の状態をアイコンで表示",
+          "アビリティツリーの背景をロールごとのシーン画像に変更",
+          "装備の完成度調整にステッパーを追加し、上限80%の項目にはロックアイコンを表示",
+          "装着のコストにアイコンを表示し、上級装着コストを常に表示するよう変更",
+          "武器のレアステータス候補から本来含まれるべきでない項目(自己ステータス・被れ効率)が混入していた不具合を修正",
+          "新規ビルド作成・リセット・クラス変更時にマスタリースキルの最初の3つを装着状態に変更",
+          "デスクトップ版でもビルド共有ボタンを表示するよう変更",
+          "エクスポート/インポートの導線を改善(切替ボタンの追加、誤操作防止の強化、ヘッダーのアイコンボタン化)",
+          "英語版の「進化ステータス」「レアステータス」表記(Evolution Stats/Rare Stats)を、ゲーム内の正式な英語表記(Advanced Attributes/Rare Attributes)に修正"
+        ],
+        "en": [
+          "Overhaul the Phantom Projection tree's layout, edges, and node design in the Potential tab, and revise the tab's overall styling",
+          "Unify Phantom Tree node selection to the whole config row, and auto-scroll the matching tree node/config row into view on selection",
+          "Add a bulk factor-grade stepper on the Phantom Tree's root node row",
+          "Replace the Phantom Projection enable/disable toggle with a slide switch, and show its state as an icon on the tab",
+          "Use role-specific scene backgrounds for the Ability Tree",
+          "Add a stepper to adjust equipment completion alongside the slider, and show a lock icon on items capped at 80%",
+          "Show icons on attachment cost items, and always display the advanced attachment cost",
+          "Fix weapon rare attribute candidates incorrectly including self-stats and break efficiency that shouldn't have appeared",
+          "Equip the first 3 mastery skills by default on a new build, reset, or class change",
+          "Show the build share button on the desktop client as well",
+          "Improve the export/import flow (switch buttons, hardened dialogs, icon buttons in the header)",
+          "Fix English labels for evolution/rare equipment stats to match the game's official wording (Advanced Attributes / Rare Attributes)"
+        ]
+      }
+    },
+    {
       "version": "0.8.2",
       "date": "2026-07-25T14:30:18.124Z",
       "summary": {
@@ -348,7 +386,10 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "ja": [
+          "精錬攻撃・全属性攻撃の計算修正",
+          "フッターのビルド日時のタイムゾーン変換表示"
+        ],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
