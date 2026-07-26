@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
-import Chevron from '../components/Chevron';
+import CollapsibleSection from '../components/CollapsibleSection';
 import DraggableDialog from '../components/DraggableDialog';
 import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import ToggleChip from '../components/ToggleChip';
@@ -95,42 +95,37 @@ function ImaginePickerDialog({
               />
             ))}
           </div>
-          <div className="skill-picker-dialog__filter-block">
-            <button
-              type="button"
-              className="filter-toggle-btn"
-              onClick={() => setFilterExpanded((v) => !v)}
-            >
-              <span>{tUi('buildPlanner.imagineFilter.toggle')}</span>
-              <Chevron open={filterExpanded} />
-            </button>
-            {filterExpanded && (
-              <div className="skill-picker-dialog__filter-groups">
-                <div className="skill-picker-dialog__filter-row">
-                  <span className="skill-picker-dialog__filter-label">
-                    {tUi('buildPlanner.imagineFilter.seasonLabel')}
-                  </span>
-                  <ToggleButtonGroup
-                    options={IMAGINE_SEASON_FILTERS}
-                    value={seasonFilter}
-                    getLabel={(filter) => tUi(`buildPlanner.imagineFilter.${filter}`)}
-                    onChange={handleSeasonFilterChange}
-                  />
-                </div>
-                <div className="skill-picker-dialog__filter-row">
-                  <span className="skill-picker-dialog__filter-label">
-                    {tUi('buildPlanner.imagineFilter.qualityLabel')}
-                  </span>
-                  <ToggleButtonGroup
-                    options={IMAGINE_QUALITY_FILTERS}
-                    value={qualityFilter}
-                    getLabel={(filter) => tUi(`buildPlanner.imagineFilter.${filter}`)}
-                    onChange={handleQualityFilterChange}
-                  />
-                </div>
+          <CollapsibleSection
+            className="skill-picker-dialog__filter-block"
+            open={filterExpanded}
+            onToggle={() => setFilterExpanded((v) => !v)}
+            label={tUi('buildPlanner.imagineFilter.toggle')}
+          >
+            <div className="skill-picker-dialog__filter-groups">
+              <div className="skill-picker-dialog__filter-row">
+                <span className="skill-picker-dialog__filter-label">
+                  {tUi('buildPlanner.imagineFilter.seasonLabel')}
+                </span>
+                <ToggleButtonGroup
+                  options={IMAGINE_SEASON_FILTERS}
+                  value={seasonFilter}
+                  getLabel={(filter) => tUi(`buildPlanner.imagineFilter.${filter}`)}
+                  onChange={handleSeasonFilterChange}
+                />
               </div>
-            )}
-          </div>
+              <div className="skill-picker-dialog__filter-row">
+                <span className="skill-picker-dialog__filter-label">
+                  {tUi('buildPlanner.imagineFilter.qualityLabel')}
+                </span>
+                <ToggleButtonGroup
+                  options={IMAGINE_QUALITY_FILTERS}
+                  value={qualityFilter}
+                  getLabel={(filter) => tUi(`buildPlanner.imagineFilter.${filter}`)}
+                  onChange={handleQualityFilterChange}
+                />
+              </div>
+            </div>
+          </CollapsibleSection>
         </div>
         <div className="skill-picker-dialog__grid">
           {filteredImagines.map((bi) => {

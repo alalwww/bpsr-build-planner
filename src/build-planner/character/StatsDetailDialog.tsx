@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import '../components/components.css';
 import './character.css';
+import { CollapsibleBody } from '../components/CollapsibleSection';
 import DraggableDialog from '../components/DraggableDialog';
 import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
 import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT, ELEMENT_BONUS_STAT } from '../stats/attrMaps';
@@ -46,6 +47,42 @@ function fmtIntTrunc(v: number): string {
   return Math.floor(v).toLocaleString();
 }
 
+// StatsDetailDialog内で使う折り畳みセクション。親コンポーネント内で定義すると
+// レンダーごとに関数の同一性が変わりReactがDOMを再マウントしてしまい、
+// CollapsibleBodyのCSSトランジションが効かなくなるため、モジュールスコープに分離する。
+function Section({
+  isOpen,
+  onToggle,
+  label,
+  rows,
+}: {
+  isOpen: boolean;
+  onToggle: () => void;
+  label: string;
+  rows: { label: string; value: string }[];
+}) {
+  return (
+    <div className="stats-detail__section">
+      <button type="button" className="stats-detail__section-header" onClick={onToggle}>
+        <span className="stats-detail__section-arrow">{isOpen ? '▼' : '▶'}</span>
+        {label}
+      </button>
+      <CollapsibleBody open={isOpen}>
+        <table className="stats-detail__table">
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.label} className="stats-detail__row">
+                <td className="stats-detail__label">{row.label}</td>
+                <td className="stats-detail__value">{row.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </CollapsibleBody>
+    </div>
+  );
+}
+
 export default function StatsDetailDialog({ onClose, windowed = false }: StatsDetailDialogProps) {
   const { t } = useTranslation();
 
@@ -71,40 +108,6 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   const te = (key: string) => t(`buildPlanner.detailStats.${key}`);
   const elemName = (elem: string, suffix: string) =>
     `${te(`elem.${elem}`)}${te(`elemSuffix.${suffix}`)}`;
-
-  function Section({
-    sectionKey,
-    rows,
-  }: {
-    sectionKey: string;
-    rows: { label: string; value: string }[];
-  }) {
-    const isOpen = openSections[sectionKey] ?? false;
-    return (
-      <div className="stats-detail__section">
-        <button
-          type="button"
-          className="stats-detail__section-header"
-          onClick={() => toggleSection(sectionKey)}
-        >
-          <span className="stats-detail__section-arrow">{isOpen ? '▼' : '▶'}</span>
-          {te(`sections.${sectionKey}`)}
-        </button>
-        {isOpen && (
-          <table className="stats-detail__table">
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.label} className="stats-detail__row">
-                  <td className="stats-detail__label">{row.label}</td>
-                  <td className="stats-detail__value">{row.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    );
-  }
 
   // 物理/魔法攻撃力はメインステータスから、最大HPは耐久力から、物理防御力は筋力から、
   // 魔法防御力は知力から、ファストは俊敏から変換された分を、素の値(entry.base)と
@@ -306,8 +309,8 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
             </span>
             {te('sections.buffEffects')}
           </button>
-          {openSections.buffEffects &&
-            (buffRows.length > 0 ? (
+          <CollapsibleBody open={openSections.buffEffects}>
+            {buffRows.length > 0 ? (
               <table className="stats-detail__table stats-detail__table--buff">
                 <thead>
                   <tr className="stats-detail__row">
@@ -332,15 +335,51 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
               </table>
             ) : (
               <p className="stats-detail__empty">{te('buffEffects.empty')}</p>
-            ))}
+            )}
+          </CollapsibleBody>
         </div>
-        <Section sectionKey="attack" rows={attackRows} />
-        <Section sectionKey="survival" rows={survivalRows} />
-        <Section sectionKey="support" rows={supportRows} />
-        <Section sectionKey="elemAtk" rows={elemAtkRows} />
-        <Section sectionKey="elemBonus" rows={elemBonusRows} />
-        <Section sectionKey="elemResist" rows={elemResistRows} />
-        <Section sectionKey="misc" rows={miscRows} />
+        <Section
+          isOpen={openSections.attack}
+          onToggle={() => toggleSection('attack')}
+          label={te('sections.attack')}
+          rows={attackRows}
+        />
+        <Section
+          isOpen={openSections.survival}
+          onToggle={() => toggleSection('survival')}
+          label={te('sections.survival')}
+          rows={survivalRows}
+        />
+        <Section
+          isOpen={openSections.support}
+          onToggle={() => toggleSection('support')}
+          label={te('sections.support')}
+          rows={supportRows}
+        />
+        <Section
+          isOpen={openSections.elemAtk}
+          onToggle={() => toggleSection('elemAtk')}
+          label={te('sections.elemAtk')}
+          rows={elemAtkRows}
+        />
+        <Section
+          isOpen={openSections.elemBonus}
+          onToggle={() => toggleSection('elemBonus')}
+          label={te('sections.elemBonus')}
+          rows={elemBonusRows}
+        />
+        <Section
+          isOpen={openSections.elemResist}
+          onToggle={() => toggleSection('elemResist')}
+          label={te('sections.elemResist')}
+          rows={elemResistRows}
+        />
+        <Section
+          isOpen={openSections.misc}
+          onToggle={() => toggleSection('misc')}
+          label={te('sections.misc')}
+          rows={miscRows}
+        />
       </div>
     </DraggableDialog>
   );

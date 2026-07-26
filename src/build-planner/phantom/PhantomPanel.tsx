@@ -15,7 +15,7 @@ import {
 import type { ProfessionKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
-import Chevron from '../components/Chevron';
+import CollapsibleSection from '../components/CollapsibleSection';
 import Stepper from '../components/Stepper';
 import ZoomControls from '../components/ZoomControls';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
@@ -291,26 +291,22 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             />
 
             {/* ノード効果（折り畳み可能） */}
-            <div className="phantom-desc-area">
-              <button
-                type="button"
-                className="phantom-desc-toggle"
-                onClick={() => setDescOpen((v) => !v)}
-              >
-                <span>{t('buildPlanner.phantom.nodeEffect')}</span>
-                <Chevron open={descOpen} />
-              </button>
-              {descOpen && (
-                <div className="phantom-desc-content">
-                  <PhantomNodeEffect
-                    selectedNodeId={selectedNodeId}
-                    phantomFactorSlots={phantomFactorSlots}
-                    phantomLevel={phantomLevel}
-                    phantomTemplateId={phantomTemplateId}
-                  />
-                </div>
-              )}
-            </div>
+            <CollapsibleSection
+              className="phantom-desc-area"
+              toggleClassName="phantom-desc-toggle"
+              open={descOpen}
+              onToggle={() => setDescOpen((v) => !v)}
+              label={t('buildPlanner.phantom.nodeEffect')}
+            >
+              <div className="phantom-desc-content">
+                <PhantomNodeEffect
+                  selectedNodeId={selectedNodeId}
+                  phantomFactorSlots={phantomFactorSlots}
+                  phantomLevel={phantomLevel}
+                  phantomTemplateId={phantomTemplateId}
+                />
+              </div>
+            </CollapsibleSection>
             {/* ノード設定 */}
             <PhantomNodeConfig
               treeSteps={treeSteps}

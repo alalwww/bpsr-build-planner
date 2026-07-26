@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Chevron from '../components/Chevron';
+import CollapsibleSection from '../components/CollapsibleSection';
 import Stepper from '../components/Stepper';
 import { renderEffectDesc } from '../components/gameText';
 import { getUnlockLevel, stData } from './phantomData';
@@ -60,37 +60,33 @@ export default function PhantomBondSection({
       </div>
       {/* 絆レベル効果（折り畳み可能） */}
       {bondLevelEffects.length > 0 && (
-        <div className="phantom-bond-effects">
-          <button
-            type="button"
-            className="phantom-bond-effects-toggle"
-            onClick={() => setBondEffectsOpen((v) => !v)}
-          >
-            <span>{t('buildPlanner.phantom.bondEffects')}</span>
-            <Chevron open={bondEffectsOpen} />
-          </button>
-          {bondEffectsOpen && (
-            <div className="phantom-bond-effects-list">
-              {bondLevelEffects.map((ae) => {
-                const isActive = phantomBondPoints >= ae.unlockFraction;
-                const idx = ae.effects.findIndex((e) => e[0] === 3);
-                const buffId = idx >= 0 ? ae.effects[idx][1] : null;
-                const pars = idx >= 0 ? (ae.buffPars[idx] ?? []) : [];
-                const tmplStr = buffId ? tg(`attrDescs.${buffId}`, { defaultValue: '' }) : '';
-                const desc = tmplStr ? renderEffectDesc(tmplStr, pars) : '';
-                return (
-                  <div
-                    key={ae.level}
-                    className={`phantom-bond-effect${isActive ? ' phantom-bond-effect--active' : ''}`}
-                  >
-                    <span className="phantom-bond-effect-threshold">{ae.unlockFraction}pt</span>
-                    <span className="phantom-bond-effect-desc">{desc || `Lv.${ae.level}`}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          {bondEffectsOpen && bondSlots.length > 0 && (
+        <CollapsibleSection
+          className="phantom-bond-effects"
+          toggleClassName="phantom-bond-effects-toggle"
+          open={bondEffectsOpen}
+          onToggle={() => setBondEffectsOpen((v) => !v)}
+          label={t('buildPlanner.phantom.bondEffects')}
+        >
+          <div className="phantom-bond-effects-list">
+            {bondLevelEffects.map((ae) => {
+              const isActive = phantomBondPoints >= ae.unlockFraction;
+              const idx = ae.effects.findIndex((e) => e[0] === 3);
+              const buffId = idx >= 0 ? ae.effects[idx][1] : null;
+              const pars = idx >= 0 ? (ae.buffPars[idx] ?? []) : [];
+              const tmplStr = buffId ? tg(`attrDescs.${buffId}`, { defaultValue: '' }) : '';
+              const desc = tmplStr ? renderEffectDesc(tmplStr, pars) : '';
+              return (
+                <div
+                  key={ae.level}
+                  className={`phantom-bond-effect${isActive ? ' phantom-bond-effect--active' : ''}`}
+                >
+                  <span className="phantom-bond-effect-threshold">{ae.unlockFraction}pt</span>
+                  <span className="phantom-bond-effect-desc">{desc || `Lv.${ae.level}`}</span>
+                </div>
+              );
+            })}
+          </div>
+          {bondSlots.length > 0 && (
             <ul className="phantom-bond-slots-list">
               {bondSlots.map((slot) => {
                 const requiredLevel = getUnlockLevel(slot.unlockCondition);
@@ -115,7 +111,7 @@ export default function PhantomBondSection({
               })}
             </ul>
           )}
-        </div>
+        </CollapsibleSection>
       )}
     </div>
   );

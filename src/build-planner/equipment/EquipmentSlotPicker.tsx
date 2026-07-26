@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import perfectlineLockIconUrl from '../../assets/ui/profession_icon_lock01.png';
 import Chevron from '../components/Chevron';
+import CollapsibleSection from '../components/CollapsibleSection';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useSessionState } from '../components/useSessionState';
 import DraggableDialog from '../components/DraggableDialog';
@@ -484,22 +485,18 @@ function EquipmentSlotPicker({
             </div>
 
             <div className="equip-details-section">
-              <button
-                type="button"
-                className="filter-toggle-btn"
-                onClick={() => setCandidateFilterExpanded((v) => !v)}
+              <CollapsibleSection
+                open={candidateFilterExpanded}
+                onToggle={() => setCandidateFilterExpanded((v) => !v)}
+                label={t('buildPlanner.candidateFilter.toggle')}
               >
-                <span>{t('buildPlanner.candidateFilter.toggle')}</span>
-                <Chevron open={candidateFilterExpanded} />
-              </button>
-              {candidateFilterExpanded && (
                 <ToggleButtonGroup
                   options={CANDIDATE_GS_FILTERS}
                   value={candidateGsFilter}
                   getLabel={(filter) => t(`buildPlanner.candidateFilter.${filter}`)}
                   onChange={onSetCandidateGsFilter}
                 />
-              )}
+              </CollapsibleSection>
               <Dropdown
                 autoFocus
                 panelWidthScale={1.3}

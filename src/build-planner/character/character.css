@@ -287,39 +287,46 @@
   background: rgba(255, 255, 255, 0.07);
 }
 
-/* Ability score breakdown dialog (DraggableDialogをベースに拡張) */
+/* Ability score breakdown dialog (DraggableDialogをベースに拡張)。
+   グループの内訳(折り畳み)をCollapsibleBodyで高さアニメーションさせるため、
+   <table>ではなくCSS Gridの2列レイアウトで組む。.ability-score-dialog__row は
+   display:contents で「行」を表現し(直下の2つのセルがそのままグリッドに参加する
+   ため<table>同様に列が揃う)、子要素一覧だけは折り畳みが必要なため
+   .ability-score-dialog__child-span(grid-column: 1/-1)の中に独立した入れ子グリッド
+   (.ability-score-dialog__child-grid)を持つ。値列の幅を外側/内側で固定px一致させる
+   ことで、グループ行・子行・合計行すべての数値が同じ位置で右揃えになるようにする。 */
 .draggable-dialog.ability-score-dialog {
   min-width: 320px;
   max-width: 420px;
 }
 
-.ability-score-dialog__table {
+.ability-score-dialog__grid {
+  display: grid;
+  grid-template-columns: 1fr 72px;
   width: 100%;
-  border-collapse: collapse;
   font-size: 12px;
 }
 
-.ability-score-dialog__th {
-  color: #888;
-  font-weight: 500;
-  padding: 4px 6px;
-  border-bottom: 1px solid #3a3a50;
-  text-align: left;
+.ability-score-dialog__row {
+  display: contents;
 }
 
-.ability-score-dialog__th--right {
-  text-align: right;
-}
-
-.ability-score-dialog__td {
+.ability-score-dialog__cell {
   padding: 3px 6px;
   color: #c8c6d1;
   border-bottom: 1px solid #252530;
 }
 
-.ability-score-dialog__td--right {
+.ability-score-dialog__cell--right {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.ability-score-dialog__row--header .ability-score-dialog__cell {
+  color: #888;
+  font-weight: 500;
+  padding: 4px 6px;
+  border-bottom: 1px solid #3a3a50;
 }
 
 /* 大項目行 */
@@ -327,11 +334,11 @@
   cursor: pointer;
 }
 
-.ability-score-dialog__row--group:hover .ability-score-dialog__td {
+.ability-score-dialog__row--group:hover .ability-score-dialog__cell {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.ability-score-dialog__td--group-label {
+.ability-score-dialog__cell--group-label {
   font-weight: 500;
 }
 
@@ -343,14 +350,27 @@
   vertical-align: middle;
 }
 
-/* 小項目行 */
-.ability-score-dialog__row--child .ability-score-dialog__td {
+/* 小項目一覧(折り畳み本体)。外側グリッドの2列をまたぎ、中に独立した2列グリッドを持つ。 */
+.ability-score-dialog__child-span {
+  grid-column: 1 / -1;
+}
+
+.ability-score-dialog__child-grid {
+  display: grid;
+  grid-template-columns: 1fr 72px;
+}
+
+.ability-score-dialog__child-row {
+  display: contents;
+}
+
+.ability-score-dialog__child-row .ability-score-dialog__cell {
   color: #a0a0b0;
   border-bottom-color: #1e1e2a;
   font-size: 11px;
 }
 
-.ability-score-dialog__td--child-label {
+.ability-score-dialog__cell--child-label {
   padding-left: 8px;
 }
 
@@ -362,7 +382,7 @@
 }
 
 /* 合計行 */
-.ability-score-dialog__row--total .ability-score-dialog__td {
+.ability-score-dialog__row--total .ability-score-dialog__cell {
   border-top: 1px solid #3a3a50;
   border-bottom: none;
   font-weight: 600;

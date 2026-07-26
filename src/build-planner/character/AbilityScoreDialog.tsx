@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../components/components.css';
 import './character.css';
+import { CollapsibleBody } from '../components/CollapsibleSection';
 import DraggableDialog from '../components/DraggableDialog';
 import type { AbilityScoreBreakdown } from '../types';
 
@@ -84,71 +85,75 @@ function AbilityScoreDialog({
       className="ability-score-dialog"
       windowed={windowed}
     >
-      <table className="ability-score-dialog__table">
-        <thead>
-          <tr>
-            <th className="ability-score-dialog__th">
-              {t('buildPlanner.abilityScoreBreakdown.source')}
-            </th>
-            <th className="ability-score-dialog__th ability-score-dialog__th--right">
-              {t('buildPlanner.abilityScoreBreakdown.value')}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {groups.map((group) => {
-            const isExpandable = group.children !== null;
-            const isExpanded = expandedGroups.has(group.key);
-            return (
-              <Fragment key={group.key}>
-                <tr
-                  className={`ability-score-dialog__row${isExpandable ? ' ability-score-dialog__row--group' : ''}`}
-                  onClick={isExpandable ? () => onToggleGroup(group.key) : undefined}
-                >
-                  <td className="ability-score-dialog__td ability-score-dialog__td--group-label">
-                    {isExpandable && (
-                      <span className="ability-score-dialog__toggle">{isExpanded ? '▼' : '▶'}</span>
-                    )}
-                    {t(`buildPlanner.abilityScoreBreakdown.${group.key}`)}
-                  </td>
-                  <td className="ability-score-dialog__td ability-score-dialog__td--right">
-                    {Math.round(group.total).toLocaleString()}
-                  </td>
-                </tr>
-                {isExpanded &&
-                  group.children &&
-                  group.children.map((child, ci) => {
-                    const isLast = ci === group.children!.length - 1;
-                    return (
-                      <tr
-                        key={child.key}
-                        className="ability-score-dialog__row ability-score-dialog__row--child"
-                      >
-                        <td className="ability-score-dialog__td ability-score-dialog__td--child-label">
-                          <span className="ability-score-dialog__tree">{isLast ? '└' : '├'}</span>
-                          {t(`buildPlanner.abilityScoreBreakdown.${child.key}`)}
-                        </td>
-                        <td className="ability-score-dialog__td ability-score-dialog__td--right">
-                          {Math.round(child.value).toLocaleString()}
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </Fragment>
-            );
-          })}
-        </tbody>
-        <tfoot>
-          <tr className="ability-score-dialog__row ability-score-dialog__row--total">
-            <td className="ability-score-dialog__td">
-              {t('buildPlanner.abilityScoreBreakdown.total')}
-            </td>
-            <td className="ability-score-dialog__td ability-score-dialog__td--right">
-              {Math.round(bd.total).toLocaleString()}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      {/* 折り畳み(グループ内訳)をアニメーションさせるため、<table>ではなくCSS Gridの
+          2列レイアウトで組む(display:contentsの行ラッパーで<table>同様の列揃えを維持
+          しつつ、子要素一覧をCollapsibleBodyで高さアニメーションできるようにする)。 */}
+      <div className="ability-score-dialog__grid">
+        <div className="ability-score-dialog__row ability-score-dialog__row--header">
+          <div className="ability-score-dialog__cell">
+            {t('buildPlanner.abilityScoreBreakdown.source')}
+          </div>
+          <div className="ability-score-dialog__cell ability-score-dialog__cell--right">
+            {t('buildPlanner.abilityScoreBreakdown.value')}
+          </div>
+        </div>
+        {groups.map((group) => {
+          const isExpandable = group.children !== null;
+          const isExpanded = expandedGroups.has(group.key);
+          return (
+            <Fragment key={group.key}>
+              <div
+                className={`ability-score-dialog__row${isExpandable ? ' ability-score-dialog__row--group' : ''}`}
+                onClick={isExpandable ? () => onToggleGroup(group.key) : undefined}
+              >
+                <div className="ability-score-dialog__cell ability-score-dialog__cell--group-label">
+                  {isExpandable && (
+                    <span className="ability-score-dialog__toggle">
+                      {isExpanded ? '▼' : '▶'}
+                    </span>
+                  )}
+                  {t(`buildPlanner.abilityScoreBreakdown.${group.key}`)}
+                </div>
+                <div className="ability-score-dialog__cell ability-score-dialog__cell--right">
+                  {Math.round(group.total).toLocaleString()}
+                </div>
+              </div>
+              {group.children && (
+                <div className="ability-score-dialog__child-span">
+                  <CollapsibleBody open={isExpanded}>
+                    <div className="ability-score-dialog__child-grid">
+                      {group.children.map((child, ci) => {
+                        const isLast = ci === group.children!.length - 1;
+                        return (
+                          <div key={child.key} className="ability-score-dialog__child-row">
+                            <div className="ability-score-dialog__cell ability-score-dialog__cell--child-label">
+                              <span className="ability-score-dialog__tree">
+                                {isLast ? '└' : '├'}
+                              </span>
+                              {t(`buildPlanner.abilityScoreBreakdown.${child.key}`)}
+                            </div>
+                            <div className="ability-score-dialog__cell ability-score-dialog__cell--right">
+                              {Math.round(child.value).toLocaleString()}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CollapsibleBody>
+                </div>
+              )}
+            </Fragment>
+          );
+        })}
+        <div className="ability-score-dialog__row ability-score-dialog__row--total">
+          <div className="ability-score-dialog__cell">
+            {t('buildPlanner.abilityScoreBreakdown.total')}
+          </div>
+          <div className="ability-score-dialog__cell ability-score-dialog__cell--right">
+            {Math.round(bd.total).toLocaleString()}
+          </div>
+        </div>
+      </div>
     </DraggableDialog>
   );
 }

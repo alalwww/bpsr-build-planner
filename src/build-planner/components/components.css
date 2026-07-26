@@ -16,6 +16,25 @@
   transform: rotate(180deg);
 }
 
+/* 折り畳みセクション共通(絞り込み/絆レベル効果/ノード効果などで使用、CollapsibleSection)。
+   grid-template-rows: 0fr→1frのトリックで、JSでの高さ計測なしに可変長コンテンツを
+   アニメーションさせる。__body-inner はoverflow:hiddenでgridの自動最小サイズを0にし、
+   閉時に完全につぶれるようにする。 */
+.collapsible-section__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+}
+
+.collapsible-section__body--open {
+  grid-template-rows: 1fr;
+}
+
+.collapsible-section__body-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
 /* Confirm dialog (共通確認モーダル: プラン保存/削除/読込確認・タレントリセット確認等) */
 .confirm-dialog {
   position: relative;
