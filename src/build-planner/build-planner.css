@@ -247,8 +247,9 @@
   opacity: 0;
 }
 
-/* 潜在タブの心相投影アイコン。有効時は選択中ツリーのアイコン、無効時は同サイズの
-   灰色の丸(テキストで(有効/無効)を出すと潜在Lv自体が無効という誤解を招くため)。 */
+/* 潜在タブの心相投影アイコン。有効時は選択中ツリーのアイコン(背景は薄いピンク)、
+   無効時は同サイズの灰色の丸(テキストで(有効/無効)を出すと潜在Lv自体が無効という
+   誤解を招くため)。 */
 .build-planner__tab-phantom-icon {
   display: inline-block;
   vertical-align: middle;
@@ -257,10 +258,11 @@
   height: 16px;
   border-radius: 50%;
   object-fit: cover;
+  background: #892d3e;
 }
 
 .build-planner__tab-phantom-icon--off {
-  background: #555;
+  background: #7c7c7c;
 }
 
 .build-planner__content {
