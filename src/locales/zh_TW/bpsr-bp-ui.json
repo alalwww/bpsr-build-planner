@@ -146,6 +146,7 @@
     "sharePanelLabel": "分享",
     "switchToShare": "切換到分享",
     "switchToExport": "切換到導出",
+    "switchToImport": "切換到導入",
     "generateShortUrl": "創建分享鏈接",
     "generatingShortUrl": "創建中…",
     "shortUrlCreated": "已創建",

@@ -146,6 +146,7 @@
     "sharePanelLabel": "シェア",
     "switchToShare": "シェアへ切り替え",
     "switchToExport": "エクスポートへ切替",
+    "switchToImport": "インポートへ切替",
     "generateShortUrl": "共有リンクを作成",
     "generatingShortUrl": "作成中…",
     "shortUrlCreated": "作成済み",

@@ -12,15 +12,25 @@ interface ConfirmDialogProps {
   /** 省略するとキャンセルボタンを表示しない単一ボタンの通知ダイアログになる。 */
   cancelLabel?: string;
   onCancel?: () => void;
+  /** アクション行の左端に置く別系統の切り替えボタン(例: インポートへ切替)。
+   * confirm/cancel(右寄せ)とは独立して左寄せで表示する。 */
+  secondaryLabel?: string;
+  onSecondary?: () => void;
   /** 背景クリックで閉じる際の挙動。省略時は onCancel ?? onConfirm(通常の確認/キャンセル
    * ダイアログと同じ)。onCancelを「キャンセル」以外の用途(切り替え等)に使っている場合、
    * 背景クリックだけは素直に閉じたい(切り替えを誤爆させたくない)ときに指定する。 */
   onDismiss?: () => void;
   /** falseにすると背景クリックで閉じなくなる(誤操作で閉じられたくないダイアログ用)。既定 true。 */
   closeOnOverlayClick?: boolean;
-  /** trueにすると下部の確定ボタン(confirmLabel)の代わりに右上の✕アイコンで閉じる形にする。
-   * アイコンはonConfirmを呼ぶ(confirmLabelはアイコンのaria-labelとして使う)。既定 false。 */
+  /** trueにすると右上に✕アイコンを表示する。onDismiss ?? onCancel ?? onConfirm を呼ぶ
+   * (onConfirmが送信/実行系の処理でも、✕は素直に閉じるだけにするため)。
+   * confirmLabelはアイコンのaria-label/titleとして使う。既定 false。 */
   closeIcon?: boolean;
+  /** trueにすると下部の確定ボタン(confirmLabel)を表示しない。✕アイコン単独で閉じる、
+   * かつ確定ボタンが冗長なダイアログ(閉じる=確定なだけのもの)向け。既定 false。 */
+  hideConfirmButton?: boolean;
+  /** アクション行の下にもう1行追加する(例: 別ダイアログへの切り替えボタンを右寄せで)。 */
+  footer?: ReactNode;
   className?: string;
 }
 
@@ -36,14 +46,19 @@ function ConfirmDialog({
   confirmDisabled,
   cancelLabel,
   onCancel,
+  secondaryLabel,
+  onSecondary,
   onDismiss,
   closeOnOverlayClick = true,
   closeIcon = false,
+  hideConfirmButton = false,
+  footer,
   className,
 }: ConfirmDialogProps) {
+  const handleDismiss = onDismiss ?? onCancel ?? onConfirm;
   return (
     <DraggableDialog
-      onClose={onDismiss ?? onCancel ?? onConfirm}
+      onClose={handleDismiss}
       closeOnOverlayClick={closeOnOverlayClick}
       className={`confirm-dialog${className ? ` ${className}` : ''}`}
     >
@@ -51,7 +66,7 @@ function ConfirmDialog({
         <button
           type="button"
           className="confirm-dialog__close-icon"
-          onClick={onConfirm}
+          onClick={handleDismiss}
           aria-label={confirmLabel}
           title={confirmLabel}
         >
@@ -62,26 +77,40 @@ function ConfirmDialog({
       {message !== undefined && <p className="confirm-dialog__message">{message}</p>}
       {children}
       <div className="confirm-dialog__actions">
-        {!closeIcon && (
-          <button
-            type="button"
-            className="confirm-dialog__btn confirm-dialog__btn--ok"
-            onClick={onConfirm}
-            disabled={confirmDisabled}
-          >
-            {confirmLabel}
-          </button>
-        )}
-        {onCancel && cancelLabel && (
-          <button
-            type="button"
-            className="confirm-dialog__btn confirm-dialog__btn--cancel"
-            onClick={onCancel}
-          >
-            {cancelLabel}
-          </button>
-        )}
+        <div className="confirm-dialog__actions-left">
+          {onSecondary && secondaryLabel && (
+            <button
+              type="button"
+              className="confirm-dialog__btn confirm-dialog__btn--cancel"
+              onClick={onSecondary}
+            >
+              {secondaryLabel}
+            </button>
+          )}
+        </div>
+        <div className="confirm-dialog__actions-right">
+          {!hideConfirmButton && (
+            <button
+              type="button"
+              className="confirm-dialog__btn confirm-dialog__btn--ok"
+              onClick={onConfirm}
+              disabled={confirmDisabled}
+            >
+              {confirmLabel}
+            </button>
+          )}
+          {onCancel && cancelLabel && (
+            <button
+              type="button"
+              className="confirm-dialog__btn confirm-dialog__btn--cancel"
+              onClick={onCancel}
+            >
+              {cancelLabel}
+            </button>
+          )}
+        </div>
       </div>
+      {footer}
     </DraggableDialog>
   );
 }

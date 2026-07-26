@@ -192,11 +192,12 @@ function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildBu
         <ConfirmDialog
           confirmLabel={t('buildPlanner.close', { defaultValue: '閉じる' })}
           onConfirm={() => onOpenChange(false)}
-          cancelLabel={t('buildPlanner.switchToExport', { defaultValue: 'エクスポートへ切替' })}
-          onCancel={handleSwitchToExport}
+          secondaryLabel={t('buildPlanner.switchToExport', { defaultValue: 'エクスポートへ切替' })}
+          onSecondary={handleSwitchToExport}
           onDismiss={() => onOpenChange(false)}
           closeOnOverlayClick={false}
           closeIcon
+          hideConfirmButton
         >
           <ul className="share-dialog__notes">
             {noteItems.map((item) => (

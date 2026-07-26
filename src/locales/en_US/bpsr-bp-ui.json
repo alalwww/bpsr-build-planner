@@ -146,6 +146,7 @@
     "sharePanelLabel": "Share",
     "switchToShare": "Switch to Share",
     "switchToExport": "Switch to Export",
+    "switchToImport": "Switch to Import",
     "generateShortUrl": "Create share link",
     "generatingShortUrl": "Creating…",
     "shortUrlCreated": "Created",

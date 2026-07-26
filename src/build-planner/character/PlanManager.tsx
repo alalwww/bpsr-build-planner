@@ -464,9 +464,15 @@ function PlanManager() {
             setExportDialogOpen(false);
             setShareDialogOpen(true);
           }}
+          secondaryLabel={t('buildPlanner.switchToImport', { defaultValue: 'インポートへ切替' })}
+          onSecondary={() => {
+            setExportDialogOpen(false);
+            handleOpenImportDialog();
+          }}
           onDismiss={() => setExportDialogOpen(false)}
           closeOnOverlayClick={false}
           closeIcon
+          hideConfirmButton
         >
           <textarea
             className="confirm-dialog__textarea"
@@ -499,8 +505,23 @@ function PlanManager() {
           confirmLabel={t('buildPlanner.importConfirm', { defaultValue: 'インポート' })}
           onConfirm={handleConfirmImport}
           confirmDisabled={!importInput.trim()}
-          cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
-          onCancel={() => setImportDialogOpen(false)}
+          onDismiss={() => setImportDialogOpen(false)}
+          closeOnOverlayClick={false}
+          closeIcon
+          footer={
+            <div className="confirm-dialog__secondary-row">
+              <button
+                type="button"
+                className="confirm-dialog__btn confirm-dialog__btn--cancel"
+                onClick={() => {
+                  setImportDialogOpen(false);
+                  handleOpenExportDialog();
+                }}
+              >
+                {t('buildPlanner.switchToExport', { defaultValue: 'エクスポートへ切替' })}
+              </button>
+            </div>
+          }
         >
           <textarea
             className="confirm-dialog__textarea"

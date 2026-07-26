@@ -146,6 +146,7 @@
     "sharePanelLabel": "공유",
     "switchToShare": "공유로 전환",
     "switchToExport": "내보내기로 전환",
+    "switchToImport": "가져오기로 전환",
     "generateShortUrl": "공유 링크 생성",
     "generatingShortUrl": "생성 중…",
     "shortUrlCreated": "생성됨",

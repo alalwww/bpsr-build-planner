@@ -140,8 +140,15 @@
 
 .confirm-dialog__actions {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
-  justify-content: flex-end;
+}
+
+.confirm-dialog__actions-left,
+.confirm-dialog__actions-right {
+  display: flex;
+  gap: 8px;
 }
 
 .confirm-dialog__btn {
