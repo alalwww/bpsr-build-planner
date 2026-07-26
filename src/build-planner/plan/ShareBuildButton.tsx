@@ -6,6 +6,7 @@ import { buildLineShareIntentUrl, buildXShareIntentUrl, shortenPlanCode } from '
 import { computeStatsBundle } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
 import { isTauri } from '../../platform';
+import { openExternal } from '../../platform/openExternal';
 
 // シェア系のポップアップ(X/LINE)を、新しいタブではなく従来の共有ボタンに近い小さな
 // ポップアップウィンドウとして開く。noopenerによりwindow.openerは渡さない。
@@ -86,7 +87,7 @@ interface ShareBuildButtonProps {
 }
 
 // プラン保存等と挙動を揃えるため、中央固定モーダル(ConfirmDialog)で共有リンクの作成・
-// コピー・X/LINEでの共有まで到達できるようにする(docs/SHORT_URL.md参照)。Web版のみ対象。
+// コピー・X/LINEでの共有まで到達できるようにする(docs/SHORT_URL.md参照)。
 function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildButtonProps) {
   const { t, i18n } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
@@ -95,8 +96,6 @@ function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildBu
   const [error, setError] = useState(false);
   const [urlCopied, setUrlCopied] = useState(false);
   const [textCopied, setTextCopied] = useState(false);
-
-  if (isTauri) return null;
 
   const noteItems = t('buildPlanner.shortUrlRateLimitNote', {
     returnObjects: true,
@@ -153,14 +152,25 @@ function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildBu
   const buildXShareText = (url: string) =>
     `${buildShareMessage(url)}\n\n${t('buildPlanner.shareXHashtags', { defaultValue: '' })}`;
 
+  // クライアント版はTauriの別ウィンドウを作らず、既定ブラウザで開く。
   const handleShareX = () => {
     if (!shortUrl) return;
-    openSharePopup(buildXShareIntentUrl(buildXShareText(shortUrl)), 'share-x');
+    const url = buildXShareIntentUrl(buildXShareText(shortUrl));
+    if (isTauri) {
+      openExternal(url);
+    } else {
+      openSharePopup(url, 'share-x');
+    }
   };
 
   const handleShareLine = () => {
     if (!shortUrl) return;
-    openSharePopup(buildLineShareIntentUrl(buildShareMessage(shortUrl)), 'share-line');
+    const url = buildLineShareIntentUrl(buildShareMessage(shortUrl));
+    if (isTauri) {
+      openExternal(url);
+    } else {
+      openSharePopup(url, 'share-line');
+    }
   };
 
   const handleCopyText = () => {

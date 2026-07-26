@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import appIconUrl from '../../src-tauri/icons/32x32.png';
 import { formatBuildTime } from '../buildInfo';
 import { isTauri } from '../platform';
+import { openExternal } from '../platform/openExternal';
 import ChangelogList from './ChangelogList';
 import './about-panel.css';
 
@@ -14,17 +15,6 @@ interface AboutPanelProps {
   updateArea?: ReactNode;
   onOk: () => void;
 }
-
-const openExternal = (url: string) => {
-  if (isTauri) {
-    void (async () => {
-      const { openUrl } = await import('@tauri-apps/plugin-opener');
-      await openUrl(url);
-    })();
-  } else {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  }
-};
 
 // About の共通コンテンツ(アプリ情報+変更履歴)。
 // クライアント版は AboutApp(独立ウィンドウ)、Web版は AboutDialog がラップする。
