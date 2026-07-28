@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.8.5",
+      "date": "2026-07-28T04:26:41.840Z",
+      "summary": {
+        "ja": "セット装備効果の説明文の表示不具合を修正",
+        "en": "Fix display issue in set equipment effect descriptions"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.8.4",
       "date": "2026-07-26T12:45:58.708Z",
       "summary": {
