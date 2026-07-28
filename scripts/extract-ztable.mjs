@@ -347,10 +347,13 @@ function extractRefineData(langDir) {
 }
 
 // suits.json: EquipSuitTable × EquipAttrSchoolLibTable → セット効果データ
-//   { [suitId]: { tiers: [{ limitNum, fightValue, effects: { [schoolId]: buffId } }] } }
+//   { [suitId]: { tiers: [{ limitNum, fightValue, effects: { [schoolId]: { buffId, params } } }] } }
 //     limitNum: 発動に必要な装備数
 //     fightValue: 能力スコア加算値 (全クラス共通)
-//     effects: { schoolId → AttrEffect buffId } (TalentSchoolId=[] は "101" にリマップ)
+//     effects: { schoolId → { buffId: AttrEffect buffId, params: AttrEffectConfig 実値配列 } }
+//       (TalentSchoolId=[] は "101" にリマップ。params は attrDescs の {pN} 置換に使う実値で、
+//       AttrEffect[0][2](省略時1)が示すパラメータ数ぶん AttrEffectConfig[i][0] を集める。
+//       全126エントリで AttrEffectConfig の [min, max] は常に一致するため min のみを保持する)
 function extractSuits(langDir) {
   const suitTable = readTable(langDir, 'EquipSuitTable');
   const schoolLibTable = readTable(langDir, 'EquipAttrSchoolLibTable');
@@ -377,13 +380,17 @@ function extractSuits(langDir) {
         if (tableType === 2 && libId) {
           for (const libEntry of schoolLibByLibId[libId] ?? []) {
             if (fightValue === 0) fightValue = libEntry.FightValue?.[0]?.[0] ?? 0;
-            const buffId = libEntry.AttrEffect?.[0]?.[1];
+            const [, buffId, paramCount = 1] = libEntry.AttrEffect?.[0] ?? [];
             if (buffId) {
               const schoolId =
                 (libEntry.TalentSchoolId ?? []).length === 0
                   ? '101'
                   : String(libEntry.TalentSchoolId[0]);
-              effects[schoolId] = buffId;
+              const params = Array.from(
+                { length: paramCount },
+                (_, i) => libEntry.AttrEffectConfig?.[i]?.[0] ?? 0,
+              );
+              effects[schoolId] = { buffId, params };
             }
           }
         }

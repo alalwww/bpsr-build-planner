@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import perfectlineLockIconUrl from '../../assets/ui/profession_icon_lock01.png';
 import FloatingTooltip from '../components/FloatingTooltip';
+import { renderEffectDesc } from '../components/gameText';
 import StatRow from '../components/StatRow';
 import {
   classifyEvoDisplay,
@@ -274,10 +275,11 @@ function EquipmentItemPopup({
           {suitInfo.tiers
             .filter((tier) => suitInfo.count >= tier.limitNum)
             .map((tier) => {
-              const buffId = tier.effects[suitInfo.schoolId] ?? tier.effects['101'] ?? null;
-              const desc = buffId
-                ? t(`attrDescs.${buffId}`, { ns: 'game-data', defaultValue: '' })
+              const effect = tier.effects[suitInfo.schoolId] ?? tier.effects['101'] ?? null;
+              const tmpl = effect
+                ? t(`attrDescs.${effect.buffId}`, { ns: 'game-data', defaultValue: '' })
                 : '';
+              const desc = effect && tmpl ? renderEffectDesc(tmpl, effect.params, true) : '';
               return desc ? (
                 <div key={tier.limitNum} className="suit-effects__tier suit-effects__tier--active">
                   <span className="suit-effects__tier-label">

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import perfectlineLockIconUrl from '../../assets/ui/profession_icon_lock01.png';
 import Chevron from '../components/Chevron';
 import CollapsibleSection from '../components/CollapsibleSection';
+import { renderEffectDesc } from '../components/gameText';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useSessionState } from '../components/useSessionState';
 import DraggableDialog from '../components/DraggableDialog';
@@ -871,10 +872,11 @@ function EquipmentSlotPicker({
                 </div>
                 {suitInfo.tiers.map((tier) => {
                   const active = suitInfo.count >= tier.limitNum;
-                  const buffId = tier.effects[suitInfo.schoolId] ?? tier.effects['101'] ?? null;
-                  const desc = buffId
-                    ? t(`attrDescs.${buffId}`, { ns: 'game-data', defaultValue: '' })
+                  const effect = tier.effects[suitInfo.schoolId] ?? tier.effects['101'] ?? null;
+                  const tmpl = effect
+                    ? t(`attrDescs.${effect.buffId}`, { ns: 'game-data', defaultValue: '' })
                     : '';
+                  const desc = effect && tmpl ? renderEffectDesc(tmpl, effect.params, true) : '';
                   return (
                     <div
                       key={tier.limitNum}

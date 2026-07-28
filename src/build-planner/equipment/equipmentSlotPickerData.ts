@@ -13,7 +13,12 @@ import type {
 import type { Profession } from '../profession';
 
 // ---- セット効果データ型 ----
-export type SuitTier = { limitNum: number; fightValue: number; effects: Record<string, number> };
+export type SuitTierEffect = { buffId: number; params: number[] };
+export type SuitTier = {
+  limitNum: number;
+  fightValue: number;
+  effects: Record<string, SuitTierEffect>;
+};
 export const suitsData = suitsDataRaw as Record<string, { tiers: SuitTier[] }>;
 
 // ---- セット効果集計 ----
