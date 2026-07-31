@@ -700,13 +700,6 @@
   user-select: none;
 }
 
-.buff-effect-dialog__checkbox-label input[type='checkbox'] {
-  accent-color: #f4a13a;
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-}
-
 .buff-effect-dialog__input,
 .buff-effect-dialog__select {
   flex: 1;

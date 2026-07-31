@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import DraggableDialog from '../components/DraggableDialog';
 import Stepper from '../components/Stepper';
+import ToggleSwitch from '../components/ToggleSwitch';
 import type { CookingBuffState, ModuleSlots } from '../types';
 import { ELEMENT_IDS } from '../types';
 import type { Profession } from '../profession';
@@ -75,10 +76,9 @@ function BuffEffectDialog({
         {/* 料理 */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
-            <input
-              type="checkbox"
+            <ToggleSwitch
               checked={cookingBuff.cookingEnabled}
-              onChange={(e) => onChange({ cookingEnabled: e.target.checked })}
+              onChange={(checked) => onChange({ cookingEnabled: checked })}
             />
             <span>{t('buildPlanner.buffDialog.cooking')}</span>
           </label>
@@ -110,11 +110,10 @@ function BuffEffectDialog({
         {/* シロップ/脊椎試薬 */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
-            <input
-              type="checkbox"
+            <ToggleSwitch
               checked={cookingBuff.syrupEnabled}
               disabled={cookingBuff.starOilEnabled}
-              onChange={(e) => onChange({ syrupEnabled: e.target.checked })}
+              onChange={(checked) => onChange({ syrupEnabled: checked })}
             />
             <span>{t('buildPlanner.buffDialog.syrup')}</span>
           </label>
@@ -147,11 +146,10 @@ function BuffEffectDialog({
         {/* スターオイル */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
-            <input
-              type="checkbox"
+            <ToggleSwitch
               checked={cookingBuff.starOilEnabled}
               disabled={cookingBuff.syrupEnabled}
-              onChange={(e) => onChange({ starOilEnabled: e.target.checked })}
+              onChange={(checked) => onChange({ starOilEnabled: checked })}
             />
             <span>{t('buildPlanner.buffDialog.starOil')}</span>
           </label>
@@ -169,10 +167,9 @@ function BuffEffectDialog({
             (旧・海風の宴を汎用化したもの。効果値は入力可能で、既定値のみ500を踏襲)。 */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
-            <input
-              type="checkbox"
+            <ToggleSwitch
               checked={cookingBuff.eventBuffEnabled}
-              onChange={(e) => onChange({ eventBuffEnabled: e.target.checked })}
+              onChange={(checked) => onChange({ eventBuffEnabled: checked })}
             />
             <span>{t('buildPlanner.buffDialog.eventBuff')}</span>
           </label>
@@ -194,10 +191,9 @@ function BuffEffectDialog({
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
-              <input
-                type="checkbox"
+              <ToggleSwitch
                 checked={cookingBuff.inspirationEnabled}
-                onChange={(e) => onChange({ inspirationEnabled: e.target.checked })}
+                onChange={(checked) => onChange({ inspirationEnabled: checked })}
               />
               <span>{t('buildPlanner.buffDialog.inspiration')}</span>
             </label>
@@ -235,10 +231,9 @@ function BuffEffectDialog({
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
-              <input
-                type="checkbox"
+              <ToggleSwitch
                 checked={cookingBuff.statResonanceEnabled}
-                onChange={(e) => onChange({ statResonanceEnabled: e.target.checked })}
+                onChange={(checked) => onChange({ statResonanceEnabled: checked })}
               />
               <span>{t('buildPlanner.buffDialog.statResonance')}</span>
             </label>
@@ -281,10 +276,9 @@ function BuffEffectDialog({
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
-              <input
-                type="checkbox"
+              <ToggleSwitch
                 checked={cookingBuff.luckyCritEnabled}
-                onChange={(e) => onChange({ luckyCritEnabled: e.target.checked })}
+                onChange={(checked) => onChange({ luckyCritEnabled: checked })}
               />
               <span>{t('buildPlanner.buffDialog.luckyCrit')}</span>
             </label>
@@ -330,11 +324,10 @@ function BuffEffectDialog({
         {/* 極・HP変動(Life Wave、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
-            <input
-              type="checkbox"
+            <ToggleSwitch
               checked={cookingBuff.lifeWaveEnabled}
               disabled={lifeWaveLevel === 0}
-              onChange={(e) => onChange({ lifeWaveEnabled: e.target.checked })}
+              onChange={(checked) => onChange({ lifeWaveEnabled: checked })}
             />
             <span>{t('buildPlanner.buffDialog.lifeWave')}</span>
           </label>
@@ -349,11 +342,10 @@ function BuffEffectDialog({
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
           <div className="buff-effect-dialog__row-main">
             <label className="buff-effect-dialog__checkbox-label">
-              <input
-                type="checkbox"
+              <ToggleSwitch
                 checked={cookingBuff.dmgStackEnabled}
                 disabled={dmgStackLevel === 0}
-                onChange={(e) => onChange({ dmgStackEnabled: e.target.checked })}
+                onChange={(checked) => onChange({ dmgStackEnabled: checked })}
               />
               <span>{t('buildPlanner.buffDialog.dmgStack')}</span>
             </label>
@@ -383,11 +375,10 @@ function BuffEffectDialog({
         {/* 極・適応力(Agile、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
         <div className="buff-effect-dialog__row">
           <label className="buff-effect-dialog__checkbox-label">
-            <input
-              type="checkbox"
+            <ToggleSwitch
               checked={cookingBuff.agileEnabled}
               disabled={agileLevel === 0}
-              onChange={(e) => onChange({ agileEnabled: e.target.checked })}
+              onChange={(checked) => onChange({ agileEnabled: checked })}
             />
             <span>{t('buildPlanner.buffDialog.agile')}</span>
           </label>

@@ -649,6 +649,71 @@
   font-weight: 600;
 }
 
+/* ToggleSwitch: フォーム部品ではなく純粋なON/OFF表現として使うスライドスイッチ。
+   role="switch"のbuttonとして実装し、.toggle-switch--onで状態を切り替える。 */
+.toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #888;
+}
+
+.toggle-switch__track {
+  position: relative;
+  flex-shrink: 0;
+  width: 32px;
+  height: 18px;
+  box-sizing: border-box;
+  background: #3a3a45;
+  border-radius: 999px;
+  transition: background-color 0.15s ease;
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: #c8c6d1;
+  border-radius: 50%;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.toggle-switch--on .toggle-switch__track {
+  background: #f4a13a;
+}
+
+.toggle-switch--on .toggle-switch__thumb {
+  transform: translateX(14px);
+  background: #1c1c24;
+}
+
+.toggle-switch--on .toggle-switch__label {
+  color: #f4a13a;
+}
+
+.toggle-switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.toggle-switch:focus-visible .toggle-switch__track {
+  outline: 2px solid #f4a13a;
+  outline-offset: 2px;
+}
+
 /* 折りたたみ領域の開閉トグル(装備選択のGS帯フィルター/イマジン選択のシーズン・品質
    フィルターで共通利用)。操作可能であることはカーソル(pointer)と開閉記号(Chevron)
    だけで示し、背景色・枠線は持たせない。 */

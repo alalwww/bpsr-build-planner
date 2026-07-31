@@ -17,6 +17,7 @@ import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
 import CollapsibleSection from '../components/CollapsibleSection';
 import Stepper from '../components/Stepper';
+import ToggleSwitch from '../components/ToggleSwitch';
 import ZoomControls from '../components/ZoomControls';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import { useDragScroll } from '../components/useDragScroll';
@@ -208,13 +209,15 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             placeholder={t('buildPlanner.phantom.templatePlaceholder')}
             onChange={(v) => onPhantomTemplateIdChange(v === '' ? null : parseInt(v))}
           />
-          <button
-            type="button"
-            role="switch"
-            aria-checked={phantomEnabled}
-            className={`phantom-enabled-switch${phantomEnabled ? ' phantom-enabled-switch--on' : ''}`}
-            onClick={() => onPhantomEnabledChange(!phantomEnabled)}
+          <ToggleSwitch
+            checked={phantomEnabled}
+            onChange={onPhantomEnabledChange}
             disabled={!phantomEnabled && currentTemplateLocked}
+            label={
+              phantomEnabled
+                ? t('buildPlanner.phantom.enabledOn')
+                : t('buildPlanner.phantom.enabledOff')
+            }
             title={
               !phantomEnabled && currentTemplateLocked
                 ? t('buildPlanner.phantom.enabledLockedTitle', {
@@ -224,16 +227,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                   ? t('buildPlanner.phantom.enabledOn')
                   : t('buildPlanner.phantom.enabledOff')
             }
-          >
-            <span className="phantom-enabled-switch__track">
-              <span className="phantom-enabled-switch__thumb" />
-            </span>
-            <span className="phantom-enabled-switch__label">
-              {phantomEnabled
-                ? t('buildPlanner.phantom.enabledOn')
-                : t('buildPlanner.phantom.enabledOff')}
-            </span>
-          </button>
+          />
         </div>
       </div>
 
