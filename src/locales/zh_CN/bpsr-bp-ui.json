@@ -305,7 +305,12 @@
       "currentRate": "当前比例",
       "baseRate": "初始比例",
       "seasonConstant": "赛季常数",
-      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}",
+      "baseValue": "初始值",
+      "additiveValue": "加算值",
+      "multiplierValue": "乘算值",
+      "additionalBuff": "额外增益",
+      "conversionRate": "转换系数"
     },
     "slots": {
       "weapon": "武器",

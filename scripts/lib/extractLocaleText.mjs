@@ -210,11 +210,13 @@ const ATTR_NAME_OVERRIDES = {
   english: {},
 };
 
-// StatId(CharacterPanelの%系ステータス) → FightAttrTable基準AttrId(実数値レーティング版、
-// AttrNumType:0)。ステータスクリック時の効果説明ポップアップ(statDescs)で使用する。
-// 会心/ファスト/幸運/器用さ/万能/レジストはいずれも「実数値版(末尾0)」と「万分比版
-// (末尾10系、AttrNumType:1)」の2エントリが存在するが、AttrDes本文はどちらも同一のため
-// 実数値版(rawStats側のAttrAddが指す基準ID)を使う。
+// StatId(CharacterPanelの左右カラムに表示するステータス) → FightAttrTable基準AttrId
+// (実数値レーティング版、AttrNumType:0)。ステータスクリック時の効果説明ポップアップ
+// (statDescs)で使用する。会心/ファスト/幸運/器用さ/万能/レジストはいずれも「実数値版
+// (末尾0)」と「万分比版(末尾10系、AttrNumType:1)」の2エントリが存在するが、AttrDes本文は
+// どちらも同一のため実数値版(rawStats側のAttrAddが指す基準ID)を使う。
+// maxHp/atk/matk/strength/intellect/agility/enduranceは万分比バリアントを持たない単一
+// エントリ。
 const STAT_DESC_ATTR_IDS = {
   illusionPower: 11440,
   crit: 11110,
@@ -223,6 +225,13 @@ const STAT_DESC_ATTR_IDS = {
   mastery: 11140,
   versatility: 11150,
   resist: 11170,
+  maxHp: 11320,
+  atk: 11330,
+  matk: 11340,
+  strength: 11010,
+  intellect: 11020,
+  agility: 11030,
+  endurance: 11040,
 };
 
 // FightAttrTable.AttrAdd → 対応する ProfileAttrTable の display AttrId。

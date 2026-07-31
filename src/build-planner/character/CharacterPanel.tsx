@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './character.css';
@@ -32,6 +32,20 @@ function formatStatValue(value: number, isPercent?: boolean): string {
   return truncate2Str(value);
 }
 
+// 左カラム(最大HP/攻撃力/主要ステータス/耐久力)は収益逓減カーブを経由しない素の値のため、
+// rawStatsとstatsで差が出ない…はずだが、最大HP/攻撃力はバトルイマジン等由来の最終%ボーナス
+// (ipct)が乗った後の値がキャラクターパネルの行に表示されているため、ポップアップの「現在値」も
+// それに揃える(rawStatsだと行の表示値と食い違ってしまう)。
+const LEFT_COLUMN_STAT_IDS = new Set<StatId>([
+  'maxHp',
+  'atk',
+  'matk',
+  'strength',
+  'intellect',
+  'agility',
+  'endurance',
+]);
+
 // 選択中クラスに応じて表示するステータス列を返す。
 // 攻撃力列(atk/matk)とメインステータス列(strength/agility/intellect)がクラス依存で変わる。
 function getStatDefinitions(profession: Profession): StatDefinition[] {
@@ -55,7 +69,7 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   const { t } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
 
-  const { stats, rawStats, derivedStats, abilityScore } = useBuildStore(
+  const { stats, rawStats, rawStatsBreakdown, derivedStats, abilityScore } = useBuildStore(
     useShallow(computeStatsBundle),
   );
   const {
@@ -101,6 +115,23 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   const statDefinitions = getStatDefinitions(PROFESSIONS[professionKey]);
   const leftStats = statDefinitions.filter((def) => def.column === 'left');
   const rightStats = statDefinitions.filter((def) => def.column === 'right');
+
+  // ステータスラベルクリック時の共通ハンドラ。表示位置はクリック位置に依存させず、常に
+  // パネル右端・滅妄強度行の高さに固定する(スキルパネル側に重ねて表示するため。左右
+  // どちらのカラムをクリックしても同じ場所に表示する)。
+  const openStatPopup = (statId: StatId, e: MouseEvent) => {
+    e.stopPropagation();
+    setStatPopup((prev) => {
+      if (prev?.statId === statId) return null;
+      const panelRect = panelRef.current?.getBoundingClientRect();
+      const rowRect = illusionPowerRowRef.current?.getBoundingClientRect();
+      return {
+        statId,
+        x: (panelRect?.right ?? e.clientX) + 12,
+        y: rowRect?.top ?? e.clientY,
+      };
+    });
+  };
 
   const professionId = PROFESSIONS[professionKey].professionId;
   const classIconUrl = getClassIconUrl(professionId);
@@ -179,9 +210,13 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
         <div className="character-panel__stats-column">
           {leftStats.map((def) => (
             <div className="character-panel__stat-row" key={def.id}>
-              <span className="character-panel__stat-label">
+              <button
+                type="button"
+                className="character-panel__stat-label character-panel__stat-label--clickable"
+                onClick={(e) => openStatPopup(def.id, e)}
+              >
                 {t(`buildPlanner.stats.${def.id}`)}
-              </span>
+              </button>
               <span className="character-panel__stat-value">
                 {formatStatValue(stats[def.id], def.isPercent)}
               </span>
@@ -198,21 +233,7 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
               <button
                 type="button"
                 className="character-panel__stat-label character-panel__stat-label--clickable"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setStatPopup((prev) => {
-                    if (prev?.statId === def.id) return null;
-                    // 表示位置はクリック位置に依存させず、常にパネル右端・滅妄強度行の
-                    // 高さに固定する(スキルパネル側に重ねて表示するため)。
-                    const panelRect = panelRef.current?.getBoundingClientRect();
-                    const rowRect = illusionPowerRowRef.current?.getBoundingClientRect();
-                    return {
-                      statId: def.id,
-                      x: (panelRect?.right ?? e.clientX) + 12,
-                      y: rowRect?.top ?? e.clientY,
-                    };
-                  });
-                }}
+                onClick={(e) => openStatPopup(def.id, e)}
               >
                 {t(`buildPlanner.stats.${def.id}`)}
               </button>
@@ -241,11 +262,21 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
           rawValue={
             // ファストは俊敏由来の変換分がrawStatsに含まれない(装備等の生値のみ)ため、
             // %変換に実際に使われた実数値(derivedStats.hasteReal)を表示する。
-            statPopup.statId === 'haste' ? derivedStats.hasteReal : rawStats[statPopup.statId]
+            // 左カラムは行にすでに表示されている最終値(stats)と一致させる(最大HP/攻撃力は
+            // バトルイマジン等の最終%ボーナスがrawStatsには乗っていないため)。
+            statPopup.statId === 'haste'
+              ? derivedStats.hasteReal
+              : LEFT_COLUMN_STAT_IDS.has(statPopup.statId)
+                ? stats[statPopup.statId]
+                : rawStats[statPopup.statId]
           }
           currentPercent={stats[statPopup.statId]}
           professionId={professionId}
           professionTypeKey={professionTypeKey}
+          derivedStats={derivedStats}
+          breakdown={rawStatsBreakdown}
+          rawStats={rawStats}
+          mainStatId={PROFESSIONS[professionKey].mainStat}
           onRequestClose={() => setStatPopup(null)}
         />
       )}

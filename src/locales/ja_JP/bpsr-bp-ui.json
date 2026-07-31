@@ -305,7 +305,12 @@
       "currentRate": "現在率",
       "baseRate": "初期率",
       "seasonConstant": "シーズン定数",
-      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}",
+      "baseValue": "初期値",
+      "additiveValue": "加算値",
+      "multiplierValue": "乗算値",
+      "additionalBuff": "追加バフ",
+      "conversionRate": "変換定数"
     },
     "slots": {
       "weapon": "武器",

@@ -305,7 +305,12 @@
       "currentRate": "Current Rate",
       "baseRate": "Base Rate",
       "seasonConstant": "Season Constant",
-      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}",
+      "baseValue": "Base Value",
+      "additiveValue": "Additive Bonus",
+      "multiplierValue": "Multiplier Bonus",
+      "additionalBuff": "Additional Buff",
+      "conversionRate": "Conversion Rate"
     },
     "slots": {
       "weapon": "Weapon",

@@ -69828,7 +69828,14 @@
     "luck": "Increases the chance to trigger Luck effects.<br>When dealing non-persistent DMG or healing with Class Skills, there is a chance to trigger all Luck effects you possess. <br>Basic Lucky Strike Effect: Triggers an additional instance of DMG or healing at a fixed multiplier, which increases as the Luck chance increases. <br>Luck Boost: Every 1% of Luck increases \"Luck effect\" damage and healing by 1%.",
     "mastery": "Grants different attribute bonuses based on class specialization.",
     "versatility": "Each 1% of Versatility increases the percentage bonus for DMG dealt, healing, and Shield granted by 0.35%, and DMG Reduction by 0.15%.",
-    "resist": "Increases chance to block enemy attacks.<br>When taking damage, there is a chance to trigger a Block, reducing that instance of DMG by an amount equal to your Block DMG Reduction."
+    "resist": "Increases chance to block enemy attacks.<br>When taking damage, there is a chance to trigger a Block, reducing that instance of DMG by an amount equal to your Block DMG Reduction.",
+    "maxHp": "When the character is attacked, HP will decrease, and when it reaches 0, the character is defeated",
+    "atk": "The base value for the skill's Attack DMG and healing amount, which is affected by the target's Armor",
+    "matk": "The base value for the skill's Magic DMG and healing amount, which is affected by the target's Resistance",
+    "strength": "Increases the ATK of Wind Knight, Heavy Guardian, and Shield Knight. Increases Armor for all Classes",
+    "intellect": "Increases the ATK of Frost Mage, Verdant Oracle, and Beat Performer: Increases the Resistance of all Classes",
+    "agility": "Increases the ATK of Stormblade and Marksman. Increases Haste for all Classes",
+    "endurance": "Increases the Max HP for all Classes"
   },
   "textDescs": {
     "1001": {

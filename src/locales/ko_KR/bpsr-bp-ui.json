@@ -305,7 +305,12 @@
       "currentRate": "현재 확률",
       "baseRate": "초기 확률",
       "seasonConstant": "시즌 상수",
-      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}",
+      "baseValue": "초기값",
+      "additiveValue": "가산값",
+      "multiplierValue": "승산값",
+      "additionalBuff": "추가 버프",
+      "conversionRate": "변환 계수"
     },
     "slots": {
       "weapon": "무기",
