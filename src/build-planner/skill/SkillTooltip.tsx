@@ -176,7 +176,7 @@ function SkillTooltip({
         <div className="skill-tooltip__passive">
           {passiveEffects.map((eff) => {
             const value = eff[rank + 1] ?? eff[1];
-            // 会心/ファスト/幸運/器用さ/万能は%専用のAttrIdを持たず実数値レーティングのため、
+            // 会心/ファスト/幸運/器用さ/万能/レジストは%専用のAttrIdを持たず実数値レーティングのため、
             // 他の%系(筋力等の基礎ステータス%ボーナスや最終ステータス%ボーナス)と区別して表示する。
             const isFlat = IMAGINE_FLAT_STAT[eff[0]] !== undefined;
             return (

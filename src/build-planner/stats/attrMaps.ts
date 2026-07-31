@@ -449,15 +449,17 @@ export const IMAGINE_PCT_FINAL = {
 } as const;
 export type ImagineFinalStatId = keyof typeof IMAGINE_PCT_FINAL;
 
-// バトルイマジン パッシブの会心/ファスト/幸運/器用さ/万能は、筋力等と違って%専用のAttrIdを
-// 持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
+// バトルイマジン パッシブの会心/ファスト/幸運/器用さ/万能/レジストは、筋力等と違って%専用の
+// AttrIdを持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
 // deriveStats側で一括適用されるため、ここで%として扱うと二重に乗算されてしまう)。
+// 11172(レジスト、AttrBlockのAttrAdd)はイマジン「ゴブリン衛士」(id 3914)のパッシブでのみ使用。
 export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
   11112: 'crit',
   11122: 'haste',
   11132: 'luck',
   11142: 'mastery',
   11152: 'versatility',
+  11172: 'resist',
 };
 
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
