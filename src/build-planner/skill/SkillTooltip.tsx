@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
+import LinkTextPopup from '../components/LinkTextPopup';
 import { renderMarkup } from '../components/renderMarkup';
+import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { IMAGINE_FLAT_STAT } from '../stats/attrMaps';
 import {
   type BattleImagineData,
@@ -53,6 +55,7 @@ function SkillTooltip({
 }) {
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
+  const linkTextPopup = useLinkTextPopup();
   const { skillId, isImagine, rank = 0, level = 30, score } = state;
   const sd = isImagine ? getBattleImagineData(skillId) : getSkillData(skillId);
   const ns = isImagine ? 'battleImagines' : 'skills';
@@ -149,13 +152,15 @@ function SkillTooltip({
       )}
       {hasActiveContent && <hr className="skill-tooltip__hr" />}
       {activeSkillName && <div className="skill-tooltip__active-name">{activeSkillName}</div>}
-      {desc && <p className="skill-tooltip__desc">{renderMarkup(desc)}</p>}
+      {desc && <p className="skill-tooltip__desc">{renderMarkup(desc, linkTextPopup.handlers)}</p>}
       {/* クラススキル: 説明(戦略行)の下に1行分空けて性能値を表示 */}
       {!isImagine && skillEffectRows.length > 0 && (
         <ul className="skill-tooltip__effect-list skill-tooltip__effect-list--skill">
           {skillEffectRows.map(([label, value], i) => (
             <li key={i} className="skill-tooltip__effect-item">
-              <span className="skill-tooltip__effect-label">{renderMarkup(label)}</span>
+              <span className="skill-tooltip__effect-label">
+                {renderMarkup(label, linkTextPopup.handlers)}
+              </span>
               <span className="skill-tooltip__effect-val">{value}</span>
             </li>
           ))}
@@ -165,7 +170,9 @@ function SkillTooltip({
         <ul className="skill-tooltip__effect-list">
           {activeEffectParams.map(([label, vals], i) => (
             <li key={i} className="skill-tooltip__effect-item">
-              <span className="skill-tooltip__effect-label">{renderMarkup(label)}</span>
+              <span className="skill-tooltip__effect-label">
+                {renderMarkup(label, linkTextPopup.handlers)}
+              </span>
               <span className="skill-tooltip__effect-val">{vals[rank] ?? vals[0]}</span>
             </li>
           ))}
@@ -194,7 +201,7 @@ function SkillTooltip({
             const text = Array.isArray(rankTexts) ? (rankTexts[rank] ?? rankTexts[0]) : '';
             return text ? (
               <div key={`buf${i}`} className="skill-tooltip__passive-buf">
-                {renderMarkup(text)}
+                {renderMarkup(text, linkTextPopup.handlers)}
               </div>
             ) : null;
           })}
@@ -208,6 +215,17 @@ function SkillTooltip({
             <span className="skill-tooltip__score-value">{score.toLocaleString()}</span>
           </div>
         </>
+      )}
+      {/* ネストしたlinktextポップアップはDOM上ここに子として置く(position:fixedで見た目上は
+          独立して浮くが、外側クリックでこのFloatingTooltip自体を閉じるonRequestCloseの
+          contains()判定にひっかからないようにするため)。 */}
+      {linkTextPopup.popup && (
+        <LinkTextPopup
+          state={linkTextPopup.popup}
+          handlers={linkTextPopup.handlers}
+          onMouseEnter={linkTextPopup.cancelClose}
+          onMouseLeave={linkTextPopup.scheduleClose}
+        />
       )}
     </FloatingTooltip>
   );

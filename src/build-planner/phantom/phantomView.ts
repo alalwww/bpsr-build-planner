@@ -1,5 +1,5 @@
 import type { DropdownOption } from './CustomDropdown';
-import { formatPercentParam, renderEffectDesc } from '../components/gameText';
+import { formatPercentParam, renderEffectDesc, substituteEffectDescParams } from '../components/gameText';
 import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from './phantomData';
 
 // 過去シーズン(S2)の因子はゲーム内で無効化されているため、選択肢からは常に除外する
@@ -63,7 +63,9 @@ export function getFactorBaseOptions(
   });
 }
 
-// 固定ノード(ordinaryEffect)の type=3 バフ効果説明
+// 固定ノード(ordinaryEffect)の type=3 バフ効果説明。<br>/<linktext>等のタグは残したまま
+// 返すため、呼び出し側は renderMarkup で描画すること(<linktext>のクリック対応のため、
+// ここではタグを剥がす renderEffectDesc ではなく substituteEffectDescParams を使う)。
 export function getNodeEffectDesc(tg: GameDataT, nodeId: number): string {
   const oe = stData.ordinaryEffects[String(nodeId)];
   if (!oe) return '';
@@ -73,7 +75,7 @@ export function getNodeEffectDesc(tg: GameDataT, nodeId: number): string {
   const pars = oe.buffPars[idx] ?? [];
   const tmpl = tg(`attrDescs.${buffId}`, { defaultValue: '' });
   if (!tmpl) return '';
-  return renderEffectDesc(tmpl, pars);
+  return substituteEffectDescParams(tmpl, pars);
 }
 
 // 因子のグレード別効果説明(type=3 バフ、なければ type=1 ステータス加算の列挙)

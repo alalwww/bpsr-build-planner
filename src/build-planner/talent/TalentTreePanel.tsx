@@ -5,8 +5,10 @@ import './talent.css';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import FloatingTooltip from '../components/FloatingTooltip';
+import LinkTextPopup from '../components/LinkTextPopup';
 import ZoomControls from '../components/ZoomControls';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
+import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import { useDragScroll } from '../components/useDragScroll';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
@@ -120,6 +122,7 @@ export default function TalentTreePanel({
     cancelClose: cancelTooltipClose,
     scheduleClose: scheduleTooltipClose,
   } = useAnchorTooltip<HoveredNodeInfo>();
+  const linkTextPopup = useLinkTextPopup();
   const [pendingSwitchBdType, setPendingSwitchBdType] = useState<0 | 1 | null>(null);
   const [pendingR1Deselect, setPendingR1Deselect] = useState<number | null>(null);
   const [pendingReset, setPendingReset] = useState(false);
@@ -783,7 +786,17 @@ export default function TalentTreePanel({
             </p>
           )}
           {hoveredNodeInfo.desc && (
-            <p className="talent-tree-panel__tooltip-desc">{renderMarkup(hoveredNodeInfo.desc)}</p>
+            <p className="talent-tree-panel__tooltip-desc">
+              {renderMarkup(hoveredNodeInfo.desc, linkTextPopup.handlers)}
+            </p>
+          )}
+          {linkTextPopup.popup && (
+            <LinkTextPopup
+              state={linkTextPopup.popup}
+              handlers={linkTextPopup.handlers}
+              onMouseEnter={linkTextPopup.cancelClose}
+              onMouseLeave={linkTextPopup.scheduleClose}
+            />
           )}
         </FloatingTooltip>
       )}

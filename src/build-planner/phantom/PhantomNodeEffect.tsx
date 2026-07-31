@@ -1,4 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import LinkTextPopup from '../components/LinkTextPopup';
+import { renderMarkup } from '../components/renderMarkup';
+import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import type { PhantomFactorSlotValue } from './phantomData';
 import { getSTAsset, getUnlockLevel, iconPathToFile, stData } from './phantomData';
 import { factorBaseName, getFactorEffectDesc, getNodeEffectDesc } from './phantomView';
@@ -22,6 +25,7 @@ export default function PhantomNodeEffect({
 }: PhantomNodeEffectProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
+  const linkTextPopup = useLinkTextPopup();
 
   if (selectedNodeId == null) {
     return (
@@ -51,6 +55,15 @@ export default function PhantomNodeEffect({
       </div>
     ) : null;
 
+  const linkTextPopupNode = linkTextPopup.popup && (
+    <LinkTextPopup
+      state={linkTextPopup.popup}
+      handlers={linkTextPopup.handlers}
+      onMouseEnter={linkTextPopup.cancelClose}
+      onMouseLeave={linkTextPopup.scheduleClose}
+    />
+  );
+
   if (node.nodeType === 1) {
     const name = tg(`seasonTalents.ordinaryEffects.${selectedNodeId}`);
     const oe = stData.ordinaryEffects[String(selectedNodeId)];
@@ -75,10 +88,13 @@ export default function PhantomNodeEffect({
               );
             })}
           {effectDesc && (
-            <div className="phantom-desc-effect phantom-desc-effect--buff">{effectDesc}</div>
+            <div className="phantom-desc-effect phantom-desc-effect--buff">
+              {renderMarkup(effectDesc, linkTextPopup.handlers)}
+            </div>
           )}
         </div>
         {lockedNote}
+        {linkTextPopupNode}
       </>
     );
   } else {

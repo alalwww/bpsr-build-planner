@@ -409,6 +409,38 @@
   color: #c4a86e;
 }
 
+/* <linktext=ID>クリックで用語/スキルの説明をネストしたポップアップ表示(LinkTextPopup)。
+   継承色(会心/物理等のskill-markup色)はそのまま活かし、下線でクリック可能を示す。 */
+.skill-markup--linktext {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.skill-markup--linktext-open {
+  text-decoration-style: solid;
+}
+
+/* ネストしたlinktext説明ポップアップ本体(FloatingTooltip共通ベースの拡張) */
+.linktext-popup {
+  max-width: 320px;
+  z-index: 10000;
+}
+
+.linktext-popup__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f4e8c1;
+  margin-bottom: 4px;
+}
+
+.linktext-popup__desc {
+  color: #c8c6d1;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+
 /* Stepper (layout="inline") shell: phantom/character の各ステッパーが共通利用 */
 .stepper-inline {
   display: flex;

@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
+import LinkTextPopup from '../components/LinkTextPopup';
 import { renderMarkup } from '../components/renderMarkup';
+import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { STAT_BASE_PERCENT, STAT_SEASON_CONSTANT } from '../stats/seasonConstants';
 import type { StatId } from '../types';
 import type { ProfessionTypeKey } from '../profession';
@@ -35,6 +37,7 @@ function StatTooltip({
 }: StatTooltipProps) {
   const { t } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
+  const linkTextPopup = useLinkTextPopup();
   const { statId } = state;
 
   const label = t(`buildPlanner.stats.${statId}`);
@@ -63,7 +66,9 @@ function StatTooltip({
     >
       <div className="stat-tooltip__header">{label}</div>
       <hr className="stat-tooltip__hr" />
-      {desc && <p className="stat-tooltip__desc">{renderMarkup(desc)}</p>}
+      {desc && (
+        <p className="stat-tooltip__desc">{renderMarkup(desc, linkTextPopup.handlers)}</p>
+      )}
       <hr className="stat-tooltip__hr" />
       <div className="stat-tooltip__value-row">
         <span className="stat-tooltip__value-label">
@@ -102,6 +107,14 @@ function StatTooltip({
             </p>
           </div>
         </>
+      )}
+      {linkTextPopup.popup && (
+        <LinkTextPopup
+          state={linkTextPopup.popup}
+          handlers={linkTextPopup.handlers}
+          onMouseEnter={linkTextPopup.cancelClose}
+          onMouseLeave={linkTextPopup.scheduleClose}
+        />
       )}
     </FloatingTooltip>
   );

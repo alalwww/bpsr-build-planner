@@ -1183,6 +1183,26 @@ export function extractLocaleText(
     }
   } catch (_) {}
 
+  // textDescs: TextDescription.json由来。スキル/アビリティ説明文中の<linktext=ID>...</linktext>
+  // がクリックされた際にネストしたポップアップへ表示する名前/説明。<br>タグは残し、表示側で
+  // renderMarkup により整形する(attrDescsと異なり{pN}プレースホルダは持たない固定文言のため
+  // 置換処理は不要)。TextDescription.Typeにより参照先が分岐する:
+  //   Type=1(汎用用語集)/3(専用説明文): Descriptionをそのまま使う。
+  //   Type=2(スキル名の相互参照): Descriptionが常に空文字で、ParがSkillTable.Idを指すため、
+  //     該当スキルのDescをここで解決して埋め込む(表示側は常にtextDescs[id].descriptionを
+  //     見るだけでよいようにする)。
+  const textDescs = {};
+  try {
+    const textDescTable = readTable(langDir, 'TextDescription');
+    for (const e of Object.values(textDescTable)) {
+      if (!e.Id) continue;
+      const description =
+        e.Description || (e.Type === 2 && e.Par ? (skillTable[String(e.Par)]?.Desc ?? '') : '');
+      if (!description) continue;
+      textDescs[e.Id] = { name: e.Text || '', description };
+    }
+  } catch (_) {}
+
   return {
     items,
     skills,
@@ -1197,5 +1217,6 @@ export function extractLocaleText(
     moduleEffects,
     attrDescs,
     statDescs,
+    textDescs,
   };
 }

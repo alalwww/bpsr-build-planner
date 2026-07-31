@@ -8,12 +8,18 @@ export function formatPercentParam(value: number, fractionDigits = 1): string {
   return `${Number.isInteger(pct) ? pct.toFixed(0) : pct.toFixed(fractionDigits)}%`;
 }
 
-// テンプレート中のプレースホルダを pars(BuffPar配列)の値で置換し、装飾タグを除去する。
+// テンプレート中のプレースホルダを pars(BuffPar配列)の値で置換する(装飾タグは残す)。
 //   {*Decision.unmarknormal(n)*} → pars[n-1] の実数値
 //   {*Decision.unmarkpercent(n)*} → pars[n-1]/100 を%表示(整数丸め)
 //   {*Decision.unmarktime(n)*}   → pars[n-1]/1000 を秒表示
 //   {pn}                          → pars[n-1](pAsPercent=true なら 1/100=1% として%表示)
-export function renderEffectDesc(template: string, pars: number[], pAsPercent = false): string {
+// <br>/<style>/<linktext>等のタグは剥がさずに残すため、結果は renderMarkup に渡して
+// Reactノード化する(<linktext>をクリック可能にする用途、PhantomNodeEffect等)。
+export function substituteEffectDescParams(
+  template: string,
+  pars: number[],
+  pAsPercent = false,
+): string {
   return template
     .replace(/\{\*Decision\.unmarknormal\((\d+)\)\*}/g, (_, n) => {
       const v = pars[parseInt(n) - 1];
@@ -33,6 +39,14 @@ export function renderEffectDesc(template: string, pars: number[], pAsPercent = 
       if (pAsPercent) return formatPercentParam(v);
       return String(v);
     })
+    .trim();
+}
+
+// テンプレート中のプレースホルダを置換し、装飾タグも除去したプレーン文字列を返す
+// (renderMarkupを使わずそのまま文字列表示する箇所向け。linktextはクリック不可のまま
+// 表示テキストのみ残す)。
+export function renderEffectDesc(template: string, pars: number[], pAsPercent = false): string {
+  return substituteEffectDescParams(template, pars, pAsPercent)
     .replace(/<style[^>]*>([^<]*)<\/style>/g, '$1')
     .replace(/<linktext=[^>]*>([^<]*)<\/linktext>/g, '$1')
     .replace(/<[^>]+>/g, '')

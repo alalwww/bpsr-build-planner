@@ -69955,5 +69955,1467 @@
     "mastery": "クラスの型特性に応じて異なる能力ボーナスを獲得する",
     "versatility": "万能1%につき与えるダメージ、回復、シールド付与の割合ボーナス+0.35%、ダメージを受けた時のダメージ軽減+0.15%",
     "resist": "エネミーの攻撃をレジストする確率をアップする。<br>ダメージを受けると一定確率でレジストが発生し、その回のダメージをダウンさせる。ダウン率はレジストダメージ軽減に同じ。"
+  },
+  "textDescs": {
+    "1001": {
+      "name": "通常攻撃",
+      "description": "攻撃キーで行う各種武器攻撃"
+    },
+    "1002": {
+      "name": "基本攻撃",
+      "description": "武器の基本的な攻撃形式"
+    },
+    "1003": {
+      "name": "重撃",
+      "description": "攻撃キー長押しで発生する重撃"
+    },
+    "1004": {
+      "name": "落下攻撃",
+      "description": "地上から一定の高さで通常攻撃を繰り出すと発動する落下攻撃"
+    },
+    "1005": {
+      "name": "コアスキル",
+      "description": "武器の最も中心的で、広く知られている代表的なスキル"
+    },
+    "1006": {
+      "name": "基本スキル",
+      "description": "武器が最もよく使うスキル"
+    },
+    "1007": {
+      "name": "究極スキル",
+      "description": "武器の威力が最も強力な究極の戦闘奥義"
+    },
+    "1008": {
+      "name": "スキル関連",
+      "description": "アビリティで習得する特性スキル"
+    },
+    "1009": {
+      "name": "受身スキル",
+      "description": "攻撃を受けて浮いているときに使用できるスキル"
+    },
+    "1010": {
+      "name": "アビリティバースト",
+      "description": "アビリティが習得した威力の強力な型スキル"
+    },
+    "1011": {
+      "name": "ダメージ",
+      "description": "スキルはダメージを与えられる"
+    },
+    "1012": {
+      "name": "能力ダメージ",
+      "description": "スキル自体が与えるダメージ"
+    },
+    "1013": {
+      "name": "特性ダメージ",
+      "description": "スキルが属性特性による追加ダメージを発生させる"
+    },
+    "1014": {
+      "name": "回復",
+      "description": "HPを回復できる効果"
+    },
+    "1015": {
+      "name": "治癒",
+      "description": "1回で多くのHPを回復する"
+    },
+    "1016": {
+      "name": "ヒーリング",
+      "description": "HPを一定時間、回復し続ける"
+    },
+    "1017": {
+      "name": "バフ",
+      "description": "戦闘中の味方に有利な効果"
+    },
+    "1018": {
+      "name": "祝福",
+      "description": "一定時間、戦闘能力、移動能力、またはその他の強化能力効果が持続する"
+    },
+    "1019": {
+      "name": "激情",
+      "description": "短時間、戦闘能力を大幅に向上させる効果"
+    },
+    "1020": {
+      "name": "鼓舞",
+      "description": "戦闘ステータスが大幅に向上し、アビリティが開発されていれば、追加効果が付与される"
+    },
+    "1021": {
+      "name": "デバフ",
+      "description": "戦闘中の味方をさまざまな不利な状態にする"
+    },
+    "1022": {
+      "name": "虚弱",
+      "description": "一定時間、戦闘ステータスがダウンする不利な効果"
+    },
+    "1023": {
+      "name": "脆弱",
+      "description": "一定時間、受けるダメージがアップする不利な効果"
+    },
+    "1024": {
+      "name": "スマッシュ",
+      "description": "一定時間、受けるダメージがアップし、アビリティが開発されていれば、追加効果が付与される"
+    },
+    "1025": {
+      "name": "行動制限",
+      "description": "さまざまな行動が制限される不利な状態"
+    },
+    "1026": {
+      "name": "凍結",
+      "description": "移動/戦闘行動不能の不利な状態"
+    },
+    "1027": {
+      "name": "束縛",
+      "description": "移動できない不利な状態"
+    },
+    "1028": {
+      "name": "スタン",
+      "description": "移動/戦闘/アイテム使用不能の不利な状態。短時間内に複数回付与すると持続時間が減少する。ボスには無効。"
+    },
+    "1029": {
+      "name": "スロウ",
+      "description": "移動速度がダウンする不利な状態"
+    },
+    "1030": {
+      "name": "耐久削り",
+      "description": "対象の強力な<style=\"ItemQuality_5\">剛体</style>ゲージを削る能力。"
+    },
+    "1031": {
+      "name": "移動",
+      "description": "スキルがキャラクターの高速移動を助けられる"
+    },
+    "1032": {
+      "name": "ダッシュ",
+      "description": "連続移動タイプのスキル"
+    },
+    "1033": {
+      "name": "ブリンク",
+      "description": "非連続移動タイプのスキル"
+    },
+    "1034": {
+      "name": "生存",
+      "description": "キャラクターの生存を助けるスキル"
+    },
+    "1035": {
+      "name": "バリア",
+      "description": "追加のHP<style=\"ItemQuality_5\">バリア</style>。HPよりも先にダメージを吸収する。"
+    },
+    "1036": {
+      "name": "パリィ",
+      "description": "スキルの特殊な段階で、この段階中にダメージを受けると一部のダメージを無効化できる"
+    },
+    "1037": {
+      "name": "火属性ダメージ",
+      "description": "火属性ダメージを与える"
+    },
+    "1038": {
+      "name": "火属性",
+      "description": "ダメージに火属性の力を付与する"
+    },
+    "1039": {
+      "name": "点火",
+      "description": "一定時間ごとに火属性の特性ダメージを受ける不利な状態"
+    },
+    "1040": {
+      "name": "氷属性ダメージ",
+      "description": "氷属性ダメージを与える"
+    },
+    "1041": {
+      "name": "氷属性",
+      "description": "ダメージに氷属性の力を付与する"
+    },
+    "1042": {
+      "name": "雷属性ダメージ",
+      "description": "雷属性ダメージを与える"
+    },
+    "1043": {
+      "name": "雷属性",
+      "description": "ダメージに雷属性の力を付与する"
+    },
+    "1044": {
+      "name": "風属性ダメージ",
+      "description": "風属性ダメージを与える"
+    },
+    "1045": {
+      "name": "風属性",
+      "description": "ダメージに風属性の力を付与する"
+    },
+    "1046": {
+      "name": "岩属性ダメージ",
+      "description": "岩属性ダメージを与える"
+    },
+    "1047": {
+      "name": "岩属性",
+      "description": "ダメージに岩属性の力を付与する"
+    },
+    "1048": {
+      "name": "森属性ダメージ",
+      "description": "森属性ダメージを与える"
+    },
+    "1049": {
+      "name": "森属性",
+      "description": "ダメージに森属性の力を付与する"
+    },
+    "1050": {
+      "name": "光属性ダメージ",
+      "description": "光属性ダメージを与える"
+    },
+    "1051": {
+      "name": "光属性",
+      "description": "ダメージに光属性の力を付与する"
+    },
+    "1052": {
+      "name": "闇属性ダメージ",
+      "description": "闇属性ダメージを与える"
+    },
+    "1053": {
+      "name": "闇属性",
+      "description": "ダメージに闇属性の力を付与する"
+    },
+    "1054": {
+      "name": "アシスト",
+      "description": "追加の攻撃行動や防御行動を発生させる支援効果"
+    },
+    "1055": {
+      "name": "連携",
+      "description": "現在の戦闘に合わせて攻撃行動を同期させる効果"
+    },
+    "1056": {
+      "name": "共闘",
+      "description": "独立して攻撃を行い、戦闘に協力する効果"
+    },
+    "1057": {
+      "name": "チャージ",
+      "description": "一定時間準備してからでないと強力な威力を発揮できないスキル発動方法"
+    },
+    "1058": {
+      "name": "維持",
+      "description": "発動状態を維持して効果を継続させるスキル発動方法"
+    },
+    "1059": {
+      "name": "強化",
+      "description": "効果が強化または変化するスキル発動状態"
+    },
+    "1060": {
+      "name": "チャージ",
+      "description": "一部のスキルの発動に必要な条件。時間経過や何らかのシステムに応じて回復、補充される"
+    },
+    "1061": {
+      "name": "刻印",
+      "description": "特定の条件下で発動できる効果の一種で、その発動確率はステータスの影響を受ける"
+    },
+    "1062": {
+      "name": "抑圧",
+      "description": "自身のHPが対象よりも多い場合の状態。この状態時には与えるダメージやダメージ軽減にボーナスが付与される。アビリティが開発されていれば、さらに追加効果が付与される"
+    },
+    "1063": {
+      "name": "召喚物",
+      "description": "明確な召喚者がおり、存在中にその影響を受けて戦闘するユニット"
+    },
+    "1064": {
+      "name": "トラップ",
+      "description": "発動条件を満たすと効果が発生する召喚物の一種"
+    },
+    "1065": {
+      "name": "トーテム",
+      "description": "一定時間移動せず、周囲に効果を及ぼす召喚物の一種"
+    },
+    "1066": {
+      "name": "従者",
+      "description": "移動して召喚者に追従し、戦闘を補助する召喚物の一種"
+    },
+    "1067": {
+      "name": "造物",
+      "description": "自律的に行動する意志を持つ召喚物"
+    },
+    "1068": {
+      "name": "飛翔物",
+      "description": "物理的な動きをし、命中後に効果を発生させるスキルメカニズム"
+    },
+    "1069": {
+      "name": "弾丸",
+      "description": "比較的小さく、速度の速い飛翔物の一種"
+    },
+    "1070": {
+      "name": "発射物",
+      "description": "比較的大きく、速度が普通の飛翔物の一種"
+    },
+    "1071": {
+      "name": "エリア効果",
+      "description": "範囲を持つエリア内で効果が発動する方式"
+    },
+    "1072": {
+      "name": "領域",
+      "description": "自身または味方に持続的に有利な状態を提供する範囲効果"
+    },
+    "1073": {
+      "name": "エリア",
+      "description": "敵に持続的にダメージまたは不利な状態を与える範囲効果"
+    },
+    "1074": {
+      "name": "オーラ",
+      "description": "自身の範囲内の対象に持続的に効果を提供する"
+    },
+    "1075": {
+      "name": "強力な対象",
+      "description": "通常モンスターよりはるかに強力な存在"
+    },
+    "1076": {
+      "name": "ボス",
+      "description": "ボス、ワイルドロード、ロード"
+    },
+    "1077": {
+      "name": "通常モンスター",
+      "description": "大陸で活動する普通のモンスター。戦闘能力は比較的低い"
+    },
+    "1078": {
+      "name": "精鋭",
+      "description": "モンスターの中でも抜きん出た戦士で、通常は脅威となる特殊スキルを持つ"
+    },
+    "1079": {
+      "name": "ボス",
+      "description": "種族の中で絶対的な強者であり、王と呼んでも過言ではない"
+    },
+    "1080": {
+      "name": "ワイルドロード",
+      "description": "マップの特定のエリアでしか見つけられない強力なモンスター"
+    },
+    "1081": {
+      "name": "ロード",
+      "description": "ダンジョンマップで最も強力なモンスター"
+    },
+    "1082": {
+      "name": "健康",
+      "description": "現在のHPが最大HPの50%以上の状態"
+    },
+    "1083": {
+      "name": "負傷",
+      "description": "現在のHPが最大HPの30%以下の状態"
+    },
+    "1084": {
+      "name": "フィールドスキル",
+      "description": "フィールドまたはステージモードで獲得するエクストラスキル"
+    },
+    "1085": {
+      "name": "煥光",
+      "description": "「煥光」シリーズ装備の洗錬しによって付与される持続状態の一種"
+    },
+    "1086": {
+      "name": "無属性ダメージ",
+      "description": "無属性ダメージを与える"
+    },
+    "1087": {
+      "name": "無属性",
+      "description": "ダメージに属性がなく、元素の力が付帯していない"
+    },
+    "1088": {
+      "name": "侵蝕",
+      "description": "未知の発生源から侵食され、さまざまな悪影響が生じる"
+    },
+    "1089": {
+      "name": "煥光",
+      "description": "「煥光」シリーズ装備の洗錬しによって付与される持続状態の一種"
+    },
+    "1090": {
+      "name": "激情",
+      "description": "ダメージ量をアップする効果を有する"
+    },
+    "1091": {
+      "name": "剛体",
+      "description": "ノックバック/ノックアップ/ノックダウンされない。"
+    },
+    "1092": {
+      "name": "挑発",
+      "description": "エネミーモンスターに自身を強制的に攻撃させる"
+    },
+    "1093": {
+      "name": "継続の茨",
+      "description": "ダメージ反射効果を有する"
+    },
+    "1094": {
+      "name": "不利な状態",
+      "description": "ユニットの戦闘能力に直接影響する効果。例えば移動速度/属性/受ける制御ダウン等の効果"
+    },
+    "1095": {
+      "name": "脆弱",
+      "description": "被ダメージ+<style=\"accent-gn\">10%</style>。持続<style=\"accent-gn\">5</style>秒。"
+    },
+    "1096": {
+      "name": "看破",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与え、かつ次の<style=\"accent-gn\">彼岸</style>に<style=\"accent-gn\">雷印</style>を<style=\"accent-gn\">2</style>つ追加獲得させる。"
+    },
+    "1097": {
+      "name": "無心の好機",
+      "description": "<style=\"accent-gn\">特殊攻撃</style>の発動速度が大幅にアップする。持続<style=\"accent-gn\">10</style>秒。この効果は<style=\"accent-gn\">特殊攻撃</style>発動後に消失する。"
+    },
+    "1098": {
+      "name": "霹靂墜斬",
+      "description": "<style=\"accent-gn\">迅雷連斬</style>の隠し技。素早く斬り上げ、対象に攻撃力の<style=\"accent-gn\">300%</style>の<style=\"physical\">物理ダメージ</style>を与える。攻撃速度が<style=\"accent-gn\">25%</style>|<style=\"accent-gn\">50%</style>|<style=\"accent-gn\">80%</style>に達するごとに、攻撃回数+<style=\"accent-gn\">1</style>|+<style=\"accent-gn\">2</style>|+<style=\"accent-gn\">3</style>（威力は<style=\"accent-gn\">迅雷連斬</style>のレベル/ランクに応じて上昇）。"
+    },
+    "1099": {
+      "name": "刃域",
+      "description": "各段が攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える。<br>初期は<style=\"accent-gn\">1</style>段。器用さ<style=\"accent-gn\">10%</style>につき+<style=\"accent-gn\">1</style>段（最大<style=\"accent-gn\">4</style>段まで）。"
+    },
+    "1100": {
+      "name": "雷撃",
+      "description": "「幸運効果」：エネミーに攻撃力の<style=\"accent-gn\">80%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1101": {
+      "name": "月刃",
+      "description": "<style=\"accent-gn\">35</style>秒間、回転し続け<style=\"accent-gn\">2</style>秒ごとに対象に攻撃力の<style=\"accent-gn\">50%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は旋廻鎌のレベル/ランクに応じて上昇）。"
+    },
+    "1102": {
+      "name": "剛体",
+      "description": "ノックバック、ノックアップ、ノックダウンされない。"
+    },
+    "1103": {
+      "name": "雷烈",
+      "description": "<style=\"accent-gn\">3</style>m以内にいるエネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1104": {
+      "name": "雷印",
+      "description": "<style=\"accent-gn\">雷印</style>を消費するスキルの発動時、<style=\"accent-gn\">雷印</style>を1つ消費するたびこのスキルのダメージ+<style=\"accent-gn\">25%</style>。"
+    },
+    "1105": {
+      "name": "雷極一閃",
+      "description": "過去<style=\"accent-gn\">10</style>秒間に消費した<style=\"accent-gn\">雷印</style>数に応じた大ダメージを与える。<br><style=\"accent-gn\">雷印</style>を<style=\"accent-gn\">1</style>つ消費するたび、攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える（最大で<style=\"accent-gn\">15000%</style>）。"
+    },
+    "1106": {
+      "name": "電禍",
+      "description": "<style=\"accent-gn\">電禍</style>を<style=\"accent-gn\">20</style>個まで累積可能。<style=\"accent-gn\">迅雷連斬</style>発動時、<style=\"accent-gn\">電禍</style>を<style=\"accent-gn\">15</style>個消費して<style=\"accent-gn\">雷霆鎌</style>を発動し、周囲の対象に<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1107": {
+      "name": "鼓舞",
+      "description": "祝福された対象に<style=\"accent-gn\">知力</style>、<style=\"accent-gn\">筋力</style>、<style=\"accent-gn\">敏捷</style>、<style=\"accent-gn\">耐久力</style>を<style=\"accent-gn\">100</style>pt、<style=\"accent-gn\">会心</style>、<style=\"accent-gn\">ファスト</style>、<style=\"accent-gn\">幸運</style>、<style=\"accent-gn\">器用さ</style>、<style=\"accent-gn\">万能</style>を<style=\"accent-gn\">1.5%</style>付与する。"
+    },
+    "1108": {
+      "name": "再生の蕾",
+      "description": "回復系<style=\"accent-gn\">マスタリースキル</style>や<style=\"accent-gn\">究極スキル</style>が回復を行うと、<style=\"accent-gn\">再生の蕾</style>を<style=\"accent-gn\">2</style>つ消費し、<style=\"accent-gn\">滋養の種</style>を1個放出する。<style=\"accent-gn\">1</style>秒ごとに1回発動。<br>ダメージ系<style=\"accent-gn\">マスタリースキル</style>や<style=\"accent-gn\">究極スキル</style>がダメージを与えると、<style=\"accent-gn\">再生の蕾</style>を<style=\"accent-gn\">2</style>つ消費して<style=\"accent-gn\">荒野の種</style>を1個放出する。<style=\"accent-gn\">1</style>秒ごとに1回発動。"
+    },
+    "1109": {
+      "name": "ヒールリンク",
+      "description": "ヒールチェーンが味方間を跳ね返り、そのたびにHPを攻撃力の<style=\"accent-gn\">40%</style>分回復する。初期の跳ね返り回数は<style=\"accent-gn\">2</style>。"
+    },
+    "1110": {
+      "name": "治癒波動",
+      "description": "外側<style=\"accent-gn\">20</style>mに拡散し、接触した味方対象のHPを攻撃力の<style=\"accent-gn\">150%</style>分回復する。"
+    },
+    "1111": {
+      "name": "自然防壁",
+      "description": "味方対象に攻撃力の<style=\"accent-gn\">150%</style>の<style=\"accent-gn\">バリア</style>を付与する。持続<style=\"accent-gn\">5</style>秒。"
+    },
+    "1113": {
+      "name": "治癒球",
+      "description": "<style=\"accent-gn\">3</style>m以内にいるパーティメンバーのHPを攻撃力の<style=\"accent-gn\">60%</style>分オート回復する。"
+    },
+    "1114": {
+      "name": "活力球",
+      "description": "<style=\"accent-gn\">活力球</style>に近づくと（<style=\"accent-gn\">3</style>m）、<style=\"accent-gn\">再生の蕾</style>を<style=\"accent-gn\">1</style>つ獲得する。<style=\"accent-gn\">エナジーオーブ</style>は最大<style=\"accent-gn\">3</style>秒間存在する。"
+    },
+    "1115": {
+      "name": "滋養の種",
+      "description": "地上で接触すると、全パーティメンバーのHPを攻撃力の<style=\"accent-gn\">40%</style>分回復する。"
+    },
+    "1116": {
+      "name": "荒野の種",
+      "description": "エネミーに接触すると爆発し、攻撃力の<style=\"accent-gn\">100%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1117": {
+      "name": "継続の茨",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">20%</style>の<style=\"magic\">魔法ダメージ</style>を毎秒与える。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1119": {
+      "name": "紅き蓮",
+      "description": "次に発動する<style=\"accent-gn\">マスタリースキル</style>のリキャスト-<style=\"accent-gn\">50%</style>。"
+    },
+    "1120": {
+      "name": "黄金の祈り",
+      "description": "次に<style=\"accent-gn\">マスタリースキル</style>を発動すると、自身の回復量+<style=\"accent-gn\">20%</style>。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1121": {
+      "name": "蒼月の慰め",
+      "description": "次の<style=\"accent-gn\">バイタルブルーム</style>が回復を受けた対象に<style=\"accent-gn\">8</style>秒間持続する<style=\"accent-gn\">バリア</style>を付与する。吸収量は自身の攻撃力の<style=\"accent-gn\">200%</style>。<style=\"accent-gn\">バリア</style>を持つ対象が受ける全ダメージ-<style=\"accent-gn\">10%</style>。"
+    },
+    "1122": {
+      "name": "抑圧",
+      "description": "ダメージを受けた時、自身のHPパーセントが攻撃者よりも高かった場合、攻撃者から受けるダメージ-<style=\"accent-gn\">10%</style>。<br>ダメージを与える時、自身のHPパーセントが攻撃者よりも高かった場合、与えるダメージ+<style=\"accent-gn\">10%</style>。"
+    },
+    "1123": {
+      "name": "弱点攻撃",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">50%</style>の<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">1</style>個獲得する。"
+    },
+    "1124": {
+      "name": "剛身強化",
+      "description": "バリア量+<style=\"accent-gn\">15%</style>。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1125": {
+      "name": "レジスト反撃",
+      "description": "自身から<style=\"accent-gn\">3</style>m以内にいるエネミーに<style=\"accent-gn\">レジスト</style>を無視して攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与え、大量の恐怖値を発生させる。"
+    },
+    "1126": {
+      "name": "幸運レジスト",
+      "description": "<style=\"accent-gn\">レジスト</style>時に幸運%の確率で<style=\"accent-gn\"> 幸運レジスト</style>が発生する。"
+    },
+    "1127": {
+      "name": "盾連撃",
+      "description": "以後<style=\"accent-gn\">7</style>秒間、<style=\"accent-gn\">砕刃の猛撃</style>が2連撃に変わり、発動時に<style=\"accent-gn\">怒り</style>と<style=\"accent-gn\">晶義</style>を消費しない。また、自身に<style=\"accent-gn\">バリア</style>を追加し、<style=\"accent-gn\">砕刃の猛撃</style>を発動してこの効果を消去する。"
+    },
+    "1128": {
+      "name": "盾残響",
+      "description": "自身から<style=\"accent-gn\">5</style>m以内にいるエネミーに攻撃力の<style=\"accent-gn\">300%</style>の<style=\"physical\">物理ダメージ</style>を与え、以後<style=\"accent-gn\">5</style>秒間、<style=\"accent-gn\">怒り</style>を<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">20</style>回復する。この効果はスタック不可能。"
+    },
+    "1129": {
+      "name": "絶境逢生",
+      "description": "受けるダメージ-<style=\"accent-gn\">50%</style>、受ける回復+<style=\"accent-gn\">30%</style>。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1130": {
+      "name": "湧力法則",
+      "description": "毎秒、<style=\"accent-gn\">凍源</style>を上限値の<style=\"accent-gn\">3%</style>分回復する（この回復は器用さとファストの影響を受ける）。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1131": {
+      "name": "岩石弾",
+      "description": "最も近いエネミー対象<style=\"accent-gn\">1</style>体を攻撃し、攻撃力の<style=\"accent-gn\">70%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1132": {
+      "name": "目くらまし",
+      "description": "対象の近くに強制移動して攻撃する。"
+    },
+    "1133": {
+      "name": "奏鳴スキル",
+      "description": "<style=\"accent-gn\">ブレイブメロディー</style>または<style=\"accent-gn\">ヒーリングメロディー</style>。"
+    },
+    "1134": {
+      "name": "地崩の山摧",
+      "description": "強化された<style=\"accent-gn\">憤怒の剛撃</style>が召喚した巨岩が爆裂し、攻撃力の<style=\"accent-gn\">750%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">憤怒の剛撃</style>のレベル/ランクに応じて上昇）。<br>発動時に<style=\"accent-gn\">晶義</style>を消費しない。"
+    },
+    "1135": {
+      "name": "憤怒",
+      "description": "ダメージ+<style=\"accent-gn\">20%</style>、移動速度+<style=\"accent-gn\">10%</style>、かつ<style=\"accent-gn\">剛体</style>を獲得する。"
+    },
+    "1136": {
+      "name": "晶義激震",
+      "description": "自身から<style=\"accent-gn\">3</style>m以内にいるエネミーに攻撃力の<style=\"accent-gn\">300%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1137": {
+      "name": "砂石圏",
+      "description": "エリア内では自身の<style=\"magic\">魔法ダメージ</style>軽減+<style=\"accent-gn\">50%</style>。かつ、エリア内のパーティメンバー（最大<style=\"accent-gn\">10</style>名）が受けるダメージの<style=\"accent-gn\">50%</style>を吸収する。"
+    },
+    "1138": {
+      "name": "閃心強化",
+      "description": "<style=\"accent-gn\">閃心</style>が満タンの場合、<style=\"accent-gn\">特殊攻撃</style>を発動すると<style=\"accent-gn\">閃心強化</style>状態になり、その間は<style=\"accent-gn\">特殊攻撃</style>と各<style=\"accent-gn\">マスタリースキル</style>が強化される。<style=\"accent-gn\">閃心</style>が減少し続けて<style=\"accent-gn\">0</style>になると状態を終了する。"
+    },
+    "1139": {
+      "name": "掃撃",
+      "description": "周囲<style=\"accent-gn\">5</style>m以内にいる対象に攻撃力の<style=\"accent-gn\">80%</style>の<style=\"physical\">物理ダメージ</style>を与え、対象に命中するたびダメージ+<style=\"accent-gn\">30%</style>（最大+<style=\"accent-gn\">120%</style>）、威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベルアップ/ランクアップに応じてアップする。"
+    },
+    "1140": {
+      "name": "咬撃",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">HPを流失</style>させる。"
+    },
+    "1141": {
+      "name": "HP流失",
+      "description": "<style=\"accent-gn\">5</style>秒間、攻撃力の<style=\"accent-gn\">10%</style>の<style=\"physical\">物理ダメージ</style>を毎秒与える。同じ発動者から再び<style=\"accent-gn\">HP流失</style>を追加されると、前に付与されてまだ効果が終了していない<style=\"accent-gn\">HP流失</style>効果が直ちに清算される。"
+    },
+    "1142": {
+      "name": "閃追矢",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">50%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1143": {
+      "name": "雷撃衝撃",
+      "description": "エネミー対象に攻撃力の<style=\"accent-gn\">410%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1144": {
+      "name": "爆裂矢",
+      "description": "エネミーとその周囲<style=\"accent-gn\">3</style>m以内にいる対象に攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1145": {
+      "name": "踏撃",
+      "description": "範囲内のエネミーに攻撃力の<style=\"accent-gn\">250%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1146": {
+      "name": "伝説の臣鷹",
+      "description": "その場で羽ばたき、以後<style=\"accent-gn\">10</style>秒間の閃心の取得効率+<style=\"accent-gn\">100%</style>。"
+    },
+    "1147": {
+      "name": "伝説のボア",
+      "description": "凄まじい咆哮を上げ、<style=\"accent-gn\">10</style>秒間、光属性ボーナス+<style=\"accent-gn\">50%</style>。"
+    },
+    "1148": {
+      "name": "弓心",
+      "description": "<style=\"accent-gn\">弓心</style>のスタック数が<style=\"accent-gn\">5</style>以上だった場合、追加スタックされるたび<style=\"accent-gn\">30%</style>の固定確率で<style=\"accent-gn\">内部破裂</style>し、範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える。<style=\"accent-gn\">弓心</style>は<style=\"accent-gn\">20</style>スタックまで可。但し、<style=\"accent-gn\">1</style>秒ごとにスタック数-<style=\"accent-gn\">1</style>。"
+    },
+    "1149": {
+      "name": "天界の臣鷹",
+      "description": "半径<style=\"accent-gn\">5</style>mの嵐を巻き起こし、嵐内にいる<style=\"accent-gn\">弓心</style>マーク付きの対象に<style=\"accent-gn\">0</style>.<style=\"accent-gn\">5</style>秒ごとに攻撃力の<style=\"accent-gn\">80%</style>の<style=\"physical\">物理ダメージ</style>（防御力無視）を与える。<style=\"accent-gn\">5</style>秒後には<style=\"accent-gn\">天界の臣鷹</style>が地面に急降下し、攻撃力の<style=\"accent-gn\">500%</style>の<style=\"physical\">物理ダメージ</style>（防御力無視）を与える。"
+    },
+    "1150": {
+      "name": "幻影の臣鷹",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">400%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1151": {
+      "name": "分裂矢",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">35%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。"
+    },
+    "1152": {
+      "name": "鋭利",
+      "description": "攻撃力+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1153": {
+      "name": "烈破",
+      "description": "対象が攻撃力の<style=\"accent-gn\">25%</style>分のHPを毎秒失う。持続<style=\"accent-gn\">8</style>秒。"
+    },
+    "1154": {
+      "name": "千瘡百孔",
+      "description": "<style=\"accent-gn\">烈破</style>のダメージ+<style=\"accent-gn\">100%</style>。持続<style=\"accent-gn\">5</style>秒。"
+    },
+    "1155": {
+      "name": "気勁加持",
+      "description": "<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">30%</style>。持続<style=\"accent-gn\">12</style>秒。"
+    },
+    "1156": {
+      "name": "長槍貫穿",
+      "description": "「幸運効果」：攻撃力の<style=\"accent-gn\">150%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1157": {
+      "name": "追撃身法",
+      "description": "<style=\"accent-gn\">刹那</style>のダメージ+<style=\"accent-gn\">30%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">2</style>スタックまで。<style=\"accent-gn\">刹那</style>がダメージを与えると-1スタック。"
+    },
+    "1158": {
+      "name": "竜巻",
+      "description": "範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">350%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1159": {
+      "name": "風陣・鋭利衝",
+      "description": "強化された<style=\"accent-gn\">鋭利衝</style>は、ジャンプして対象とその周囲に合計で<style=\"accent-gn\">800%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">鋭利衝</style>のレベル/ランクに応じて上昇）。"
+    },
+    "1160": {
+      "name": "アビリティ-砕氷攻撃",
+      "description": "アイスメテオがダメージを与えると<style=\"accent-gn\">氷核</style>が<style=\"accent-gn\">アイスボルト</style>を発動し、<style=\"accent-gn\">玄氷</style>を1個獲得する。"
+    },
+    "1161": {
+      "name": "玄氷",
+      "description": "スキルに追加効果をもたらす。"
+    },
+    "1162": {
+      "name": "落氷",
+      "description": "対象に攻撃力の<style=\"accent-gn\">100%</style><style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1163": {
+      "name": "氷霜衝撃",
+      "description": "周囲<style=\"accent-gn\">3</style>m以内にいるエネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1164": {
+      "name": "貫通氷槍",
+      "description": "対象を貫通する<style=\"accent-gn\">スピア</style>が、エネミー対象に攻撃力の<style=\"accent-gn\">250%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1165": {
+      "name": "氷慧",
+      "description": "「幸運効果」：空から<style=\"accent-gn\">氷慧</style>を召喚し、エネミーに攻撃力の<style=\"accent-gn\">200%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1166": {
+      "name": "氷冷波動",
+      "description": "フロストレイが強力なパルスを放ち、接触したエネミーに攻撃力の<style=\"accent-gn\">500%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1167": {
+      "name": "刀意",
+      "description": "<style=\"accent-gn\">刀意</style>を毎秒<style=\"accent-gn\">2</style>pt獲得する（初期上限は<style=\"accent-gn\">100</style>pt）。<br><style=\"accent-gn\">刀意</style>が<style=\"accent-gn\">100</style>ptに達すると、<style=\"accent-gn\">雷刃抜刀</style>の発動速度が大幅にアップするが、<style=\"accent-gn\">雷刃抜刀</style>発動後<style=\"accent-gn\">刀意</style>-<style=\"accent-gn\">100</style>pt。<br><style=\"accent-gn\">刀意</style>は<style=\"accent-gn\">迅雷連斬</style>の発動資源としても消費できる。"
+    },
+    "1168": {
+      "name": "砂岩の加護",
+      "description": "<style=\"accent-gn\">バリア</style>強度+<style=\"accent-gn\">3%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで。"
+    },
+    "1169": {
+      "name": "怒撃",
+      "description": "ジャンプしてエリア内のエネミーに攻撃力の<style=\"accent-gn\">400%</style>の<style=\"physical\">物理ダメージ</style>を与え、必ず<style=\"accent-gn\">弱点攻撃</style>を発動する（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。"
+    },
+    "1170": {
+      "name": "レジスト",
+      "description": "<style=\"physical\">物理ダメージ</style>を受けると一定確率でその回のダメージを<style=\"accent-gn\">レジスト</style>し、受けるダメージ-<style=\"accent-gn\">30%</style>。"
+    },
+    "1171": {
+      "name": "氷結",
+      "description": "対象を移動不能にし、受ける氷属性ダメージ+<style=\"accent-gn\">20%</style>。持続<style=\"accent-gn\">10</style>秒。攻撃を受けると解除される。短時間内に複数回付与すると持続時間が減少する。ボスには無効。"
+    },
+    "1172": {
+      "name": "光明の盾",
+      "description": "盾に光を注ぎ込み、有効中は自身が受けるダメージの<style=\"accent-gn\">50%</style>を吸収する。再獲得すると吸収量が累積され（最大HPの<style=\"accent-gn\">100%</style>まで）、持続時間がリセットされる。"
+    },
+    "1173": {
+      "name": "音響熱波",
+      "description": "<style=\"accent-gn\">5</style>秒間、味方対象のHPを<style=\"accent-gn\">0.5</style>秒ごとに攻撃力の<style=\"accent-gn\">20%</style>分回復する。"
+    },
+    "1174": {
+      "name": "光明の衝撃",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">150%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1175": {
+      "name": "光盾障壁",
+      "description": "1スタックにつき自身の最大HP+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">光盾障壁</style>は<style=\"accent-gn\">10</style>スタックまで。ダメージを受けると<style=\"accent-gn\">1</style>スタック消費する。<style=\"accent-gn\">25</style>秒が経過するか、全スタックを使い切るまで持続。1スタック獲得するたび持続時間がリセットされる。"
+    },
+    "1176": {
+      "name": "ヴァンガードラッシュ",
+      "description": "対象に攻撃力の<style=\"accent-gn\">240%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">グローイングガード</style>のレベル/ランクに応じて上昇）。<br><style=\"accent-gn\">ヴァンガードラッシュ</style>がダメージを与えると、自身のHPを最大HPの<style=\"accent-gn\">2%</style>分回復し、<style=\"accent-gn\">剛勇無畏</style>を獲得する。"
+    },
+    "1177": {
+      "name": "神聖攻撃",
+      "description": "攻撃力の<style=\"accent-gn\">50%</style>の<style=\"physical\">物理ダメージ</style>を与え、影響を受けた対象の移動速度-<style=\"accent-gn\">25%</style>。"
+    },
+    "1178": {
+      "name": "チューン",
+      "description": "<style=\"accent-gn\">チューン </style>説明"
+    },
+    "1179": {
+      "name": "破壊の風雷",
+      "description": "<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">12%</style>。持続<style=\"accent-gn\">8</style>秒。"
+    },
+    "1180": {
+      "name": "アンコール",
+      "description": "ストリングを放ち、付近のエネミー対象にダメージを与えるか、付近の味方対象を回復する。数値は現在の最大物理/魔法攻撃力の<style=\"accent-gn\">50%</style>に同じ。"
+    },
+    "1181": {
+      "name": "炎の情熱",
+      "description": "<style=\"accent-gn\">知力</style>+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">6</style>秒。"
+    },
+    "1182": {
+      "name": "鬼火",
+      "description": "攻撃力の<style=\"accent-gn\">50%</style>×スタック数の<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">10</style>秒。"
+    },
+    "1183": {
+      "name": "音符",
+      "description": "<style=\"accent-gn\">音符</style>説明"
+    },
+    "1184": {
+      "name": "サウンドサージ",
+      "description": "<style=\"accent-gn\">サウンドサージ</style>"
+    },
+    "1185": {
+      "name": "ヒーリングサウンド",
+      "description": "周囲の味方対象を回復する。数値は魔法攻撃力の<style=\"accent-gn\">10%</style>"
+    },
+    "1186": {
+      "name": "サウンドバリア",
+      "description": "<style=\"accent-gn\">サウンドバリア</style>"
+    },
+    "1187": {
+      "name": "風怒",
+      "description": "与えるダメージ+<style=\"accent-gn\">15%</style>、攻撃速度+<style=\"accent-gn\">10%</style>。持続<style=\"accent-gn\">15</style>秒。"
+    },
+    "1188": {
+      "name": "閃心矢",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">80%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1189": {
+      "name": "緑の衝撃",
+      "description": "自身の周囲のエネミーに攻撃力の<style=\"accent-gn\">300%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1190": {
+      "name": "火柱衝撃",
+      "description": "範囲内のエネミーに攻撃力の<style=\"accent-gn\">60%</style>の<style=\"magic\">魔法ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。"
+    },
+    "1191": {
+      "name": "烈火衝撃",
+      "description": "自身の周囲<style=\"accent-gn\">5</style>mにフレイムショックを与え、接触したエネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1192": {
+      "name": "音符",
+      "description": "<style=\"accent-gn\">10</style>秒間、対象のHPを攻撃力の<style=\"accent-gn\">35%</style>分回復する。<style=\"accent-gn\">音符</style>が再び追加されると、対象の持つ残りの<style=\"accent-gn\">音符</style>分の回復量が直ちに与えられる。"
+    },
+    "1193": {
+      "name": "追奏弦音",
+      "description": "ダメージか回復の<style=\"accent-gn\">マスタリースキル</style>を使用するたび<style=\"accent-gn\">50%</style>の固定確率で<style=\"accent-gn\">追奏弦音</style>を発動し、その時点の対象にダメージを与えるか、HP最小の味方対象（パーティメンバー優先）のHPを回復する。"
+    },
+    "1194": {
+      "name": "レイジパッショネート",
+      "description": "移動しながら6秒間、前方にパッショネートを放ち続ける。"
+    },
+    "1195": {
+      "name": "無心",
+      "description": "直ちに<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">100</style>獲得し、回復系の全<style=\"accent-gn\">マスタリースキル</style>のリキャストを終了する。また、以後<style=\"accent-gn\">10</style>秒間の魔法攻撃力+<style=\"accent-gn\">30%</style>。"
+    },
+    "1196": {
+      "name": "盾衝撃",
+      "description": "盾を掲げて前方にダッシュし、接触したエネミーに攻撃力の<style=\"accent-gn\">200%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1197": {
+      "name": "フレイムショック",
+      "description": "範囲内のエネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"magic\">魔法ダメージ</style>を与える。"
+    },
+    "1198": {
+      "name": "光核",
+      "description": "<style=\"accent-gn\">10</style>秒後、自身の周囲に神聖<style=\"accent-gn\">エネルギー</style>を噴出させ、基本攻撃力の<style=\"accent-gn\">500%</style>の<style=\"physical\">物理ダメージ</style>を与え、自身のHPを最大HPの<style=\"accent-gn\">15%</style>分回復する。"
+    },
+    "1199": {
+      "name": "聖印",
+      "description": "対象が以後<style=\"accent-gn\">10</style>秒間、攻撃力の<style=\"accent-gn\">20%</style>のダメージを毎秒受ける。また、この対象からダメージを受けると<style=\"accent-gn\">10%</style>の固定確率でHPを回復する（回復値は自身の最大HPの<style=\"accent-gn\">0.5%</style>）。"
+    },
+    "1200": {
+      "name": "イマジンインパクト",
+      "description": "「幸運効果」：<style=\"accent-gn\">3</style>m範囲内にいるエネミー対象に攻撃力の<style=\"accent-gn\">1375%</style>の自動適応ダメージを与えるが、会心は発生しない。"
+    },
+    "1201": {
+      "name": "幻夢の断罪",
+      "description": "<style=\"accent-gn\">3</style>ｍ以内にいるエネミー対象に攻撃力<style=\"accent-gn\">850%</style>の自動適応ダメージを与える。会心ダメージは常に<style=\"accent-gn\">500%</style>で計算される。"
+    },
+    "1202": {
+      "name": "夢幻の矢",
+      "description": "<style=\"accent-gn\">3</style>ｍ以内にいるエネミー対象に攻撃力<style=\"accent-gn\">165%</style>の自動適応ダメージを与える。"
+    },
+    "1203": {
+      "name": "夢幻迷界",
+      "description": "1スタックにつき、攻撃力+<style=\"accent-gn\">18</style>（シーズンレベルの上昇に伴い、最大+<style=\"accent-gn\">50</style>まで）。"
+    },
+    "1204": {
+      "name": "夢幻の力",
+      "description": "メインステータス+<style=\"accent-gn\">450</style>（シーズンレベルの上昇に伴い、最大+<style=\"accent-gn\">1050</style>まで）。効果中は残夢を獲得できない。"
+    },
+    "1205": {
+      "name": "寂滅",
+      "description": "攻撃力-<style=\"accent-gn\">20%</style>、受ける夢界ダメージ+<style=\"accent-gn\">10%</style>、移動速度-<style=\"accent-gn\">20%</style>（スタック不可）。"
+    },
+    "1206": {
+      "name": "寂滅撃",
+      "description": "自身の周囲<style=\"accent-gn\">5</style>m以内の敵に攻撃力<style=\"accent-gn\">200%</style>の自動適応ダメージを与え、<style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>秒間\n<linktext=3005><style=\"ItemQuality_5\">スタン</style></linktext>状態にする。"
+    },
+    "1207": {
+      "name": "瀕死",
+      "description": "死亡を無効化する。"
+    },
+    "1208": {
+      "name": "虚妄断罪",
+      "description": "自身の周囲<style=\"accent-gn\">5</style>ｍ以内のエネミー対象に物理防御力<style=\"accent-gn\">330%</style>の自動適応ダメージを与える。"
+    },
+    "1209": {
+      "name": "無限思考",
+      "description": "最大HP+<style=\"accent-gn\">3%</style>、器用さ+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">3</style>スタックまで可。"
+    },
+    "1210": {
+      "name": "工匠の力",
+      "description": "筋力、知力、敏捷<style=\"accent-gn\">2</style>ごとに攻撃力<style=\"accent-gn\">1</style>に変換<br>耐久力<style=\"accent-gn\">1</style>ごとに最大HP<style=\"accent-gn\">8</style>に変換<br>ファスト<style=\"accent-gn\">1%</style>ごとに攻撃速度<style=\"accent-gn\">0.6%</style>と詠唱速度<style=\"accent-gn\">1%</style>に変換<br>万能<style=\"accent-gn\">1%</style>ごとに与ダメージ、回復力、バリア付与時のボーナス比率+<style=\"accent-gn\">0.35%</style>、および被ダメージ軽減+<style=\"accent-gn\">0.15%</style><br>器用さ<style=\"accent-gn\">1%</style>ごとに全ダメージ+<style=\"accent-gn\">0.5%</style>に変換"
+    },
+    "1211": {
+      "name": "炎魂",
+      "description": "<style=\"accent-gn\">マスタリースキル</style>攻撃速度+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。"
+    },
+    "1212": {
+      "name": "灼炎",
+      "description": "火属性ボーナス+<style=\"accent-gn\">10%</style>、持続<style=\"accent-gn\">8</style>秒。"
+    },
+    "1213": {
+      "name": "鬼火",
+      "description": "<style=\"accent-gn\">2</style>秒ごとに攻撃力の<style=\"accent-gn\">35%×スタック数</style>ptの<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで可。<style=\"accent-gn\">鬼火</style>がスタック上限に達しているときに新たに<style=\"accent-gn\">鬼火</style>が付与されると、直ちに攻撃力の<style=\"accent-gn\">35%</style>ptの<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1214": {
+      "name": "フレアバースト",
+      "description": "範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">800%</style>の<style=\"physical\">物理ダメージ</style>を与え、同時に<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">10</style>獲得する。"
+    },
+    "1215": {
+      "name": "流星火",
+      "description": "エネミー対象に攻撃力の<style=\"accent-gn\">500%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1216": {
+      "name": "イラプション",
+      "description": "ダメージを与えるたび、その時点の確率に応じて攻撃段数が追加される。確率は以下のとおり：<br>イラプション<style=\"accent-gn\">1</style>段目の確率：<style=\"accent-gn\">20%</style>。<br>同<style=\"accent-gn\">2</style>段目の確率：<style=\"accent-gn\">10%</style>。<br>同<style=\"accent-gn\">3</style>段目の確率：<style=\"accent-gn\">5%</style>。"
+    },
+    "1217": {
+      "name": "フレイムスピン",
+      "description": "範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">800%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1218": {
+      "name": "火炎制御",
+      "description": "ダメージを受ける際、自身のHPが攻撃者よりも高かった場合、受けるダメージ-<style=\"accent-gn\">10%</style>。<br>ダメージを与える際、自身のHPが被撃者よりも高かった場合、与えるダメージ+<style=\"accent-gn\">5%</style>。"
+    },
+    "1219": {
+      "name": "能力変換",
+      "description": "筋力、知力、敏捷<style=\"accent-gn\">2</style>ptにつき、攻撃力<style=\"accent-gn\">1</style>ptに変換する。<br>耐久力<style=\"accent-gn\">1</style>ptにつき、最大HP<style=\"accent-gn\">8</style>ptに変換する。<br>自身の<style=\"accent-gn\">会心%</style>、<style=\"accent-gn\">幸運%</style>、<style=\"accent-gn\">器用さ%</style>、<style=\"accent-gn\">ファスト%</style>、<style=\"accent-gn\">万能%</style>はもとの効果を失い、以下の新たな能力を獲得する：現在の共鳴スキルのスキルダメージが必ず会心になるが、会心ダメージは<style=\"accent-gn\">会心%+幸運%+器用さ%+ファスト%+万能%</style>の合計値で固定計算される。"
+    },
+    "1500": {
+      "name": "雷刃抜刀",
+      "description": "前方に斬撃を繰り出し、<style=\"accent-gn\">雷印</style>を全て消費して<style=\"physical\">物理ダメージ</style>を与える。消費した<style=\"accent-gn\">雷印</style><style=\"accent-gn\">1</style>つにつき、与ダメージ+<style=\"accent-gn\">25%</style>。<br><i><style=\"text_third_gray\">「見たもの、聞いたもの、嗅いだもの、全てを斬る」</style></i><br><br><size=22><style=\"tipsYellow\">戦略：なるべく雷印が上限に達している時に発動し、ダメージ最大化を狙おう。</style></size>"
+    },
+    "1501": {
+      "name": "一閃",
+      "description": "<style=\"accent-gn\">雷印</style>を全て消費し前方に突進してルート上の全エネミーに<style=\"physical\">物理ダメージ</style>を与える。消費した<style=\"accent-gn\">雷印</style><style=\"accent-gn\">1</style>つにつき、与ダメージ+<style=\"accent-gn\">25%</style>。<br><i><style=\"text_third_gray\">「瞬く間に刃が鞘から放たれる」</style></i><br><br><size=22><style=\"tipsYellow\">戦略：雷刃型とセットのコアスキル。発動優先度が雷刃抜刀より高い。なるべく雷印が上限に達している時に発動し、ダメージ最大化を狙おう。</style></size>"
+    },
+    "1502": {
+      "name": "奥義・破刃連斬",
+      "description": "究極の刀法は空気をも断ち切る。前方エリアを斬撃し続けてエリア内のエネミーに<style=\"physical\">物理ダメージ</style>を与え、スキル終了後に<style=\"accent-gn\">雷印</style>を上限まで獲得し、<style=\"accent-gn\">刀意</style>を最大まで回復する。<br><i><style=\"text_third_gray\">「蒼天の兵よ、天上界の星を全て曇らせよ」</style></i><br><br><size=22><style=\"tipsYellow\">戦略：なるべく雷印がない時に発動し、雷印を素早く獲得してバーストモードに入ろう。あるいは対象が多い時に使用し、大量の範囲ダメージを与えよう</style></size>"
+    },
+    "1503": {
+      "name": "迅雷連斬",
+      "description": "素早い抜刀で二連斬撃を繰り出し、敵に<style=\"physical\">物理ダメージ</style>を与える。斬撃は<style=\"accent-gn\">刀意</style>を<style=\"accent-gn\">50</style>消費する。攻撃速度が<style=\"accent-gn\">25%</style>|<style=\"accent-gn\">50%</style>|<style=\"accent-gn\">80%</style>に達するたびに、斬撃ごとに追加で<style=\"accent-gn\">1</style>|<style=\"accent-gn\">2</style>|<style=\"accent-gn\">3</style>回のダメージを与える。斬撃終了時、<style=\"accent-gn\">刀意</style>が残っていれば引き続き発動できる。<br><br><size=22><style=\"tipsYellow\">戦略：月影型と組み合わせ、主に刀意を消費してダメージを与える方法で、できるだけ刀意が上限に達したときに連続発動しよう。</style></size>"
+    },
+    "1504": {
+      "name": "無窮雷陣",
+      "description": "刃に雷の力を宿す。持続期間中に<style=\"accent-gn\">雷印</style>を獲得する際、上限まで<style=\"accent-gn\">雷印</style>を獲得する。物理攻撃力がアップし、<linktext=1102><style=\"ItemQuality_5\">剛体</style></linktext>を獲得する。<br><br><size=22><style=\"tipsYellow\">戦略：「彼岸」やアビリティ効果と合わせ、短時間内に雷印を獲得・消費し、驚くべきダメージを炸裂させよう。</style></size>"
+    },
+    "1505": {
+      "name": "千雷",
+      "description": "体内の狂暴な雷を爆発させ、<style=\"accent-gn\">刀意</style>を毎秒<style=\"accent-gn\">20</style>pt蓄積する。スキル有効中はマスタリースキルを使用して<style=\"accent-gn\">刀意</style>を消費するたび<style=\"accent-gn\">雷鳴撃</style>を放ち、対象に<style=\"physical\">物理ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：迅雷連斬と合わせて雷爪を複数繰り出せる。器用さが高ければ、月影型の月刃ダメージをアップさせることが可能。</style></size>"
+    },
+    "1506": {
+      "name": "繚乱兜割",
+      "description": "強化された<linktext=1507><style=\"ItemQuality_5\">月影殺</style></linktext>が前方に壊滅的な雷旋風を放ち、エネミーに攻撃力の<style=\"accent-gn\">500%</style>の<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">刀意</style>を上限まで獲得する（威力は<linktext=1507><style=\"ItemQuality_5\">月影殺</style></linktext>のレベル/ランクに応じて上昇）。"
+    },
+    "1507": {
+      "name": "月影殺",
+      "description": "<style=\"accent-gn\">雷印</style>を<style=\"accent-gn\">3</style>つ消費して前方にダッシュし、刃を回転させて周囲のエネミーに<style=\"physical\">物理ダメージ</style>を与える。フィールドの<style=\"accent-gn\">月刃</style>も同時に旋回攻撃して周囲の対象に<style=\"physical\">物理ダメージ</style>を与える。このダメージはスキル「<style=\"accent-gn\">旋廻鎌</style>」のレベルおよびランクアップによって変化する。<br><i><style=\"text_third_gray\">「月光の下、私は影のごとく寄り添う」</style></i><br><br><size=22><style=\"tipsYellow\">戦略：なるべく月刃数が多い時に発動し、より多くの回転攻撃を繰り出そう。</style></size>"
+    },
+    "1508": {
+      "name": "タイドプール",
+      "description": "対象のいる場所に激しく迫るウォータートルネードを召喚し、<style=\"magic\">魔法ダメージ</style>を与える。トルネードは召喚後から<style=\"accent-gn\">5</style>秒間は存在するが、再発動すると前倒しで終了する。<br><br><style=\"accent-gn\">極寒タイドプール</style><br>ウォータートルネードが<style=\"accent-gn\">極寒</style>状態下で終了すると凍結して激しい爆発を起こし、範囲内の敵全員にさらに大きな<style=\"magic\">魔法ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：効果期間中は移動も、他のスキルの発動もできない。仲間の範囲攻撃と連携して発動するのがオススメ。</style></size>"
+    },
+    "1509": {
+      "name": "フロストレイ",
+      "description": "<style=\"accent-gn\">凍源</style>を<style=\"accent-gn\">15</style>pt消費し、対象の方向に凍源を凝集したビームを発射し、ビームルート上の全エネミーに<style=\"accent-gn\">0.3</style>秒ごとに<style=\"magic\">魔法ダメージ</style>を与える。連続<style=\"accent-gn\">5</style>回ダメージを与えると、より多くの凍源を消費してビームを維持しようとする。凍源<style=\"accent-gn\">12</style>ptごとにビームの存在時間+<style=\"accent-gn\">0.3</style>秒、かつダメージを<style=\"accent-gn\">1</style>回多く与える。<style=\"accent-gn\">フロストレイ</style>がダメージを与えるたび、フロストレイのダメージ+<style=\"accent-gn\">8%</style>（最大は<style=\"accent-gn\">80%</style>。残りの<style=\"accent-gn\">凍源</style>が<style=\"accent-gn\">3</style>pt未満の場合は発射停止）<br><style=\"accent-gn\">フロストレイ</style>の発射インターバルはファストステータスによって決まる。<br><br><size=22><style=\"tipsYellow\">戦略：凍源が上限に近い時に使用したほうが、より長時間維持できる。発射中は自分の立ち位置をコントローラで微調整可能。</style></size>"
+    },
+    "1510": {
+      "name": "ウォータースフィア",
+      "description": "対象に向かってゆっくり移動するウォーターボールを放ち、<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext><style=\"accent-gn\">1</style>個をすぐに獲得する（その後は<style=\"accent-gn\">3</style>秒ごとに<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext><style=\"accent-gn\">1</style>個を獲得）。ウォーターボールは任意の対象にぶつかるとスロウするが、存在中は周囲の全エネミーに<style=\"magic\">魔法ダメージ</style>を与え続け、<linktext=3003><style=\"ItemQuality_5\">霜寒</style></linktext>を付与する。<br><br><style=\"accent-gn\">極寒・ウォータースフィア</style><br>ウォーターボールが<style=\"accent-gn\">極寒</style>状態下で終了すると凍結して激しい爆発を起こし、範囲内の全エネミーにさらに大きな<style=\"magic\">魔法ダメージ</style>を与える。<br><br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：このスキルは凍源が超過していない限り、常に最低1スタックはチャージされている。究極スキル発動前はなるべくチャージを2スタックは保持しておこう。究極スキルを併用した極寒状態はより多くのダメージを与えられる。</style></size>"
+    },
+    "1511": {
+      "name": "メテオストーム",
+      "description": "<style=\"accent-gn\">凍源</style>を<style=\"accent-gn\">5</style>pt消費し、対象の上方に<style=\"accent-gn\">メテオストーム</style>を3つ召喚して、対象とその周囲に<style=\"magic\">魔法ダメージ</style>を与える。<br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：頻繁に移動が必要な戦闘で発動すると、戦闘に役立ちます。</style></size>"
+    },
+    "1512": {
+      "name": "フロストファング",
+      "description": "<style=\"accent-gn\">1.4</style>秒間詠唱したあと、<style=\"accent-gn\">凍源</style>を<style=\"accent-gn\">10</style>pt消費してフロストファングを対象に放ち、命中したエネミーに<style=\"magic\">魔法ダメージ</style>を与える。<br><linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を<style=\"accent-gn\">1</style>個消費すると無詠唱となり、ダメージ+<style=\"accent-gn\">20%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：フロストファングを頻繫に放つと、エネルギーの超過を避けられる。</style></size>"
+    },
+    "1513": {
+      "name": "ブリザード",
+      "description": "<style=\"accent-gn\">2.9</style>秒間詠唱したあと、<style=\"accent-gn\">凍源</style>を<style=\"accent-gn\">20</style>pt消費して対象のいる場所に激しいブリザードを召喚し、範囲内の全エネミーに<style=\"magic\">魔法ダメージ</style>を与え続け、<linktext=3003><style=\"ItemQuality_5\">霜寒</style></linktext>を付与する。<br><br><size=22><style=\"tipsYellow\">戦略：強力な範囲攻撃スキル。なるべくエネミーの位置を固定し、攻撃範囲から出さないようにすること。</style></size>"
+    },
+    "1514": {
+      "name": "フローズンストーム",
+      "description": "体内に蓄積された冷気が噴出し、周囲の対象に<style=\"magic\">魔法ダメージ</style>と<linktext=1171><style=\"ItemQuality_5\">氷結</style></linktext>効果を与える。<br>チャージはスキル範囲とダメージを次のように変化させる。<br><style=\"accent-gn\">C1</style>：詠唱<style=\"accent-gn\">1</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲。<br><style=\"accent-gn\">C2</style>：詠唱<style=\"accent-gn\">2</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲、ダメージ+<style=\"accent-gn\">50%</style>。<br><style=\"accent-gn\">C3</style>：詠唱<style=\"accent-gn\">3</style>秒、自身の周囲の半径<style=\"accent-gn\">8</style>m範囲、ダメージ+<style=\"accent-gn\">100%</style>。<br><linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>保有数が<style=\"accent-gn\">1</style>/<style=\"accent-gn\">3</style>/<style=\"accent-gn\">5</style>個の時は<style=\"accent-gn\">C1</style>/<style=\"accent-gn\">C2</style>/<style=\"accent-gn\">C3</style>をスキップして即時発動。<br><br><size=22><style=\"tipsYellow\">戦略：攻撃と制御を兼ねたスキル。なるべく玄氷が多い時に発動しよう！</style></size>"
+    },
+    "1515": {
+      "name": "パーマフロスト",
+      "description": "アイスパワーを召喚し、有効中は剛体を獲得および<style=\"accent-gn\">凍源</style>を毎秒<style=\"accent-gn\">6</style>pt蓄積して自身の<style=\"accent-gn\">ファスト</style>をアップさせる。<br><br><size=22><style=\"tipsYellow\">戦略：このスキルは自身の攻撃および詠唱速度をアップするが、凍源も回復する。そのため、凍源の上限近くで発動しないこと、または上限近くで使用した後、凍源を素早く消費すること。</style></size>"
+    },
+    "1516": {
+      "name": "極光・グレイシアルアンセム",
+      "description": "アイスガードを召喚して自身の足元に<style=\"accent-gn\">氷の領域</style>を生成し、範囲内の全エネミーをノックアップする。その後、彗星を召喚して対象に叩きつけて<style=\"magic\">魔法ダメージ</style>を与え、<linktext=1171><style=\"ItemQuality_5\">氷結</style></linktext>させる。<br><style=\"accent-gn\">氷の領域</style><br>自身が範囲内にいると<style=\"accent-gn\">凍源</style>が<style=\"accent-gn\">220</style>pt持続回復し、<style=\"accent-gn\">極寒</style>状態を獲得する。範囲内のエネミーは<linktext=1171><style=\"ItemQuality_5\">氷結</style></linktext>するまで<linktext=3011><style=\"ItemQuality_5\">スロウ</style></linktext>され続ける。<br><style=\"accent-gn\">極寒</style>状態下では対象は<linktext=1171><style=\"ItemQuality_5\">氷結</style></linktext>状態と見なされる。<br><br><size=22><style=\"tipsYellow\">戦略：凍源の上限近くで発動しない、または上限近くで使用した後、凍源を素早く消費すること。極寒ボーナス状態のスキルはこのスキル範囲内で使用するのがベスト。</style></size>"
+    },
+    "1517": {
+      "name": "烈風撃",
+      "description": "<style=\"accent-gn\">勇心</style>を<style=\"accent-gn\">50</style>pt消費し、敵を高速で<style=\"accent-gn\">3</style>回突き刺し、<style=\"physical\">物理ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：勇心蓄積には時間を要するため、使用頻度に注意しながら、通常攻撃の合間に発動しよう！</style></size>"
+    },
+    "1518": {
+      "name": "勇心風環",
+      "description": "自身の<style=\"accent-gn\">勇心</style>を持続する風フィールドに変換し、周囲の対象に<style=\"physical\">物理ダメージ</style>を与える（ダメージ間隔は攻撃速度に左右される）。<style=\"accent-gn\">勇心</style>がなくなるまで、<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">勇心</style><style=\"accent-gn\">16</style>ptを消費する。再タップでスキル終了可能。<br><br><size=22><style=\"tipsYellow\">戦略：勇心風環の持続時間をなるべく最大化しよう。勇心がMAXでない限り、発動中は何らかの方法で勇心を回復すること。</style></size>"
+    },
+    "1519": {
+      "name": "刹那",
+      "description": "<style=\"accent-gn\">鋭利</style>を2スタック消費して空中にジャンプし、敵に強力な攻撃を浴びせて<style=\"physical\">物理ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：乱風型とセットで使おう。勇心値が低い時は再発動すれば、発動時の勇心自動累積で上限まで溜まった後の無駄遣いを防げる。</style></size>"
+    },
+    "1520": {
+      "name": "飛燕乱",
+      "description": "<style=\"accent-gn\">勇心</style>を<style=\"accent-gn\">35</style>pt消費して空中にジャンプし、上空から敵を攻撃して<style=\"physical\">物理ダメージ</style>を与える。<br><i><style=\"text_third_gray\">「敵陣が堅牢であろうとも、勝利の風が吹けば粉砕できる！」</style></i><br><br><size=22><style=\"tipsYellow\">戦略：勇心値の上限近くで再発動しよう。連続発動時は再ジャンプを必要としないため、攻撃効率がアップする。</style></size>"
+    },
+    "1521": {
+      "name": "鋭利衝",
+      "description": "ジャンプして対象とその周囲に大量の<style=\"physical\">物理ダメージ</style>を与える。<style=\"accent-gn\">鋭利</style>を<style=\"accent-gn\">1</style>スタック消費するたび、このスキルが<style=\"accent-gn\">5%</style>チャージされる。<br><br><size=22><style=\"tipsYellow\">戦略：鋭利衝はダメージが大きい。なるべく鋭利を消費して、一定時間内に最大限繰り出そう。</style></size>"
+    },
+    "1522": {
+      "name": "破追",
+      "description": "敵に突撃して<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">勇心</style>を<style=\"accent-gn\">15</style>pt獲得する。再発動すると広範囲をスイープし、自身の周囲の敵全員に<style=\"physical\">物理ダメージ</style>を与えて<style=\"physical\">ノックアップ</style>する。強靭値を保有している対象はノックアップできないが、その強靭値を削る。また、敵<style=\"accent-gn\">1</style>体に命中するたび<style=\"accent-gn\">勇心</style><style=\"accent-gn\">10</style>ptを追加獲得する（最大<style=\"accent-gn\">50</style>ptまで）。<br><br><size=22><style=\"tipsYellow\">戦略：大量の敵に直面した場合に使おう。</style></size>"
+    },
+    "1523": {
+      "name": "螺旋撃",
+      "description": "<style=\"accent-gn\">勇心</style>を<style=\"accent-gn\">30</style>pt消費して回転する穿雲槍を回収した後、エネミーに究極の一撃を繰り出す。穿雲槍が生み出す螺旋状の風が周囲の空気を引き裂き、範囲内のエネミーに<style=\"physical\">物理ダメージ</style>を与え続ける。初段攻撃はエネミー対象に<style=\"accent-gn\"><linktext=3004><style=\"ItemQuality_5\">重傷</style></linktext><style=\"accent-gn\">50%</style>を付加する。持続<style=\"accent-gn\">10</style>秒。<br><br><size=22><style=\"tipsYellow\">戦略：保有勇心が十分な時は、優先度の最も高いスキルを発動しよう。</style></size>"
+    },
+    "1524": {
+      "name": "飛鳥投",
+      "description": "<style=\"accent-gn\">勇心</style>を<style=\"accent-gn\">40</style>pt消費して空中にジャンプし、敵にウィンドスピアを放つ。範囲内の敵全員に<style=\"physical\">物理ダメージ</style>を与えて強靭値を大量に削り、<style=\"accent-gn\">鋭利</style>を1スタック獲得する。<br><br><size=22><style=\"tipsYellow\">戦略：強靭ゲージのある敵や、大量の敵と戦う時に使おう。</style></size>"
+    },
+    "1525": {
+      "name": "風陣・豪嵐破",
+      "description": "敵陣に飛び込んで範囲内の敵に<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">ノックアップ</style>すると同時に<style=\"accent-gn\">勇心</style>を<style=\"accent-gn\">100</style>pt回復する。<br><i><style=\"text_third_gray\">「終わりなき嵐よ、騎士たる我が命に従いて強大な力を解き放て！風よ、逆巻き疾駆して汝が栄誉を示し給え！風の中に顕現せよ！」</style></i><br><br><size=22><style=\"tipsYellow\">戦略：勇心値が低い時に発動しよう。</style></size>"
+    },
+    "1526": {
+      "name": "ワイルドブルーム",
+      "description": "<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">20</style>pt消費して巨大なツルを召喚し、敵エリアを攻撃して<style=\"magic\">魔法ダメージ</style>を与え、自身と周囲のHP最小の味方（メンバー優先）を<style=\"accent-gn\">回復</style>する（回復量は自身の魔法攻撃力による）。<br><br><size=22><style=\"tipsYellow\">戦略：緊急時はすぐに発動して対象のHPを回復しよう。そうでなければアビリティの共生の印を利用して攻撃型スキルと併用すると良い。</style></size>"
+    },
+    "1527": {
+      "name": "バイタルブルーム",
+      "description": "<style=\"accent-gn\">1.8</style>秒間詠唱したあと<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">30</style>pt消費し、自身と周囲の味方最大<style=\"accent-gn\">10</style>名（メンバー優先）を<style=\"accent-gn\">回復</style>する（回復量は自身の魔法攻撃力による）。<br><br><size=22><style=\"tipsYellow\">戦略：緊急時は連続発動しよう。そうでなければ、アビリティがもたらす再生の蕾を通常攻撃で累積してから発動すると回復量を増やせる。</style></size>"
+    },
+    "1528": {
+      "name": "リジェネレーション",
+      "description": "<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">20</style>pt消費して、森の力を自身と周囲の味方最大<style=\"accent-gn\">10</style>名（メンバー優先）に一定時間、付着させ、<style=\"accent-gn\">10</style>秒間、HPを毎秒<style=\"accent-gn\">回復</style>する（回復間隔はファストに左右される）。<br><br><size=22><style=\"tipsYellow\">戦略：発動すれば持続回復ができ、戦闘開始後に再使用も可能。</style></size>"
+    },
+    "1529": {
+      "name": "フェラルシード",
+      "description": "召喚したタネでエネミーを攻撃して<style=\"magic\">魔法ダメージ</style>を与え、その移動速度-<style=\"accent-gn\">30%</style>。タネがダメージを与えると<style=\"accent-gn\">エネルギー</style>+<style=\"accent-gn\">30</style>pt。<br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：エネルギーが少ない時に発動しよう。</style></size>"
+    },
+    "1530": {
+      "name": "インフュージョン",
+      "description": "<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">30</style>pt消費して<style=\"accent-gn\">5.9</style>秒間タネを発射し続け、敵に<style=\"magic\">魔法ダメージ</style>を与える。効果期間中も移動可能。<br><br><size=22><style=\"tipsYellow\">戦略：ソロ探検時またはダメージ補充が必要な場合に使用。</style></size>"
+    },
+    "1531": {
+      "name": "深葉・ブルームサークル",
+      "description": "森の力を使って結界を張るが、その際、周囲の敵に<style=\"magic\">魔法ダメージ</style>を与え続ける。自身と周囲の味方最大<style=\"accent-gn\">10</style>名（メンバー優先）は結界内では被ダメージ-<style=\"accent-gn\">25%</style>、かつ持続的に回復を得る。<br><br><size=22><style=\"tipsYellow\">戦略：強力な持続ダメージと回復が、チームのプレッシャーを軽減する。ダメージを受ける前に前もって発動するにはある程度、戦闘に詳しくなっておく必要がある。</style></size>"
+    },
+    "1532": {
+      "name": "リジェネイトパルス",
+      "description": "<style=\"accent-gn\">2.3</style>秒間詠唱したあと<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">40</style>pt消費し、自身を中心に四方へパルスを放つ。自身とパルスが触れた味方を<style=\"accent-gn\">回復</style>する。<br><br><size=22><style=\"tipsYellow\">戦略：範囲回復が必要な場合、スキルが前倒しでリキャストに入らないよう慎重に発動すること。</style></size>"
+    },
+    "1533": {
+      "name": "ブルームチャージ",
+      "description": "<style=\"accent-gn\">ブルームチャージ</style><br>ツルを放ち、自身の周囲のエネミーを<linktext=3005><style=\"ItemQuality_5\">スタン</style></linktext>させて<style=\"magic\">魔法ダメージ</style>を与え、自身の周囲の味方のHPを回復する。<br><br><size=22><style=\"tipsYellow\">戦略：これは瞬発スキルで、森癒型アビリティと合わせると、持続的に移動する必要がある戦闘マップではなかなかの攻撃&回復能力を有する。</style></size>"
+    },
+    "1534": {
+      "name": "グローヴウィッシュ",
+      "description": "<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">40</style>pt消費して森の力を凝集し、<style=\"accent-gn\">4</style>秒間、自身と周囲の味方最大<style=\"accent-gn\">10</style>名（パーティメンバー優先）を回復し続ける。かつ、対象の最大HPの<style=\"accent-gn\">15%</style>分の固定回復量を追加する（回復量は自身の魔法攻撃力による）。さらに、回復を受けた対象に全属性ダメージ軽減<style=\"accent-gn\">15%</style>を付与する（持続<style=\"accent-gn\">10</style>秒）。<br><br><size=22><style=\"tipsYellow\">戦略：回復のプレッシャーが非常に高い時に使用。ブートが必要なため、発動のタイミングに注意。</style></size>"
+    },
+    "1535": {
+      "name": "ネイチャーワード",
+      "description": "自身と周囲の味方最大<style=\"accent-gn\">10</style>名（パーティメンバー優先）に<style=\"accent-gn\">自然防壁</style>を付与する。<br><br><size=22><style=\"tipsYellow\">戦略：生存プレッシャーが大きい場合、瞬発の範囲バリアがパーティを速やかに守る。アビリティ「威咲」と合わせるとパーティメンバーを回復できる。</style></size>"
+    },
+    "1536": {
+      "name": "岩堅・崩裂の廻刃",
+      "description": "<style=\"accent-gn\">岩堅・崩裂の廻刃</style><br>岩の力を解放して瞬時に目の前の広範囲エリアに<style=\"physical\">物理ダメージ</style>を与え、3秒間<linktext=3005><style=\"ItemQuality_5\">スタン</style></linktext>させる。その後、エネルギーを集めて<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">5</style>つ獲得し、自身は<style=\"accent-gn\">岩の加護</style>状態になる。<br><style=\"accent-gn\">岩の加護</style><br><style=\"accent-gn\">8</style>秒間持続し、その間は<linktext=1091><style=\"ItemQuality_5\">剛体</style></linktext>を獲得して、自身の物理防御力+<style=\"accent-gn\">100%</style>、最大HP+<style=\"accent-gn\">50%</style>。かつ<style=\"accent-gn\">怒り</style>を<style=\"accent-gn\">40</style>pt獲得し続ける。<br><br><size=22><style=\"tipsYellow\">戦略：受けるダメージが大きい場合に発動しよう。</style></size>"
+    },
+    "1537": {
+      "name": "砕星衝",
+      "description": "凄まじい勢いで前方に突撃してエネミーを突き倒し、<style=\"physical\">物理ダメージ</style>を与えて<linktext=3005><style=\"ItemQuality_5\">スタン</style></linktext>させる。自身は<style=\"accent-gn\">怒り</style><style=\"accent-gn\">25</style>ptと<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">1</style>個獲得する。突撃中は<style=\"accent-gn\">中断されない</style>。<br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：機動性を強化し、効率的に怒りを獲得できる。</style></size>"
+    },
+    "1538": {
+      "name": "護刃の衝撃",
+      "description": "<style=\"accent-gn\">怒り</style>を<style=\"accent-gn\">40</style>pt消費して武器を猛烈に叩きつけ、自身の周囲のエネミーに<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">護刃の衝撃</style>状態になる。状態の持続時間中はレジスト確率+<style=\"accent-gn\">100%</style>、レジストで受ける<style=\"physical\">物理ダメージ</style>-<style=\"accent-gn\">30%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：物理ダメージが多い状況に直面した場合に有効。スキル発動後にレジスト確率がアップし、受ける物理ダメージを安定してダウンさせる。</style></size>"
+    },
+    "1539": {
+      "name": "岩塊撃",
+      "description": "<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">3</style>個消費して対象に<style=\"physical\">物理ダメージ</style>を与え、以後<style=\"accent-gn\">10</style>秒間、自身が受けるダメージ-<style=\"accent-gn\">10%</style>。この効果はスタック不可能。<br><br><size=22><style=\"tipsYellow\">戦略：晶義が十分ある場合は速やかに岩塊撃を発動すれば、大ダメージを与え、安定した生存環境が得られる。</style></size>"
+    },
+    "1540": {
+      "name": "砕刃の猛撃",
+      "description": "<style=\"accent-gn\">怒り</style>を<style=\"accent-gn\">40</style>pt消費して周囲のエネミーを猛撃し、<style=\"physical\">物理ダメージ</style>を与える。<style=\"accent-gn\">晶義</style>が十分ある場合、これを消費してあらゆるダメージを吸収できる<linktext=1035><style=\"ItemQuality_5\">バリア</style></linktext>を獲得する。持続<style=\"accent-gn\">12</style>秒。<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">1</style>個消費するたびバリア値が追加付与されるが、毎回<style=\"accent-gn\">晶義</style>を最大<style=\"accent-gn\">2</style>個消費する（バリアはスタック可能だが、最大HPの<style=\"accent-gn\">150%</style>は超えない）。<br><br><size=22><style=\"tipsYellow\">戦略：バリアがない場合に発動し、常にバリアを維持しておこう。</style></size>"
+    },
+    "1541": {
+      "name": "砂塵外套",
+      "description": "砂塵を自身に集積させ、周囲のエネミーに<style=\"physical\">物理ダメージ</style>を与える。その後、砂利は凝集して周囲のエネミーに<style=\"accent-gn\">1</style>秒ごとに<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">6</style>秒。効果中は<style=\"accent-gn\">怒り</style>と<style=\"accent-gn\">晶義</style>が持続回復し、最終的に<style=\"accent-gn\">怒り</style><style=\"accent-gn\">33</style>ptと<style=\"accent-gn\">晶義</style><style=\"accent-gn\">6</style>個を獲得する。<br><br><size=22><style=\"tipsYellow\">戦略：リキャストが終了したらすぐに発動し、持続範囲ダメージで高い恐怖値を維持し、怒りを効果的に獲得しよう。</style></size>"
+    },
+    "1542": {
+      "name": "巨岩躯体",
+      "description": "砂岩の力を集めて、以後<style=\"accent-gn\">10</style>秒間、<style=\"accent-gn\">危険スキル</style>に自動反撃する。かつ、自身の<style=\"accent-gn\">物理防御力</style>がアップすると同時に、受けるダメージ-<style=\"accent-gn\">20%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：プレッシャーの大きい戦闘時に速やかに発動し、自身の生存能力をアップさせよう。</style></size>"
+    },
+    "1543": {
+      "name": "勇壮砦壁",
+      "description": "自身の周囲にガードウォールを生成し、続く一定時間内は<style=\"accent-gn\">危険スキル</style>に自動反撃する。かつ、<style=\"accent-gn\">レジストダメージ軽減</style>をアップする。有効中は<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">1</style>つ消費するたび、持続時間+<style=\"accent-gn\">1</style>秒（最大<style=\"accent-gn\">5</style>秒まで）。<br><br><size=22><style=\"tipsYellow\">戦略：使いどころを見極め、受ける物理ダメージが大きい場合に自身のレジストダメージ軽減を大幅にアップさせ、受ける物理ダメージを最大限減らそう。</style></size>"
+    },
+    "1544": {
+      "name": "憤怒の剛撃",
+      "description": "<style=\"accent-gn\">怒り</style><style=\"accent-gn\">50</style>ptと<style=\"accent-gn\">晶義</style><style=\"accent-gn\">5</style>個を消費してロアを上げ、周囲のエネミーに<style=\"physical\">物理ダメージ</style>を与え、対象を<linktext=3000><style=\"ItemQuality_5\">妨害</style></linktext>する。かつ、あらゆるダメージを吸収できる<linktext=1035><style=\"ItemQuality_5\">バリア</style></linktext>を獲得し（バリアはスタック可能だが、最大HPの<style=\"accent-gn\">150%</style>は超えない）、自身がその対象から受ける<style=\"physical\">物理ダメージ</style>-<style=\"accent-gn\">10%</style>。持続<style=\"accent-gn\">12</style>秒。<br><br><size=22><style=\"tipsYellow\">戦略：生存プレッシャーが低い場合は攻撃能力を与え、エネミーからの物理ダメージが多い場合は物理ダメージ軽減をもたらす。</style></size>"
+    },
+    "1545": {
+      "name": "サージショット",
+      "description": "横に移動しながらエネミーに素早く<style=\"accent-gn\">2</style>矢を放って<style=\"physical\">物理ダメージ</style>を与える。<br><style=\"accent-gn\">閃心強化</style>状態時に<style=\"accent-gn\">ストライクボルト</style>が<style=\"accent-gn\">クアッドブラスト</style>に進化し、空中にジャンプして強力な矢を<style=\"accent-gn\">4</style>本放ち、大量の物理ダメージを与える（会心確率2倍）。<br>スキルは<style=\"accent-gn\">3</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：閃心発動状態の制御に注意し、速やかにクアッドブラストを発動しよう！</style></size>"
+    },
+    "1546": {
+      "name": "鋭眼・ディバインボルト",
+      "description": "閃心を集め、エネミーの位置に巨大な矢を放つ。<br>矢はエネミーに当たるか最大飛距離に達すると爆発し、爆発範囲内の全エネミーに<style=\"physical\">物理ダメージ</style>と引力効果を与え続け、<style=\"accent-gn\">脆弱</style>と<linktext=3002><style=\"ItemQuality_5\">静止</style></linktext>を付与する。<br><br><size=22><style=\"tipsYellow\">戦略：集敵の良い手段。エネミーが多い戦闘で使おう。</style></size>"
+    },
+    "1547": {
+      "name": "ストライクボルト",
+      "description": "横に移動しながらエネミーに素早く<style=\"accent-gn\">2</style>矢を放って<style=\"physical\">物理ダメージ</style>を与える。<br><style=\"accent-gn\">閃心強化</style>状態時に<style=\"accent-gn\">ストライクボルト</style>が<style=\"accent-gn\">クアッドブラスト</style>に進化し、空中にジャンプして強力な矢を<style=\"accent-gn\">4</style>本放ち、大量の物理ダメージを与える（会心確率2倍）。<br>スキルは<style=\"accent-gn\">3</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：閃心発動状態の制御に注意し、速やかにクアッドブラストを発動しよう！</style></size>"
+    },
+    "1548": {
+      "name": "ブラストショット",
+      "description": "対象に<style=\"accent-gn\">爆裂矢</style>を放つ。<style=\"accent-gn\">爆裂矢</style>は爆発すると周囲の対象に<style=\"physical\">物理ダメージ</style>を与える。<br><style=\"accent-gn\">クラススキル</style>が会心ダメージを与えると、<style=\"accent-gn\">爆裂矢</style>が<style=\"accent-gn\">1</style>スタックチャージされ、<style=\"accent-gn\">5</style>スタックに到達または<style=\"accent-gn\">6</style>秒後に<style=\"accent-gn\">爆裂矢</style>が爆発し、チャージ<style=\"accent-gn\">1</style>スタックにつき<style=\"accent-gn\">爆裂矢</style>のダメージ+<style=\"accent-gn\">100%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：鷹弓型とセットで使えば、ブラストショットの追加時により多くの会心ダメージを叩き出し、このスキルダメージが強化される。</style></size>"
+    },
+    "1549": {
+      "name": "ワイルドコール",
+      "description": "強力な臣獣を召喚し、戦闘に参加させる。<br><br><style=\"accent-gn\">臣狼召喚</style>：召喚した臣狼が飛びかかり、対象とその周囲に<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">20</style>秒後に消える。<br><br><style=\"accent-gn\">臣鷹召喚</style>：召喚した臣鷹が前方直線範囲に急降下し、ぶつかった対象に<style=\"physical\">物理ダメージ</style>を与えて消える。<br><br><size=22><style=\"tipsYellow\">戦略：召喚された臣獣には時間制限がある。バフスキルの準備ができてからこのスキルを発動しよう。</style></size>"
+    },
+    "1550": {
+      "name": "アローレイン",
+      "description": "矢の雨を浴びせ、エリア内のエネミーに<style=\"physical\">物理ダメージ</style>を与え続ける。発動時に<style=\"accent-gn\">閃心</style>を<style=\"accent-gn\">20</style>pt蓄積し、エネミー1体に命中するたび追加で<style=\"accent-gn\">2</style>pt獲得する（追加獲得は<style=\"accent-gn\">10</style>ptまで）。<br><br><size=22><style=\"tipsYellow\">戦略：複数のエネミーを攻撃すれば獲得量がアップ。</style></size>"
+    },
+    "1551": {
+      "name": "ライフサージ",
+      "description": "回復系<style=\"accent-gn\">マスタリースキル</style>を直ちにクールダウンし、<style=\"accent-gn\">エネルギー</style>+<style=\"accent-gn\">50</style>pt。以後、自身は植物に覆われて攻撃力がアップ、スキルが消費する<style=\"accent-gn\">エネルギー</style>がダウン。かつ<linktext=1527><style=\"ItemQuality_5\">バイタルブルーム</style></linktext>を発動するたび回復系<style=\"accent-gn\">マスタリースキル</style>の残りリキャストを短縮する。"
+    },
+    "1552": {
+      "name": "ブルームヒール",
+      "description": "<style=\"accent-gn\">6</style>秒間、種を0.5秒ごとに召喚して周囲のエネミーに<style=\"magic\">魔法ダメージ</style>を与える。周囲の味方最大<style=\"accent-gn\">10</style>名（メンバー優先）のHPを回復し、受けるダメージ-<style=\"accent-gn\">25%</style>。"
+    },
+    "1553": {
+      "name": "風姿卓絶",
+      "description": "発動後、前方のエネミーを威嚇して<style=\"physical\">物理ダメージ</style>を与える。有効中は<style=\"accent-gn\">勇心値</style>を<style=\"accent-gn\">105</style>pt回復し続け、自身の筋力をアップさせる。<br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：勇心値が低い時に発動しよう。</style></size>"
+    },
+    "1554": {
+      "name": "飛雷",
+      "description": "<style=\"accent-gn\">雷印</style>を全て消費し、前方広範囲に<style=\"physical\">物理ダメージ</style>を与える。消費した<style=\"accent-gn\">雷印</style><style=\"accent-gn\">1</style>つにつき、与ダメージ+<style=\"accent-gn\">25%</style>。斬撃中は自身が受ける<style=\"accent-gn\">全ダメージを無効化</style>する。<br><br><size=22><style=\"tipsYellow\">戦略：雷刃型とセットのコアスキル。なるべく対象が3体以上、かつ雷印が上限に達している時に発動し、ダメージ最大化を狙おう。</style></size>"
+    },
+    "1555": {
+      "name": "メンタルフォーカス",
+      "description": "自身がメンタルフォーカス状態になり、持続時間中はファストが大幅にアップし、特殊攻撃のリキャスト-<style=\"accent-gn\">50%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：鷹弓型での使用がオススメ。閃心発動状態に入る前に発動し、効果を最大限利用しよう。</style></size>"
+    },
+    "1556": {
+      "name": "彼岸",
+      "description": "月鎌刀のエネルギーを解放し、攻撃するたび鎌形態となってより大きな<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">雷印</style>を<style=\"accent-gn\">1</style>つ獲得する。<br>スキルは<style=\"accent-gn\">5</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：雷印が超過していない限りは、常にこのスキルが1スタックチャージされているようにすること。</style></size>"
+    },
+    "1557": {
+      "name": "クアッドブラスト",
+      "description": "横に移動しながらエネミーに素早く<style=\"accent-gn\">2</style>矢を放って<style=\"physical\">物理ダメージ</style>を与える。<br><style=\"accent-gn\">閃心強化</style>状態時に<style=\"accent-gn\">ストライクボルト</style>が<style=\"accent-gn\">クアッドブラスト</style>に進化し、空中にジャンプして強力な矢を<style=\"accent-gn\">4</style>本放ち、大量の物理ダメージを与える（会心確率2倍）。<br>スキルは<style=\"accent-gn\">3</style>回まで充填可能。<br><br><size=22><style=\"tipsYellow\">戦略：閃心発動状態の制御に注意し、速やかにクアッドブラストを発動しよう！</style></size>"
+    },
+    "1558": {
+      "name": "メイルストローム",
+      "description": "対象の足元にウォータースパイアを展開し、一定範囲内のエネミーを引き寄せて<style=\"magic\">魔法ダメージ</style>を与え続ける。ダメージを与えると、命中した対象<style=\"accent-gn\">1</style>体につき<style=\"accent-gn\">凍源</style>を<style=\"accent-gn\">2</style>pt回復する（最大<style=\"accent-gn\">10pt</style>まで）。<br><br><style=\"accent-gn\">極寒・ウォータースパイア</style><br>ウォータースパイアが<style=\"accent-gn\">極寒</style>状態下で終了すると凍結して激しい爆発を起こし、範囲内の全エネミーにさらに大きな<style=\"magic\">魔法ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：霜天型で発動タイミングを見極めて、凍源を大幅回復しよう！</style></size>"
+    },
+    "1559": {
+      "name": "ホーリーソード",
+      "description": "<style=\"accent-gn\">光力</style>を<style=\"accent-gn\">3</style>消費し、対象の足元から鋭い剣を引き抜いて<style=\"physical\">物理ダメージ</style>を与え、かつ<style=\"accent-gn\">光盾障壁</style>を<style=\"accent-gn\">5</style>スタック獲得する。<br><br><style=\"accent-gn\">光盾障壁</style>：1スタックにつき自身の最大HP+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">10</style>スタックまで、何らかのダメージを受けると<style=\"accent-gn\">1</style>スタックを消費する。<style=\"accent-gn\">25</style>秒が経過するか、全スタックを使い切るまで持続。1スタック獲得するたび持続時間がリセットされる。<br><br><size=22><style=\"tipsYellow\">戦略：優れたダメージ能力を有し、光盾障壁を最大効率で補充できる。</style></size>"
+    },
+    "1560": {
+      "name": "ホーリーリング",
+      "description": "足元に聖なる光を注ぎ込み、そのエリア内では自身のHPが<style=\"accent-gn\">1</style>秒ごとに回復し、パーティメンバーのHPを少量回復、かつエネミーに<style=\"physical\">物理ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：エリア内で戦えば、持続的なダメージと回復能力が広い範囲をカバーできる。</style></size>"
+    },
+    "1561": {
+      "name": "ブレイヴバッシュ",
+      "description": "<style=\"accent-gn\">光力</style>を<style=\"accent-gn\">1</style>消費して前方に猛烈なバリアアタックを繰り出し、エネミーに<style=\"physical\">物理ダメージ</style>を与え、自身の物理防御力をアップさせる。<style=\"accent-gn\">3</style>スタックまで。<br><br><size=22><style=\"tipsYellow\">戦略：ブレイヴバッシュによって付与される物理防御力アップをなるべく維持しよう！</style></size>"
+    },
+    "1562": {
+      "name": "シールドスロー",
+      "description": "盾を回転させながら投げつけ、当たったエネミーに<style=\"physical\">物理ダメージ</style>を与える。かつ、対象を<linktext=3000><style=\"ItemQuality_5\">妨害</style></linktext>して、以後<style=\"accent-gn\">10</style>秒間、その対象から受ける全ダメージをダウンさせる。<br><br><size=22><style=\"tipsYellow\">戦略：生存能力がアップ。広範囲ダメージは対象が複数いる状況では素晴らしい効果を発揮する。自身の生存条件や戦闘状況に応じて発動しよう。</style></size>"
+    },
+    "1563": {
+      "name": "レコニング",
+      "description": "<style=\"accent-gn\">光力</style>を<style=\"accent-gn\">2</style>消費して剣を振るい、自身の周囲のエネミーに<style=\"physical\">物理ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：十分強力なダメージスキル。生存が確保できている際に発動しよう。</style></size>"
+    },
+    "1564": {
+      "name": "ジャッジメント",
+      "description": "<style=\"accent-gn\">光源</style>を<style=\"accent-gn\">45</style>pt消費して聖なる光を召喚し、対象エリアを爆撃してエネミーに<style=\"physical\">物理ダメージ</style>を与え、失ったHPに応じて自身のHPを回復する（最小で最大HPの<style=\"accent-gn\">5%</style>）。<br><br><size=22><style=\"tipsYellow\">戦略：HPが低い場合に発動すれば、スキルシステムによって安全を確保しつつ、かなりのHPを回復できる。</style></size>"
+    },
+    "1565": {
+      "name": "ホーリーガード",
+      "description": "聖なる光を召喚して自身を守り、有効中は<style=\"accent-gn\">危険スキル</style>に自動反撃する。かつ自身の<style=\"accent-gn\">物理防御力</style>と<style=\"accent-gn\">ダメージ軽減</style>がアップする。この間に致死ダメージを受けた場合、この状態を消費して戦闘不能になるのを回避し、直ちに<style=\"accent-gn\">HP</style>を<style=\"accent-gn\">25%</style>回復する。<br><br><size=22><style=\"tipsYellow\">戦略：強力なダメージ軽減効果を有し、戦闘不能を回避できるシステム。生存プレッシャーが非常に大きい場合に素晴らしい効果を発揮する。</style></size>"
+    },
+    "1566": {
+      "name": "グローイングガード",
+      "description": "<style=\"accent-gn\">光力</style>を<style=\"accent-gn\">1</style>消費して短時間チャージした後、前方を猛烈に横薙ぎし、エネミーに<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">光盾障壁</style>を<style=\"accent-gn\">2</style>スタック獲得する。<br><br><style=\"accent-gn\">光盾障壁</style>：1スタックにつき自身の最大HP+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">10</style>スタックまで。何らかのダメージを受けると<style=\"accent-gn\">1</style>スタック消費する。<style=\"accent-gn\">25</style>秒が経過するか、全スタックを使い切るまで持続。1スタック獲得するたび持続時間がリセットされる。<br><br><size=22><style=\"tipsYellow\">戦略：光盾障壁が十分に確保されている時にダメージを与えよう。ヴァンガードラッシュの派生効果に注意しつつ速やかに発動すれば、追加効果をもたらせる。</style></size>"
+    },
+    "1567": {
+      "name": "コンクエスト",
+      "description": "<style=\"accent-gn\">光盾障壁</style>を最大<style=\"accent-gn\">8</style>スタック消費し、自身のそばで回転し続ける光を召喚する。<style=\"accent-gn\">1</style>秒ごとに周囲のエネミーに<style=\"physical\">物理ダメージ</style>を与え（ダメージ間隔は攻撃速度に左右される）、<style=\"accent-gn\">光盾障壁</style>を<style=\"accent-gn\">1</style>スタック獲得する。<br>対象<style=\"accent-gn\">1</style>体にダメージを与えるたび自身のHPを最大HPの<style=\"accent-gn\">1%</style>分回復する（最大で<style=\"accent-gn\">5%</style>まで）。発動時、消費<style=\"accent-gn\">光盾障壁</style><style=\"accent-gn\">1</style>スタックにつき、効果が<style=\"accent-gn\">2</style>秒持続する（最大<style=\"accent-gn\">16</style>秒まで）。<br><br><style=\"accent-gn\">光盾障壁</style>：1スタックにつき自身の最大HP+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">10</style>スタックまで、何らかのダメージを受けると<style=\"accent-gn\">1</style>スタックを消費する。<style=\"accent-gn\">25</style>秒が経過するか、全スタックを使い切るまで持続。1スタックを獲得するたび持続時間がリセットされる。<br><br><size=22><style=\"tipsYellow\">戦略：光盾障壁を消費してダメージを与えたり、HPを回復しよう。光盾障壁が十分ある時に発動すれば、良好な防御効果とバーストダメージ効果が得られる。</style></size>"
+    },
+    "1568": {
+      "name": "セイクリッドオース",
+      "description": "必勝の決意を得て周囲<style=\"accent-gn\">10</style>m以内にいるエネミー対象（近いもの優先）にシールドを<style=\"accent-gn\">5</style>個投げつけて<style=\"physical\">物理ダメージ</style>を与え、対象を<linktext=3000><style=\"ItemQuality_5\">妨害</style></linktext>する。その後は<style=\"accent-gn\">2</style>秒ごとにシールドを投げつけ、<style=\"accent-gn\">光源</style>+<style=\"accent-gn\">10</style>pt。かつ、以後<style=\"accent-gn\">10</style>秒間は受けるダメージを軽減する（軽減量は自身の最大HPの一定割合）。有効中は<style=\"accent-gn\">危険スキル</style>に自動反撃する。<br><br><size=22><style=\"tipsYellow\">戦略：発動に光源や光力を消費せず、生存能力も高い。通常は初手として発動すると良い。</style></size>"
+    },
+    "1569": {
+      "name": "インスパイアチューン",
+      "description": "とてもゆったりしている曲。<style=\"accent-gn\">奏源</style>が<style=\"accent-gn\">15</style>を超えていれば演奏を開始でき、いつでも終了できる。毎回の開始時には<style=\"accent-gn\">スピーカー</style>を1個設置し、合奏（<style=\"accent-gn\">ヒーリングメロディー</style>が終了すると<style=\"accent-gn\">スピーカー</style>は消失する）を行える。リキャスト<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">ヒーリングメロディー</style>演奏中は、<style=\"accent-gn\">奏源</style>を<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">3</style>pt消費し、また、<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">10</style>人の味方（パーティメンバーを優先）のHPを回復する（回復間隔はファストに左右される）。<br><style=\"accent-gn\">スピーカー</style>：<style=\"accent-gn\">コーラスヒーリング</style>、<style=\"accent-gn\">サージクインテット</style>、<style=\"accent-gn\">響演・バッドネスステージ</style>、<style=\"accent-gn\">アレグロヴィヴァーチェ</style>を発動するたびに、<style=\"accent-gn\">スピーカー</style>も同じスキルを同時に1回発動する。<br><br><style=\"accent-gn\">奏源</style>：奏鳴スキル（<style=\"accent-gn\">ブレイブメロディー</style>、<style=\"accent-gn\">ヒーリングメロディー</style>）の演奏に必要なエネルギーは、<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">1</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：スピーカーの設置位置とタイミングをうまく見極め、スピーカーが発動する専用回復スキルの発動頻度をできる限り高めて、より多くの味方をカバーできるようにしよう。</size></style>"
+    },
+    "1570": {
+      "name": "サーマルブラスト",
+      "description": "<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">3</style>個消費して、ギター・ソノリスを力強く振り回し、エネミーに強力な<style=\"magic\">魔法ダメージ</style>を与える。<br><br><style=\"accent-gn\">熱響</style><br>曲を演奏するために必要なリソース、<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：広い範囲をカバーできる攻撃スキル。熱響が超過しない時を見極めて発動しよう。</size></style>"
+    },
+    "1571": {
+      "name": "リズムスパイア",
+      "description": "テンションMAXタイムがまもなく到来。高く跳び上がり、ギター・ソノリスで地面を強打して対象地点から火花を散らし、範囲内のエネミーに<style=\"magic\">魔法ダメージ</style>を与える。<br>ハードディストーションがダメージを与えるたびに（複数の対象に命中してもカウントは1回）、<style=\"accent-gn\">ハーモニックアンセム</style>の攻撃段数が+<style=\"accent-gn\">1</style>され、最大で+<style=\"accent-gn\">3</style>まで増える。<br><br><size=22><style=\"tipsYellow\">戦略：ハードディストーションでハーモニックアンセムの攻撃段数が増える仕組みを十分に活用し、可能な限り毎回のハーモニックアンセムで高いダメージ効率を発揮できるようにしよう。</size></style>"
+    },
+    "1572": {
+      "name": "ロッキン・ニースライド",
+      "description": "一定時間自身の<style=\"accent-gn\">魔法攻撃力</style>を上昇させ、次に発動するスキルを強化する。<br><br><style=\"accent-gn\">特殊攻撃</style><br>次の<style=\"accent-gn\">2</style>回の特殊攻撃では<style=\"accent-gn\">熱響</style>を消費しない。<br><br><linktext=1607><style=\"ItemQuality_5\">サージクインテット</style></linktext><br>回復回数が2倍になる。<br><br><linktext=1614><style=\"ItemQuality_5\">ブレイブメロディー</style></linktext><br><linktext=1615><style=\"ItemQuality_5\">バイオレントスイング</style></linktext>の発動までの時間が半分になる。<br><br><linktext=1605><style=\"ItemQuality_5\">ハーモニックアンセム</style></linktext><br>与えるダメージが2倍になる。<br><br><linktext=1608><style=\"ItemQuality_5\">パッショネート</style></linktext><br>詠唱なしで、最高段階の状態で即時発動する。<br><br><size=22><style=\"tipsYellow\">戦略：戦況や自身の戦闘型を見極め、適切なタイミングで最適な強化スキルを使おう。</size></style>"
+    },
+    "1573": {
+      "name": "火力全開",
+      "description": "<style=\"accent-gn\">奏源</style>が<style=\"accent-gn\">15</style>pt以上で発動可能。発動後は途中キャンセル不可能。リキャスト<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">ブレイブメロディー</style>の演奏中は<style=\"accent-gn\">奏源</style>を<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">6</style>pt消費し、<style=\"accent-gn\">3</style>秒ごとに<style=\"accent-gn\">10</style>人の味方（パーティメンバー優先）のHPを回復する（回復間隔はファストに影響）。<br><br><style=\"accent-gn\">ブレイブメロディー</style>演奏中は<style=\"accent-gn\">7</style>秒ごとに、自身の<style=\"accent-gn\">ストロークビート</style>が<linktext=1615><style=\"ItemQuality_5\">バイオレントスイング</style></linktext>に派生する。<br><br><style=\"accent-gn\">ブレイブメロディー</style>演奏中は<style=\"accent-gn\">ピースフルロンド</style>の変換効果+<style=\"accent-gn\">50%</style>。<br><br><style=\"accent-gn\">奏源</style><br>奏鳴スキル（<style=\"accent-gn\">ブレイブメロディー</style>、<style=\"accent-gn\">ヒーリングメロディー</style>）の演奏に必要なリソース。<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">1</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：スキルは自分でキャンセルできないので、発動のタイミングを見極め、ヒーリングメロディーやバイオレントスイングの効果をブレイブメロディーで最大限引き出そう。</size></style>"
+    },
+    "1574": {
+      "name": "バイタルリカバリー",
+      "description": "<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">3</style>つ消費して治愈能力のある曲を奏で、自身と周囲でHP最少の味方対象（パーティメンバー優先）を回復する。かつ、対象の最大HPの<style=\"accent-gn\">3%</style>分の固定回復量を追加する（回復量は自身の魔法攻撃力による）。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するのに必須のリソースで、<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>つ回復する。<br><br><size=22><style=\"tipsYellow\">戦略：カバー率の高い回復スキルだが、熱響がオーバーフローしないタイミングを見極めて発動しよう。</size></style>"
+    },
+    "1575": {
+      "name": "レイジチューン",
+      "description": "ファンとの交流にぴったりの曲。味方対象<style=\"accent-gn\">10</style>名（パーティメンバー優先）に<style=\"accent-gn\">アンコール</style>効果を付与する。持続<style=\"accent-gn\">10</style>秒。<br><style=\"accent-gn\">アンコール</style>：<style=\"accent-gn\">剛体</style>状態となり、ダメージまたは回復系の<style=\"accent-gn\">マスタリースキル</style>を使用するたび、<style=\"accent-gn\">50%</style>の固定確率で<style=\"accent-gn\">追奏弦音</style>を発動し、その時点の対象にダメージを与えるか、HP最少の味方対象（パーティメンバー優先）のHPを回復する（攻撃優先）。<br><br><size=22><style=\"tipsYellow\">戦略：なるべくパーティの会心に合わせ、パーティメンバーの状態が整ったタイミングで発動すると、アンコールのダメージと回復効果を最大化できる。</size></style>"
+    },
+    "1576": {
+      "name": "激情のラプソディ",
+      "description": "あの情熱を取り戻せ！<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">3</style>個消費し、疲れ切っている人々に再び活力を与えよう。連続演奏で範囲内の味方<style=\"accent-gn\">10</style>名（パーティメンバー優先）のHPを回復し、タフコードを付与する。タフコード1スタックにつき最大HP+<style=\"accent-gn\">0.5</style>%（最大で最大HPの<style=\"accent-gn\">2.5</style>%まで）。持続<style=\"accent-gn\">5</style>秒（スタック上限の5スタックに達すると持続時間はリセットされない）。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するのに必要なリソースで、<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：最大の回復量を有するため、パーティの状態を正確に判断して、回復量ができる限りオーバーフローしないようにしよう。</size></style>"
+    },
+    "1577": {
+      "name": "ヒーリングサウンド",
+      "description": "この胸の情熱は今も燃えているぜ！<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">5</style>個消費して、足元に形や大きさがランダムな即興グラフィティを展開して<style=\"accent-gn\">10</style>人の味方（パーティメンバーを優先）を回復する。さらに範囲内のエネミー対象に<style=\"magic\">魔法ダメージ</style>も与える。<br>自身がグラフィティ内にいる場合は、<style=\"accent-gn\">10%</style>の火属性ボーナスを獲得する。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するために必要なリソース。<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：最大範囲の回復とダメージ効果を持っているので、可能な限りリキャストが終わったらすぐに発動しよう。</size></style>"
+    },
+    "1578": {
+      "name": "ブラストノーツ",
+      "description": "弦をかき鳴らした後、前方に灼熱の炎を放ち、範囲内のエネミー対象に<style=\"magic\">魔法ダメージ</style>を与える。<br>チャージに応じてスキル範囲とダメージ量が変化する。<br>ランク<style=\"accent-gn\">1</style>：詠唱<style=\"accent-gn\">0.7</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲。<br>ランク<style=\"accent-gn\">2</style>：詠唱<style=\"accent-gn\">1.4</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲、ダメージ+<style=\"accent-gn\">50%</style>。<br>ランク<style=\"accent-gn\">3</style>：詠唱<style=\"accent-gn\">2.1</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲、ダメージ+<style=\"accent-gn\">100%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：高ダメージスキル。アビリティ効果とスピーカーを組み合わせて発動すれば、強力なダメージと回復効果が得られる。詠唱中は安全に気を配ろう。</size></style>"
+    },
+    "1579": {
+      "name": "響演・バッドネスステージ",
+      "description": "熱狂的な音楽愛好者として、情熱的な演奏により即座に<style=\"accent-gn\">5</style>個の<style=\"accent-gn\">熱響</style>を獲得する。同時に周囲の味方を鼓舞し、回復効果を与え、<style=\"accent-gn\">10</style>秒持続する<style=\"accent-gn\">バリア</style>を付与する。さらに周囲のエネミーに<style=\"magic\">魔法ダメージ</style>を与える。<br><style=\"accent-gn\">熱響</style>：曲を演奏するために必要なリソース。<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：緊急時には強力なバリアがチームの生存を支えてくれる。発動のタイミングを見極めよう。</size></style>"
+    },
+    "1580": {
+      "name": "レイジショット",
+      "description": "弓を引き絞ってエネミーに数本の矢を放ち、<style=\"physical\">物理ダメージ</style>を与える（再発動で早期終了可）。<br><style=\"accent-gn\">閃心強化</style>状態時、次に特殊攻撃を発動する時まで閃心消費を停止できる。エネミーに命中すると<style=\"accent-gn\">閃心</style>を最大<style=\"accent-gn\">42</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：閃心強化状態時に発動すれば閃心の消費を停止し、閃心を取得できる。</style></size>"
+    },
+    "1581": {
+      "name": "エナジーショット",
+      "description": "閃心矢にチャージしてエネミーエリアに放ち、エリア内のエネミーに<style=\"physical\">物理ダメージ</style>を与え続ける（ダメージ間隔は攻撃速度に左右される）。<br><style=\"accent-gn\">閃心強化</style>状態時には閃心の消費を一時停止し、より多くの矢にチャージして<style=\"accent-gn\">50%</style>の<style=\"physical\">物理ダメージ</style>を追加する。<br><br><size=22><style=\"tipsYellow\">戦略：閃心強化状態で使えばダメージボーナスを獲得し、閃心の消費も停止できる。</style></size>"
+    },
+    "1582": {
+      "name": "チャージショット",
+      "description": "エネミーに貫通能力のある矢を溜めて放つ。飛行ルート上のエネミー全員に<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">ノックバック</style>する。強靭値のある対象はノックバックできず、強靭値のみ削る。<style=\"accent-gn\">チャージショット</style>による会心ダメージ+<style=\"accent-gn\">100%</style>。<br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><style=\"accent-gn\">閃心強化</style>状態では発動前溜めが不要となる。<br><br><size=22><style=\"tipsYellow\">戦略：強靭ゲージを持つエネミーに使おう。範囲ダメージ能力も高い。</style></size>"
+    },
+    "1583": {
+      "name": "ファストグロウス",
+      "description": "自身に加速効果を付与し、持続時間中はスキルリキャストを短縮し、魔法攻撃力をアップさせる。<br><br><size=22><style=\"tipsYellow\">戦略：他のスキルがリキャストに入ってから発動しよう。</style></size>"
+    },
+    "1584": {
+      "name": "墜竜閃",
+      "description": "強化された<linktext=1501><style=\"ItemQuality_5\">一閃</style></linktext>が、保有<style=\"accent-gn\">雷印</style>を全て消費して壊滅的な斬撃を繰り出し、エネミーに攻撃力の<style=\"accent-gn\">510%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<linktext=1501><style=\"ItemQuality_5\">一閃</style></linktext>のレベル/ランクに応じて上昇）。<style=\"accent-gn\">雷印</style>を<style=\"accent-gn\">1</style>つ消費するたびダメージ+<style=\"accent-gn\">25%</style>。"
+    },
+    "1585": {
+      "name": "瞬影斬",
+      "description": "強化された<linktext=1554><style=\"ItemQuality_5\">飛雷</style></linktext>が、保有<style=\"accent-gn\">雷印</style>を全て消費して狂暴な雷を引き寄せ、エネミーに攻撃力の<style=\"accent-gn\">450%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<linktext=1554><style=\"ItemQuality_5\">飛雷</style></linktext>のレベル/ランクに応じて上昇）。<style=\"accent-gn\">雷印</style>を<style=\"accent-gn\">1</style>つ消費するたびダメージ+<style=\"accent-gn\">25%</style>。"
+    },
+    "1586": {
+      "name": "雷霆鎌",
+      "description": "雷を凝集させた鎌で素早く横薙ぎし、エネミーに攻撃力の<style=\"accent-gn\">300%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">迅雷連斬</style>のレベル/ランクに応じてアップ。"
+    },
+    "1587": {
+      "name": "審罰鎌",
+      "description": "壊滅の力をまとった鎌を前方上方から思い切り振り下ろし、エネミーに攻撃力の<style=\"accent-gn\">1500%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。"
+    },
+    "1588": {
+      "name": "雷閃",
+      "description": "<style=\"accent-gn\">雷印</style>を全て消費して前方に素早く<style=\"accent-gn\">5</style>本の刀気を放ち、ルート上のエネミーに攻撃力の<style=\"accent-gn\">700%</style>の<style=\"magic\">物理ダメージ</style>与える（威力は<style=\"accent-gn\">特殊攻撃</style>スキルのレベル/ランクに応じて上昇）。"
+    },
+    "1589": {
+      "name": "嵐斬",
+      "description": "強化された<linktext=1524><style=\"ItemQuality_5\">飛鳥投</style></linktext>が空中にジャンプして風の<style=\"accent-gn\">力</style>を集め、猛烈な風刃スピアを繰り出す。範囲内のエネミー全員に攻撃力の<style=\"accent-gn\">750%</style>の<style=\"physical\">物理ダメージ</style>を与え、強靭値を大量に削る（威力は<linktext=1524><style=\"ItemQuality_5\">飛鳥投</style></linktext>のレベル/ランクに応じて上昇）。<br>発動すると直ちに<linktext=1152><style=\"ItemQuality_5\">鋭利</style></linktext>+<style=\"accent-gn\">3</style>スタック。"
+    },
+    "1590": {
+      "name": "瞬影螺旋",
+      "description": "強化された<linktext=1523><style=\"ItemQuality_5\">螺旋撃</style></linktext>が究極の一撃を繰り出し、範囲内のエネミーに攻撃力の<style=\"accent-gn\">1265%</style>の<style=\"physical\">物理ダメージ</style>を与え続ける（威力は<linktext=1523><style=\"ItemQuality_5\">螺旋撃</style></linktext>のレベルアップ/ランクアップに応じてアップ）。"
+    },
+    "1591": {
+      "name": "龍撃陣",
+      "description": "武器を突き刺したあと後ろにジャンプして強力な風圧を放ち、終結の一撃を繰り出してエネミーに攻撃力の<style=\"accent-gn\">380%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベルアップ/ランクアップに応じてアップ）。<br>発動すると直ちに<style=\"accent-gn\">勇心</style>+<style=\"accent-gn\">20</style>pt。"
+    },
+    "1592": {
+      "name": "疾馳鋒刃",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。<br>発動すると直ちに<style=\"accent-gn\">勇心</style>+<style=\"accent-gn\">10</style>pt。"
+    },
+    "1593": {
+      "name": "スタッグチャージ",
+      "description": "ルート上で接触したエネミー対象に攻撃力の<style=\"accent-gn\">500%</style>の<style=\"magic\">魔法ダメージ</style>を与え、接触した味方対象のHPを攻撃力の<style=\"accent-gn\">100%</style>分回復する（威力は<style=\"accent-gn\">特殊攻撃</style>スキルのレベルアップ/ランクアップに応じてアップ。発動後、インフュージョンのリキャストが直ちに完了する）。"
+    },
+    "1594": {
+      "name": "砕星の鉄槌",
+      "description": "強化された<linktext=1537><style=\"ItemQuality_5\">砕星衝</style></linktext>は、対象に飛びかかって攻撃力の<style=\"accent-gn\">500%</style>の<style=\"physical\">物理ダメージ</style>を与え、ノックアップする（威力は<linktext=1537><style=\"ItemQuality_5\">砕星衝</style></linktext>のレベル/ランクに応じて上昇）。<br>かつ、2倍の<style=\"accent-gn\">怒り</style>値を獲得し、自身が必ず<linktext=1135><style=\"ItemQuality_5\">憤怒</style></linktext>状態になる。"
+    },
+    "1595": {
+      "name": "断裂の鉄槌",
+      "description": "武器を掲げて強力な一撃を繰り出し、攻撃力の<style=\"accent-gn\">300%</style>の<style=\"physical\">物理ダメージ</style>を与え、対象をノックアップする（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。<br>発動時、<style=\"accent-gn\">怒り</style>+<style=\"accent-gn\">25</style>pt"
+    },
+    "1597": {
+      "name": "巨岩の轟撃",
+      "description": "強化された<linktext=1539><style=\"ItemQuality_5\">岩塊撃</style></linktext>が巨岩の力を集めて巨大な岩を召喚し、対象の上方から投下して範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">800%</style>の<style=\"physical\">物理ダメージ</style>を与える（必ず会心になる。威力は<linktext=1539><style=\"ItemQuality_5\">岩塊撃</style></linktext>のレベルアップ/ランクアップに応じてアップ）。"
+    },
+    "1598": {
+      "name": "パニッシュメント",
+      "description": "エネミーに攻撃力の<style=\"accent-gn\">200%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。"
+    },
+    "1599": {
+      "name": "強化パニッシュメント",
+      "description": "強化された<linktext=1563><style=\"ItemQuality_5\">パニッシュメント</style></linktext>のダメージが<linktext=1563><style=\"ItemQuality_5\">パニッシュメント</style></linktext>の<style=\"accent-gn\">2</style>倍になる。"
+    },
+    "1600": {
+      "name": "ブレイズレコニング",
+      "description": "強化された<linktext=1563><style=\"ItemQuality_5\">レコニング</style></linktext>のダメージが<linktext=1563><style=\"ItemQuality_5\">レコニング</style></linktext>の<style=\"accent-gn\">2</style>倍になる。かつ、初期の会心ダメージが<style=\"accent-gn\">250%</style>になり、<style=\"accent-gn\">光力</style>を消費せずに神聖<style=\"accent-gn\">エネルギー</style>を生成できる。"
+    },
+    "1601": {
+      "name": "ハウリングボルト",
+      "description": "素早く弓を引いて対象に<style=\"accent-gn\">5</style>本の矢を放ち、各矢が<style=\"physical\">物理ダメージ</style>を与えて<style=\"accent-gn\">閃心</style>を<style=\"accent-gn\">1</style>pt蓄積する。<br>スキルは<style=\"accent-gn\">2</style>回まで充填可能。<br><style=\"accent-gn\">閃心</style>が上限に達すると<style=\"accent-gn\">ハウリングボルト</style>が直ちに<style=\"accent-gn\">2</style>スタックチャージされ、チャージ数が<style=\"accent-gn\">5</style>スタックにアップする。<br><br><size=22><style=\"tipsYellow\">戦略：ハウリングボルトは閃心発動状態になってから5回発動後もチャージを継続でき、他のスキルと組み合わせてチャージ時間を稼ごう。</style></size>"
+    },
+    "1602": {
+      "name": "レイジブラスト",
+      "description": "対象に巨大な矢を放ち、攻撃力の<style=\"accent-gn\">1000%</style>の<style=\"physical\">物理ダメージ</style>を与える。"
+    },
+    "1603": {
+      "name": "フレイムラプソディー",
+      "description": "この胸の情熱は今も燃えているぜ！<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">5</style>個消費して、足元に形や大きさがランダムな即興グラフィティを展開して<style=\"accent-gn\">10</style>人の味方（パーティメンバーを優先）を回復する。さらに範囲内のエネミー対象に<style=\"magic\">魔法ダメージ</style>も与える。<br>自身がグラフィティ内にいる場合は、<style=\"accent-gn\">10%</style>の火属性ボーナスを獲得する。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するために必要なリソース。<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：最大範囲の回復とダメージ効果を持っているので、可能な限りリキャストが終わったらすぐに発動しよう。</size></style>"
+    },
+    "1604": {
+      "name": "ハードディストーション",
+      "description": "<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">3</style>個消費して、ギター・ソノリスを力強く振り回し、エネミーに強力な<style=\"magic\">魔法ダメージ</style>を与える。<br><br><style=\"accent-gn\">熱響</style><br>曲を演奏するために必要なリソース、<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：広い範囲をカバーできる攻撃スキル。熱響が超過しない時を見極めて発動しよう。</size></style>"
+    },
+    "1605": {
+      "name": "ハーモニックアンセム",
+      "description": "テンションMAXタイムがまもなく到来。高く跳び上がり、ギター・ソノリスで地面を強打して対象地点から火花を散らし、範囲内のエネミーに<style=\"magic\">魔法ダメージ</style>を与える。<br>ハードディストーションがダメージを与えるたびに（複数の対象に命中してもカウントは1回）、<style=\"accent-gn\">ハーモニックアンセム</style>の攻撃段数が+<style=\"accent-gn\">1</style>され、最大で+<style=\"accent-gn\">3</style>まで増える。<br><br><size=22><style=\"tipsYellow\">戦略：ハードディストーションでハーモニックアンセムの攻撃段数が増える仕組みを十分に活用し、可能な限り毎回のハーモニックアンセムで高いダメージ効率を発揮できるようにしよう。</size></style>"
+    },
+    "1606": {
+      "name": "ヒーリングメロディー",
+      "description": "とてもゆったりしている曲。<style=\"accent-gn\">奏源</style>が<style=\"accent-gn\">15</style>を超えていれば演奏を開始でき、いつでも終了できる。毎回の開始時には<style=\"accent-gn\">スピーカー</style>を1個設置し、合奏（<style=\"accent-gn\">ヒーリングメロディー</style>が終了すると<style=\"accent-gn\">スピーカー</style>は消失する）を行える。リキャスト<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">ヒーリングメロディー</style>演奏中は、<style=\"accent-gn\">奏源</style>を<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">3</style>pt消費し、また、<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">10</style>人の味方（パーティメンバーを優先）のHPを回復する（回復間隔はファストに左右される）。<br><style=\"accent-gn\">スピーカー</style>：<style=\"accent-gn\">コーラスヒーリング</style>、<style=\"accent-gn\">サージクインテット</style>、<style=\"accent-gn\">響演・バッドネスステージ</style>、<style=\"accent-gn\">アレグロヴィヴァーチェ</style>を発動するたびに、<style=\"accent-gn\">スピーカー</style>も同じスキルを同時に1回発動する。<br><br><style=\"accent-gn\">奏源</style>：奏鳴スキル（<style=\"accent-gn\">ブレイブメロディー</style>、<style=\"accent-gn\">ヒーリングメロディー</style>）の演奏に必要なエネルギーは、<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">1</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：スピーカーの設置位置とタイミングをうまく見極め、スピーカーが発動する専用回復スキルの発動頻度をできる限り高めて、より多くの味方をカバーできるようにしよう。</size></style>"
+    },
+    "1607": {
+      "name": "サージクインテット",
+      "description": "あの情熱を取り戻せ！<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">3</style>個消費し、疲れ切っている人々に再び活力を与えよう。連続演奏で範囲内の味方<style=\"accent-gn\">10</style>名（パーティメンバー優先）のHPを回復し、タフコードを付与する。タフコード1スタックにつき最大HP+<style=\"accent-gn\">0.5</style>%（最大で最大HPの<style=\"accent-gn\">2.5</style>%まで）。持続<style=\"accent-gn\">5</style>秒（スタック上限の5スタックに達すると持続時間はリセットされない）。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するのに必要なリソースで、<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：最大の回復量を有するため、パーティの状態を正確に判断して、回復量ができる限りオーバーフローしないようにしよう。</size></style>"
+    },
+    "1608": {
+      "name": "パッショネート",
+      "description": "弦をかき鳴らした後、前方に灼熱の炎を放ち、範囲内のエネミー対象に<style=\"magic\">魔法ダメージ</style>を与える。<br>チャージに応じてスキル範囲とダメージ量が変化する。<br>ランク<style=\"accent-gn\">1</style>：詠唱<style=\"accent-gn\">0.7</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲。<br>ランク<style=\"accent-gn\">2</style>：詠唱<style=\"accent-gn\">1.4</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲、ダメージ+<style=\"accent-gn\">50%</style>。<br>ランク<style=\"accent-gn\">3</style>：詠唱<style=\"accent-gn\">2.1</style>秒、前方の半径<style=\"accent-gn\">8</style>mの扇形範囲、ダメージ+<style=\"accent-gn\">100%</style>。<br><br><size=22><style=\"tipsYellow\">戦略：高ダメージスキル。アビリティ効果とスピーカーを組み合わせて発動すれば、強力なダメージと回復効果が得られる。詠唱中は安全に気を配ろう。</size></style>"
+    },
+    "1609": {
+      "name": "コーラスヒーリング",
+      "description": "<style=\"accent-gn\">熱響</style>を<style=\"accent-gn\">3</style>つ消費して治愈能力のある曲を奏で、自身と周囲でHP最少の味方対象（パーティメンバー優先）を回復する。かつ、対象の最大HPの<style=\"accent-gn\">3%</style>分の固定回復量を追加する（回復量は自身の魔法攻撃力による）。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するのに必須のリソースで、<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>つ回復する。<br><br><size=22><style=\"tipsYellow\">戦略：カバー率の高い回復スキルだが、熱響がオーバーフローしないタイミングを見極めて発動しよう。</size></style>"
+    },
+    "1610": {
+      "name": "スポットライト",
+      "description": "一定時間自身の<style=\"accent-gn\">魔法攻撃力</style>を上昇させ、次に発動するスキルを強化する。<br><br><style=\"accent-gn\">特殊攻撃</style><br>次の<style=\"accent-gn\">2</style>回の特殊攻撃では<style=\"accent-gn\">熱響</style>を消費しない。<br><br><linktext=1607><style=\"ItemQuality_5\">サージクインテット</style></linktext><br>回復回数が2倍になる。<br><br><linktext=1614><style=\"ItemQuality_5\">ブレイブメロディー</style></linktext><br><linktext=1615><style=\"ItemQuality_5\">バイオレントスイング</style></linktext>の発動までの時間が半分になる。<br><br><linktext=1605><style=\"ItemQuality_5\">ハーモニックアンセム</style></linktext><br>与えるダメージが2倍になる。<br><br><linktext=1608><style=\"ItemQuality_5\">パッショネート</style></linktext><br>詠唱なしで、最高段階の状態で即時発動する。<br><br><size=22><style=\"tipsYellow\">戦略：戦況や自身の戦闘型を見極め、適切なタイミングで最適な強化スキルを使おう。</size></style>"
+    },
+    "1611": {
+      "name": "響演・バッドネスステージ",
+      "description": "熱狂的な音楽愛好者として、情熱的な演奏により即座に<style=\"accent-gn\">5</style>個の<style=\"accent-gn\">熱響</style>を獲得する。同時に周囲の味方を鼓舞し、回復効果を与え、<style=\"accent-gn\">10</style>秒持続する<style=\"accent-gn\">バリア</style>を付与する。さらに周囲のエネミーに<style=\"magic\">魔法ダメージ</style>を与える。<br><style=\"accent-gn\">熱響</style>：曲を演奏するために必要なリソース。<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：緊急時には強力なバリアがチームの生存を支えてくれる。発動のタイミングを見極めよう。</size></style>"
+    },
+    "1612": {
+      "name": "ブレイブフェローチェ",
+      "description": "ただちに強力な音域を放つ。周囲のエネミー対象には<style=\"magic\">魔法ダメージ</style>を与え、味方対象には回復効果を与えて、<style=\"accent-gn\">10</style>秒持続する<style=\"accent-gn\">バリア</style>を付与する。また、<style=\"accent-gn\">パッション</style>上限が2倍になり、<style=\"accent-gn\">熱響</style>を上限まで獲得する。<br><br><style=\"accent-gn\">熱響</style>：曲を演奏するために必要なリソース。<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><size=22><style=\"tipsYellow\">戦略：緊急時には強力なバリアがチームの生存を支えてくれる。発動のタイミングを見極めよう。熱響は上限に達するとバーストを発動できる。</size></style>"
+    },
+    "1613": {
+      "name": "アレグロヴィヴァーチェ",
+      "description": "歩きながら演奏を続けるサークルメロディ。演奏中は味方のHPを継続的に回復し、同時に周囲のエネミーに<style=\"magic\">魔法ダメージ</style>を与える。味方対象を<style=\"accent-gn\">1</style>人回復するたびに回復効果+<style=\"accent-gn\">6%</style>（最大+<style=\"accent-gn\">30%</style>）。エネミー<style=\"accent-gn\">1</style>体に命中するたびにダメージ+<style=\"accent-gn\">6%</style>（最大<style=\"accent-gn\">30%</style>）。<br><br><size=22><style=\"tipsYellow\">戦略：持続的な回復とダメージ効果を活かすため、対象の位置や数に応じて自分の立ち位置を調整し、スキルの効率を最大化しよう。</size></style>"
+    },
+    "1614": {
+      "name": "ブレイブメロディー",
+      "description": "<style=\"accent-gn\">奏源</style>が<style=\"accent-gn\">15</style>pt以上で発動可能。発動後は途中キャンセル不可能。リキャスト<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">ブレイブメロディー</style>の演奏中は<style=\"accent-gn\">奏源</style>を<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">6</style>pt消費し、<style=\"accent-gn\">3</style>秒ごとに<style=\"accent-gn\">10</style>人の味方（パーティメンバー優先）のHPを回復する（回復間隔はファストに影響）。<br><br><style=\"accent-gn\">ブレイブメロディー</style>演奏中は<style=\"accent-gn\">7</style>秒ごとに、自身の<style=\"accent-gn\">ストロークビート</style>が<linktext=1615><style=\"ItemQuality_5\">バイオレントスイング</style></linktext>に派生する。<br><br><style=\"accent-gn\">ブレイブメロディー</style>演奏中は<style=\"accent-gn\">ピースフルロンド</style>の変換効果+<style=\"accent-gn\">50%</style>。<br><br><style=\"accent-gn\">奏源</style><br>奏鳴スキル（<style=\"accent-gn\">ブレイブメロディー</style>、<style=\"accent-gn\">ヒーリングメロディー</style>）の演奏に必要なリソース。<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">1</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：スキルは自分でキャンセルできないので、発動のタイミングを見極め、ヒーリングメロディーやバイオレントスイングの効果をブレイブメロディーで最大限引き出そう。</size></style>"
+    },
+    "1615": {
+      "name": "バイオレントスイング",
+      "description": "ギター・ソノリスを力いっぱい振りかざし、周囲のエネミーに攻撃力<style=\"accent-gn\">300%</style>の<style=\"magic\">魔法ダメージ</style>を与え、同時に<linktext=1605><style=\"ItemQuality_5\">ハーモニックアンセム</style></linktext>のチャージを1スタック獲得する。威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇する。<br><br><size=22><style=\"tipsYellow\">戦略：できるだけハーモニックアンセムがリキャストに入った後に発動しよう。</size></style>"
+    },
+    "1616": {
+      "name": "アンコール",
+      "description": "ファンとの交流にぴったりの曲。味方対象<style=\"accent-gn\">10</style>名（パーティメンバー優先）に<style=\"accent-gn\">アンコール</style>効果を付与する。持続<style=\"accent-gn\">10</style>秒。<br><style=\"accent-gn\">アンコール</style>：<style=\"accent-gn\">剛体</style>状態となり、ダメージまたは回復系の<style=\"accent-gn\">マスタリースキル</style>を使用するたび、<style=\"accent-gn\">50%</style>の固定確率で<style=\"accent-gn\">追奏弦音</style>を発動し、その時点の対象にダメージを与えるか、HP最少の味方対象（パーティメンバー優先）のHPを回復する（攻撃優先）。<br><br><size=22><style=\"tipsYellow\">戦略：なるべくパーティの会心に合わせ、パーティメンバーの状態が整ったタイミングで発動すると、アンコールのダメージと回復効果を最大化できる。</size></style>"
+    },
+    "1617": {
+      "name": "レイジパッショネート",
+      "description": "<style=\"accent-gn\">6</style>秒間、前方に灼熱の炎を放ち続け、範囲内のエネミーに合計で攻撃力<style=\"accent-gn\">1000%</style>の<style=\"magic\">魔法ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：安全を確保しつつ移動を続け、できるだけ多くのダメージを与えよう。</size></style>"
+    },
+    "1618": {
+      "name": "スラップビート",
+      "description": "<style=\"accent-gn\">ピースフルロンド</style><br>ダメージを与えるたびに、最大<style=\"accent-gn\">5</style>人の負傷した味方（パーティメンバーを優先）のHPを均等に回復する。回復量は与えたダメージの<style=\"accent-gn\">20%</style>。<br>HPが満タンの味方は回復対象とはならない。全パーティメンバーのHPが満タンの場合は、与えたダメージによる回復量は超過回復として扱われる。<br><br><style=\"accent-gn\">奏源</style><br>奏鳴スキル（<style=\"accent-gn\">ブレイブメロディー</style>、<style=\"accent-gn\">ヒーリングメロディー</style>）の発動に必要なリソース。<style=\"accent-gn\">1</style>秒ごとに<style=\"accent-gn\">1</style>pt回復する。<br><br><style=\"accent-gn\">熱響</style><br>曲を演奏するために必要なリソース。<style=\"accent-gn\">5</style>秒ごとに<style=\"accent-gn\">1</style>個回復する。<br><br><style=\"accent-gn\">通常攻撃・スラップビート</style><br>弦をかき鳴らし、灼熱の音波を放ってエネミーに遠距離<style=\"magic\">魔法ダメージ</style>を与える。<br><br><size=22><style=\"tipsYellow\">戦略：熱響と奏源が超過しない状態で、通常攻撃を挟むことで安定した回復効果が得られる。アビリティと組み合わせれば、その回復を蓄えて緊急時に活かせる。</size></style>"
+    },
+    "1619": {
+      "name": "スパイラルブロウ",
+      "description": "回転しながら戦斧を振り回し、前方の対象を連続攻撃して<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">15</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：双炎ランクを上げる最も基本的なスキルは、他のマスタリースキルと間隔を空けて使おう。</style></size>"
+    },
+    "1620": {
+      "name": "クリムゾンブロウ",
+      "description": "強化された<style=\"ItemQuality_5\">スパイラルブロウ</style>は、前方に回転してエネミーに攻撃力の<style=\"accent-gn\">900%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"ItemQuality_5\">スパイラルブロウ</style>のレベルアップ/ランクアップに応じてアップ）。"
+    },
+    "1621": {
+      "name": "ブレイズアクス",
+      "description": "短時間チャージして前方に踏み出し、対象を激しく斬撃して<style=\"physical\">物理ダメージ</style>を与え、<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">25</style>pt回復する。攻撃が対象に命中すると、直ちにHPを自身の最大HPの<style=\"physical\">5%</style>分回復する。<br><br><size=22><style=\"tipsYellow\">戦略：攻撃の合間に挟めば生存能力を効果的に高められる。また、バーニングラッシュの後に使用すれば、失ったHPを若干補える。</style></size>"
+    },
+    "1622": {
+      "name": "ツインラッシュ",
+      "description": "戦斧を続けざまに左右に繰り出して対象を攻撃し、<style=\"physical\">物理ダメージ</style>を与えて<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">10</style>pt回復する。<br><style=\"accent-gn\">2</style>スタックまでチャージ可能。<br><br><size=22><style=\"tipsYellow\">戦略：短いリキャストを上手く利用して2スタックチャージしよう。スパイラルブロウと組み合わせれば、双炎ランクを素早く上げられる。</style></size>"
+    },
+    "1623": {
+      "name": "ラースアクス",
+      "description": "高度な技を展開する。嵐のような斬撃を連続で繰り出して対象を攻撃し、<style=\"physical\">物理ダメージ</style>を与える。かつ<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">85</style>pt消費すれば、各段の攻撃終了後の<style=\"accent-gn\">2</style>秒間に引き続き発動が可能。<style=\"accent-gn\">4</style>段まで発動できる。<br><br><size=22><style=\"tipsYellow\">戦略：コストが高いため、双炎ランク上げに用いるには不適。双炎ランクが上限に達してから主要な攻撃手段として使おう。</style></size>"
+    },
+    "1624": {
+      "name": "アクススパイラル",
+      "description": "武器を旋風のように振り回し、自身の周囲3m以内の対象に<style=\"physical\">物理ダメージ</style>を与えるが、回転するたび<style=\"accent-gn\">スタミナ</style>を<style=\"accent-gn\">260</style>pt消費する。スキル発動中に再タップすると発動を終了する。<br><br><size=22><style=\"tipsYellow\">戦略：スタミナを攻撃と生存用に上手く配分しよう。自身の安全を確保し、攻撃と双炎ランク上げに多用しよう。</style></size>"
+    },
+    "1625": {
+      "name": "バーニングギア",
+      "description": "火炎の力を付与する。有効中は自身の<style=\"accent-gn\">クラススキルのリキャストが加速</style>され、<style=\"accent-gn\">ファスト</style>がアップする。<br><br><size=22><style=\"tipsYellow\">戦略：双炎ランクがA/Sに達した際に組み合わせて使用し、バースト時の効果を最大化しよう。</style></size>"
+    },
+    "1626": {
+      "name": "バーニングラッシュ",
+      "description": "超高速乱舞を展開する。そのたび<style=\"accent-gn\">霊火</style><style=\"accent-gn\">50</style>pt、または<style=\"accent-gn\">炎舞ゲージ</style>か<style=\"accent-gn\">最大HP</style>の<style=\"accent-gn\">25%</style>を消費し、自身の周囲3m以内にいる全エネミーに<style=\"physical\">物理ダメージ</style>を与える。<br>霊火を優先消費するが、霊火が不足している場合は炎舞ゲージから変換して消費する。それも不足している場合はHPを消費するが、現在HPが50%未満だった場合は発動できない。スキル発動中に再タップすると発動を終了する。<br><br><size=22><style=\"tipsYellow\">戦略：炎舞型の絶対的なコアスキルは、なるべく霊火か炎舞ゲージを蓄積してから発動しよう。また、発動時にはいつでも中断して生存を確保できるよう、状況をよく見ること</style></size>"
+    },
+    "1627": {
+      "name": "ラーヴァインパクト",
+      "description": "力を解き放って対象に強力なジャンピングスマッシュを放ち、着地点の周囲4mにいるエネミーに<style=\"physical\">物理ダメージ</style>を与える。その後、炎舞エリアを生成し、5秒間、周囲4m以内にいる全エネミーに<style=\"physical\">物理ダメージ</style>を追加し、<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">15</style>pt回復する。<br><br><size=22><style=\"tipsYellow\">戦略：最初に対象に接近し、霊火を回復するための手段。バースト時は自身が炎舞エリアの中にいられるよう、早めに発動すること。</style></size>"
+    },
+    "1628": {
+      "name": "クリムゾンインパクト",
+      "description": "強化された<style=\"ItemQuality_5\">ラーヴァインパクト</style>。チャージしてジャンピングスマッシュを放ち、着地点の周囲4mにいるエネミーに攻撃力の<style=\"accent-gn\">1200%</style>の<style=\"physical\">物理ダメージ</style>を与え（威力は<style=\"ItemQuality_5\">ラーヴァインパクト</style>のレベルアップ/ランクアップに応じてアップ）、<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">15</style>pt回復する。着地後、炎舞エリアを生成し、5秒間、周囲4m以内にいる全エネミーに<style=\"physical\">物理ダメージ</style>を追加する。"
+    },
+    "1629": {
+      "name": "イグニッション",
+      "description": "生成される<style=\"accent-gn\">霊火</style>+<style=\"accent-gn\">100%</style>。かつ一定時間、自身の会心がアップする。<br><br><size=22><style=\"tipsYellow\">戦略：バースト時に使用しよう。</style></size>"
+    },
+    "1630": {
+      "name": "バーニングクロス",
+      "description": "<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">50</style>pt消費して前方に思い切り繰り出した十字気刃斬が一定時間飛行し、ルート上の全エネミーに<style=\"physical\">物理ダメージ</style>を与える。メイン対象にダメージを与えると<style=\"accent-gn\">100%</style>HPに変換し、一定時間は自身が<style=\"accent-gn\">50%</style>のHP吸収を獲得する。<br><br><size=22><style=\"tipsYellow\">戦略：炎舞ゲージを素早く蓄積すると共に、低HP時に追加回復を獲得しよう。</style></size>"
+    },
+    "3000": {
+      "name": "中断",
+      "description": "対象に詠唱中のスキルを中断させ、リキャストに移行させる。ボスには無効。"
+    },
+    "3001": {
+      "name": "沈黙",
+      "description": "エネミーが魔法を詠唱できなくなるデバフ効果。ボスには無効。"
+    },
+    "3002": {
+      "name": "静止",
+      "description": "エネミーが移動できなくなるデバフ効果。ボスには無効。"
+    },
+    "3003": {
+      "name": "霜寒",
+      "description": "エネミーの移動速度-<style=\"accent-gn\">30%</style>。"
+    },
+    "3004": {
+      "name": "重傷",
+      "description": "エネミーの受ける回復効果が減少するデバフ効果。"
+    },
+    "3005": {
+      "name": "スタン",
+      "description": "エネミーが行動不能になるデバフ効果。ボスには無効。"
+    },
+    "3006": {
+      "name": "凍結",
+      "description": "エネミーが行動不能になるデバフ効果。ダメージを受けると解除される。ボスには無効。"
+    },
+    "3007": {
+      "name": "石化",
+      "description": "エネミーが行動不能になるデバフ効果。ダメージを受けると解除される。ボスには無効。"
+    },
+    "3008": {
+      "name": "麻痺",
+      "description": "エネミーが行動不能になるデバフ効果。ダメージを受けると解除される。ボスには無効。"
+    },
+    "3009": {
+      "name": "目くらまし",
+      "description": "エネミーを現在の対象付近へ強制的に移動させ、攻撃させるデバフ効果。ボスには無効。"
+    },
+    "3010": {
+      "name": "恐怖",
+      "description": "スロウ"
+    },
+    "3011": {
+      "name": "スロウ",
+      "description": "エネミーの移動速度をダウンさせるデバフ効果。ボスには無効。"
+    },
+    "3012": {
+      "name": "中毒",
+      "description": "エネミーがHPを失い続けるデバフ効果。"
+    },
+    "3013": {
+      "name": "流血",
+      "description": "エネミーがHPを失い続けるデバフ効果。"
+    },
+    "3014": {
+      "name": "燃焼",
+      "description": "エネミーがHPを失い続けるデバフ効果。"
+    },
+    "3020": {
+      "name": "状態異常",
+      "description": "<style=\"accent-gn\">スタン</style>、<style=\"accent-gn\">凍結</style>、<style=\"accent-gn\">石化</style>、<style=\"accent-gn\">麻痺</style>、<style=\"accent-gn\">目くらまし</style>、<style=\"accent-gn\">恐怖</style>を含む。"
+    },
+    "3021": {
+      "name": "デバフ効果",
+      "description": "<style=\"accent-gn\">沈黙</style>、<style=\"accent-gn\">スロウ</style>、<style=\"accent-gn\">静止</style>、<style=\"accent-gn\">重傷</style>、<style=\"accent-gn\">中毒</style>、<style=\"accent-gn\">流血</style>、<style=\"accent-gn\">燃焼</style>など。"
+    },
+    "10001": {
+      "name": "幻色版",
+      "description": "カスタム版に基づき、染色可能な工芸で再制作された衣装。自由に染色することができる。"
+    }
   }
 }

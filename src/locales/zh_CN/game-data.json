@@ -69829,5 +69829,1467 @@
     "mastery": "根据职业流派特性获得不同的能力加成",
     "versatility": "每1%全能提高0.35%造成伤害、治疗和施加护盾时的百分比加成，以及0.15%受到伤害时的伤害减免",
     "resist": "提高自身格挡敌方攻击的几率<br>受到伤害时，有一定概率触发格挡，使该次伤害降低，降低比例等于格挡伤害减免"
+  },
+  "textDescs": {
+    "1001": {
+      "name": "普通攻击",
+      "description": "使用攻击键进行的各类武器攻击"
+    },
+    "1002": {
+      "name": "基本攻击",
+      "description": "武器的基本攻击形式"
+    },
+    "1003": {
+      "name": "重击",
+      "description": "长按攻击键产生的重击"
+    },
+    "1004": {
+      "name": "下落攻击",
+      "description": "在离地一定高度下进行普通攻击施展的下落攻击"
+    },
+    "1005": {
+      "name": "核心技能",
+      "description": "武器最为核心、广为人知的招牌技能招式"
+    },
+    "1006": {
+      "name": "基础技能",
+      "description": "武器最为常用的技能招式"
+    },
+    "1007": {
+      "name": "终极技能",
+      "description": "武器威力最为强大的的终极战斗奥义"
+    },
+    "1008": {
+      "name": "天赋技能",
+      "description": "由天赋习得的特性技能"
+    },
+    "1009": {
+      "name": "受身技能",
+      "description": "处于受击浮空时能够使用的技能"
+    },
+    "1010": {
+      "name": "天赋爆发",
+      "description": "有天赋习得的威力强大的流派技能"
+    },
+    "1011": {
+      "name": "伤害",
+      "description": "技能能够造成伤害"
+    },
+    "1012": {
+      "name": "能力伤害",
+      "description": "技能招式本身所产生的伤害"
+    },
+    "1013": {
+      "name": "特性伤害",
+      "description": "技能引发元素特性所产生的额外伤害"
+    },
+    "1014": {
+      "name": "治疗",
+      "description": "能够回复生命值的效果"
+    },
+    "1015": {
+      "name": "治愈",
+      "description": "一次性回复较多生命值"
+    },
+    "1016": {
+      "name": "愈合",
+      "description": "持续回复生命值一段时间"
+    },
+    "1017": {
+      "name": "增益",
+      "description": "能够在战斗中对己方有利的效果"
+    },
+    "1018": {
+      "name": "祝福",
+      "description": "持续一段时间的战斗能力、移动能力或其他强化能力效果"
+    },
+    "1019": {
+      "name": "激昂",
+      "description": "持续小段时间，强力提升战斗能力的效果"
+    },
+    "1020": {
+      "name": "鼓舞",
+      "description": "战斗属性获得了大幅提升，若在天赋下有所养成，将会附加额外效果"
+    },
+    "1021": {
+      "name": "减益",
+      "description": "处于各种不利益己方战斗的状态下"
+    },
+    "1022": {
+      "name": "虚弱",
+      "description": "一段时间内战斗属性下降的不利效果"
+    },
+    "1023": {
+      "name": "易伤",
+      "description": "一段时间内所受伤害增加的不利效果"
+    },
+    "1024": {
+      "name": "碎裂",
+      "description": "一段时间内所受伤害增加，若在天赋下有所养成，将会附加额外效果"
+    },
+    "1025": {
+      "name": "控制",
+      "description": "处于各种行为受到限制的不利状态下"
+    },
+    "1026": {
+      "name": "冻结",
+      "description": "处于无法移动，无法做出任何战斗行为的不利状态下"
+    },
+    "1027": {
+      "name": "束缚",
+      "description": "处于无法移动的不利状态下"
+    },
+    "1028": {
+      "name": "眩晕",
+      "description": "处于无法移动，无法做出任何战斗行为，无法使用道具的不利状态下。短时间内多次添加持续时间会缩短。无法对首领生效。"
+    },
+    "1029": {
+      "name": "减速",
+      "description": "处于移动速度下降的不利状态下"
+    },
+    "1030": {
+      "name": "削韧",
+      "description": "击破强力目标<style=\"ItemQuality_5\">霸体</style>条的能力。"
+    },
+    "1031": {
+      "name": "位移",
+      "description": "技能能够帮助角色快速移动"
+    },
+    "1032": {
+      "name": "冲刺",
+      "description": "连续位移类型技能"
+    },
+    "1033": {
+      "name": "闪现",
+      "description": "不连续位移类型技能"
+    },
+    "1034": {
+      "name": "生存",
+      "description": "技能能够帮助角色存活"
+    },
+    "1035": {
+      "name": "护盾",
+      "description": "额外的生命值<style=\"ItemQuality_5\">护盾</style>，能够优先于生命值吸收伤害。"
+    },
+    "1036": {
+      "name": "招架",
+      "description": "技能的特殊阶段，在此阶段下受到伤害时能够免除部分伤害"
+    },
+    "1037": {
+      "name": "火元素伤害",
+      "description": "造成火元素伤害"
+    },
+    "1038": {
+      "name": "火元素",
+      "description": "伤害附带火元素的力量"
+    },
+    "1039": {
+      "name": "点燃",
+      "description": "处于一段时间内间隔受到火元素特性伤害的不利状态"
+    },
+    "1040": {
+      "name": "冰元素伤害",
+      "description": "造成冰元素伤害"
+    },
+    "1041": {
+      "name": "冰元素",
+      "description": "伤害附带冰元素的力量"
+    },
+    "1042": {
+      "name": "雷元素伤害",
+      "description": "造成雷元素伤害"
+    },
+    "1043": {
+      "name": "雷元素",
+      "description": "伤害附带雷元素的力量"
+    },
+    "1044": {
+      "name": "风元素伤害",
+      "description": "造成风元素伤害"
+    },
+    "1045": {
+      "name": "风元素",
+      "description": "伤害附带风元素的力量"
+    },
+    "1046": {
+      "name": "岩元素伤害",
+      "description": "造成岩元素伤害"
+    },
+    "1047": {
+      "name": "岩元素",
+      "description": "伤害附带岩元素的力量"
+    },
+    "1048": {
+      "name": "森元素伤害",
+      "description": "造成森元素伤害"
+    },
+    "1049": {
+      "name": "森元素",
+      "description": "伤害附带森元素的力量"
+    },
+    "1050": {
+      "name": "光元素伤害",
+      "description": "造成光元素伤害"
+    },
+    "1051": {
+      "name": "光元素",
+      "description": "伤害附带光元素的力量"
+    },
+    "1052": {
+      "name": "暗元素伤害",
+      "description": "造成暗元素伤害"
+    },
+    "1053": {
+      "name": "暗元素",
+      "description": "伤害附带暗元素的力量"
+    },
+    "1054": {
+      "name": "助战",
+      "description": "能额外产生攻击行为或抵抗进攻行为的辅助效果"
+    },
+    "1055": {
+      "name": "协同",
+      "description": "跟随当前战斗使攻击行为进行同步攻击的效果"
+    },
+    "1056": {
+      "name": "协战",
+      "description": "自行独立进行攻击，协助作战的效果"
+    },
+    "1057": {
+      "name": "蓄力",
+      "description": "需要一段时间准备才能达到更强威力的技能释放方式"
+    },
+    "1058": {
+      "name": "引导",
+      "description": "需要维持施法状态来延续效果的技能释放方式"
+    },
+    "1059": {
+      "name": "强化",
+      "description": "效果处于增强或产生变化的技能释放状态"
+    },
+    "1060": {
+      "name": "充能",
+      "description": "释放某些技能需要消耗的条件，能够随着时间或某些机制进行回复补充"
+    },
+    "1061": {
+      "name": "刻印",
+      "description": "在特定条件下能够触发的一类效果，其触发概率受到属性影响"
+    },
+    "1062": {
+      "name": "压制",
+      "description": "自身生命高于目标生命时的状态，该状态下提供造成伤害与减伤加成，若在天赋下有所养成，将会附加额外效果"
+    },
+    "1063": {
+      "name": "召唤物",
+      "description": "有明确召唤者，存在状态受到召唤者影响的战斗单位"
+    },
+    "1064": {
+      "name": "陷阱",
+      "description": "一种需要触发条件后产生效果的召唤物"
+    },
+    "1065": {
+      "name": "图腾",
+      "description": "一种持续一段时间不移动对周围产生效果的召唤物"
+    },
+    "1066": {
+      "name": "侍从",
+      "description": "一种能够移动跟随召唤者协助作战的召唤物"
+    },
+    "1067": {
+      "name": "造物",
+      "description": "一种具有自主行为意识的召唤物"
+    },
+    "1068": {
+      "name": "飞行物",
+      "description": "能够做物理运动并在命中后产生效果的技能机制"
+    },
+    "1069": {
+      "name": "弹丸",
+      "description": "一种体积较小、速度较快的飞行物"
+    },
+    "1070": {
+      "name": "发射物",
+      "description": "一种体积较大、速度一般的飞行物"
+    },
+    "1071": {
+      "name": "区域效果",
+      "description": "在一个有范围的区域生效的生效方式"
+    },
+    "1072": {
+      "name": "领域",
+      "description": "能够持续为自身或友方提供有利状态的范围效果"
+    },
+    "1073": {
+      "name": "区域",
+      "description": "能够持续对敌方造成伤害或不利状态的范围效果"
+    },
+    "1074": {
+      "name": "光环",
+      "description": "能够持续给自身范围内目标提供效果"
+    },
+    "1075": {
+      "name": "强力目标",
+      "description": "实力远高于普通怪物的存在"
+    },
+    "1076": {
+      "name": "头目",
+      "description": "首领、旷野领主及领主"
+    },
+    "1077": {
+      "name": "普通怪物",
+      "description": "活跃于大陆中的普通怪物，战斗能力一般较为基础"
+    },
+    "1078": {
+      "name": "精英",
+      "description": "怪物中出类拔萃的战士，一般具有威胁度较高的特殊技能"
+    },
+    "1079": {
+      "name": "首领",
+      "description": "族群中绝对的强者，称之为王也毫不过分"
+    },
+    "1080": {
+      "name": "旷野领主",
+      "description": "在地图中特殊领地区域才能发现的强力怪物"
+    },
+    "1081": {
+      "name": "领主",
+      "description": "在副本地图中最为强力的怪物"
+    },
+    "1082": {
+      "name": "健康",
+      "description": "当前生命值不低于生命上限50%的状态"
+    },
+    "1083": {
+      "name": "受伤",
+      "description": "当前生命值不高于生命上限30%的状态"
+    },
+    "1084": {
+      "name": "场景技能",
+      "description": "通过场景或者关卡玩法获得的额外技能"
+    },
+    "1085": {
+      "name": "焕光",
+      "description": "“焕光”系列装备洗练所赋予的一种持续状态"
+    },
+    "1086": {
+      "name": "无属性伤害",
+      "description": "造成无属性伤害"
+    },
+    "1087": {
+      "name": "无属性",
+      "description": "伤害为无属性，未携带元素力量"
+    },
+    "1088": {
+      "name": "侵蚀",
+      "description": "受到未知来源的侵染，将会产生各种不良影响"
+    },
+    "1089": {
+      "name": "焕光",
+      "description": "“焕光”系列装备洗练所赋予的一种持续状态"
+    },
+    "1090": {
+      "name": "激昂",
+      "description": "具有增加伤害量的效果"
+    },
+    "1091": {
+      "name": "霸体",
+      "description": "不会被击退、击飞、击倒。"
+    },
+    "1092": {
+      "name": "嘲讽",
+      "description": "强制敌方怪物攻击自己"
+    },
+    "1093": {
+      "name": "荆棘",
+      "description": "具有反弹伤害的效果"
+    },
+    "1094": {
+      "name": "不利状态",
+      "description": "直接影响单位的作战能力的效果，比如移速减低，属性降低，受到控制等效果"
+    },
+    "1095": {
+      "name": "易伤",
+      "description": "受到伤害+<style=\"accent-gn\">10%</style>，持续<style=\"accent-gn\">5</style>秒。"
+    },
+    "1096": {
+      "name": "看破斩",
+      "description": "对敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>，同时使下一个<style=\"accent-gn\">超高出力</style>额外获得<style=\"accent-gn\">2</style>枚<style=\"accent-gn\">雷之印</style>。"
+    },
+    "1097": {
+      "name": "禅瞬之机",
+      "description": "<style=\"accent-gn\">特殊攻击</style>施放速度大幅提升，持续<style=\"accent-gn\">10</style>秒，施放<style=\"accent-gn\">特殊攻击</style>后移除该效果。"
+    },
+    "1098": {
+      "name": "霹雳升龙斩",
+      "description": "<style=\"accent-gn\">霹雳连斩</style>的隐藏招式，快速上挑挥砍，对目标造成<style=\"accent-gn\">300%</style>攻击力<style=\"physical\">物理伤害</style>，每当攻击速度达到<style=\"accent-gn\">25%</style>|<style=\"accent-gn\">50%</style>|<style=\"accent-gn\">80%</style>时攻击次数+<style=\"accent-gn\">1</style>|+<style=\"accent-gn\">2</style>|+<style=\"accent-gn\">3</style>，跟随<style=\"accent-gn\">霹雳连斩</style>技能升级/进阶进行成长。"
+    },
+    "1099": {
+      "name": "刃风界域",
+      "description": "每段造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>。<br>初始<style=\"accent-gn\">1</style>段，每<style=\"accent-gn\">10%</style>精通额外附加<style=\"accent-gn\">1</style>段，最高<style=\"accent-gn\">4</style>段伤害。"
+    },
+    "1100": {
+      "name": "雷击",
+      "description": "「幸运效果」：对敌方目标造成<style=\"accent-gn\">80%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1101": {
+      "name": "月刃",
+      "description": "持续旋转<style=\"accent-gn\">35</style>秒，每<style=\"accent-gn\">2</style>秒对目标造成<style=\"accent-gn\">50%</style>攻击力<style=\"physical\">物理伤害</style>，跟随镰车技能升级/进阶进行成长。"
+    },
+    "1102": {
+      "name": "霸体",
+      "description": "不会被击退、击飞、击倒。"
+    },
+    "1103": {
+      "name": "雷爆",
+      "description": "对<style=\"accent-gn\">3</style>米内敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1104": {
+      "name": "雷之印",
+      "description": "施放消耗<style=\"accent-gn\">雷之印</style>的技能时，每多消耗一枚<style=\"accent-gn\">雷之印</style>可使该技能伤害增加<style=\"accent-gn\">25%</style>。"
+    },
+    "1105": {
+      "name": "终极一斩",
+      "description": "根据过去<style=\"accent-gn\">10</style>秒内消耗的<style=\"accent-gn\">雷之印</style>数量，造成巨额伤害。<br>每消耗<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">雷之印</style>造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>，最高不超过<style=\"accent-gn\">15000%</style>。"
+    },
+    "1106": {
+      "name": "电荷之种",
+      "description": "最多可以累积<style=\"accent-gn\">20</style>个<style=\"accent-gn\">电荷之种</style>，施放<style=\"accent-gn\">霹雳连斩</style>时消耗<style=\"accent-gn\">15</style>个<style=\"accent-gn\">电荷之种</style>触发<style=\"accent-gn\">雷霆之镰</style>对周围目标造成<style=\"physical\">物理伤害</style>。"
+    },
+    "1107": {
+      "name": "鼓舞",
+      "description": "为祝福目标附加<style=\"accent-gn\">100</style>点<style=\"accent-gn\">智力</style>、<style=\"accent-gn\">力量</style>、<style=\"accent-gn\">敏捷</style>、<style=\"accent-gn\">耐力</style>和<style=\"accent-gn\">1.5%</style><style=\"accent-gn\">暴击</style>、<style=\"accent-gn\">急速</style>、<style=\"accent-gn\">幸运</style>、<style=\"accent-gn\">精通</style>、<style=\"accent-gn\">全能</style>。"
+    },
+    "1108": {
+      "name": "再生蓓蕾",
+      "description": "治疗型<style=\"accent-gn\">专精技能</style>、<style=\"accent-gn\">终极技能</style>施加治疗时，消耗<style=\"accent-gn\">2</style>个<style=\"accent-gn\">再生蓓蕾</style>同时抛出一个<style=\"accent-gn\">滋养之种</style>，每<style=\"accent-gn\">1</style>秒最多生效一次。<br>伤害型<style=\"accent-gn\">专精技能</style>、<style=\"accent-gn\">终极技能</style>造成伤害时，消耗<style=\"accent-gn\">2</style>个<style=\"accent-gn\">再生蓓蕾</style>同时发射一个<style=\"accent-gn\">狂野之种</style>，每<style=\"accent-gn\">1</style>秒最多生效一次。"
+    },
+    "1109": {
+      "name": "治疗链接",
+      "description": "治疗链在友方之间弹射，每次弹射回复<style=\"accent-gn\">40%</style>攻击力生命值，初始弹射次数为<style=\"accent-gn\">2</style>。"
+    },
+    "1110": {
+      "name": "治疗脉冲",
+      "description": "向外扩散<style=\"accent-gn\">20</style>米，对碰到的友方目标回复<style=\"accent-gn\">150%</style>攻击力生命值。"
+    },
+    "1111": {
+      "name": "自然护盾",
+      "description": "为友方目标施加<style=\"accent-gn\">150%</style>攻击力的<style=\"accent-gn\">护盾</style>，持续<style=\"accent-gn\">5</style>秒。"
+    },
+    "1113": {
+      "name": "治疗球",
+      "description": "自动给<style=\"accent-gn\">3</style>米内队友回复<style=\"accent-gn\">60%</style>攻击力生命值。"
+    },
+    "1114": {
+      "name": "能量球",
+      "description": "自身靠近（<style=\"accent-gn\">3</style>米）<style=\"accent-gn\">能量球</style>获得<style=\"accent-gn\">1</style>个<style=\"accent-gn\">再生蓓蕾</style>，<style=\"accent-gn\">能量球</style>最多存在<style=\"accent-gn\">3</style>秒。"
+    },
+    "1115": {
+      "name": "滋养之种",
+      "description": "触碰到地上时为所有队友回复<style=\"accent-gn\">40%</style>攻击力生命值。"
+    },
+    "1116": {
+      "name": "狂野之种",
+      "description": "触碰到敌方目标爆炸，造成<style=\"accent-gn\">100%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1117": {
+      "name": "荆棘",
+      "description": "对敌方目标每秒造成<style=\"accent-gn\">20%</style>攻击力<style=\"magic\">魔法伤害</style>，持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1119": {
+      "name": "红莲洞察",
+      "description": "下一次施放的<style=\"accent-gn\">专精技能</style>冷却时间缩减<style=\"accent-gn\">50%</style>。"
+    },
+    "1120": {
+      "name": "金辉虔诚",
+      "description": "下一次施放<style=\"accent-gn\">专精技能</style>后，自身治疗强度+<style=\"accent-gn\">20%</style>，持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1121": {
+      "name": "苍月慰藉",
+      "description": "下一次<style=\"accent-gn\">生命绽放</style>为受治疗目标施加持续<style=\"accent-gn\">8</style>秒的<style=\"accent-gn\">护盾</style>，吸收量为自身攻击力的<style=\"accent-gn\">200%</style>，拥有<style=\"accent-gn\">护盾</style>的目标受到所有伤害降低<style=\"accent-gn\">10%</style>。"
+    },
+    "1122": {
+      "name": "压制",
+      "description": "受到伤害时，自身生命值百分比高于攻击者生命值百分比时，受到来自攻击者的伤害-<style=\"accent-gn\">10%</style>。<br>造成伤害时，自身生命值百分比高于受击者生命值百分比时，对受击者的伤害+<style=\"accent-gn\">10%</style>。"
+    },
+    "1123": {
+      "name": "弱点打击",
+      "description": "对敌方目标造成<style=\"accent-gn\">50%</style>攻击力<style=\"physical\">物理伤害</style>，同时获得<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">砂晶石</style>。"
+    },
+    "1124": {
+      "name": "岩盾倍增",
+      "description": "护盾强度+<style=\"accent-gn\">15%</style>，持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1125": {
+      "name": "格挡反击",
+      "description": "对自身<style=\"accent-gn\">3</style>米内敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>，无视<style=\"accent-gn\">格挡</style>，并产生大量威胁值。"
+    },
+    "1126": {
+      "name": "幸运格挡",
+      "description": "<style=\"accent-gn\">格挡</style>时有幸运%几率触发<style=\"accent-gn\">幸运格挡</style>。"
+    },
+    "1127": {
+      "name": "护盾连击",
+      "description": "接下来<style=\"accent-gn\">7</style>秒内<style=\"accent-gn\">护盾猛击</style>变为二连击且施放不再消耗<style=\"accent-gn\">怒气</style>和<style=\"accent-gn\">砂晶石</style>，同时为自身添加<style=\"accent-gn\">护盾</style>，施放<style=\"accent-gn\">护盾猛击</style>后该效果移除。"
+    },
+    "1128": {
+      "name": "护盾回声",
+      "description": "对自身<style=\"accent-gn\">5</style>米内敌方目标造成<style=\"accent-gn\">300%</style>攻击力<style=\"physical\">物理伤害</style>，接下来<style=\"accent-gn\">5</style>秒内每<style=\"accent-gn\">1</style>秒回复<style=\"accent-gn\">20</style><style=\"accent-gn\">怒气</style>，该效果不可叠加。"
+    },
+    "1129": {
+      "name": "绝境逢生",
+      "description": "受到伤害-<style=\"accent-gn\">50%</style>，受到治疗+<style=\"accent-gn\">30%</style>，持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1130": {
+      "name": "涌能法则",
+      "description": "每秒回复<style=\"accent-gn\">3%</style>最大<style=\"accent-gn\">寒冰能量</style>上限（该回复受到精通和急速影响），持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1131": {
+      "name": "岩弹",
+      "description": "打击最近的<style=\"accent-gn\">1</style>个敌方目标，造成<style=\"accent-gn\">70%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1132": {
+      "name": "眩目",
+      "description": "强制移动至目标的近距离处进行攻击。"
+    },
+    "1133": {
+      "name": "鸣奏技能",
+      "description": "<style=\"accent-gn\">鸣奏·英勇乐章</style>或<style=\"accent-gn\">鸣奏·愈合乐章</style>。"
+    },
+    "1134": {
+      "name": "地崩山摧",
+      "description": "强化后的<style=\"accent-gn\">怒爆</style>，在身边召唤巨岩，随后巨岩爆裂，造成<style=\"accent-gn\">750%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">怒爆</style>技能升级/进阶进行成长。<br>施放时不消耗<style=\"accent-gn\">砂晶石</style>。"
+    },
+    "1135": {
+      "name": "激怒",
+      "description": "伤害+<style=\"accent-gn\">20%</style>，移动速度+<style=\"accent-gn\">10%</style>，获得<style=\"accent-gn\">霸体</style>。"
+    },
+    "1136": {
+      "name": "砂晶石震荡",
+      "description": "对自身<style=\"accent-gn\">3</style>米内敌方目标造成<style=\"accent-gn\">300%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1137": {
+      "name": "沙石区域",
+      "description": "圈内自身<style=\"magic\">魔法伤害</style>减免+<style=\"accent-gn\">50%</style>，圈内队友（最多<style=\"accent-gn\">10</style>名）受到伤害的<style=\"accent-gn\">50%</style>将被直接吸收。"
+    },
+    "1138": {
+      "name": "光能重铸",
+      "description": "当<style=\"accent-gn\">光能</style>充满时，施放<style=\"accent-gn\">特殊攻击</style>可进入<style=\"accent-gn\">光能重铸</style>状态。状态内，<style=\"accent-gn\">特殊攻击</style>和个别<style=\"accent-gn\">专精技能</style>获得强化。期间<style=\"accent-gn\">光能</style>持续减少，减少到<style=\"accent-gn\">0</style>后退出状态。"
+    },
+    "1139": {
+      "name": "扫尾",
+      "description": "对周围<style=\"accent-gn\">5</style>米内目标造成<style=\"accent-gn\">80%</style>攻击力<style=\"physical\">物理伤害</style>，每多命中一个目标伤害+<style=\"accent-gn\">30%</style>（最高+<style=\"accent-gn\">120%</style>），跟随<style=\"accent-gn\">普通攻击</style>技能升级/升阶进行成长。"
+    },
+    "1140": {
+      "name": "扑咬",
+      "description": "对敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>，并使目标<style=\"accent-gn\">生命流失</style>。"
+    },
+    "1141": {
+      "name": "生命流失",
+      "description": "持续<style=\"accent-gn\">5</style>秒，每秒造成<style=\"accent-gn\">10%</style>攻击力<style=\"physical\">物理伤害</style>，当同来源的<style=\"accent-gn\">生命流失</style>重复添加时可立即结算上一个未结束的<style=\"accent-gn\">生命流失</style>效果。"
+    },
+    "1142": {
+      "name": "光追箭矢",
+      "description": "对敌方目标造成<style=\"accent-gn\">50%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1143": {
+      "name": "闪电冲击",
+      "description": "对敌方目标造成<style=\"accent-gn\">410%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1144": {
+      "name": "爆炸箭矢",
+      "description": "对敌方及其周围<style=\"accent-gn\">3</style>米内目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1145": {
+      "name": "践踏",
+      "description": "对范围内敌方目标造成<style=\"accent-gn\">250%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1146": {
+      "name": "传奇雄鹰",
+      "description": "原地振翅，接下来<style=\"accent-gn\">10</style>秒内光能获取效率+<style=\"accent-gn\">100%</style>。"
+    },
+    "1147": {
+      "name": "传奇野猪",
+      "description": "发出凶猛的嚎叫，接下来<style=\"accent-gn\">10</style>秒内光元素加成+<style=\"accent-gn\">50%</style>。"
+    },
+    "1148": {
+      "name": "钢制喙",
+      "description": "当<style=\"accent-gn\">钢制喙</style>层数大于等于<style=\"accent-gn\">5</style>时，每次叠加<style=\"accent-gn\">钢制喙</style>有<style=\"accent-gn\">30%</style>固定几率触发一次<style=\"accent-gn\">内爆</style>对范围内敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>。<style=\"accent-gn\">钢制喙</style>每<style=\"accent-gn\">1</style>秒层数-<style=\"accent-gn\">1</style>，最多叠加<style=\"accent-gn\">20</style>层。"
+    },
+    "1149": {
+      "name": "天界雄鹰",
+      "description": "扇起半径<style=\"accent-gn\">5</style>米的风暴，每<style=\"accent-gn\">0</style>.<style=\"accent-gn\">5</style>秒对风暴中有<style=\"accent-gn\">钢制喙</style>标记的目标造成<style=\"accent-gn\">80%</style>攻击力无视防御<style=\"physical\">物理伤害</style>。<style=\"accent-gn\">5</style>秒后，<style=\"accent-gn\">天界雄鹰</style>俯冲到地面，造成<style=\"accent-gn\">500%</style>攻击力无视防御<style=\"physical\">物理伤害</style>。"
+    },
+    "1150": {
+      "name": "幻影猎鹰",
+      "description": "对敌方目标造成<style=\"accent-gn\">400%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1151": {
+      "name": "分裂箭矢",
+      "description": "对敌方目标造成<style=\"accent-gn\">35%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/升阶进行成长。"
+    },
+    "1152": {
+      "name": "锐利",
+      "description": "攻击+<style=\"accent-gn\">5%</style>，持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1153": {
+      "name": "撕裂",
+      "description": "目标每秒损失<style=\"accent-gn\">25%</style>攻击力生命值，持续<style=\"accent-gn\">8</style>秒。"
+    },
+    "1154": {
+      "name": "千疮百孔",
+      "description": "使得<style=\"accent-gn\">撕裂</style>伤害+<style=\"accent-gn\">100%</style>，持续<style=\"accent-gn\">5</style>秒。"
+    },
+    "1155": {
+      "name": "气劲加持",
+      "description": "<style=\"accent-gn\">力量</style>+<style=\"accent-gn\">30%</style>，持续<style=\"accent-gn\">12</style>秒。"
+    },
+    "1156": {
+      "name": "长矛贯穿",
+      "description": "「幸运效果」：造成<style=\"accent-gn\">150%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1157": {
+      "name": "追击身法",
+      "description": "<style=\"accent-gn\">刹那</style>伤害+<style=\"accent-gn\">30%</style>，持续<style=\"accent-gn\">10</style>秒，最多叠加<style=\"accent-gn\">2</style>层。<style=\"accent-gn\">刹那</style>造成伤害后扣除一层。"
+    },
+    "1158": {
+      "name": "龙卷风",
+      "description": "对范围内敌方目标造成<style=\"accent-gn\">350%</style>攻击力的<style=\"physical\">物理伤害</style>。"
+    },
+    "1159": {
+      "name": "风神·锐利冲击",
+      "description": "强化后的<style=\"accent-gn\">锐利冲击</style>，一跃而起对目标及其周围造成共计<style=\"accent-gn\">800%</style><style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">锐利冲击</style>技能升级/进阶进行成长。"
+    },
+    "1160": {
+      "name": "天赋-碎冰之击",
+      "description": "冰陨石造成伤害时使得<style=\"accent-gn\">冰晶核心</style>触发<style=\"accent-gn\">冰箭</style>，获得一枚<style=\"accent-gn\">玄冰</style>。"
+    },
+    "1161": {
+      "name": "玄冰",
+      "description": "可为技能带来额外效果。"
+    },
+    "1162": {
+      "name": "冰晶坠落",
+      "description": "对目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1163": {
+      "name": "冰霜冲击",
+      "description": "对周围<style=\"accent-gn\">3</style>米内敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1164": {
+      "name": "贯穿冰矛",
+      "description": "一支可以穿透目标的<style=\"accent-gn\">长矛</style>，对敌方目标造成<style=\"accent-gn\">250%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1165": {
+      "name": "冰霜彗星",
+      "description": "「幸运效果」：从天上召唤一个<style=\"accent-gn\">冰霜彗星</style>，对敌方目标造成<style=\"accent-gn\">200%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1166": {
+      "name": "冰冷脉冲",
+      "description": "从冰霜射线中迸发一次强有力的脉冲，对碰撞到的敌方目标造成<style=\"accent-gn\">500%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1167": {
+      "name": "刀意",
+      "description": "每秒获得<style=\"accent-gn\">2</style>点<style=\"accent-gn\">刀意</style>，初始<style=\"accent-gn\">刀意</style>上限<style=\"accent-gn\">100</style>点。<br>当<style=\"accent-gn\">刀意</style>达到<style=\"accent-gn\">100</style>点时，<style=\"accent-gn\">居合斩</style>施放速度大幅提升，施放<style=\"accent-gn\">居合斩</style>后<style=\"accent-gn\">刀意</style>值扣除<style=\"accent-gn\">100</style>点。<br><style=\"accent-gn\">刀意</style>也可作为<style=\"accent-gn\">霹雳连斩</style>的施放资源进行消耗。"
+    },
+    "1168": {
+      "name": "砂之庇护",
+      "description": "<style=\"accent-gn\">护盾</style>强度+<style=\"accent-gn\">3%</style>，持续<style=\"accent-gn\">10</style>秒，最多叠加<style=\"accent-gn\">10</style>层。"
+    },
+    "1169": {
+      "name": "怒击",
+      "description": "跳起后对区域内敌方目标造成<style=\"accent-gn\">400%</style>攻击力<style=\"physical\">物理伤害</style>，且必定触发<style=\"accent-gn\">弱点打击</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。"
+    },
+    "1170": {
+      "name": "格挡",
+      "description": "当受到<style=\"physical\">物理伤害</style>时，有一定几率<style=\"accent-gn\">格挡</style>该次伤害使得受到的伤害降低<style=\"accent-gn\">30%</style>。"
+    },
+    "1171": {
+      "name": "冰冻",
+      "description": "使目标无法移动，同时受到冰元素伤害+<style=\"accent-gn\">20%</style>，持续<style=\"accent-gn\">10</style>秒，受到攻击后解除。 短时间内多次添加持续时间会缩短。无法对首领生效。"
+    },
+    "1172": {
+      "name": "光明圣盾",
+      "description": "将光芒灌注至盾牌中，持续时间内吸收自身所受伤害的<style=\"accent-gn\">50%</style>，重复获得可叠加吸收量并重置持续时间，最多不超过最大生命上限的<style=\"accent-gn\">100%</style>。"
+    },
+    "1173": {
+      "name": "音符热浪",
+      "description": "<style=\"accent-gn\">5</style>秒时间内，每<style=\"accent-gn\">0.5</style>秒为友方目标回复<style=\"accent-gn\">20%</style>攻击力点生命。"
+    },
+    "1174": {
+      "name": "光明冲击",
+      "description": "对敌方目标造成<style=\"accent-gn\">150%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1175": {
+      "name": "光铸屏障",
+      "description": "每层使自身最终生命上限+<style=\"accent-gn\">2%</style>。最多可以拥有<style=\"accent-gn\">10</style>层<style=\"accent-gn\">光铸屏障</style>，受到任何伤害都会消耗<style=\"accent-gn\">1</style>层。持续<style=\"accent-gn\">25</style>秒或所有层数被消耗完为止，每次获得层数时重置持续时间。"
+    },
+    "1176": {
+      "name": "先锋追击",
+      "description": "对目标造成<style=\"accent-gn\">240%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">先锋打击</style>技能升级/进阶进行成长。<br><style=\"accent-gn\">先锋追击</style>造成伤害时回复自身<style=\"accent-gn\">2%</style>最大生命值，并获得<style=\"accent-gn\">悍勇无畏</style>。"
+    },
+    "1177": {
+      "name": "神圣之击",
+      "description": "造成<style=\"accent-gn\">50%</style>攻击力<style=\"physical\">物理伤害</style>，使受影响目标移动速度降低<style=\"accent-gn\">25%</style>。"
+    },
+    "1178": {
+      "name": "旋律 ",
+      "description": "<style=\"accent-gn\">旋律 </style>描述"
+    },
+    "1179": {
+      "name": "风雷破击",
+      "description": "<style=\"accent-gn\">力量</style>+<style=\"accent-gn\">12%</style>，持续<style=\"accent-gn\">8</style>秒。"
+    },
+    "1180": {
+      "name": "安可",
+      "description": "朝附近敌方/友方目标发射一记琴弦造成伤害或治疗，数值等于当前物理/魔法攻击力最高值的<style=\"accent-gn\">50%</style>。"
+    },
+    "1181": {
+      "name": "火焰热情",
+      "description": "<style=\"accent-gn\">智力</style>+<style=\"accent-gn\">5%</style>，持续<style=\"accent-gn\">6</style>秒。"
+    },
+    "1182": {
+      "name": "燃烧",
+      "description": "每秒造成<style=\"accent-gn\">50%</style> * 层数点攻击力<style=\"physical\">物理伤害</style>，持续<style=\"accent-gn\">10</style>秒。"
+    },
+    "1183": {
+      "name": "音符",
+      "description": "<style=\"accent-gn\">音符</style>描述"
+    },
+    "1184": {
+      "name": "音浪涌潮",
+      "description": "<style=\"accent-gn\">音浪涌潮</style>"
+    },
+    "1185": {
+      "name": "治疗音浪",
+      "description": "对周围友方目标施加治疗，数值等于灵魂乐手魔法攻击力的<style=\"accent-gn\">10%</style>"
+    },
+    "1186": {
+      "name": "音障",
+      "description": "<style=\"accent-gn\">音障</style>"
+    },
+    "1187": {
+      "name": "风怒",
+      "description": "造成伤害+<style=\"accent-gn\">15%</style>，攻击速度+<style=\"accent-gn\">10%</style>，持续<style=\"accent-gn\">15</style>秒。"
+    },
+    "1188": {
+      "name": "光能箭矢",
+      "description": "对敌方目标造成<style=\"accent-gn\">80%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1189": {
+      "name": "绿意冲击",
+      "description": "对自身周围敌方目标造成<style=\"accent-gn\">300%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1190": {
+      "name": "火柱冲击",
+      "description": "对范围内敌方目标造成<style=\"accent-gn\">60%</style>攻击力<style=\"magic\">魔法伤害</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。"
+    },
+    "1191": {
+      "name": "烈火冲击",
+      "description": "向自身周围<style=\"accent-gn\">5</style>米迸发一次火焰冲击，对碰撞到的敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1192": {
+      "name": "音符",
+      "description": "<style=\"accent-gn\">10</style>秒内为目标回复总计<style=\"accent-gn\">35%</style>攻击力点生命值，最多叠加<style=\"accent-gn\">10</style>层。处于<style=\"accent-gn\">10</style>层时添加，立刻结算目标身上剩余的<style=\"accent-gn\">音符</style>治疗量。"
+    },
+    "1193": {
+      "name": "安可琴弦",
+      "description": "每次施放伤害或者治疗<style=\"accent-gn\">专精技能</style>时有<style=\"accent-gn\">50%</style>固定几率触发一记<style=\"accent-gn\">安可琴弦</style>，对当前目标造成伤害或对生命最低的友方目标（优先队友）回复生命。"
+    },
+    "1194": {
+      "name": "激昂·热情挥洒",
+      "description": "移动引导6秒，持续朝前方施放热情挥洒。"
+    },
+    "1195": {
+      "name": "超然",
+      "description": "立即获得<style=\"accent-gn\">100</style><style=\"accent-gn\">能量</style>，同时所有治疗型<style=\"accent-gn\">专精技能</style>立刻冷却结束，接下来<style=\"accent-gn\">10</style>秒内魔法攻击力+<style=\"accent-gn\">30%</style>。"
+    },
+    "1196": {
+      "name": "持盾冲击",
+      "description": "举起盾牌朝前方冲刺，对碰撞的敌方目标造成<style=\"accent-gn\">200%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1197": {
+      "name": "火焰震击",
+      "description": "对范围内敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"magic\">魔法伤害</style>。"
+    },
+    "1198": {
+      "name": "光芒核心",
+      "description": "<style=\"accent-gn\">10</style>秒后向自身四周爆发出神圣<style=\"accent-gn\">能量</style>，基础造成<style=\"accent-gn\">500%</style>攻击力<style=\"physical\">物理伤害</style>并为自身回复<style=\"accent-gn\">15%</style>最大生命值。"
+    },
+    "1199": {
+      "name": "神圣印记",
+      "description": "目标在接下来<style=\"accent-gn\">10</style>秒内每秒受到<style=\"accent-gn\">20%</style>攻击力伤害，同时该目标对你造成伤害时有<style=\"accent-gn\">10%</style>固定几率为你回复生命，回复值等于你生命上限的<style=\"accent-gn\">0.5%</style>。"
+    },
+    "1200": {
+      "name": "幻想冲击",
+      "description": "「幸运效果」：对<style=\"accent-gn\">3</style>米范围内敌方目标造成<style=\"accent-gn\">1375%</style>攻击力自适应伤害，但是无法暴击。"
+    },
+    "1201": {
+      "name": "幻梦处决",
+      "description": "对<style=\"accent-gn\">3</style>米范围内敌方目标造成<style=\"accent-gn\">850%</style>攻击力自适应伤害，且暴击伤害始终以<style=\"accent-gn\">500%</style>进行结算。"
+    },
+    "1202": {
+      "name": "梦幻之箭",
+      "description": "对<style=\"accent-gn\">3</style>米范围内敌方目标造成<style=\"accent-gn\">165%</style>攻击力自适应伤害。"
+    },
+    "1203": {
+      "name": "迷幻梦境",
+      "description": "每层攻击力+<style=\"accent-gn\">18</style>（随赛季等级提高最多+<style=\"accent-gn\">50</style>）。"
+    },
+    "1204": {
+      "name": "梦幻之力",
+      "description": "主属性+<style=\"accent-gn\">450</style>（随赛季等级提高最多+<style=\"accent-gn\">1050</style>），持续期间无法获得遗梦。"
+    },
+    "1205": {
+      "name": "寂灭",
+      "description": "攻击力-<style=\"accent-gn\">20%</style>，受到梦境伤害+<style=\"accent-gn\">10%</style>，移动速度-<style=\"accent-gn\">20%</style>（不可叠加）。"
+    },
+    "1206": {
+      "name": "寂灭打击",
+      "description": "对自身<style=\"accent-gn\">5</style>米内敌方目标造成<style=\"accent-gn\">200%</style>攻击力自适应伤害并<linktext=3005><style=\"ItemQuality_5\">眩晕</style></linktext>目标<style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>秒。"
+    },
+    "1207": {
+      "name": "濒死",
+      "description": "免疫死亡。"
+    },
+    "1208": {
+      "name": "虚妄裁定",
+      "description": "对自身<style=\"accent-gn\">5</style>米内敌方目标造成<style=\"accent-gn\">330%</style>物理防御力自适应伤害。"
+    },
+    "1209": {
+      "name": "无尽思维",
+      "description": "生命上限+<style=\"accent-gn\">3%</style>，精通+<style=\"accent-gn\">2%</style>，最多叠加<style=\"accent-gn\">3</style>层。"
+    },
+    "1210": {
+      "name": "工匠之力",
+      "description": "每<style=\"accent-gn\">2</style>点力量、智力、敏捷，转化为<style=\"accent-gn\">1</style>点攻击力<br>每<style=\"accent-gn\">1</style>点耐力转化为<style=\"accent-gn\">8</style>点生命上限<br>每<style=\"accent-gn\">1%</style>急速转化为<style=\"accent-gn\">0.6%</style>攻击速度和<style=\"accent-gn\">1%</style>施法速度<br>每<style=\"accent-gn\">1%</style>全能提高<style=\"accent-gn\">0.35%</style>造成伤害、治疗和施加护盾时的百分比加成，以及<style=\"accent-gn\">0.15%</style>受到伤害时的伤害减免<br>每<style=\"accent-gn\">1%</style>精通转化为<style=\"accent-gn\">0.5%</style>通用伤害提升"
+    },
+    "1211": {
+      "name": "业火连击",
+      "description": "<style=\"accent-gn\">专精技能</style>攻击速度+<style=\"accent-gn\">5%</style>，持续<style=\"accent-gn\">10</style>秒，最多叠加<style=\"accent-gn\">5</style>层。"
+    },
+    "1212": {
+      "name": "炽炎",
+      "description": "火元素加成+<style=\"accent-gn\">10%</style>，持续<style=\"accent-gn\">8</style>秒。"
+    },
+    "1213": {
+      "name": "燃烧",
+      "description": "每<style=\"accent-gn\">2</style>秒造成<style=\"accent-gn\">35%*层数</style>点攻击力<style=\"physical\">物理伤害</style>，持续<style=\"accent-gn\">10</style>秒，最多叠加<style=\"accent-gn\">10</style>层；当<style=\"accent-gn\">燃烧</style>达到最大层数时新添加的<style=\"accent-gn\">燃烧</style>将立即造成一次<style=\"accent-gn\">35%</style>点攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1214": {
+      "name": "炎爆",
+      "description": "对范围内敌方目标造成<style=\"accent-gn\">800%</style>攻击力<style=\"physical\">物理伤害</style>，同时获得<style=\"accent-gn\">10</style>点<style=\"accent-gn\">炎魂</style>。"
+    },
+    "1215": {
+      "name": "地火流星",
+      "description": "对敌方目标造成<style=\"accent-gn\">500%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1216": {
+      "name": "无相火斩",
+      "description": "每次伤害附带当前技能倍率的额外段数，其几率如下：<br>无相火斩<style=\"accent-gn\">1</style>段几率：<style=\"accent-gn\">20%</style>。<br>无相火斩<style=\"accent-gn\">2</style>段几率：<style=\"accent-gn\">10%</style>。<br>无相火斩<style=\"accent-gn\">3</style>段几率：<style=\"accent-gn\">5%</style>。"
+    },
+    "1217": {
+      "name": "大红莲丸",
+      "description": "对范围内敌方目标造成<style=\"accent-gn\">800%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1218": {
+      "name": "火焰压制",
+      "description": "受到伤害时，自身生命值百分比高于攻击者生命值百分比时，受到来自攻击者的伤害-<style=\"accent-gn\">10%</style>。<br>造成伤害时，自身生命值百分比高于受击者生命值百分比时，对受击者的伤害+<style=\"accent-gn\">5%</style>。"
+    },
+    "1219": {
+      "name": "能力转化",
+      "description": "每<style=\"accent-gn\">2</style>点力量、智力、敏捷，转化为<style=\"accent-gn\">1</style>点攻击力。<br>每<style=\"accent-gn\">1</style>点耐力转化为<style=\"accent-gn\">8</style>点生命上限。<br>你的<style=\"accent-gn\">暴击%</style>、<style=\"accent-gn\">幸运%</style>、<style=\"accent-gn\">精通%</style>、<style=\"accent-gn\">急速%</style>和<style=\"accent-gn\">全能%</style>将失去原有效果，获得新的能力：当前共鸣技能的技能伤害必定暴击，但是暴击伤害固定以<style=\"accent-gn\">暴击%+幸运%+精通%+急速%+全能%</style>的总和结算。"
+    },
+    "1500": {
+      "name": "居合斩",
+      "description": "蓄力后对前方进行一次迅猛的斩击，消耗当前拥有的所有<style=\"accent-gn\">雷之印</style>造成<style=\"physical\">物理伤害</style>，每消耗<style=\"accent-gn\">1</style>个<style=\"accent-gn\">雷之印</style>可使伤害增加<style=\"accent-gn\">25%</style>。<br><i><style=\"text_third_gray\">「所见，所听，所闻，皆可斩」</style></i><br><br><size=22><style=\"tipsYellow\">攻略：尽量在雷之印达上限时施放，最大化伤害。</style></size>"
+    },
+    "1501": {
+      "name": "一闪",
+      "description": "消耗当前拥有的所有<style=\"accent-gn\">雷之印</style>，蓄力后向前方冲出，并斩击沿途所有敌人，造成<style=\"physical\">物理伤害</style>，每消耗<style=\"accent-gn\">1</style>个<style=\"accent-gn\">雷之印</style>可使伤害增加<style=\"accent-gn\">25%</style>。<br><i><style=\"text_third_gray\">「电光之间，刃已出鞘」</style></i><br><br><size=22><style=\"tipsYellow\">攻略：搭配居合斩流派的核心技能，施放优先级高于居合斩，尽量在雷之印达上限时施放，最大化伤害。</style></size>"
+    },
+    "1502": {
+      "name": "极诣·大破灭连斩",
+      "description": "极致的刀法将空气也能斩断，向面前区域持续斩击，对区域内的敌人造成<style=\"physical\">物理伤害</style>，并在招式结束后获得<style=\"accent-gn\">雷之印</style>至上限，并回满<style=\"accent-gn\">刀意值</style>。<br><i><style=\"text_third_gray\">「苍天之兵，使诸天繁星皆黯」</style></i><br><br><size=22><style=\"tipsYellow\">攻略：尽量在雷之印为空时施放，快速获得雷之印进入爆发。或在目标数量较多时使用，打出巨量范围伤害</style></size>"
+    },
+    "1503": {
+      "name": "霹雳连斩",
+      "description": "快速的拔刀进行二连斩击，对敌人造成<style=\"physical\">物理伤害</style>，斩击消耗<style=\"accent-gn\">50</style><style=\"accent-gn\">刀意</style>，每当攻击速度达到<style=\"accent-gn\">25%</style>|<style=\"accent-gn\">50%</style>|<style=\"accent-gn\">80%</style>时每次斩击额外造成<style=\"accent-gn\">1</style>|<style=\"accent-gn\">2</style>|<style=\"accent-gn\">3</style>次伤害。斩击结束时，如果还有剩余<style=\"accent-gn\">刀意</style>则可继续施放。<br><br><size=22><style=\"tipsYellow\">攻略：搭配月刃召唤流派的核心技能，主要消耗刀意造成伤害的方式，尽量在刀意达上限时进行连续施放。</style></size>"
+    },
+    "1504": {
+      "name": "无穷雷霆之力",
+      "description": "涂抹刀刃附加雷霆之力，期间所有获取<style=\"accent-gn\">雷之印</style>的行为，将直接获取满额<style=\"accent-gn\">雷之印</style>，且持续时间内物理攻击力提升同时<linktext=1102><style=\"ItemQuality_5\">霸体</style></linktext>。<br><br><size=22><style=\"tipsYellow\">攻略：搭配超高出力和天赋效果在极短的时间内获得雷之印和消耗雷之印，爆发出惊人的伤害。</style></size>"
+    },
+    "1505": {
+      "name": "千雷闪影之意",
+      "description": "爆发体内狂暴的雷电，每1秒可积攒<style=\"accent-gn\">20</style>点<style=\"accent-gn\">刀意</style>。期间使用专精技能每次消耗<style=\"accent-gn\">刀意</style>时，触发一次<style=\"accent-gn\">鸣雷打击</style>对当前目标造成<style=\"physical\">物理伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：搭配霹雳连斩可打出较多雷刺，高额的精通可使得月刃召唤流派的月刃伤害提升。</style></size>"
+    },
+    "1506": {
+      "name": "缭乱兜割",
+      "description": "强化后的<linktext=1507><style=\"ItemQuality_5\">月影</style></linktext>，向前方丢出毁灭性的雷霆旋风，对敌人造成<style=\"accent-gn\">500%</style>攻击力<style=\"physical\">物理伤害</style>同时获得满额<style=\"accent-gn\">刀意</style>，跟随<linktext=1507><style=\"ItemQuality_5\">月影</style></linktext>技能升级/进阶进行成长。"
+    },
+    "1507": {
+      "name": "月影",
+      "description": "消耗<style=\"accent-gn\">3</style>枚<style=\"accent-gn\">雷之印</style>向前方冲刺并旋转刀刃对周围的敌人造成<style=\"physical\">物理伤害</style>。场上<style=\"accent-gn\">月刃</style>同时进行一次回旋攻击对周围目标造成<style=\"physical\">物理伤害</style>，该伤害跟随<style=\"accent-gn\">镰车</style>技能升级和进阶进行成长。<br><i><style=\"text_third_gray\">「月光之下，吾如影随形」</style></i><br><br><size=22><style=\"tipsYellow\">攻略：尽可能在月刃存在数量多的时候进行施放，触发更多的回旋攻击。</style></size>"
+    },
+    "1508": {
+      "name": "浪潮汇聚",
+      "description": "在目标处召唤奔腾的水龙卷，并对其造成<style=\"magic\">魔法伤害</style>。召唤后持续引导<style=\"accent-gn\">5</style>秒。可再次施放提前结束。<br><br><style=\"accent-gn\">极寒·浪潮汇聚</style><br>在<style=\"accent-gn\">极寒</style>状态下，水龙卷在结束时会冻结并产生剧烈爆炸，对范围内的所有敌人造成一次更高<style=\"magic\">魔法伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：引导期间不能移动、不能施放其他技能，一般在组队情况下，搭配其他队友的范围攻击时施放。</style></size>"
+    },
+    "1509": {
+      "name": "寒冰射线",
+      "description": "消耗<style=\"accent-gn\">15</style>点<style=\"accent-gn\">寒冰能量</style>，向目标方向发射一束凝聚寒冰能量的射线，每<style=\"accent-gn\">0.3</style>秒对射线上的所有敌人造成一次<style=\"magic\">魔法伤害</style>。连续造成<style=\"accent-gn\">5</style>次伤害后，尝试消耗更多寒冰能量维持射线。每<style=\"accent-gn\">12</style>点寒冰能量可维持射线多存在<style=\"accent-gn\">0.3</style>秒并多造成<style=\"accent-gn\">1</style>次伤害。<style=\"accent-gn\">寒冰射线</style>每造成一次伤害使得寒冰射线伤害+<style=\"accent-gn\">8%</style>，最高不超过<style=\"accent-gn\">80%</style>。（剩余<style=\"accent-gn\">寒冰能量</style>不足<style=\"accent-gn\">3</style>点时停止发射）<br><style=\"accent-gn\">寒冰射线</style>的发射间隔受到急速属性影响。<br><br><size=22><style=\"tipsYellow\">攻略：尽量在寒冰能量接近上限时使用，可以维持更长时间。发射期间可以使用摇杆轻微调整自身站位。</style></size>"
+    },
+    "1510": {
+      "name": "清滝绕珠",
+      "description": "向目标施放一个会缓慢移动的水球并立即获得<style=\"accent-gn\">1</style>枚<linktext=1161><style=\"ItemQuality_5\">玄冰</style></linktext>，之后每间隔<style=\"accent-gn\">3</style>秒获得<style=\"accent-gn\">1</style>枚<linktext=1161><style=\"ItemQuality_5\">玄冰</style></linktext>，水球撞击到任意目标后速度下降。水球存在期间，持续对周围的所有敌人造成<style=\"magic\">魔法伤害</style>并施加<linktext=3003><style=\"ItemQuality_5\">寒霜</style></linktext>。<br><br><style=\"accent-gn\">极寒·清滝绕珠</style><br>在<style=\"accent-gn\">极寒</style>状态下，水球在结束时会冻结并产生剧烈爆炸，对范围内的所有敌人造成一次更高<style=\"magic\">魔法伤害</style>。<br><br>技能可以充能<style=\"accent-gn\">2</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：在寒冰能量不溢出的情况下，常态保持这个技能至少有1层在进行充能。施放终极技能前尽量保持有2层充能，搭配终极技能提供的极寒状态可以造成更多伤害。</style></size>"
+    },
+    "1511": {
+      "name": "陨星风暴",
+      "description": "消耗<style=\"accent-gn\">5</style>点<style=\"accent-gn\">寒冰能量</style>，立即从目标上方召唤三颗<style=\"accent-gn\">陨星风暴</style>，对目标及其周围造成<style=\"magic\">魔法伤害</style>。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：这是一个无需吟唱的伤害技能，在频繁需要移动的战斗中尽可能多的施放可发挥较大作用。</style></size>"
+    },
+    "1512": {
+      "name": "冰霜之矛",
+      "description": "吟唱<style=\"accent-gn\">1.4</style>秒，随后消耗<style=\"accent-gn\">10</style>点<style=\"accent-gn\">寒冰能量</style>，向目标发射一柄锋利的冰霜之矛，撞击到敌人后造成<style=\"magic\">魔法伤害</style>。<br>可消耗<style=\"accent-gn\">1</style>枚<linktext=1161><style=\"ItemQuality_5\">玄冰</style></linktext>免除吟唱过程并使伤害+<style=\"accent-gn\">20%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：尽可能多的施放冰霜之矛，避免能量溢出。</style></size>"
+    },
+    "1513": {
+      "name": "寒冰风暴",
+      "description": "吟唱<style=\"accent-gn\">2.9</style>秒，随后消耗<style=\"accent-gn\">20</style>点<style=\"accent-gn\">寒冰能量</style>，在目标处召唤剧烈的寒冰风暴，持续对范围内的所有敌人造成<style=\"magic\">魔法伤害</style>并施加<linktext=3003><style=\"ItemQuality_5\">寒霜</style></linktext>。<br><br><size=22><style=\"tipsYellow\">攻略：威力强大的群体攻击技能，尽量固定敌方单位的位置，避免其离开攻击范围。</style></size>"
+    },
+    "1514": {
+      "name": "冻结寒风",
+      "description": "积蓄体内的寒意喷涌而出，对周围目标造成<style=\"magic\">魔法伤害</style>和<linktext=1171><style=\"ItemQuality_5\">冰冻</style></linktext>效果。<br>蓄力会使技能范围和伤害产生变化。<br><style=\"accent-gn\">1</style>阶：吟唱<style=\"accent-gn\">1</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围。<br><style=\"accent-gn\">2</style>阶：吟唱<style=\"accent-gn\">2</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围，伤害提升<style=\"accent-gn\">50%</style>。<br><style=\"accent-gn\">3</style>阶：吟唱<style=\"accent-gn\">3</style>秒，自身周围<style=\"accent-gn\">8</style>米半径圆形，伤害提升<style=\"accent-gn\">100%</style>。<br>当前拥有<style=\"accent-gn\">1</style>/<style=\"accent-gn\">3</style>/<style=\"accent-gn\">5</style>枚<linktext=1161><style=\"ItemQuality_5\">玄冰</style></linktext>时，直接跳过<style=\"accent-gn\">1</style>/<style=\"accent-gn\">2</style>/<style=\"accent-gn\">3</style>阶段进行施放。<br><br><size=22><style=\"tipsYellow\">攻略：这是一个伤害兼控制技能，尽可能在高玄冰时施放。</style></size>"
+    },
+    "1515": {
+      "name": "冰之灌注",
+      "description": "召唤寒冰的力量，持续时间内获得霸体同时每秒积攒<style=\"accent-gn\">6</style>点<style=\"accent-gn\">寒冰能量</style>，并提高自身<style=\"accent-gn\">急速</style>。<br><br><size=22><style=\"tipsYellow\">攻略：可以提升自己的攻击和施法速度，注意这个技能也会回复寒冰能量，不要在寒冰能量接近上限时施放，或者在接近上限时使用后快速消耗掉寒冰能量。</style></size>"
+    },
+    "1516": {
+      "name": "极寒·冰雪颂歌",
+      "description": "召唤寒冰的庇佑，在自身脚下创造出<style=\"accent-gn\">寒冰领域</style>，击飞范围内的所有敌方单位，随后召唤一颗彗星砸向目标，造成<style=\"magic\">魔法伤害</style>并且使目标<linktext=1171><style=\"ItemQuality_5\">冰冻</style></linktext>。<br><style=\"accent-gn\">寒冰领域</style><br>自身处于领域范围内持续回复<style=\"accent-gn\">220</style>点<style=\"accent-gn\">寒冰能量</style>，且会获得<style=\"accent-gn\">极寒</style>状态。处于领域内的敌人持续被<linktext=3011><style=\"ItemQuality_5\">减速</style></linktext>直到被<linktext=1171><style=\"ItemQuality_5\">冰冻</style></linktext>。<br><style=\"accent-gn\">极寒</style>状态下视目标为<linktext=1171><style=\"ItemQuality_5\">冰冻</style></linktext>状态。<br><br><size=22><style=\"tipsYellow\">攻略：不要在寒冰能量接近上限时施放，或者在接近上限时使用后快速消耗掉寒冰能量。会被极寒状态加成的技能在该技能范围内使用最佳。</style></size>"
+    },
+    "1517": {
+      "name": "疾风刺",
+      "description": "消耗<style=\"accent-gn\">50</style>点<style=\"accent-gn\">勇气</style>，向敌人高速戳刺<style=\"accent-gn\">3</style>次，造成<style=\"physical\">物理伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：注意施放节奏，在连续的普通攻击中穿插施放，勇气的积攒需要时间。</style></size>"
+    },
+    "1518": {
+      "name": "勇气风环",
+      "description": "将自身的<style=\"accent-gn\">勇气</style>转换为持续的风场，对周围目标造成<style=\"physical\">物理伤害</style>，伤害间隔受到攻击速度属性影响，直到<style=\"accent-gn\">勇气</style>消散，每<style=\"accent-gn\">1</style>秒消耗<style=\"accent-gn\">16</style>点<style=\"accent-gn\">勇气</style>，再次点击可关闭技能。<br><br><size=22><style=\"tipsYellow\">攻略：尽可能使得勇气风环的持续时间最大化，除了在勇气满额时施放外施放过程中要通过一定的手段回复勇气。</style></size>"
+    },
+    "1519": {
+      "name": "刹那",
+      "description": "消耗2层<style=\"accent-gn\">锐利</style>，跃至空中向敌人发动一次超强的攻击，造成<style=\"physical\">物理伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：绑定空战流进行装配，勇气较低时再施放，以免在施放时勇气自动积攒至上限后产生浪费。</style></size>"
+    },
+    "1520": {
+      "name": "翔返",
+      "description": "消耗<style=\"accent-gn\">35</style>点<style=\"accent-gn\">勇气</style>，跃向空中向敌人发动自上而下的攻击，造成<style=\"physical\">物理伤害</style>。<br><i><style=\"text_third_gray\">「纵使敌阵坚不可摧，胜利之风吹拂之境亦能摧枯拉朽！」</style></i><br><br><size=22><style=\"tipsYellow\">攻略：勇气接近上限时再施放，连续施放时不用重新跃起，提升攻击效率。</style></size>"
+    },
+    "1521": {
+      "name": "锐利冲击",
+      "description": "一跃而起对目标及其周围造成大额<style=\"physical\">物理伤害</style>。每消耗<style=\"accent-gn\">1</style>层<style=\"accent-gn\">锐利</style>，该技能获得<style=\"accent-gn\">5%</style>充能。<br><br><size=22><style=\"tipsYellow\">攻略：锐利冲击伤害很高，尽可能的消耗锐利，在固定时间内最大化的打出锐利冲击。</style></size>"
+    },
+    "1522": {
+      "name": "破追",
+      "description": "突刺至敌人处，造成<style=\"physical\">物理伤害</style>同时获得<style=\"accent-gn\">15</style>点<style=\"accent-gn\">勇气</style>。再次施放发动大范围横扫，对自身周围的所有敌人造成<style=\"physical\">物理伤害</style>并将其<style=\"physical\">击飞</style>。无法击飞拥有韧性值的目标，但会削减其韧性值。此外每命中<style=\"accent-gn\">1</style>个敌人可额外获得<style=\"accent-gn\">10</style>点<style=\"accent-gn\">勇气</style>，最多可额外获得<style=\"accent-gn\">50</style>点。<br><br><size=22><style=\"tipsYellow\">攻略：面对大量敌方单位时装配。</style></size>"
+    },
+    "1523": {
+      "name": "螺旋击刺",
+      "description": "消耗<style=\"accent-gn\">30</style>点<style=\"accent-gn\">勇气</style>，回收旋转长枪，随后向敌人刺出终极一击。螺旋的枪风撕裂周围的空气，对范围内的敌人持续造成<style=\"physical\">物理伤害</style>。初段攻击对敌方目标施加<style=\"accent-gn\">50%</style><style=\"accent-gn\"><linktext=3004><style=\"ItemQuality_5\">重伤</style></linktext>，持续<style=\"accent-gn\">10</style>秒。<br><br><size=22><style=\"tipsYellow\">攻略：拥有足够勇气时，施放优先级最高的技能。</style></size>"
+    },
+    "1524": {
+      "name": "飞鸟投",
+      "description": "消耗<style=\"accent-gn\">40</style>点<style=\"accent-gn\">勇气</style>，跃至空中向敌人奋力投掷出风之长矛。对范围内的所有敌人造成<style=\"physical\">物理伤害</style>并大量削弱韧性值，并获得1层<style=\"accent-gn\">锐利</style>。<br><br><size=22><style=\"tipsYellow\">攻略：面对有韧性条的敌方单位时装配，也可在面对大量敌方单位时装配。</style></size>"
+    },
+    "1525": {
+      "name": "风神·破阵之风",
+      "description": "奋力跃入敌阵，对范围内的敌人造成<style=\"physical\">物理伤害</style>并将其<style=\"accent-gn\">击飞</style>，同时回复<style=\"accent-gn\">100</style>点<style=\"accent-gn\">勇气</style>。<br><i><style=\"text_third_gray\">「无尽风暴，随吾骑士之令而解锁强大之力！风啊，以汹涌疾驰昭示汝之荣耀！在风中显现吧！」</style></i><br><br><size=22><style=\"tipsYellow\">攻略：勇气较低时施放。</style></size>"
+    },
+    "1526": {
+      "name": "狂野绽放",
+      "description": "消耗<style=\"accent-gn\">20</style>点<style=\"accent-gn\">能量</style>，召唤巨型藤蔓攻击敌人区域，造成<style=\"magic\">魔法伤害</style>并<style=\"accent-gn\">治疗</style>自己和周围生命值最低的友方目标（优先队友），治疗量与自己的魔法攻击力相关。<br><br><size=22><style=\"tipsYellow\">攻略：紧急情况下可直接施放为目标回复生命，否则最好利用天赋的共生印记机制搭配输出型技能进行施放。</style></size>"
+    },
+    "1527": {
+      "name": "生命绽放",
+      "description": "吟唱<style=\"accent-gn\">1.8</style>秒，随后消耗<style=\"accent-gn\">30</style>点<style=\"accent-gn\">能量</style>，为对自己和周围至多<style=\"accent-gn\">10</style>名友方目标（优先队友）<style=\"accent-gn\">治疗</style>，治疗量与自己的魔法攻击力相关。<br><br><size=22><style=\"tipsYellow\">攻略：紧急情况下连续施放，否则最好先用普通攻击积攒天赋提供的再生蓓蕾后再施放，可提升施放时产生的治疗量。</style></size>"
+    },
+    "1528": {
+      "name": "滋养",
+      "description": "消耗<style=\"accent-gn\">20</style>点<style=\"accent-gn\">能量</style>，将森之力附着在自己和周围至多<style=\"accent-gn\">10</style>名友方目标（优先队友）体内一段时间，持续<style=\"accent-gn\">10</style>秒，使其每秒获得<style=\"accent-gn\">治疗</style>，治疗间隔受到急速属性影响。<br><br><size=22><style=\"tipsYellow\">攻略：施放后可以持续治疗，在开始战斗后再使用。</style></size>"
+    },
+    "1529": {
+      "name": "不羁之种",
+      "description": "召唤种子攻击敌人，造成<style=\"magic\">魔法伤害</style>并使其降低<style=\"accent-gn\">30%</style>移动速度。种子造成伤害时会获得总计<style=\"accent-gn\">30</style>点<style=\"accent-gn\">能量</style>。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：能量较低时施放。</style></size>"
+    },
+    "1530": {
+      "name": "灌注",
+      "description": "消耗<style=\"accent-gn\">30</style>点<style=\"accent-gn\">能量</style>，引导种子持续发射<style=\"accent-gn\">5.9</style>秒。对敌人造成<style=\"magic\">魔法伤害</style>，引导期间可以移动。<br><br><size=22><style=\"tipsYellow\">攻略：独自探险或需要补充伤害时使用。</style></size>"
+    },
+    "1531": {
+      "name": "繁盛·希望结界",
+      "description": "使用森之力创造一个结界，结界展开时会对周围的敌人造成持续<style=\"magic\">魔法伤害</style>，自己和周围至多<style=\"accent-gn\">10</style>名友方目标（优先队友）在结界中受到伤害减免<style=\"accent-gn\">25%</style>同时持续获得治疗。<br><br><size=22><style=\"tipsYellow\">攻略：强大的持续伤害和治疗，可以减轻团队压力。在伤害到来前提前施放，需要对战斗有一定的熟悉度。</style></size>"
+    },
+    "1532": {
+      "name": "再生脉冲",
+      "description": "吟唱<style=\"accent-gn\">2.3</style>秒，随后消耗<style=\"accent-gn\">40</style>点<style=\"accent-gn\">能量</style>，以自己为中心，向四周扩散出一道脉冲。对自己和脉冲触碰到的友方目标造成<style=\"accent-gn\">治疗</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在需要群体治疗的环境中，需谨慎施放，以免技能提前进入冷却。</style></size>"
+    },
+    "1533": {
+      "name": "盛放注能",
+      "description": "<style=\"accent-gn\">盛放注能</style><br>施放藤蔓，对自身周围敌人施加<linktext=3005><style=\"ItemQuality_5\">眩晕</style></linktext>同时造成<style=\"magic\">魔法伤害</style>，对自身周围友方目标回复生命值。<br><br><size=22><style=\"tipsYellow\">攻略：这是一个瞬发技能，搭配愈合流天赋，在面对需要持续移动的战斗场景时拥有不错的伤害和治疗能力。</style></size>"
+    },
+    "1534": {
+      "name": "森之祈愿",
+      "description": "消耗<style=\"accent-gn\">40</style>点<style=\"accent-gn\">能量</style>，凝结森之力进行持续<style=\"accent-gn\">4</style>秒的引导，对自己和周围至多<style=\"accent-gn\">10</style>名友方目标（优先队友）持续造成治疗，治疗量与自己的魔法攻击相关（且额外附加共计<style=\"accent-gn\">15%</style>目标生命值上限的固定治疗量），同时为受到治疗的目标施加<style=\"accent-gn\">15%</style>全元素减免，该效果持续<style=\"accent-gn\">10</style>秒。<br><br><size=22><style=\"tipsYellow\">攻略：治疗压力非常大的时候使用，因为需要引导，要注重施放时机。</style></size>"
+    },
+    "1535": {
+      "name": "自然庇护",
+      "description": "立即为自己和周围至多<style=\"accent-gn\">10</style>名友方目标（优先队友）施加<style=\"accent-gn\">自然护盾</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在生存压力大的时候，瞬发的群体护盾能为团队带来及时的保护，搭配惩击流天赋可以治疗队友。</style></size>"
+    },
+    "1536": {
+      "name": "岩御·崩裂回环",
+      "description": "<style=\"accent-gn\">岩御·崩裂回环</style><br>激发岩之力，瞬间对面前大范围区域造成<style=\"physical\">物理伤害</style>并使其<linktext=3005><style=\"ItemQuality_5\">眩晕</style></linktext>3秒，随后凝聚能量，立即获得<style=\"accent-gn\">5</style>枚<style=\"accent-gn\">砂晶石</style>。同时使自身进入<style=\"accent-gn\">岩之守护</style>状态。<br><style=\"accent-gn\">岩之守护</style><br>状态持续<style=\"accent-gn\">8</style>秒时间内获得<linktext=1091><style=\"ItemQuality_5\">霸体</style></linktext>，提升自身<style=\"accent-gn\">100%</style>物理防御和<style=\"accent-gn\">50%</style>最大生命值，并持续获得<style=\"accent-gn\">40</style>点<style=\"accent-gn\">怒气</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在有很大承受伤害压力时施放。</style></size>"
+    },
+    "1537": {
+      "name": "碎星冲",
+      "description": "以绝强之势向前冲锋，撞到敌人后获得<style=\"accent-gn\">25</style>点<style=\"accent-gn\">怒气</style>和<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">砂晶石</style>，对其造成<style=\"physical\">物理伤害</style>并使其<linktext=3005><style=\"ItemQuality_5\">眩晕</style></linktext>。冲锋期间<style=\"accent-gn\">不可阻挡</style>。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：增强机动性，并且可有效获取怒气。</style></size>"
+    },
+    "1538": {
+      "name": "格挡冲击",
+      "description": "消耗<style=\"accent-gn\">40</style>点<style=\"accent-gn\">怒气</style>，猛烈下砸武器，对自身周围的敌人造成<style=\"physical\">物理伤害</style>，同时进入<style=\"accent-gn\">格挡冲击</style>状态。持续时间内格挡几率+<style=\"accent-gn\">100%</style>，格挡所受的<style=\"physical\">物理伤害</style>降低<style=\"accent-gn\">30%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在面对物理伤害居多的环境时很有效，技能施放后格挡几率提升，稳定减少受到的物理伤害。</style></size>"
+    },
+    "1539": {
+      "name": "岩怒之击",
+      "description": "消耗<style=\"accent-gn\">3</style>枚<style=\"accent-gn\">砂晶石</style>，对目标造成<style=\"physical\">物理伤害</style>，同时使自身接下来<style=\"accent-gn\">10</style>秒内受到伤害降低<style=\"accent-gn\">10%</style>，该效果不可叠加。<br><br><size=22><style=\"tipsYellow\">攻略：当有足够多的砂晶石时，及时的施放岩怒之击可以获得高额的伤害和稳定的生存。</style></size>"
+    },
+    "1540": {
+      "name": "护盾猛击",
+      "description": "消耗<style=\"accent-gn\">40</style>点<style=\"accent-gn\">怒气</style>，猛击周围的敌人，造成<style=\"physical\">物理伤害</style>。当有足够<style=\"accent-gn\">砂晶石</style>时，消耗<style=\"accent-gn\">砂晶石</style>获得可吸收所有伤害的<linktext=1035><style=\"ItemQuality_5\">护盾</style></linktext>，持续<style=\"accent-gn\">12</style>秒，每多消耗<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">砂晶石</style>额外附加护盾值，每次最多消耗<style=\"accent-gn\">2</style>枚<style=\"accent-gn\">砂晶石</style>。（护盾可以叠加，但不超过生命上限的<style=\"accent-gn\">150%</style>）<br><br><size=22><style=\"tipsYellow\">攻略：没有护盾时施放，保持护盾常驻。</style></size>"
+    },
+    "1541": {
+      "name": "砂石斗篷",
+      "description": "汇聚砂石于自身，对周围敌人造成一次<style=\"physical\">物理伤害</style>。随后砂石凝结，每<style=\"accent-gn\">1</style>秒对周围敌人造成<style=\"physical\">物理伤害</style>，持续<style=\"accent-gn\">6</style>秒。效果期间持续回复<style=\"accent-gn\">怒气</style>和<style=\"accent-gn\">砂晶石</style>，最终获得<style=\"accent-gn\">33</style>点<style=\"accent-gn\">怒气</style>和<style=\"accent-gn\">6</style>枚<style=\"accent-gn\">砂晶石</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在战斗中冷却时间好了就放，持续的范围伤害可以维持较高威胁值，并且可以有效获取怒气。</style></size>"
+    },
+    "1542": {
+      "name": "巨岩躯体",
+      "description": "凝聚砂岩的力量，使自身在接下来的<style=\"accent-gn\">10</style>秒内自动反制<style=\"accent-gn\">危险技能</style>，同时<style=\"accent-gn\">物理防御</style>提升，受到伤害降低<style=\"accent-gn\">20%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在面对高压的战斗时及时施放，提升自身的生存能力。</style></size>"
+    },
+    "1543": {
+      "name": "勇者壁垒",
+      "description": "在自身周围生成岩石壁垒，使得接下来一段时间内自动反制<style=\"accent-gn\">危险技能</style>，同时<style=\"accent-gn\">格挡减伤</style>提升，期间每消耗<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">砂晶石</style>，使得持续时间延长<style=\"accent-gn\">1</style>秒（累计延长时间不超过<style=\"accent-gn\">5</style>秒）。<br><br><size=22><style=\"tipsYellow\">攻略：看准时机，在面对高额的物理伤害时及时大幅提升自身格挡减伤，最大化的化解受到的物理伤害。</style></size>"
+    },
+    "1544": {
+      "name": "怒爆",
+      "description": "消耗<style=\"accent-gn\">50</style>点<style=\"accent-gn\">怒气</style>和<style=\"accent-gn\">5</style>枚<style=\"accent-gn\">砂晶石</style>，发出怒吼，对周围的敌人造成<style=\"physical\">物理伤害</style>并<linktext=3000><style=\"ItemQuality_5\">打断</style></linktext>目标，获得可吸收所有伤害的<linktext=1035><style=\"ItemQuality_5\">护盾</style></linktext>（护盾可以叠加，但不超过生命上限的<style=\"accent-gn\">150%</style>）。并使其对自身造成的<style=\"physical\">物理伤害</style>降低<style=\"accent-gn\">10%</style>，持续<style=\"accent-gn\">12</style>秒。<br><br><size=22><style=\"tipsYellow\">攻略：低生存压力时可以提供一些输出能力，敌方单位物理伤害环境居多时提供更多物理伤害减免。</style></size>"
+    },
+    "1545": {
+      "name": "激涌射击",
+      "description": "侧滑向敌人快速射出<style=\"accent-gn\">2</style>箭，造成<style=\"physical\">物理伤害</style>。<br>在<style=\"accent-gn\">光能重铸</style>状态下，<style=\"accent-gn\">二连矢</style>进化为<style=\"accent-gn\">光意·四连矢</style>，跃至空中射出强力<style=\"accent-gn\">4</style>箭，造成高额物理伤害，该伤害的暴击几率翻倍。<br>技能可以充能<style=\"accent-gn\">3</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：注意监控光能重铸状态，及时施放光意·四连矢。</style></size>"
+    },
+    "1546": {
+      "name": "锐眼·光能巨箭",
+      "description": "汇聚光能，向敌人处奋力射出一支巨大箭矢。<br>箭矢在碰到敌人或达最大飞行距离后爆炸，对爆炸范围内的所有敌人造成持续的<style=\"physical\">物理伤害</style>和引力效果，并施加<style=\"accent-gn\">易伤</style>和<linktext=3002><style=\"ItemQuality_5\">定身</style></linktext>。<br><br><size=22><style=\"tipsYellow\">攻略：不错的聚怪手段，在多目标的战斗中可以起到决定性的作用。</style></size>"
+    },
+    "1547": {
+      "name": "二连矢",
+      "description": "侧滑向敌人快速射出<style=\"accent-gn\">2</style>箭，造成<style=\"physical\">物理伤害</style>。<br>在<style=\"accent-gn\">光能重铸</style>状态下，<style=\"accent-gn\">二连矢</style>进化为<style=\"accent-gn\">光意·四连矢</style>，跃至空中射出强力<style=\"accent-gn\">4</style>箭，造成高额物理伤害，该伤害的暴击几率翻倍。<br>技能可以充能<style=\"accent-gn\">3</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：注意监控光能重铸状态，及时施放光意·四连矢。</style></size>"
+    },
+    "1548": {
+      "name": "爆炸射击",
+      "description": "朝目标发射一支<style=\"accent-gn\">爆炸箭矢</style>。<style=\"accent-gn\">爆炸箭矢</style>引爆后对周围目标造成<style=\"physical\">物理伤害</style>。<br><style=\"accent-gn\">职业技能</style>造成暴击伤害时，<style=\"accent-gn\">爆炸箭矢</style>充能<style=\"accent-gn\">1</style>层，达到<style=\"accent-gn\">5</style>层或<style=\"accent-gn\">6</style>秒后<style=\"accent-gn\">爆炸箭矢</style>引爆，每<style=\"accent-gn\">1</style>层充能使得<style=\"accent-gn\">爆炸箭矢</style>伤害+<style=\"accent-gn\">100%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：绑定驯鹰流装配，尽可能保证爆炸射击添加时打出更多的暴击伤害，以此强化该技能伤害。</style></size>"
+    },
+    "1549": {
+      "name": "狂野呼唤",
+      "description": "发出呼唤，召唤一只强有力宠物上场作战。<br><br><style=\"accent-gn\">召唤野狼</style>：召唤的野狼朝当前目标发动飞扑，对目标及其周围造成<style=\"physical\">物理伤害</style>，随后加入战斗，<style=\"accent-gn\">20</style>秒后消失。<br><br><style=\"accent-gn\">召唤猎鹰</style>：召唤的猎鹰朝前方直线范围发动俯冲攻击，对碰到的目标造成<style=\"physical\">物理伤害</style>，随后消失。<br><br><size=22><style=\"tipsYellow\">攻略：能在短时间内使得场上的宠物增加，建议在增益技能都准备好的时候施放该技能。</style></size>"
+    },
+    "1550": {
+      "name": "箭雨",
+      "description": "向敌人区域发射密集的箭矢雨，对区域内的敌人持续造成<style=\"physical\">物理伤害</style>。施放时会积攒<style=\"accent-gn\">20</style>点<style=\"accent-gn\">光能</style>，此外每命中1个敌人可额外获得<style=\"accent-gn\">2</style>点<style=\"accent-gn\">光能</style>，最多可额外获得<style=\"accent-gn\">10</style>点。<br><br><size=22><style=\"tipsYellow\">攻略：攻击多个敌方单位时获取量可增加。</style></size>"
+    },
+    "1551": {
+      "name": "生机涌动",
+      "description": "使得治疗型<style=\"accent-gn\">专精技能</style>立即冷却同时获得<style=\"accent-gn\">50</style>点<style=\"accent-gn\">能量</style>。在接下来的时间内自身被绿意笼罩，攻击力提升，技能消耗的<style=\"accent-gn\">能量</style>降低，并且每次施放<linktext=1527><style=\"ItemQuality_5\">生命绽放</style></linktext>可缩减治疗型<style=\"accent-gn\">专精技能</style>剩余冷却时间。"
+    },
+    "1552": {
+      "name": "花语回升",
+      "description": "技能持续引导的<style=\"accent-gn\">6</style>秒过程中，每0.5秒召唤从天而降的种子对周围敌人造成<style=\"magic\">魔法伤害</style>，同时为周围至多<style=\"accent-gn\">10</style>名友方目标（优先队友）回复生命同时使其受到伤害减免<style=\"accent-gn\">25%</style>。"
+    },
+    "1553": {
+      "name": "风姿卓绝",
+      "description": "施放后震慑前方的敌人，对其造成一次<style=\"physical\">物理伤害</style>。效果激活期间持续回复<style=\"accent-gn\">105</style>点<style=\"accent-gn\">勇气值</style>，并使自身力量提高。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：勇气较低时施放。</style></size>"
+    },
+    "1554": {
+      "name": "飞雷神",
+      "description": "消耗当前拥有的所有<style=\"accent-gn\">雷之印</style>，向前方大范围区域连续斩击，造成<style=\"physical\">物理伤害</style>。每消耗<style=\"accent-gn\">1</style>个<style=\"accent-gn\">雷之印</style>可使伤害增加<style=\"accent-gn\">25%</style>。斩击期间自身<style=\"accent-gn\">免疫所有伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：搭配居合斩流派的核心技能，尽量在目标数量有3个以上，并且雷之印达上限时施放，最大化伤害。</style></size>"
+    },
+    "1555": {
+      "name": "精神凝聚",
+      "description": "使自身进入精神凝聚状态，持续时间内急速大幅提升，且特殊攻击冷却时间减少<style=\"accent-gn\">50%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：绑定驯鹰流装配，在要进入光能重铸状态前施放，最大化利用率。</style></size>"
+    },
+    "1556": {
+      "name": "超高出力",
+      "description": "解放太刀能量，每次攻击均会解开镰刀的形态，每次攻击都可造成更高的<style=\"physical\">物理伤害</style>，并可直接获得<style=\"accent-gn\">1</style>个<style=\"accent-gn\">雷之印</style>。<br>技能可以充能<style=\"accent-gn\">5</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：注意在雷之印不溢出的情况下，常态保持这个技能至少有1层在进行充能。</style></size>"
+    },
+    "1557": {
+      "name": "光意·四连矢",
+      "description": "侧滑向敌人快速射出<style=\"accent-gn\">2</style>箭，造成<style=\"physical\">物理伤害</style>。<br>在<style=\"accent-gn\">光能重铸</style>状态下，<style=\"accent-gn\">二连矢</style>进化为<style=\"accent-gn\">光意·四连矢</style>，跃至空中射出强力<style=\"accent-gn\">4</style>箭，造成高额物理伤害，该伤害的暴击几率翻倍。<br>技能可以充能<style=\"accent-gn\">3</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：注意监控光能重铸状态，及时施放光意·四连矢。</style></size>"
+    },
+    "1558": {
+      "name": "水之涡流",
+      "description": "在目标脚下展开一个水旋涡，持续吸引一定范围内的敌人并造成<style=\"magic\">魔法伤害</style>，造成伤害时，每命中<style=\"accent-gn\">1</style>个目标回复<style=\"accent-gn\">2</style>点<style=\"accent-gn\">寒冰能量</style>，每次命中最多回复10点<style=\"accent-gn\">寒冰能量</style>。<br><br><style=\"accent-gn\">极寒·水之旋涡</style><br>在<style=\"accent-gn\">极寒</style>状态下，水旋涡在结束时会冻结并产生剧烈爆炸，对范围内的所有敌人造成一次更高<style=\"magic\">魔法伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：搭配射线流在合适的时机施放可回复可观的寒冰能量。</style></size>"
+    },
+    "1559": {
+      "name": "圣剑",
+      "description": "消耗<style=\"accent-gn\">3</style>枚<style=\"accent-gn\">圣令</style>，从目标脚下向上穿出一柄利剑造成<style=\"physical\">物理伤害</style>，同时获得<style=\"accent-gn\">5</style>层<style=\"accent-gn\">光铸屏障</style>。<br><br><style=\"accent-gn\">光铸屏障</style>：每层使自身最终生命上限+<style=\"accent-gn\">2%</style>。最多可以拥有<style=\"accent-gn\">10</style>层光铸屏障，受到任何伤害都会消耗<style=\"accent-gn\">1</style>层。持续<style=\"accent-gn\">25</style>秒或所有层数被消耗完为止，每次获得层数时重置持续时间。<br><br><size=22><style=\"tipsYellow\">攻略：拥有不俗伤害能力的同时，可以最大效率的补充光铸屏障。</style></size>"
+    },
+    "1560": {
+      "name": "圣环",
+      "description": "在脚下灌注圣光区域，在圣光区域中自身每<style=\"accent-gn\">1</style>秒获得治疗、对队友造成少量治疗，并对敌人造成<style=\"physical\">物理伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：持续性的伤害和治疗能力，在阵地战中尽可能的高覆盖。</style></size>"
+    },
+    "1561": {
+      "name": "英勇盾击",
+      "description": "消耗<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">圣令</style>，立即对前方进行一次猛烈的盾击，对敌人造成<style=\"physical\">物理伤害</style>，并使自身物理防御力提高，最多可叠加<style=\"accent-gn\">3</style>次。<br><br><size=22><style=\"tipsYellow\">攻略：注意监控英勇盾击附加的物理防御提升，尽可能的保持该效果的持续。</style></size>"
+    },
+    "1562": {
+      "name": "投掷盾牌",
+      "description": "将盾牌旋转投出，对盾牌碰到的敌人造成<style=\"physical\">物理伤害</style>并<linktext=3000><style=\"ItemQuality_5\">打断</style></linktext>目标，并使其在接下来<style=\"accent-gn\">10</style>秒内，对自身造成的所有伤害降低。<br><br><size=22><style=\"tipsYellow\">攻略：提升生存能力的同时大范围的伤害在多目标环境下可以有着不错的表现，可以根据自身的生存条件或者战斗环境进行施放。</style></size>"
+    },
+    "1563": {
+      "name": "清算",
+      "description": "消耗<style=\"accent-gn\">2</style>枚<style=\"accent-gn\">圣令</style>，挥舞剑刃对自身周围的敌人造成<style=\"physical\">物理伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：足够强大的伤害技能，在生存得到保证的时候进行施放。</style></size>"
+    },
+    "1564": {
+      "name": "裁决",
+      "description": "消耗<style=\"accent-gn\">45</style>点<style=\"accent-gn\">光明能量</style>，召唤圣光轰炸目标区域，对敌人造成<style=\"physical\">物理伤害</style>，并根据当前已损失生命回复自身生命值（最低回复<style=\"accent-gn\">5%</style>最大生命值）。<br><br><size=22><style=\"tipsYellow\">攻略：基于技能的机制，保证安全的前提下尽可能在生命值足够低时施放获得可观的生命回复。</style></size>"
+    },
+    "1565": {
+      "name": "圣光守卫",
+      "description": "召唤圣光守卫自己，持续时间内自动反制<style=\"accent-gn\">危险技能</style>同时获得<style=\"accent-gn\">物理防御</style>、<style=\"accent-gn\">伤害减免</style>提升。期间如果受到致死伤害，则消耗掉此状态并免除死亡，立刻回复<style=\"accent-gn\">25%</style><style=\"accent-gn\">生命值</style>。<br><br><size=22><style=\"tipsYellow\">攻略：强大的减伤效果和免除死亡机制，在面对巨大的生存压力时，可以起到不错的效果。</style></size>"
+    },
+    "1566": {
+      "name": "先锋打击",
+      "description": "消耗<style=\"accent-gn\">1</style>枚<style=\"accent-gn\">圣令</style>，短暂蓄力后对前方进行一次猛烈的横扫，对敌人造成<style=\"physical\">物理伤害</style>，同时获得<style=\"accent-gn\">2</style>层<style=\"accent-gn\">光铸屏障</style>。<br><br><style=\"accent-gn\">光铸屏障</style>：每层使自身最终生命上限+<style=\"accent-gn\">2%</style>。最多可以拥有<style=\"accent-gn\">10</style>层光铸屏障，受到任何伤害都会消耗<style=\"accent-gn\">1</style>层。持续<style=\"accent-gn\">25</style>秒或所有层数被消耗完为止，每次获得层数时重置持续时间。<br><br><size=22><style=\"tipsYellow\">攻略：在保证光铸屏障充足的情况下，穿插造成伤害，需要注意先锋追击的派生效果第一时间施放，可以带来额外的效果。</style></size>"
+    },
+    "1567": {
+      "name": "冷酷征伐",
+      "description": "消耗最多<style=\"accent-gn\">8</style>层<style=\"accent-gn\">光铸屏障</style>，召唤持续的光能快速盘旋在自身身边。每<style=\"accent-gn\">1</style>秒对周围的敌人造成<style=\"physical\">物理伤害</style>，伤害间隔受到攻击速度属性影响，获得<style=\"accent-gn\">1</style>层<style=\"accent-gn\">光铸屏障</style>。<br>每对<style=\"accent-gn\">1</style>个目标造成伤害为自身回复<style=\"accent-gn\">1%</style>最大生命值（最多不超过<style=\"accent-gn\">5%</style>）。施放时每消耗<style=\"accent-gn\">1</style>层<style=\"accent-gn\">光铸屏障</style>，效果持续<style=\"accent-gn\">2</style>秒，最多持续<style=\"accent-gn\">16</style>秒。<br><br><style=\"accent-gn\">光铸屏障</style>：每层使自身最终生命上限+<style=\"accent-gn\">2%</style>。最多可以拥有<style=\"accent-gn\">10</style>层光铸屏障，受到任何伤害都会消耗<style=\"accent-gn\">1</style>层。持续<style=\"accent-gn\">25</style>秒或所有层数被消耗完为止，每次获得层数时重置持续时间。<br><br><size=22><style=\"tipsYellow\">攻略：消耗光铸屏障来造成伤害和回复生命，在光铸屏障充足时施放可以达到良好的保护效果和爆发伤害效果。</style></size>"
+    },
+    "1568": {
+      "name": "光明决心",
+      "description": "获得必胜的决心，向周围<style=\"accent-gn\">10</style>米内敌方目标（距离最近优先）投掷<style=\"accent-gn\">5</style>个盾牌造成<style=\"physical\">物理伤害</style>并<linktext=3000><style=\"ItemQuality_5\">打断</style></linktext>目标，之后每<style=\"accent-gn\">2</style>秒投掷<style=\"accent-gn\">1</style>次同时获得<style=\"accent-gn\">10</style>点<style=\"accent-gn\">光明能量</style>。并在之后<style=\"accent-gn\">10</style>秒时间内减免每次受到的伤害，减免量为自身最大生命值的一定比例，期间自动反制<style=\"accent-gn\">危险技能</style>。<br><br><size=22><style=\"tipsYellow\">攻略：施放不需要消耗光明能量和圣令，且有不错的生存能力，通常可作为起手式进行施放。</style></size>"
+    },
+    "1569": {
+      "name": "激荡勇气旋律",
+      "description": "这是一首舒缓的曲目，当<style=\"accent-gn\">演奏能量</style>大于<style=\"accent-gn\">15</style>时可以开启演奏，同时可以随心所欲的结束，每次开始还可以放置一个<style=\"accent-gn\">音箱</style>进行协奏（<style=\"accent-gn\">鸣奏·愈合乐章</style>结束<style=\"accent-gn\">音箱</style>消失），冷却时间<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">鸣奏·愈合乐章</style>演奏期间每<style=\"accent-gn\">1</style>秒消耗<style=\"accent-gn\">3</style>点<style=\"accent-gn\">演奏能量</style>，同时每间隔<style=\"accent-gn\">1</style>秒为<style=\"accent-gn\">10</style>名友方（优先队友）回复生命值，治疗间隔受到急速属性影响。<br><style=\"accent-gn\">音箱</style>：每当施放<style=\"accent-gn\">愈合节拍</style>、<style=\"accent-gn\">激涌五重奏</style>、<style=\"accent-gn\">升格·劲爆全场</style>、<style=\"accent-gn\">升格·巡演曲</style>时，<style=\"accent-gn\">音箱</style>将同步施放一次该技能。。<br><br><style=\"accent-gn\">演奏能量</style>：演奏鸣奏技能（<style=\"accent-gn\">鸣奏·英勇乐章</style>、<style=\"accent-gn\">鸣奏·愈合乐章</style>）所需的能量，每<style=\"accent-gn\">1</style>秒回复<style=\"accent-gn\">1</style>点。<br><br><size=22><style=\"tipsYellow\">攻略：要熟练掌握音箱的放置位置和时机，使得音箱触发的专精型治疗技能施放频率尽可能高覆盖的友方目标尽可能的多。</size></style>"
+    },
+    "1570": {
+      "name": "热力喷涌",
+      "description": "消耗<style=\"accent-gn\">3</style>个<style=\"accent-gn\">演奏热情</style>，强劲地挥舞吉他对敌人造成强有力的<style=\"magic\">魔法伤害</style>。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：覆盖率较高的伤害技能，保证演奏热情不溢出时施放。</size></style>"
+    },
+    "1571": {
+      "name": "节奏涡流",
+      "description": "嗨翻时刻即将到来，高高跃起用吉他猛击地面，在目标位置迸发出火花对范围内敌方目标造成<style=\"magic\">魔法伤害</style>。<br>增幅节拍每造成一次伤害（命中多个目标最多计数一次）使得<style=\"accent-gn\">聚合乐章</style>迸发的攻击段数+<style=\"accent-gn\">1</style>，最高+<style=\"accent-gn\">3</style>。<br><br><size=22><style=\"tipsYellow\">攻略：需要充分结合增幅节拍加强攻击段数的机制，尽可能的保证每一次聚合乐章都拥有较高的伤害效率。</size></style>"
+    },
+    "1572": {
+      "name": "激昂滑跪连奏",
+      "description": "在接下来一段时间内提升自身<style=\"accent-gn\">魔法攻击力</style>，同时强化你接下来施放的一个技能。<br><br><style=\"accent-gn\">特殊攻击</style>：接下来<style=\"accent-gn\">2</style>次特殊攻击不消耗<style=\"accent-gn\">演奏热情</style>。<br><linktext=1607><style=\"ItemQuality_5\">激涌五重奏</style></linktext>：治疗次数翻倍。<br><linktext=1614><style=\"ItemQuality_5\">鸣奏·英勇乐章</style></linktext>：触发<linktext=1615><style=\"ItemQuality_5\">猛烈挥击</style></linktext>的时间减半。<br><linktext=1605><style=\"ItemQuality_5\">聚合乐章</style></linktext>：造成的伤害翻倍。<br><linktext=1608><style=\"ItemQuality_5\">热情挥洒</style></linktext>：无需吟唱，直接以最高形态施放。<br><br><size=22><style=\"tipsYellow\">攻略：需要对战斗环境以及自身流派进行合理的判断，在合适的时机施放合适的增强技能。</size></style>"
+    },
+    "1573": {
+      "name": "火力全开",
+      "description": "这是一首充满热情的曲目，当<style=\"accent-gn\">演奏能量</style>大于<style=\"accent-gn\">15</style>时可以开启演奏，只要开始演奏将无法停止，冷却时间<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">鸣奏·英勇乐章</style>演奏期间每<style=\"accent-gn\">1</style>秒消耗<style=\"accent-gn\">6</style>点<style=\"accent-gn\">演奏能量</style>，同时每间隔<style=\"accent-gn\">3</style>秒为<style=\"accent-gn\">10</style>名友方（优先队友）回复生命值，治疗间隔受到急速属性影响。<br><style=\"accent-gn\">鸣奏·英勇乐章</style>演奏期间每演奏<style=\"accent-gn\">7</style>秒，你的<style=\"accent-gn\">琴弦叩击</style>派生为<linktext=1615><style=\"ItemQuality_5\">猛烈挥击</style></linktext>。<br><style=\"accent-gn\">鸣奏·英勇乐章</style>演奏期间<style=\"accent-gn\">安和曲</style>的转换效果+<style=\"accent-gn\">50%</style>。<br><br><style=\"accent-gn\">演奏能量</style>：演奏鸣奏技能（<style=\"accent-gn\">鸣奏·英勇乐章</style>、<style=\"accent-gn\">鸣奏·愈合乐章</style>）所需的能量，每<style=\"accent-gn\">1</style>秒回复<style=\"accent-gn\">1</style>点。<br><br><size=22><style=\"tipsYellow\">攻略：需要注意技能是无法主动结束的，需要掌握开启时机，使得鸣奏·英勇乐章对于安和曲以及猛烈挥击的效率最大化。</size></style>"
+    },
+    "1574": {
+      "name": "活力复苏",
+      "description": "消耗<style=\"accent-gn\">3</style>个<style=\"accent-gn\">演奏热情</style>，弹奏出拥有治愈能力的曲目，治疗自己和周围生命值最低的友方目标（优先队友），治疗量与自己的魔法攻击相关（且额外附加<style=\"accent-gn\">3%</style>目标生命值上限的固定治疗量）。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：覆盖率较高的治疗技能，保证演奏热情不溢出时施放。</size></style>"
+    },
+    "1575": {
+      "name": "怒放再生旋律",
+      "description": "这是一首同粉丝互动再适合不过的曲目了。为<style=\"accent-gn\">10</style>名友方目标（优先队友）施加<style=\"accent-gn\">安可</style>效果，持续<style=\"accent-gn\">10</style>秒。<br><style=\"accent-gn\">安可</style>：<style=\"accent-gn\">霸体</style>，每次施放伤害或者治疗<style=\"accent-gn\">专精技能</style>时有<style=\"accent-gn\">50%</style>固定几率触发一记<style=\"accent-gn\">安可琴弦</style>，对当前目标造成伤害或对生命最低的友方目标（优先队友）回复生命（优先触发输出）。<br><br><size=22><style=\"tipsYellow\">攻略：尽可能的配合团队的爆发使用，在队友最好的状态施放，可最大化安可的伤害和治疗效果。</size></style>"
+    },
+    "1576": {
+      "name": "激情狂想",
+      "description": "让激情再次涌动！消耗<style=\"accent-gn\">3</style>个<style=\"accent-gn\">演奏热情</style>，让疲惫的人们再次燃动起来。连续的弹奏为范围内的<style=\"accent-gn\">10</style>名友方（优先队友）回复生命值并附带坚韧和弦，每层坚韧和弦额外提升<style=\"accent-gn\">0.5</style>%生命上限，最多额外提升<style=\"accent-gn\">2.5</style>%生命上限，持续<style=\"accent-gn\">5</style>秒（层数叠加满5层后无法刷新持续时间）。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：拥有最高的治疗量，精准的判定团队的健康状况，使得这部分治疗量尽可能的不溢出。</size></style>"
+    },
+    "1577": {
+      "name": "治愈音浪",
+      "description": "我的激情仍在燃烧！消耗<style=\"accent-gn\">5</style>个<style=\"accent-gn\">演奏热情</style>，在脚下摊开一辐形态范围随机的即兴涂鸦，治愈<style=\"accent-gn\">10</style>名友方（优先队友），同时对范围内的敌方目标造成<style=\"magic\">魔法伤害</style>。<br>自身处于涂鸦内时，获得<style=\"accent-gn\">10%</style>火元素加成。<br>涂鸦同时最多只存在<style=\"accent-gn\">1</style>个。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：拥有最大范围的治疗和伤害效果，尽可能保证冷却结束后施放。</size></style>"
+    },
+    "1578": {
+      "name": "爆裂音符",
+      "description": "揉捻琴弦，随后朝前方喷出炽热的火焰对范围内敌方目标造成<style=\"magic\">魔法伤害</style>。<br>蓄力会使技能范围和伤害产生变化。<br><style=\"accent-gn\">1</style>阶：吟唱<style=\"accent-gn\">0.7</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围。<br><style=\"accent-gn\">2</style>阶：吟唱<style=\"accent-gn\">1.4</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围，伤害提升<style=\"accent-gn\">50%</style>。<br><style=\"accent-gn\">3</style>阶：吟唱<style=\"accent-gn\">2.1</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围，伤害提升<style=\"accent-gn\">100%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：高额的伤害，结合天赋效果搭配音箱施放，可以获得高质量的伤害和治疗效果，需要注意施放过程中的环境安全。</size></style>"
+    },
+    "1579": {
+      "name": "升格·劲爆全场",
+      "description": "作为一个狂热的音乐爱好者，你的激情弹奏立即获得<style=\"accent-gn\">5</style>个<style=\"accent-gn\">演奏热情</style>，同时将感染身边的友方目标，为他们带来治疗效果的同时使其获得一个持续<style=\"accent-gn\">10</style>秒的<style=\"accent-gn\">护盾</style>，并对周围敌方目标造成<style=\"magic\">魔法伤害</style>。<br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：紧急情况下强大的护盾可以减轻团队的生存压力，把握好施放时机。</size></style>"
+    },
+    "1580": {
+      "name": "怒涛射击",
+      "description": "持续拉弓向敌人射出若干箭矢，造成<style=\"physical\">物理伤害</style>。可再次施放提前结束。<br><style=\"accent-gn\">光能重铸</style>状态下会暂停光能消耗直到下次施放特殊攻击，并在命中敌人时回复最多<style=\"accent-gn\">42</style>点<style=\"accent-gn\">光能</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在光能重铸状态下施放，停止光能消耗并获取光能。</style></size>"
+    },
+    "1581": {
+      "name": "光能轰炸",
+      "description": "蓄力积攒光能箭矢，向敌人区域一次性发射。对区域内的敌人持续造成<style=\"physical\">物理伤害</style>，伤害间隔受到攻击速度属性影响。<br>在<style=\"accent-gn\">光能重铸</style>状态下会暂停光能消耗，且会积攒更多箭矢，额外造成<style=\"accent-gn\">50%</style><style=\"physical\">物理伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在光能重铸状态下使用，不仅可获得增伤，还可暂停光能消耗。</style></size>"
+    },
+    "1582": {
+      "name": "聚能射击",
+      "description": "原地蓄力后向敌人方向发射一根有贯穿能力的箭矢，对飞行路径上的所有敌人造成<style=\"physical\">物理伤害</style>并附带<style=\"accent-gn\">击退</style>。无法击退拥有韧性值的目标，但会削减其韧性值。<style=\"accent-gn\">聚能射击</style>造成的暴击伤害+<style=\"accent-gn\">100%</style>。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br>在<style=\"accent-gn\">光能重铸</style>状态下施放无需蓄力。<br><br><size=22><style=\"tipsYellow\">攻略：面对需要击退韧性条的敌人时使用，同时也具有很高的范围伤害能力。</style></size>"
+    },
+    "1583": {
+      "name": "加速生长",
+      "description": "为自己附加加速效果，持续时间内获得技能冷却缩减和魔法攻击力提升。<br><br><size=22><style=\"tipsYellow\">攻略：在其他技能进入冷却后施放。</style></size>"
+    },
+    "1584": {
+      "name": "坠龙闪",
+      "description": "强化后的<linktext=1501><style=\"ItemQuality_5\">一闪</style></linktext>，消耗当前拥有的所有<style=\"accent-gn\">雷之印</style>，以毁灭性的姿态发起斩击，对敌人造成<style=\"accent-gn\">510%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<linktext=1501><style=\"ItemQuality_5\">一闪</style></linktext>技能升级/进阶进行成长，每消耗<style=\"accent-gn\">1</style>个<style=\"accent-gn\">雷之印</style>可使伤害增加<style=\"accent-gn\">25%</style>。"
+    },
+    "1585": {
+      "name": "神影斩",
+      "description": "强化后的<linktext=1554><style=\"ItemQuality_5\">飞雷神</style></linktext>，消耗当前拥有的所有<style=\"accent-gn\">雷之印</style>，引动更狂暴的雷霆，对敌人造成<style=\"accent-gn\">450%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<linktext=1554><style=\"ItemQuality_5\">飞雷神</style></linktext>技能升级/进阶进行成长，每消耗<style=\"accent-gn\">1</style>个<style=\"accent-gn\">雷之印</style>可使伤害增加<style=\"accent-gn\">25%</style>。"
+    },
+    "1586": {
+      "name": "雷霆之镰",
+      "description": "快速横劈一柄雷霆凝聚的镰刀，对敌人造成<style=\"accent-gn\">300%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">霹雳连斩</style>技能升级/进阶进行成长。"
+    },
+    "1587": {
+      "name": "神罚之镰",
+      "description": "向前方奋力竖劈一柄缠绕毁灭之力的镰刀，对敌人造成<style=\"accent-gn\">1500%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。"
+    },
+    "1588": {
+      "name": "雷切",
+      "description": "消耗当前拥有的所有<style=\"accent-gn\">雷之印</style>，向前方快速劈出<style=\"accent-gn\">5</style>道刀气，对沿途的敌人造成<style=\"accent-gn\">700%</style>攻击力<style=\"magic\">物理伤害</style>，跟随<style=\"accent-gn\">特殊攻击</style>技能升级/进阶进行成长。"
+    },
+    "1589": {
+      "name": "极·岚切",
+      "description": "强化后的<linktext=1524><style=\"ItemQuality_5\">飞鸟投</style></linktext>，跃至空中聚集风之<style=\"accent-gn\">力量</style>，发出一支猛烈的风刃长矛。对范围内的所有敌人造成<style=\"accent-gn\">750%</style>攻击力<style=\"physical\">物理伤害</style>并大量削弱韧性值，跟随<linktext=1524><style=\"ItemQuality_5\">飞鸟投</style></linktext>技能升级/进阶进行成长。<br>施放后立即获得<style=\"accent-gn\">3</style>层<linktext=1152><style=\"ItemQuality_5\">锐利</style></linktext>。"
+    },
+    "1590": {
+      "name": "神影螺旋",
+      "description": "强化后的<linktext=1523><style=\"ItemQuality_5\">螺旋击刺</style></linktext>，刺出终极一击对范围内的敌人持续造成<style=\"accent-gn\">1265%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<linktext=1523><style=\"ItemQuality_5\">螺旋击刺</style></linktext>技能升级/进阶进行成长。"
+    },
+    "1591": {
+      "name": "龙击炮",
+      "description": "戳刺，随后后跳爆发强劲风压打出终结一击，对敌人造成<style=\"accent-gn\">380%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。<br>施放后立即回复<style=\"accent-gn\">20</style>点<style=\"accent-gn\">勇气</style>。"
+    },
+    "1592": {
+      "name": "疾驰锋刃",
+      "description": "对敌方目标造成<style=\"accent-gn\">100%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。<br>施放后立即回复<style=\"accent-gn\">10</style>点<style=\"accent-gn\">勇气</style>。"
+    },
+    "1593": {
+      "name": "鹿之奔袭",
+      "description": "对路径上碰到的敌方目标造成<style=\"accent-gn\">500%</style>攻击力<style=\"magic\">魔法伤害</style>，对碰到的友方目标回复<style=\"accent-gn\">100%</style>攻击力生命，跟随<style=\"accent-gn\">特殊攻击</style>技能升级/进阶进行成长，施放后使得灌注立即冷却。"
+    },
+    "1594": {
+      "name": "碎星崩裂",
+      "description": "强化后的<linktext=1537><style=\"ItemQuality_5\">碎星冲</style></linktext>，奋力飞向目标，造成<style=\"accent-gn\">500%</style>攻击力<style=\"physical\">物理伤害</style>并击飞目标，跟随<linktext=1537><style=\"ItemQuality_5\">碎星冲</style></linktext>技能升级/进阶进行成长。<br>获得的<style=\"accent-gn\">怒气</style>值翻倍，且必定使自身<linktext=1135><style=\"ItemQuality_5\">激怒</style></linktext>。"
+    },
+    "1595": {
+      "name": "崩裂",
+      "description": "举起武器进行势大力沉的一击，造成<style=\"accent-gn\">300%</style>攻击力<style=\"physical\">物理伤害</style>并击飞目标，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。<br>施放时获得<style=\"accent-gn\">25</style>点<style=\"accent-gn\">怒气</style>"
+    },
+    "1597": {
+      "name": "巨岩轰击",
+      "description": "强化后的<linktext=1539><style=\"ItemQuality_5\">岩怒之击</style></linktext>，凝聚巨岩之力，召唤一枚巨大的岩石从目标上方砸下，对范围内敌方目标造成<style=\"accent-gn\">800%</style>攻击力<style=\"physical\">物理伤害</style>且必定暴击，跟随<linktext=1539><style=\"ItemQuality_5\">岩怒之击</style></linktext>技能升级/进阶进行成长。"
+    },
+    "1598": {
+      "name": "断罪",
+      "description": "对敌方目标造成<style=\"accent-gn\">200%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。"
+    },
+    "1599": {
+      "name": "强化断罪",
+      "description": "强化后的<linktext=1563><style=\"ItemQuality_5\">断罪</style></linktext>，伤害等于<linktext=1563><style=\"ItemQuality_5\">断罪</style></linktext>的<style=\"accent-gn\">2</style>倍。"
+    },
+    "1600": {
+      "name": "炽热清算",
+      "description": "强化后的<linktext=1563><style=\"ItemQuality_5\">清算</style></linktext>，伤害等于<linktext=1563><style=\"ItemQuality_5\">清算</style></linktext>的<style=\"accent-gn\">2</style>倍且初始暴击伤害为<style=\"accent-gn\">250%</style>，不消耗<style=\"accent-gn\">圣令</style>但仍可产生神圣<style=\"accent-gn\">能量</style>。"
+    },
+    "1601": {
+      "name": "暴风箭矢",
+      "description": "快速拉弓对目标射出<style=\"accent-gn\">5</style>支箭，每支箭对敌人造成<style=\"physical\">物理伤害</style>并积攒<style=\"accent-gn\">1</style>点<style=\"accent-gn\">光能</style>。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br><style=\"accent-gn\">光能</style>达到上限时，<style=\"accent-gn\">暴风箭矢</style>立即获得<style=\"accent-gn\">2</style>层充能，同时充能层数提升为<style=\"accent-gn\">5</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：暴风箭矢在进入光能重铸状态后的5次施放后还是会继续充能的，可以搭配其他技能给暴风箭矢的充能争取时间。</style></size>"
+    },
+    "1602": {
+      "name": "光意·怒涛射击",
+      "description": "向目标射出一支巨大的箭矢，造成<style=\"accent-gn\">1000%</style>攻击力<style=\"physical\">物理伤害</style>。"
+    },
+    "1603": {
+      "name": "烈焰狂想",
+      "description": "我的激情仍在燃烧！消耗<style=\"accent-gn\">5</style>个<style=\"accent-gn\">演奏热情</style>，在脚下摊开一辐形态范围随机的即兴涂鸦，治愈<style=\"accent-gn\">10</style>名友方（优先队友），同时对范围内的敌方目标造成<style=\"magic\">魔法伤害</style>。<br>自身处于涂鸦内时，获得<style=\"accent-gn\">10%</style>火元素加成。<br>涂鸦同时最多只存在<style=\"accent-gn\">1</style>个。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：拥有最大范围的治疗和伤害效果，尽可能保证冷却结束后施放。</size></style>"
+    },
+    "1604": {
+      "name": "增幅节拍",
+      "description": "消耗<style=\"accent-gn\">3</style>个<style=\"accent-gn\">演奏热情</style>，强劲地挥舞吉他对敌人造成强有力的<style=\"magic\">魔法伤害</style>。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：覆盖率较高的伤害技能，保证演奏热情不溢出时施放。</size></style>"
+    },
+    "1605": {
+      "name": "聚合乐章",
+      "description": "嗨翻时刻即将到来，高高跃起用吉他猛击地面，在目标位置迸发出火花对范围内敌方目标造成<style=\"magic\">魔法伤害</style>。<br>增幅节拍每造成一次伤害（命中多个目标最多计数一次）使得<style=\"accent-gn\">聚合乐章</style>迸发的攻击段数+<style=\"accent-gn\">1</style>，最高+<style=\"accent-gn\">3</style>。<br><br><size=22><style=\"tipsYellow\">攻略：需要充分结合增幅节拍加强攻击段数的机制，尽可能的保证每一次聚合乐章都拥有较高的伤害效率。</size></style>"
+    },
+    "1606": {
+      "name": "鸣奏·愈合乐章",
+      "description": "这是一首舒缓的曲目，当<style=\"accent-gn\">演奏能量</style>大于<style=\"accent-gn\">15</style>时可以开启演奏，同时可以随心所欲的结束，每次开始还可以放置一个<style=\"accent-gn\">音箱</style>进行协奏（<style=\"accent-gn\">鸣奏·愈合乐章</style>结束<style=\"accent-gn\">音箱</style>消失），冷却时间<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">鸣奏·愈合乐章</style>演奏期间每<style=\"accent-gn\">1</style>秒消耗<style=\"accent-gn\">3</style>点<style=\"accent-gn\">演奏能量</style>，同时每间隔<style=\"accent-gn\">1</style>秒为<style=\"accent-gn\">10</style>名友方（优先队友）回复生命值，治疗间隔受到急速属性影响。<br><style=\"accent-gn\">音箱</style>：每当施放<style=\"accent-gn\">愈合节拍</style>、<style=\"accent-gn\">激涌五重奏</style>、<style=\"accent-gn\">升格·劲爆全场</style>、<style=\"accent-gn\">升格·巡演曲</style>时，<style=\"accent-gn\">音箱</style>将同步施放一次该技能。。<br><br><style=\"accent-gn\">演奏能量</style>：演奏鸣奏技能（<style=\"accent-gn\">鸣奏·英勇乐章</style>、<style=\"accent-gn\">鸣奏·愈合乐章</style>）所需的能量，每<style=\"accent-gn\">1</style>秒回复<style=\"accent-gn\">1</style>点。<br><br><size=22><style=\"tipsYellow\">攻略：要熟练掌握音箱的放置位置和时机，使得音箱触发的专精型治疗技能施放频率尽可能高覆盖的友方目标尽可能的多。</size></style>"
+    },
+    "1607": {
+      "name": "激涌五重奏",
+      "description": "让激情再次涌动！消耗<style=\"accent-gn\">3</style>个<style=\"accent-gn\">演奏热情</style>，让疲惫的人们再次燃动起来。连续的弹奏为范围内的<style=\"accent-gn\">10</style>名友方（优先队友）回复生命值并附带坚韧和弦，每层坚韧和弦额外提升<style=\"accent-gn\">0.5</style>%生命上限，最多额外提升<style=\"accent-gn\">2.5</style>%生命上限，持续<style=\"accent-gn\">5</style>秒（层数叠加满5层后无法刷新持续时间）。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：拥有最高的治疗量，精准的判定团队的健康状况，使得这部分治疗量尽可能的不溢出。</size></style>"
+    },
+    "1608": {
+      "name": "热情挥洒",
+      "description": "揉捻琴弦，随后朝前方喷出炽热的火焰对范围内敌方目标造成<style=\"magic\">魔法伤害</style>。<br>蓄力会使技能范围和伤害产生变化。<br><style=\"accent-gn\">1</style>阶：吟唱<style=\"accent-gn\">0.7</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围。<br><style=\"accent-gn\">2</style>阶：吟唱<style=\"accent-gn\">1.4</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围，伤害提升<style=\"accent-gn\">50%</style>。<br><style=\"accent-gn\">3</style>阶：吟唱<style=\"accent-gn\">2.1</style>秒，前方<style=\"accent-gn\">8</style>米半径扇形范围，伤害提升<style=\"accent-gn\">100%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：高额的伤害，结合天赋效果搭配音箱施放，可以获得高质量的伤害和治疗效果，需要注意施放过程中的环境安全。</size></style>"
+    },
+    "1609": {
+      "name": "愈合节拍",
+      "description": "消耗<style=\"accent-gn\">3</style>个<style=\"accent-gn\">演奏热情</style>，弹奏出拥有治愈能力的曲目，治疗自己和周围生命值最低的友方目标（优先队友），治疗量与自己的魔法攻击相关（且额外附加<style=\"accent-gn\">3%</style>目标生命值上限的固定治疗量）。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：覆盖率较高的治疗技能，保证演奏热情不溢出时施放。</size></style>"
+    },
+    "1610": {
+      "name": "万众瞩目",
+      "description": "在接下来一段时间内提升自身<style=\"accent-gn\">魔法攻击力</style>，同时强化你接下来施放的一个技能。<br><br><style=\"accent-gn\">特殊攻击</style>：接下来<style=\"accent-gn\">2</style>次特殊攻击不消耗<style=\"accent-gn\">演奏热情</style>。<br><linktext=1607><style=\"ItemQuality_5\">激涌五重奏</style></linktext>：治疗次数翻倍。<br><linktext=1614><style=\"ItemQuality_5\">鸣奏·英勇乐章</style></linktext>：触发<linktext=1615><style=\"ItemQuality_5\">猛烈挥击</style></linktext>的时间减半。<br><linktext=1605><style=\"ItemQuality_5\">聚合乐章</style></linktext>：造成的伤害翻倍。<br><linktext=1608><style=\"ItemQuality_5\">热情挥洒</style></linktext>：无需吟唱，直接以最高形态施放。<br><br><size=22><style=\"tipsYellow\">攻略：需要对战斗环境以及自身流派进行合理的判断，在合适的时机施放合适的增强技能。</size></style>"
+    },
+    "1611": {
+      "name": "升格·劲爆全场",
+      "description": "作为一个狂热的音乐爱好者，你的激情弹奏立即获得<style=\"accent-gn\">5</style>个<style=\"accent-gn\">演奏热情</style>，同时将感染身边的友方目标，为他们带来治疗效果的同时使其获得一个持续<style=\"accent-gn\">10</style>秒的<style=\"accent-gn\">护盾</style>，并对周围敌方目标造成<style=\"magic\">魔法伤害</style>。<br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：紧急情况下强大的护盾可以减轻团队的生存压力，把握好施放时机。</size></style>"
+    },
+    "1612": {
+      "name": "升格·无限狂想",
+      "description": "立刻施放一个强有力的音域对周围敌方目标造成<style=\"magic\">魔法伤害</style>，为友方目标带来治疗效果的同时施加一个持续<style=\"accent-gn\">10</style>秒的<style=\"accent-gn\">护盾</style>。同时<style=\"accent-gn\">演奏热情</style>上限翻倍，并获得满额<style=\"accent-gn\">演奏热情</style>。<br><br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><size=22><style=\"tipsYellow\">攻略：紧急情况下强大的护盾可以减轻团队的生存压力，把握好施放时机，获得满额演奏热情后可开启爆发。</size></style>"
+    },
+    "1613": {
+      "name": "升格·巡演曲",
+      "description": "边走边进行演奏的巡回曲目。演奏的持续期间，为友方持续回复生命。同时对周围敌方目标造成<style=\"magic\">魔法伤害</style>。每治疗<style=\"accent-gn\">1</style>名友方目标使得治疗效果+<style=\"accent-gn\">6%</style>，最高+<style=\"accent-gn\">30%</style>；每击中<style=\"accent-gn\">1</style>个敌方目标使得伤害+<style=\"accent-gn\">6%</style>，最高<style=\"accent-gn\">30%</style>。<br><br><size=22><style=\"tipsYellow\">攻略：持续型的治疗和伤害效果，需要基于目标的位置和多少，调整自己的位置让技能的效率最大化。</size></style>"
+    },
+    "1614": {
+      "name": "鸣奏·英勇乐章",
+      "description": "这是一首充满热情的曲目，当<style=\"accent-gn\">演奏能量</style>大于<style=\"accent-gn\">15</style>时可以开启演奏，只要开始演奏将无法停止，冷却时间<style=\"accent-gn\">5</style>秒。<br><style=\"accent-gn\">鸣奏·英勇乐章</style>演奏期间每<style=\"accent-gn\">1</style>秒消耗<style=\"accent-gn\">6</style>点<style=\"accent-gn\">演奏能量</style>，同时每间隔<style=\"accent-gn\">3</style>秒为<style=\"accent-gn\">10</style>名友方（优先队友）回复生命值，治疗间隔受到急速属性影响。<br><style=\"accent-gn\">鸣奏·英勇乐章</style>演奏期间每演奏<style=\"accent-gn\">7</style>秒，你的<style=\"accent-gn\">琴弦叩击</style>派生为<linktext=1615><style=\"ItemQuality_5\">猛烈挥击</style></linktext>。<br><style=\"accent-gn\">鸣奏·英勇乐章</style>演奏期间<style=\"accent-gn\">安和曲</style>的转换效果+<style=\"accent-gn\">50%</style>。<br><br><style=\"accent-gn\">演奏能量</style>：演奏鸣奏技能（<style=\"accent-gn\">鸣奏·英勇乐章</style>、<style=\"accent-gn\">鸣奏·愈合乐章</style>）所需的能量，每<style=\"accent-gn\">1</style>秒回复<style=\"accent-gn\">1</style>点。<br><br><size=22><style=\"tipsYellow\">攻略：需要注意技能是无法主动结束的，需要掌握开启时机，使得鸣奏·英勇乐章对于安和曲以及猛烈挥击的效率最大化。</size></style>"
+    },
+    "1615": {
+      "name": "猛烈挥击",
+      "description": "奋力挥舞吉他，对周围敌方目标造成<style=\"accent-gn\">300%</style>攻击力<style=\"magic\">魔法伤害</style>，同时使得<linktext=1605><style=\"ItemQuality_5\">聚合乐章</style></linktext>立即获得1层充能，跟随<style=\"accent-gn\">普通攻击</style>技能升级/进阶进行成长。<br><br><size=22><style=\"tipsYellow\">攻略：尽量保证聚合乐章进入冷却后施放。</size></style>"
+    },
+    "1616": {
+      "name": "安可",
+      "description": "这是一首同粉丝互动再适合不过的曲目了。为<style=\"accent-gn\">10</style>名友方目标（优先队友）施加<style=\"accent-gn\">安可</style>效果，持续<style=\"accent-gn\">10</style>秒。<br><style=\"accent-gn\">安可</style>：<style=\"accent-gn\">霸体</style>，每次施放伤害或者治疗<style=\"accent-gn\">专精技能</style>时有<style=\"accent-gn\">50%</style>固定几率触发一记<style=\"accent-gn\">安可琴弦</style>，对当前目标造成伤害或对生命最低的友方目标（优先队友）回复生命（优先触发输出）。<br><br><size=22><style=\"tipsYellow\">攻略：尽可能的配合团队的爆发使用，在队友最好的状态施放，可最大化安可的伤害和治疗效果。</size></style>"
+    },
+    "1617": {
+      "name": "激昂·热情挥洒",
+      "description": "引导<style=\"accent-gn\">6</style>秒，持续的朝前方喷出炽热的火焰对范围内敌方目标造成总计<style=\"accent-gn\">1000%</style>攻击力<style=\"magic\">魔法伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：持续移动，保证生存环境良好情况下尽可能的打出更多伤害。</size></style>"
+    },
+    "1618": {
+      "name": "琴弦撩拨",
+      "description": "<style=\"accent-gn\">安和曲</style><br>一种拥有魔力的曲子，每次造成伤害都将平均为最多<style=\"accent-gn\">5</style>名受伤的友方（优先队友）回复生命值，回复的生命值等于造成伤害的<style=\"accent-gn\">20%</style>。<br>生命值满额的友方不分摊该部分治疗量。如果队友的生命值都处于满值状态，造成伤害转换的治疗量将视为溢出治疗。<br><style=\"accent-gn\">演奏能量</style>：演奏鸣奏技能（<style=\"accent-gn\">鸣奏·英勇乐章</style>、<style=\"accent-gn\">鸣奏·愈合乐章</style>）所需的能量，每<style=\"accent-gn\">1</style>秒回复<style=\"accent-gn\">1</style>点。<br><style=\"accent-gn\">演奏热情</style>：演奏曲目所必须的条件，每<style=\"accent-gn\">5</style>秒回复<style=\"accent-gn\">1</style>个。<br><br><style=\"accent-gn\">普通攻击·琴弦撩拨</style><br>撩拨琴弦，让琴弦发出炽热的音波，对敌方目标造成远距离<style=\"magic\">魔法伤害</style>。<br><br><size=22><style=\"tipsYellow\">攻略：在演奏热情和演奏能量不溢出的情况下，穿插普通攻击可以获得稳定的治疗效果，搭配天赋可以将这部分治疗存储起来在应急时有不错的效果。</size></style>"
+    },
+    "1619": {
+      "name": "炽烈升腾",
+      "description": "旋转身体挥舞战斧向前连续攻击目标，造成<style=\"physical\">物理伤害</style>，回复<style=\"accent-gn\">15</style>点<style=\"accent-gn\">炎魂</style>。<br><br><size=22><style=\"tipsYellow\">攻略：最基础的提升无相等级的技能，需要和其他的专精技能间隔使用。</style></size>"
+    },
+    "1620": {
+      "name": "飞腾炎华",
+      "description": "强化后的<style=\"ItemQuality_5\">炽烈升腾</style>，向前旋转对敌人造成<style=\"accent-gn\">900%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"ItemQuality_5\">炽烈升腾</style>技能升级/进阶进行成长。"
+    },
+    "1621": {
+      "name": "狂热斩击",
+      "description": "短暂蓄力后向前踏步猛烈斩击目标，对敌人造成<style=\"physical\">物理伤害</style>，回复<style=\"accent-gn\">25</style>点<style=\"accent-gn\">炎魂</style>。若攻击命中目标，立即回复<style=\"physical\">5%</style>自身最大生命值。<br><br><size=22><style=\"tipsYellow\">攻略：在输出中间穿插可以有效提升存活能力，也可以在迷狂炎舞后使用，补充一些血量的消耗。</style></size>"
+    },
+    "1622": {
+      "name": "炽焰突袭",
+      "description": "连续左右挥击战斧攻击目标造成<style=\"physical\">物理伤害</style>，回复<style=\"accent-gn\">10</style>点<style=\"accent-gn\">炎魂</style>。<br>技能可以充能<style=\"accent-gn\">2</style>层。<br><br><size=22><style=\"tipsYellow\">攻略：充分利用好短CD的2层充能，和炽烈升腾组合可以快速的提升无相等级。</style></size>"
+    },
+    "1623": {
+      "name": "暴怒劈斩",
+      "description": "施展高超技巧，连续使用暴风骤雨般的劈斩攻击目标造成<style=\"physical\">物理伤害</style>，消耗<style=\"accent-gn\">85</style>点<style=\"accent-gn\">炎魂</style>，每段攻击结束后<style=\"accent-gn\">2</style>秒内允许继续释放，最多释放<style=\"accent-gn\">4</style>段。<br><br><size=22><style=\"tipsYellow\">攻略：高额的消耗不适合用来提升无相等级，通常在无相达到最大后使用，作为主要的输出手段来使用。</style></size>"
+    },
+    "1624": {
+      "name": "斧风",
+      "description": "像旋风一般挥舞手中的武器，对自身周围3米内的目标造成<style=\"physical\">物理伤害</style>，每次旋转消耗<style=\"accent-gn\">260</style>点<style=\"accent-gn\">体力</style>。技能释放期间再次点击可以结束技能。<br><br><size=22><style=\"tipsYellow\">攻略：需要合理的分配体力用于输出和生存的边界，在确认自身安全的前提下，可以更多用于输出和提升无相。</style></size>"
+    },
+    "1625": {
+      "name": "荒川之寂灭",
+      "description": "附加火焰之力，持续时间内使自身获得<style=\"accent-gn\">职业技能冷却加速</style>、<style=\"accent-gn\">急速</style>提高。<br><br><size=22><style=\"tipsYellow\">攻略：配合无相达到A或S时使用，保证爆发期最大化收益。</style></size>"
+    },
+    "1626": {
+      "name": "迷狂炎舞",
+      "description": "施展超高速乱舞，每轮消耗<style=\"accent-gn\">50</style>点<style=\"accent-gn\">炎魂</style>或<style=\"accent-gn\">25%</style><style=\"accent-gn\">赤红魂槽</style>或<style=\"accent-gn\">25%</style><style=\"accent-gn\">最大生命值</style>对自身周围3米内的所有敌人造成<style=\"physical\">物理伤害</style>。<br>优先消耗炎魂，炎魂不足时转而消耗赤红魂槽，赤红魂槽不足时则转而消耗生命值，当前生命值低于50%时无法施展。技能释放期间再次点击可以结束技能。<br><br><size=22><style=\"tipsYellow\">攻略：赤红流的绝对核心技能，尽可能的积攒炎魂，赤红魂槽以维持释放，释放时需要观察局势以便随时打断保证生存</style></size>"
+    },
+    "1627": {
+      "name": "无羁坠星",
+      "description": "释放你的力量向目标进行强力跳劈，对落点周围4米的敌人造成<style=\"physical\">物理伤害</style>。并在落地后产生赤红之地，赤红之地在5秒内对周围4米内的所有敌人造成额外<style=\"physical\">物理伤害</style>，回复<style=\"accent-gn\">15</style>点<style=\"accent-gn\">炎魂</style>。<br><br><size=22><style=\"tipsYellow\">攻略：起手接近目标和回复炎魂的手段，需要爆发时提前释放以便自身处于赤红之地内。</style></size>"
+    },
+    "1628": {
+      "name": "炎魔天落杀",
+      "description": "强化后的<style=\"ItemQuality_5\">无羁坠星</style>，蓄力跳劈，对落点周围4米的敌人造成<style=\"accent-gn\">1200%</style>攻击力<style=\"physical\">物理伤害</style>，跟随<style=\"ItemQuality_5\">无羁坠星</style>技能升级/进阶进行成长，回复<style=\"accent-gn\">15</style>点<style=\"accent-gn\">炎魂</style>。在落地后产生赤红之地，赤红之地在5秒内对周围4米内的所有敌人造成额外<style=\"physical\">物理伤害</style>。"
+    },
+    "1629": {
+      "name": "无尽之炎魔",
+      "description": "变得狂暴，所有产生的<style=\"accent-gn\">炎魂</style>提高<style=\"accent-gn\">100%</style>。并使你在一段时间内获得暴击提高。<br><br><size=22><style=\"tipsYellow\">攻略：爆发期需要覆盖。</style></size>"
+    },
+    "1630": {
+      "name": "如川流华斩",
+      "description": "消耗<style=\"accent-gn\">50</style>点<style=\"accent-gn\">炎魂</style>，奋力向前方挥出十字气刃斩，十字气刃会向前飞行一段时间，对途径的所有敌人造成<style=\"physical\">物理伤害</style>。对主目标造成的伤害<style=\"accent-gn\">100%</style>转化为生命值。并在一段时间内使自身获得<style=\"accent-gn\">50%</style>生命吸取。<br><br><size=22><style=\"tipsYellow\">攻略：配合快速积攒赤红魂槽，以及低血量时获得额外回复。</style></size>"
+    },
+    "3000": {
+      "name": "打断",
+      "description": "中断目标正在吟唱的技能，并使其进入冷却。无法对首领生效。"
+    },
+    "3001": {
+      "name": "沉默",
+      "description": "使敌人无法吟唱法术。对首领不生效。是一种负面效果。"
+    },
+    "3002": {
+      "name": "定身",
+      "description": "使敌人无法移动。对首领不生效。是一种负面效果。"
+    },
+    "3003": {
+      "name": "寒霜",
+      "description": "减少敌人<style=\"accent-gn\">30%</style>的移动速度。"
+    },
+    "3004": {
+      "name": "重伤",
+      "description": "使敌人受到的治疗效果降低。是一种负面效果。"
+    },
+    "3005": {
+      "name": "眩晕",
+      "description": "使敌人无法做出任何动作。对首领不生效。是一种异常状态。"
+    },
+    "3006": {
+      "name": "冻结",
+      "description": "使敌人无法做出任何动作，受到伤害后解除。对首领不生效。是一种异常状态。"
+    },
+    "3007": {
+      "name": "石化",
+      "description": "使敌人无法做出任何动作，受到伤害后解除。对首领不生效。是一种异常状态。"
+    },
+    "3008": {
+      "name": "麻痹",
+      "description": "使敌人无法做出任何动作，受到伤害后解除。对首领不生效。是一种异常状态。"
+    },
+    "3009": {
+      "name": "眩目",
+      "description": "使敌人强制移动至当前目标的近距离处进行攻击。对首领不生效。是一种异常状态。"
+    },
+    "3010": {
+      "name": "恐惧",
+      "description": "使敌人在恐惧中原地畏缩，受到伤害后解除。对首领不生效。是一种异常状态。"
+    },
+    "3011": {
+      "name": "减速",
+      "description": "减少敌人的移动速度。对首领不生效。是一种负面效果。"
+    },
+    "3012": {
+      "name": "中毒",
+      "description": "使敌人持续损失生命值。是一种负面效果。"
+    },
+    "3013": {
+      "name": "流血",
+      "description": "使敌人持续损失生命值。是一种负面效果。"
+    },
+    "3014": {
+      "name": "灼烧",
+      "description": "使敌人持续损失生命值。是一种负面效果。"
+    },
+    "3020": {
+      "name": "异常状态",
+      "description": "包含<style=\"accent-gn\">眩晕</style>、<style=\"accent-gn\">冻结</style>、<style=\"accent-gn\">石化</style>、<style=\"accent-gn\">麻痹</style>、<style=\"accent-gn\">眩目</style>、<style=\"accent-gn\">恐惧</style>。"
+    },
+    "3021": {
+      "name": "负面效果",
+      "description": "包含<style=\"accent-gn\">沉默</style>、<style=\"accent-gn\">减速</style>、<style=\"accent-gn\">定身</style>、<style=\"accent-gn\">重伤</style>、<style=\"accent-gn\">中毒</style>、<style=\"accent-gn\">流血</style>、<style=\"accent-gn\">灼烧</style>。"
+    },
+    "10001": {
+      "name": "幻色版",
+      "description": "按照高级定制款式，使用可染色工艺重新制作的服饰，可进行自由染色。"
+    }
   }
 }
