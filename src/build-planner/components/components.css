@@ -649,6 +649,13 @@
   font-weight: 600;
 }
 
+.toggle-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  /* ホバー時の見た目切り替え(:hover疑似クラス)をまとめて無効化する。 */
+  pointer-events: none;
+}
+
 /* ToggleSwitch: フォーム部品ではなく純粋なON/OFF表現として使うスライドスイッチ。
    role="switch"のbuttonとして実装し、.toggle-switch--onで状態を切り替える。 */
 .toggle-switch {

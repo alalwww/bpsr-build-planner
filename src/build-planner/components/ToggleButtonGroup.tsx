@@ -6,6 +6,8 @@ interface ToggleButtonGroupProps<T extends string> {
   value: T | null;
   getLabel: (option: T) => string;
   onChange: (value: T | null) => void;
+  /** 選択肢ごとの無効化判定(省略時は全選択肢とも有効)。 */
+  getDisabled?: (option: T) => boolean;
   className?: string;
 }
 
@@ -16,6 +18,7 @@ function ToggleButtonGroup<T extends string>({
   value,
   getLabel,
   onChange,
+  getDisabled,
   className,
 }: ToggleButtonGroupProps<T>) {
   return (
@@ -25,6 +28,7 @@ function ToggleButtonGroup<T extends string>({
           key={option}
           selected={value === option}
           label={getLabel(option)}
+          disabled={getDisabled?.(option)}
           onClick={() => onChange(value === option ? null : option)}
         />
       ))}

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import DraggableDialog from '../components/DraggableDialog';
 import Stepper from '../components/Stepper';
+import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import ToggleSwitch from '../components/ToggleSwitch';
 import type { CookingBuffState, ModuleSlots } from '../types';
 import { ELEMENT_IDS } from '../types';
@@ -197,26 +198,17 @@ function BuffEffectDialog({
               />
               <span>{t('buildPlanner.buffDialog.inspiration')}</span>
             </label>
-            <label className="buff-effect-dialog__radio-label">
-              <input
-                type="radio"
-                name="inspirationVariant"
-                disabled={!cookingBuff.inspirationEnabled}
-                checked={cookingBuff.inspirationVariant === 'lifebind'}
-                onChange={() => onChange({ inspirationVariant: 'lifebind' })}
-              />
-              <span>{t('buildPlanner.buffDialog.inspirationLifebind')}</span>
-            </label>
-            <label className="buff-effect-dialog__radio-label">
-              <input
-                type="radio"
-                name="inspirationVariant"
-                disabled={!cookingBuff.inspirationEnabled}
-                checked={cookingBuff.inspirationVariant === 'smite'}
-                onChange={() => onChange({ inspirationVariant: 'smite' })}
-              />
-              <span>{t('buildPlanner.buffDialog.inspirationSmite')}</span>
-            </label>
+            <ToggleButtonGroup
+              options={['lifebind', 'smite'] as const}
+              value={cookingBuff.inspirationVariant}
+              getLabel={(v) =>
+                t(
+                  `buildPlanner.buffDialog.inspiration${v === 'lifebind' ? 'Lifebind' : 'Smite'}`,
+                )
+              }
+              getDisabled={() => !cookingBuff.inspirationEnabled}
+              onChange={(v) => v !== null && onChange({ inspirationVariant: v })}
+            />
           </div>
           <span className="buff-effect-dialog__hint">
             {t('buildPlanner.buffDialog.inspirationEffect', {
@@ -282,36 +274,19 @@ function BuffEffectDialog({
               />
               <span>{t('buildPlanner.buffDialog.luckyCrit')}</span>
             </label>
-            <label className="buff-effect-dialog__radio-label">
-              <input
-                type="radio"
-                name="luckyCritVariant"
-                disabled={!cookingBuff.luckyCritEnabled || luckyCritOwnLevel === 0}
-                checked={cookingBuff.luckyCritVariant === 'self'}
-                onChange={() => onChange({ luckyCritVariant: 'self' })}
-              />
-              <span>{t('buildPlanner.buffDialog.luckyCritSelf')}</span>
-            </label>
-            <label className="buff-effect-dialog__radio-label">
-              <input
-                type="radio"
-                name="luckyCritVariant"
-                disabled={!cookingBuff.luckyCritEnabled}
-                checked={cookingBuff.luckyCritVariant === 'receivedLv5'}
-                onChange={() => onChange({ luckyCritVariant: 'receivedLv5' })}
-              />
-              <span>{t('buildPlanner.buffDialog.luckyCritReceivedLv5')}</span>
-            </label>
-            <label className="buff-effect-dialog__radio-label">
-              <input
-                type="radio"
-                name="luckyCritVariant"
-                disabled={!cookingBuff.luckyCritEnabled}
-                checked={cookingBuff.luckyCritVariant === 'receivedLv6'}
-                onChange={() => onChange({ luckyCritVariant: 'receivedLv6' })}
-              />
-              <span>{t('buildPlanner.buffDialog.luckyCritReceivedLv6')}</span>
-            </label>
+            <ToggleButtonGroup
+              options={['self', 'receivedLv5', 'receivedLv6'] as const}
+              value={cookingBuff.luckyCritVariant}
+              getLabel={(v) =>
+                t(
+                  `buildPlanner.buffDialog.luckyCrit${v === 'self' ? 'Self' : v === 'receivedLv5' ? 'ReceivedLv5' : 'ReceivedLv6'}`,
+                )
+              }
+              getDisabled={(v) =>
+                !cookingBuff.luckyCritEnabled || (v === 'self' && luckyCritOwnLevel === 0)
+              }
+              onChange={(v) => v !== null && onChange({ luckyCritVariant: v })}
+            />
           </div>
           <span className="buff-effect-dialog__hint">
             {t('buildPlanner.buffDialog.luckyCritEffect', {

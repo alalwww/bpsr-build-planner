@@ -4,6 +4,7 @@ interface ToggleChipProps {
   selected: boolean;
   label: string;
   onClick: () => void;
+  disabled?: boolean;
   className?: string;
 }
 
@@ -11,13 +12,14 @@ interface ToggleChipProps {
 // クリック直後、マウスがまだ乗ったままの間はホバースタイルを抑制し、通常時の見た目を維持する
 // (マウスが実際に離れるまで解除しない)。クリックで状態が切り替わった瞬間に「新しい状態の
 // ホバー時スタイル」へ即座に切り替わって紛らわしくなるのを防ぐため。
-function ToggleChip({ selected, label, onClick, className }: ToggleChipProps) {
+function ToggleChip({ selected, label, onClick, disabled, className }: ToggleChipProps) {
   const [hoverSuppressed, setHoverSuppressed] = useState(false);
   return (
     <button
       type="button"
       role="radio"
       aria-checked={selected}
+      disabled={disabled}
       className={`toggle-chip${selected ? ' toggle-chip--selected' : ''}${hoverSuppressed ? ' toggle-chip--hover-suppressed' : ''}${className ? ` ${className}` : ''}`}
       onClick={() => {
         onClick();
