@@ -404,7 +404,7 @@ function EquipmentSlotPicker({
                       {materialIconUrl && (
                         <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
                       )}
-                      {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                      {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
                     </div>
                   );
                 })}
@@ -421,7 +421,7 @@ function EquipmentSlotPicker({
                         {materialIconUrl && (
                           <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
                         )}
-                        {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                        {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
                       </div>
                     );
                   })}
@@ -1025,7 +1025,7 @@ function EquipmentSlotPicker({
                                     alt=""
                                   />
                                 )}
-                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
                               </div>
                             );
                           })}
@@ -1045,7 +1045,7 @@ function EquipmentSlotPicker({
                                     alt=""
                                   />
                                 )}
-                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty}
+                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
                               </div>
                             );
                           })}

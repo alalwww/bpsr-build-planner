@@ -1081,7 +1081,7 @@
 }
 
 .equip-enchant-cost {
-  font-size: 11px;
+  font-size: 12px;
   color: #9090a8;
   margin-top: 4px;
   padding-top: 4px;
@@ -1097,8 +1097,8 @@
 }
 
 .equip-enchant-cost__icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
   flex-shrink: 0;
 }
