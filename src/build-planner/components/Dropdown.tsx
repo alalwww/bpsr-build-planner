@@ -76,11 +76,15 @@ function Dropdown({
 
   // 開いた瞬間、選択中の選択肢(data-selected="true")が見えていなければそこまでスクロールする。
   // ペイント前に反映するため useLayoutEffect を使う(一瞬先頭が見えてから飛ぶ、を防ぐ)。
+  // shouldRenderはuseDelayedUnmount由来で isOpen が true になった1レンダー後に true になる
+  // (退出アニメーションのため即アンマウントしない仕組み)。依存配列に isOpen しか無いと、
+  // パネルがまだDOMに存在しない(panelRef.current が null の)最初のレンダーでこのeffectが
+  // 実行されてしまい、以降 isOpen が変化しない限り再実行されずスクロールが効かなくなる。
   useLayoutEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || !shouldRender) return;
     const selected = panelRef.current?.querySelector<HTMLElement>('[data-selected="true"]');
     selected?.scrollIntoView({ block: 'center' });
-  }, [isOpen]);
+  }, [isOpen, shouldRender]);
 
   const resolvedTriggerClassName =
     typeof triggerClassName === 'function' ? triggerClassName(isOpen) : triggerClassName;

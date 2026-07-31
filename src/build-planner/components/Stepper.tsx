@@ -81,14 +81,18 @@ function Stepper({
   // 開いたまま入力して value が変わった場合も追従させる)。
   // scrollIntoView はposition:fixedパネル内では祖先スクロールコンテナの判定が不安定なため、
   // panelRefのscrollTopを直接計算して中央寄せする。
+  // shouldRenderPanelはuseDelayedUnmount由来でisOpenがtrueになった1レンダー後にtrueになる
+  // (退出アニメーションのため即アンマウントしない仕組み)。依存配列にisOpenしか無いと、
+  // パネルがまだDOMに存在しない(panelRef.currentがnullの)最初のレンダーでこのeffectが
+  // 実行されてしまい、以降isOpen/valueが変化しない限り再実行されずスクロールが効かなくなる。
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || !shouldRenderPanel) return;
     const panel = panelRef.current;
     const selected = panel?.querySelector<HTMLElement>('.stepper-combo-option--selected');
     if (!panel || !selected) return;
     const target = selected.offsetTop - panel.clientHeight / 2 + selected.offsetHeight / 2;
     panel.scrollTop = Math.max(0, Math.min(target, panel.scrollHeight - panel.clientHeight));
-  }, [isOpen, value]);
+  }, [isOpen, value, shouldRenderPanel]);
 
   const handleFocus = () => {
     if (disabled || !comboOptions || !inputRef.current) return;
