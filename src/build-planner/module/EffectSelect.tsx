@@ -2,6 +2,7 @@ import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
 import Dropdown from '../components/Dropdown';
+import type { CursorTooltipHoverHandlers } from '../components/useCursorTooltip';
 import {
   getEffectCategory,
   getEffectIcon,
@@ -16,6 +17,11 @@ interface EffectSelectProps {
   placeholder: string;
   onChange: (effectId: number | null) => void;
   recommendedEffectIds?: Set<number>;
+  /** 選択肢マウスオーバー時にパワーコア効果の詳細ポップアップ(EffectInfoPopup)を表示する。 */
+  getEffectHoverHandlers?: (effectId: number) => CursorTooltipHoverHandlers;
+  /** 選択確定でホバー中の選択肢ボタンごとドロップダウンが消えるため、mouseleaveが発火せず
+   * ポップアップが開いたまま残ってしまう。選択時に明示的に閉じるためのコールバック。 */
+  onCloseEffectHoverPopup?: () => void;
 }
 
 function EffectSelect({
@@ -24,6 +30,8 @@ function EffectSelect({
   placeholder,
   onChange,
   recommendedEffectIds,
+  getEffectHoverHandlers,
+  onCloseEffectHoverPopup,
 }: EffectSelectProps) {
   const { t: tg } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
@@ -71,6 +79,7 @@ function EffectSelect({
               data-selected={value === null}
               onClick={() => {
                 onChange(null);
+                onCloseEffectHoverPopup?.();
                 close();
               }}
             >
@@ -91,8 +100,10 @@ function EffectSelect({
                     data-selected={value === effectId}
                     onClick={() => {
                       onChange(effectId);
+                      onCloseEffectHoverPopup?.();
                       close();
                     }}
+                    {...getEffectHoverHandlers?.(effectId)}
                   >
                     {iconSrc ? (
                       <img src={iconSrc} className="mod-effect-option-icon" alt="" />

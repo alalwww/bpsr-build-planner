@@ -20,6 +20,13 @@ export interface CursorTooltipHandlers {
   onClick: (e: React.MouseEvent) => void;
 }
 
+// クリックが別の意味(選択操作等)を持つ要素向けの、ホバー追従表示のみのハンドラ部分集合。
+// クリックでピン留めするonClick/onMouseDownを含まない。
+export type CursorTooltipHoverHandlers = Pick<
+  CursorTooltipHandlers,
+  'onMouseEnter' | 'onMouseMove' | 'onMouseLeave'
+>;
+
 // ホバー中はマウスカーソルに追従し、クリックでその位置に固定(ピン留め)、
 // 再度同じ対象をクリックするとピン留め解除、といった挙動を持つポップアップの
 // 位置/表示状態を共通化するフック。Skill/Module/装備パネルの各ポップアップで共用する。

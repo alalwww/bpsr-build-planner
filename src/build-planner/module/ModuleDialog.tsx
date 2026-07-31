@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DraggableDialog from '../components/DraggableDialog';
+import type { CursorTooltipHoverHandlers } from '../components/useCursorTooltip';
 import type { ModuleConfig, ModuleHole } from '../types';
 import {
   getModById,
@@ -92,6 +93,8 @@ interface ModuleDialogProps {
   onSetModuleSlot: (index: number, config: ModuleConfig | null) => void;
   onClose: () => void;
   recommendedEffectIds: Set<number>;
+  getEffectHoverHandlers: (effectId: number) => CursorTooltipHoverHandlers;
+  onCloseEffectHoverPopup: () => void;
 }
 
 function ModuleDialog({
@@ -100,6 +103,8 @@ function ModuleDialog({
   onSetModuleSlot,
   onClose,
   recommendedEffectIds,
+  getEffectHoverHandlers,
+  onCloseEffectHoverPopup,
 }: ModuleDialogProps) {
   const { t } = useTranslation();
   const [state, setState] = useState<DialogState>(() => dialogStateFromConfig(config));
@@ -162,6 +167,8 @@ function ModuleDialog({
           placeholder={t('buildPlanner.module.selectEffect')}
           onChange={(eid) => handleEffectChange(holeIdx, eid)}
           recommendedEffectIds={recommendedEffectIds}
+          getEffectHoverHandlers={getEffectHoverHandlers}
+          onCloseEffectHoverPopup={onCloseEffectHoverPopup}
         />
         {hole.effectId != null && (
           <div className="mod-link-row">

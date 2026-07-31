@@ -42,6 +42,17 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
   const getEffectHandlers = (effectId: number, align: 'right' | 'left') =>
     makeEffectHandlers({ effectId, align }, align);
 
+  // モジュール選択ダイアログのドロップダウン選択肢用。クリックは効果の選択に使うため、
+  // makeEffectHandlersが返すonClick/onMouseDown(クリックでピン留め)は含めず、
+  // ホバーで追従表示するハンドラのみを渡す(EffectSelect.tsx参照)。
+  const getEffectHoverHandlers = (effectId: number, align: 'right' | 'left') => {
+    const { onMouseEnter, onMouseMove, onMouseLeave } = makeEffectHandlers(
+      { effectId, align },
+      align,
+    );
+    return { onMouseEnter, onMouseMove, onMouseLeave };
+  };
+
   return (
     <section className="module-panel">
       <div className="module-panel__layout">
@@ -90,6 +101,8 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
           onSetModuleSlot={onSetModuleSlot}
           onClose={() => setOpenSlot(null)}
           recommendedEffectIds={recommendedEffectIds}
+          getEffectHoverHandlers={(effectId) => getEffectHoverHandlers(effectId, 'right')}
+          onCloseEffectHoverPopup={closeEffectPopup}
         />
       )}
     </section>
