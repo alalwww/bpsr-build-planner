@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { truncate2 } from '../character/statFormat';
-import { calculateMasteryStatEffects } from './masteryElementBonus';
+import { calculateMasteryFinalPctEffects, calculateMasteryStatEffects } from './masteryElementBonus';
 
 describe('calculateMasteryStatEffects', () => {
   it('returns no effects for a class/type with no mastery conversion', () => {
@@ -74,5 +74,27 @@ describe('calculateMasteryStatEffects', () => {
     expect(type1.addend / 100).toBeCloseTo(1.2);
     expect(type2.statId).toBe('allAttrResistBonus');
     expect(type2.addend / 100).toBeCloseTo(1.2);
+  });
+});
+
+describe('calculateMasteryFinalPctEffects', () => {
+  it('returns no effects for a class/type with no mastery final-% conversion', () => {
+    expect(calculateMasteryFinalPctEffects('verdantOracle', 'type1', 10)).toEqual([]);
+  });
+
+  it('returns no effects when mastery is 0', () => {
+    expect(calculateMasteryFinalPctEffects('twinStriker', 'type1', 0)).toEqual([]);
+  });
+
+  it('applies the atk multiplier for ツインストライカー双炎型 (0.2%/pt)', () => {
+    const [result] = calculateMasteryFinalPctEffects('twinStriker', 'type1', 10);
+
+    expect(result.statId).toBe('atk');
+    // 10% * 0.2 = 2% → ×1.02
+    expect(result.multiplier).toBeCloseTo(1.02);
+  });
+
+  it('returns no effects for ツインストライカー炎舞型 (火属性ボーナスのみ、flat加算側で対応済み)', () => {
+    expect(calculateMasteryFinalPctEffects('twinStriker', 'type2', 10)).toEqual([]);
   });
 });

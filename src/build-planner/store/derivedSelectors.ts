@@ -22,7 +22,10 @@ import {
   POWER_CORE_EFFECT_IDS,
 } from '../stats/cookingBuff';
 import { deriveStats } from '../stats/deriveStats';
-import { calculateMasteryStatEffects } from '../stats/masteryElementBonus';
+import {
+  calculateMasteryFinalPctEffects,
+  calculateMasteryStatEffects,
+} from '../stats/masteryElementBonus';
 import {
   buildTalentNodesById,
   countR1Nodes,
@@ -111,6 +114,31 @@ const selectRawStatsWithMasteryBonus = memoize1(
     const result = { ...rawStats };
     for (const { statId, addend } of effects) {
       result[statId] += addend;
+    }
+    return result;
+  },
+);
+
+// 器用さ→実数値ステータス(atk/matk等)への最終値乗算ボーナス。selectRawStatsWithMasteryBonus
+// と同じ理由(器用さ0以外の効果がある場合、毎回新規オブジェクトになるのを防ぐ)で1スロット
+// メモ化する。stats(料理バフ等すべて適用済みの最終値)を受け取り、対象ステータスにのみ
+// 乗算するため、selectRawStatsWithMasteryBonus(flat加算)とは適用対象・タイミングが異なる。
+const selectStatsWithMasteryFinalPctBonus = memoize1(
+  (
+    stats: Record<StatId, number>,
+    professionKey: BuildStore['professionKey'],
+    professionTypeKey: BuildStore['professionTypeKey'],
+    finalMasteryPercent: number,
+  ): Record<StatId, number> => {
+    const effects = calculateMasteryFinalPctEffects(
+      professionKey,
+      professionTypeKey,
+      finalMasteryPercent,
+    );
+    if (effects.length === 0) return stats;
+    const result = { ...stats };
+    for (const { statId, multiplier } of effects) {
+      result[statId] = result[statId] * multiplier;
     }
     return result;
   },
@@ -284,6 +312,15 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     stats.mastery,
   );
 
+  // 器用さ→実数値ステータス(atk/matk等)への最終値乗算ボーナス(例: ツインストライカー
+  // 双炎型の物理攻撃力+0.2%/pt)。上と同じくstats.mastery確定後にのみ計算できる。
+  const statsWithMasteryFinalPctBonus = selectStatsWithMasteryFinalPctBonus(
+    stats,
+    state.professionKey,
+    state.professionTypeKey,
+    stats.mastery,
+  );
+
   const abilityScore = selectAbilityScore({
     equipped: state.equipped,
     perfectlines: state.perfectlines,
@@ -318,7 +355,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStats: rawStatsWithMasteryBonus,
     rawStatsBreakdown,
     derivedStats,
-    stats,
+    stats: statsWithMasteryFinalPctBonus,
     abilityScore,
     roleSkills,
     talentNodesById,

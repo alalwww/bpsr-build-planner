@@ -64,8 +64,10 @@ export const MASTERY_STAT_EFFECTS: Partial<
     type2: [{ statId: elementBonusStat('light'), baseRatePerPoint: 0.6 }],
   },
   twinStriker: {
-    // MasteryDes[0]: リキャスト加速/物理攻撃力(対応StatIdなし、対象外)
-    // MasteryDes[1]: "器用さ1%につき火属性ボーナス+0.72%"
+    // MasteryDes[0](双炎型): リキャスト加速は対象スキル固有のため対象外。
+    // 物理攻撃力+0.2%はMASTERY_FINAL_PCT_EFFECTS(下記)で扱う
+    // (atk/matkは%系ではなく実数値ステータスのため、この表の「flat加算」方式では表現できない)。
+    // MasteryDes[1](炎舞型): "器用さ1%につき火属性ボーナス+0.72%"
     type2: [{ statId: elementBonusStat('fire'), baseRatePerPoint: 0.72 }],
   },
   heavyGuardian: {
@@ -100,4 +102,40 @@ export function calculateMasteryStatEffects(
     const rate = baseRatePerPoint * (1 + (finalMasteryPercent * (rateBoostPerPoint ?? 0)) / 100);
     return { statId, addend: finalMasteryPercent * rate * 100 };
   });
+}
+
+export interface MasteryFinalPctStatEffect {
+  statId: StatId;
+  // 器用さ1%あたりの、対象ステータス最終値への%ボーナス(乗算)。
+  percentPerPoint: number;
+}
+
+// クラス×型ごとの「器用さ→実数値ステータスへの%ボーナス」固有効果。MASTERY_STAT_EFFECTSの
+// 対象(属性ボーナス/バリア強度/回復力等)はいずれもそれ自体が"%"で表現されるステータスのため
+// rawStatsへのflat加算(実数値/100=%)で表現できるが、atk/matk等は実数値そのもの(damage値)の
+// ステータスのため、器用さ%由来のボーナスは最終値への乗算(imagFinalPct/ipct('atk')と同じ仕組み)
+// として適用する必要がある。現状ツインストライカー双炎型の「器用さ1%につき物理攻撃力+0.2%」
+// (MasteryDes[0]の後半)のみ該当。
+export const MASTERY_FINAL_PCT_EFFECTS: Partial<
+  Record<ProfessionKey, Partial<Record<ProfessionTypeKey, MasteryFinalPctStatEffect[]>>>
+> = {
+  twinStriker: {
+    // MasteryDes[0](双炎型): "...リキャスト加速+3.2%、物理攻撃力+0.2%"
+    type1: [{ statId: 'atk', percentPerPoint: 0.2 }],
+  },
+};
+
+// 器用さ%から、クラス×型固有の最終値乗算ボーナスを算出する。戻り値のmultiplierは
+// そのままstats[statId]に掛け合わせる係数(器用さ0または対象効果なしなら空配列)。
+export function calculateMasteryFinalPctEffects(
+  professionKey: ProfessionKey,
+  professionTypeKey: ProfessionTypeKey,
+  finalMasteryPercent: number,
+): { statId: StatId; multiplier: number }[] {
+  const effects = MASTERY_FINAL_PCT_EFFECTS[professionKey]?.[professionTypeKey];
+  if (!effects || finalMasteryPercent <= 0) return [];
+  return effects.map(({ statId, percentPerPoint }) => ({
+    statId,
+    multiplier: 1 + (finalMasteryPercent * percentPerPoint) / 100,
+  }));
 }
