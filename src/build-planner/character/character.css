@@ -469,19 +469,33 @@
 /* ステータスラベル(最大HP/会心/ファスト等): クリックで効果説明ポップアップ(StatTooltip)を
    開閉する。破線の下線でクリック可能であることを示す(色は控えめに、目立たせすぎない)。
    幅は最長のラベル(左カラムの物理/魔法攻撃力、右カラムの滅妄強度/ファスト/レジスト、
-   いずれも4〜5文字相当)に合わせて固定し、ラベルごとにクリック領域の幅がばらつかないように
-   する。 */
+   いずれも4〜5文字相当)+アイコンに合わせて固定し、ラベルごとにクリック領域の幅・下線の
+   長さがばらつかないようにする。 */
 .character-panel__stat-label--clickable {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   background: none;
   border: none;
   padding: 0;
   margin: 0;
-  width: 64px;
+  width: 86px;
   font: inherit;
   color: inherit;
   cursor: pointer;
   text-align: left;
   border-bottom: 1px dashed #3a3a45;
+}
+
+.character-panel__stat-icon {
+  flex: none;
+  object-fit: contain;
+}
+
+.character-panel__stat-label-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ステータス効果説明ポップアップ(FloatingTooltip共通ベースの拡張、skill-tooltipと同系統)。

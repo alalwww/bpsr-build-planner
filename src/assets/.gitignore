@@ -530,16 +530,11 @@ skills_imagines/skill_aoyi_skill_icon_028.png
 skills_imagines/skill_aoyi_skill_icon_035.png
 skills_imagines/skill_aoyi_skill_icon_036.png
 
-## src/assets/talents/ (107件・talent-tree.jsonのicon値と一致しない)
-talents/common_attrattack.png
-talents/common_attrblock.png
+## src/assets/talents/ (102件・talent-tree.jsonのicon値と一致しない)
 talents/common_attrdefense.png
 talents/common_attrfightpoint.png
 talents/common_attrhit.png
-talents/common_attrmattack.png
-talents/common_attrmaxhp.png
 talents/common_attrmdefense.png
-talents/common_icon01.png
 talents/common_icon02.png
 talents/common_icon09.png
 talents/common_icon10.png
