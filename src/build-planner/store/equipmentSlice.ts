@@ -4,6 +4,7 @@ import {
   EQUIPMENT_BOTTOM_SLOTS,
   EQUIPMENT_TOP_SLOTS,
   getMaxPerfectline,
+  isFixedStatItem,
 } from '../equipment/equipmentData';
 import { STATIC_AUTOSAVE_DEFAULTS } from '../plan/planDefaults';
 import type {
@@ -102,9 +103,23 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
         delete nextLegendaryAffixState[slot];
         const nextLegendaryAffixGroupState = { ...state.legendaryAffixGroupState };
         delete nextLegendaryAffixGroupState[slot];
+
+        // 完成度は、変更前後どちらの装備も完成度という概念を持つ(isFixedStatでない)場合のみ
+        // 引き継ぐ(新しい上限でクランプ)。どちらかが完成度を持たない場合(装備なし/固定
+        // ステータス装備からの切り替え)は、新しい装備の上限をそのまま初期値にする。
+        const newMax = getMaxPerfectline(equipmentItem);
+        const previousItem = state.equipped[slot];
+        const carriesOverPerfectline =
+          !isFixedStatItem(equipmentItem) &&
+          previousItem !== undefined &&
+          !isFixedStatItem(previousItem);
+        const nextPerfectline = carriesOverPerfectline
+          ? Math.min(state.perfectlines[slot] ?? newMax, newMax)
+          : newMax;
+
         return {
           equipped: { ...state.equipped, [slot]: equipmentItem },
-          perfectlines: { ...state.perfectlines, [slot]: getMaxPerfectline(equipmentItem) },
+          perfectlines: { ...state.perfectlines, [slot]: nextPerfectline },
           legendaryAffixState: nextLegendaryAffixState,
           legendaryAffixGroupState: nextLegendaryAffixGroupState,
         };

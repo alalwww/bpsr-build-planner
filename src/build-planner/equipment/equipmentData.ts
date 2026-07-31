@@ -180,9 +180,15 @@ export interface EvoDisplayInfo {
   fixedEvoEffects: FixedEvoEffect[] | null;
 }
 
+// 全基礎ステータスが min===max の固定ステータス装備(蒼海シリーズ等)か。完成度(perfectline)を
+// 変化させても基礎ステータス値が変わらない=完成度という概念そのものが意味を持たないアイテム。
+// 装備切り替え時の完成度引き継ぎ判定(equipmentSlice.ts)でも使う。
+export function isFixedStatItem(item: EquipmentItem): boolean {
+  return item.baseStats.length > 0 && item.baseStats.every(([, min, max]) => min === max);
+}
+
 export function classifyEvoDisplay(item: EquipmentItem, talentSchoolId: number): EvoDisplayInfo {
-  const isFixedStat =
-    item.baseStats.length > 0 && item.baseStats.every(([, min, max]) => min === max);
+  const isFixedStat = isFixedStatItem(item);
   const effects = item.fixedEvolutionStats[String(talentSchoolId)] as FixedEvoEffect[] | undefined;
   const fixedEvoEffects = effects && effects.length > 0 ? effects : null;
   if (fixedEvoEffects) {
