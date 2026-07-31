@@ -52,6 +52,7 @@ function Stepper({
   const rootClassName = `${className}${modifierClassName ? ` ${modifierClassName}` : ''}`;
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const arrowRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -94,12 +95,32 @@ function Stepper({
     panel.scrollTop = Math.max(0, Math.min(target, panel.scrollHeight - panel.clientHeight));
   }, [isOpen, value, shouldRenderPanel]);
 
-  const handleFocus = () => {
+  // マウスクリックでの入力欄フォーカス時のみリストを開く(Tab等のキーボードフォーカスでは
+  // 開かない)。mousedownはclickより先に発火するため、クリックによるフォーカス移動と
+  // 同じタイミングで開ける。
+  const openListOnClick = () => {
     if (disabled || !comboOptions || !inputRef.current) return;
     const rect = inputRef.current.getBoundingClientRect();
     setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width });
     setIsOpen(true);
   };
+
+  // 開いている間、Tab等でフォーカスがコンポーネント外(入力欄・矢印ボタン・リスト以外)へ
+  // 移動したらリストを閉じる。focusoutはバブリングするためルート要素1箇所で監視できる。
+  useEffect(() => {
+    if (!isOpen) return;
+    const root = rootRef.current;
+    if (!root) return;
+    const handleFocusOut = (e: FocusEvent) => {
+      const related = e.relatedTarget as Node | null;
+      // パネルはdocument.bodyへportalされておりrootの子孫にならないため、
+      // panelRefでも別途チェックする(パネル内の選択肢へのフォーカス移動では閉じない)。
+      if (root.contains(related) || panelRef.current?.contains(related)) return;
+      setIsOpen(false);
+    };
+    root.addEventListener('focusout', handleFocusOut);
+    return () => root.removeEventListener('focusout', handleFocusOut);
+  }, [isOpen]);
 
   // ▲▼記号部分専用のトグル。テキスト入力欄とは別のクリック領域として扱い、開いている間に
   // クリックした場合は閉じる(記号部分はinput側のフォーカスに委ねず、常に開閉トグルとして
@@ -118,7 +139,7 @@ function Stepper({
 
   if (layout === 'inline') {
     return (
-      <div className={rootClassName}>
+      <div className={rootClassName} ref={rootRef}>
         <button
           type="button"
           className={`${className}__btn`}
@@ -138,7 +159,7 @@ function Stepper({
               min={min}
               max={max}
               disabled={disabled}
-              onFocus={handleFocus}
+              onClick={openListOnClick}
               onChange={(e) => {
                 const v = parseInt(e.target.value);
                 if (!isNaN(v)) onChange(Math.max(min, Math.min(max, v)));

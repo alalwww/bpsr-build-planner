@@ -17,6 +17,7 @@ import { SUPPORTED_LANGUAGES } from '../platform/languages';
 import { showAboutWindow, showResidentWindow } from '../platform/residentWindow';
 import { useBuildStore } from './store/useBuildStore';
 import TalentTreePanel from './talent/TalentTreePanel';
+import { useArrowKeySelect } from './components/useArrowKeySelect';
 import { useDelayedUnmount } from './components/useDelayedUnmount';
 
 const TABS = ['skill', 'equipment', 'module', 'phantom'] as const;
@@ -53,6 +54,14 @@ function BuildPlanner() {
     applyLanguage(lang);
     setLangMenuOpen(false);
   };
+  // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
+  // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(SUPPORTED_LANGUAGES)と一致させる。
+  const handleLangTriggerKeyDown = useArrowKeySelect({
+    values: SUPPORTED_LANGUAGES.map((l) => l.code),
+    current: i18n.language,
+    onChange: changeLanguage,
+    disabled: langMenuOpen,
+  });
 
   // クライアント版限定のアプリメニュー(⚙️)。現在は About のみ。
   // 設定ウィンドウ(SettingsApp)は実装済みだが、設定項目ができるまで導線は置かない。
@@ -182,6 +191,7 @@ function BuildPlanner() {
                   type="button"
                   className="build-planner__nav-lang"
                   onClick={() => setLangMenuOpen((v) => !v)}
+                  onKeyDown={handleLangTriggerKeyDown}
                   title="Language"
                 >
                   🌐

@@ -1,6 +1,14 @@
-import { type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { useDelayedUnmount } from './useDelayedUnmount';
+import { useDropdownKeyboardNav } from './useDropdownKeyboardNav';
 
 const CLOSE_ANIM_MS = 150;
 
@@ -12,6 +20,14 @@ interface DropdownProps {
   autoFocus?: boolean;
   /** パネル幅 = トリガー幅 × この値(既定1)。改行を減らしたい時などにトリガーより広げる。 */
   panelWidthScale?: number;
+  /**
+   * トリガーが閉じている間のキー操作をトリガーへ橋渡しするための拡張ポイント。
+   * 上下矢印キーでパネルを開かずに選択を直接変更したい場合、useArrowKeySelect フックで
+   * 作ったハンドラをここに渡す(ネイティブselectやStepperのコンボと同じ操作感)。
+   * 開いている間はここを呼ばない(その間の矢印キーは useDropdownKeyboardNav が
+   * パネル側で処理する)。
+   */
+  onTriggerKeyDown?: (e: ReactKeyboardEvent<HTMLButtonElement>) => void;
 }
 
 // 「トリガーボタン → document.bodyへportalした固定位置の選択肢パネル」という
@@ -26,6 +42,7 @@ function Dropdown({
   children,
   autoFocus,
   panelWidthScale = 1,
+  onTriggerKeyDown,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
@@ -34,6 +51,13 @@ function Dropdown({
   const shouldRender = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
 
   const close = () => setIsOpen(false);
+  // 選択肢を選んだ後の close は、外側クリックでの close と異なりトリガーへフォーカスを
+  // 戻す(パネルの選択肢ボタンはアンマウントされるため、明示的に戻さないとフォーカスが
+  // 失われる)。children にはこちらを渡す。
+  const closeAfterSelect = () => {
+    setIsOpen(false);
+    triggerRef.current?.focus();
+  };
 
   const updatePos = () => {
     if (!triggerRef.current) return;
@@ -86,6 +110,9 @@ function Dropdown({
     selected?.scrollIntoView({ block: 'center' });
   }, [isOpen, shouldRender]);
 
+  // 開いている間、上下矢印キーで選択肢間をフォーカス移動できるようにする。
+  useDropdownKeyboardNav(panelRef, isOpen && shouldRender, close, triggerRef);
+
   const resolvedTriggerClassName =
     typeof triggerClassName === 'function' ? triggerClassName(isOpen) : triggerClassName;
 
@@ -96,6 +123,7 @@ function Dropdown({
         type="button"
         className={resolvedTriggerClassName}
         onClick={toggle}
+        onKeyDown={onTriggerKeyDown && !isOpen ? onTriggerKeyDown : undefined}
         autoFocus={autoFocus}
       >
         {renderTrigger(isOpen)}
@@ -115,7 +143,7 @@ function Dropdown({
             }}
           >
             <div className="dropdown-panel-anim__inner">
-              <div className={panelClassName}>{children(close)}</div>
+              <div className={panelClassName}>{children(closeAfterSelect)}</div>
             </div>
           </div>,
           document.body,

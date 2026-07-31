@@ -1,7 +1,9 @@
 import { useRef } from 'react';
 import Chevron from '../components/Chevron';
+import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
 import { useDelayedUnmount } from '../components/useDelayedUnmount';
+import { useDropdownKeyboardNav } from '../components/useDropdownKeyboardNav';
 
 const CLOSE_ANIM_MS = 150;
 
@@ -34,14 +36,34 @@ function EvoSlotPicker<T extends string | number>({
   onSelect,
 }: EvoSlotPickerProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   useCloseOnOutsideClick(containerRef, isEditing, onToggleEdit);
   const shouldRenderPicker = useDelayedUnmount(isEditing, CLOSE_ANIM_MS);
+  useDropdownKeyboardNav(panelRef, isEditing && shouldRenderPicker, onToggleEdit, triggerRef);
+  // 選択肢を選んだ後は、選択肢ボタン(アンマウントされる)からトリガーへフォーカスを戻す。
+  const handleSelect = (statId: T | undefined) => {
+    onSelect(statId);
+    triggerRef.current?.focus();
+  };
+  // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
+  // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(選択肢一覧)と一致させる。
+  const options: (T | undefined)[] =
+    unsetLabel !== undefined ? [undefined, ...availableStats] : availableStats;
+  const handleTriggerKeyDown = useArrowKeySelect({
+    values: options,
+    current: selectedStat,
+    onChange: handleSelect,
+    disabled: isEditing,
+  });
   return (
     <div className="equip-evo-slot" ref={containerRef}>
       <button
+        ref={triggerRef}
         type="button"
         className={`equip-evo-slot__btn${selectedStat != null ? ' equip-evo-slot__btn--set' : ''}`}
         onClick={onToggleEdit}
+        onKeyDown={handleTriggerKeyDown}
       >
         {tag && <span className="equip-evo-slot__tag">{tag}</span>}
         <span className="equip-evo-slot__stat">
@@ -55,12 +77,12 @@ function EvoSlotPicker<T extends string | number>({
           className={`equip-evo-picker-anchor dropdown-panel-anim${isEditing ? '' : ' dropdown-panel-anim--closing'}`}
         >
           <div className="dropdown-panel-anim__inner">
-            <div className="equip-evo-picker">
+            <div className="equip-evo-picker" ref={panelRef}>
               {unsetLabel !== undefined && (
                 <button
                   type="button"
                   className={`equip-evo-option${selectedStat == null ? ' equip-evo-option--selected' : ''}`}
-                  onClick={() => onSelect(undefined)}
+                  onClick={() => handleSelect(undefined)}
                 >
                   {unsetLabel}
                 </button>
@@ -70,7 +92,7 @@ function EvoSlotPicker<T extends string | number>({
                   type="button"
                   key={statId}
                   className={`equip-evo-option${selectedStat === statId ? ' equip-evo-option--selected' : ''}`}
-                  onClick={() => onSelect(statId)}
+                  onClick={() => handleSelect(statId)}
                 >
                   {getLabel(statId)}
                 </button>

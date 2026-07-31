@@ -10,6 +10,7 @@ import { useSessionState } from '../components/useSessionState';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
+import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import StatRow from '../components/StatRow';
 import Stepper from '../components/Stepper';
 import ToggleButtonGroup from '../components/ToggleButtonGroup';
@@ -227,6 +228,38 @@ function EquipmentSlotPicker({
     sortedEnchants,
     selectedEnchant,
   );
+
+  // 装備選択ドロップダウンのトリガーにフォーカスがある間、パネルを開かずに上下矢印キーで
+  // 選択を直接変更できるようにする(ネイティブselect/Stepperのコンボと同じ操作感)。
+  // 表示順は選択肢一覧([空き, ...sortedCandidates])と一致させる。
+  const itemSelectValues: (number | undefined)[] = [
+    undefined,
+    ...sortedCandidates.map((c) => c.id),
+  ];
+  const handleItemTriggerKeyDown = useArrowKeySelect({
+    values: itemSelectValues,
+    current: equippedId,
+    onChange: (id) => {
+      if (id === undefined) {
+        onUnequip();
+        return;
+      }
+      const candidate = sortedCandidates.find((c) => c.id === id);
+      if (candidate) onSelect(candidate);
+    },
+  });
+
+  // 装着効果ドロップダウン側も同様。希望グレード(通常/精/極)を適用したID([未設定,
+  // ...sortedEnchantsのgrade解決済みID])で比較する(選択肢一覧の表示・選択先と一致させる)。
+  const enchantSelectValues: (number | undefined)[] = [
+    undefined,
+    ...sortedEnchants.map((enchant) => resolveEnchantGradeView(enchant, enchantGradePreference).id),
+  ];
+  const handleEnchantTriggerKeyDown = useArrowKeySelect({
+    values: enchantSelectValues,
+    current: selectedEnchant,
+    onChange: onSetEnchant,
+  });
 
   // 進化ステータス表示パターンの分類(classifyEvoDisplay、計算側 calculateRawStats と共有)。
   const talentSchoolId = getTalentSchoolId(profession, professionTypeKey);
@@ -511,6 +544,7 @@ function EquipmentSlotPicker({
                   `equipment-dialog__select-trigger${isOpen ? ' equipment-dialog__select-trigger--open' : ''}`
                 }
                 panelClassName="equipment-dialog__select-list"
+                onTriggerKeyDown={handleItemTriggerKeyDown}
                 renderTrigger={(isOpen) => (
                   <>
                     <span
@@ -937,6 +971,7 @@ function EquipmentSlotPicker({
                     panelWidthScale={1.3}
                     triggerClassName={`equip-enchant-trigger${selectedEnchantData ? ' equip-enchant-trigger--set' : ''}`}
                     panelClassName="equip-enchant-list"
+                    onTriggerKeyDown={handleEnchantTriggerKeyDown}
                     renderTrigger={(isOpen) => (
                       <>
                         {baseEnchantItem?.icon && getEnchantIconUrl(baseEnchantItem.icon) && (

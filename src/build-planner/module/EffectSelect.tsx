@@ -2,6 +2,7 @@ import { Fragment, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
 import Dropdown from '../components/Dropdown';
+import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import type { CursorTooltipHoverHandlers } from '../components/useCursorTooltip';
 import {
   getEffectCategory,
@@ -54,6 +55,15 @@ function EffectSelect({
   const selIconSrc = selEffData ? getEffectIcon(selEffData.icon) : undefined;
   const selName = value != null ? getName(value) : undefined;
 
+  // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
+  // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(sortedOptions)と一致させる。
+  const effectSelectValues: (number | null)[] = [null, ...sortedOptions];
+  const handleTriggerKeyDown = useArrowKeySelect({
+    values: effectSelectValues,
+    current: value,
+    onChange,
+  });
+
   return (
     <div className="mod-effect-select-wrap">
       <Dropdown
@@ -61,6 +71,7 @@ function EffectSelect({
           `mod-effect-select-trigger${isOpen ? ' mod-effect-select-trigger--open' : ''}`
         }
         panelClassName="mod-effect-select-dropdown"
+        onTriggerKeyDown={handleTriggerKeyDown}
         renderTrigger={(isOpen) => (
           <>
             {selIconSrc && <img src={selIconSrc} className="mod-effect-select-sel-icon" alt="" />}

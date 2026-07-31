@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Chevron from '../components/Chevron';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
+import { useArrowKeySelect } from '../components/useArrowKeySelect';
 
 export interface DropdownOption {
   value: string;
@@ -30,11 +31,21 @@ function CustomDropdown({
   );
   const selected = value ? options.find((o) => o.value === value) : null;
 
+  // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
+  // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(選択肢一覧)と一致させる。
+  const selectValues = placeholder !== undefined ? ['', ...options.map((o) => o.value)] : options.map((o) => o.value);
+  const handleTriggerKeyDown = useArrowKeySelect({
+    values: selectValues,
+    current: value,
+    onChange,
+  });
+
   return (
     <div className={`phantom-dropdown${className ? ` ${className}` : ''}`}>
       <Dropdown
         triggerClassName="phantom-dropdown__trigger"
         panelClassName={`phantom-dropdown__list${className ? ` ${className}` : ''}`}
+        onTriggerKeyDown={handleTriggerKeyDown}
         renderTrigger={(isOpen) => (
           <>
             {selected ? (
@@ -59,7 +70,8 @@ function CustomDropdown({
         {(close) => (
           <>
             {placeholder !== undefined && (
-              <div
+              <button
+                type="button"
                 className={`phantom-dropdown__item${!value ? ' phantom-dropdown__item--active' : ''}`}
                 data-selected={!value}
                 onClick={() => {
@@ -69,10 +81,11 @@ function CustomDropdown({
                 }}
               >
                 <span className="phantom-dropdown__item-label">{placeholder}</span>
-              </div>
+              </button>
             )}
             {options.map((opt) => (
-              <div
+              <button
+                type="button"
                 key={opt.value}
                 className={`phantom-dropdown__item${opt.value === value ? ' phantom-dropdown__item--active' : ''}`}
                 data-selected={opt.value === value}
@@ -97,7 +110,7 @@ function CustomDropdown({
                     <span className="phantom-dropdown__sublabel">{opt.sublabel}</span>
                   )}
                 </span>
-              </div>
+              </button>
             ))}
           </>
         )}
