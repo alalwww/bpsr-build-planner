@@ -300,6 +300,13 @@
       "bossDamageReduction": "보스 데미지 경감",
       "moveSpeed": "이동 속도"
     },
+    "statTooltip": {
+      "currentValue": "현재 수치",
+      "currentRate": "현재 확률",
+      "baseRate": "초기 확률",
+      "seasonConstant": "시즌 상수",
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+    },
     "slots": {
       "weapon": "무기",
       "head": "머리",

@@ -300,6 +300,13 @@
       "bossDamageReduction": "対ボスダメージ軽減",
       "moveSpeed": "移動速度"
     },
+    "statTooltip": {
+      "currentValue": "現在値",
+      "currentRate": "現在率",
+      "baseRate": "初期率",
+      "seasonConstant": "シーズン定数",
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+    },
     "slots": {
       "weapon": "武器",
       "head": "頭部",

@@ -28,6 +28,27 @@ export const DIMINISHING_A_BASE_PERCENT = {
   resist: 0,
 } as const;
 
+// %系ステータス(illusionPower除く)全種の基礎%。DIMINISHING_A_BASE_PERCENT(系列A)に、
+// 系列Bのversatility(常に基礎0%、diminishingPercentのbasePercent省略時の既定値と同じ)を
+// 補ったもの。CharacterPanelのステータス説明ポップアップ「初期値」表示用。
+export const STAT_BASE_PERCENT = {
+  ...DIMINISHING_A_BASE_PERCENT,
+  versatility: 0,
+} as const;
+
+// %系ステータス(illusionPower除く)を実数値から%へ変換する際に使う収穫逓減カーブの
+// シーズン定数。会心/幸運/ファスト/器用さ/レジストは系列A(diminishingA)、万能のみ
+// 系列B(diminishingVersatility)を使う(deriveStats.ts参照)。ステータス説明ポップアップの
+// 計算式表示用。
+export const STAT_SEASON_CONSTANT = {
+  crit: SEASON_CONSTANTS.diminishingA,
+  luck: SEASON_CONSTANTS.diminishingA,
+  haste: SEASON_CONSTANTS.diminishingA,
+  mastery: SEASON_CONSTANTS.diminishingA,
+  resist: SEASON_CONSTANTS.diminishingA,
+  versatility: SEASON_CONSTANTS.diminishingVersatility,
+} as const;
+
 // ステータスでは持たない、固定の基礎倍率/軽減率(%)。
 export const FIXED_BASE_PERCENT = {
   // 会心ダメージの基礎増加率(会心発生時、非会心時から+50%)

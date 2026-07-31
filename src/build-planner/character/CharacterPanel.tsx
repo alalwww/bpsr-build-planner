@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './character.css';
@@ -7,9 +7,9 @@ import PlanManager from './PlanManager';
 import AbilityScoreDialog from './AbilityScoreDialog';
 import BuffEffectDialog from './BuffEffectDialog';
 import DraggableDialog from '../components/DraggableDialog';
-import FloatingTooltip from '../components/FloatingTooltip';
 import Stepper from '../components/Stepper';
 import { getClassIconUrl } from './classIcons';
+import StatTooltip, { type StatTooltipState } from './StatTooltip';
 import type { Profession } from '../profession';
 import { PROFESSIONS } from '../profession';
 import type { StatDefinition, StatId } from '../types';
@@ -80,8 +80,12 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   const onAdventurerLevelChange = useBuildStore((s) => s.setAdventurerLevel);
   const onCookingBuffChange = useBuildStore((s) => s.setCookingBuff);
   const [isProfessionPickerOpen, setProfessionPickerOpen] = useState(false);
-  const [hoveredStatId, setHoveredStatId] = useState<StatId | null>(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [statPopup, setStatPopup] = useState<StatTooltipState | null>(null);
+  // ポップアップの表示位置をクリック位置ではなく固定位置(パネル右端・滅妄強度行の高さ)に
+  // 揃えるための参照。どのステータスをクリックしても同じ場所に表示され、右隣のタブ
+  // パネル(スキル/装備等)側に重ねて表示される。
+  const panelRef = useRef<HTMLElement>(null);
+  const illusionPowerRowRef = useRef<HTMLDivElement>(null);
   const [levelPickerOpen, setLevelPickerOpen] = useState(false);
   const [abilityScoreOpen, setAbilityScoreOpen] = useState(false);
   const [buffEffectOpen, setBuffEffectOpen] = useState(false);
@@ -106,7 +110,7 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   const roleBg = clsEntry?.talentColor ? `${clsEntry.talentColor}1a` : undefined;
 
   return (
-    <section className="character-panel">
+    <section className="character-panel" ref={panelRef}>
       {/* プラン管理(名称入力・保存・一覧・各種ダイアログ) */}
       <PlanManager />
 
@@ -186,23 +190,33 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
         </div>
         <div className="character-panel__stats-column">
           {rightStats.map((def) => (
-            <div className="character-panel__stat-row" key={def.id}>
-              <span className="character-panel__stat-label">
-                {t(`buildPlanner.stats.${def.id}`)}
-              </span>
-              <span
-                className={`character-panel__stat-value${def.isPercent ? ' character-panel__stat-value--tip' : ''}`}
-                onMouseEnter={(e) => {
-                  if (def.isPercent) {
-                    setHoveredStatId(def.id);
-                    setTooltipPos({ x: e.clientX, y: e.clientY });
-                  }
+            <div
+              className="character-panel__stat-row"
+              key={def.id}
+              ref={def.id === 'illusionPower' ? illusionPowerRowRef : undefined}
+            >
+              <button
+                type="button"
+                className="character-panel__stat-label character-panel__stat-label--clickable"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setStatPopup((prev) => {
+                    if (prev?.statId === def.id) return null;
+                    // 表示位置はクリック位置に依存させず、常にパネル右端・滅妄強度行の
+                    // 高さに固定する(スキルパネル側に重ねて表示するため)。
+                    const panelRect = panelRef.current?.getBoundingClientRect();
+                    const rowRect = illusionPowerRowRef.current?.getBoundingClientRect();
+                    return {
+                      statId: def.id,
+                      x: (panelRect?.right ?? e.clientX) + 12,
+                      y: rowRect?.top ?? e.clientY,
+                    };
+                  });
                 }}
-                onMouseMove={(e) => {
-                  if (def.isPercent) setTooltipPos({ x: e.clientX, y: e.clientY });
-                }}
-                onMouseLeave={() => setHoveredStatId(null)}
               >
+                {t(`buildPlanner.stats.${def.id}`)}
+              </button>
+              <span className="character-panel__stat-value">
                 {formatStatValue(stats[def.id], def.isPercent)}
               </span>
             </div>
@@ -221,18 +235,19 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
         {t('buildPlanner.buffDialog.openButton')}
       </button>
 
-      {hoveredStatId !== null && (
-        <FloatingTooltip
-          x={tooltipPos.x + 10}
-          y={tooltipPos.y - 32}
-          className="character-panel__stat-tooltip"
-        >
-          {truncate2Str(
+      {statPopup !== null && (
+        <StatTooltip
+          state={statPopup}
+          rawValue={
             // ファストは俊敏由来の変換分がrawStatsに含まれない(装備等の生値のみ)ため、
             // %変換に実際に使われた実数値(derivedStats.hasteReal)を表示する。
-            hoveredStatId === 'haste' ? derivedStats.hasteReal : rawStats[hoveredStatId],
-          )}
-        </FloatingTooltip>
+            statPopup.statId === 'haste' ? derivedStats.hasteReal : rawStats[statPopup.statId]
+          }
+          currentPercent={stats[statPopup.statId]}
+          professionId={professionId}
+          professionTypeKey={professionTypeKey}
+          onRequestClose={() => setStatPopup(null)}
+        />
       )}
 
       {isProfessionPickerOpen && (

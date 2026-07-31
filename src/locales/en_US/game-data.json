@@ -59304,55 +59304,107 @@
   "classes": {
     "1": {
       "name": "Stormblade",
-      "intro": "Wields a <color=#fcbe03>Reaper Scythe</color>, excelling in <color=#fcbe03>close-range combat</color>. Switches seamlessly between scythe and longsword forms, delivering <color=#fcbe03>precise area strikes</color>."
+      "intro": "Wields a <color=#fcbe03>Reaper Scythe</color>, excelling in <color=#fcbe03>close-range combat</color>. Switches seamlessly between scythe and longsword forms, delivering <color=#fcbe03>precise area strikes</color>.",
+      "masteryDes": [
+        "Each 1% Mastery increases the DMG of skills that use Thunder Sigils by 3.4%",
+        "Each 1% Mastery increases the DMG of Thundercut, Storm Scythe, and Divine Sickle by 1.2%"
+      ]
     },
     "2": {
       "name": "Frost Mage",
-      "intro": "Wields a <color=#fcbe03>Frost Staff</color>, excelling in <color=#fcbe03>long-range combat</color>. Commands the power of ice to deliver <color=#fcbe03>wide-area DMG</color> and formidable <color=#fcbe03>control</color>."
+      "intro": "Wields a <color=#fcbe03>Frost Staff</color>, excelling in <color=#fcbe03>long-range combat</color>. Commands the power of ice to deliver <color=#fcbe03>wide-area DMG</color> and formidable <color=#fcbe03>control</color>.",
+      "masteryDes": [
+        "Each 1% Mastery grants 0.65% Ice Bonus",
+        "Each 1% Mastery grants 1% Ice Energy gain efficiency and 0.2% Ice Bonus.<br>Mastery Enhancement: Each 1% Mastery increases the Ice Bonus conversion ratio by 3%."
+      ]
     },
     "3": {
       "name": "Twin Striker",
-      "intro": "Excels in <color=#fcbe03>close-range</color> combat, using <color=#fcbe03>Dual Axes</color> as a weapon. Moves are as swift and fierce as fire, with excellent <color=#fcbe03>small-area attack</color> capabilities."
+      "intro": "Excels in <color=#fcbe03>close-range</color> combat, using <color=#fcbe03>Dual Axes</color> as a weapon. Moves are as swift and fierce as fire, with excellent <color=#fcbe03>small-area attack</color> capabilities.",
+      "masteryDes": [
+        "Each 1% Mastery provides 3.2% CD Boost for Blazing Assault, Rage Cleave, and Axe Wind, and 0.2% ATK.",
+        "Each 1% Mastery grants 0.72% Fire Bonus."
+      ]
     },
     "4": {
       "name": "Wind Knight",
-      "intro": "Excels in <color=#fcbe03>close-range</color> combat, using a <color=#fcbe03>Lance</color> as a weapon. Agile and fast, possessing excellent <color=#fcbe03>small area attack</color> capabilities."
+      "intro": "Excels in <color=#fcbe03>close-range</color> combat, using a <color=#fcbe03>Lance</color> as a weapon. Agile and fast, possessing excellent <color=#fcbe03>small area attack</color> capabilities.",
+      "masteryDes": [
+        "Each 1% Mastery grants 0.35% Wind Bonus.<br>Mastery Enhancement: Each 1% Mastery increases the Wind Bonus conversion ratio by 3%.",
+        "Each 1% Mastery grants 0.65% Wind Bonus"
+      ]
     },
     "5": {
       "name": "Verdant Oracle",
-      "intro": "Wields a <color=#fcbe03>Nature Ring</color>, excelling in <color=#fcbe03>long-range healing</color>. Channels the verdant essence of the forest to deliver exceptional <color=#fcbe03>healing</color> and <color=#fcbe03>buffs</color>."
+      "intro": "Wields a <color=#fcbe03>Nature Ring</color>, excelling in <color=#fcbe03>long-range healing</color>. Channels the verdant essence of the forest to deliver exceptional <color=#fcbe03>healing</color> and <color=#fcbe03>buffs</color>.",
+      "masteryDes": [
+        "Each 1% Mastery grants 0.75% Forest Bonus and 0.3% Shield Strength",
+        "Each 1% Mastery increases healing by 1%"
+      ]
     },
     "8": {
       "name": "Thunder Flash - Hand Cannon",
-      "intro": "Excels in <color=#fcbe03>long-range combat</color>,<br>capable of striking wide areas with rapid fire. Boosting <color=#fcbe03>Sigil chance</color> greatly increases trigger frequency.<br>Can <color=#fcbe03>charge</color> at close range to deal massive DMG. Boosts <color=#fcbe03>critical rate</color> for dealing massive DMG."
+      "intro": "Excels in <color=#fcbe03>long-range combat</color>,<br>capable of striking wide areas with rapid fire. Boosting <color=#fcbe03>Sigil chance</color> greatly increases trigger frequency.<br>Can <color=#fcbe03>charge</color> at close range to deal massive DMG. Boosts <color=#fcbe03>critical rate</color> for dealing massive DMG.",
+      "masteryDes": [
+        "Adds Thunder DMG",
+        "Adds Thunder DMG"
+      ]
     },
     "9": {
       "name": "Heavy Guardian",
-      "intro": "Wields a <color=#fcbe03>Guardblade</color>, excelling in <color=#fcbe03>close-range combat</color>. Channels the power of Rock to form a protective shell, offering exceptional <color=#fcbe03>defense</color> and <color=#fcbe03>control</color>."
+      "intro": "Wields a <color=#fcbe03>Guardblade</color>, excelling in <color=#fcbe03>close-range combat</color>. Channels the power of Rock to form a protective shell, offering exceptional <color=#fcbe03>defense</color> and <color=#fcbe03>control</color>.",
+      "masteryDes": [
+        "Each 1% Mastery increases Shield strength by 2.5%",
+        "Each 1% Mastery grants 0.2% Block DMG Reduction and 0.2% Lucky Block DMG Reduction"
+      ]
     },
     "10": {
       "name": "Ritual Dance of Shadowspirits: Ceremonial Blade / Staff",
-      "intro": "A mid-to-close-range weapon enabling Coordinated Attacks."
+      "intro": "A mid-to-close-range weapon enabling Coordinated Attacks.",
+      "masteryDes": [
+        "Adds Dark DMG",
+        "Adds Dark DMG"
+      ]
     },
     "11": {
       "name": "Marksman",
-      "intro": "Wields a <color=#fcbe03>bow</color>, excelling in <color=#fcbe03>long-range</color> combat. Partners with animal companions to unleash <color=#fcbe03>wide-area attacks</color>."
+      "intro": "Wields a <color=#fcbe03>bow</color>, excelling in <color=#fcbe03>long-range</color> combat. Partners with animal companions to unleash <color=#fcbe03>wide-area attacks</color>.",
+      "masteryDes": [
+        "Each 1% Mastery increases Companion's DMG by 2.75%",
+        "Each 1% Mastery grants 0.6% Light Bonus"
+      ]
     },
     "12": {
       "name": "Shield Knight",
-      "intro": "Wields a <color=#fcbe03>Sword and Shield</color>, excelling in <color=#fcbe03>close-range combat</color>. Wears radiant lightforged armor, boasting exceptional <color=#fcbe03>defense</color> and <color=#fcbe03>self-healing</color>."
+      "intro": "Wields a <color=#fcbe03>Sword and Shield</color>, excelling in <color=#fcbe03>close-range combat</color>. Wears radiant lightforged armor, boasting exceptional <color=#fcbe03>defense</color> and <color=#fcbe03>self-healing</color>.",
+      "masteryDes": [
+        "Each 1% Mastery increases Radiant Shield gain by 2.5% and All Element Resistance by 0.2%",
+        "Each 1% Mastery increases Lightforged Barrier HP boost effect by 3% and All Element Resistance by 0.2%"
+      ]
     },
     "13": {
       "name": "Beat Performer",
-      "intro": "Excels in <color=#fcbe03>long-range</color> combat, using a <color=#fcbe03>Guitar</color> as a weapon. <color=#fcbe03>Heals</color> while attacking, excels in granting Allies <color=#fcbe03>buffs</color>, and possesses excellent <color=#fcbe03>support</color> capabilities."
+      "intro": "Excels in <color=#fcbe03>long-range</color> combat, using a <color=#fcbe03>Guitar</color> as a weapon. <color=#fcbe03>Heals</color> while attacking, excels in granting Allies <color=#fcbe03>buffs</color>, and possesses excellent <color=#fcbe03>support</color> capabilities.",
+      "masteryDes": [
+        "Each 1% Mastery increases Peaceful Tune conversion bonus by 1%",
+        "Each 1% Mastery reduces the decay speed of Healing Melody by 0.35%"
+      ]
     },
     "14": {
       "name": "Lucy",
-      "intro": "Excels in <color=#fcbe03>long-range combat</color>,<br>capable of striking wide areas with rapid fire. Boosting <color=#fcbe03>Sigil chance</color> greatly increases trigger frequency.<br>Can <color=#fcbe03>charge</color> at close range to deal massive DMG. Boosts <color=#fcbe03>critical rate</color> for dealing massive DMG."
+      "intro": "Excels in <color=#fcbe03>long-range combat</color>,<br>capable of striking wide areas with rapid fire. Boosting <color=#fcbe03>Sigil chance</color> greatly increases trigger frequency.<br>Can <color=#fcbe03>charge</color> at close range to deal massive DMG. Boosts <color=#fcbe03>critical rate</color> for dealing massive DMG.",
+      "masteryDes": [
+        "Increases Crit DMG",
+        "Increases Crit DMG"
+      ]
     },
     "15": {
       "name": "Natsu",
-      "intro": "Excels in <color=#fcbe03>long-range combat</color>,<br>capable of striking wide areas with rapid fire. Boosting <color=#fcbe03>Sigil chance</color> greatly increases trigger frequency.<br>Can <color=#fcbe03>charge</color> at close range to deal massive DMG. Boosts <color=#fcbe03>critical rate</color> for dealing massive DMG."
+      "intro": "Excels in <color=#fcbe03>long-range combat</color>,<br>capable of striking wide areas with rapid fire. Boosting <color=#fcbe03>Sigil chance</color> greatly increases trigger frequency.<br>Can <color=#fcbe03>charge</color> at close range to deal massive DMG. Boosts <color=#fcbe03>critical rate</color> for dealing massive DMG.",
+      "masteryDes": [
+        "Increases Crit DMG",
+        "Increases Crit DMG"
+      ]
     }
   },
   "parts": {
@@ -69768,5 +69820,14 @@
     "3403014": "Causes the enemy to continuously lose HP. This is a debuff.",
     "3403020": "Includes <style=\"accent-gn\">Stun</style>, <style=\"accent-gn\">Frozen</style>, <style=\"accent-gn\">Petrified</style>, <style=\"accent-gn\">Paralyzed</style>, <style=\"accent-gn\">Dazzle</style>, and <style=\"accent-gn\">Fear</style>.",
     "3403021": "Includes <style=\"accent-gn\">Silenced</style>, <style=\"accent-gn\">Slowed</style>, <style=\"accent-gn\">Rooted</style>, <style=\"accent-gn\">Wounded</style>, <style=\"accent-gn\">Poisoned</style>, <style=\"accent-gn\">Bleeding</style>, <style=\"accent-gn\">Burning</style>."
+  },
+  "statDescs": {
+    "illusionPower": "Against Ember season monsters:<br>When own Illusion-Breaking Strength exceeds the enemy's, for every 150 points of advantage, DMG dealt is increased by 5% (up to 20%) and healing done is increased by 2% (up to 8%, active only in Dungeons and near Field Elites and Bosses).<br>When own Illusion-Breaking Strength is lower than the enemy's, DMG dealt and healing are greatly reduced, and DMG taken is greatly increased.<br><br>Against wild monsters from previous seasons:<br>DMG dealt is increased by 100%.<br><br>The threat level can be judged by the color of the icon above monsters. Monster strength can also be viewed in the Monster Manual and Dungeon Info.",
+    "crit": "Increases Crit Rate.<br>When dealing damage, there is a chance to land a Crit, causing that instance of damage to be increased by your Crit DMG.",
+    "haste": "Increases Attack SPD and Casting SPD",
+    "luck": "Increases the chance to trigger Luck effects.<br>When dealing non-persistent DMG or healing with Class Skills, there is a chance to trigger all Luck effects you possess. <br>Basic Lucky Strike Effect: Triggers an additional instance of DMG or healing at a fixed multiplier, which increases as the Luck chance increases. <br>Luck Boost: Every 1% of Luck increases \"Luck effect\" damage and healing by 1%.",
+    "mastery": "Grants different attribute bonuses based on class specialization.",
+    "versatility": "Each 1% of Versatility increases the percentage bonus for DMG dealt, healing, and Shield granted by 0.35%, and DMG Reduction by 0.15%.",
+    "resist": "Increases chance to block enemy attacks.<br>When taking damage, there is a chance to trigger a Block, reducing that instance of DMG by an amount equal to your Block DMG Reduction."
   }
 }

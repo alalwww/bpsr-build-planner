@@ -300,6 +300,13 @@
       "bossDamageReduction": "Boss Damage Reduction",
       "moveSpeed": "Move Speed"
     },
+    "statTooltip": {
+      "currentValue": "Current Value",
+      "currentRate": "Current Rate",
+      "baseRate": "Base Rate",
+      "seasonConstant": "Season Constant",
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+    },
     "slots": {
       "weapon": "Weapon",
       "head": "Head",

@@ -300,6 +300,13 @@
       "bossDamageReduction": "对首领伤害减免",
       "moveSpeed": "移动速度"
     },
+    "statTooltip": {
+      "currentValue": "当前数值",
+      "currentRate": "当前比例",
+      "baseRate": "初始比例",
+      "seasonConstant": "赛季常数",
+      "formula": "({{currentValue}} / ({{currentValue}} + {{seasonConstant}}) * 100) + {{baseRate}} = {{currentRate}}"
+    },
     "slots": {
       "weapon": "武器",
       "head": "头部",

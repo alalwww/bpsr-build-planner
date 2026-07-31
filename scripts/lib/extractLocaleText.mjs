@@ -210,6 +210,21 @@ const ATTR_NAME_OVERRIDES = {
   english: {},
 };
 
+// StatId(CharacterPanelの%系ステータス) → FightAttrTable基準AttrId(実数値レーティング版、
+// AttrNumType:0)。ステータスクリック時の効果説明ポップアップ(statDescs)で使用する。
+// 会心/ファスト/幸運/器用さ/万能/レジストはいずれも「実数値版(末尾0)」と「万分比版
+// (末尾10系、AttrNumType:1)」の2エントリが存在するが、AttrDes本文はどちらも同一のため
+// 実数値版(rawStats側のAttrAddが指す基準ID)を使う。
+const STAT_DESC_ATTR_IDS = {
+  illusionPower: 11440,
+  crit: 11110,
+  haste: 11120,
+  luck: 11130,
+  mastery: 11140,
+  versatility: 11150,
+  resist: 11170,
+};
+
 // FightAttrTable.AttrAdd → 対応する ProfileAttrTable の display AttrId。
 // ProfileAttrTable に直接エントリが存在しないフラット値AttrIdのために使用。
 // 確認済みの対応: 11122→ファスト(11930), 11132→幸運(11780), 11142→器用さ(11940)
@@ -265,6 +280,15 @@ export function extractLocaleText(
       .filter((e) => e.AttrAdd && e.OfficialName)
       .map((e) => [e.AttrAdd, e.OfficialName]),
   );
+
+  // statDescs: CharacterPanelの%系ステータスクリックポップアップ用の効果説明文。
+  // STAT_DESC_ATTR_IDS の基準AttrIdが指す FightAttrTable.AttrDes をそのまま使う
+  // (<br>タグは残し、表示側で renderMarkup により整形する)。
+  const statDescs = {};
+  for (const [statId, attrId] of Object.entries(STAT_DESC_ATTR_IDS)) {
+    const des = fightAttrTable[String(attrId)]?.AttrDes;
+    if (des) statDescs[statId] = des.replace(/<br>\s*$/, '').trim();
+  }
 
   // TempAttrTable: 季節限定の「シーズン強度」系ステータス(装備のbaseStatsに直接AttrIdとして
   // 現れる、通常のProfileAttrTable体系とは異なる番号帯)。名前解決の最終フォールバックに使う。
@@ -598,7 +622,19 @@ export function extractLocaleText(
   for (const id of Object.keys(classes)) {
     const entry = professionSystemTable[id];
     if (!entry) continue;
-    classText[id] = { name: entry.Name, intro: entry.Intro || '' };
+    // MasteryDes: [[label, text], [label, text]] = [type1用, type2用]。
+    // showTalentStage([type1Id, type2Id])と同じ順序(CharacterPanelのtypeStageId解決と対応)。
+    // 器用さステータスがこのクラス/型で具体的にどう作用するかの説明文。
+    const masteryDes = Array.isArray(entry.MasteryDes)
+      ? entry.MasteryDes.map((pair) =>
+          Array.isArray(pair) && pair[1] ? String(pair[1]).replace(/<br>\s*$/, '').trim() : '',
+        )
+      : [];
+    classText[id] = {
+      name: entry.Name,
+      intro: entry.Intro || '',
+      ...(masteryDes.some(Boolean) ? { masteryDes } : {}),
+    };
   }
 
   const parts = {};
@@ -1160,5 +1196,6 @@ export function extractLocaleText(
     talentStages,
     moduleEffects,
     attrDescs,
+    statDescs,
   };
 }

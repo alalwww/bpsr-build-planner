@@ -466,22 +466,79 @@
   color: #8a8a96;
 }
 
-.character-panel__stat-value--tip {
-  cursor: help;
-  border-bottom: 1px dashed #4a4a56;
+/* ステータスラベル(会心/ファスト等): クリックで効果説明ポップアップ(StatTooltip)を
+   開閉する。ホバー時は「クリックできる」ことをカーソル変化のみで示す(装飾は付けない)。
+   幅は最長のラベル(滅妄強度/ファスト/レジスト、いずれも4文字相当)に合わせて固定し、
+   ラベルごとにクリック領域の幅がばらつかないようにする。 */
+.character-panel__stat-label--clickable {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 64px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
 }
 
-.character-panel__stat-tooltip {
-  background: #1c1c24;
-  border: 1px solid #3a3a45;
-  border-radius: 4px;
-  padding: 4px 8px;
+/* ステータス効果説明ポップアップ(FloatingTooltip共通ベースの拡張、skill-tooltipと同系統)。
+   内容の長さに関わらず幅を固定する(滅妄強度のような長文でも会心のような短文でも同じ幅)。 */
+.stat-tooltip {
+  width: 320px;
+}
+
+.stat-tooltip__header {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f4e8c1;
+}
+
+.stat-tooltip__hr {
+  border: none;
+  border-top: 1px solid #2a2a3e;
+  margin: 6px 0;
+}
+
+.stat-tooltip__desc {
+  color: #a0a0b8;
+  font-size: 13px;
+  margin: 0 0 8px;
+  white-space: pre-wrap;
+}
+
+.stat-tooltip__value-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
   font-size: 12px;
-  color: #e8e6e1;
+  line-height: 1.6;
+}
+
+.stat-tooltip__value-label {
+  color: #c8c6d1;
+}
+
+.stat-tooltip__value {
+  color: #f4a13a;
+  font-weight: 700;
   white-space: nowrap;
-  z-index: 9999;
-  pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+/* シーズン定数/計算式(収穫逓減カーブの内訳)。他の現在値/現在率行と少し間隔を空ける。 */
+.stat-tooltip__formula-section {
+  margin-top: 8px;
+}
+
+.stat-tooltip__formula {
+  margin: 4px 0 0;
+  color: #7a7a8a;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .character-panel__summary {

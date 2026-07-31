@@ -59304,55 +59304,107 @@
   "classes": {
     "1": {
       "name": "雷影劍士",
-      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>鐮形長刀</color>為武器。可在鐮刀與長刀之間隨意切換，擁有出色的<color=#fcbe03>小範圍攻擊</color>能力。"
+      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>鐮形長刀</color>為武器。可在鐮刀與長刀之間隨意切換，擁有出色的<color=#fcbe03>小範圍攻擊</color>能力。",
+      "masteryDes": [
+        "每1%精通，使消耗雷之印的技能傷害+3.4%",
+        "每1%精通提供1.2%霹靂連斬、雷霆之鐮、神罰之鐮傷害"
+      ]
     },
     "2": {
       "name": "冰魔導師",
-      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，以<color=#fcbe03>冰魔杖</color>為武器。掌控寒冰的力量，擁有出色的<color=#fcbe03>大範圍攻擊</color>和<color=#fcbe03>控制</color>能力。"
+      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，以<color=#fcbe03>冰魔杖</color>為武器。掌控寒冰的力量，擁有出色的<color=#fcbe03>大範圍攻擊</color>和<color=#fcbe03>控制</color>能力。",
+      "masteryDes": [
+        "每1%精通提供0.65%冰元素加成",
+        "每1%精通提供1%寒冰能量獲取效率以及0.2%冰元素加成<br>精通增效：每1%精通使得冰元素加成轉化比例提升3%"
+      ]
     },
     "3": {
       "name": "赤炎狂戰士",
-      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>雙斧</color>為武器。招式如火般迅疾熱烈，擁有出色的<color=#fcbe03>小範圍攻擊</color>能力。"
+      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>雙斧</color>為武器。招式如火般迅疾熱烈，擁有出色的<color=#fcbe03>小範圍攻擊</color>能力。",
+      "masteryDes": [
+        "每1%精通提供3.2%熾焰突襲、暴怒劈斬、斧風冷卻加速和0.2%物理攻擊",
+        "每1%精通提供0.72%火元素加成"
+      ]
     },
     "4": {
       "name": "青嵐騎士",
-      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>長槍</color>為武器。如風般形態變幻，擁有出色的<color=#fcbe03>小範圍攻擊</color>能力。"
+      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>長槍</color>為武器。如風般形態變幻，擁有出色的<color=#fcbe03>小範圍攻擊</color>能力。",
+      "masteryDes": [
+        "每1%精通提供0.35%風元素加成<br>精通增效：每1%精通使得風元素加成轉化比例提升3%",
+        "每1%精通提供0.65%風元素加成"
+      ]
     },
     "5": {
       "name": "森語者",
-      "intro": "擅長<color=#fcbe03>遠距離治療</color>，以<color=#fcbe03>法環</color>為武器。運轉森之生命的力量，擁有出色的<color=#fcbe03>治療</color>和<color=#fcbe03>輔助</color>能力。"
+      "intro": "擅長<color=#fcbe03>遠距離治療</color>，以<color=#fcbe03>法環</color>為武器。運轉森之生命的力量，擁有出色的<color=#fcbe03>治療</color>和<color=#fcbe03>輔助</color>能力。",
+      "masteryDes": [
+        "每1%精通提供0.75%森元素加成以及0.3%護盾強度",
+        "每1%精通提供1%治療強度"
+      ]
     },
     "8": {
       "name": "雷霆一閃·手炮",
-      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，擁有出色的攻擊能力。<br>可以在遠處以高頻攻擊打擊大範圍的敵人。追求<color=#fcbe03>刻印幾率加成</color>提高觸發頻率。<br>也可以在近處<color=#fcbe03>蓄力</color>，打出極高的爆發傷害。追求<color=#fcbe03>暴擊幾率</color>帶來的強大收益。"
+      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，擁有出色的攻擊能力。<br>可以在遠處以高頻攻擊打擊大範圍的敵人。追求<color=#fcbe03>刻印幾率加成</color>提高觸發頻率。<br>也可以在近處<color=#fcbe03>蓄力</color>，打出極高的爆發傷害。追求<color=#fcbe03>暴擊幾率</color>帶來的強大收益。",
+      "masteryDes": [
+        "附加雷元素傷害",
+        "附加雷元素傷害"
+      ]
     },
     "9": {
       "name": "巨刃守護者",
-      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>衛刃</color>為武器。凝聚岩石護體，擁有出色的<color=#fcbe03>防禦</color>和<color=#fcbe03>控場</color>能力。"
+      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>衛刃</color>為武器。凝聚岩石護體，擁有出色的<color=#fcbe03>防禦</color>和<color=#fcbe03>控場</color>能力。",
+      "masteryDes": [
+        "每1%精通提供2.5%護盾強度",
+        "每1%精通提供0.2%格擋減傷、0.2%幸運格擋減傷"
+      ]
     },
     "10": {
       "name": "暗靈祈舞·儀刀/儀仗",
-      "intro": "中近距離武器，擁有協同攻擊能力。"
+      "intro": "中近距離武器，擁有協同攻擊能力。",
+      "masteryDes": [
+        "附加暗元素傷害",
+        "附加暗元素傷害"
+      ]
     },
     "11": {
       "name": "神射手",
-      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，以<color=#fcbe03>弓箭</color>為武器。與動物夥伴搭檔出擊，擁有出色的<color=#fcbe03>大範圍攻擊</color>能力。"
+      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，以<color=#fcbe03>弓箭</color>為武器。與動物夥伴搭檔出擊，擁有出色的<color=#fcbe03>大範圍攻擊</color>能力。",
+      "masteryDes": [
+        "每1%精通提供2.75%寵物傷害",
+        "每1%精通提供0.6%光元素加成"
+      ]
     },
     "12": {
       "name": "神盾騎士",
-      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>劍盾</color>為武器。運用光鑄造鎧甲，擁有出色的<color=#fcbe03>防禦</color>和<color=#fcbe03>自愈</color>能力。"
+      "intro": "擅長<color=#fcbe03>近距離</color>作戰，以<color=#fcbe03>劍盾</color>為武器。運用光鑄造鎧甲，擁有出色的<color=#fcbe03>防禦</color>和<color=#fcbe03>自愈</color>能力。",
+      "masteryDes": [
+        "每1%精通提供2.5%光明聖盾獲取效率和0.2%全元素抵抗",
+        "每1%精通提供3%光鑄屏障生命提升效果和0.2%全元素抵抗"
+      ]
     },
     "13": {
       "name": "靈魂樂手",
-      "intro": "擅長<color=#fcbe03>近遠距離</color>作戰，以<color=#fcbe03>吉他</color>為武器。攻擊可以施加<color=#fcbe03>治療</color>效果，擅長為隊友施加<color=#fcbe03>增益</color>，擁有出色的<color=#fcbe03>輔助</color>能力。"
+      "intro": "擅長<color=#fcbe03>近遠距離</color>作戰，以<color=#fcbe03>吉他</color>為武器。攻擊可以施加<color=#fcbe03>治療</color>效果，擅長為隊友施加<color=#fcbe03>增益</color>，擁有出色的<color=#fcbe03>輔助</color>能力。",
+      "masteryDes": [
+        "每1%精通提供1%安和曲轉換加成效果",
+        "每1%精通使得鳴奏·癒合樂章衰退速度降低0.35%"
+      ]
     },
     "14": {
       "name": "露西",
-      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，擁有出色的攻擊能力。<br>可以在遠處以高頻攻擊打擊大範圍的敵人。追求<color=#fcbe03>刻印幾率加成</color>提高觸發頻率。<br>也可以在近處<color=#fcbe03>蓄力</color>，打出極高的爆發傷害。追求<color=#fcbe03>暴擊幾率</color>帶來的強大收益。"
+      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，擁有出色的攻擊能力。<br>可以在遠處以高頻攻擊打擊大範圍的敵人。追求<color=#fcbe03>刻印幾率加成</color>提高觸發頻率。<br>也可以在近處<color=#fcbe03>蓄力</color>，打出極高的爆發傷害。追求<color=#fcbe03>暴擊幾率</color>帶來的強大收益。",
+      "masteryDes": [
+        "提升暴擊傷害",
+        "提升暴擊傷害"
+      ]
     },
     "15": {
       "name": "納茲",
-      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，擁有出色的攻擊能力。<br>可以在遠處以高頻攻擊打擊大範圍的敵人。追求<color=#fcbe03>刻印幾率加成</color>提高觸發頻率。<br>也可以在近處<color=#fcbe03>蓄力</color>，打出極高的爆發傷害。追求<color=#fcbe03>暴擊幾率</color>帶來的強大收益。"
+      "intro": "擅長<color=#fcbe03>遠距離</color>作戰，擁有出色的攻擊能力。<br>可以在遠處以高頻攻擊打擊大範圍的敵人。追求<color=#fcbe03>刻印幾率加成</color>提高觸發頻率。<br>也可以在近處<color=#fcbe03>蓄力</color>，打出極高的爆發傷害。追求<color=#fcbe03>暴擊幾率</color>帶來的強大收益。",
+      "masteryDes": [
+        "提升暴擊傷害",
+        "提升暴擊傷害"
+      ]
     }
   },
   "parts": {
@@ -69768,5 +69820,14 @@
     "3403014": "使敵人持續損失生命值。是一種負面效果。",
     "3403020": "包含<style=\"accent-gn\">眩暈</style>、<style=\"accent-gn\">凍結</style>、<style=\"accent-gn\">石化</style>、<style=\"accent-gn\">麻痺</style>、<style=\"accent-gn\">眩目</style>、<style=\"accent-gn\">恐懼</style>。",
     "3403021": "包含<style=\"accent-gn\">沉默</style>、<style=\"accent-gn\">減速</style>、<style=\"accent-gn\">定身</style>、<style=\"accent-gn\">重傷</style>、<style=\"accent-gn\">中毒</style>、<style=\"accent-gn\">流血</style>、<style=\"accent-gn\">灼燒</style>。"
+  },
+  "statDescs": {
+    "illusionPower": "對「燼空賽季」怪物：<br>當你的破妄強度高於敵方時，每高出150點你造成的傷害提升5%（不超過20%），造成的治療提升2%（不超過8%，僅在副本和野外精英、首領附近生效）<br>當你的破妄強度低於敵方時，你造成的傷害和治療會大幅降低，受到的傷害會大幅提升<br><br>對「過往賽季」野外怪物：<br>你造成的傷害提升100%<br><br>可通過怪物頭上的圖標顏色判斷威脅程度，怪物手冊和副本介紹中也可以觀測怪物強度。",
+    "crit": "提高自身觸發暴擊的幾率<br>造成傷害時，有一定概率觸發暴擊，使該次傷害受到暴擊傷害的加成",
+    "haste": "提高攻擊速度和施法速度",
+    "luck": "提高自身觸發幸運效果的幾率<br>使用職業技能造成非持續性傷害或治療時，有一定概率觸發你所擁有的所有幸運效果。<br>基礎幸運一擊效果：額外觸發一次固定倍率的傷害或治療，倍率跟隨幸運概率的提升而提升。<br>幸運增效：每1%幸運幾率提升1%「幸運效果」傷害和治療。",
+    "mastery": "根據職業流派特性獲得不同的能力加成",
+    "versatility": "每1%全能提高0.35%造成傷害、治療和施加護盾時的百分比加成，以及0.15%受到傷害時的傷害減免",
+    "resist": "提高自身格擋敵方攻擊的幾率<br>受到傷害時，有一定概率觸發格擋，使該次傷害降低，降低比例等於格擋傷害減免"
   }
 }
