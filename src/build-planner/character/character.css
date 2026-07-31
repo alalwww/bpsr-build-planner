@@ -543,11 +543,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* シーズン定数/計算式(収穫逓減カーブの内訳)。他の現在値/現在率行と少し間隔を空ける。 */
-.stat-tooltip__formula-section {
-  margin-top: 8px;
-}
-
 .stat-tooltip__formula {
   margin: 4px 0 0;
   color: #7a7a8a;

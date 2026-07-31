@@ -152,12 +152,50 @@ function StatTooltip({
         <p className="stat-tooltip__desc">{renderMarkup(desc, linkTextPopup.handlers)}</p>
       )}
       <hr className="stat-tooltip__hr" />
-      <div className="stat-tooltip__value-row">
-        <span className="stat-tooltip__value-label">
-          {t('buildPlanner.statTooltip.currentValue')}
-        </span>
-        <span className="stat-tooltip__value">{truncate2Str(rawValue)}</span>
-      </div>
+      {basePercent !== undefined && seasonConstant !== undefined ? (
+        <>
+          <div className="stat-tooltip__value-row">
+            <span className="stat-tooltip__value-label">
+              {t('buildPlanner.statTooltip.currentRate')}
+            </span>
+            <span className="stat-tooltip__value">{truncate2Str(currentPercent)}%</span>
+          </div>
+          <hr className="stat-tooltip__hr" />
+          <div className="stat-tooltip__value-row">
+            <span className="stat-tooltip__value-label">
+              {t('buildPlanner.statTooltip.currentValue')}
+            </span>
+            <span className="stat-tooltip__value">{truncate2Str(rawValue)}</span>
+          </div>
+          <div className="stat-tooltip__value-row">
+            <span className="stat-tooltip__value-label">
+              {t('buildPlanner.statTooltip.baseRate')}
+            </span>
+            <span className="stat-tooltip__value">{truncate2Str(basePercent)}%</span>
+          </div>
+          <div className="stat-tooltip__value-row">
+            <span className="stat-tooltip__value-label">
+              {t('buildPlanner.statTooltip.seasonConstant')}
+            </span>
+            <span className="stat-tooltip__value">{seasonConstant.toLocaleString()}</span>
+          </div>
+          <p className="stat-tooltip__formula">
+            {t('buildPlanner.statTooltip.formula', {
+              currentValue: t('buildPlanner.statTooltip.currentValue'),
+              seasonConstant: t('buildPlanner.statTooltip.seasonConstant'),
+              baseRate: t('buildPlanner.statTooltip.baseRate'),
+              currentRate: t('buildPlanner.statTooltip.currentRate'),
+            })}
+          </p>
+        </>
+      ) : (
+        <div className="stat-tooltip__value-row">
+          <span className="stat-tooltip__value-label">
+            {t('buildPlanner.statTooltip.currentValue')}
+          </span>
+          <span className="stat-tooltip__value">{truncate2Str(rawValue)}</span>
+        </div>
+      )}
       {breakdownConfig && breakdownEntry && (
         <>
           <hr className="stat-tooltip__hr" />
@@ -224,38 +262,6 @@ function StatTooltip({
               return formula;
             })()}
           </p>
-        </>
-      )}
-      {basePercent !== undefined && seasonConstant !== undefined && (
-        <>
-          <div className="stat-tooltip__value-row">
-            <span className="stat-tooltip__value-label">
-              {t('buildPlanner.statTooltip.currentRate')}
-            </span>
-            <span className="stat-tooltip__value">{truncate2Str(currentPercent)}%</span>
-          </div>
-          <div className="stat-tooltip__value-row">
-            <span className="stat-tooltip__value-label">
-              {t('buildPlanner.statTooltip.baseRate')}
-            </span>
-            <span className="stat-tooltip__value">{truncate2Str(basePercent)}%</span>
-          </div>
-          <div className="stat-tooltip__formula-section">
-            <div className="stat-tooltip__value-row">
-              <span className="stat-tooltip__value-label">
-                {t('buildPlanner.statTooltip.seasonConstant')}
-              </span>
-              <span className="stat-tooltip__value">{seasonConstant.toLocaleString()}</span>
-            </div>
-            <p className="stat-tooltip__formula">
-              {t('buildPlanner.statTooltip.formula', {
-                currentValue: t('buildPlanner.statTooltip.currentValue'),
-                seasonConstant: t('buildPlanner.statTooltip.seasonConstant'),
-                baseRate: t('buildPlanner.statTooltip.baseRate'),
-                currentRate: t('buildPlanner.statTooltip.currentRate'),
-              })}
-            </p>
-          </div>
         </>
       )}
       {linkTextPopup.popup && (
