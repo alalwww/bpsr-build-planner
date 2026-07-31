@@ -21,7 +21,9 @@ import type {
 import {
   calcStatValue,
   enchantsData,
+  getEnchantIconUrl,
   getItemNameColor,
+  getQualityColor,
   getSuitInfo,
   resolveEnchantSelection,
   truncate1Str,
@@ -48,6 +50,26 @@ interface EquipmentItemPopupProps {
   selectedLegendaryAffix: LegendaryAffixSelection | undefined;
   selectedLegendaryAffixGroup?: Array<LegendaryAffixSelection | undefined>;
   selectedEnchant: number | undefined;
+  /**
+   * 装着効果/精錬効果セクションを表示するか(既定true)。装備選択ダイアログの候補一覧
+   * ホバー時は、スロットに現在設定中の装着効果/精錬レベルをそのまま流用しているだけで
+   * 候補アイテム自身のステータスではないため、falseにして非表示にする。
+   */
+  showEnchantAndRefine?: boolean;
+  /**
+   * 改鋳スロットで実際に選択中のステータス名/完成度を表示するか(既定true)。装備パネルの
+   * 装備済みスロットホバー時はこの装備自身に設定済みの内容なのでそのまま表示してよいが、
+   * 装備選択ダイアログの候補一覧ホバー時は evolutionStats/perfectline がダイアログ側の
+   * 現在の状態を指しているだけで候補アイテム自身の情報ではないため、falseにして選択中
+   * ステータス名を隠し、完成度100%時点の値のみを表示する。
+   */
+  showReforgeSelection?: boolean;
+  /**
+   * レアステータスを枠ごとの内訳(未装着枠は「未装着」表示)で見せるか(既定true)。
+   * 装備選択ダイアログの候補一覧ホバー時は、選択状態がダイアログ側の現在の状態でしかなく
+   * 候補アイテム自身の情報ではないため、falseにして枠数のみ(内訳なし)を表示する。
+   */
+  showRareStatsDetail?: boolean;
 }
 
 // 装備パネルの装備済みスロットにホバーした際に表示する、選択ダイアログと同じ内訳の読み取り専用ポップアップ。
@@ -67,6 +89,9 @@ function EquipmentItemPopup({
   selectedLegendaryAffix,
   selectedLegendaryAffixGroup,
   selectedEnchant,
+  showEnchantAndRefine = true,
+  showReforgeSelection = true,
+  showRareStatsDetail = true,
 }: EquipmentItemPopupProps) {
   const { t } = useTranslation();
   const x = align === 'left' ? mouseX - CURSOR_GAP : mouseX + CURSOR_GAP;
@@ -82,14 +107,24 @@ function EquipmentItemPopup({
   const maxPerfectline = isFixedStat ? 100 : getMaxPerfectline(item);
 
   const reforgedStat = evolutionStats[2];
+  // showReforgeSelection=falseの場合(装備選択ダイアログの候補一覧ホバー時)は、
+  // evolutionStats/sliderValueがダイアログ側の現在の状態を指しているだけで候補アイテム
+  // 自身の情報ではないため、完成度100%時点の値を使う。
   // 他の個別ステータス表示と異なり、この値は四捨五入した整数として合算されるため
   // (calculateRawStats.tsの改鋳スロット処理を参照)、表示も同じ四捨五入値にする。
   const reforgeEvoValue =
     item.reforgeMaxPerfectline > 0
-      ? String(Math.round(calcStatValue(item.reforgeEvoMin, item.reforgeEvoMax, sliderValue)))
+      ? String(
+          Math.round(
+            calcStatValue(
+              item.reforgeEvoMin,
+              item.reforgeEvoMax,
+              showReforgeSelection ? sliderValue : 100,
+            ),
+          ),
+        )
       : '0';
-  const showReforgeRow =
-    (evoKind === 'btFixed' || evoKind === 'dataEvo' || evoKind === 'sameEvo') && !!reforgedStat;
+  const showReforgeRow = item.reforgeMaxPerfectline > 0;
 
   const suitInfo = useMemo(
     () => getSuitInfo(item, equippedItems, talentSchoolId),
@@ -97,7 +132,10 @@ function EquipmentItemPopup({
   );
 
   const enchantsList = item.enchantId ? (enchantsData[String(item.enchantId)] ?? []) : [];
-  const { data: selectedEnchantData } = resolveEnchantSelection(enchantsList, selectedEnchant);
+  const { base: selectedEnchantBase, data: selectedEnchantData } = resolveEnchantSelection(
+    enchantsList,
+    selectedEnchant,
+  );
 
   const selectedAffixEntry = item.legendaryAffix?.find(
     (e) => e.attrId === selectedLegendaryAffix?.attrId,
@@ -110,16 +148,37 @@ function EquipmentItemPopup({
       : null;
 
   const affixGroups = item.legendaryAffixGroups?.[String(talentSchoolId)];
-  const selectedAffixGroupRows = (affixGroups ?? [])
-    .map((group, i) => {
-      const sel = selectedLegendaryAffixGroup?.[i];
-      if (!sel) return null;
-      const entry = group.find((e) => e.attrId === sel.attrId);
-      if (!entry) return null;
-      const value = entry.isPercent ? `+${sel.value / 100}%` : `+${sel.value}`;
-      return { attrId: sel.attrId, value };
-    })
-    .filter((row): row is { attrId: number; value: string } => row !== null);
+
+  // レアステータスの枠ごとの内訳。単一選択式(legendaryAffix)は1枠、蒼海武器等の4枠選択式
+  // (legendaryAffixGroups)はグループ数がそのまま枠数になる。未設定の枠も「未設定」行として
+  // 含める(showRareStatsDetail=falseの場合は使わず、枠数のみ表示する)。他のドロップダウン
+  // (改鋳/装着効果/レアステータス選択)と表記を揃えるため evolutionStatUnset を再利用する。
+  const rareStatsRows: { key: string | number; name: string; value: string }[] =
+    item.legendaryAffix && item.legendaryAffix.length > 0
+      ? [
+          selectedLegendaryAffix && affixDisplayValue
+            ? {
+                key: 'single',
+                name: t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' }),
+                value: affixDisplayValue,
+              }
+            : { key: 'single', name: t('buildPlanner.evolutionStatUnset'), value: '' },
+        ]
+      : (affixGroups ?? []).map((group, i) => {
+          const sel = selectedLegendaryAffixGroup?.[i];
+          const entry = sel ? group.find((e) => e.attrId === sel.attrId) : undefined;
+          if (entry && sel) {
+            return {
+              key: i,
+              name: t(`attributes.${sel.attrId}`, { ns: 'game-data' }),
+              value: entry.isPercent ? `+${sel.value / 100}%` : `+${sel.value}`,
+            };
+          }
+          return { key: i, name: t('buildPlanner.evolutionStatUnset'), value: '' };
+        });
+
+  const rareStatsSlotCount =
+    item.legendaryAffix && item.legendaryAffix.length > 0 ? 1 : (affixGroups?.length ?? 0);
 
   const name = t(`items.${item.id}.name`, { ns: 'game-data' });
 
@@ -184,28 +243,11 @@ function EquipmentItemPopup({
         </div>
       )}
 
-      {(evoKind !== 'selectable' ||
-        selectedLegendaryAffix ||
-        selectedAffixGroupRows.length > 0) && (
+      {evoKind !== 'selectable' && (
         <div className="equip-item-popup__section">
           <h4 className="equip-details-section__heading equip-item-popup__heading--underline">
             {t('buildPlanner.evolutionStats')}
           </h4>
-          {selectedLegendaryAffix && affixDisplayValue && (
-            <StatRow
-              className="equip-item-popup__affix-row"
-              name={t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })}
-              value={affixDisplayValue}
-            />
-          )}
-          {selectedAffixGroupRows.map((row) => (
-            <StatRow
-              key={row.attrId}
-              className="equip-item-popup__affix-row"
-              name={t(`attributes.${row.attrId}`, { ns: 'game-data' })}
-              value={row.value}
-            />
-          ))}
           {evoKind === 'seriesFixed' &&
             fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
               <StatRow
@@ -250,14 +292,42 @@ function EquipmentItemPopup({
           {showReforgeRow && (
             <StatRow
               name={
-                <>
-                  <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>{' '}
-                  {t(`buildPlanner.stats.${reforgedStat}`)}
-                </>
+                showReforgeSelection && reforgedStat ? (
+                  <>
+                    <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>{' '}
+                    {t(`buildPlanner.stats.${reforgedStat}`)}
+                  </>
+                ) : (
+                  <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>
+                )
               }
-              value={`+${reforgeEvoValue}`}
+              value={
+                showReforgeSelection && !reforgedStat
+                  ? t('buildPlanner.evolutionStatUnset')
+                  : `+${reforgeEvoValue}`
+              }
             />
           )}
+        </div>
+      )}
+
+      {rareStatsSlotCount > 0 && (
+        <div className="equip-item-popup__section">
+          <h4 className="equip-details-section__heading equip-item-popup__heading--underline equip-item-popup__heading--rare">
+            {t('buildPlanner.rareStats')}
+            {!showRareStatsDetail && (
+              <span className="equip-item-popup__rare-stats-count">×{rareStatsSlotCount}</span>
+            )}
+          </h4>
+          {showRareStatsDetail &&
+            rareStatsRows.map((row) => (
+              <StatRow
+                key={row.key}
+                className="equip-item-popup__affix-row"
+                name={row.name}
+                value={row.value}
+              />
+            ))}
         </div>
       )}
 
@@ -292,22 +362,44 @@ function EquipmentItemPopup({
         </div>
       )}
 
-      {selectedEnchantData && (
+      {showEnchantAndRefine && enchantsList.length > 0 && (
         <div className="equip-item-popup__section">
           <h4 className="equip-details-section__heading equip-item-popup__heading--underline">
             {t('buildPlanner.equippedEffects')}
           </h4>
-          {selectedEnchantData.effects.map(([attrId, value]) => (
-            <StatRow
-              key={attrId}
-              name={t(`attributes.${attrId}`, { ns: 'game-data' })}
-              value={`+${value}`}
-            />
-          ))}
+          {selectedEnchantData ? (
+            <>
+              <div className="equip-item-popup__enchant-name-row">
+                {selectedEnchantBase?.icon && getEnchantIconUrl(selectedEnchantBase.icon) && (
+                  <img
+                    className="equip-enchant-icon"
+                    src={getEnchantIconUrl(selectedEnchantBase.icon)}
+                    alt=""
+                  />
+                )}
+                <span
+                  className="equip-item-popup__enchant-name"
+                  style={{ color: getQualityColor(selectedEnchantBase?.quality ?? 0) }}
+                >
+                  {t(`items.${selectedEnchantData.id}.name`, { ns: 'game-data' })}
+                </span>
+              </div>
+              {selectedEnchantData.effects.map(([attrId, value]) => (
+                <StatRow
+                  key={attrId}
+                  className="equip-item-popup__enchant-effect-row"
+                  name={t(`attributes.${attrId}`, { ns: 'game-data' })}
+                  value={`+${value}`}
+                />
+              ))}
+            </>
+          ) : (
+            <StatRow name={t('buildPlanner.evolutionStatUnset')} value="" />
+          )}
         </div>
       )}
 
-      {cumulativeEffects && cumulativeEffects.length > 0 && (
+      {showEnchantAndRefine && cumulativeEffects && cumulativeEffects.length > 0 && (
         <div className="equip-item-popup__section">
           <h4 className="equip-details-section__heading">{t('buildPlanner.refineEffect')}</h4>
           {cumulativeEffects.map(([attrId, value]) => (

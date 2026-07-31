@@ -1,6 +1,6 @@
 /* Equipped item hover popup (FloatingTooltip共通ベースの拡張) */
 .equip-item-popup {
-  max-width: 320px;
+  width: 240px;
   max-height: 70vh;
   overflow-y: auto;
   display: flex;
@@ -37,12 +37,47 @@
 
 .equip-item-popup .equip-stat-row,
 .equip-item-popup .suit-effects__tier {
+  padding-left: 10px;
+}
+
+.equip-item-popup .equip-stat-row__name {
+  min-width: 100px;
+}
+
+.equip-item-popup__affix-row .equip-stat-row__name {
+  color: #c084fc;
+}
+
+.equip-item-popup__heading--rare.equip-details-section__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  color: #c084fc;
+}
+
+.equip-item-popup__rare-stats-count {
+  font-size: 10px;
+  font-weight: 400;
+  color: #c084fc;
+}
+
+.equip-item-popup__enchant-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding-left: 6px;
 }
 
-.equip-item-popup__affix-row .equip-stat-row__name,
-.equip-item-popup__affix-row .equip-stat-row__value {
-  color: #c084fc;
+.equip-item-popup__enchant-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #c8c6d1;
+}
+
+/* 装着効果の効果値を刻印アイコン+名前と同じ字下げ位置に揃える
+   (.equip-item-popup__enchant-name-row の padding-left 6px + アイコン20px + gap4px = 30px)。 */
+.equip-item-popup .equip-item-popup__enchant-effect-row.equip-stat-row {
+  padding-left: 30px;
 }
 
 /* 装着効果ドロップダウンの各項目ホバー時の性能プレビュー(FloatingTooltip共通ベースの拡張) */

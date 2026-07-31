@@ -433,7 +433,14 @@ function EquipmentSlotPicker({
       : null;
 
   // 装備選択候補ホバー時の詳細ポップアップ。同名で能力値違いのアイテムを判別しやすくする。
-  // 選択中の候補は現在の完成度/伝説刻印をそのまま、それ以外は装備した瞬間の状態(最大完成度・刻印未選択)をプレビューする。
+  // 完成度は選択中の候補であっても常に最大値でプレビューする(現在のダイアログで指定中の
+  // 完成度を反映すると、候補間の比較がその時点のスライダー値に引きずられてしまうため)。
+  // 伝説刻印は選択中の候補のみ現在の指定をそのまま、それ以外は未選択状態をプレビューする。
+  // 装着効果/精錬効果はスロットに現在設定中の値をそのまま流用しているだけで候補アイテム
+  // 自身のステータスではないため非表示にする。改鋳ステータスも同様に、実際に選ばれている
+  // ステータス名(evolutionStats)はダイアログ側の状態でしかないため showReforgeSelection=false
+  // で隠し、完成度100%時点の値のみプレビューする。レアステータスも同様の理由で
+  // showRareStatsDetail=falseにし、枠数のみ(内訳なし)を表示する。
   const candidateTooltipNode = candidateTooltip
     ? createPortal(
         <EquipmentItemPopup
@@ -443,11 +450,7 @@ function EquipmentSlotPicker({
           item={candidateTooltip.item}
           equippedItems={equippedItems}
           refineLevel={refineLevel}
-          perfectline={
-            candidateTooltip.item.id === equippedId
-              ? perfectline
-              : getMaxPerfectline(candidateTooltip.item)
-          }
+          perfectline={getMaxPerfectline(candidateTooltip.item)}
           profession={profession}
           professionTypeKey={professionTypeKey}
           evolutionStats={evolutionStats}
@@ -458,6 +461,9 @@ function EquipmentSlotPicker({
             candidateTooltip.item.id === equippedId ? selectedLegendaryAffixGroup : undefined
           }
           selectedEnchant={selectedEnchant}
+          showEnchantAndRefine={false}
+          showReforgeSelection={false}
+          showRareStatsDetail={false}
         />,
         document.body,
       )
