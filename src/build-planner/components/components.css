@@ -483,7 +483,9 @@
   height: 24px;
   text-align: center;
   font-size: 13px;
-  padding: 0 15px 0 2px;
+  /* 右側20pxは.stepper-combo-arrow(▲▼記号の開閉ボタン)が上に重なるため、
+     テキスト入力のクリック/編集領域として使われないよう空けておく。 */
+  padding: 0 20px 0 2px;
   box-sizing: border-box;
   /* ネイティブのスピンボタンは opacity では非表示になるだけでクリック判定は残るため、
      appearance で完全に取り除く(Firefoxは textfield 指定が必要)。 */
@@ -514,14 +516,33 @@
   min-width: 0;
 }
 
+/* ▲▼記号部分。テキスト入力欄とは独立したクリック領域とし、開閉トグル専用にする
+   (以前は入力欄に重ねただけの非インタラクティブな装飾で、クリックすると下の入力欄に
+   フォーカスが入るだけでリストの開閉ができなかった)。 */
 .stepper-combo-arrow {
   position: absolute;
-  right: 8px;
+  right: 0;
   top: 0;
   bottom: 0;
-  margin: auto 0;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
   color: #8a8a9a;
-  pointer-events: none;
+  cursor: pointer;
+}
+
+.stepper-combo-arrow:hover:not(:disabled) {
+  color: #f4a13a;
+}
+
+.stepper-combo-arrow:disabled {
+  cursor: default;
+  opacity: 0.5;
 }
 
 .stepper-combo-list {

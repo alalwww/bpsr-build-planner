@@ -53,6 +53,7 @@ function Stepper({
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const arrowRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const shouldRenderPanel = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
 
@@ -66,6 +67,7 @@ function Stepper({
     const handler = (e: MouseEvent) => {
       if (
         !inputRef.current?.contains(e.target as Node) &&
+        !arrowRef.current?.contains(e.target as Node) &&
         !panelRef.current?.contains(e.target as Node)
       ) {
         setIsOpen(false);
@@ -90,6 +92,21 @@ function Stepper({
 
   const handleFocus = () => {
     if (disabled || !comboOptions || !inputRef.current) return;
+    const rect = inputRef.current.getBoundingClientRect();
+    setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width });
+    setIsOpen(true);
+  };
+
+  // ▲▼記号部分専用のトグル。テキスト入力欄とは別のクリック領域として扱い、開いている間に
+  // クリックした場合は閉じる(記号部分はinput側のフォーカスに委ねず、常に開閉トグルとして
+  // 独立させる)。
+  const toggleArrow = () => {
+    if (disabled || !comboOptions) return;
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+    if (!inputRef.current) return;
     const rect = inputRef.current.getBoundingClientRect();
     setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width });
     setIsOpen(true);
@@ -123,7 +140,15 @@ function Stepper({
                 if (!isNaN(v)) onChange(Math.max(min, Math.min(max, v)));
               }}
             />
-            <Chevron open={isOpen} className="stepper-combo-arrow" />
+            <button
+              ref={arrowRef}
+              type="button"
+              className="stepper-combo-arrow"
+              disabled={disabled}
+              onClick={toggleArrow}
+            >
+              <Chevron open={isOpen} />
+            </button>
           </div>
         ) : (
           <input
