@@ -676,16 +676,30 @@
   gap: 8px;
 }
 
-.buff-effect-dialog__row--wrap {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 4px;
+/* 行自体のON/OFFスイッチがOFFの間、ラベル・ヒント等も含め行全体を暗く見せる
+   (個別要素のdisabled装飾だけだと、ラベルが素の色のまま入力できそうに見えてしまうため)。 */
+.buff-effect-dialog__row:has(.toggle-switch[aria-checked='false']) {
+  opacity: 0.55;
 }
 
 .buff-effect-dialog__row-main {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* 左列(スイッチ+ラベル)/右列(操作パーツ+ヒント)の2カラム構成にしたい行用。
+   ヒントが長くても左列(ラベル)側にはみ出させず、右列内で改行させる。 */
+.buff-effect-dialog__row--wrap {
+  align-items: flex-start;
+}
+
+.buff-effect-dialog__row-right {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 4px;
 }
 
 .buff-effect-dialog__checkbox-label {
@@ -723,10 +737,21 @@
   cursor: not-allowed;
 }
 
+/* 数字6桁分程度が収まる幅に固定したい入力欄用(能力共鳴の基準値入力等)。 */
+.buff-effect-dialog__input--narrow {
+  flex: 0 0 auto;
+  width: 64px;
+}
+
 .buff-effect-dialog__select {
   flex: 0 0 auto;
   width: 72px;
   cursor: pointer;
+}
+
+/* シロップの属性選択等、選択肢が短い場合にもう少し幅を詰めたいselect用。 */
+.buff-effect-dialog__select--narrow {
+  width: 56px;
 }
 
 .buff-effect-dialog__hint {
@@ -735,6 +760,11 @@
   font-size: 11px;
   color: #8a8894;
   padding-left: 2px;
+}
+
+/* 鼓舞のヒント等、内容を複数行(\n区切り)で表示したい場合用。 */
+.buff-effect-dialog__hint--multiline {
+  white-space: pre-line;
 }
 
 .buff-effect-dialog__stack-label {

@@ -28,12 +28,14 @@ interface BuffEffectDialogProps {
 }
 
 // number入力の共通ヘルパー: 0は空欄表示にし、入力値はNumberでパースする(NaNは0扱い)。
+// 負の値は入力させたくないため0未満は0にクランプする。
 function toNumberInputProps(value: number, onChange: (v: number) => void) {
   return {
+    min: 0,
     value: value === 0 ? '' : value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       const parsed = Number(e.target.value);
-      onChange(Number.isNaN(parsed) ? 0 : parsed);
+      onChange(Number.isNaN(parsed) ? 0 : Math.max(0, parsed));
     },
   };
 }
@@ -67,6 +69,18 @@ function BuffEffectDialog({
     dmgStackLevel !== 0 ? DMG_STACK_PER_STACK[dmgStackLevel] * cookingBuff.dmgStackCount : 0;
   const agileEffect = agileLevel !== 0 ? AGILE_VALUES[agileLevel] : null;
 
+  // ダメージ増強のON/OFFラベルは、スタック数Stepperの表示有無に関わらず共通のため切り出す。
+  const dmgStackToggleLabel = (
+    <label className="buff-effect-dialog__checkbox-label">
+      <ToggleSwitch
+        checked={cookingBuff.dmgStackEnabled}
+        disabled={dmgStackLevel === 0}
+        onChange={(checked) => onChange({ dmgStackEnabled: checked })}
+      />
+      <span>{t('buildPlanner.buffDialog.dmgStack')}</span>
+    </label>
+  );
+
   return (
     <DraggableDialog
       title={t('buildPlanner.buffDialog.title')}
@@ -86,7 +100,7 @@ function BuffEffectDialog({
           <input
             type="number"
             inputMode="numeric"
-            className="buff-effect-dialog__input"
+            className="buff-effect-dialog__input buff-effect-dialog__input--narrow"
             disabled={!cookingBuff.cookingEnabled}
             placeholder={atkLabel}
             {...toNumberInputProps(cookingBuff.cookingAtkValue, (v) =>
@@ -119,7 +133,7 @@ function BuffEffectDialog({
             <span>{t('buildPlanner.buffDialog.syrup')}</span>
           </label>
           <select
-            className="buff-effect-dialog__select"
+            className="buff-effect-dialog__select buff-effect-dialog__select--narrow"
             disabled={!cookingBuff.syrupEnabled}
             value={cookingBuff.syrupElement}
             onChange={(e) =>
@@ -135,7 +149,7 @@ function BuffEffectDialog({
           <input
             type="number"
             inputMode="numeric"
-            className="buff-effect-dialog__input"
+            className="buff-effect-dialog__input buff-effect-dialog__input--narrow"
             disabled={!cookingBuff.syrupEnabled}
             placeholder={t('buildPlanner.buffDialog.elementStrength')}
             {...toNumberInputProps(cookingBuff.syrupElementStrength, (v) =>
@@ -157,7 +171,7 @@ function BuffEffectDialog({
           <input
             type="number"
             inputMode="numeric"
-            className="buff-effect-dialog__input"
+            className="buff-effect-dialog__input buff-effect-dialog__input--narrow"
             disabled={!cookingBuff.starOilEnabled}
             placeholder={damageEnhanceLabel}
             {...toNumberInputProps(cookingBuff.starOilValue, (v) => onChange({ starOilValue: v }))}
@@ -177,7 +191,7 @@ function BuffEffectDialog({
           <input
             type="number"
             inputMode="numeric"
-            className="buff-effect-dialog__input"
+            className="buff-effect-dialog__input buff-effect-dialog__input--narrow"
             disabled={!cookingBuff.eventBuffEnabled}
             {...toNumberInputProps(cookingBuff.eventBuffValue, (v) =>
               onChange({ eventBuffValue: v }),
@@ -189,15 +203,15 @@ function BuffEffectDialog({
         </div>
 
         {/* 鼓舞(Inspiration): 森癒(Lifebind)/威咲(Smite)(排他選択) */}
-        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
+        <div className="buff-effect-dialog__row">
+          <label className="buff-effect-dialog__checkbox-label">
+            <ToggleSwitch
+              checked={cookingBuff.inspirationEnabled}
+              onChange={(checked) => onChange({ inspirationEnabled: checked })}
+            />
+            <span>{t('buildPlanner.buffDialog.inspiration')}</span>
+          </label>
           <div className="buff-effect-dialog__row-main">
-            <label className="buff-effect-dialog__checkbox-label">
-              <ToggleSwitch
-                checked={cookingBuff.inspirationEnabled}
-                onChange={(checked) => onChange({ inspirationEnabled: checked })}
-              />
-              <span>{t('buildPlanner.buffDialog.inspiration')}</span>
-            </label>
             <ToggleButtonGroup
               options={['lifebind', 'smite'] as const}
               value={cookingBuff.inspirationVariant}
@@ -209,36 +223,36 @@ function BuffEffectDialog({
               getDisabled={() => !cookingBuff.inspirationEnabled}
               onChange={(v) => v !== null && onChange({ inspirationVariant: v })}
             />
+            <span className="buff-effect-dialog__hint buff-effect-dialog__hint--multiline">
+              {t('buildPlanner.buffDialog.inspirationEffect', {
+                mainStat: inspirationEffect.mainStat,
+                percent: inspirationEffect.percent,
+                physDef: inspirationEffect.physDef,
+              })}
+            </span>
           </div>
-          <span className="buff-effect-dialog__hint">
-            {t('buildPlanner.buffDialog.inspirationEffect', {
-              mainStat: inspirationEffect.mainStat,
-              percent: inspirationEffect.percent,
-              physDef: inspirationEffect.physDef,
-            })}
-          </span>
         </div>
 
         {/* 能力共鳴(Stat Resonance、響奏/Concerto) */}
-        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
+        <div className="buff-effect-dialog__row">
+          <label className="buff-effect-dialog__checkbox-label">
+            <ToggleSwitch
+              checked={cookingBuff.statResonanceEnabled}
+              onChange={(checked) => onChange({ statResonanceEnabled: checked })}
+            />
+            <span>{t('buildPlanner.buffDialog.statResonance')}</span>
+          </label>
           <div className="buff-effect-dialog__row-main">
-            <label className="buff-effect-dialog__checkbox-label">
-              <ToggleSwitch
-                checked={cookingBuff.statResonanceEnabled}
-                onChange={(checked) => onChange({ statResonanceEnabled: checked })}
-              />
-              <span>{t('buildPlanner.buffDialog.statResonance')}</span>
-            </label>
             <input
               type="number"
               inputMode="numeric"
-              className="buff-effect-dialog__input"
+              className="buff-effect-dialog__input buff-effect-dialog__input--narrow"
               disabled={!cookingBuff.statResonanceEnabled}
               placeholder={t('buildPlanner.buffDialog.statResonanceBaseValue', {
                 stat: mainStatLabel,
               })}
               {...toNumberInputProps(cookingBuff.statResonanceBaseValue, (v) =>
-                onChange({ statResonanceBaseValue: Math.max(0, v) }),
+                onChange({ statResonanceBaseValue: v }),
               )}
             />{' '}
             x
@@ -255,25 +269,25 @@ function BuffEffectDialog({
                 </option>
               ))}
             </select>
+            <span className="buff-effect-dialog__hint">
+              {t('buildPlanner.buffDialog.statResonanceResult', {
+                stat: mainStatLabel,
+                value: statResonanceBonus.toLocaleString(),
+              })}
+            </span>
           </div>
-          <span className="buff-effect-dialog__hint">
-            {t('buildPlanner.buffDialog.statResonanceResult', {
-              stat: mainStatLabel,
-              value: statResonanceBonus.toLocaleString(),
-            })}
-          </span>
         </div>
 
         {/* 幸運会心(モジュールパワーコア効果): 自分(2倍・Lv5以上発動時のみ)/被Lv5/被Lv6 */}
         <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
-          <div className="buff-effect-dialog__row-main">
-            <label className="buff-effect-dialog__checkbox-label">
-              <ToggleSwitch
-                checked={cookingBuff.luckyCritEnabled}
-                onChange={(checked) => onChange({ luckyCritEnabled: checked })}
-              />
-              <span>{t('buildPlanner.buffDialog.luckyCrit')}</span>
-            </label>
+          <label className="buff-effect-dialog__checkbox-label">
+            <ToggleSwitch
+              checked={cookingBuff.luckyCritEnabled}
+              onChange={(checked) => onChange({ luckyCritEnabled: checked })}
+            />
+            <span>{t('buildPlanner.buffDialog.luckyCrit')}</span>
+          </label>
+          <div className="buff-effect-dialog__row-right">
             <ToggleButtonGroup
               options={['self', 'receivedLv5', 'receivedLv6'] as const}
               value={cookingBuff.luckyCritVariant}
@@ -287,13 +301,13 @@ function BuffEffectDialog({
               }
               onChange={(v) => v !== null && onChange({ luckyCritVariant: v })}
             />
+            <span className="buff-effect-dialog__hint">
+              {t('buildPlanner.buffDialog.luckyCritEffect', {
+                critDamage: luckyCritBonus.critDamage / 100,
+                luckyDamage: luckyCritBonus.luckyDamage / 100,
+              })}
+            </span>
           </div>
-          <span className="buff-effect-dialog__hint">
-            {t('buildPlanner.buffDialog.luckyCritEffect', {
-              critDamage: luckyCritBonus.critDamage / 100,
-              luckyDamage: luckyCritBonus.luckyDamage / 100,
-            })}
-          </span>
         </div>
 
         {/* 極・HP変動(Life Wave、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
@@ -313,39 +327,42 @@ function BuffEffectDialog({
           </span>
         </div>
 
-        {/* 極・ダメージ増強(DMG Stack、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効。表示のみ、ステ計算対象外) */}
-        <div className="buff-effect-dialog__row buff-effect-dialog__row--wrap">
-          <div className="buff-effect-dialog__row-main">
-            <label className="buff-effect-dialog__checkbox-label">
-              <ToggleSwitch
-                checked={cookingBuff.dmgStackEnabled}
-                disabled={dmgStackLevel === 0}
-                onChange={(checked) => onChange({ dmgStackEnabled: checked })}
-              />
-              <span>{t('buildPlanner.buffDialog.dmgStack')}</span>
-            </label>
-            <span className="buff-effect-dialog__stack-label">
-              {t('buildPlanner.buffDialog.dmgStackCount')}
+        {/* 極・ダメージ増強(DMG Stack、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効。表示のみ、ステ計算対象外)
+            モジュール未装備でスイッチが無効化されている間は、操作できないスタック数Stepperを
+            非表示にし、他のパワーコア効果行(適応力等)と同じ「スイッチ+ヒントのみ」の
+            表示に揃える。 */}
+        {dmgStackLevel === 0 ? (
+          <div className="buff-effect-dialog__row">
+            {dmgStackToggleLabel}
+            <span className="buff-effect-dialog__hint">
+              {t('buildPlanner.buffDialog.powerCoreLocked')}
             </span>
-            <Stepper
-              className="stepper-inline"
-              modifierClassName={`buff-effect-dialog__stack-stepper${!cookingBuff.dmgStackEnabled || dmgStackLevel === 0 ? ' buff-effect-dialog__stack-stepper--disabled' : ''}`}
-              layout="inline"
-              disableList
-              value={cookingBuff.dmgStackCount}
-              min={1}
-              max={4}
-              onChange={(v) => onChange({ dmgStackCount: v })}
-            />
           </div>
-          <span className="buff-effect-dialog__hint">
-            {dmgStackLevel === 0
-              ? t('buildPlanner.buffDialog.powerCoreLocked')
-              : t('buildPlanner.buffDialog.dmgStackEffect', {
-                  value: dmgStackPercent.toFixed(2),
-                })}
-          </span>
-        </div>
+        ) : (
+          <div className="buff-effect-dialog__row">
+            <div className="buff-effect-dialog__row-main">
+              {dmgStackToggleLabel}
+              <span className="buff-effect-dialog__stack-label">
+                {t('buildPlanner.buffDialog.dmgStackCount')}
+              </span>
+              <Stepper
+                className="stepper-inline"
+                modifierClassName={`buff-effect-dialog__stack-stepper${!cookingBuff.dmgStackEnabled ? ' buff-effect-dialog__stack-stepper--disabled' : ''}`}
+                layout="inline"
+                disableList
+                value={cookingBuff.dmgStackCount}
+                min={1}
+                max={4}
+                onChange={(v) => onChange({ dmgStackCount: v })}
+              />
+            </div>
+            <span className="buff-effect-dialog__hint">
+              {t('buildPlanner.buffDialog.dmgStackEffect', {
+                value: dmgStackPercent.toFixed(2),
+              })}
+            </span>
+          </div>
+        )}
 
         {/* 極・適応力(Agile、モジュールパワーコア効果、自分のみ。Lv5以上発動時のみ有効) */}
         <div className="buff-effect-dialog__row">

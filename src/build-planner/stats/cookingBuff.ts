@@ -5,13 +5,13 @@ export const DEFAULT_EVENT_BUFF_VALUE = 500;
 
 export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   cookingEnabled: false,
-  cookingAtkValue: 0,
-  cookingEliteDamagePercent: 0,
+  cookingAtkValue: 210,
+  cookingEliteDamagePercent: 10,
   syrupEnabled: false,
   syrupElement: 'fire',
   syrupElementStrength: 1500,
   starOilEnabled: false,
-  starOilValue: 0,
+  starOilValue: 1000,
   eventBuffEnabled: false,
   eventBuffValue: DEFAULT_EVENT_BUFF_VALUE,
   inspirationEnabled: false,
