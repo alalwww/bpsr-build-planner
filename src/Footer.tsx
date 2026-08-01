@@ -4,11 +4,13 @@ import { formatBuildTime } from './buildInfo';
 import AboutDialog from './about/AboutDialog';
 import { latestChangelogVersion } from './about/changelogData';
 import { hasUnreadChangelog, markChangelogSeen } from './about/changelogStorage';
+import PrivacyPolicyDialog from './privacy/PrivacyPolicyDialog';
 import './Footer.css';
 
 function Footer() {
   const { t } = useTranslation();
   const [showChangelog, setShowChangelog] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [unread, setUnread] = useState(() => hasUnreadChangelog(latestChangelogVersion));
 
   const openChangelog = () => {
@@ -21,7 +23,16 @@ function Footer() {
     <>
       <footer className="app-footer">
         <div className="app-footer-notice">
-          <p>{t('footer.copyright')}</p>
+          <p>
+            {t('footer.copyright')}
+            <button
+              type="button"
+              className="app-footer-privacy-link"
+              onClick={() => setShowPrivacyPolicy(true)}
+            >
+              {t('privacy.footerLink')}
+            </button>
+          </p>
           <p>{t('footer.disclaimer')}</p>
         </div>
         <button type="button" className="app-footer-build" onClick={openChangelog}>
@@ -32,6 +43,7 @@ function Footer() {
         </button>
       </footer>
       {showChangelog && <AboutDialog onClose={() => setShowChangelog(false)} />}
+      {showPrivacyPolicy && <PrivacyPolicyDialog onClose={() => setShowPrivacyPolicy(false)} />}
     </>
   );
 }
