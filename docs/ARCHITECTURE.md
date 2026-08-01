@@ -47,6 +47,10 @@ UI層 (Tauri WebView Frontend: React + TypeScript)
 │   ├─ App.tsx         # メインウィンドウ
 │   ├─ SettingsApp.tsx # 設定ウィンドウ(Tauri版のみ。Web版は設定を
 │   │                   # BuildPlanner.tsx内のドロップダウンメニューとして表示)
+│   ├─ about/           # About情報(Tauri版はabout.htmlの専用ウィンドウ、Web版はダイアログ)
+│   ├─ privacy/         # プライバシーポリシーダイアログ(Web版のみ)
+│   ├─ build-planner/  # ビルドプランナー本体(装備/スキル/モジュール/心相投影/プラン管理等)。
+│   │                   # 内部構成の詳細は docs/CHARACTER_DATA_MODEL.md 等を参照
 │   ├─ platform/index.ts # `isTauri`判定(Tauri v2が注入する`__TAURI_INTERNALS__`の有無で分岐)
 │   ├─ i18n.ts
 │   ├─ platform/languages.ts # 対応言語一覧(`SUPPORTED_LANGUAGES`)。言語切替UIが共通で参照
@@ -55,6 +59,9 @@ UI層 (Tauri WebView Frontend: React + TypeScript)
 │       # scripts/derive-traditional-chinese.mjs(OpenCC変換)で導出する
 ├─ index.html          # メインウィンドウのエントリ
 ├─ settings.html        # 設定ウィンドウのエントリ(Tauriのみ使用)
+├─ about.html, stats-detail.html, ability-score.html
+│                       # 常駐ウィンドウ(About/ステータス詳細/能力スコア内訳)のエントリ(Tauriのみ使用)
+├─ backend/            # 短縮URL機能のPHPバックエンド(api.awairo.net)。詳細はdocs/SHORT_URL.md
 ├─ package.json / vite.config.ts / tsconfig*.json
 ├─ vite.config.web.ts  # Web配信ビルド用設定(`npm run build:web` → `dist-web/`)
 └─ mise.toml           # Node/Rustツールバージョン管理
@@ -87,13 +94,18 @@ UI層 (Tauri WebView Frontend: React + TypeScript)
 
 ## ウィンドウ管理の方針
 
-- `tauri.conf.json` の `app.windows` で `main` と `settings` を静的に定義。
-  `settings` は `visible: false` で起動時は非表示。
-- 設定ウィンドウの表示/非表示はフロントエンドから `@tauri-apps/api/webviewWindow` で直接操作
-  (`WebviewWindow.getByLabel("settings")` → `.show()` / `.hide()`)。
-- **メインウィンドウを閉じたら必ずアプリを終了**させる。設定ウィンドウが裏で存在(非表示)していると
+- `tauri.conf.json` の `app.windows` で `main` / `settings` / `about` / `stats-detail` /
+  `ability-score` を静的に定義。`main`以外はすべて `visible: false` で起動時は非表示。
+- 各ウィンドウの表示/非表示はフロントエンドから `@tauri-apps/api/webviewWindow` で直接操作
+  (`WebviewWindow.getByLabel(label)` → `.show()` / `.hide()`)。`about`のみ、無効化した`main`の
+  子として`show_about_window`(`main.rs`のTauri Command)経由でモーダル表示する。
+- **メインウィンドウを閉じたら必ずアプリを終了**させる。他ウィンドウが裏で存在(非表示)していると
   Tauri標準の「最後のウィンドウが閉じたら終了」が発火しないため、`main.rs` の `on_window_event` で
   `label == "main"` かつ `CloseRequested` を検知して明示的に `app_handle().exit(0)` を呼ぶ。
+- `main`以外のウィンドウはタイトルバー✕クリックでは破棄せず、`CloseRequested`を`prevent_close()`で
+  握りつぶして`hide()`に読み替える(閉じた後の再オープンを可能にするため)。`settings` /
+  `stats-detail` / `ability-score` は単純にhideするだけの常駐パターン、`about`は加えて
+  `main`を`set_enabled(true)`で再有効化するモーダル解除パターンの2種類がある。
 - 将来「閉じてもトレイに常駐」をオプション化する場合は、この `on_window_event` 内の分岐に
   設定値を読み込んで条件分岐を追加する想定。
 
