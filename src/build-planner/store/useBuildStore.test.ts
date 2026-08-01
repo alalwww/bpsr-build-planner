@@ -174,7 +174,7 @@ describe('phantomSlice', () => {
     expect(initialState.phantomBondPoints).toBe(0);
   });
 
-  it('setPhantomTemplateId: テンプレート変更時にnode/factor選択をリセットする', () => {
+  it('setPhantomTemplateId: テンプレート変更してもnode/factor選択は保持される(ツリーごとにgroupId/sameGroupIdが重複しないため)', () => {
     useBuildStore.getState().setPhantomNodeSelection(1, 100);
     useBuildStore.getState().setPhantomFactorSlot(1, { classKey: 'stormBlade', grade: 3 });
 
@@ -182,7 +182,8 @@ describe('phantomSlice', () => {
 
     const state = useBuildStore.getState();
     expect(state.phantomTemplateId).toBe(999);
-    expect(state.phantomFactorSlots).toEqual({});
+    expect(state.phantomNodeSelections).toEqual({ 1: 100 });
+    expect(state.phantomFactorSlots).toEqual({ 1: { classKey: 'stormBlade', grade: 3 } });
   });
 
   it('setPhantomTemplateIdState: 副作用なしでテンプレートIDのみ更新する', () => {

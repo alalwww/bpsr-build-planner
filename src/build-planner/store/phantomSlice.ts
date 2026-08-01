@@ -18,7 +18,8 @@ export interface PhantomSlice {
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
   setPhantomEnabled: (enabled: boolean) => void;
   setPhantomLevel: (level: number) => void;
-  // インタラクティブ用: テンプレート変更時にnode/factor選択をリセットする副作用を持つ。
+  // インタラクティブ用: テンプレート変更時、そのツリー未選択箇所をデフォルト値で
+  // 補完する副作用を持つ(他ツリー分の選択/因子装着は保持したまま切り替わる)。
   setPhantomTemplateId: (id: number | null) => void;
   // 生セッター。プラン読込/リセット専用(上記の副作用を発火させない)。
   setPhantomTemplateIdState: (id: number | null) => void;
@@ -29,7 +30,7 @@ export interface PhantomSlice {
   setPhantomFactorSlotsState: (slots: Record<number, PhantomFactorSlotValue | null>) => void;
 }
 
-export const createPhantomSlice: StateCreator<BuildStore, [], [], PhantomSlice> = (set, get) => {
+export const createPhantomSlice: StateCreator<BuildStore, [], [], PhantomSlice> = (set) => {
   const autoSaveOnMount = getAutoSaveOnMount().state;
   // 過去シーズン(S2)の幻影因子が装着されたままの自動保存データは、潜在Lv/絆レベルポイント/
   // 因子装着/ノード選択状況をリセットする(通知はPlanSlice側のphantomLegacyFactorResetNotice、
@@ -90,16 +91,21 @@ export const createPhantomSlice: StateCreator<BuildStore, [], [], PhantomSlice> 
     setPhantomFactorSlotsState: (phantomFactorSlots) => set({ phantomFactorSlots }),
 
     setPhantomTemplateId: (id) =>
-      set({
+      set((state) => ({
         phantomTemplateId: id,
-        phantomNodeSelections: id != null ? initPhantomNodeSelections(id) : {},
-        phantomFactorSlots: {},
+        // groupId/sameGroupIdはテンプレートをまたいで重複しないため、他ツリー分のキーを
+        // 残したままマージしても計算(getActivePhantomNodeIds等)には影響しない。これにより
+        // ツリーを切り替えても各ツリーの選択/因子装着状況が保持される。
+        phantomNodeSelections:
+          id != null
+            ? { ...initPhantomNodeSelections(id), ...state.phantomNodeSelections }
+            : state.phantomNodeSelections,
         // 未開放のツリーを選択した場合、ONなら自動でOFFにする。
         phantomEnabled:
-          get().phantomEnabled && isTemplateLocked(id, get().phantomLevel)
+          state.phantomEnabled && isTemplateLocked(id, state.phantomLevel)
             ? false
-            : get().phantomEnabled,
-      }),
+            : state.phantomEnabled,
+      })),
 
     setPhantomNodeSelection: (sameGroupId, nodeId) =>
       set((state) => ({
