@@ -365,7 +365,23 @@
       "disabledNotice": "心相投影が無効なため、絆レベル効果及び各ノード効果はステータスへ反映されません",
       "resetTooltip": "クリックでリセット",
       "tabTitleDisabled": "心相投影ツリーが無効です",
-      "tabTitleEnabled": "{{name}}が有効です"
+      "tabTitleEnabled": "{{name}}が有効です",
+      "effectSummaryButton": "効果一覧",
+      "effectSummaryTitle": "心相投影 効果一覧",
+      "effectSummary": {
+        "sections": {
+          "total": "サマリ",
+          "advanced": "上級ノード効果（絆レベル効果）",
+          "intermediate": "中級ノード効果",
+          "ordinary": "初級ノード効果"
+        },
+        "statEmpty": "変化のあるステータスはありません",
+        "individualLabel": "個別効果",
+        "flatCol": "加算",
+        "pctCol": "乗算%",
+        "finalPctCol": "最終%",
+        "routeLocked": "未開放"
+      }
     },
     "detailStats": {
       "title": "ステータス詳細",

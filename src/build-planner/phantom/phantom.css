@@ -33,6 +33,23 @@
   min-width: 5em;
 }
 
+.phantom-effect-summary-btn {
+  margin-left: auto;
+  background: #23232d;
+  border: 1px solid #3a3a4a;
+  color: #aaa;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.phantom-effect-summary-btn:hover {
+  border-color: #f4a13a;
+  color: #f4a13a;
+}
+
 .phantom-empty {
   flex: 1;
   display: flex;

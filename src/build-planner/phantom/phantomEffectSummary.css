@@ -1,0 +1,257 @@
+/* ---- 心相投影 効果一覧ダイアログ ---- */
+
+.draggable-dialog.phantom-effect-summary {
+  user-select: none;
+}
+
+/* タイトル直下・サマリより上に表示する有効/無効の状態表示。 */
+.phantom-effect-summary__status {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  background: #23232d;
+  border: 1px solid #35353f;
+  font-size: 12px;
+}
+
+.phantom-effect-summary__status-badge {
+  flex-shrink: 0;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 11px;
+  color: #8a8a98;
+  background: #33333e;
+}
+
+.phantom-effect-summary__status--on .phantom-effect-summary__status-badge {
+  color: #7fe0a0;
+  background: rgba(127, 224, 160, 0.12);
+}
+
+.phantom-effect-summary__status-notice {
+  color: #e0a15e;
+  line-height: 1.4;
+}
+
+.phantom-effect-summary__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+.phantom-effect-summary__section {
+  border-bottom: 1px solid #2a2a38;
+}
+
+.phantom-effect-summary__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: #c8c6bf;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.phantom-effect-summary__section-header:hover {
+  background: #2a2a38;
+}
+
+/* 折り畳み本体は見出しより1段字下げし、区切りを分かりやすくする。 */
+.phantom-effect-summary__section .collapsible-section__body-inner {
+  padding-left: 16px;
+}
+
+.phantom-effect-summary__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.phantom-effect-summary__table th {
+  padding: 4px 12px 4px 8px;
+  color: #7a7a8a;
+  font-weight: 600;
+  font-size: 11px;
+  text-align: right;
+}
+
+.phantom-effect-summary__table td {
+  padding: 5px 12px 5px 8px;
+  border-top: 1px solid #25252f;
+  color: #e8e6e1;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.phantom-effect-summary__table tr:hover td {
+  background: #23232d;
+}
+
+/* 行ヘッダー(ステータス名)列は値列と揃えて右揃えにする。 */
+.phantom-effect-summary__label {
+  color: #a0a0b0;
+}
+
+.phantom-effect-summary__empty {
+  margin: 0;
+  padding: 8px 12px 10px 0;
+  color: #7a7a8a;
+  font-size: 12px;
+}
+
+.phantom-effect-summary__individual {
+  padding: 6px 12px 10px 0;
+  border-top: 1px dashed #2a2a38;
+}
+
+.phantom-effect-summary__individual-label {
+  color: #7a7a8a;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* 効果名 → 説明 の2段字下げ。個別効果ラベルから見て1段目=効果名、2段目=説明。 */
+.phantom-effect-summary__individual-item {
+  padding-left: 16px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.phantom-effect-summary__individual-item:last-child {
+  margin-bottom: 0;
+}
+
+.phantom-effect-summary__individual-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #e8e6e1;
+  font-weight: 600;
+}
+
+.phantom-effect-summary__individual-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* 説明はさらに1段字下げし、折り返し行もこの字下げ位置から始まるようpadding-leftで揃える
+   (アイコン幅16px+gap6px分と同じ22pxで、名前のテキスト開始位置と縦に揃える)。 */
+.phantom-effect-summary__individual-desc {
+  padding-left: 22px;
+  color: #a0c8e0;
+  line-height: 1.5;
+}
+
+/* 上級ノード効果(絆レベル効果) */
+.phantom-effect-summary__bond-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 12px 10px 0;
+}
+
+.phantom-effect-summary__bond-row {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  opacity: 0.45;
+  font-size: 12px;
+}
+
+.phantom-effect-summary__bond-row--active {
+  opacity: 1;
+}
+
+.phantom-effect-summary__bond-threshold {
+  color: #6a6a8a;
+  min-width: 32px;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.phantom-effect-summary__bond-row--active .phantom-effect-summary__bond-threshold {
+  color: #9090c0;
+}
+
+.phantom-effect-summary__bond-desc {
+  color: #a0c8e0;
+  line-height: 1.4;
+}
+
+/* 中級/初級ノード一覧 */
+.phantom-effect-summary__node-list {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 12px 6px 0;
+}
+
+.phantom-effect-node {
+  padding: 6px 0;
+  border-top: 1px solid #25252f;
+  font-size: 12px;
+}
+
+.phantom-effect-node__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phantom-effect-node__num {
+  flex-shrink: 0;
+  width: 18px;
+  color: #6a6a8a;
+  font-size: 11px;
+  text-align: right;
+}
+
+.phantom-effect-node__icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.phantom-effect-node__name {
+  color: #e8e6e1;
+  font-weight: 600;
+}
+
+.phantom-effect-node__factor {
+  color: #9090a8;
+  font-size: 11px;
+}
+
+/* ノード番号(18px)+アイコン(18px)+gap(6px)の右端に説明の字下げ位置を揃える。 */
+.phantom-effect-node__desc {
+  margin-top: 3px;
+  padding-left: 42px;
+  color: #a0c8e0;
+  line-height: 1.5;
+}
+
+.phantom-effect-node--locked-level,
+.phantom-effect-node--locked-route {
+  opacity: 0.45;
+}
+
+.phantom-effect-node__badge {
+  color: #6a6a8a;
+  font-size: 11px;
+  margin-left: auto;
+}

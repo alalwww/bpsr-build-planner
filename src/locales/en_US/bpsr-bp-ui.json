@@ -365,7 +365,23 @@
       "disabledNotice": "Phantom Projection is disabled, so Bond Level effects and node effects aren't applied to your stats",
       "resetTooltip": "Click to reset",
       "tabTitleDisabled": "Phantom Projection tree is disabled",
-      "tabTitleEnabled": "{{name}} is enabled"
+      "tabTitleEnabled": "{{name}} is enabled",
+      "effectSummaryButton": "Effect List",
+      "effectSummaryTitle": "Phantom Projection Effect List",
+      "effectSummary": {
+        "sections": {
+          "total": "Summary",
+          "advanced": "Advanced Node Effects (Bond Level Effects)",
+          "intermediate": "Intermediate Node Effects",
+          "ordinary": "Basic Node Effects"
+        },
+        "statEmpty": "No stats are affected",
+        "individualLabel": "Individual Effects",
+        "flatCol": "Flat",
+        "pctCol": "Mult. %",
+        "finalPctCol": "Final %",
+        "routeLocked": "Locked"
+      }
     },
     "detailStats": {
       "title": "Stat Details",

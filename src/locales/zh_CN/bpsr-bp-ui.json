@@ -365,7 +365,23 @@
       "disabledNotice": "心相投影已禁用，羁绊等级效果及各节点效果不会反映到属性中",
       "resetTooltip": "点击重置",
       "tabTitleDisabled": "心相投影树已禁用",
-      "tabTitleEnabled": "{{name}}已启用"
+      "tabTitleEnabled": "{{name}}已启用",
+      "effectSummaryButton": "效果一览",
+      "effectSummaryTitle": "心相投影 效果一览",
+      "effectSummary": {
+        "sections": {
+          "total": "摘要",
+          "advanced": "高级节点效果（羁绊等级效果）",
+          "intermediate": "中级节点效果",
+          "ordinary": "初级节点效果"
+        },
+        "statEmpty": "没有发生变化的属性",
+        "individualLabel": "单项效果",
+        "flatCol": "加算",
+        "pctCol": "乘算%",
+        "finalPctCol": "最终%",
+        "routeLocked": "未解锁"
+      }
     },
     "detailStats": {
       "title": "属性详情",

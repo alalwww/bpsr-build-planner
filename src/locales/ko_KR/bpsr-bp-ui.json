@@ -365,7 +365,23 @@
       "disabledNotice": "심상 투영이 비활성화되어 있어 유대 레벨 효과 및 각 노드 효과가 스탯에 반영되지 않습니다",
       "resetTooltip": "클릭하면 초기화됩니다",
       "tabTitleDisabled": "심상 투영 트리가 비활성화되어 있습니다",
-      "tabTitleEnabled": "{{name}}이(가) 활성화되어 있습니다"
+      "tabTitleEnabled": "{{name}}이(가) 활성화되어 있습니다",
+      "effectSummaryButton": "효과 목록",
+      "effectSummaryTitle": "심상 투영 효과 목록",
+      "effectSummary": {
+        "sections": {
+          "total": "요약",
+          "advanced": "상급 노드 효과(유대 레벨 효과)",
+          "intermediate": "중급 노드 효과",
+          "ordinary": "초급 노드 효과"
+        },
+        "statEmpty": "변화된 스탯이 없습니다",
+        "individualLabel": "개별 효과",
+        "flatCol": "가산",
+        "pctCol": "승산%",
+        "finalPctCol": "최종%",
+        "routeLocked": "미해금"
+      }
     },
     "detailStats": {
       "title": "스탯 상세",

@@ -23,6 +23,7 @@ import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import { useDragScroll } from '../components/useDragScroll';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import PhantomBondSection from './PhantomBondSection';
+import PhantomEffectSummaryDialog from './PhantomEffectSummaryDialog';
 import PhantomNodeConfig from './PhantomNodeConfig';
 import PhantomNodeEffect from './PhantomNodeEffect';
 import PhantomTreeSvg from './PhantomTreeSvg';
@@ -71,6 +72,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const onPhantomNodeSelection = useBuildStore((s) => s.setPhantomNodeSelection);
   const onPhantomFactorSlot = useBuildStore((s) => s.setPhantomFactorSlot);
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
+  const [effectSummaryOpen, setEffectSummaryOpen] = useState(false);
   // ツリー側のノード選択とノード設定側の該当行は同じ selectedNodeId を共有し、相互に強調表示する。
   const toggleSelectedNode = (nodeId: number) =>
     setSelectedNodeId((prev) => (prev === nodeId ? null : nodeId));
@@ -228,6 +230,15 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                   : t('buildPlanner.phantom.enabledOff')
             }
           />
+          {phantomTemplateId != null && (
+            <button
+              type="button"
+              className="phantom-effect-summary-btn"
+              onClick={() => setEffectSummaryOpen(true)}
+            >
+              {t('buildPlanner.phantom.effectSummaryButton')}
+            </button>
+          )}
         </div>
       </div>
 
@@ -317,6 +328,21 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             />
           </div>
         </div>
+      )}
+      {effectSummaryOpen && phantomTemplateId != null && (
+        <PhantomEffectSummaryDialog
+          onClose={() => setEffectSummaryOpen(false)}
+          phantomEnabled={phantomEnabled}
+          phantomTemplateId={phantomTemplateId}
+          phantomLevel={phantomLevel}
+          phantomBondPoints={phantomBondPoints}
+          phantomNodeSelections={phantomNodeSelections}
+          phantomFactorSlots={phantomFactorSlots}
+          treeSteps={treeSteps}
+          activeNodeIds={activeNodeIds}
+          levelUnlockedNodeIds={levelUnlockedNodeIds}
+          professionId={professionId}
+        />
       )}
     </div>
   );

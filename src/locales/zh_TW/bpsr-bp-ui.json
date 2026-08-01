@@ -365,7 +365,23 @@
       "disabledNotice": "心相投影已禁用，羈絆等級效果及各節點效果不會反映到屬性中",
       "resetTooltip": "點擊重置",
       "tabTitleDisabled": "心相投影樹已禁用",
-      "tabTitleEnabled": "{{name}}已啟用"
+      "tabTitleEnabled": "{{name}}已啟用",
+      "effectSummaryButton": "效果一覽",
+      "effectSummaryTitle": "心相投影 效果一覽",
+      "effectSummary": {
+        "sections": {
+          "total": "摘要",
+          "advanced": "高級節點效果（羈絆等級效果）",
+          "intermediate": "中級節點效果",
+          "ordinary": "初級節點效果"
+        },
+        "statEmpty": "沒有發生變化的屬性",
+        "individualLabel": "單項效果",
+        "flatCol": "加算",
+        "pctCol": "乘算%",
+        "finalPctCol": "最終%",
+        "routeLocked": "未解鎖"
+      }
     },
     "detailStats": {
       "title": "屬性詳情",
