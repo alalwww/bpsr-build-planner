@@ -1,5 +1,6 @@
 import { Fragment, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
+import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import perfectlineLockIconUrl from '../../assets/ui/profession_icon_lock01.png';
 import Chevron from '../components/Chevron';
@@ -88,6 +89,39 @@ interface EquipmentSlotPickerProps {
   ) => void;
   onSetEnchant: (itemId: number | undefined) => void;
   onClose: () => void;
+}
+
+// 装着効果コスト(通常/上級)の材料アイコン+名前+個数の一覧。tooltip・選択中詳細の
+// 双方(かつ通常/上級コストの両方)で表示形式が同一なため、モジュールスコープに分離する
+// (コンポーネント内定義だとレンダーごとに関数の同一性が変わりReactが再マウントしてしまうため。
+// TalentTreePanel.tsx の Section コンポーネントと同じ理由)。
+function EnchantCostList({
+  titleKey,
+  cost,
+  advanced = false,
+  t,
+}: {
+  titleKey: string;
+  cost: [number, number][];
+  advanced?: boolean;
+  t: TFunction;
+}) {
+  return (
+    <div className={`equip-enchant-cost${advanced ? ' equip-enchant-cost--advanced' : ''}`}>
+      {t(titleKey)}:
+      {cost.map(([itemId, qty]) => {
+        const materialIconUrl = getEnchantMaterialIconUrl(itemId);
+        return (
+          <div key={itemId} className="equip-enchant-cost__row">
+            {materialIconUrl && (
+              <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
+            )}
+            {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function EquipmentSlotPicker({
@@ -428,37 +462,20 @@ function EquipmentSlotPicker({
               ))}
             </div>
             {enchantTooltip.enchant.cost && enchantTooltip.enchant.cost.length > 0 && (
-              <div className="equip-enchant-cost">
-                {t('buildPlanner.enchantCost')}:
-                {enchantTooltip.enchant.cost.map(([itemId, qty]) => {
-                  const materialIconUrl = getEnchantMaterialIconUrl(itemId);
-                  return (
-                    <div key={itemId} className="equip-enchant-cost__row">
-                      {materialIconUrl && (
-                        <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
-                      )}
-                      {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
-                    </div>
-                  );
-                })}
-              </div>
+              <EnchantCostList
+                titleKey="buildPlanner.enchantCost"
+                cost={enchantTooltip.enchant.cost}
+                t={t}
+              />
             )}
             {enchantTooltip.enchant.advancedCost &&
               enchantTooltip.enchant.advancedCost.length > 0 && (
-                <div className="equip-enchant-cost equip-enchant-cost--advanced">
-                  {t('buildPlanner.enchantAdvancedCost')}:
-                  {enchantTooltip.enchant.advancedCost.map(([itemId, qty]) => {
-                    const materialIconUrl = getEnchantMaterialIconUrl(itemId);
-                    return (
-                      <div key={itemId} className="equip-enchant-cost__row">
-                        {materialIconUrl && (
-                          <img className="equip-enchant-cost__icon" src={materialIconUrl} alt="" />
-                        )}
-                        {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
-                      </div>
-                    );
-                  })}
-                </div>
+                <EnchantCostList
+                  titleKey="buildPlanner.enchantAdvancedCost"
+                  cost={enchantTooltip.enchant.advancedCost}
+                  advanced
+                  t={t}
+                />
               )}
           </FloatingTooltip>,
           document.body,
@@ -1053,44 +1070,19 @@ function EquipmentSlotPicker({
                         />
                       ))}
                       {selectedEnchantData.cost && selectedEnchantData.cost.length > 0 && (
-                        <div className="equip-enchant-cost">
-                          {t('buildPlanner.enchantCost')}:
-                          {selectedEnchantData.cost.map(([itemId, qty]) => {
-                            const materialIconUrl = getEnchantMaterialIconUrl(itemId);
-                            return (
-                              <div key={itemId} className="equip-enchant-cost__row">
-                                {materialIconUrl && (
-                                  <img
-                                    className="equip-enchant-cost__icon"
-                                    src={materialIconUrl}
-                                    alt=""
-                                  />
-                                )}
-                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
-                              </div>
-                            );
-                          })}
-                        </div>
+                        <EnchantCostList
+                          titleKey="buildPlanner.enchantCost"
+                          cost={selectedEnchantData.cost}
+                          t={t}
+                        />
                       )}
                       {baseEnchantItem?.advancedCost && baseEnchantItem.advancedCost.length > 0 && (
-                        <div className="equip-enchant-cost equip-enchant-cost--advanced">
-                          {t('buildPlanner.enchantAdvancedCost')}:
-                          {baseEnchantItem.advancedCost.map(([itemId, qty]) => {
-                            const materialIconUrl = getEnchantMaterialIconUrl(itemId);
-                            return (
-                              <div key={itemId} className="equip-enchant-cost__row">
-                                {materialIconUrl && (
-                                  <img
-                                    className="equip-enchant-cost__icon"
-                                    src={materialIconUrl}
-                                    alt=""
-                                  />
-                                )}
-                                {t(`items.${itemId}.name`, { ns: 'game-data' })} x{qty.toLocaleString()}
-                              </div>
-                            );
-                          })}
-                        </div>
+                        <EnchantCostList
+                          titleKey="buildPlanner.enchantAdvancedCost"
+                          cost={baseEnchantItem.advancedCost}
+                          advanced
+                          t={t}
+                        />
                       )}
                     </div>
                   )}
