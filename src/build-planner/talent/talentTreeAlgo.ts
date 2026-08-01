@@ -11,6 +11,18 @@ export function hexPoints(cx: number, cy: number, r: number): string {
   return pts.join(' ');
 }
 
+// R2ルート/type4・5(六角形ノード)は基準半径の2.3倍、それ以外は1.3倍。
+// R2ルートはさらに外形(clipPath用の多角形/円)を1.13倍(2.6/2.3)大きく取る。
+export function nodeShapeRadii(
+  nr: number,
+  type: number,
+  isR2Root: boolean,
+): { nodeR: number; shapeR: number } {
+  const nodeR = isR2Root || type === 4 || type === 5 ? nr * 2.3 : Math.round(nr * 1.3);
+  const shapeR = isR2Root ? nr * 2.6 : nodeR;
+  return { nodeR, shapeR };
+}
+
 // ---- BFS ----
 
 export function bfsReachable(

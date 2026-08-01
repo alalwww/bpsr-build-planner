@@ -34,6 +34,7 @@ import {
   deselectR2NodeWithCascade,
   findEffectivePath,
   hexPoints,
+  nodeShapeRadii,
 } from './talentTreeAlgo';
 
 // ---- constants ----
@@ -515,9 +516,7 @@ export default function TalentTreePanel({
                 const isR2Root = isRoot && activeStage === 'r2';
                 const td = talentTree.nodes[String(node.talentId)];
                 const type = td?.type ?? 1;
-                const nodeR =
-                  isR2Root || type === 4 || type === 5 ? nr * 2.3 : Math.round(nr * 1.3);
-                const shapeR = isR2Root ? nr * 2.6 : nodeR;
+                const { nodeR, shapeR } = nodeShapeRadii(nr, type, isR2Root);
                 return isR2Root ? (
                   <clipPath key={`cp${node.id}`} id={`cp${node.id}`}>
                     <polygon points={hexPoints(nx, ny, shapeR)} />
@@ -576,8 +575,7 @@ export default function TalentTreePanel({
               const desc = t(`talents.${node.talentId}.description`, { defaultValue: '' });
               const iconUrl = getTalentIconUrl(td?.icon ?? '');
 
-              const nodeR = isR2Root || type === 4 || type === 5 ? nr * 2.3 : Math.round(nr * 1.3);
-              const shapeR = isR2Root ? nr * 2.6 : nodeR;
+              const { nodeR, shapeR } = nodeShapeRadii(nr, type, isR2Root);
               const iconR =
                 isR2Root || type === 4 || type === 5
                   ? Math.round(nodeR * 0.82)
