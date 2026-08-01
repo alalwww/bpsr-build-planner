@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.9.1",
+      "date": "2026-08-01T05:34:31.017Z",
+      "summary": {
+        "ja": "追加バフ効果ダイアログの「料理」トグル有効化時に固まる不具合の修正",
+        "en": "Fix a freeze when enabling the cooking toggle in the buff effect dialog"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.9.0",
       "date": "2026-08-01T05:05:34.118Z",
       "summary": {
