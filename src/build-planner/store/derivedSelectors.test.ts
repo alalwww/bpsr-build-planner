@@ -32,4 +32,17 @@ describe('computeStatsBundle', () => {
     expect(after.stats).not.toBe(before.stats);
     expect(after.abilityScore).not.toBe(before.abilityScore);
   });
+
+  it('料理バフ有効時(statCorrectionEnabled=false)でも、参照が呼び出し間で安定している', () => {
+    // 実際に踏んだ不具合: statCorrectionEnabled=falseの分岐で{}リテラルを都度生成しており、
+    // cookingAdjustmentsが1件以上ある状態(料理バフ有効時)でstats等の参照が毎回変わっていた。
+    useBuildStore.getState().setCookingBuff({ cookingEnabled: true, cookingAtkValue: 210 });
+    const state = useBuildStore.getState();
+
+    const first = computeStatsBundle(state);
+    const second = computeStatsBundle(state);
+
+    expect(second.stats).toBe(first.stats);
+    expect(second.rawStatsBreakdown).toBe(first.rawStatsBreakdown);
+  });
 });

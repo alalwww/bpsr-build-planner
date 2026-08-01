@@ -7,7 +7,13 @@
 // 元の useMemo と同じ引数集合(=同じ再計算粒度)を維持する。selectorはこれらの関数を
 // 呼ぶだけにし、pure計算関数(calculateRawStats等)を直接呼ばないこと(店舗全体のリスク
 // 注意点参照)。
-import type { AbilityScoreBreakdown, CookingBuffState, ModuleSlots, StatId } from '../types';
+import type {
+  AbilityScoreBreakdown,
+  CookingBuffState,
+  ModuleSlots,
+  StatCorrectionEntry,
+  StatId,
+} from '../types';
 import { TALENT_EFFECT_TYPE_SKILL_REPLACEMENT } from '../stats/attrMaps';
 import { calculateAbilityScore } from '../stats/calculateAbilityScore';
 import type { CalculateAbilityScoreInput } from '../stats/calculateAbilityScore';
@@ -82,6 +88,12 @@ export const selectRawStatsResult = memoizeByKeys((input: CalculateRawStatsInput
 export const selectCookingResult = memoize1((cookingBuff: CookingBuffState) =>
   applyCookingBuff(cookingBuff),
 );
+
+// statCorrectionEnabled=falseの際にcomputeCookingAdjustmentsへ渡す空オブジェクト。呼び出し側
+// (computeStatsBundle)で都度{}リテラルを生成すると、selectCookingAdjustments(memoize1)の
+// 引数がObject.is比較で常に不一致になりキャッシュが効かず、以降のselectStatsWithCooking等の
+// 参照も毎回変わって無限再レンダリングを引き起こすため、安定した参照として切り出す。
+const EMPTY_STAT_CORRECTIONS: Partial<Record<StatId, StatCorrectionEntry>> = {};
 
 export const selectDerivedStats = memoize1((...args: Parameters<typeof deriveStats>) =>
   deriveStats(...args),
@@ -291,7 +303,9 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStatsResult.highestStatFinalPctBonus,
     lifeWaveBonus,
     agileAtkMultPercent,
-    state.cookingBuff.statCorrectionEnabled ? state.cookingBuff.statCorrections : {},
+    state.cookingBuff.statCorrectionEnabled
+      ? state.cookingBuff.statCorrections
+      : EMPTY_STAT_CORRECTIONS,
   );
 
   const stats = selectStatsWithCooking(finalStatsResult.stats, cookingAdjustments);
