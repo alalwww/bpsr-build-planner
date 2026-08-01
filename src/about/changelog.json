@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.9.2",
+      "date": "2026-08-01T06:12:12.252Z",
+      "summary": {
+        "ja": "会心/ファスト/幸運/器用さ/万能のうち最大の1項目へボーナスが乗る効果(メイジ「二段増幅」等)で、判定基準が実数値ではなく%表示値になっていた不具合の修正",
+        "en": "Fix abilities that bonus the highest of crit/haste/luck/mastery/versatility (e.g. Frost Mage \"二段増幅\") to judge the highest stat by raw value instead of the displayed %"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.9.1",
       "date": "2026-08-01T05:34:31.017Z",
       "summary": {
