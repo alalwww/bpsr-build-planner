@@ -70,6 +70,7 @@
     "buffDialog": {
       "openButton": "追加バフ効果",
       "title": "追加バフ効果",
+      "saveNotice": "この設定は保存対象外です。",
       "cooking": "料理",
       "eliteDamage": "精鋭ダメージ",
       "syrup": "属性強度薬",

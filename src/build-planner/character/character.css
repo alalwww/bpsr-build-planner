@@ -663,6 +663,12 @@
   max-width: 480px;
 }
 
+.buff-effect-dialog__save-notice {
+  margin: -4px 2px 8px;
+  font-size: 11px;
+  color: #8a8894;
+}
+
 .buff-effect-dialog__body {
   display: flex;
   flex-direction: column;

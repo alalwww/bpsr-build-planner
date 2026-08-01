@@ -70,6 +70,7 @@
     "buffDialog": {
       "openButton": "추가 버프 효과",
       "title": "추가 버프 효과",
+      "saveNotice": "이 설정은 저장되지 않습니다.",
       "cooking": "요리",
       "eliteDamage": "정예 데미지",
       "syrup": "속성 강도 물약",

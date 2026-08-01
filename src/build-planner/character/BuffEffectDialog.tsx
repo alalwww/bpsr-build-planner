@@ -87,6 +87,9 @@ function BuffEffectDialog({
       onClose={onClose}
       className="buff-effect-dialog"
     >
+      <p className="buff-effect-dialog__save-notice">
+        {t('buildPlanner.buffDialog.saveNotice')}
+      </p>
       <div className="buff-effect-dialog__body">
         {/* 料理 */}
         <div className="buff-effect-dialog__row">

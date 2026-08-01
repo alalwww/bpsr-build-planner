@@ -70,6 +70,7 @@
     "buffDialog": {
       "openButton": "額外增益效果",
       "title": "額外增益效果",
+      "saveNotice": "此設置不會被保存。",
       "cooking": "料理",
       "eliteDamage": "精英傷害",
       "syrup": "元素強度藥劑",
