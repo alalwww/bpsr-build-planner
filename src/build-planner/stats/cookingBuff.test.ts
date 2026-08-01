@@ -16,12 +16,12 @@ function zeroStats(): Record<StatId, number> {
 
 describe('computeCookingAdjustments', () => {
   it('returns no adjustments when every bonus is zero', () => {
-    expect(computeCookingAdjustments(zeroStats(), 'atk', 0, 0, 0, 0, 0)).toEqual([]);
+    expect(computeCookingAdjustments(zeroStats(), 'atk', 0, 0, 0, 0, 0, zeroStats())).toEqual([]);
   });
 
   it('applies adaptability multiplier then cooking addend to the same stat, in order', () => {
     const stats = { ...zeroStats(), atk: 100 };
-    const adjustments = computeCookingAdjustments(stats, 'atk', 50, 0, 0, 0, 20);
+    const adjustments = computeCookingAdjustments(stats, 'atk', 50, 0, 0, 0, 20, zeroStats());
 
     expect(adjustments).toEqual([
       { statId: 'atk', multiplier: 1.2 },
@@ -30,34 +30,39 @@ describe('computeCookingAdjustments', () => {
   });
 
   it('adds moralePercentBonus to every INSPIRATION_PERCENT_STAT_IDS entry', () => {
-    const adjustments = computeCookingAdjustments(zeroStats(), 'atk', 0, 5, 0, 0, 0);
+    const adjustments = computeCookingAdjustments(zeroStats(), 'atk', 0, 5, 0, 0, 0, zeroStats());
 
     expect(adjustments).toEqual(
       INSPIRATION_PERCENT_STAT_IDS.map((statId) => ({ statId, addend: 5 })),
     );
   });
 
-  it('picks the currently-highest INSPIRATION_PERCENT_STAT_IDS entry for the highestStatFinalPctBonus addend (e.g. フロストメイジ「二段増幅」)', () => {
-    const stats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+  it('picks the highest INSPIRATION_PERCENT_STAT_IDS entry by raw value (not final %) for the highestStatFinalPctBonus addend (e.g. フロストメイジ「二段増幅」)', () => {
+    // haste has the highest *final %* (200), but luck has the highest *raw value* (500). The
+    // ability's "highest stat" judgement is based on the pre-diminishing-curve raw value, so it
+    // must target luck here, not haste (bug report: was incorrectly comparing final % values).
+    const finalStats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+    const rawStats = { ...zeroStats(), crit: 8, haste: 40, luck: 500, mastery: 5, versatility: 5 };
 
-    const adjustments = computeCookingAdjustments(stats, 'atk', 0, 0, 35, 0, 0);
+    const adjustments = computeCookingAdjustments(finalStats, 'atk', 0, 0, 35, 0, 0, rawStats);
 
-    expect(adjustments).toEqual([{ statId: 'haste', addend: 35 }]);
+    expect(adjustments).toEqual([{ statId: 'luck', addend: 35 }]);
   });
 
-  it('picks the currently-highest INSPIRATION_PERCENT_STAT_IDS entry for the hpShift addend', () => {
-    const stats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+  it('picks the highest INSPIRATION_PERCENT_STAT_IDS entry by raw value (not final %) for the hpShift addend', () => {
+    const finalStats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+    const rawStats = { ...zeroStats(), crit: 8, haste: 40, luck: 500, mastery: 5, versatility: 5 };
 
-    const adjustments = computeCookingAdjustments(stats, 'atk', 0, 0, 0, 15, 0);
+    const adjustments = computeCookingAdjustments(finalStats, 'atk', 0, 0, 0, 15, 0, rawStats);
 
-    expect(adjustments).toEqual([{ statId: 'haste', addend: 15 }]);
+    expect(adjustments).toEqual([{ statId: 'luck', addend: 15 }]);
   });
 
-  it('applies highestStatFinalPctBonus and hpShift sequentially, each re-checking the current max', () => {
-    // versatility (30) starts highest; +35 pushes it further ahead, so hpShift also targets it.
-    const stats = { ...zeroStats(), crit: 10, haste: 20, luck: 25, mastery: 5, versatility: 30 };
+  it('applies highestStatFinalPctBonus and hpShift to the same raw-highest stat, since raw values are unaffected by these adjustments', () => {
+    const finalStats = { ...zeroStats(), crit: 10, haste: 20, luck: 25, mastery: 5, versatility: 30 };
+    const rawStats = { ...zeroStats(), crit: 10, haste: 20, luck: 25, mastery: 5, versatility: 30 };
 
-    const adjustments = computeCookingAdjustments(stats, 'atk', 0, 0, 35, 15, 0);
+    const adjustments = computeCookingAdjustments(finalStats, 'atk', 0, 0, 35, 15, 0, rawStats);
 
     expect(adjustments).toEqual([
       { statId: 'versatility', addend: 35 },
@@ -75,8 +80,9 @@ describe('computeCookingAdjustments', () => {
       mastery: 5,
       versatility: 5,
     };
+    const rawStats = { ...zeroStats(), crit: 10, haste: 20, luck: 30, mastery: 5, versatility: 5 };
 
-    const adjustments = computeCookingAdjustments(stats, 'atk', 25, 5, 35, 15, 10);
+    const adjustments = computeCookingAdjustments(stats, 'atk', 25, 5, 35, 15, 10, rawStats);
 
     expect(adjustments).toEqual([
       { statId: 'atk', multiplier: 1.1 },
@@ -86,15 +92,15 @@ describe('computeCookingAdjustments', () => {
       { statId: 'luck', addend: 5 },
       { statId: 'mastery', addend: 5 },
       { statId: 'versatility', addend: 5 },
-      // luck (30) is highest before highestStatFinalPctBonus, and morale adds +5 uniformly so it stays highest.
+      // luck has the highest raw value (30); the morale addend above only touches the final %
+      // copy, so it has no effect on this raw-value-based selection.
       { statId: 'luck', addend: 35 },
-      // luck (70) is still highest going into hpShift.
       { statId: 'luck', addend: 15 },
     ]);
   });
 
   it('adds a statCorrections finalValue addend after every other adjustment, skipping zero entries', () => {
-    const adjustments = computeCookingAdjustments(zeroStats(), 'atk', 0, 0, 0, 0, 0, {
+    const adjustments = computeCookingAdjustments(zeroStats(), 'atk', 0, 0, 0, 0, 0, zeroStats(), {
       maxHp: { add: 999, multPercent: 999, finalValue: 500 },
       crit: { add: 0, multPercent: 0, finalValue: 0 },
       haste: { add: 0, multPercent: 0, finalValue: -25 },

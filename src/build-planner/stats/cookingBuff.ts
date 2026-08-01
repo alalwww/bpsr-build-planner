@@ -133,10 +133,14 @@ export interface CookingAdjustment {
 
 // 適応力(乗算)→料理攻撃力(加算)→鼓舞(複数statへの加算)→アビリティ(二段増幅等、その時点の
 // 最大stat種別へ加算)→HP変動(その時点の最大stat種別へ加算)の順で、最終ステータス
-// (finalStats)に対する調整リストを算出する。「最大stat種別」の判定はそれ以前の調整が
-// 適用済みの値を見る必要があるため、finalStatsのスクラッチコピー上で実際に同じ順序で
-// 逐次シミュレートする。呼び出し側はこのリストを自身の出力形
-// (実数値 / StatBreakdownEntryの multiplier・cookingBonus)に適用するだけでよい。
+// (finalStats)に対する調整リストを算出する。「最大stat種別」の判定は実数値(highestOfFiveRawStats、
+// %変換前の装備等由来の実数値。ファストはagility変換込みのhasteReal)を基準に行う(会心/幸運/
+// 器用さ/万能はゲーム内の収益逓減曲線を経由した%表示値の大小と実数値の大小が一致しない場合が
+// あり、この2つの判定基準がアビリティ対象のズレとして表面化するため。参照: フロストメイジ
+// 「二段増幅」不具合報告)。実数値はこの関数内の調整(cookingAtk/鼓舞等)では変化しないため、
+// 判定は一度だけ行えば足りる(finalStatsのようにスクラッチコピー上で逐次シミュレートする必要はない)。
+// 呼び出し側はこのリストを自身の出力形(実数値 / StatBreakdownEntryの multiplier・cookingBonus)
+// に適用するだけでよい。
 export function computeCookingAdjustments(
   finalStats: Record<StatId, number>,
   cookingAtkStatId: StatId,
@@ -145,6 +149,9 @@ export function computeCookingAdjustments(
   highestStatFinalPctBonus: number,
   lifeWaveBonus: number,
   agileAtkMultPercent: number,
+  // 「5ステータス中最大の1項目」判定用の実数値(%変換前。crit/luck/mastery/versatilityは
+  // rawStatsそのまま、hasteはagility変換込みのderived.hasteRealを渡す)。
+  highestOfFiveRawStats: Record<StatId, number>,
   // ステータス補正(仮)の最終値補正(finalValue)分。無効時は呼び出し側で{}を渡す。
   statCorrections: Partial<Record<StatId, StatCorrectionEntry>> = {},
 ): CookingAdjustment[] {
@@ -166,13 +173,13 @@ export function computeCookingAdjustments(
       adjustments.push({ statId, addend: inspirationPercentBonus });
     }
   }
-  // 会心/幸運/ファスト/器用さ/万能のうち、その時点の最終値が最も高い1項目へ加算する
+  // 会心/幸運/ファスト/器用さ/万能のうち、実数値が最も高い1項目の最終%表示値へ加算する
   // (二段増幅・HP変動で共通の判定方式)。
   const addToHighestOfFive = (bonus: number) => {
     if (bonus === 0) return;
     let maxStatId = INSPIRATION_PERCENT_STAT_IDS[0];
     for (const statId of INSPIRATION_PERCENT_STAT_IDS.slice(1)) {
-      if (working[statId] > working[maxStatId]) maxStatId = statId;
+      if (highestOfFiveRawStats[statId] > highestOfFiveRawStats[maxStatId]) maxStatId = statId;
     }
     working[maxStatId] += bonus;
     adjustments.push({ statId: maxStatId, addend: bonus });

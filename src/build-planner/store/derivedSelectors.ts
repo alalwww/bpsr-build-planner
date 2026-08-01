@@ -99,6 +99,17 @@ export const selectDerivedStats = memoize1((...args: Parameters<typeof deriveSta
   deriveStats(...args),
 );
 
+// computeCookingAdjustmentsの「5ステータス中最大の1項目」判定用の実数値(%変換前)。rawStatsを
+// そのままスプレッドすると毎回新規オブジェクトになりselectCookingAdjustments(memoize1)のキャッシュが
+// 効かなくなる(EMPTY_STAT_CORRECTIONSと同じ理由)ため、rawStats参照とhasteReal値が両方
+// 前回と同じ場合のみ同一オブジェクトを返すよう1スロットメモ化する。
+const selectHighestOfFiveRawStats = memoize1(
+  (rawStats: Record<StatId, number>, hasteReal: number): Record<StatId, number> => ({
+    ...rawStats,
+    haste: hasteReal,
+  }),
+);
+
 export const selectFinalStatsResult = memoize1(
   (...args: Parameters<typeof applyFinalStatModifiers>) => applyFinalStatModifiers(...args),
 );
@@ -303,6 +314,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStatsResult.highestStatFinalPctBonus,
     lifeWaveBonus,
     agileAtkMultPercent,
+    selectHighestOfFiveRawStats(rawStats, derivedStats.hasteReal),
     state.cookingBuff.statCorrectionEnabled
       ? state.cookingBuff.statCorrections
       : EMPTY_STAT_CORRECTIONS,
