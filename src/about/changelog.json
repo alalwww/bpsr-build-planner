@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.9.4",
+      "date": "2026-08-01T18:19:05.474Z",
+      "summary": {
+        "ja": "装備パネルのステータスアイコン表示とプライバシーポリシーの追加",
+        "en": "Add equipment status icons and a privacy policy page"
+      },
+      "changes": {
+        "ja": [
+          "装備パネルのツールチップ・装備選択ダイアログへの、キャラクターパネルと同じステータスアイコンの表示",
+          "プライバシーポリシーの追加"
+        ],
+        "en": [
+          "Show the same status icons as the character panel in the equipment tooltip and equipment selection dialog",
+          "Add a privacy policy"
+        ]
+      }
+    },
+    {
       "version": "0.9.3",
       "date": "2026-08-01T06:30:58.925Z",
       "summary": {
