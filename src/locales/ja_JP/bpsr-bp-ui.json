@@ -100,7 +100,14 @@
       "dmgStackEffect": "ダメージ増加 {{value}}%",
       "agile": "適応力",
       "agileEffect": "移動速度+{{moveSpeed}}% 物理/魔法攻撃力+{{atk}}%",
-      "powerCoreLocked": "モジュールパワーコア効果Lv5以上が必要"
+      "powerCoreLocked": "モジュールパワーコア効果Lv5以上が必要",
+      "statCorrectionLabel": "ステータス補正（仮）",
+      "statCorrectionAdd": "加算用",
+      "statCorrectionMult": "乗算用",
+      "statCorrectionFinal": "最終値補正",
+      "statCorrectionRawAdd": "実数加算用",
+      "statCorrectionRawMult": "実数乗算用",
+      "statCorrectionRateAdd": "{{stat}}率加算用"
     },
     "equipLevel": "装備Lv.{{level}}",
     "perfectline": "完成度",

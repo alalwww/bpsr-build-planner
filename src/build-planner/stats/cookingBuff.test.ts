@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import { PROFESSIONS } from '../profession';
 import type { StatId } from '../types';
 import { BASE_STATS } from './baseStats';
-import { computeCookingAdjustments, INSPIRATION_PERCENT_STAT_IDS } from './cookingBuff';
+import {
+  computeCookingAdjustments,
+  getStatCorrectionTargets,
+  INSPIRATION_PERCENT_STAT_IDS,
+} from './cookingBuff';
 
 function zeroStats(): Record<StatId, number> {
   return Object.fromEntries(
@@ -85,6 +90,43 @@ describe('computeCookingAdjustments', () => {
       { statId: 'luck', addend: 35 },
       // luck (70) is still highest going into hpShift.
       { statId: 'luck', addend: 15 },
+    ]);
+  });
+
+  it('adds a statCorrections finalValue addend after every other adjustment, skipping zero entries', () => {
+    const adjustments = computeCookingAdjustments(zeroStats(), 'atk', 0, 0, 0, 0, 0, {
+      maxHp: { add: 999, multPercent: 999, finalValue: 500 },
+      crit: { add: 0, multPercent: 0, finalValue: 0 },
+      haste: { add: 0, multPercent: 0, finalValue: -25 },
+    });
+
+    // maxHp/haste's finalValue is applied as a plain addend; crit is all-zero so it's skipped
+    // entirely (statCorrections' add/multPercent fields are handled upstream in
+    // calculateRawStats, not here, so they're irrelevant to this function).
+    expect(adjustments).toEqual([
+      { statId: 'maxHp', addend: 500 },
+      { statId: 'haste', addend: -25 },
+    ]);
+  });
+});
+
+describe('getStatCorrectionTargets', () => {
+  it('resolves atk/matk per profession, always lists all three base stats, and flags the percent-based stats', () => {
+    const targets = getStatCorrectionTargets(PROFESSIONS.stormBlade);
+
+    expect(targets).toEqual([
+      { id: 'maxHp', isPercent: false },
+      { id: 'atk', isPercent: false }, // stormBlade is a physical attacker
+      { id: 'strength', isPercent: false },
+      { id: 'intellect', isPercent: false },
+      { id: 'agility', isPercent: false },
+      { id: 'endurance', isPercent: false },
+      { id: 'crit', isPercent: true },
+      { id: 'haste', isPercent: true },
+      { id: 'luck', isPercent: true },
+      { id: 'mastery', isPercent: true },
+      { id: 'versatility', isPercent: true },
+      { id: 'resist', isPercent: true },
     ]);
   });
 });

@@ -1,4 +1,5 @@
-import type { CookingBuffState, StatId } from '../types';
+import type { Profession } from '../profession';
+import type { CookingBuffState, StatCorrectionEntry, StatId } from '../types';
 
 // イベントバフのメインステータス加算量の既定値(旧・海風の宴の固定効果量を踏襲)。
 export const DEFAULT_EVENT_BUFF_VALUE = 500;
@@ -25,6 +26,8 @@ export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   dmgStackEnabled: false,
   dmgStackCount: 4,
   agileEnabled: false,
+  statCorrectionEnabled: false,
+  statCorrections: {},
 };
 
 // モジュールのパワーコア効果(Lv5/6)のうち、バフ計算対象となるeffectId。
@@ -142,6 +145,8 @@ export function computeCookingAdjustments(
   highestStatFinalPctBonus: number,
   lifeWaveBonus: number,
   agileAtkMultPercent: number,
+  // ステータス補正(仮)の最終値補正(finalValue)分。無効時は呼び出し側で{}を渡す。
+  statCorrections: Partial<Record<StatId, StatCorrectionEntry>> = {},
 ): CookingAdjustment[] {
   const adjustments: CookingAdjustment[] = [];
   const working = { ...finalStats };
@@ -175,5 +180,39 @@ export function computeCookingAdjustments(
   addToHighestOfFive(highestStatFinalPctBonus);
   addToHighestOfFive(lifeWaveBonus);
 
+  for (const [statId, entry] of Object.entries(statCorrections) as [
+    StatId,
+    StatCorrectionEntry,
+  ][]) {
+    if (entry.finalValue === 0) continue;
+    working[statId] += entry.finalValue;
+    adjustments.push({ statId, addend: entry.finalValue });
+  }
+
   return adjustments;
+}
+
+// ステータス補正(仮)パネルの対象ステータス一覧(クラスのメイン攻撃力に応じて解決。
+// 筋力/知力/俊敏はクラスのメインステータスに関わらず常に全て表示する)。
+export interface StatCorrectionTarget {
+  id: StatId;
+  isPercent: boolean;
+}
+
+export function getStatCorrectionTargets(profession: Profession): StatCorrectionTarget[] {
+  const atkStatId: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
+  return [
+    { id: 'maxHp', isPercent: false },
+    { id: atkStatId, isPercent: false },
+    { id: 'strength', isPercent: false },
+    { id: 'intellect', isPercent: false },
+    { id: 'agility', isPercent: false },
+    { id: 'endurance', isPercent: false },
+    { id: 'crit', isPercent: true },
+    { id: 'haste', isPercent: true },
+    { id: 'luck', isPercent: true },
+    { id: 'mastery', isPercent: true },
+    { id: 'versatility', isPercent: true },
+    { id: 'resist', isPercent: true },
+  ];
 }

@@ -100,7 +100,14 @@
       "dmgStackEffect": "데미지 증가 {{value}}%",
       "agile": "적응력",
       "agileEffect": "이동 속도 +{{moveSpeed}}% 물리/마법 공격력 +{{atk}}%",
-      "powerCoreLocked": "모듈 파워 코어 효과 Lv5 이상 필요"
+      "powerCoreLocked": "모듈 파워 코어 효과 Lv5 이상 필요",
+      "statCorrectionLabel": "스탯 보정(베타)",
+      "statCorrectionAdd": "가산용",
+      "statCorrectionMult": "승산용",
+      "statCorrectionFinal": "최종값 보정",
+      "statCorrectionRawAdd": "실수 가산용",
+      "statCorrectionRawMult": "실수 승산용",
+      "statCorrectionRateAdd": "{{stat}}률 가산용"
     },
     "equipLevel": "장비 Lv.{{level}}",
     "perfectline": "완성도",

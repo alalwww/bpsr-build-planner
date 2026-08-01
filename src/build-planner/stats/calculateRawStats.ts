@@ -749,6 +749,19 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (luckyDamage !== 0) addStat('luckyHitDamageBonus', luckyDamage);
   }
 
+  // ステータス補正(仮): 加算用/乗算用%は他の加算・%ボーナス源と同じ扱い(乗算は合算後に
+  // 一度だけ適用)。最終値補正(finalValue)はcomputeCookingAdjustments側で最終表示値に
+  // 直接加算するため、ここでは扱わない。
+  if (cookingBuff.statCorrectionEnabled) {
+    for (const [statId, entry] of Object.entries(cookingBuff.statCorrections) as [
+      StatId,
+      { add: number; multPercent: number; finalValue: number },
+    ][]) {
+      if (entry.add !== 0) addStat(statId, entry.add);
+      if (entry.multPercent !== 0) addPctBonus(statId, entry.multPercent * 100);
+    }
+  }
+
   // %ボーナスの適用: 同一ステータスに対する複数の%ボーナスは合算してから一度だけ乗算する
   // (例: +10%と+15%は 1.1*1.15 ではなく 1.25 倍として扱う)。
   // 浮動小数点誤差(15%のつもりが14.999...%になる等)を避けるため、乗算結果は一旦

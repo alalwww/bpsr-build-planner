@@ -1036,6 +1036,43 @@ describe('calculateRawStats', () => {
       );
     });
   });
+
+  describe('statCorrections (ステータス補正・仮)', () => {
+    it('applies add and multPercent like any other additive/%-bonus source when enabled', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        cookingBuff: {
+          ...DEFAULT_COOKING_BUFF,
+          statCorrectionEnabled: true,
+          statCorrections: {
+            maxHp: { add: 1000, multPercent: 10, finalValue: 0 },
+          },
+        },
+      };
+
+      const result = calculateRawStats(input);
+
+      // (BASE_STATS.maxHp + 1000) * 1.10
+      expect(result.rawStats.maxHp).toBe((BASE_STATS.maxHp + 1000) * 1.1);
+    });
+
+    it('ignores every statCorrections entry when statCorrectionEnabled is false', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        cookingBuff: {
+          ...DEFAULT_COOKING_BUFF,
+          statCorrectionEnabled: false,
+          statCorrections: {
+            maxHp: { add: 1000, multPercent: 10, finalValue: 500 },
+          },
+        },
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
+    });
+  });
 });
 
 function zeroDerivedStats(): DerivedStats {

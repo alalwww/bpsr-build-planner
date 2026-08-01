@@ -291,6 +291,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStatsResult.highestStatFinalPctBonus,
     lifeWaveBonus,
     agileAtkMultPercent,
+    state.cookingBuff.statCorrectionEnabled ? state.cookingBuff.statCorrections : {},
   );
 
   const stats = selectStatsWithCooking(finalStatsResult.stats, cookingAdjustments);

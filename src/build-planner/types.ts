@@ -256,7 +256,24 @@ export interface CookingBuffState {
   dmgStackCount: number;
   // 極・適応力(Agile、モジュールパワーコア効果、自分のみ。モジュールパネルでLv5以上発動時のみ有効)
   agileEnabled: boolean;
+  // ステータス補正(仮): 主要ステータスの手動デバッグ補正。無効時は一切計算に影響しない。
+  statCorrectionEnabled: boolean;
+  statCorrections: Partial<Record<StatId, StatCorrectionEntry>>;
 }
+
+// ステータス補正(仮)の1ステータスぶんの入力値。
+// add/multPercent: %ボーナス適用前の実数値(会心等のパーセント系ステータスでは変換前の実数)への
+//   加算・乗算補正(他の加算・乗算源と同様、装備等の%ボーナスとまとめて一度だけ乗算される)。
+// finalValue: 全計算が終わった最終表示値への直接加算補正(パーセント系ステータスでは
+//   最終%表示値へポイントで直接加算。料理バフの鼓舞/HP変動等と同じ加算方式)。
+export interface StatCorrectionEntry {
+  add: number;
+  multPercent: number;
+  finalValue: number;
+}
+
+// ステータス補正(仮)の各入力値の許容範囲(絶対値)。
+export const STAT_CORRECTION_LIMIT = 50000;
 
 // モジュールホール: 1 ホールの設定。linkCount=1-10 はリンクスタック数。
 export interface ModuleHole {

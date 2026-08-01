@@ -100,7 +100,14 @@
       "dmgStackEffect": "伤害增加 {{value}}%",
       "agile": "适应力",
       "agileEffect": "移动速度+{{moveSpeed}}% 物理/法术攻击力+{{atk}}%",
-      "powerCoreLocked": "需要模组核心效果Lv5以上"
+      "powerCoreLocked": "需要模组核心效果Lv5以上",
+      "statCorrectionLabel": "属性修正（测试）",
+      "statCorrectionAdd": "加值",
+      "statCorrectionMult": "乘值",
+      "statCorrectionFinal": "最终值修正",
+      "statCorrectionRawAdd": "实数加值",
+      "statCorrectionRawMult": "实数乘值",
+      "statCorrectionRateAdd": "{{stat}}率加值"
     },
     "equipLevel": "装备Lv.{{level}}",
     "perfectline": "完成度",

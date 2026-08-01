@@ -100,7 +100,14 @@
       "dmgStackEffect": "Damage +{{value}}%",
       "agile": "Agile",
       "agileEffect": "Move Speed +{{moveSpeed}}% Physical/Magical Atk +{{atk}}%",
-      "powerCoreLocked": "Requires module Power Core effect Lv5+"
+      "powerCoreLocked": "Requires module Power Core effect Lv5+",
+      "statCorrectionLabel": "Stat Correction (Beta)",
+      "statCorrectionAdd": "Add",
+      "statCorrectionMult": "Mult",
+      "statCorrectionFinal": "Final Add",
+      "statCorrectionRawAdd": "Raw Add",
+      "statCorrectionRawMult": "Raw Mult",
+      "statCorrectionRateAdd": "{{stat}} Rate Add"
     },
     "equipLevel": "Equip Lv.{{level}}",
     "perfectline": "Perfection",

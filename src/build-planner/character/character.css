@@ -659,8 +659,8 @@
 /* ---- Buff Effect Dialog ---- */
 
 .draggable-dialog.buff-effect-dialog {
-  min-width: 400px;
-  max-width: 480px;
+  min-width: 760px;
+  max-width: 980px;
 }
 
 .buff-effect-dialog__save-notice {
@@ -669,11 +669,19 @@
   color: #8a8894;
 }
 
+.buff-effect-dialog__panes {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
 .buff-effect-dialog__body {
   display: flex;
   flex-direction: column;
   gap: 10px;
   padding: 4px 2px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .buff-effect-dialog__row {
@@ -737,6 +745,19 @@
   color: #6a6a78;
 }
 
+/* ネイティブのスピンボタンは周囲と色が揃わず浮くため非表示にする
+   (Firefoxはappearance:textfield指定が必要。クリック判定も含めて完全に取り除く)。 */
+.buff-effect-dialog__input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.buff-effect-dialog__input::-webkit-inner-spin-button,
+.buff-effect-dialog__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .buff-effect-dialog__input:disabled,
 .buff-effect-dialog__select:disabled {
   opacity: 0.4;
@@ -786,6 +807,55 @@
 .buff-effect-dialog__stack-stepper--disabled {
   opacity: 0.4;
   pointer-events: none;
+}
+
+/* ステータス補正(仮)ペイン: 左ペイン(既存項目)との仕切り線を挟んで右側に配置する。 */
+.buff-effect-dialog__stat-correction-pane {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 2px 4px 16px;
+  border-left: 1px solid #3a3a45;
+}
+
+.buff-effect-dialog__stat-correction-toggle {
+  align-self: flex-start;
+}
+
+.buff-effect-dialog__stat-correction-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* パネル自体のスイッチがOFFの間、行全体を暗く見せる(他の行の無効化表現と統一)。 */
+.buff-effect-dialog__stat-correction-pane:has(.buff-effect-dialog__stat-correction-toggle[aria-checked='false']) .buff-effect-dialog__stat-correction-rows {
+  opacity: 0.55;
+}
+
+.buff-effect-dialog__stat-correction-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.buff-effect-dialog__stat-correction-row-label {
+  flex: 0 0 auto;
+  min-width: 60px;
+  font-size: 12px;
+  color: #c8c6d1;
+}
+
+/* 3入力+ラベルを詰め込む分、通常のバフ入力欄より少し幅を広げる。 */
+.buff-effect-dialog__stat-correction-row .buff-effect-dialog__input--narrow {
+  width: 76px;
+}
+
+.buff-effect-dialog__stat-correction-percent {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: #8a8894;
 }
 
 /* ---- Stats Detail Dialog ---- */
