@@ -5,6 +5,7 @@ import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
 import { useDelayedUnmount } from '../components/useDelayedUnmount';
 import { useDropdownKeyboardNav } from '../components/useDropdownKeyboardNav';
+import { getStatIconUrlForAttrId } from '../stats/statIcons';
 import type { LegendaryAffixEntry, LegendaryAffixSelection } from '../types';
 
 const CLOSE_ANIM_MS = 150;
@@ -74,6 +75,13 @@ function LegendaryAffixPicker({
         onKeyDown={handleTriggerKeyDown}
       >
         <span className="equip-evo-slot__stat equip-affix-slot__stat">
+          {selectedLegendaryAffix != null && getStatIconUrlForAttrId(selectedLegendaryAffix.attrId) && (
+            <img
+              src={getStatIconUrlForAttrId(selectedLegendaryAffix.attrId)}
+              alt=""
+              className="equip-evo-slot__icon"
+            />
+          )}
           {selectedLegendaryAffix != null
             ? t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })
             : t('buildPlanner.evolutionStatUnset')}
@@ -109,6 +117,13 @@ function LegendaryAffixPicker({
                       onClick={() => handleSet({ attrId, value })}
                     >
                       <span className="equip-affix-option__name">
+                        {getStatIconUrlForAttrId(attrId) && (
+                          <img
+                            src={getStatIconUrlForAttrId(attrId)}
+                            alt=""
+                            className="equip-evo-slot__icon"
+                          />
+                        )}
                         {t(`attributes.${attrId}`, { ns: 'game-data' })}
                       </span>
                       <span className="equip-affix-option__value">

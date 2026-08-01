@@ -530,23 +530,8 @@ skills_imagines/skill_aoyi_skill_icon_028.png
 skills_imagines/skill_aoyi_skill_icon_035.png
 skills_imagines/skill_aoyi_skill_icon_036.png
 
-## src/assets/talents/ (102件・talent-tree.jsonのicon値と一致しない)
-talents/common_attrdefense.png
-talents/common_attrfightpoint.png
-talents/common_attrhit.png
-talents/common_attrmdefense.png
-talents/common_icon02.png
-talents/common_icon09.png
-talents/common_icon10.png
-talents/common_icon11.png
-talents/common_icon14.png
-talents/common_icon15.png
-talents/common_icon16.png
-talents/common_icon17.png
-talents/common_icon18.png
-talents/common_icon19.png
-talents/common_icon20.png
-talents/common_icon21.png
+## src/assets/talents/ (96件・talent-tree.jsonのicon値と一致しない。ステータス/talentノード
+## 共通アイコン(common_*.png)はsrc/assets/ui/へ移動済みのため、このセクションには含まない)
 talents/gita1368.png
 talents/talent_skill_340401.png
 talents/talent_passive_icon_dps_combo01.png
@@ -655,5 +640,18 @@ ui/weapon_quality_4.png
 ui/weapon_quality_5.png
 ui/weap_equip_02.png
 ui/weap_equip_06.png
+
+## src/assets/ui/common_*.png (元 src/assets/talents/。ステータス/talentノード共通アイコン
+## のうち、attr-icons.json/talent-tree.jsonいずれからも参照されない10件)
+ui/common_attrfightpoint.png
+ui/common_attrmdefense.png
+ui/common_icon02.png
+ui/common_icon09.png
+ui/common_icon10.png
+ui/common_icon15.png
+ui/common_icon16.png
+ui/common_icon17.png
+ui/common_icon18.png
+ui/common_icon20.png
 
 # src/assets/equipments/ は 0件(全270ファイルがequipment.jsonのicon/_l/_tパターンで参照済み)

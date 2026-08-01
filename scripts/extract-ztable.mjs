@@ -71,6 +71,47 @@ const TALENT_ROLE_SKILLS = {
   3: [3011, 3012, 3013, 3014, ...UNIVERSAL_ROLE_SKILLS],
 };
 
+// attr-icons.json: AttrId(またはBuffId) → アイコンファイル名(拡張子なし、
+// src/assets/talents/)。2つのテーブルを合成する:
+//
+//   1. FightAttrTable: 1エントリ(1ステータス)が AttrFinal/AttrTotal/AttrAdd/AttrExAdd/
+//      AttrPer/AttrExPer という複数のAttrIdバリアント(実数値の各段階・%表示バリアント等)
+//      を持つが、装備/アビリティ/モジュール等の実データは用途に応じてこのいずれかのIdを
+//      直接参照する(例: 物理攻撃力の実数値加算=AttrAdd=11332, %ボーナス=AttrPer=11334。
+//      いずれも同じ行のIconを指す)。6フィールドすべてをキーとして展開する(全168行で
+//      衝突なしを確認済み: 同じAttrIdが複数行に跨って別のIconを指すケースは無い)。
+//   2. BuffTable: 伝説刻印(レアステータス)のeffectType=3(特殊関数効果)エントリは、
+//      AttrEffect[0][1]に実際のAttrIdではなくBuffId(BuffTable参照)を格納する
+//      (extractEquipmentのbuildLegendaryAffixEntries/buildLegendaryAffixGroups参照)。
+//      BuffTable側にもIconフィールドがあり、FightAttrTableのAttrId空間とはID衝突が無い
+//      (828件×1820件で衝突ゼロを確認済み)ため、同じ辞書にBuffIdもマージする。
+//      これにより「風姿卓絶の持続中、物理増強」のようなクラス固有効果のBuffIdも
+//      アイコン解決できる(FightAttrTable側に優先権を持たせ、衝突時はFightAttrTableを残す)。
+//
+// 言語非依存(アイコンパスはテクスチャ参照でロケールに関わらず同一)。UI側
+// (src/build-planner/stats/statIcons.ts)はここから直接引くことで、StatIdごとの
+// アイコンファイル名をアプリ側でハードコードせずに済む。対応するIdが無い、または
+// Iconが空のステータスは対象外(アイコンなし表示)。
+function extractAttrIcons(langDir) {
+  const fightAttrTable = readTable(langDir, 'FightAttrTable');
+  const buffTable = readTable(langDir, 'BuffTable');
+  const idFields = ['AttrFinal', 'AttrTotal', 'AttrAdd', 'AttrExAdd', 'AttrPer', 'AttrExPer'];
+  const result = {};
+  for (const entry of Object.values(fightAttrTable)) {
+    if (!entry.Icon) continue;
+    const filename = entry.Icon.split('/').pop();
+    for (const field of idFields) {
+      if (entry[field]) result[entry[field]] = filename;
+    }
+  }
+  for (const entry of Object.values(buffTable)) {
+    if (entry.Icon && result[entry.Id] === undefined) {
+      result[entry.Id] = entry.Icon.split('/').pop();
+    }
+  }
+  return result;
+}
+
 // classes.json: ProfessionSystemTable keyed by ProfessionId. IsOpen:false
 // entries are kept as-is - excluding unimplemented classes from selection UI
 // is the consumer's responsibility, not the data layer's.
@@ -1428,6 +1469,12 @@ function main() {
   const suitsPath = writeJson(dataOut, 'suits.json', suitsData);
   console.log(
     `[extract-ztable] wrote suits.json (${Object.keys(suitsData).length} suits) to ${suitsPath}`,
+  );
+
+  const attrIconsData = extractAttrIcons(structuralDir);
+  const attrIconsPath = writeJson(dataOut, 'attr-icons.json', attrIconsData);
+  console.log(
+    `[extract-ztable] wrote attr-icons.json (${Object.keys(attrIconsData).length} attrs) to ${attrIconsPath}`,
   );
 
   const classes = extractClasses(structuralDir);

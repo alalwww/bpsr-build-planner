@@ -769,7 +769,17 @@
 }
 
 .equip-stat-row__name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   color: #c8c6d1;
+}
+
+.equip-stat-row__icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .equip-stat-row__value {
@@ -859,11 +869,21 @@
 
 .equip-evo-slot__stat {
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   color: #c8c6d1;
 }
 
 .equip-evo-slot__btn--set .equip-evo-slot__stat {
   color: #e8e6e1;
+}
+
+.equip-evo-slot__icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .equip-evo-slot__value {
@@ -897,6 +917,9 @@
 }
 
 .equip-evo-option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   background: transparent;
   border: none;
   border-top: 1px solid #25252e;
@@ -973,6 +996,12 @@
 
 .equip-affix-slot .equip-affix-option.equip-evo-option--selected {
   background: #3a2a4a;
+}
+
+.equip-affix-option__name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .equip-affix-option__value {

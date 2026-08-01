@@ -15,6 +15,8 @@ interface EvoSlotPickerProps<T extends string | number> {
   selectedStat: T | undefined;
   availableStats: T[];
   getLabel: (statId: T) => string;
+  /** 指定時、キャラクターパネルと同じステータスアイコンをラベルの前に表示する(アイコン未定義の項目は非表示)。 */
+  getIcon?: (statId: T) => string | undefined;
   /** 「未設定」選択肢のラベル。省略時は未設定選択肢自体を表示しない(常にいずれか選択済みの場合)。 */
   unsetLabel?: string;
   isEditing: boolean;
@@ -30,6 +32,7 @@ function EvoSlotPicker<T extends string | number>({
   selectedStat,
   availableStats,
   getLabel,
+  getIcon,
   unsetLabel,
   isEditing,
   onToggleEdit,
@@ -67,6 +70,9 @@ function EvoSlotPicker<T extends string | number>({
       >
         {tag && <span className="equip-evo-slot__tag">{tag}</span>}
         <span className="equip-evo-slot__stat">
+          {selectedStat != null && getIcon?.(selectedStat) && (
+            <img src={getIcon(selectedStat)} alt="" className="equip-evo-slot__icon" />
+          )}
           {selectedStat != null ? getLabel(selectedStat) : unsetLabel}
         </span>
         {valueLabel !== undefined && <span className="equip-evo-slot__value">{valueLabel}</span>}
@@ -87,16 +93,20 @@ function EvoSlotPicker<T extends string | number>({
                   {unsetLabel}
                 </button>
               )}
-              {availableStats.map((statId) => (
-                <button
-                  type="button"
-                  key={statId}
-                  className={`equip-evo-option${selectedStat === statId ? ' equip-evo-option--selected' : ''}`}
-                  onClick={() => handleSelect(statId)}
-                >
-                  {getLabel(statId)}
-                </button>
-              ))}
+              {availableStats.map((statId) => {
+                const iconUrl = getIcon?.(statId);
+                return (
+                  <button
+                    type="button"
+                    key={statId}
+                    className={`equip-evo-option${selectedStat === statId ? ' equip-evo-option--selected' : ''}`}
+                    onClick={() => handleSelect(statId)}
+                  >
+                    {iconUrl && <img src={iconUrl} alt="" className="equip-evo-slot__icon" />}
+                    {getLabel(statId)}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

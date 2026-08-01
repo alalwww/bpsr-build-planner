@@ -12,7 +12,7 @@ import { getClassIconUrl } from './classIcons';
 import StatTooltip, { type StatTooltipState } from './StatTooltip';
 import type { Profession } from '../profession';
 import { PROFESSIONS } from '../profession';
-import { getTalentAsset } from '../talent/talentTreeData';
+import { getStatIconUrl, STAT_ICON_SIZE } from '../stats/statIcons';
 import type { StatDefinition, StatId } from '../types';
 import { computeStatsBundle } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
@@ -46,49 +46,6 @@ const LEFT_COLUMN_STAT_IDS = new Set<StatId>([
   'agility',
   'endurance',
 ]);
-
-// ステータスラベルの前に表示するアイコン(src/assets/talents/、ファイル名は拡張子なし)。
-const STAT_ICON_FILENAME: Partial<Record<StatId, string>> = {
-  maxHp: 'common_attrmaxhp',
-  atk: 'common_attrattack',
-  matk: 'common_attrmattack',
-  strength: 'common_icon05',
-  intellect: 'common_icon06',
-  agility: 'common_attrdexterity',
-  endurance: 'common_icon08',
-  illusionPower: 'common_icon01',
-  crit: 'common_icon12',
-  haste: 'common_attrhaste',
-  luck: 'common_attrluck',
-  mastery: 'common_attrmastery',
-  versatility: 'common_attrversatility',
-  resist: 'common_attrblock',
-};
-
-// 元画像は余白比率がまちまち(66x46〜94x97)なため、自動フィットだと余白の多いアイコンが
-// 目立って小さく見える。長辺を18pxに揃えてスケーリングした表示サイズをステータスごとに
-// 固定することで、行ごとの見た目の大きさを揃える。
-const STAT_ICON_SIZE: Partial<Record<StatId, { width: number; height: number }>> = {
-  maxHp: { width: 18, height: 16 },
-  atk: { width: 18, height: 17 },
-  matk: { width: 16, height: 18 },
-  strength: { width: 18, height: 12 },
-  intellect: { width: 18, height: 18 },
-  agility: { width: 17, height: 18 },
-  endurance: { width: 16, height: 18 },
-  illusionPower: { width: 18, height: 18 },
-  crit: { width: 18, height: 16 },
-  haste: { width: 18, height: 17 },
-  luck: { width: 18, height: 18 },
-  mastery: { width: 18, height: 18 },
-  versatility: { width: 18, height: 16 },
-  resist: { width: 15, height: 18 },
-};
-
-function getStatIconUrl(id: StatId): string | undefined {
-  const filename = STAT_ICON_FILENAME[id];
-  return filename ? getTalentAsset(filename) : undefined;
-}
 
 // 選択中クラスに応じて表示するステータス列を返す。
 // 攻撃力列(atk/matk)とメインステータス列(strength/agility/intellect)がクラス依存で変わる。

@@ -1,5 +1,6 @@
 import talentTreeRaw from '../../data/talent-tree.json';
 import { createAssetMap } from '../assetMap';
+import { getCommonIconAsset } from '../stats/statIcons';
 
 // ---- Icon map ----
 
@@ -11,9 +12,13 @@ export const getTalentAsset = createAssetMap(
   ),
 );
 
+// アビリティツリーのノードアイコン(talent-tree.jsonのicon値)。ステータス用共通アイコン
+// (common_*.png、例: 会心/器用さ等)は src/assets/ui/ へ移動済みでこの glob には含まれない
+// ため、talents/側に無ければ getCommonIconAsset(stats/statIcons.ts参照)にフォールバックする。
 export function getTalentIconUrl(iconPath: string): string | undefined {
   const filename = iconPath.split('/').pop();
-  return filename ? getTalentAsset(filename) : undefined;
+  if (!filename) return undefined;
+  return getTalentAsset(filename) ?? getCommonIconAsset(filename);
 }
 
 // ---- 背景画像 ----

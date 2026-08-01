@@ -29,6 +29,7 @@ import {
   truncate1Str,
 } from './equipmentSlotPickerData';
 import { calculateEquipmentSlotAbilityScore } from '../stats/calculateAbilityScore';
+import { getStatIconUrl, getStatIconUrlForAttrId } from '../stats/statIcons';
 
 // マウスカーソルとポップアップの間の余白(px)。
 const CURSOR_GAP = 14;
@@ -153,12 +154,13 @@ function EquipmentItemPopup({
   // (legendaryAffixGroups)はグループ数がそのまま枠数になる。未設定の枠も「未設定」行として
   // 含める(showRareStatsDetail=falseの場合は使わず、枠数のみ表示する)。他のドロップダウン
   // (改鋳/装着効果/レアステータス選択)と表記を揃えるため evolutionStatUnset を再利用する。
-  const rareStatsRows: { key: string | number; name: string; value: string }[] =
+  const rareStatsRows: { key: string | number; attrId?: number; name: string; value: string }[] =
     item.legendaryAffix && item.legendaryAffix.length > 0
       ? [
           selectedLegendaryAffix && affixDisplayValue
             ? {
                 key: 'single',
+                attrId: selectedLegendaryAffix.attrId,
                 name: t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' }),
                 value: affixDisplayValue,
               }
@@ -170,6 +172,7 @@ function EquipmentItemPopup({
           if (entry && sel) {
             return {
               key: i,
+              attrId: sel.attrId,
               name: t(`attributes.${sel.attrId}`, { ns: 'game-data' }),
               value: entry.isPercent ? `+${sel.value / 100}%` : `+${sel.value}`,
             };
@@ -236,6 +239,7 @@ function EquipmentItemPopup({
           {item.baseStats.map(([attrId, min, max]) => (
             <StatRow
               key={attrId}
+              iconUrl={getStatIconUrlForAttrId(attrId)}
               name={t(`attributes.${attrId}`, { ns: 'game-data' })}
               value={truncate1Str(calcStatValue(min, max, perfectline))}
             />
@@ -252,6 +256,7 @@ function EquipmentItemPopup({
             fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
               <StatRow
                 key={i}
+                iconUrl={getStatIconUrlForAttrId(attrId)}
                 name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                 value={isPercent ? `+${min / 100}%` : `+${min}`}
               />
@@ -260,6 +265,7 @@ function EquipmentItemPopup({
             fixedEvoEffects!.map(([, attrId, min, max, isPercent], i) => (
               <StatRow
                 key={i}
+                iconUrl={getStatIconUrlForAttrId(attrId)}
                 name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                 value={
                   isPercent
@@ -276,6 +282,7 @@ function EquipmentItemPopup({
               return (
                 <StatRow
                   key={i}
+                  iconUrl={getStatIconUrl(statId)}
                   name={t(`buildPlanner.stats.${statId}`)}
                   value={`+${truncate1Str(calcStatValue(evoMin, evoMax, sliderValue))}`}
                 />
@@ -285,6 +292,7 @@ function EquipmentItemPopup({
             item.evo.map(([attrId, min, max], i) => (
               <StatRow
                 key={i}
+                iconUrl={getStatIconUrlForAttrId(attrId)}
                 name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                 value={`+${truncate1Str(calcStatValue(min, max, sliderValue))}`}
               />
@@ -294,7 +302,14 @@ function EquipmentItemPopup({
               name={
                 showReforgeSelection && reforgedStat ? (
                   <>
-                    <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>{' '}
+                    <span className="equip-evo-slot__tag">{t('buildPlanner.reforgedSlot')}</span>
+                    {getStatIconUrl(reforgedStat) && (
+                      <img
+                        src={getStatIconUrl(reforgedStat)}
+                        alt=""
+                        className="equip-stat-row__icon"
+                      />
+                    )}
                     {t(`buildPlanner.stats.${reforgedStat}`)}
                   </>
                 ) : (
@@ -323,6 +338,7 @@ function EquipmentItemPopup({
             rareStatsRows.map((row) => (
               <StatRow
                 key={row.key}
+                iconUrl={row.attrId !== undefined ? getStatIconUrlForAttrId(row.attrId) : undefined}
                 className="equip-item-popup__affix-row"
                 name={row.name}
                 value={row.value}
@@ -387,6 +403,7 @@ function EquipmentItemPopup({
               {selectedEnchantData.effects.map(([attrId, value]) => (
                 <StatRow
                   key={attrId}
+                  iconUrl={getStatIconUrlForAttrId(attrId)}
                   className="equip-item-popup__enchant-effect-row"
                   name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                   value={`+${value}`}
@@ -405,6 +422,7 @@ function EquipmentItemPopup({
           {cumulativeEffects.map(([attrId, value]) => (
             <StatRow
               key={attrId}
+              iconUrl={getStatIconUrlForAttrId(attrId)}
               name={t(`attributes.${attrId}`, { ns: 'game-data' })}
               value={`+${value}`}
             />

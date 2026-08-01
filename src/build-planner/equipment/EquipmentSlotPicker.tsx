@@ -58,6 +58,7 @@ import {
 import EquipmentItemPopup from './EquipmentItemPopup';
 import EvoSlotPicker from './EvoSlotPicker';
 import LegendaryAffixPicker from './LegendaryAffixPicker';
+import { getStatIconUrl, getStatIconUrlForAttrId } from '../stats/statIcons';
 
 interface EquipmentSlotPickerProps {
   slot: EquipmentSlotId;
@@ -366,6 +367,7 @@ function EquipmentSlotPicker({
         selectedStat={reforgedStat}
         availableStats={EVOLUTION_STAT_IDS}
         getLabel={(statId) => t(`buildPlanner.stats.${statId}`)}
+        getIcon={getStatIconUrl}
         unsetLabel={t('buildPlanner.evolutionStatUnset')}
         isEditing={editingEvoSlot === 2}
         onToggleEdit={() => setEditingEvoSlot(editingEvoSlot === 2 ? null : 2)}
@@ -456,6 +458,7 @@ function EquipmentSlotPicker({
               {enchantTooltipView.effects.map(([attrId, value]) => (
                 <StatRow
                   key={attrId}
+                  iconUrl={getStatIconUrlForAttrId(attrId)}
                   name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                   value={`+${value}`}
                 />
@@ -691,6 +694,7 @@ function EquipmentSlotPicker({
                   equippedItem.baseStats.map(([attrId, min, max]) => (
                     <StatRow
                       key={attrId}
+                      iconUrl={getStatIconUrlForAttrId(attrId)}
                       name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                       value={truncate1Str(calcStatValue(min, max, perfectline))}
                     />
@@ -704,6 +708,7 @@ function EquipmentSlotPicker({
                 placeholderStatIds.map((statId) => (
                   <StatRow
                     key={statId}
+                    iconUrl={getStatIconUrl(statId)}
                     name={t(`buildPlanner.stats.${statId}`)}
                     value="---"
                     valueClassName="equip-stat-row__value--placeholder"
@@ -753,6 +758,7 @@ function EquipmentSlotPicker({
                   {fixedEvoEffects!.map(([, attrId, min, , isPercent], i) => (
                     <StatRow
                       key={i}
+                      iconUrl={getStatIconUrlForAttrId(attrId)}
                       name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                       value={isPercent ? `+${min / 100}%` : `+${min}`}
                     />
@@ -764,6 +770,7 @@ function EquipmentSlotPicker({
                   {fixedEvoEffects!.map(([, attrId, min, max, isPercent], i) => (
                     <StatRow
                       key={i}
+                      iconUrl={getStatIconUrlForAttrId(attrId)}
                       name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                       value={
                         isPercent
@@ -790,6 +797,7 @@ function EquipmentSlotPicker({
                         selectedStat={selected}
                         availableStats={available}
                         getLabel={(statId) => t(`buildPlanner.stats.${statId}`)}
+                        getIcon={getStatIconUrl}
                         unsetLabel={t('buildPlanner.evolutionStatUnset')}
                         isEditing={isEditing}
                         onToggleEdit={() => setEditingEvoSlot(isEditing ? null : i)}
@@ -828,6 +836,7 @@ function EquipmentSlotPicker({
                             selectedStat={currentAttrIds[i]}
                             availableStats={available}
                             getLabel={(attrId) => t(`attributes.${attrId}`, { ns: 'game-data' })}
+                            getIcon={getStatIconUrlForAttrId}
                             isEditing={editingEvoSlot === i}
                             onToggleEdit={() => setEditingEvoSlot(editingEvoSlot === i ? null : i)}
                             onSelect={(newAttrId) => {
@@ -860,6 +869,7 @@ function EquipmentSlotPicker({
                     equippedItem!.evo.map(([attrId, min, max], i) => (
                       <StatRow
                         key={i}
+                        iconUrl={getStatIconUrlForAttrId(attrId)}
                         name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                         value={`+${truncate1Str(calcStatValue(min, max, sliderValue))}`}
                       />
@@ -882,6 +892,7 @@ function EquipmentSlotPicker({
                         selectedStat={selected}
                         availableStats={available}
                         getLabel={(statId) => t(`buildPlanner.stats.${statId}`)}
+                        getIcon={getStatIconUrl}
                         unsetLabel={t('buildPlanner.evolutionStatUnset')}
                         isEditing={isEditing}
                         onToggleEdit={() => setEditingEvoSlot(isEditing ? null : i)}
@@ -1065,6 +1076,7 @@ function EquipmentSlotPicker({
                       {selectedEnchantData.effects.map(([attrId, value]) => (
                         <StatRow
                           key={attrId}
+                          iconUrl={getStatIconUrlForAttrId(attrId)}
                           name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                           value={`+${value}`}
                         />
@@ -1115,6 +1127,7 @@ function EquipmentSlotPicker({
                 cumulativeEffects.map(([attrId, value]) => (
                   <StatRow
                     key={attrId}
+                    iconUrl={getStatIconUrlForAttrId(attrId)}
                     name={t(`attributes.${attrId}`, { ns: 'game-data' })}
                     value={`+${value}`}
                   />
