@@ -1,6 +1,52 @@
 {
   "entries": [
     {
+      "version": "0.9.0",
+      "date": "2026-08-01T05:05:34.118Z",
+      "summary": {
+        "ja": "心相投影ツリーの効果一覧ダイアログ追加とUI操作性の改善、各種不具合修正",
+        "en": "Add a Phantom Projection effect summary dialog, improve UI interactions, and fix various issues"
+      },
+      "changes": {
+        "ja": [
+          "潜在タブに、現在のツリー・因子設定の効果をまとめて確認できる「効果一覧」ダイアログの追加",
+          "追加バフ効果ダイアログに、ステータスを手動で補正できる「ステータス補正(仮)」パネルの追加(プランには保存されない一時的な設定)",
+          "追加バフ効果ダイアログのレイアウト・部品の刷新(スイッチ/トグルボタン化、ラベル整理、保存対象外である旨の注記追加)",
+          "キャラクターパネルの全ステータス項目をクリックすると内訳と計算式を表示するポップアップに対応",
+          "キャラクターパネルのステータス項目にアイコンの追加",
+          "モジュールのパワーコア効果選択で、候補にカーソルを合わせると効果内容をポップアップ表示するよう対応",
+          "スキル・アビリティ・心相投影ノードの説明文中のリンク用語をクリックすると関連情報のポップアップを表示するよう対応",
+          "心相投影ツリーを切り替えても各ツリーのノード選択・因子装着状態を保持するよう修正(以前は切替のたびにリセットされていた)",
+          "装備の入れ替え時に完成度の設定を引き継ぐよう修正(以前は装備ごとに最大値へリセットされていた)",
+          "一部のドロップダウンでキーボード操作(矢印キー/Home/End/Tab等)が意図通りに動作しない不具合を修正",
+          "装備選択候補のホバー情報が選択ダイアログ側の設定を誤って反映していた不具合を修正",
+          "ルーノ(バインド)の強化素材アイコンが表示されない不具合を修正し、費用表示をカンマ区切りに変更",
+          "ドロップダウン/コンボリストを開いた際に選択中の項目までスクロールされない不具合を再修正",
+          "数値入力欄の▲▼ボタンをクリックしても開閉しない不具合を修正",
+          "ツインストライカー 双炎型の器用さ由来の物理攻撃力ボーナスが計算に反映されていなかった不具合を修正",
+          "バトルイマジン:ゴブリン衛士のレジスト付与効果が計算に反映されていなかった不具合を修正"
+        ],
+        "en": [
+          "Add an \"effect list\" dialog to the Potential tab summarizing the current tree/factor configuration",
+          "Add a \"stat correction (tentative)\" panel to the additional buff effect dialog for manually nudging stats (session-only, not saved)",
+          "Rework the additional buff effect dialog's layout and controls (switches/toggle buttons, tidied labels, a save-exclusion notice)",
+          "Add clickable breakdown popups (with formula) to all character panel stats",
+          "Add icons to character panel stat labels",
+          "Add an effect popup on hover for module power core options",
+          "Add clickable popups for linked terms in skill/ability/phantom node descriptions",
+          "Fix Phantom Projection tree switching to keep each tree's node selections and equipped factors (previously reset on every switch)",
+          "Fix equipment swapping to carry over completion settings instead of resetting to the new item's max",
+          "Fix keyboard navigation (arrow keys/Home/End/Tab) not working as expected in some dropdown lists",
+          "Fix the equipment candidate hover popup showing the picker dialog's own settings instead of the hovered candidate's",
+          "Fix a missing enchant material icon (Runo Bind) and format cost quantities with thousands separators",
+          "Re-fix dropdown/combo lists not scrolling to the selected item when opened",
+          "Fix the numeric input's up/down arrows not toggling the list on click",
+          "Fix Twin Striker's Formless Spec mastery-based physical attack bonus not being applied",
+          "Fix a missing resist bonus from the Battle Imagine: Goblin Guard passive"
+        ]
+      }
+    },
+    {
       "version": "0.8.5",
       "date": "2026-07-28T04:26:41.840Z",
       "summary": {
