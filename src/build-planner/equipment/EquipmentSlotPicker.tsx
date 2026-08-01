@@ -94,7 +94,7 @@ interface EquipmentSlotPickerProps {
 // 装着効果コスト(通常/上級)の材料アイコン+名前+個数の一覧。tooltip・選択中詳細の
 // 双方(かつ通常/上級コストの両方)で表示形式が同一なため、モジュールスコープに分離する
 // (コンポーネント内定義だとレンダーごとに関数の同一性が変わりReactが再マウントしてしまうため。
-// TalentTreePanel.tsx の Section コンポーネントと同じ理由)。
+// StatsDetailDialog.tsx の Section コンポーネントと同じ理由)。
 function EnchantCostList({
   titleKey,
   cost,

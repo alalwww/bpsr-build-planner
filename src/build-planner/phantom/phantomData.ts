@@ -93,8 +93,8 @@ export interface PhantomFactorClass {
   professionIds: number[];
   // SeasonTalentFactorItemTable.SeasonId[0]。過去シーズンの因子は現シーズンでは無効
   // (ゲーム内説明文で明記)だが、過去のセーブデータ互換のためデータは残している。
-  // CURRENT_FACTOR_SEASON_ID との比較で、表示側(phantomView.ts)は「(無効)」表記・後方
-  // ソートを、ステータス計算側(calculateRawStats.ts)は効果の除外を行う。
+  // CURRENT_FACTOR_SEASON_ID との比較で、表示側(phantomView.ts)は選択肢からの除外を、
+  // ステータス計算側(calculateRawStats.ts)は効果の除外を行う。
   seasonId: number;
   grades: PhantomFactorGrade[];
   icon?: string;
@@ -116,7 +116,7 @@ export const pfData = phantomFactorsRaw as unknown as {
 
 // 現在有効な因子シーズン(データ中の最大seasonId)。これより古いseasonIdの因子はゲーム側で
 // 無効化されている(FactorItemClassの意味は同じtypeId番号のまま変わるため、名前だけでは
-// 新旧を区別できない)。表示側(phantomView.ts)の「(無効)」表記・ステータス計算側
+// 新旧を区別できない)。表示側(phantomView.ts)の選択肢除外・ステータス計算側
 // (calculateRawStats.ts)の効果除外の両方で参照する単一の定義元。
 export const CURRENT_FACTOR_SEASON_ID = Math.max(
   0,
