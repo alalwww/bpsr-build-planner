@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.9.5",
+      "date": "2026-08-02T04:49:37.415Z",
+      "summary": {
+        "ja": "レアステータスなどの表示名の不具合修正",
+        "en": "Fix incorrect rare stat and attribute display names"
+      },
+      "changes": {
+        "ja": [
+          "クラスの型変更時、武器の型固有レアステータスの選択状態を未設定に戻すよう変更",
+          "幸運の一撃ダメージ倍率・物理増強等、一部ステータス名がゲーム内表示と異なっていた不具合の修正"
+        ],
+        "en": [
+          "Reset weapon type-specific rare stat selections to unset on class type change",
+          "Fix some stat names (e.g. Lucky Strike DMG Multiplier, Physical Amp) not matching their in-game display text"
+        ]
+      }
+    },
+    {
       "version": "0.9.4",
       "date": "2026-08-01T18:19:05.474Z",
       "summary": {
