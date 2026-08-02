@@ -203,13 +203,6 @@ const LEGENDARY_SPECIAL_ATTR_NAMES = {
   english: { 2400001: 'ATK Bonus', 2400002: 'MATK Bonus' },
 };
 
-// ZTable上の名称がシーズン更新に追従していないAttrIdの上書き名(言語別)。
-// 英語版は正しい訳文が未確認のため上書きしない(ZTable由来の旧名のまま)。
-const ATTR_NAME_OVERRIDES = {
-  japanese: { 11442: '滅妄強度' },
-  english: {},
-};
-
 // StatId(CharacterPanelの左右カラムに表示するステータス) → FightAttrTable基準AttrId
 // (実数値レーティング版、AttrNumType:0)。ステータスクリック時の効果説明ポップアップ
 // (statDescs)で使用する。会心/ファスト/幸運/器用さ/万能/レジストはいずれも「実数値版
@@ -289,6 +282,21 @@ export function extractLocaleText(
       .filter((e) => e.AttrAdd && e.OfficialName)
       .map((e) => [e.AttrAdd, e.OfficialName]),
   );
+  // ProfileAttrTable.Name と FightAttrTable.OfficialName はどちらもZTable上の公式データ
+  // だが、同じattrIdで訳語が食い違うことがある(実例: attrId 12530 → ProfileAttrTable
+  // 「幸運の一撃ダメージ率」/ FightAttrTable「幸運の一撃のダメージ倍率」、12550 →
+  // 「物理ダメージ強化」/「物理増強」等)。2026-08-02にユーザーから「燼空・蒼海の狂瀾」の
+  // レアステータス表記(12530)がゲーム内表示と異なるという報告があり、実機表示と照合した
+  // ところ FightAttrTable.OfficialName(TipTemplateの文言と一致)の方が合っていたため、
+  // 該当attrIdがFightAttrTableに存在する場合はこちらを優先する。
+  function fightOfficialName(attrId) {
+    return fightAttrTable[String(attrId)]?.OfficialName || fightAttrNameByAdd.get(attrId);
+  }
+  // ProfileAttrTable由来の名前解決を行う全箇所で共用する: FightAttrTableの公式名を
+  // 優先し、存在しなければProfileAttrTable.Nameにフォールバックする。
+  function resolveAttrLibName(attrId) {
+    return fightOfficialName(attrId) || attrByAttrId[attrId]?.Name;
+  }
 
   // statDescs: CharacterPanelの%系ステータスクリックポップアップ用の効果説明文。
   // STAT_DESC_ATTR_IDS の基準AttrIdが指す FightAttrTable.AttrDes をそのまま使う
@@ -653,7 +661,7 @@ export function extractLocaleText(
 
   const attributes = {};
   for (const attr of Object.values(profileAttrTable)) {
-    attributes[attr.AttrId] = attr.Name;
+    attributes[attr.AttrId] = fightOfficialName(attr.AttrId) || attr.Name;
   }
   // EquipAttrLibTable や EquipRefineTable が使う AttrId (末尾2) は
   // ProfileAttrTable に存在しない。対応する末尾0エントリの名前をエイリアスとして追加。
@@ -668,13 +676,13 @@ export function extractLocaleText(
     [11432, 11430],
   ]) {
     if (!attributes[bonusId] && attrByAttrId[displayId]) {
-      attributes[bonusId] = attrByAttrId[displayId].Name;
+      attributes[bonusId] = resolveAttrLibName(displayId);
     }
   }
   // 装備基礎ステータス系 (EquipAttrLibTableで実際に使われたAttrId) を自動追加
   for (const attrId of equipAttrIds) {
     if (!attributes[attrId] && attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     }
   }
   // 固定進化ステータス系 AttrId の名前を解決して追加。
@@ -687,12 +695,12 @@ export function extractLocaleText(
   for (const attrId of fixedEvoAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     } else if (
       FLAT_STAT_DISPLAY_ATTR_IDS[attrId] &&
       attrByAttrId[FLAT_STAT_DISPLAY_ATTR_IDS[attrId]]
     ) {
-      attributes[attrId] = attrByAttrId[FLAT_STAT_DISPLAY_ATTR_IDS[attrId]].Name;
+      attributes[attrId] = resolveAttrLibName(FLAT_STAT_DISPLAY_ATTR_IDS[attrId]);
     } else if (attrDescById[attrId]) {
       attributes[attrId] = nameFromAttrDesc(attrDescById[attrId].Description);
     } else if (fightAttrNameByAdd.has(attrId)) {
@@ -721,9 +729,9 @@ export function extractLocaleText(
   for (const attrId of legendaryAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     } else if (attrByAttrId[attrId - 4]) {
-      attributes[attrId] = attrByAttrId[attrId - 4].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 4);
     } else if (attrDescById[attrId]) {
       attributes[attrId] = nameFromAttrDesc(attrDescById[attrId].Description);
     } else if (fightAttrNameByAdd.has(attrId)) {
@@ -741,12 +749,12 @@ export function extractLocaleText(
   for (const attrId of enchantAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     } else if (
       FLAT_STAT_DISPLAY_ATTR_IDS[attrId] &&
       attrByAttrId[FLAT_STAT_DISPLAY_ATTR_IDS[attrId]]
     ) {
-      attributes[attrId] = attrByAttrId[FLAT_STAT_DISPLAY_ATTR_IDS[attrId]].Name;
+      attributes[attrId] = resolveAttrLibName(FLAT_STAT_DISPLAY_ATTR_IDS[attrId]);
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     } else if (attrDescById[attrId]) {
@@ -757,9 +765,9 @@ export function extractLocaleText(
   for (const attrId of talentAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId]) {
-      attributes[attrId] = attrByAttrId[attrId].Name;
+      attributes[attrId] = resolveAttrLibName(attrId);
     } else if (attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     }
@@ -769,11 +777,11 @@ export function extractLocaleText(
   for (const attrId of phantomFactorAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId]) {
-      attributes[attrId] = attrByAttrId[attrId].Name;
+      attributes[attrId] = resolveAttrLibName(attrId);
     } else if (attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     } else if (attrByAttrId[attrId - 4]) {
-      attributes[attrId] = attrByAttrId[attrId - 4].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 4);
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     } else {
@@ -786,27 +794,17 @@ export function extractLocaleText(
   for (const attrId of battleImagineAttrIds) {
     if (attributes[attrId]) continue;
     if (attrByAttrId[attrId]) {
-      attributes[attrId] = attrByAttrId[attrId].Name;
+      attributes[attrId] = resolveAttrLibName(attrId);
     } else if (attrByAttrId[attrId - 2]) {
-      attributes[attrId] = attrByAttrId[attrId - 2].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 2);
     } else if (attrByAttrId[attrId - 4]) {
-      attributes[attrId] = attrByAttrId[attrId - 4].Name;
+      attributes[attrId] = resolveAttrLibName(attrId - 4);
     } else if (fightAttrNameByAdd.has(attrId)) {
       attributes[attrId] = fightAttrNameByAdd.get(attrId);
     } else {
       console.warn(`[extract-ztable] no attribute name for battle imagine attrId ${attrId}`);
     }
   }
-  // ZTable側のテキストがシーズン更新に追従していないAttrId名の上書き。
-  // AttrId 11442(装備由来、attrId-2=11440 のProfileAttrTable名を継承)はシーズン3で
-  // GS90-180装備から廃止され、GS190+装備の新効果に意味が変わった(ゲーム内表示は
-  // 「滅妄強度」)が、ProfileAttrTable.Name(11440)はまだ旧名「幻夢強度」のまま
-  // (2026-07-16時点、ユーザー報告による)。
-  const attrNameOverrides = ATTR_NAME_OVERRIDES[localeName] ?? {};
-  for (const [id, name] of Object.entries(attrNameOverrides)) {
-    attributes[Number(id)] = name;
-  }
-
   // talents: TalentTable の名前と説明文。
   //   type=1 (stat bonus): attrId→名前を解決し "名前 +val" 形式で生成。ただしattrIdが
   //     "%final"系バリアント(平坦statの"+2"IDが多いが例外もある。単位はいずれも1/10000)の
@@ -818,19 +816,19 @@ export function extractLocaleText(
   //   type=3 (buff効果): AttrDescription[buffId].Description を使用（TalentDesは中国語プレースホルダ）
   //   type=4 (条件ボーナス): TalentDes を使用。type=1と併用時はtype1Descsの後にTalentDesを
   //     追記する(例: シールドファイター/ヘヴィガーディアン「筋力変換」talentId 901/1206:
-  //     [[1,11352,3300],[4,0,11352,6667]] → "物理防御 +3300<br><br>筋力3ptにつき物理防御力+2pt。"。
+  //     [[1,11352,3300],[4,0,11352,6667]] → "物理防御力 +3300<br><br>筋力3ptにつき物理防御力+2pt。"。
   //     type=1のみを見て早期returnすると、TalentDes側にしかない変換率の説明が欠落するため)
   //   type=6 (スキル置換): TalentDes を使用。同時にtype=3がある場合はADを結合
   const TALENT_DES_PLACEHOLDER = '力量+10';
   // "%final"系バリアントのattrId集合(型番の末尾が4のIDが多いが11722のように例外もある)。
   const FINAL_PCT_ATTR_IDS = new Set([11324, 11334, 11344, 11354, 11722]);
   const talentTable = readTable(langDir, 'TalentTable');
-  // attrId → 表示名の解決（ProfileAttrTable + FightAttrTable + attributes[] fallback）
+  // attrId → 表示名の解決（FightAttrTable公式名 + ProfileAttrTable + attributes[] fallback）
   function resolveAttrName(attrId) {
     return (
+      fightOfficialName(attrId) ||
       attrByAttrId[attrId]?.Name ||
       attrByAttrId[attrId - 2]?.Name ||
-      fightAttrNameByAdd.get(attrId) ||
       attributes[attrId] ||
       String(attrId)
     );

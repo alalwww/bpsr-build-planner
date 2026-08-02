@@ -59459,42 +59459,42 @@
     "11422": "Refined Armor",
     "11430": "Refined MATK",
     "11432": "Refined MATK",
-    "11440": "Illusion Strength",
-    "11442": "Illusion Strength",
-    "11500": "All Element ATK",
-    "11502": "All Element ATK",
-    "11510": "Fire ATK",
-    "11512": "Fire ATK",
+    "11440": "Illusion-Breaking Strength",
+    "11442": "Illusion-Breaking Strength",
+    "11500": "All Element Attack",
+    "11502": "All Element Attack",
+    "11510": "Fire Attack",
+    "11512": "Fire Attack",
     "11520": "Ice Attack",
     "11522": "Ice Attack",
-    "11530": "Forest ATK",
-    "11532": "Forest ATK",
-    "11540": "Thunder ATK",
-    "11542": "Thunder ATK",
-    "11550": "Wind ATK",
-    "11552": "Wind ATK",
-    "11560": "Rock ATK",
-    "11562": "Rock ATK",
-    "11570": "Light ATK",
-    "11572": "Light ATK",
-    "11580": "Dark ATK",
-    "11582": "Dark ATK",
+    "11530": "Forest Attack",
+    "11532": "Forest Attack",
+    "11540": "Thunder Attack",
+    "11542": "Thunder Attack",
+    "11550": "Wind Attack",
+    "11552": "Wind Attack",
+    "11560": "Rock Attack",
+    "11562": "Rock Attack",
+    "11570": "Light Attack",
+    "11572": "Light Attack",
+    "11580": "Dark Attack",
+    "11582": "Dark Attack",
     "11710": "Crit",
     "11712": "Crit",
     "11720": "Attack SPD",
     "11722": "Attack SPD",
-    "11730": "Casting SPD",
-    "11732": "Casting SPD",
+    "11730": "Cast Speed",
+    "11732": "Cast Speed",
     "11762": "Skill CD Reduction",
     "11780": "Luck",
     "11782": "Luck",
-    "11790": "Healing Strength",
-    "11792": "Healing Strength",
-    "11800": "Received Healing Strength",
-    "11802": "Received Healing Strength",
-    "11810": "Shield Strength Permyriad",
-    "11812": "Shield Strength Permyriad",
-    "11820": "Shield Received Permyriad",
+    "11790": "Healing Output",
+    "11792": "Healing Output",
+    "11800": "Healing Received",
+    "11802": "Healing Received",
+    "11810": "Shield",
+    "11812": "Shield",
+    "11820": "Shield Receive",
     "11832": "Resilience Break Efficiency",
     "11842": "Versatility Enhancement",
     "11852": "Versatility Resistance",
@@ -59529,16 +59529,16 @@
     "12720": "Lucky Strike Healing",
     "12740": "Crit Healing",
     "12742": "Crit Healing",
-    "13000": "All Element Strength",
-    "13002": "All Element Strength",
-    "13010": "Fire Strength",
-    "13020": "Ice Strength",
-    "13030": "Forest Strength",
-    "13040": "Thunder Strength",
-    "13050": "Wind Strength",
-    "13060": "Rock Strength",
-    "13070": "Light Strength",
-    "13080": "Dark Strength",
+    "13000": "All Element",
+    "13002": "All Element",
+    "13010": "Fire",
+    "13020": "Ice",
+    "13030": "Forest",
+    "13040": "Thunder",
+    "13050": "Wind",
+    "13060": "Rock",
+    "13070": "Light",
+    "13080": "Dark",
     "13100": "All-Element Bonus",
     "13110": "Fire Bonus",
     "13112": "Fire Bonus",
@@ -59574,8 +59574,8 @@
     "13370": "Rock Resistance",
     "13380": "Light Resistance",
     "13390": "Dark Resistance",
-    "20020": "Max Resonance Energy",
-    "20120": "Engram Recovery in Battle state",
+    "20020": "Stamina Limit",
+    "20120": "Stamina Recovery",
     "92000": "Movement Speed",
     "98982": "Illusion Strength (Expired)",
     "99005": "Adaptive Strength/Intellect/Agility",
@@ -59672,31 +59672,31 @@
     },
     "21": {
       "name": "Rock Attack",
-      "description": "Rock ATK +5"
+      "description": "Rock Attack +5"
     },
     "22": {
       "name": "Thunder Attack",
-      "description": "Thunder ATK +5"
+      "description": "Thunder Attack +5"
     },
     "23": {
       "name": "Forest Attack",
-      "description": "Forest ATK +5"
+      "description": "Forest Attack +5"
     },
     "24": {
       "name": "Light Attack",
-      "description": "Light ATK +5"
+      "description": "Light Attack +5"
     },
     "25": {
       "name": "Dark Attack",
-      "description": "Dark ATK +5"
+      "description": "Dark Attack +5"
     },
     "26": {
       "name": "Wind Attack",
-      "description": "Wind ATK +5"
+      "description": "Wind Attack +5"
     },
     "27": {
       "name": "Fire Attack",
-      "description": "Fire ATK +5"
+      "description": "Fire Attack +5"
     },
     "40": {
       "name": "Crit Chance",
@@ -59728,7 +59728,7 @@
     },
     "47": {
       "name": "Healing",
-      "description": "Healing Strength +300"
+      "description": "Healing Output +300"
     },
     "48": {
       "name": "Shield DMG Reduction",
