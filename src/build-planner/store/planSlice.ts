@@ -120,6 +120,8 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       const newBdType: 0 | 1 = key === 'type1' ? 0 : 1;
       const profession = PROFESSIONS[state.professionKey];
       state.resetTalentR2ForType(profession.professionId, newBdType);
+      // 武器のレアステータスが型固有(蒼海・燼空シリーズや250/270武器等)の場合のみ選択状態を消去する。
+      state.resetWeaponRareStatForProfessionTypeChange();
     },
 
     buildAutoSaveState: (name) => {

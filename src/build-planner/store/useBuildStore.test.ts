@@ -287,6 +287,34 @@ describe('planSlice', () => {
     expect(state.equipped.weapon).toBeUndefined();
   });
 
+  it('selectProfessionType: 型固有レアステータス(蒼海武器等)を持つ武器は選択状態のみ消去し、装備は外さない', () => {
+    const seriesWeapon = getItemsBySlot('weapon').find(
+      (item) => item.legendaryAffixGroups && Object.keys(item.legendaryAffixGroups).length > 0,
+    )!;
+    useBuildStore.getState().equip('weapon', seriesWeapon);
+    useBuildStore.getState().setLegendaryAffixGroup('weapon', 0, { attrId: 1, value: 100 });
+
+    useBuildStore.getState().selectProfessionType('type2');
+
+    const state = useBuildStore.getState();
+    expect(state.equipped.weapon).toEqual(seriesWeapon);
+    expect(state.legendaryAffixGroupState.weapon).toBeUndefined();
+  });
+
+  it('selectProfessionType: 型非依存レアステータス([極]/[匠]等)を持つ武器は選択状態を維持する', () => {
+    const universalWeapon = getItemsBySlot('weapon').find(
+      (item) => item.legendaryAffix && item.legendaryAffix.length > 0 && !item.legendaryAffixGroups,
+    )!;
+    useBuildStore.getState().equip('weapon', universalWeapon);
+    useBuildStore.getState().setLegendaryAffix('weapon', { attrId: 1, value: 100 });
+
+    useBuildStore.getState().selectProfessionType('type2');
+
+    const state = useBuildStore.getState();
+    expect(state.equipped.weapon).toEqual(universalWeapon);
+    expect(state.legendaryAffixState.weapon).toEqual({ attrId: 1, value: 100 });
+  });
+
   it('savePlan → loadPlan: 保存時のスナップショットが読込で復元される', () => {
     useBuildStore.getState().setAdventurerLevel(42);
     useBuildStore.getState().savePlan('テストプラン');

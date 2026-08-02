@@ -59,6 +59,11 @@ export interface EquipmentSlice {
   setSlotEnchant: (slot: EquipmentSlotId, itemId: number | undefined) => void;
   // 転職時に武器(常に)・メインステータス変更時は上下半身装備も外し、進化ステータス選択をリセットする。
   resetEquipmentForProfessionChange: (mainStatChanged: boolean) => void;
+  // クラスの型変更時、装備中の武器のレアステータスが型(TalentSchoolId)ごとに選択肢の
+  // 異なる legendaryAffixGroups(蒼海・燼空シリーズや250/270武器。枠数は1〜4と装備により
+  // 異なる)を持つ場合のみ、その選択状態を消去する([極]/[匠]等、型に依存しない単体選択枠
+  // (legendaryAffix)のみを持つ武器は維持する)。
+  resetWeaponRareStatForProfessionTypeChange: () => void;
 }
 
 export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSlice> = (set) => {
@@ -187,6 +192,19 @@ export const createEquipmentSlice: StateCreator<BuildStore, [], [], EquipmentSli
           legendaryAffixGroupState: nextLegendaryAffixGroupState,
           slotEnchants: nextSlotEnchants,
         };
+      }),
+
+    resetWeaponRareStatForProfessionTypeChange: () =>
+      set((state) => {
+        const weapon = state.equipped.weapon;
+        const isTypeSpecific =
+          !!weapon?.legendaryAffixGroups && Object.keys(weapon.legendaryAffixGroups).length > 0;
+        if (!isTypeSpecific || state.legendaryAffixGroupState.weapon === undefined) {
+          return {};
+        }
+        const nextLegendaryAffixGroupState = { ...state.legendaryAffixGroupState };
+        delete nextLegendaryAffixGroupState.weapon;
+        return { legendaryAffixGroupState: nextLegendaryAffixGroupState };
       }),
   };
 };
