@@ -315,8 +315,9 @@ describe('calculateRawStats', () => {
 
     const result = calculateRawStats(input);
 
-    // BASE_STATS.strength(15) * 1.15 = 17.25
-    expect(result.rawStats.strength).toBe(17.25);
+    // BASE_STATS.strength(15) * 1.15 = 17.25 → strengthはINTEGER_TRUNCATED_STAT_IDS対象のため
+    // 整数へ切り捨てて17(2026-08-06不具合報告: メインステータスはゲーム内で常に整数)。
+    expect(result.rawStats.strength).toBe(17);
   });
 
   it('adds statResonanceBonus to the main stat AFTER the % bonus multiplier, not before', () => {
@@ -340,9 +341,11 @@ describe('calculateRawStats', () => {
 
     const result = calculateRawStats(input);
 
-    // (BASE_STATS.agility(15) * 1.10) + (6300 * 24 / 100) = 16.5 + 1512 = 1528.5
-    // (誤って%適用前に加算されていた場合は (15 + 1512) * 1.10 = 1679.7 になってしまう)
-    expect(result.rawStats.agility).toBe(1528.5);
+    // (BASE_STATS.agility(15) * 1.10) + (6300 * 24 / 100) = floor(16.5) + 1512 = 16 + 1512 = 1528
+    // (誤って%適用前に加算されていた場合は (15 + 1512) * 1.10 = 1679.7 になってしまう)。
+    // agilityはINTEGER_TRUNCATED_STAT_IDS対象のため%適用直後に整数へ切り捨てる
+    // (2026-08-06不具合報告)。statResonanceBonusはその後の加算のため影響を受けない。
+    expect(result.rawStats.agility).toBe(1528);
     expect(result.breakdown.agility.cookingBonus).toBe(1512);
   });
 
@@ -518,8 +521,9 @@ describe('calculateRawStats', () => {
 
     const result = calculateRawStats(input);
 
-    // BASE_STATS.intellect(15) * 1.05 = 15.75
-    expect(result.rawStats.intellect).toBe(15.75);
+    // BASE_STATS.intellect(15) * 1.05 = 15.75 → intellectはINTEGER_TRUNCATED_STAT_IDS対象のため
+    // 整数へ切り捨てて15(2026-08-06不具合報告)。
+    expect(result.rawStats.intellect).toBe(15);
   });
 
   it('leaves highestStatFinalPctBonus at 0 when the ability is not enabled', () => {
@@ -824,7 +828,11 @@ describe('calculateRawStats', () => {
       phantomFactorSlots: { 100: { classKey: '202190', grade: 1 } },
     });
 
-    expect(withFactor.rawStats.strength).toBeCloseTo((withoutFactor.rawStats.strength + 42) * 1.006);
+    // strengthはINTEGER_TRUNCATED_STAT_IDS対象のため、%適用後に整数へ切り捨てる
+    // (2026-08-06不具合報告): (15+42)*1.006=57.342 → floor→57。
+    expect(withFactor.rawStats.strength).toBe(
+      Math.floor((withoutFactor.rawStats.strength + 42) * 1.006),
+    );
   });
 
   it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {

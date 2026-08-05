@@ -8,6 +8,17 @@ import {
   SEASON_CONSTANTS,
 } from './seasonConstants';
 
+// メインステータス→攻撃力/ファスト等の変換は、基礎係数とR1アビリティ由来の追加係数
+// (conversionRateBonus)を先に合算してから1回だけ乗算するのではなく、ゲーム内は
+// それぞれの変換元(基礎係数/アビリティ係数)を別々に整数へ切り捨ててから加算しているらしい
+// (2026-08-06不具合報告: 知力2249×基礎0.5=1124.5と知力2249×R1分0.1=224.9をそれぞれ
+// floorしてから足すと1348、先に0.6として1回で乗算すると1349になり、ゲーム内実測値は前者
+// (1348)と一致した)。raw側の実数値ステータス自体は既にcalculateRawStats側で整数へ
+// 切り捨て済みのため、ここでは追加のfloorは行わない。
+function convertBySeparatelyTruncatedRates(rawValue: number, baseRate: number, bonusRate: number): number {
+  return Math.floor(rawValue * baseRate) + Math.floor(rawValue * bonusRate);
+}
+
 // docs/STATUS_CALCULATION.md に記載した式から導出される、実数値ステータスでは
 // 直接表現できないステータス群(%変換後の値、クラス係数で導出される値)。
 export interface DerivedStats {
@@ -141,9 +152,11 @@ export function deriveStats(
   const maxHp = raw.maxHp + enduranceMaxHpBonus;
 
   const atkTargetStat: StatId = profession.attackType === 'physical' ? 'atk' : 'matk';
-  const mainStatBonus =
-    raw[profession.mainStat] *
-    (profession.atkPerMainStatPoint + (conversionRateBonus[atkTargetStat] ?? 0));
+  const mainStatBonus = convertBySeparatelyTruncatedRates(
+    raw[profession.mainStat],
+    profession.atkPerMainStatPoint,
+    conversionRateBonus[atkTargetStat] ?? 0,
+  );
   const physicalAtkMainStatBonus = profession.attackType === 'physical' ? mainStatBonus : 0;
   const magicalAtkMainStatBonus = profession.attackType === 'magical' ? mainStatBonus : 0;
   const physicalAtk = raw.atk + physicalAtkMainStatBonus;
@@ -163,9 +176,11 @@ export function deriveStats(
     DIMINISHING_A_BASE_PERCENT.crit,
   );
 
-  const hasteAgilityBonus =
-    raw.agility *
-    (COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint + (conversionRateBonus.haste ?? 0));
+  const hasteAgilityBonus = convertBySeparatelyTruncatedRates(
+    raw.agility,
+    COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
+    conversionRateBonus.haste ?? 0,
+  );
   const hasteReal = raw.haste + hasteAgilityBonus;
   const hastePercent = diminishingPercent(
     hasteReal,

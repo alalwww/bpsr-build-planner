@@ -107,6 +107,29 @@ function truncate2(value: number): number {
   return Math.floor(roundClean(value * 100)) / 100;
 }
 
+// 整数へ切り捨てる。ゲーム内はステータス実数値を表示・後続計算とも常に整数として扱う
+// (2026-08-06不具合報告: 知力2249.28→魔法攻撃力/ファスト実数の計算が浮動小数点のまま
+// 進んでいたため、複数のビルドで実測値と1〜数ポイントのズレが生じていた)。floorする直前にも
+// roundCleanで丸める(truncate2と同じ理由)。
+function truncateInt(value: number): number {
+  return Math.floor(roundClean(value));
+}
+
+// ゲーム内で常に整数として扱われることが実測で確認できているStatId(2026-08-06不具合報告)。
+// 会心/ファスト/幸運/器用さ/万能(INSPIRATION_PERCENT_STAT_IDSと同じ5種)とメインステータス
+// (筋力/知力/敏捷)が対象。他のStatId(耐久力・防御力・属性系等)は未検証のため、当面は
+// 従来通りtruncate2(小数点2桁切り捨て)のままとする。
+const INTEGER_TRUNCATED_STAT_IDS = new Set<StatId>([
+  'strength',
+  'intellect',
+  'agility',
+  'crit',
+  'haste',
+  'luck',
+  'mastery',
+  'versatility',
+]);
+
 export interface CalculateRawStatsInput {
   equipped: EquippedItems;
   legendaryAffixState: Partial<Record<EquipmentSlotId, LegendaryAffixSelection | undefined>>;
@@ -765,11 +788,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // %ボーナスの適用: 同一ステータスに対する複数の%ボーナスは合算してから一度だけ乗算する
   // (例: +10%と+15%は 1.1*1.15 ではなく 1.25 倍として扱う)。
   // 浮動小数点誤差(15%のつもりが14.999...%になる等)を避けるため、乗算結果は一旦
-  // roundCleanで丸め、最終的なステータス計算結果のみtruncate2で切り捨てる。
+  // roundCleanで丸め、最終的なステータス計算結果をtruncate2(またはINTEGER_TRUNCATED_STAT_IDS
+  // に該当する場合はtruncateInt)で切り捨てる。
   for (const [statId, rawValue] of Object.entries(pctBonus) as [StatId, number][]) {
     if (rawValue === 0) continue;
     const factor = roundClean(1 + rawValue / PERCENT_BASIS_POINTS);
-    total[statId] = truncate2(roundClean(total[statId] * factor));
+    const truncate = INTEGER_TRUNCATED_STAT_IDS.has(statId) ? truncateInt : truncate2;
+    total[statId] = truncate(roundClean(total[statId] * factor));
   }
 
   // 能力共鳴(Stat Resonance、響奏バフ): 平均値×倍率(%)÷100を、クラスのメインステータスへ
@@ -870,8 +895,8 @@ export function applyFinalStatModifiers(
   const stats: Record<StatId, number> = {
     ...rawStats,
     maxHp: truncate2(roundClean(derived.maxHp * ipct('maxHp'))),
-    atk: truncate2(roundClean(derived.physicalAtk * atkMult * ipct('atk'))),
-    matk: truncate2(roundClean(derived.magicalAtk * matkMult * ipct('matk'))),
+    atk: truncateInt(roundClean(derived.physicalAtk * atkMult * ipct('atk'))),
+    matk: truncateInt(roundClean(derived.magicalAtk * matkMult * ipct('matk'))),
     physicalDef: truncate2(roundClean(derived.physicalDef * ipct('physicalDef'))),
     magicalDef: derived.magicalDef,
     crit: derived.critPercent + (finalPctAddend.crit ?? 0) / 100,
