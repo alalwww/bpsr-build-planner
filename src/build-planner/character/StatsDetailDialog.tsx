@@ -55,11 +55,17 @@ function Section({
   onToggle,
   label,
   rows,
+  sectionKey,
+  selectedRows,
+  onRowClick,
 }: {
   isOpen: boolean;
   onToggle: () => void;
   label: string;
   rows: { label: string; value: string }[];
+  sectionKey: string;
+  selectedRows: Set<string>;
+  onRowClick: (key: string) => void;
 }) {
   return (
     <div className="stats-detail__section">
@@ -70,12 +76,19 @@ function Section({
       <CollapsibleBody open={isOpen}>
         <table className="stats-detail__table">
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.label} className="stats-detail__row">
-                <td className="stats-detail__label">{row.label}</td>
-                <td className="stats-detail__value">{row.value}</td>
-              </tr>
-            ))}
+            {rows.map((row) => {
+              const rowKey = `${sectionKey}:${row.label}`;
+              return (
+                <tr
+                  key={row.label}
+                  className={`stats-detail__row${selectedRows.has(rowKey) ? ' stats-detail__row--selected' : ''}`}
+                  onClick={() => onRowClick(rowKey)}
+                >
+                  <td className="stats-detail__label">{row.label}</td>
+                  <td className="stats-detail__value">{row.value}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </CollapsibleBody>
@@ -103,6 +116,18 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
 
   const toggleSection = (key: string) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // クリックした行を強調表示するための選択状態(複数行を同時選択可)。キーは
+  // "セクションキー:ラベル"の組み合わせで、セクションをまたいだラベルの重複を避ける。
+  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
+  const toggleRow = (key: string) => {
+    setSelectedRows((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
   const te = (key: string) => t(`buildPlanner.detailStats.${key}`);
@@ -322,15 +347,22 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
                   </tr>
                 </thead>
                 <tbody>
-                  {buffRows.map((row) => (
-                    <tr key={row.statId} className="stats-detail__row">
-                      <td className="stats-detail__label">{row.label}</td>
-                      <td className="stats-detail__value">{row.initialValue}</td>
-                      <td className="stats-detail__value">{row.additive}</td>
-                      <td className="stats-detail__value">{row.multiplier}</td>
-                      <td className="stats-detail__value">{row.cookingBuff}</td>
-                    </tr>
-                  ))}
+                  {buffRows.map((row) => {
+                    const rowKey = `buffEffects:${row.statId}`;
+                    return (
+                      <tr
+                        key={row.statId}
+                        className={`stats-detail__row${selectedRows.has(rowKey) ? ' stats-detail__row--selected' : ''}`}
+                        onClick={() => toggleRow(rowKey)}
+                      >
+                        <td className="stats-detail__label">{row.label}</td>
+                        <td className="stats-detail__value">{row.initialValue}</td>
+                        <td className="stats-detail__value">{row.additive}</td>
+                        <td className="stats-detail__value">{row.multiplier}</td>
+                        <td className="stats-detail__value">{row.cookingBuff}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             ) : (
@@ -343,42 +375,63 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
           onToggle={() => toggleSection('attack')}
           label={te('sections.attack')}
           rows={attackRows}
+          sectionKey="attack"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
         <Section
           isOpen={openSections.survival}
           onToggle={() => toggleSection('survival')}
           label={te('sections.survival')}
           rows={survivalRows}
+          sectionKey="survival"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
         <Section
           isOpen={openSections.support}
           onToggle={() => toggleSection('support')}
           label={te('sections.support')}
           rows={supportRows}
+          sectionKey="support"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
         <Section
           isOpen={openSections.elemAtk}
           onToggle={() => toggleSection('elemAtk')}
           label={te('sections.elemAtk')}
           rows={elemAtkRows}
+          sectionKey="elemAtk"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
         <Section
           isOpen={openSections.elemBonus}
           onToggle={() => toggleSection('elemBonus')}
           label={te('sections.elemBonus')}
           rows={elemBonusRows}
+          sectionKey="elemBonus"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
         <Section
           isOpen={openSections.elemResist}
           onToggle={() => toggleSection('elemResist')}
           label={te('sections.elemResist')}
           rows={elemResistRows}
+          sectionKey="elemResist"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
         <Section
           isOpen={openSections.misc}
           onToggle={() => toggleSection('misc')}
           label={te('sections.misc')}
           rows={miscRows}
+          sectionKey="misc"
+          selectedRows={selectedRows}
+          onRowClick={toggleRow}
         />
       </div>
     </DraggableDialog>

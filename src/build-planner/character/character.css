@@ -909,10 +909,21 @@
 
 .stats-detail__row {
   border-top: 1px solid #25252f;
+  cursor: pointer;
 }
 
 .stats-detail__row:hover {
   background: #23232d;
+}
+
+.stats-detail__row--selected,
+.stats-detail__row--selected:hover {
+  background: #3a2f1a;
+}
+
+.stats-detail__row--selected .stats-detail__label,
+.stats-detail__row--selected .stats-detail__value {
+  color: #f4a13a;
 }
 
 .stats-detail__label {
