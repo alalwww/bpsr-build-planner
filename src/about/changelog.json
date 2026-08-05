@@ -1,6 +1,34 @@
 {
   "entries": [
     {
+      "version": "0.9.6",
+      "date": "2026-08-05T19:41:07.572Z",
+      "summary": {
+        "ja": "ステータス計算の不具合修正・改善とステータス詳細画面のUI改善",
+        "en": "Fix and improve stat calculation accuracy, and improve the stats detail UI"
+      },
+      "changes": {
+        "ja": [
+          "ステータス詳細画面で行をクリックすると強調表示されるように改善",
+          "最大HP・攻撃力・メインステータス・耐久力・滅妄強度の表示を、実際の値に合わせて整数表示に変更",
+          "HP変動(パワーコア)の適用先判定が実数値基準になっていた不具合を修正(二段増幅(Secondary Amp)の修正時に、HP変動も誤って実数値基準に変更してしまっていたデグレ)",
+          "ストームブレイド月影型の蒼海武器「ファスト+6%」が攻撃速度・詠唱速度に反映されていなかった不具合を修正",
+          "ストームブレイド月影型の幻夢2セット効果(攻撃速度条件分岐)が計算に反映されていなかった不具合を修正",
+          "メインステータスや会心～万能等のステータス計算に、ゲーム内と異なる端数が生じていた不具合を修正",
+          "最大HPの計算処理を少し改善(計算式が確定できないためまだ完全一致はしません)"
+        ],
+        "en": [
+          "Add row highlighting on click in the stats detail dialog",
+          "Display max HP, attack power, main stat, endurance, and illusion power as whole numbers",
+          "Fix HP Shift (Power Core) picking its target stat by raw value instead of final %, a regression accidentally introduced while fixing Secondary Amp",
+          "Fix Storm Blade Moon Shadow's Sea Blue weapon Haste+6% not reflecting in attack/cast speed",
+          "Fix Storm Blade Moon Shadow's Illusory Dream 2-piece set effect (conditional attack speed bonus) not being calculated",
+          "Fix main stats and crit-through-versatility stats carrying fractional values the game doesn't show",
+          "Improve max HP calculation slightly (the exact formula is still unconfirmed, so it may not match perfectly yet)"
+        ]
+      }
+    },
+    {
       "version": "0.9.5",
       "date": "2026-08-02T04:49:37.415Z",
       "summary": {
