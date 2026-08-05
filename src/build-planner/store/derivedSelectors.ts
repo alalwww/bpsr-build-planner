@@ -99,7 +99,7 @@ export const selectDerivedStats = memoize1((...args: Parameters<typeof deriveSta
   deriveStats(...args),
 );
 
-// computeCookingAdjustmentsの「5ステータス中最大の1項目」判定用の実数値(%変換前)。rawStatsを
+// computeCookingAdjustmentsの「二段増幅」判定用の実数値(%変換前)。rawStatsを
 // そのままスプレッドすると毎回新規オブジェクトになりselectCookingAdjustments(memoize1)のキャッシュが
 // 効かなくなる(EMPTY_STAT_CORRECTIONSと同じ理由)ため、rawStats参照とhasteReal値が両方
 // 前回と同じ場合のみ同一オブジェクトを返すよう1スロットメモ化する。
