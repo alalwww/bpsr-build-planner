@@ -3,7 +3,7 @@ import { PROFESSIONS } from '../profession';
 import type { StatId } from '../types';
 import { BASE_STATS } from './baseStats';
 import { COMMON_STAT_COEFFICIENTS } from './commonCoefficients';
-import { deriveStats } from './deriveStats';
+import { deriveStats, recalculateSpeedPercents } from './deriveStats';
 import { diminishingPercent } from './formulas';
 import {
   DIMINISHING_A_BASE_PERCENT,
@@ -243,5 +243,23 @@ describe('deriveStats', () => {
     const result = deriveStats(raw, profession, { atk: 0.5 });
 
     expect(result.physicalAtk).toBe(raw.atk);
+  });
+});
+
+describe('recalculateSpeedPercents', () => {
+  it('converts the full final haste% (post finalPctAddend/imagine/cooking bonuses) through the same per-class coefficient used by deriveStats, unlike the raw-hastePercent-only intermediate value (e.g. ストームブレイド月影型 weapon "ファスト+6%" bug report: 6% haste at a 1.6 total coefficient = +9.6% atk speed)', () => {
+    const profession = PROFESSIONS.stormBlade; // atkSpeedPerHastePercent = 0.6
+    // +1.0 bonus mirrors the R1 ability "迅速" (see the deriveStats test above), giving a 1.6 total coefficient.
+    const result = recalculateSpeedPercents(6, profession, 1, 0, 0);
+
+    expect(result.atkSpeedPercent).toBeCloseTo(6 * 1.6);
+  });
+
+  it('still adds atkSpeedFinalPctAddend/castSpeedFinalPctAddend directly on top, same as the initial deriveStats computation', () => {
+    const profession = PROFESSIONS.divineArcher;
+    const result = recalculateSpeedPercents(20, profession, 0, 3, 12);
+
+    expect(result.atkSpeedPercent).toBeCloseTo(20 * profession.atkSpeedPerHastePercent + 3);
+    expect(result.castSpeedPercent).toBeCloseTo(20 * profession.castSpeedPerHastePercent + 12);
   });
 });

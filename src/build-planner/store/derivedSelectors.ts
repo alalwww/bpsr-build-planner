@@ -27,11 +27,13 @@ import {
   LIFE_WAVE_VALUES,
   POWER_CORE_EFFECT_IDS,
 } from '../stats/cookingBuff';
-import { deriveStats } from '../stats/deriveStats';
+import { deriveStats, recalculateSpeedPercents } from '../stats/deriveStats';
+import type { DerivedStats } from '../stats/deriveStats';
 import {
   calculateMasteryFinalPctEffects,
   calculateMasteryStatEffects,
 } from '../stats/masteryElementBonus';
+import { calculateSuitAtkSpeedBonus } from '../stats/suitEffects';
 import {
   buildTalentNodesById,
   countR1Nodes,
@@ -112,6 +114,37 @@ const selectHighestOfFiveRawStats = memoize1(
 
 export const selectFinalStatsResult = memoize1(
   (...args: Parameters<typeof applyFinalStatModifiers>) => applyFinalStatModifiers(...args),
+);
+
+// 最終ファスト%(finalPctAddend/イマジン最終%乗算/料理バフ等すべて確定済みのstats.haste)を
+// 使った攻撃速度%/詠唱速度%の再計算。deriveStats内の初期計算(rawStats由来のhastePercentのみ
+// 見る中間値)はこれらの後付け加算を反映していないため、後段で上書きする(不具合報告
+// 2026-08-05)。
+export const selectFinalSpeedPercents = memoize1(
+  (...args: Parameters<typeof recalculateSpeedPercents>) => recalculateSpeedPercents(...args),
+);
+
+export const selectSuitAtkSpeedBonus = memoize1(
+  (...args: Parameters<typeof calculateSuitAtkSpeedBonus>) => calculateSuitAtkSpeedBonus(...args),
+);
+
+// derivedStatsのatkSpeedPercent/castSpeedPercentを、上記の再計算結果で上書きする。
+// 値が変化しない場合は元の参照をそのまま返す(useShallowでの不要な再レンダリング防止、
+// selectStatsWithMasteryFinalPctBonus等と同じ理由)。
+const selectDerivedStatsWithFinalSpeed = memoize1(
+  (
+    derivedStats: DerivedStats,
+    atkSpeedPercent: number,
+    castSpeedPercent: number,
+  ): DerivedStats => {
+    if (
+      atkSpeedPercent === derivedStats.atkSpeedPercent &&
+      castSpeedPercent === derivedStats.castSpeedPercent
+    ) {
+      return derivedStats;
+    }
+    return { ...derivedStats, atkSpeedPercent, castSpeedPercent };
+  },
 );
 
 export const selectCookingAdjustments = memoize1(
@@ -326,6 +359,28 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     cookingAdjustments,
   );
 
+  // 最終ファスト%(stats.haste)を使って攻撃速度%/詠唱速度%を再計算し、レイドセット効果のうち
+  // 現在の攻撃速度%を閾値とする条件付き効果(例: S2セット ストームブレイド月影型「攻撃速度が
+  // 80%未満の場合、攻撃速度+6%」)を上乗せする。
+  const finalSpeedPercents = selectFinalSpeedPercents(
+    stats.haste,
+    profession,
+    rawStatsResult.atkSpeedPerHastePercentBonus,
+    rawStatsResult.atkSpeedFinalPctAddend,
+    rawStatsResult.castSpeedFinalPctAddend,
+  );
+  const suitAtkSpeedBonus = selectSuitAtkSpeedBonus(
+    state.equipped,
+    profession,
+    state.professionTypeKey,
+    finalSpeedPercents.atkSpeedPercent,
+  );
+  const derivedStatsWithFinalSpeed = selectDerivedStatsWithFinalSpeed(
+    derivedStats,
+    finalSpeedPercents.atkSpeedPercent + suitAtkSpeedBonus,
+    finalSpeedPercents.castSpeedPercent,
+  );
+
   // 器用さ→ステータス(クラス×型固有効果。属性ボーナス/バリア強度/回復力)。実際に
   // キャラクターパネルに表示される最終器用さ%(料理バフの「ひらめき」等も含めすべての
   // 調整が終わった後のstats.mastery)に依存するため、calculateRawStats内では計算できず
@@ -381,7 +436,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
   return {
     rawStats: rawStatsWithMasteryBonus,
     rawStatsBreakdown,
-    derivedStats,
+    derivedStats: derivedStatsWithFinalSpeed,
     stats: statsWithMasteryFinalPctBonus,
     abilityScore,
     roleSkills,

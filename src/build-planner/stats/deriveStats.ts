@@ -78,6 +78,48 @@ export interface DerivedStats {
   staminaRegenPerSecond: number;
 }
 
+// ファスト%(hastePercent)から攻撃速度%/詠唱速度%を算出する共通ロジック。deriveStats内の
+// 初期計算(実数値rawStats由来、finalPctAddend/イマジン最終%乗算/料理バフ等の後付け加算を
+// 含まない中間値)と、それら全てが確定した後の最終ファスト%(stats.haste)を使った再計算
+// (recalculateSpeedPercents)の双方から呼ぶ。
+function computeSpeedPercents(
+  hastePercent: number,
+  profession: Profession,
+  atkSpeedPerHastePercentBonus: number,
+  atkSpeedFinalPctAddend: number,
+  castSpeedFinalPctAddend: number,
+): { atkSpeedPercent: number; castSpeedPercent: number } {
+  return {
+    atkSpeedPercent:
+      hastePercent * (profession.atkSpeedPerHastePercent + atkSpeedPerHastePercentBonus) +
+      atkSpeedFinalPctAddend,
+    castSpeedPercent:
+      hastePercent * profession.castSpeedPerHastePercent + castSpeedFinalPctAddend,
+  };
+}
+
+// 武器レアステータス(月影型「ファスト+6%」等)のfinalPctAddend.haste/イマジン最終%乗算/
+// 料理バフ(HP変動・二段増幅・鼓舞・ステ補正)を含む、全ての調整が適用済みの最終ファスト%
+// (stats.haste)から、攻撃速度%/詠唱速度%を再計算する。ゲーム内では「攻撃速度」は表示上
+// 独立したステータスに見えるが、実体はファスト%にクラス係数を掛けた派生値であり、ファスト%への
+// 加算はすべて同じ変換を経て攻撃速度%に反映される(不具合報告2026-08-05で判明。deriveStats内の
+// 初期計算はrawStats由来のhastePercentしか見ないため、上記の後付け加算を取りこぼしていた)。
+export function recalculateSpeedPercents(
+  hasteFinalPercent: number,
+  profession: Profession,
+  atkSpeedPerHastePercentBonus: number,
+  atkSpeedFinalPctAddend: number,
+  castSpeedFinalPctAddend: number,
+): { atkSpeedPercent: number; castSpeedPercent: number } {
+  return computeSpeedPercents(
+    hasteFinalPercent,
+    profession,
+    atkSpeedPerHastePercentBonus,
+    atkSpeedFinalPctAddend,
+    castSpeedFinalPctAddend,
+  );
+}
+
 export function deriveStats(
   raw: Record<StatId, number>,
   profession: Profession,
@@ -181,11 +223,13 @@ export function deriveStats(
     hasteReal,
     hasteAgilityBonus,
     hastePercent,
-    atkSpeedPercent:
-      hastePercent * (profession.atkSpeedPerHastePercent + atkSpeedPerHastePercentBonus) +
+    ...computeSpeedPercents(
+      hastePercent,
+      profession,
+      atkSpeedPerHastePercentBonus,
       atkSpeedFinalPctAddend,
-    castSpeedPercent:
-      hastePercent * profession.castSpeedPerHastePercent + castSpeedFinalPctAddend,
+      castSpeedFinalPctAddend,
+    ),
 
     luckPercent,
     luckyHitDamageMultiplierPercent:
