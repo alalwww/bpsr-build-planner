@@ -8,7 +8,7 @@ import type { DerivedStats } from '../stats/deriveStats';
 import { STAT_BASE_PERCENT, STAT_SEASON_CONSTANT } from '../stats/seasonConstants';
 import type { StatId } from '../types';
 import type { MainStatId, ProfessionTypeKey } from '../profession';
-import { truncate2Str } from './statFormat';
+import { roundIntStr, truncate2Str } from './statFormat';
 
 export interface StatTooltipState {
   statId: StatId;
@@ -193,7 +193,7 @@ function StatTooltip({
           <span className="stat-tooltip__value-label">
             {t('buildPlanner.statTooltip.currentValue')}
           </span>
-          <span className="stat-tooltip__value">{truncate2Str(rawValue)}</span>
+          <span className="stat-tooltip__value">{roundIntStr(rawValue)}</span>
         </div>
       )}
       {breakdownConfig && breakdownEntry && (
@@ -204,14 +204,14 @@ function StatTooltip({
               <span className="stat-tooltip__value-label">
                 {t('buildPlanner.statTooltip.baseValue')}
               </span>
-              <span className="stat-tooltip__value">{truncate2Str(breakdownEntry.base)}</span>
+              <span className="stat-tooltip__value">{roundIntStr(breakdownEntry.base)}</span>
             </div>
           )}
           {conversionSourceLabel && (
             <div className="stat-tooltip__value-row">
               <span className="stat-tooltip__value-label">{conversionSourceLabel}</span>
               <span className="stat-tooltip__value">
-                {truncate2Str(conversionSourceValue ?? 0)}
+                {roundIntStr(conversionSourceValue ?? 0)}
               </span>
             </div>
           )}
@@ -227,7 +227,7 @@ function StatTooltip({
             <span className="stat-tooltip__value-label">
               {t('buildPlanner.statTooltip.additiveValue')}
             </span>
-            <span className="stat-tooltip__value">{truncate2Str(breakdownEntry.additive)}</span>
+            <span className="stat-tooltip__value">{roundIntStr(breakdownEntry.additive)}</span>
           </div>
           <div className="stat-tooltip__value-row">
             <span className="stat-tooltip__value-label">
@@ -242,7 +242,7 @@ function StatTooltip({
               <span className="stat-tooltip__value-label">
                 {t('buildPlanner.statTooltip.additionalBuff')}
               </span>
-              <span className="stat-tooltip__value">{truncate2Str(additionalBuff)}</span>
+              <span className="stat-tooltip__value">{roundIntStr(additionalBuff)}</span>
             </div>
           )}
           <p className="stat-tooltip__formula">

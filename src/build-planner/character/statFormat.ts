@@ -18,3 +18,10 @@ export function truncate2Str(value: number): string {
     maximumFractionDigits: 2,
   });
 }
+
+// 整数へ四捨五入して表示する。ゲーム内で常に整数として扱われるステータス
+// (最大HP/攻撃力/メインステータス等、calculateRawStats側で既に整数へ丸め済みの値)向け。
+// cleanRoundで浮動小数点誤差を吸収してからMath.roundする(truncate2と同じ理由)。
+export function roundIntStr(value: number): string {
+  return Math.round(cleanRound(value)).toLocaleString();
+}

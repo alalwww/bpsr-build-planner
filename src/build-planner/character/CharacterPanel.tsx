@@ -19,7 +19,7 @@ import { useBuildStore } from '../store/useBuildStore';
 import { getClassData } from '../classData';
 import { isTauri } from '../../platform';
 import { showResidentWindow } from '../../platform/residentWindow';
-import { truncate2Str } from './statFormat';
+import { roundIntStr, truncate2Str } from './statFormat';
 
 interface CharacterPanelProps {
   onOpenTalentTree?: () => void;
@@ -30,7 +30,9 @@ function formatStatValue(value: number, isPercent?: boolean): string {
   if (isPercent) {
     return `${truncate2Str(value)}%`;
   }
-  return truncate2Str(value);
+  // 最大HP/攻撃力/メインステータス/耐久力/滅妄強度は、calculateRawStats側で既に整数へ
+  // 丸め済み(ゲーム内で常に整数表示)のため、小数点2桁表示は意味を持たない。
+  return roundIntStr(value);
 }
 
 // 左カラム(最大HP/攻撃力/主要ステータス/耐久力)は収益逓減カーブを経由しない素の値のため、
