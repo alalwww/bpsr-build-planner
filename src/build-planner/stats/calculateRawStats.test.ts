@@ -90,6 +90,24 @@ describe('calculateRawStats', () => {
     }
   });
 
+  it('adds a flat +2 maxHp bonus once 6 or more slots are equipped (2026-08-06 user report; cause unconfirmed, threshold applied as a stopgap)', () => {
+    const makeEquippedCount = (count: number) => {
+      const equipped: Partial<Record<EquipmentSlotId, EquipmentItem>> = {};
+      for (const slot of ALL_SLOTS.slice(0, count)) {
+        equipped[slot] = makeEquipmentItem({ slot, part: 100 });
+      }
+      return equipped;
+    };
+
+    const with5 = calculateRawStats({ ...baseInput(), equipped: makeEquippedCount(5) });
+    const with6 = calculateRawStats({ ...baseInput(), equipped: makeEquippedCount(6) });
+    const with11 = calculateRawStats({ ...baseInput(), equipped: makeEquippedCount(11) });
+
+    expect(with5.rawStats.maxHp).toBe(BASE_STATS.maxHp);
+    expect(with6.rawStats.maxHp).toBe(BASE_STATS.maxHp + 2);
+    expect(with11.rawStats.maxHp).toBe(BASE_STATS.maxHp + 2);
+  });
+
   it('adds equipment baseStats via EQUIP_ATTR_TO_STAT (attrId 11332 -> atk)', () => {
     const input: CalculateRawStatsInput = {
       ...baseInput(),
@@ -1150,6 +1168,23 @@ describe('applyFinalStatModifiers', () => {
     expect(result.breakdown.crit.multiplier).toBe(1); // 乗算は変化しない
     expect(result.breakdown.crit.cookingBonus).toBeCloseTo(6);
     expect(result.breakdown.luck.cookingBonus).toBeCloseTo(6);
+  });
+
+  it('rounds maxHp to the nearest integer rather than truncating (2026-08-06 user report: 52113.6 in-game displays as 52114, not 52113)', () => {
+    const derived = { ...zeroDerivedStats(), maxHp: 43428 };
+
+    const result = applyFinalStatModifiers(
+      BASE_STATS,
+      baseBreakdown(),
+      derived,
+      {},
+      [null, null],
+      [5, 5],
+      { maxHp: 2000 }, // +20% (フロストメイジ「変奏」相当): 43428*1.2=52113.6
+      {},
+    );
+
+    expect(result.stats.maxHp).toBe(52114);
   });
 
   it('combines the existing haste/mastery % multiplier (phantomFinalPct) with the new additive bonus (finalPctAddend)', () => {

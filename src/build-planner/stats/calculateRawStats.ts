@@ -272,6 +272,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // Math.roundした後に合算した値が完全一致することを確認済み。%ボーナス系(finalPctAddend等)は
   // 対象外(実数値ではなく%空間の値のため丸めない)。
   const roundStat = (value: number) => Math.round(value);
+
+  // 装備数が6部位以上の場合、最大HPに+2される現象を実測で確認(2026-08-06不具合報告)。
+  // 発動条件・原因の詳細(装備数そのものか、他の量との偶然の相関か)は未特定だが、暫定対応として
+  // 装備6部位以上で固定+2を加算する。原因が判明次第、正しい実装に置き換えること。
+  if (Object.keys(equipped).length >= 6) {
+    addStat('maxHp', 2);
+  }
   for (const [slotId, equipmentItem] of Object.entries(equipped)) {
     const slotKey = slotId as EquipmentSlotId;
     const pLine = Math.min(
@@ -894,7 +901,9 @@ export function applyFinalStatModifiers(
 
   const stats: Record<StatId, number> = {
     ...rawStats,
-    maxHp: truncate2(roundClean(derived.maxHp * ipct('maxHp'))),
+    // maxHpのみ切り捨てではなく四捨五入(2026-08-06不具合報告: build1相当のケースで実測と
+    // 四捨五入が一致したため。他のステータス(atk/matk/physicalDef等)は従来通り切り捨て)。
+    maxHp: Math.round(roundClean(derived.maxHp * ipct('maxHp'))),
     atk: truncateInt(roundClean(derived.physicalAtk * atkMult * ipct('atk'))),
     matk: truncateInt(roundClean(derived.magicalAtk * matkMult * ipct('matk'))),
     physicalDef: truncate2(roundClean(derived.physicalDef * ipct('physicalDef'))),
