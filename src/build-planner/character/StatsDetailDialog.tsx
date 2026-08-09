@@ -8,7 +8,7 @@ import DraggableDialog from '../components/DraggableDialog';
 import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
 import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT, ELEMENT_BONUS_STAT } from '../stats/attrMaps';
 import { diminishingPercent } from '../stats/formulas';
-import { FIXED_BASE_VALUE, SEASON_CONSTANTS } from '../stats/seasonConstants';
+import { FIXED_BASE_PERCENT, FIXED_BASE_VALUE, SEASON_CONSTANTS } from '../stats/seasonConstants';
 import { computeStatsBundle } from '../store/derivedSelectors';
 import { useBuildStore } from '../store/useBuildStore';
 import { truncate2, truncate2Str as fmtDec2 } from './statFormat';
@@ -161,6 +161,9 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   // 物理/魔法攻撃力はメインステータスから、最大HPは耐久力から、物理防御力は筋力から、
   // 魔法防御力は知力から、ファストは俊敏から変換された分を、素の値(entry.base)と
   // 同様に加算列の末尾へ初期値扱いの括弧書きで表示する。
+  // 会心ダメージ/幸運の一撃ダメージ倍率は、装備等の加算元がない基礎%(FIXED_BASE_PERCENT)や
+  // 幸運%からの変換分がRAW_PERCENT_STAT_IDS表示(実数値/100=%)の単位に乗るよう、あらかじめ
+  // 100倍して返す(2026-08-09不具合報告: これらの「初期値/ステ変換値」が常に空欄だった)。
   const conversionBonusFor = (statId: StatId): number => {
     if (statId === 'atk') return derivedStats.physicalAtkMainStatBonus;
     if (statId === 'matk') return derivedStats.magicalAtkMainStatBonus;
@@ -168,6 +171,12 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     if (statId === 'physicalDef') return derivedStats.physicalDefStrengthBonus;
     if (statId === 'magicalDef') return derivedStats.magicalDefIntellectBonus;
     if (statId === 'haste') return derivedStats.hasteAgilityBonus;
+    if (statId === 'critDamageBonus') return FIXED_BASE_PERCENT.critDamage * 100;
+    if (statId === 'luckyHitDamageBonus') {
+      // 幸運の一撃ダメージ倍率(derivedStats、装備等の加算込みの最終値)から、その加算分
+      // (rawStats.luckyHitDamageBonus)を差し引き、基礎40%+幸運%からの変換分のみを残す。
+      return derivedStats.luckyHitDamageMultiplierPercent * 100 - rawStats.luckyHitDamageBonus;
+    }
     return 0;
   };
 
