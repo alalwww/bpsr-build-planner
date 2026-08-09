@@ -79,8 +79,9 @@ export interface DerivedStats {
   physicalReductionPercent: number;
   magicalReductionPercent: number;
 
-  // 幸運の一撃回復の倍率(幸運の一撃倍率と同じ幸運%が基礎値 + モジュール「集中・幸運」等
-  // 由来の加算。幸運会心の幸運ダメージ加算(luckyHitDamageBonus)はダメージ倍率側専用で乗らない)
+  // 幸運の一撃回復の倍率(幸運の一撃ダメージ倍率と同じ基礎40% + 係数0.25×幸運% + モジュール
+  // 「集中・幸運」等由来の加算。幸運会心の幸運ダメージ加算(luckyHitDamageBonus)はダメージ
+  // 倍率側専用で乗らない)
   luckyHitRecoveryMultiplierPercent: number;
 
   // 物理防御力無視(基礎値0% + モジュール「筋力強化」等由来の加算)
@@ -132,6 +133,45 @@ export function recalculateSpeedPercents(
   );
 }
 
+// 幸運%(luckPercent)から幸運の一撃ダメージ倍率/回復倍率を算出する共通ロジック。
+// computeSpeedPercentsと同じ理由(ファスト%→攻撃速度%と同型の後付け加算取りこぼし問題)で、
+// deriveStats内の初期計算(rawStats由来のluckPercentのみ見る中間値)と、finalPctAddend/
+// イマジン最終%乗算/料理バフ等すべてが確定した後の最終幸運%(stats.luck)を使った再計算
+// (recalculateLuckyHitMultipliers)の双方から呼ぶ。
+function computeLuckyHitMultipliers(
+  luckPercent: number,
+  luckyHitDamageRatioBonus: number,
+  luckyHitDamageBonus: number,
+  luckyHitRecoveryBonus: number,
+): { luckyHitDamageMultiplierPercent: number; luckyHitRecoveryMultiplierPercent: number } {
+  return {
+    luckyHitDamageMultiplierPercent:
+      FIXED_BASE_PERCENT.luckyHitBase +
+      (0.25 + luckyHitDamageRatioBonus) * luckPercent +
+      luckyHitDamageBonus / 100,
+    luckyHitRecoveryMultiplierPercent:
+      FIXED_BASE_PERCENT.luckyHitBase + 0.25 * luckPercent + luckyHitRecoveryBonus / 100,
+  };
+}
+
+// finalPctAddend.luck/イマジン最終%乗算/料理バフ(HP変動・二段増幅・鼓舞・ステ補正)を含む、
+// 全ての調整が適用済みの最終幸運%(stats.luck)から、幸運の一撃ダメージ倍率/回復倍率を
+// 再計算する。deriveStats内の初期計算はrawStats由来のluckPercentしか見ないため、上記の
+// 後付け加算を取りこぼしていた(不具合報告2026-08-09、recalculateSpeedPercentsと同種の問題)。
+export function recalculateLuckyHitMultipliers(
+  luckFinalPercent: number,
+  luckyHitDamageRatioBonus: number,
+  luckyHitDamageBonus: number,
+  luckyHitRecoveryBonus: number,
+): { luckyHitDamageMultiplierPercent: number; luckyHitRecoveryMultiplierPercent: number } {
+  return computeLuckyHitMultipliers(
+    luckFinalPercent,
+    luckyHitDamageRatioBonus,
+    luckyHitDamageBonus,
+    luckyHitRecoveryBonus,
+  );
+}
+
 export function deriveStats(
   raw: Record<StatId, number>,
   profession: Profession,
@@ -148,6 +188,10 @@ export function deriveStats(
   // モジュール効果(例: 「集中・詠唱」)による詠唱速度への直接加算量(%そのままの数値)。
   // calculateRawStatsのcastSpeedFinalPctAddendをそのまま渡す。
   castSpeedFinalPctAddend = 0,
+  // アビリティ(ビートパフォーマー「幸運相乗」)による、幸運%1ptあたりの幸運の一撃ダメージ
+  // 倍率への変換率ボーナス。calculateRawStatsのluckyHitDamageRatioBonusをそのまま渡す
+  // (基礎係数0.25に加算する)。
+  luckyHitDamageRatioBonus = 0,
 ): DerivedStats {
   const enduranceMaxHpBonus = raw.endurance * profession.hpPerEndurancePoint;
   const maxHp = raw.maxHp + enduranceMaxHpBonus;
@@ -221,6 +265,13 @@ export function deriveStats(
     SEASON_CONSTANTS.diminishingEnhance,
   );
 
+  const luckyHitMultipliers = computeLuckyHitMultipliers(
+    luckPercent,
+    luckyHitDamageRatioBonus,
+    raw.luckyHitDamageBonus,
+    raw.luckyHitRecoveryBonus,
+  );
+
   return {
     maxHp,
     enduranceMaxHpBonus,
@@ -248,8 +299,14 @@ export function deriveStats(
     ),
 
     luckPercent,
-    luckyHitDamageMultiplierPercent:
-      FIXED_BASE_PERCENT.luckyHitDamage + 0.25 * luckPercent + raw.luckyHitDamageBonus / 100,
+    // 基礎40% + 幸運%×0.25が基礎式(2026-08-09不具合報告: 幸運5%/11%/(5%+幸運相乗)の3点実測
+    // 41.25%/42.75%/43.75%と、いずれも寸分違わず一致することを確認済み。ZTableの幸運説明文
+    // 「幸運確率1%につき+1%」(幸運強化)は、この倍率とは別枠の・幸運効果自体へのバフのような
+    // 無関係な効果と判明したため未対応のままでよい)。ビートパフォーマー「幸運相乗」(+0.5)等、
+    // この変換率そのものを底上げする効果はluckyHitDamageRatioBonusとして基礎係数0.25に加算
+    // する。ここでの値はrawStats由来のluckPercentのみを見た中間値(再計算はrecalculate
+    // LuckyHitMultipliers参照)。
+    ...luckyHitMultipliers,
     luckyHitBoostPercent: luckPercent,
 
     masteryPercent,
@@ -268,12 +325,6 @@ export function deriveStats(
 
     physicalReductionPercent: raw.physicalReductionBonus / 100,
     magicalReductionPercent: raw.magicalReductionBonus / 100,
-
-    // 幸運の一撃回復の倍率: 幸運の一撃倍率(luckyHitBoostPercent)と同じ幸運%そのものが基礎値
-    // (幸運の一撃ダメージ倍率のような0.25倍率や基礎%は乗らない)。「集中・幸運」等由来の
-    // 直接加算(raw.luckyHitRecoveryBonus)のみ独自に上乗せされ、幸運会心(luckyHitDamageBonus)
-    // はダメージ倍率側専用のため乗らない(2026-08-09不具合報告)。
-    luckyHitRecoveryMultiplierPercent: luckPercent + raw.luckyHitRecoveryBonus / 100,
 
     physicalDefIgnorePercent: raw.physicalDefIgnoreBonus / 100,
 

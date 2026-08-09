@@ -27,7 +27,11 @@ import {
   LIFE_WAVE_VALUES,
   POWER_CORE_EFFECT_IDS,
 } from '../stats/cookingBuff';
-import { deriveStats, recalculateSpeedPercents } from '../stats/deriveStats';
+import {
+  deriveStats,
+  recalculateLuckyHitMultipliers,
+  recalculateSpeedPercents,
+} from '../stats/deriveStats';
 import type { DerivedStats } from '../stats/deriveStats';
 import {
   calculateMasteryFinalPctEffects,
@@ -128,22 +132,41 @@ export const selectSuitAtkSpeedBonus = memoize1(
   (...args: Parameters<typeof calculateSuitAtkSpeedBonus>) => calculateSuitAtkSpeedBonus(...args),
 );
 
-// derivedStatsのatkSpeedPercent/castSpeedPercentを、上記の再計算結果で上書きする。
-// 値が変化しない場合は元の参照をそのまま返す(useShallowでの不要な再レンダリング防止、
-// selectStatsWithMasteryFinalPctBonus等と同じ理由)。
-const selectDerivedStatsWithFinalSpeed = memoize1(
+// 最終幸運%(finalPctAddend/イマジン最終%乗算/料理バフ等すべて確定済みのstats.luck)を使った
+// 幸運の一撃ダメージ倍率/回復倍率の再計算。selectFinalSpeedPercentsと同じ理由(不具合報告
+// 2026-08-09、recalculateSpeedPercentsと同種の後付け加算取りこぼし)。
+export const selectFinalLuckyHitMultipliers = memoize1(
+  (...args: Parameters<typeof recalculateLuckyHitMultipliers>) =>
+    recalculateLuckyHitMultipliers(...args),
+);
+
+// derivedStatsのatkSpeedPercent/castSpeedPercent/luckyHitDamageMultiplierPercent/
+// luckyHitRecoveryMultiplierPercentを、上記の再計算結果で上書きする。値が変化しない場合は
+// 元の参照をそのまま返す(useShallowでの不要な再レンダリング防止、selectStatsWithMasteryFinalPctBonus
+// 等と同じ理由)。
+const selectDerivedStatsWithFinalAdjustments = memoize1(
   (
     derivedStats: DerivedStats,
     atkSpeedPercent: number,
     castSpeedPercent: number,
+    luckyHitDamageMultiplierPercent: number,
+    luckyHitRecoveryMultiplierPercent: number,
   ): DerivedStats => {
     if (
       atkSpeedPercent === derivedStats.atkSpeedPercent &&
-      castSpeedPercent === derivedStats.castSpeedPercent
+      castSpeedPercent === derivedStats.castSpeedPercent &&
+      luckyHitDamageMultiplierPercent === derivedStats.luckyHitDamageMultiplierPercent &&
+      luckyHitRecoveryMultiplierPercent === derivedStats.luckyHitRecoveryMultiplierPercent
     ) {
       return derivedStats;
     }
-    return { ...derivedStats, atkSpeedPercent, castSpeedPercent };
+    return {
+      ...derivedStats,
+      atkSpeedPercent,
+      castSpeedPercent,
+      luckyHitDamageMultiplierPercent,
+      luckyHitRecoveryMultiplierPercent,
+    };
   },
 );
 
@@ -319,6 +342,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStatsResult.atkSpeedFinalPctAddend,
     rawStatsResult.atkSpeedPerHastePercentBonus,
     rawStatsResult.castSpeedFinalPctAddend,
+    rawStatsResult.luckyHitDamageRatioBonus,
   );
 
   const finalStatsResult = selectFinalStatsResult(
@@ -375,10 +399,21 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     state.professionTypeKey,
     finalSpeedPercents.atkSpeedPercent,
   );
-  const derivedStatsWithFinalSpeed = selectDerivedStatsWithFinalSpeed(
+
+  // 最終幸運%(stats.luck)を使って幸運の一撃ダメージ倍率/回復倍率を再計算する
+  // (finalSpeedPercentsと同じ理由)。
+  const finalLuckyHitMultipliers = selectFinalLuckyHitMultipliers(
+    stats.luck,
+    rawStatsResult.luckyHitDamageRatioBonus,
+    rawStats.luckyHitDamageBonus,
+    rawStats.luckyHitRecoveryBonus,
+  );
+  const derivedStatsFinal = selectDerivedStatsWithFinalAdjustments(
     derivedStats,
     finalSpeedPercents.atkSpeedPercent + suitAtkSpeedBonus,
     finalSpeedPercents.castSpeedPercent,
+    finalLuckyHitMultipliers.luckyHitDamageMultiplierPercent,
+    finalLuckyHitMultipliers.luckyHitRecoveryMultiplierPercent,
   );
 
   // 器用さ→ステータス(クラス×型固有効果。属性ボーナス/バリア強度/回復力)。実際に
@@ -436,7 +471,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
   return {
     rawStats: rawStatsWithMasteryBonus,
     rawStatsBreakdown,
-    derivedStats: derivedStatsWithFinalSpeed,
+    derivedStats: derivedStatsFinal,
     stats: statsWithMasteryFinalPctBonus,
     abilityScore,
     roleSkills,

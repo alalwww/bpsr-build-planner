@@ -72,6 +72,7 @@ import {
   TALENT_FINAL_PCT_ADDEND_TO_STAT,
   TALENT_FLAT_PCT_TO_STAT,
   TALENT_HIGHEST_OF_FINAL_PCT,
+  TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS,
   TALENT_RAW_FLAT_TO_STAT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
@@ -200,6 +201,10 @@ export interface CalculateRawStatsResult {
   // castSpeedPercentはDerivedStats側の値(rawStats/StatIdに存在しない)のため、deriveStats()に
   // 直接渡す(atkSpeedFinalPctAddendと同じ扱い)。
   castSpeedFinalPctAddend: number;
+  // アビリティ(ビートパフォーマー「幸運相乗」等、TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS参照)
+  // による、幸運%1ptあたりの幸運の一撃ダメージ倍率への変換率ボーナス。deriveStats()側の
+  // 基礎係数0.25に加算する。
+  luckyHitDamageRatioBonus: number;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -266,6 +271,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // モジュール効果による詠唱速度への直接加算量(%、例: 「集中・詠唱」)。castSpeedPercentは
   // DerivedStats側の値のためderiveStats()に直接渡す(atkSpeedFinalPctAddendと同じ扱い)。
   let castSpeedFinalPctAddend = 0;
+  // 幸運%1ptあたりの幸運の一撃ダメージ倍率への変換率ボーナス(例: ビートパフォーマー
+  // 「幸運相乗」)。deriveStats側の基礎係数0.25に加算する。
+  let luckyHitDamageRatioBonus = 0;
 
   // 装備ステータス
   // 装備1つぶんの実数値(基礎/進化/改鋳)は、ここで四捨五入してから合算する(合算後に丸めるのでは
@@ -301,7 +309,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     const slotEvoStats = evolutionStats[slotKey] ?? [];
 
     const applyFixedEvoEffects = (effects: FixedEvoEffect[]) => {
-      for (const [, attrId, min, max, isPercent] of effects) {
+      for (const [effectType, attrId, min, max, isPercent] of effects) {
+        if (effectType === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
+          // effectType=3(BuffId参照): attrIdはEVO_ATTR_TO_STAT等のAttrId空間とは異なる
+          // BuffId空間のため、TALENT側と同様に個別解釈が必要な効果のみ対応する。現状、単純な
+          // ステータスボーナスとして表現できる確認済みの効果はない(蒼海の讃歌の「幸運効果の
+          // ダメージ+15%」は対象を限定したダメージアップバフで幸運の一撃ダメージ倍率には
+          // 影響しないと判明したため対象外。2026-08-09不具合報告)。
+          continue;
+        }
         const finalStatId = EVO_PCT_FINAL_ATTR_TO_STAT[attrId];
         if (finalStatId !== undefined) {
           // 会心/幸運/ファスト/器用さの"%"バリアント: 鼓舞/HP変動と同じく、収益逓減カーブ適用後の
@@ -466,6 +482,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           // 「知力強化」知力+5%)。
           const basePctBonus = TALENT_BASE_PCT_TO_STAT[eff[1]];
           if (basePctBonus) addPctBonus(basePctBonus.stat, basePctBonus.value);
+          // 型に関わらず常時有効な、幸運%1ptあたりの幸運の一撃ダメージ倍率への変換率ボーナス
+          // (例: ビートパフォーマー「幸運相乗」)。
+          const luckyHitDamageRatio = TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS[eff[1]];
+          if (luckyHitDamageRatio) luckyHitDamageRatioBonus += luckyHitDamageRatio;
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
           // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
@@ -841,6 +861,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     atkSpeedFinalPctAddend,
     atkSpeedPerHastePercentBonus,
     castSpeedFinalPctAddend,
+    luckyHitDamageRatioBonus,
   };
 }
 

@@ -874,6 +874,35 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.crit).toBe(BASE_STATS.crit + 750 + 1250);
   });
 
+  // src/data/season-talents.json: template 1 (イマジンインパクト) node 1003「リビルド」
+  // (groupId=1003, sameGroupId=1002, choice-group 1002) has effects=[[3,3002030,1]] ->
+  // buffId 3002030 "幸運の一撃倍率+10%". Despite the name not saying "damage", it's
+  // damage-only and doesn't affect the recovery multiplier (2026-08-09 user confirmation).
+  // unlockCondition=[] so no phantomLevel gate beyond what phantomEnabled requires.
+  it('routes the イマジンインパクト "リビルド" ordinary node to rawStats.luckyHitDamageBonus only', () => {
+    const withoutNode = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 17,
+      phantomTemplateId: 1,
+      phantomNodeSelections: { 1002: 1002 },
+    });
+    const withNode = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 17,
+      phantomTemplateId: 1,
+      phantomNodeSelections: { 1002: 1003 },
+    });
+
+    expect(withNode.rawStats.luckyHitDamageBonus).toBe(
+      withoutNode.rawStats.luckyHitDamageBonus + 1000,
+    );
+    expect(withNode.rawStats.luckyHitRecoveryBonus).toBe(
+      withoutNode.rawStats.luckyHitRecoveryBonus,
+    );
+  });
+
   it("applies template 8's unique level-6 bond reward (main stat +150) once bondPoints reaches 35", () => {
     // src/data/season-talents.json: template 8 (advancedEffectId=107), level 6 -> buffId
     // 3003730 "現在のメインステータス+150". stormBlade's mainStat is 'agility'.
@@ -1094,6 +1123,140 @@ describe('calculateRawStats', () => {
       const result = calculateRawStats(input);
 
       expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 728);
+    });
+  });
+
+  describe('幸運の一撃ダメージ倍率の変換率ボーナス(luckyHitDamageRatioBonus)', () => {
+    // ビートパフォーマーR2アビリティ「幸運相乗」(talentId 1338, buffId 2207390):
+    // 「幸運1%につき幸運の一撃ダメージ倍率+0.5%」(deriveStats.tsの基礎係数0.25に加算する)。
+    // 「ブレイブメロディー発動後は変換効率2倍」は戦闘状態依存の条件付き効果のため対象外
+    // (2026-08-09不具合報告で未対応と判明)。
+    it('routes 幸運相乗 (talentId 1338) to luckyHitDamageRatioBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        profession: PROFESSIONS.beatPerformer,
+        r1NodeCount: 1,
+        talentR1EnabledIds: new Set([2]),
+        talentR2EnabledIds: new Set([1]),
+        talentNodesById: new Map([
+          [
+            1,
+            {
+              id: 1,
+              talentId: 1338,
+              stage: 1,
+              bdType: 0,
+              preNodes: [],
+              nextNodes: [],
+              position: [0, 0],
+            },
+          ],
+          [
+            2,
+            {
+              id: 2,
+              talentId: 1,
+              stage: 0,
+              bdType: 0,
+              preNodes: [],
+              nextNodes: [],
+              position: [0, 0],
+            },
+          ],
+        ]),
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.luckyHitDamageRatioBonus).toBe(0.5);
+    });
+
+    // フロストメイジR2アビリティ(talentId 255, buffId 2204520): 「幸運の一撃ダメージ倍率+15%。
+    // 幸運2%につき幸運の一撃ダメージ倍率+1%」。全クラス監査(2026-08-09)で発見した同型の
+    // 未対応効果。平坦加算(luckyHitDamageBonus)と変換率ボーナス(luckyHitDamageRatioBonus)の
+    // 両方を同時に持つパターン。
+    it('routes a frostMage R2 ability (talentId 255) to both rawStats.luckyHitDamageBonus and luckyHitDamageRatioBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        profession: PROFESSIONS.frostMage,
+        r1NodeCount: 1,
+        talentR1EnabledIds: new Set([2]),
+        talentR2EnabledIds: new Set([1]),
+        talentNodesById: new Map([
+          [
+            1,
+            {
+              id: 1,
+              talentId: 255,
+              stage: 1,
+              bdType: 0,
+              preNodes: [],
+              nextNodes: [],
+              position: [0, 0],
+            },
+          ],
+          [
+            2,
+            {
+              id: 2,
+              talentId: 1,
+              stage: 0,
+              bdType: 0,
+              preNodes: [],
+              nextNodes: [],
+              position: [0, 0],
+            },
+          ],
+        ]),
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.luckyHitDamageBonus).toBe(BASE_STATS.luckyHitDamageBonus + 1500);
+      expect(result.luckyHitDamageRatioBonus).toBe(0.5);
+    });
+
+    // ヴァーダントオラクルR2アビリティ(talentId 510, buffId 2202110): 複数効果を併記する長文の
+    // 一部に無条件の「幸運の一撃が与える最終ダメージ+50%」を含む(他は共生の印等の条件付き効果
+    // のため対象外)。全クラス監査(2026-08-09)で発見。
+    it('routes a verdantOracle R2 ability (talentId 510) flat bonus to rawStats.luckyHitDamageBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        profession: PROFESSIONS.verdantOracle,
+        r1NodeCount: 1,
+        talentR1EnabledIds: new Set([2]),
+        talentR2EnabledIds: new Set([1]),
+        talentNodesById: new Map([
+          [
+            1,
+            {
+              id: 1,
+              talentId: 510,
+              stage: 1,
+              bdType: 0,
+              preNodes: [],
+              nextNodes: [],
+              position: [0, 0],
+            },
+          ],
+          [
+            2,
+            {
+              id: 2,
+              talentId: 1,
+              stage: 0,
+              bdType: 0,
+              preNodes: [],
+              nextNodes: [],
+              position: [0, 0],
+            },
+          ],
+        ]),
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.luckyHitDamageBonus).toBe(BASE_STATS.luckyHitDamageBonus + 5000);
     });
   });
 

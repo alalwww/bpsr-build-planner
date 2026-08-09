@@ -3,7 +3,11 @@ import { PROFESSIONS } from '../profession';
 import type { StatId } from '../types';
 import { BASE_STATS } from './baseStats';
 import { COMMON_STAT_COEFFICIENTS } from './commonCoefficients';
-import { deriveStats, recalculateSpeedPercents } from './deriveStats';
+import {
+  deriveStats,
+  recalculateLuckyHitMultipliers,
+  recalculateSpeedPercents,
+} from './deriveStats';
 import { diminishingPercent } from './formulas';
 import {
   DIMINISHING_A_BASE_PERCENT,
@@ -102,7 +106,7 @@ describe('deriveStats', () => {
       diminishingPercent(raw.luck, SEASON_CONSTANTS.diminishingA, DIMINISHING_A_BASE_PERCENT.luck),
     );
     expect(result.luckyHitDamageMultiplierPercent).toBeCloseTo(
-      FIXED_BASE_PERCENT.luckyHitDamage + 0.25 * result.luckPercent + raw.luckyHitDamageBonus / 100,
+      FIXED_BASE_PERCENT.luckyHitBase + 0.25 * result.luckPercent + raw.luckyHitDamageBonus / 100,
     );
     expect(result.luckyHitBoostPercent).toBe(result.luckPercent);
 
@@ -145,7 +149,7 @@ describe('deriveStats', () => {
     expect(result.physicalReductionPercent).toBe(raw.physicalReductionBonus / 100);
     expect(result.magicalReductionPercent).toBe(raw.magicalReductionBonus / 100);
     expect(result.luckyHitRecoveryMultiplierPercent).toBe(
-      result.luckPercent + raw.luckyHitRecoveryBonus / 100,
+      FIXED_BASE_PERCENT.luckyHitBase + 0.25 * result.luckPercent + raw.luckyHitRecoveryBonus / 100,
     );
     expect(result.physicalDefIgnorePercent).toBe(raw.physicalDefIgnoreBonus / 100);
     expect(result.staminaRegenPerSecond).toBe(profession.staminaRegenPerSecond + raw.staminaRegen);
@@ -237,6 +241,27 @@ describe('deriveStats', () => {
     expect(withModule.atkSpeedPercent).toBe(withoutModule.atkSpeedPercent);
   });
 
+  it('adds luckyHitDamageRatioBonus (e.g. beatPerformer "幸運相乗") to the base 0.25 coefficient on luckPercent', () => {
+    const profession = PROFESSIONS.beatPerformer;
+    const raw: Record<StatId, number> = { ...zeroRaw(), luck: 1000 };
+
+    const withoutAbility = deriveStats(raw, profession);
+    const withAbility = deriveStats(raw, profession, {}, 0, 0, 0, 0.5);
+
+    expect(withAbility.luckyHitDamageMultiplierPercent).toBeCloseTo(
+      FIXED_BASE_PERCENT.luckyHitBase + (0.25 + 0.5) * withAbility.luckPercent,
+    );
+    expect(withAbility.luckyHitDamageMultiplierPercent).toBeGreaterThan(
+      withoutAbility.luckyHitDamageMultiplierPercent,
+    );
+    // luckyHitBoostPercent/luckyHitRecoveryMultiplierPercentは幸運の一撃ダメージ倍率専用の
+    // このボーナスとは独立した値のため変化しない。
+    expect(withAbility.luckyHitBoostPercent).toBe(withoutAbility.luckyHitBoostPercent);
+    expect(withAbility.luckyHitRecoveryMultiplierPercent).toBe(
+      withoutAbility.luckyHitRecoveryMultiplierPercent,
+    );
+  });
+
   it('ignores unrelated conversionRateBonus keys (magical attacker does not get an atk bonus meant for physical)', () => {
     const profession = PROFESSIONS.frostMage; // magical, mainStat=intellect
     const raw: Record<StatId, number> = { ...zeroRaw(), atk: 100, intellect: 150 };
@@ -263,5 +288,27 @@ describe('recalculateSpeedPercents', () => {
 
     expect(result.atkSpeedPercent).toBeCloseTo(20 * profession.atkSpeedPerHastePercent + 3);
     expect(result.castSpeedPercent).toBeCloseTo(20 * profession.castSpeedPerHastePercent + 12);
+  });
+});
+
+describe('recalculateLuckyHitMultipliers', () => {
+  // 不具合報告2026-08-09: プランナー内部の初期計算(rawStats由来のluckPercentのみを見る中間値)
+  // ではなく、finalPctAddend.luck/イマジン最終%乗算/料理バフ等すべて確定済みの最終幸運%
+  // (stats.luck)を使わないと、幸運の一撃ダメージ倍率/回復倍率が過小に算出される
+  // (recalculateSpeedPercentsと同種の後付け加算取りこぼし)。
+  it('uses the given final luck% (post finalPctAddend/imagine/cooking bonuses), matching the formula used by deriveStats', () => {
+    // ビートパフォーマー狂音型の不具合報告例: 幸運36.86%、幸運相乗(+0.5)込みで
+    // 40 + 36.86*(0.25+0.5) = 67.645%。
+    const result = recalculateLuckyHitMultipliers(36.86, 0.5, 0, 0);
+
+    expect(result.luckyHitDamageMultiplierPercent).toBeCloseTo(40 + 36.86 * 0.75);
+    expect(result.luckyHitRecoveryMultiplierPercent).toBeCloseTo(40 + 36.86 * 0.25);
+  });
+
+  it('still adds raw.luckyHitDamageBonus/luckyHitRecoveryBonus directly on top, same as the initial deriveStats computation', () => {
+    const result = recalculateLuckyHitMultipliers(20, 0, 300, 150);
+
+    expect(result.luckyHitDamageMultiplierPercent).toBeCloseTo(40 + 20 * 0.25 + 3);
+    expect(result.luckyHitRecoveryMultiplierPercent).toBeCloseTo(40 + 20 * 0.25 + 1.5);
   });
 });

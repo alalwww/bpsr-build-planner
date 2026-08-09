@@ -118,16 +118,47 @@ export const TALENT_HIGHEST_OF_FINAL_PCT: Partial<Record<number, number>> = {
   2204340: 3.5,
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、幸運%1ptあたりの幸運の一撃ダメージ倍率への
+// 変換率ボーナス(deriveStats.tsの基礎係数0.25に加算する。単位はconversionRateBonusと同じ
+// 直接比率)。2026-08-09不具合報告(ビートパフォーマー「幸運相乗」)を起点に、他クラスの
+// 「幸運寄り」R2アビリティも同型の未対応効果がないか全クラス監査して発見。
+// - ビートパフォーマー(狂音型/響奏型共通)R2「幸運相乗」(talentId 1338): 幸運1%につき+0.5%。
+//   「ブレイブメロディー発動後は変換効率2倍」は戦闘状態依存の条件付き効果のため対象外。
+// - フロストメイジR2「玄氷の共鳴」(talentId 255): 幸運2%につき+1%(=+0.5)。
+// - ツインストライカーR2(talentId 330): 幸運1%につき+0.8%。「イラプションで幸運の一撃が
+//   発生可能になる」は対象スキル限定の条件付き効果のため対象外(この変換率ボーナス自体は
+//   スキル限定の記述がないため常時有効と判断)。
+// - ヴァーダントオラクルR2(talentId 553): 幸運1%につき+1.5%。
+export const TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS: Partial<Record<number, number>> = {
+  2207390: 0.5,
+  2204520: 0.5,
+  2208310: 0.8,
+  2202570: 1.5,
+};
+
 // アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、特定の1ステータスへの
 // 平坦加算。会心回復等、収益逓減カーブを経由しないraw値(EVO_PCT_ATTR_TO_STAT等と同じ単位:
 // 100 = 1%)を対象とする効果に使う。
 // ビートパフォーマー響奏型R2アビリティ「会心回復」: 会心回復+25%。
 // ストームブレイドR2アビリティ「爆裂」: 会心ダメージ+10%。
 // ツインストライカーR2アビリティ「炎舞破斬」: 会心ダメージ+8%。
+// フロストメイジR2(talentId 255)・ツインストライカーR2(talentId 330)・
+// ヴァーダントオラクルR2(talentId 553): 幸運の一撃ダメージ倍率への平坦加算(それぞれ+15%/
+// +5%/+5%)。TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUSの変換率ボーナスと同じアビリティの一部
+// (2026-08-09不具合報告での全クラス監査で発見)。
+// ディバインアーチャーR2(talentId 470)・ヴァーダントオラクルR2(talentId 510):
+// 「幸運の一撃が与える最終ダメージ+50%」。いずれも条件付き/スタック消費型の効果(「鋭利消費で
+// 勇心+3pt」「共生の印」等)に併記される形で無条件の平坦加算として存在するため、その部分のみ
+// 対応する。
 export const TALENT_FLAT_PCT_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
   2207210: { stat: 'critRecoveryBonus', value: 2500 },
   2200540: { stat: 'critDamageBonus', value: 1000 },
   2208520: { stat: 'critDamageBonus', value: 800 },
+  2204520: { stat: 'luckyHitDamageBonus', value: 1500 },
+  2208310: { stat: 'luckyHitDamageBonus', value: 500 },
+  2202570: { stat: 'luckyHitDamageBonus', value: 500 },
+  2205680: { stat: 'luckyHitDamageBonus', value: 5000 },
+  2202110: { stat: 'luckyHitDamageBonus', value: 5000 },
 };
 
 // アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、rawStats側の実数値
@@ -489,4 +520,8 @@ export const ORDINARY_EFFECT_BONUS: Partial<Record<number, OrdinaryEffectBonus>>
   3002090: { kind: 'flat', stat: 'staminaRegen', value: 35 },
   // 物理防御力+15%(無条件の固定ノード)
   3003280: { kind: 'finalPct', stat: 'physicalDef', value: 1500 },
+  // イマジンインパクト(心相ツリー)固定ノード「リビルド」: 「幸運の一撃倍率+10%」。
+  // 表記は「ダメージ」を明示しないが、回復には影響しないダメージ専用の効果(2026-08-09
+  // 不具合報告でユーザー確認)。
+  3002030: { kind: 'flat', stat: 'luckyHitDamageBonus', value: 1000 },
 };
