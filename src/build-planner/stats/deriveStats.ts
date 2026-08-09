@@ -79,7 +79,8 @@ export interface DerivedStats {
   physicalReductionPercent: number;
   magicalReductionPercent: number;
 
-  // 幸運の一撃回復の倍率(基礎値0% + モジュール「集中・幸運」等由来の加算)
+  // 幸運の一撃回復の倍率(幸運の一撃倍率と同じ幸運%が基礎値 + モジュール「集中・幸運」等
+  // 由来の加算。幸運会心の幸運ダメージ加算(luckyHitDamageBonus)はダメージ倍率側専用で乗らない)
   luckyHitRecoveryMultiplierPercent: number;
 
   // 物理防御力無視(基礎値0% + モジュール「筋力強化」等由来の加算)
@@ -268,7 +269,11 @@ export function deriveStats(
     physicalReductionPercent: raw.physicalReductionBonus / 100,
     magicalReductionPercent: raw.magicalReductionBonus / 100,
 
-    luckyHitRecoveryMultiplierPercent: raw.luckyHitRecoveryBonus / 100,
+    // 幸運の一撃回復の倍率: 幸運の一撃倍率(luckyHitBoostPercent)と同じ幸運%そのものが基礎値
+    // (幸運の一撃ダメージ倍率のような0.25倍率や基礎%は乗らない)。「集中・幸運」等由来の
+    // 直接加算(raw.luckyHitRecoveryBonus)のみ独自に上乗せされ、幸運会心(luckyHitDamageBonus)
+    // はダメージ倍率側専用のため乗らない(2026-08-09不具合報告)。
+    luckyHitRecoveryMultiplierPercent: luckPercent + raw.luckyHitRecoveryBonus / 100,
 
     physicalDefIgnorePercent: raw.physicalDefIgnoreBonus / 100,
 

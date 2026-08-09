@@ -144,7 +144,9 @@ describe('deriveStats', () => {
     );
     expect(result.physicalReductionPercent).toBe(raw.physicalReductionBonus / 100);
     expect(result.magicalReductionPercent).toBe(raw.magicalReductionBonus / 100);
-    expect(result.luckyHitRecoveryMultiplierPercent).toBe(raw.luckyHitRecoveryBonus / 100);
+    expect(result.luckyHitRecoveryMultiplierPercent).toBe(
+      result.luckPercent + raw.luckyHitRecoveryBonus / 100,
+    );
     expect(result.physicalDefIgnorePercent).toBe(raw.physicalDefIgnoreBonus / 100);
     expect(result.staminaRegenPerSecond).toBe(profession.staminaRegenPerSecond + raw.staminaRegen);
   });
