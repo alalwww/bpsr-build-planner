@@ -380,9 +380,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     }
   }
 
-  // 精錬ステータス (物攻・魔攻・防御力・耐久)。docs/STATUS_CALCULATION.md「精錬物攻・精錬魔攻」の通り、
-  // 精錬攻撃力は物理/魔法攻撃力(防御力減衰の対象)とは別枠で、防御減衰の"後"に加算される値のため、
-  // atk/matk本体には加算しない(refinePhysAtk/refineMagAtkのみに積む)。
+  // 精錬ステータス (物攻・魔攻・防御力・耐久)。docs/STATUS_CALCULATION.md「精錬物攻・精錬魔攻」
+  // 「精錬防御力」の通り、精錬攻撃力/精錬防御力はいずれも物理/魔法攻撃力・物理/魔法防御力とは
+  // 別枠(精錬防御力は被ダメージ計算で防御力の軽減とは別に乗算される2段階目の軽減)のため、
+  // physicalDef/magicalDef本体には加算しない(refinePhysAtk/refineMagAtk/refineDefのみに積む)。
   const profId = profession.professionId;
   const applyRefineEffects = (effects: [number, number][]) => {
     for (const [attrId, value] of effects) {
@@ -391,8 +392,6 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       } else if (attrId === REFINE_MATK_ATTR_ID) {
         addStat('refineMagAtk', value);
       } else if (attrId === REFINE_DEF_ATTR_ID) {
-        addStat('physicalDef', value);
-        addStat('magicalDef', value);
         addStat('refineDef', value);
       } else if (attrId === REFINE_ENDURANCE_ATTR_ID) {
         addStat('endurance', value);

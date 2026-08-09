@@ -318,11 +318,12 @@ export const MOD_ADAPTIVE_ATK_ATTR_ID = 99006; // 適応物理/魔法攻撃力 �
 // calculateRawStats()内で個別集計し、deriveStats()へcastSpeedFinalPctAddendとして渡す。
 export const MOD_CAST_SPEED_FINAL_PCT_ATTR_ID = 11732;
 
-// 精錬効果(RefineTable)のAttrId。1つのattrIdが複数ステータス(実数値+内訳表示用の
-// refineXxx)へ加算されるため、他の attrId→StatId マップとは異なり個別定数として定義する。
-export const REFINE_ATK_ATTR_ID = 11412; // 精錬物攻 → atk + refinePhysAtk
-export const REFINE_MATK_ATTR_ID = 11432; // 精錬魔攻 → matk + refineMagAtk
-export const REFINE_DEF_ATTR_ID = 11422; // 精錬防御力 → physicalDef + magicalDef + refineDef
+// 精錬効果(RefineTable)のAttrId。atk/matk/physicalDef/magicalDef本体とは別枠(防御減衰の
+// 対象外・被ダメージ計算で別途乗算される値)のため、他の attrId→StatId マップとは異なり
+// refineXxx専用の個別定数として定義する。
+export const REFINE_ATK_ATTR_ID = 11412; // 精錬物攻 → refinePhysAtk
+export const REFINE_MATK_ATTR_ID = 11432; // 精錬魔攻 → refineMagAtk
+export const REFINE_DEF_ATTR_ID = 11422; // 精錬防御力 → refineDef
 export const REFINE_ENDURANCE_ATTR_ID = 11042; // 精錬耐久 → endurance
 
 // EquipAttrLibTable の AttrId → StatId マッピング。
