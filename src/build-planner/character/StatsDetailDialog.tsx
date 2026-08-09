@@ -211,6 +211,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       value: fmtPct(derivedStats.physicalDefIgnorePercent),
     },
     { label: te('stat.bossDamageBonus'), value: fmtPct(rawStats.bossDamageBonus / 100) },
+    { label: te('stat.breakEfficiency'), value: fmtPct(rawStats.breakEfficiency / 100) },
   ];
 
   const survivalRows = [
