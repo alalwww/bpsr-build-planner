@@ -67,6 +67,7 @@ function Section({
   selectedRows: Set<string>;
   onRowClick: (key: string) => void;
 }) {
+  if (rows.length === 0) return null;
   return (
     <div className="stats-detail__section">
       <button type="button" className="stats-detail__section-header" onClick={onToggle}>
@@ -206,12 +207,20 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       label: te('stat.luckyHitDamage'),
       value: fmtPct(derivedStats.luckyHitDamageMultiplierPercent),
     },
-    {
-      label: te('stat.physicalDefIgnore'),
-      value: fmtPct(derivedStats.physicalDefIgnorePercent),
-    },
-    { label: te('stat.bossDamageBonus'), value: fmtPct(rawStats.bossDamageBonus / 100) },
-    { label: te('stat.breakEfficiency'), value: fmtPct(rawStats.breakEfficiency / 100) },
+    ...(derivedStats.physicalDefIgnorePercent > 0
+      ? [
+          {
+            label: te('stat.physicalDefIgnore'),
+            value: fmtPct(derivedStats.physicalDefIgnorePercent),
+          },
+        ]
+      : []),
+    ...(rawStats.bossDamageBonus > 0
+      ? [{ label: te('stat.bossDamageBonus'), value: fmtPct(rawStats.bossDamageBonus / 100) }]
+      : []),
+    ...(rawStats.breakEfficiency > 0
+      ? [{ label: te('stat.breakEfficiency'), value: fmtPct(rawStats.breakEfficiency / 100) }]
+      : []),
   ];
 
   const survivalRows = [
@@ -226,7 +235,14 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       label: te('stat.resistDamageReduction'),
       value: fmtPct(derivedStats.resistDamageReductionPercent),
     },
-    { label: te('stat.bossDamageReduction'), value: fmtPct(rawStats.bossDamageReduction / 100) },
+    ...(rawStats.bossDamageReduction > 0
+      ? [
+          {
+            label: te('stat.bossDamageReduction'),
+            value: fmtPct(rawStats.bossDamageReduction / 100),
+          },
+        ]
+      : []),
   ];
 
   const supportRows = [
@@ -246,10 +262,10 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   // 属性攻撃力(防御力を無視して防御減衰後に加算される、精錬攻撃力と同種の追加攻撃力):
   // 全属性攻撃力(装着効果・モジュール由来)は特定の属性には効果を発揮せず「全属性」枠のみに
   // 加算されるため、個別属性の行はその属性固有の攻撃力(クラスアビリティの小ノード由来)のみ。
-  const elemAtkRows = ELEMENTS.map((elem) => ({
-    label: elemName(elem, 'atk'),
-    value: fmtDec2(elem === 'all' ? rawStats.allAttrAtk : rawStats[ELEMENT_ATK_STAT[elem]]),
-  }));
+  const elemAtkRows = ELEMENTS.map((elem) => {
+    const raw = elem === 'all' ? rawStats.allAttrAtk : rawStats[ELEMENT_ATK_STAT[elem]];
+    return { label: elemName(elem, 'atk'), value: fmtDec2(raw), raw };
+  }).filter((row) => row.raw > 0);
 
   // 属性強度→属性ボーナス%(系列C、物理/魔法増強と同じ収益逓減カーブ)。全属性強度も
   // 特定の属性には効果を発揮せず「全属性」枠のみに乗るため、個別属性の行はその属性固有の
@@ -264,49 +280,60 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     return statId ? rawStats[statId] / 100 : 0;
   };
 
-  const elemBonusRows: { label: string; value: string }[] = [
-    { label: elemName('all', 'str'), value: fmtDec2(rawStats.allAttrStr) },
-    { label: elemName('all', 'bonus'), value: fmtPct(elemBonusPercent(rawStats.allAttrStr)) },
+  const elemBonusRows = [
+    {
+      label: elemName('all', 'str'),
+      value: fmtDec2(rawStats.allAttrStr),
+      raw: rawStats.allAttrStr,
+    },
+    {
+      label: elemName('all', 'bonus'),
+      value: fmtPct(elemBonusPercent(rawStats.allAttrStr)),
+      raw: elemBonusPercent(rawStats.allAttrStr),
+    },
     ...ELEMENTS.slice(1).flatMap((elem) => {
       const str = rawStats[ELEMENT_ATTR_STR_STAT[elem as ElementId]];
+      const bonus = elemBonusPercent(str) + elemDirectBonusPercent(elem as ElementId);
       return [
-        { label: elemName(elem, 'str'), value: fmtDec2(str) },
-        {
-          label: elemName(elem, 'bonus'),
-          value: fmtPct(elemBonusPercent(str) + elemDirectBonusPercent(elem as ElementId)),
-        },
+        { label: elemName(elem, 'str'), value: fmtDec2(str), raw: str },
+        { label: elemName(elem, 'bonus'), value: fmtPct(bonus), raw: bonus },
       ];
     }),
-  ];
+  ].filter((row) => row.raw > 0);
 
   // 属性耐性→属性軽減%(系列C)。全属性耐性も特定の属性には効果を発揮せず「全属性」枠のみに
   // 乗る。属性別の耐性ソースは現状ゲームデータに存在しないため、個別属性の行は常に0。
   // allAttrResistBonusは収益逓減カーブを経由しない直接加算(器用さのクラス×型固有効果
   // 「全属性耐性」等、ELEMENT_BONUS_STATと同じ設計)。
-  const elemResistRows: { label: string; value: string }[] = [
+  const elemResistReductionPercent =
+    diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance) +
+    rawStats.allAttrResistBonus / 100;
+  const elemResistRows = [
     {
       label: elemName('all', 'resist'),
       value: fmtDec2(rawStats.allAttrResist),
+      raw: rawStats.allAttrResist,
     },
     {
       label: elemName('all', 'reduction'),
-      value: fmtPct(
-        diminishingPercent(rawStats.allAttrResist, SEASON_CONSTANTS.diminishingEnhance) +
-          rawStats.allAttrResistBonus / 100,
-      ),
+      value: fmtPct(elemResistReductionPercent),
+      raw: elemResistReductionPercent,
     },
+    // 属性別の耐性ソースは現状ゲームデータに存在しないため、個別属性の行は常に0(=常に非表示)。
     ...ELEMENTS.slice(1).flatMap((elem) => [
-      { label: elemName(elem, 'resist'), value: fmtDec2(0) },
-      { label: elemName(elem, 'reduction'), value: fmtPct(0) },
+      { label: elemName(elem, 'resist'), value: fmtDec2(0), raw: 0 },
+      { label: elemName(elem, 'reduction'), value: fmtPct(0), raw: 0 },
     ]),
-  ];
+  ].filter((row) => row.raw > 0);
 
   const miscRows = [
     { label: te('stat.maxStamina'), value: fmtDec2(FIXED_BASE_VALUE.maxStamina) },
     { label: te('stat.staminaRegen'), value: fmtDec2(derivedStats.staminaRegenPerSecond) },
     // 92000(移動速度): isPercent=falseで%換算の裏付けがないため、生の値をそのまま表示する
     // (attrMaps.ts の LEGENDARY_AFFIX_FLAT_STAT コメント参照)。
-    { label: te('stat.moveSpeed'), value: fmtDec2(rawStats.moveSpeed) },
+    ...(rawStats.moveSpeed > 0
+      ? [{ label: te('stat.moveSpeed'), value: fmtDec2(rawStats.moveSpeed) }]
+      : []),
   ];
 
   return (
