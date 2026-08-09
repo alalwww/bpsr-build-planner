@@ -169,6 +169,9 @@ export interface ImagineData {
   icon: string;
   maxRank: number;
   passiveEffects?: number[][];
+  // BuffId参照のパッシブ(型がFightAttrTable直下のAttrIdを持たず、AttrDescriptionのBuffId
+  // テキストでのみ効果が定義されるもの)。1要素目がBuffId、以降がランク別パラメータ配列。
+  bufPassiveEffects?: (number | number[])[][];
   baseFv?: number;
   fightValues?: number[];
 }
@@ -177,6 +180,8 @@ export const imagineDataById = battleImaginesRaw as unknown as Record<string, Im
 
 // passiveEffects format: [attrId, r0_val, r1_val, r2_val, r3_val, r4_val, r5_val]
 // value = eff[rank + 1] (rank 0 → eff[1], rank 5 → eff[6])
+// bufPassiveEffects format: [buffId, r0_params[], r1_params[], ...]
+// (IMAGINE_BUF_FLAT_STATのparamIndexで対象パラメータを選ぶ。value = eff[rank + 1][paramIndex])
 
 // ---- enchant data ----
 

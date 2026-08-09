@@ -1063,6 +1063,40 @@ describe('calculateRawStats', () => {
     });
   });
 
+  describe('バトルイマジン パッシブ', () => {
+    // イマジン「ムークボス」(id 3923)のpassiveEffects: [[12512, 1000,1300,1600,1900,2200,2500]]。
+    // rank2 → eff[2+1]=1600(会心ダメージ+16%)。2026-08-09不具合報告でIMAGINE_FLAT_STATに
+    // 12512(会心ダメージ)が漏れていたことが判明し追加(EVO_PCT_ATTR_TO_STAT/MOD_ATTR_TO_STATには
+    // 既に登録済みだった)。
+    it('routes 会心ダメージ (attrId 12512, passiveEffects) to rawStats.critDamageBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3923, null],
+        imagineRanks: [2, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 1600);
+    });
+
+    // イマジン「イゴレウス」(id 3969)のbufPassiveEffects: [[3210180, [560,166],[728,216],...]]。
+    // 「会心ダメージ+{p1}(常時)。会心ダメージを与えるたび一定確率で+{p2}(0.1秒毎最大1回、
+    // 5スタックまで、持続2秒)」のうち、p1(paramIndex 0)のみ無条件で常時有効なため対応する
+    // (p2はスタック式の条件付き効果のため対象外)。rank1 → eff[1+1]=[728,216]、p1=728(+7.28%)。
+    it('routes 会心ダメージ (buffId 3210180 p1, bufPassiveEffects) to rawStats.critDamageBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3969, null],
+        imagineRanks: [1, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 728);
+    });
+  });
+
   describe('statCorrections (ステータス補正・仮)', () => {
     it('applies add and multPercent like any other additive/%-bonus source when enabled', () => {
       const input: CalculateRawStatsInput = {

@@ -42,6 +42,7 @@ import {
   EVO_PCT_ATTR_TO_STAT,
   EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
+  IMAGINE_BUF_FLAT_STAT,
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
@@ -603,8 +604,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (id == null) continue;
     const rank = imagineRanks[i] ?? 0;
     const ima = imagineDataById[String(id)];
-    if (!ima?.passiveEffects) continue;
-    for (const eff of ima.passiveEffects) {
+    for (const eff of ima?.passiveEffects ?? []) {
       const pctStatId = IMAGINE_PCT_BASE[eff[0]];
       if (pctStatId != null) {
         const value = eff[rank + 1] ?? eff[1];
@@ -616,6 +616,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         const value = eff[rank + 1] ?? eff[1];
         addStat(flatStatId, value);
       }
+    }
+    // BuffId参照のパッシブ(IMAGINE_BUF_FLAT_STAT参照。無条件で常時有効な先頭パラメータのみ対応)。
+    for (const eff of ima?.bufPassiveEffects ?? []) {
+      const buffId = eff[0] as number;
+      const bufFlat = IMAGINE_BUF_FLAT_STAT[buffId];
+      if (bufFlat == null) continue;
+      const rankParams = (eff[rank + 1] ?? eff[1]) as number[];
+      const value = rankParams[bufFlat.paramIndex];
+      if (value != null) addStat(bufFlat.stat, value);
     }
   }
 

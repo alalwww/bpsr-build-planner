@@ -454,6 +454,9 @@ export type ImagineFinalStatId = keyof typeof IMAGINE_PCT_FINAL;
 // AttrIdを持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
 // deriveStats側で一括適用されるため、ここで%として扱うと二重に乗算されてしまう)。
 // 11172(レジスト、AttrBlockのAttrAdd)はイマジン「ゴブリン衛士」(id 3914)のパッシブでのみ使用。
+// 12512(会心ダメージ、AttrCritDamageのAttrAdd)はイマジン「ムークボス」(id 3923)のパッシブで
+// 使用(2026-08-09不具合報告で発覚。EVO_PCT_ATTR_TO_STAT/MOD_ATTR_TO_STATには既に登録済みだった
+// のに、イマジン側だけ漏れていた)。
 export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
   11112: 'crit',
   11122: 'haste',
@@ -461,6 +464,18 @@ export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
   11142: 'mastery',
   11152: 'versatility',
   11172: 'resist',
+  12512: 'critDamageBonus',
+};
+
+// バトルイマジン パッシブのうち、FightAttrTable直下のAttrIdを持たずBuffId参照でのみ効果が
+// 定義されるもの(bufPassiveEffects)。効果文が「固定加算」+「条件付き/スタック式の追加分」の
+// 複合になっているケースが大半のため、このマップでは無条件で常時有効な先頭パラメータ
+// (paramIndex)のみを対象にする(条件付き/スタック式の残り部分は、他のスキル固有効果と同様に
+// このアプリの静的ステータスモデルでは対象外)。
+// 3210180(イゴレウス, id 3969): 「会心ダメージ+{p1}(常時)。会心ダメージを与えるたび一定確率で
+// +{p2}(0.1秒毎最大1回、5スタックまで、持続2秒)」のp1のみ対応、p2はスタック式のため対象外。
+export const IMAGINE_BUF_FLAT_STAT: Partial<Record<number, { stat: StatId; paramIndex: number }>> = {
+  3210180: { stat: 'critDamageBonus', paramIndex: 0 },
 };
 
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
