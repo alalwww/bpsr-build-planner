@@ -31,6 +31,29 @@ const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>([
   'versatility',
 ]);
 
+// 実数値/100=%の規約(EquipAttrLibTableのisPercent=true系。会心ダメージ・幸運の一撃ダメージ等)
+// を持つステータス。追加バフ列(初期値/加算/料理バフ)では素の実数値ではなく%表記で表示する
+// (2026-08-09不具合報告: +400のような素の実数値がそのまま表示され分かりづらかった)。
+// 物理/魔法増強(系列C)は収益逓減カーブを経由するため厳密には他と単位の意味が異なるが、
+// 個々の加算源自体は同じ"100=1%"の実数値で表現されるため同じ表記に揃える。
+const RAW_PERCENT_STAT_IDS = new Set<StatId>([
+  'physicalEnhance',
+  'magicalEnhance',
+  'critDamageBonus',
+  'critRecoveryBonus',
+  'luckyHitDamageBonus',
+  'luckyHitRecoveryBonus',
+  'healingPower',
+  'receivedRecovery',
+  'barrierStrength',
+  'breakEfficiency',
+  'bossDamageBonus',
+  'bossDamageReduction',
+  'physicalReductionBonus',
+  'magicalReductionBonus',
+  'physicalDefIgnoreBonus',
+]);
+
 function fmtPct(v: number) {
   return `${fmtDec2(v)}%`;
 }
@@ -162,30 +185,25 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     })
     .map((statId) => {
       const entry = rawStatsBreakdown[statId];
-      if (statId === 'critRecoveryBonus') {
-        // 会心回復ボーナス: raw値自体には意味がないため、%変換した値を他ステータスの追加バフ
-        // (最終%への直接加算)と同じ扱いで追加バフ列にまとめて表示する。
-        const totalPercent = (entry.additive + (entry.cookingBonus ?? 0)) / 100;
-        return {
-          statId,
-          label: t(`buildPlanner.stats.${statId}`),
-          initialValue: '',
-          additive: '',
-          multiplier: '',
-          cookingBuff: totalPercent !== 0 ? `${fmtSigned(totalPercent)}%` : '',
-        };
-      }
+      const isRawPercent = RAW_PERCENT_STAT_IDS.has(statId);
       const initialValue = entry.base + conversionBonusFor(statId);
       return {
         statId,
         label: t(`buildPlanner.stats.${statId}`),
-        initialValue: initialValue > 0 ? fmtIntTrunc(initialValue) : '',
-        additive: fmtSigned(entry.additive),
+        initialValue:
+          initialValue > 0
+            ? isRawPercent
+              ? `${fmtDec2(initialValue / 100)}%`
+              : fmtIntTrunc(initialValue)
+            : '',
+        additive: isRawPercent ? `${fmtSigned(entry.additive / 100)}%` : fmtSigned(entry.additive),
         multiplier: entry.multiplier === 1 ? '' : `${fmtSigned((entry.multiplier - 1) * 100)}%`,
         cookingBuff: entry.cookingBonus
           ? FINAL_PCT_ADDEND_STAT_IDS.has(statId)
             ? `${fmtSigned(entry.cookingBonus)}%`
-            : fmtSigned(entry.cookingBonus)
+            : isRawPercent
+              ? `${fmtSigned(entry.cookingBonus / 100)}%`
+              : fmtSigned(entry.cookingBonus)
           : '',
       };
     });
