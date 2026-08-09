@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.9.7",
+      "date": "2026-08-09T13:58:00.798Z",
+      "summary": {
+        "ja": "ステータス計算の複数の不具合修正とステータス詳細画面の改善",
+        "en": "Fix several stat calculation bugs and improve the stats detail view"
+      },
+      "changes": {
+        "ja": [
+          "物理防御力・魔法防御力の計算修正(精錬防御力の二重計算、知力→魔法防御力の変換係数)",
+          "バトルイマジンの会心ダメージアップ効果が計算に反映されていなかった不具合を修正",
+          "幸運の一撃ダメージ倍率・回復倍率の計算修正(基礎値・変換係数、クラス別アビリティや心相ノードの反映漏れ、幸運%の後付け加算取りこぼし)",
+          "ステータス詳細の支援ステータス欄・攻撃ステータス欄の項目整理(ブレイク効率を支援から攻撃へ移動)",
+          "ステータス詳細で値が0のステータス行・空の折りたたみセクションを非表示化",
+          "ステータス詳細の追加バフ効果欄で、%換算されるステータスの表示修正(生の実数値ではなく%表示に統一、会心ダメージ・幸運の一撃ダメージ倍率の初期値表示を追加)"
+        ],
+        "en": [
+          "Fix physical/magical defense calculation (double-counted refined defense, intellect-to-magical-defense conversion rate)",
+          "Fix battle imagine crit damage passives not being applied",
+          "Fix lucky hit damage/recovery multiplier calculation (base value and conversion rate, missing class abilities and phantom tree nodes, luck% follow-up bonuses not being picked up)",
+          "Reorganize the stats detail attack/support sections (move break efficiency from support to attack)",
+          "Hide zero-value stat rows and empty collapsible sections in the stats detail view",
+          "Fix the stats detail buff-effect breakdown to show percent-based stats as percentages instead of raw numbers, and show the base value for crit damage / lucky hit damage multiplier"
+        ]
+      }
+    },
+    {
       "version": "0.9.6",
       "date": "2026-08-05T19:41:07.572Z",
       "summary": {
