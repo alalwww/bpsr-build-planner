@@ -230,19 +230,16 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
 
   const supportRows = [
     { label: te('stat.critRecovery'), value: fmtPct(derivedStats.critRecoveryPercent) },
-    { label: te('stat.luckyHitBoost'), value: fmtPct(derivedStats.luckyHitBoostPercent) },
     {
       label: te('stat.luckyHitRecovery'),
       value: fmtPct(derivedStats.luckyHitRecoveryMultiplierPercent),
     },
-    { label: te('stat.mastery'), value: fmtDec2(rawStats.mastery) },
+    { label: te('stat.healingPower'), value: fmtPct(rawStats.healingPower / 100) },
     // 潜在因子データ(phantom-factors.json)で11812(バリア強度、"100=1%")と同一グレード内に
     // 常に同スケールの数値(120〜300)で出現するため、バリア強度と同じ規約と判断しfmtPctにする。
     { label: te('stat.receivedRecovery'), value: fmtPct(rawStats.receivedRecovery / 100) },
     { label: te('stat.barrierStrength'), value: fmtPct(rawStats.barrierStrength / 100) },
     { label: te('stat.receivedBarrier'), value: fmtPct(0) },
-    { label: te('stat.healingPower'), value: fmtPct(rawStats.healingPower / 100) },
-    { label: te('stat.breakEfficiency'), value: fmtPct(rawStats.breakEfficiency / 100) },
   ];
 
   // 属性攻撃力(防御力を無視して防御減衰後に加算される、精錬攻撃力と同種の追加攻撃力):
