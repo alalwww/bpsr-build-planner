@@ -77,35 +77,61 @@ export default function PhantomEffectSummaryDialog({
     () =>
       computePhantomEffectTotals(
         tg,
+        t,
         phantomTemplateId,
         phantomLevel,
         phantomNodeSelections,
         phantomFactorSlots,
         professionId,
+        phantomBondPoints,
       ),
-    [tg, phantomTemplateId, phantomLevel, phantomNodeSelections, phantomFactorSlots, professionId],
+    [
+      tg,
+      t,
+      phantomTemplateId,
+      phantomLevel,
+      phantomNodeSelections,
+      phantomFactorSlots,
+      professionId,
+      phantomBondPoints,
+    ],
   );
 
-  const statRows = (Object.keys(BASE_STATS) as StatId[])
-    .map((statId) => totals.statDeltas.find((d) => d.statId === statId))
-    .filter(
-      (d): d is NonNullable<typeof d> => !!d && (d.flat !== 0 || d.pct !== 0 || d.finalPct !== 0),
-    )
-    .map((d) => ({
-      statId: d.statId,
-      label: t(`buildPlanner.stats.${d.statId}`),
-      // flatは通常"実数加算"だが、幸運の一撃倍率/バリア強度/被回復力等(RAW_PERCENT_STAT_IDS)は
-      // 内部的にflat集計されていても実数値/100=%の規約を持つステータスのため、%表記にする
-      // (2026-08-11不具合報告: 幸運の一撃倍率+10%が+1,000.00と表示されていた)。
-      flat:
-        d.flat !== 0
-          ? RAW_PERCENT_STAT_IDS.has(d.statId)
-            ? `${fmtSigned(d.flat / 100)}%`
-            : fmtSigned(d.flat)
-          : '',
-      pct: d.pct !== 0 ? `${fmtSigned(formatPctDelta(d.pct))}%` : '',
-      finalPct: d.finalPct !== 0 ? `${fmtSigned(formatPctDelta(d.finalPct))}%` : '',
-    }));
+  const statRows = [
+    ...(Object.keys(BASE_STATS) as StatId[])
+      .map((statId) => totals.statDeltas.find((d) => d.statId === statId))
+      .filter(
+        (d): d is NonNullable<typeof d> => !!d && (d.flat !== 0 || d.pct !== 0 || d.finalPct !== 0),
+      )
+      .map((d) => ({
+        key: d.statId as string,
+        label: t(`buildPlanner.stats.${d.statId}`),
+        // flatは通常"実数加算"だが、幸運の一撃倍率/バリア強度/被回復力等(RAW_PERCENT_STAT_IDS)は
+        // 内部的にflat集計されていても実数値/100=%の規約を持つステータスのため、%表記にする
+        // (2026-08-11不具合報告: 幸運の一撃倍率+10%が+1,000.00と表示されていた)。
+        flat:
+          d.flat !== 0
+            ? RAW_PERCENT_STAT_IDS.has(d.statId)
+              ? `${fmtSigned(d.flat / 100)}%`
+              : fmtSigned(d.flat)
+            : '',
+        pct: d.pct !== 0 ? `${fmtSigned(formatPctDelta(d.pct))}%` : '',
+        finalPct: d.finalPct !== 0 ? `${fmtSigned(formatPctDelta(d.finalPct))}%` : '',
+      })),
+    // 絆レベル効果「会心/ファスト/幸運/器用さ/万能のうち最大値へ加算」: 対象ステータスは
+    // 他ソース込みの現在値次第で確定できないため、実数値だけを専用行として表示する。
+    ...(totals.highestOfBonus !== 0
+      ? [
+          {
+            key: 'highestOf',
+            label: se('highestOfLabel'),
+            flat: fmtSigned(totals.highestOfBonus),
+            pct: '',
+            finalPct: '',
+          },
+        ]
+      : []),
+  ];
 
   const bondLevelEffects = useMemo(() => {
     const tmpl = stData.templates[String(phantomTemplateId)];
@@ -275,7 +301,7 @@ export default function PhantomEffectSummaryDialog({
               </thead>
               <tbody>
                 {statRows.map((row) => (
-                  <tr key={row.statId}>
+                  <tr key={row.key}>
                     <td className="phantom-effect-summary__label">{row.label}</td>
                     <td>{row.flat}</td>
                     <td>{row.pct}</td>

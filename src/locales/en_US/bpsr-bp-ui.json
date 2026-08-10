@@ -411,7 +411,9 @@
         "flatCol": "Flat",
         "pctCol": "Mult. %",
         "finalPctCol": "Final %",
-        "routeLocked": "Locked"
+        "routeLocked": "Locked",
+        "bondLevelLabel": "Bond Lv.{{level}}",
+        "highestOfLabel": "Added to whichever is highest of Crit/Haste/Luck/Mastery/Versatility"
       }
     },
     "detailStats": {

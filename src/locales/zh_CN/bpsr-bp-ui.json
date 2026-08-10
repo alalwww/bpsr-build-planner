@@ -411,7 +411,9 @@
         "flatCol": "加算",
         "pctCol": "乘算%",
         "finalPctCol": "最终%",
-        "routeLocked": "未解锁"
+        "routeLocked": "未解锁",
+        "bondLevelLabel": "羁绊Lv.{{level}}",
+        "highestOfLabel": "加算到暴击/急速/幸运/精巧/万能中数值最高的一项"
       }
     },
     "detailStats": {

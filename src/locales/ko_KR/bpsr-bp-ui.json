@@ -411,7 +411,9 @@
         "flatCol": "가산",
         "pctCol": "승산%",
         "finalPctCol": "최종%",
-        "routeLocked": "미해금"
+        "routeLocked": "미해금",
+        "bondLevelLabel": "인연 Lv.{{level}}",
+        "highestOfLabel": "치명타/속공/행운/숙련도/만능 중 최댓값에 가산"
       }
     },
     "detailStats": {

@@ -411,7 +411,9 @@
         "flatCol": "加算",
         "pctCol": "乗算%",
         "finalPctCol": "最終%",
-        "routeLocked": "未開放"
+        "routeLocked": "未開放",
+        "bondLevelLabel": "絆Lv.{{level}}",
+        "highestOfLabel": "会心/ファスト/幸運/器用さ/万能のうち最大値へ加算"
       }
     },
     "detailStats": {
