@@ -7,6 +7,7 @@ import LinkTextPopup from '../components/LinkTextPopup';
 import { renderMarkup } from '../components/renderMarkup';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { truncate2Str as fmtDec2 } from '../character/statFormat';
+import { RAW_PERCENT_STAT_IDS } from '../stats/attrMaps';
 import { BASE_STATS } from '../stats/baseStats';
 import type { StatId } from '../types';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
@@ -93,7 +94,15 @@ export default function PhantomEffectSummaryDialog({
     .map((d) => ({
       statId: d.statId,
       label: t(`buildPlanner.stats.${d.statId}`),
-      flat: d.flat !== 0 ? fmtSigned(d.flat) : '',
+      // flatは通常"実数加算"だが、幸運の一撃倍率/バリア強度/被回復力等(RAW_PERCENT_STAT_IDS)は
+      // 内部的にflat集計されていても実数値/100=%の規約を持つステータスのため、%表記にする
+      // (2026-08-11不具合報告: 幸運の一撃倍率+10%が+1,000.00と表示されていた)。
+      flat:
+        d.flat !== 0
+          ? RAW_PERCENT_STAT_IDS.has(d.statId)
+            ? `${fmtSigned(d.flat / 100)}%`
+            : fmtSigned(d.flat)
+          : '',
       pct: d.pct !== 0 ? `${fmtSigned(formatPctDelta(d.pct))}%` : '',
       finalPct: d.finalPct !== 0 ? `${fmtSigned(formatPctDelta(d.finalPct))}%` : '',
     }));

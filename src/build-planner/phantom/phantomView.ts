@@ -1,5 +1,9 @@
 import type { DropdownOption } from './CustomDropdown';
-import { formatPercentParam, renderEffectDesc, substituteEffectDescParams } from '../components/gameText';
+import {
+  formatPercentParam,
+  renderEffectDesc,
+  substituteEffectDescParams,
+} from '../components/gameText';
 import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from './phantomData';
 
 // 過去シーズン(S2)の因子はゲーム内で無効化されているため、選択肢からは常に除外する
@@ -13,8 +17,13 @@ import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from 
 // 使えるよう、必要最小限のシグネチャで受ける。
 export type GameDataT = (key: string, options?: Record<string, unknown>) => string;
 
-// 潜在因子 effectType=1 のうち、値が%乗算(単位:1/100=1%)であるAttrId
-const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([11014, 11024, 11034, 11044, 11324, 11354]);
+// 潜在因子 effectType=1 のうち、値が%乗算(単位:1/100=1%)であるAttrId。
+// 11802(被回復力)/11812(バリア強度)もRAW_PERCENT_STAT_IDS(attrMaps.ts)と同じ規約
+// (2026-08-11不具合報告で発覚。因子「恒常性X9」等のG1〜G10説明文が+260のような生の実数値
+// のまま表示されていた)。
+const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([
+  11014, 11024, 11034, 11044, 11324, 11354, 11802, 11812,
+]);
 
 // 因子クラスの表示名(G1アイテム名から「・G1」を除いた基底名)
 export function factorBaseName(tg: GameDataT, classKey: string): string {

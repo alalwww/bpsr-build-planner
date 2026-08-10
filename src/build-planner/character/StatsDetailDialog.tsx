@@ -6,7 +6,12 @@ import './character.css';
 import { CollapsibleBody } from '../components/CollapsibleSection';
 import DraggableDialog from '../components/DraggableDialog';
 import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
-import { ELEMENT_ATK_STAT, ELEMENT_ATTR_STR_STAT, ELEMENT_BONUS_STAT } from '../stats/attrMaps';
+import {
+  ELEMENT_ATK_STAT,
+  ELEMENT_ATTR_STR_STAT,
+  ELEMENT_BONUS_STAT,
+  RAW_PERCENT_STAT_IDS,
+} from '../stats/attrMaps';
 import { diminishingPercent } from '../stats/formulas';
 import { FIXED_BASE_PERCENT, FIXED_BASE_VALUE, SEASON_CONSTANTS } from '../stats/seasonConstants';
 import { computeStatsBundle } from '../store/derivedSelectors';
@@ -29,29 +34,6 @@ const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>([
   'luck',
   'mastery',
   'versatility',
-]);
-
-// 実数値/100=%の規約(EquipAttrLibTableのisPercent=true系。会心ダメージ・幸運の一撃ダメージ等)
-// を持つステータス。追加バフ列(初期値/加算/料理バフ)では素の実数値ではなく%表記で表示する
-// (2026-08-09不具合報告: +400のような素の実数値がそのまま表示され分かりづらかった)。
-// 物理/魔法増強(系列C)は収益逓減カーブを経由するため厳密には他と単位の意味が異なるが、
-// 個々の加算源自体は同じ"100=1%"の実数値で表現されるため同じ表記に揃える。
-const RAW_PERCENT_STAT_IDS = new Set<StatId>([
-  'physicalEnhance',
-  'magicalEnhance',
-  'critDamageBonus',
-  'critRecoveryBonus',
-  'luckyHitDamageBonus',
-  'luckyHitRecoveryBonus',
-  'healingPower',
-  'receivedRecovery',
-  'barrierStrength',
-  'breakEfficiency',
-  'bossDamageBonus',
-  'bossDamageReduction',
-  'physicalReductionBonus',
-  'magicalReductionBonus',
-  'physicalDefIgnoreBonus',
 ]);
 
 function fmtPct(v: number) {

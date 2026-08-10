@@ -181,7 +181,9 @@ export const TALENT_RAW_FLAT_TO_STAT: Partial<Record<number, { stat: StatId; val
 // ストームブレイドR2アビリティ「烈風」: 器用さ+6%。
 // ヘヴィガーディアンR2アビリティ「幸運の剛岩」: 幸運確率+5%(レジスト反撃の会心+50%は
 // スキル固有の条件付き効果のため対象外)。
-export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
+export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<
+  Record<number, { stat: StatId; value: number }>
+> = {
   2200560: { stat: 'mastery', value: 600 },
   2201710: { stat: 'luck', value: 500 },
 };
@@ -395,6 +397,30 @@ export const EVO_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11152: 'versatility',
 };
 
+// 実数値/100=%の規約(EquipAttrLibTableのisPercent=true系。会心ダメージ・幸運の一撃ダメージ等)
+// を持つステータス。素の実数値ではなく%表記で表示すべき箇所(StatsDetailDialogの追加バフ列、
+// PhantomEffectSummaryDialogの合計テーブル等)で共通利用する(2026-08-09不具合報告: +400のような
+// 素の実数値がそのまま表示され分かりづらかった)。
+// 物理/魔法増強(系列C)は収益逓減カーブを経由するため厳密には他と単位の意味が異なるが、
+// 個々の加算源自体は同じ"100=1%"の実数値で表現されるため同じ表記に揃える。
+export const RAW_PERCENT_STAT_IDS = new Set<StatId>([
+  'physicalEnhance',
+  'magicalEnhance',
+  'critDamageBonus',
+  'critRecoveryBonus',
+  'luckyHitDamageBonus',
+  'luckyHitRecoveryBonus',
+  'healingPower',
+  'receivedRecovery',
+  'barrierStrength',
+  'breakEfficiency',
+  'bossDamageBonus',
+  'bossDamageReduction',
+  'physicalReductionBonus',
+  'magicalReductionBonus',
+  'physicalDefIgnoreBonus',
+]);
+
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリ用。
 // 蒼海武器シリーズ等)。対象ステータスはderiveStats側で収益減少曲線を経由しない固定基礎%への
 // 直接加算(会心ダメージ/幸運の一撃ダメージ率/会心回復/バリア強度)か、物理・魔法増強であり、
@@ -505,9 +531,10 @@ export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
 // このアプリの静的ステータスモデルでは対象外)。
 // 3210180(イゴレウス, id 3969): 「会心ダメージ+{p1}(常時)。会心ダメージを与えるたび一定確率で
 // +{p2}(0.1秒毎最大1回、5スタックまで、持続2秒)」のp1のみ対応、p2はスタック式のため対象外。
-export const IMAGINE_BUF_FLAT_STAT: Partial<Record<number, { stat: StatId; paramIndex: number }>> = {
-  3210180: { stat: 'critDamageBonus', paramIndex: 0 },
-};
+export const IMAGINE_BUF_FLAT_STAT: Partial<Record<number, { stat: StatId; paramIndex: number }>> =
+  {
+    3210180: { stat: 'critDamageBonus', paramIndex: 0 },
+  };
 
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
 // (このアプリの静的ステータスモデルでは表現不可)だが、一部は単純なステータスボーナスとして
