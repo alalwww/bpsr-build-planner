@@ -1,6 +1,34 @@
 {
   "entries": [
     {
+      "version": "0.10.0",
+      "date": "2026-08-10T17:35:58.068Z",
+      "summary": {
+        "ja": "アビリティツリーの誤操作防止機能追加とツールチップ表示の改善、各種不具合修正",
+        "en": "Add an ability tree edit-lock to prevent misclicks, improve tooltip behavior, and fix various issues"
+      },
+      "changes": {
+        "ja": [
+          "装備名・スキル名・説明文などの表示テキストを最新の公式ローカライズに同期",
+          "アビリティツリーに、誤操作防止のための編集ロック機能を追加",
+          "スキル等のツールチップの自動表示までに僅かな遅延を追加",
+          "ツールチップの表示位置を調整",
+          "誤って入れ替わっていたアビリティアイコンの修正(氷凌の約束、静かなる氷、尽きせぬ花、精神の輝き、迅速)",
+          "心相投影の効果一覧ダイアログで、%表示すべきステータス(幸運の一撃倍率・バリア強度等)が生の実数値のまま表示されていた不具合を修正",
+          "心相投影の効果一覧ダイアログの合計に、絆レベル効果(上級ノード効果)が反映されていなかった不具合を修正"
+        ],
+        "en": [
+          "Sync equipment/skill names and description text with the latest official localization",
+          "Add an edit-lock toggle to the ability tree to prevent misclicks",
+          "Add a brief delay before skill/imagine/ability tooltips appear automatically",
+          "Adjust tooltip positioning",
+          "Fix several mismatched ability icons (Ice Shard Pact, Icy Calm, Endless Blossom, Radiant Spirit, Swift)",
+          "Fix percent-based stats (e.g. Lucky Strike DMG Multiplier, Barrier Strength) showing as raw numbers instead of percentages in the Phantom Projection effect summary dialog",
+          "Fix bond-level (advanced node) effects not being included in the Phantom Projection effect summary total"
+        ]
+      }
+    },
+    {
       "version": "0.9.7",
       "date": "2026-08-09T13:58:00.798Z",
       "summary": {
