@@ -58742,7 +58742,7 @@
     },
     "3012": {
       "name": "초주파 폭발・정지",
-      "description": "에너지 파동을 시전해 <style=\"accent-gn\">10</style>미터 범위 내 목표를 <linktext=1092><style=\"ItemQuality_5\">방해</style></linktext>하고, 동시에 적중한 대상을 <linktext=3000><style=\"ItemQuality_5\">도발</style></linktext>합니다. 또한, 지속 시간 동안 자신을 향한 대상의 적대 수치를 크게 높입니다. <style=\"accent-gn\">10</style>초 지속.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
+      "description": "에너지 파동을 시전해 <style=\"accent-gn\">10</style>m 범위 내 목표를 <linktext=1092><style=\"ItemQuality_5\">방해</style></linktext>하고, 동시에 적중한 대상을 <linktext=3000><style=\"ItemQuality_5\">도발</style></linktext>합니다. 또한, 지속 시간 동안 자신을 향한 대상의 적대 수치를 크게 높입니다. <style=\"accent-gn\">10</style>초 지속.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
       "skillLabel": [
         "포지션 스킬"
       ],
@@ -59173,7 +59173,7 @@
     },
     "3311": {
       "name": "초주파 폭발・침묵",
-      "description": "에너지 파동을 시전해 <style=\"accent-gn\">5</style>미터 범위 내 목표를 <linktext=3000><style=\"ItemQuality_5\">방해</style></linktext>하며, 적중한 대상을 <style=\"accent-gn\">5</style>초 동안 지속적으로 <linktext=3001><style=\"ItemQuality_5\">침묵</style></linktext>시킵니다.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
+      "description": "에너지 파동을 시전해 <style=\"accent-gn\">5</style>m 범위 내 목표를 <linktext=3000><style=\"ItemQuality_5\">방해</style></linktext>하며, 적중한 대상을 <style=\"accent-gn\">5</style>초 동안 지속적으로 <linktext=3001><style=\"ItemQuality_5\">침묵</style></linktext>시킵니다.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
       "skillLabel": [
         "포지션 스킬",
         "침묵"
@@ -59189,7 +59189,7 @@
     },
     "3312": {
       "name": "소생의 기도",
-      "description": "<style=\"accent-gn\">3</style>미터 범위 내 가장 가까운 파티원 1명을 부활시킵니다<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style><br><br><style=\"accent-gn\">허약: 60초 동안 같은 유형의 효과 적용 불가(허약 효과는 나이트메어 난이도 단체 던전에서 증폭).</style>",
+      "description": "<style=\"accent-gn\">3</style>m 범위 내 가장 가까운 파티원 1명을 부활시킵니다<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style><br><br><style=\"accent-gn\">허약: 60초 동안 같은 유형의 효과 적용 불가(허약 효과는 나이트메어 난이도 단체 던전에서 증폭).</style>",
       "skillLabel": [
         "포지션 스킬"
       ],
@@ -59221,7 +59221,7 @@
     },
     "3314": {
       "name": "정적 지령",
-      "description": "<style=\"accent-gn\">25</style>미터 범위 내 최대 <style=\"accent-gn\">10</style>명의 아군 목표(파티원 우선)가 받은 <linktext=3021><style=\"ItemQuality_5\">디버프</style></linktext>를 제거합니다.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
+      "description": "<style=\"accent-gn\">25</style>m 범위 내 최대 <style=\"accent-gn\">10</style>명의 아군 목표(파티원 우선)가 받은 <linktext=3021><style=\"ItemQuality_5\">디버프</style></linktext>를 제거합니다.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
       "skillLabel": [
         "포지션 스킬"
       ],
@@ -59236,7 +59236,7 @@
     },
     "3611": {
       "name": "초주파 폭발",
-      "description": "에너지 파동을 시전해 <style=\"accent-gn\">5</style>미터 범위 내 목표를 <linktext=3000><style=\"ItemQuality_5\">방해</style></linktext>합니다.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
+      "description": "에너지 파동을 시전해 <style=\"accent-gn\">5</style>m 범위 내 목표를 <linktext=3000><style=\"ItemQuality_5\">방해</style></linktext>합니다.<br><br><style=\"accent-gn\">이 스킬은 쿨타임 효과의 영향을 받지 않습니다.</style>",
       "skillLabel": [
         "포지션 스킬"
       ],
@@ -60752,7 +60752,7 @@
     },
     "444": {
       "name": "질주하는 용포",
-      "description": "<linktext=1592><style=\"ItemQuality_5\">신속의 창</style></linktext> 시전 시, <style=\"accent-gn\">10%</style>의 고정 확률로 이후 <style=\"accent-gn\">10</style>초 동안 <style=\"accent-gn\">일반 공격</style>이 <linktext=1591><style=\"ItemQuality_5\">용격포</style></linktext>로 파생됩니다. 파생에 실패할 때마다 해당 확률이 <style=\"accent-gn\">10%</style> 증가합니다(파생 성공 시 초기화). "
+      "description": "<linktext=1592><style=\"ItemQuality_5\">신속의 창</style></linktext> 시전 시, <style=\"accent-gn\">10%</style>의 고정 확률로 이후 <style=\"accent-gn\">10</style>초 동안 <style=\"accent-gn\">일반 공격</style>이 <linktext=1591><style=\"ItemQuality_5\">용격포</style></linktext>로 파생됩니다. 파생에 실패할 때마다 해당 확률이 <style=\"accent-gn\">10%</style> 증가합니다(파생 성공 시 초기화)."
     },
     "445": {
       "name": "만신창이",
@@ -61912,7 +61912,7 @@
     },
     "1259": {
       "name": "디바인 서클 수호",
-      "description": "자신이 <linktext=1560><style=\"ItemQuality_5\">디바인 서클</style></linktext> 안에 있는 동안, 받는 모든 대미지 -<style=\"accent-gn\">10%</style>.<br>주위 <style=\"accent-gn\">10</style>미터 내에 있는 적 <style=\"accent-gn\">1</style>명당, 받는 물리 대미지 경감 +<style=\"accent-gn\">1.5%</style>(최대 +<style=\"accent-gn\">9%</style>), 받는 마법 대미지 경감 +<style=\"accent-gn\">0.75%</style>(최대 +<style=\"accent-gn\">4.5%</style>)."
+      "description": "자신이 <linktext=1560><style=\"ItemQuality_5\">디바인 서클</style></linktext> 안에 있는 동안, 받는 모든 대미지 -<style=\"accent-gn\">10%</style>.<br>주위 <style=\"accent-gn\">10</style>m 이내에 있는 적 <style=\"accent-gn\">1</style>명당, 받는 물리 대미지 경감 +<style=\"accent-gn\">1.5%</style>(최대 +<style=\"accent-gn\">9%</style>), 받는 마법 대미지 경감 +<style=\"accent-gn\">0.75%</style>(최대 +<style=\"accent-gn\">4.5%</style>)."
     },
     "1260": {
       "name": "심판 정진",
@@ -62241,7 +62241,7 @@
       "1002": "연계",
       "1003": "재구성",
       "1004": "시간 단계",
-      "1005": "다중 곙계 타격",
+      "1005": "다중 경계 타격",
       "1006": "행운 재앙 물결",
       "1007": "이중",
       "1008": "시간 정지의 비약",
@@ -62253,7 +62253,7 @@
       "1104": "시간 균열",
       "1105": "순각",
       "1106": "멸도 3점프",
-      "1107": "남은 꿈의 잔여",
+      "1107": "남은 꿈의 잔재",
       "1108": "시간 정지의 비약",
       "1109": "순보 호흡",
       "1110": "암산",
@@ -68945,7 +68945,7 @@
     "2206570": "<linktext=1198><style=\"ItemQuality_5\">라이트 코어</style></linktext> 폭발 후 <style=\"accent-gn\">20</style>초 동안 <linktext=1559><style=\"ItemQuality_5\">성스러운 검</style></linktext> 대미지 +<style=\"accent-gn\">100%</style>. 해당 효과는 <style=\"accent-gn\">3</style>스택 중첩 가능하며, <linktext=1559><style=\"ItemQuality_5\">성스러운 검</style></linktext> 시전 시 1스택 차감됩니다.",
     "2206580": "<style=\"accent-gn\">라이트 포스</style>를 <style=\"accent-gn\">15pt</style> 소모할 때마다, <linktext=1567><style=\"ItemQuality_5\">냉혹한 정벌</style></linktext>의 남은 쿨타임이 <style=\"accent-gn\">1</style>초 감소합니다.",
     "2206590": "<linktext=1564><style=\"ItemQuality_5\">심판</style></linktext>으로 대미지를 입히면, 이후 <style=\"accent-gn\">5</style>초 동안 대상이 받는 <linktext=1199><style=\"ItemQuality_5\">신성 인장</style></linktext> 효과를 2배로 증가시킵니다.",
-    "2206600": "자신이 <linktext=1560><style=\"ItemQuality_5\">디바인 서클</style></linktext> 안에 있는 동안, 받는 모든 대미지 -<style=\"accent-gn\">10%</style>. 주위 <style=\"accent-gn\">10</style>미터 내에 있는 적 <style=\"accent-gn\">1</style>명당, 받는 물리 대미지 경감 +<style=\"accent-gn\">1.5%</style>(최대 +<style=\"accent-gn\">9%</style>), 받는 마법 대미지 경감 +<style=\"accent-gn\">0.75%</style>(최대 +<style=\"accent-gn\">4.5%</style>).",
+    "2206600": "자신이 <linktext=1560><style=\"ItemQuality_5\">디바인 서클</style></linktext> 안에 있는 동안, 받는 모든 대미지 -<style=\"accent-gn\">10%</style>. 주위 <style=\"accent-gn\">10</style>m 이내에 있는 적 <style=\"accent-gn\">1</style>명당, 받는 물리 대미지 경감 +<style=\"accent-gn\">1.5%</style>(최대 +<style=\"accent-gn\">9%</style>), 받는 마법 대미지 경감 +<style=\"accent-gn\">0.75%</style>(최대 +<style=\"accent-gn\">4.5%</style>).",
     "2206610": "보유한 <linktext=1175><style=\"ItemQuality_5\">라이트포지드 배리어</style></linktext> <style=\"accent-gn\">1</style>스택당 <linktext=1564><style=\"ItemQuality_5\">심판</style></linktext>이 치료 보너스를 <style=\"accent-gn\">2%</style>씩 획득합니다. <linktext=1175><style=\"ItemQuality_5\">라이트포지드 배리어</style></linktext>가 <style=\"accent-gn\">5</style>스택 이상일 때, 대미지 감면 +<style=\"accent-gn\">8%</style>.",
     "2206620": "<linktext=1176><style=\"ItemQuality_5\">선봉 추격</style></linktext>, <linktext=1559><style=\"ItemQuality_5\">성스러운 검</style></linktext>이 <linktext=1199><style=\"ItemQuality_5\">신성 인장</style></linktext>을 보유한 대상에게 입히는 대미지 +<style=\"accent-gn\">20%</style>.",
     "2206630": "자신이 시전한 초과 치유량이 최대 체력의 <style=\"accent-gn\">10%</style>만큼 누적되면, <linktext=1175><style=\"ItemQuality_5\">라이트포지드 배리어</style></linktext> <style=\"accent-gn\">1</style>스택을 획득합니다.",
@@ -69293,7 +69293,7 @@
     "3001280": "<style=\"ItemQuality_2\">>[버프]</style> 특수 공격으로 허무의 침식 목표에게 대미지를 주면 침식의 집중이 <style=\"accent-gn\">1</style>스택 중첩된다(쿨타임: <style=\"accent-gn\">0.5초</style>). 침식의 집중이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>스택 중첩되면 마스터리 스킬의 쿨타임이 즉시 <style=\"accent-gn\">{p2}</style> 단축된다.",
     "3001290": "<style=\"ItemQuality_2\">[지원]</style>은 허무의 침식 오염 대미지에 면역된다. 자신이 해당 범위 내에 있을 시 에너지를 자신 또는 파티원의 허무의 침식 강화로 전환하여, 허무의 침식 목표에게 주는 대미지가 <style=\"accent-gn\">{p1}</style> 증가하고, 허무의 침식 목표에게 받는 대미지가 <style=\"accent-gn\">{p2}</style> 감소한다.(동시에 1개만 적용 가능)",
     "3002010": "행운의 일격을 <style=\"accent-gn\">20</style>회 발동할 때마다 <linktext=1200><style=\"ItemQuality_5\">환상 충격</style></linktext>이 발동됩니다. 해당 효과는 <style=\"accent-gn\">10</style>초마다 최대 1회만 발동됩니다. 메인 타겟에게 행운의 일격을 <style=\"accent-gn\">1</style>회 발동할 때마다, <linktext=1200><style=\"ItemQuality_5\">환상 충격</style></linktext>의 내부 쿨타임이 <style=\"accent-gn\">0.30</style>초 감소합니다.",
-    "3002020": "주위 <style=\"accent-gn\">10</style>미터 이내에 위치한 파티원 <style=\"accent-gn\">1</style>명당, 행운 확률 +<style=\"accent-gn\">1%</style>, 최대 +<style=\"accent-gn\">3%</style>.",
+    "3002020": "주위 <style=\"accent-gn\">10</style>m 이내에 위치한 파티원 <style=\"accent-gn\">1</style>명당, 행운 확률 +<style=\"accent-gn\">1%</style>, 최대 +<style=\"accent-gn\">3%</style>.",
     "3002030": "행운의 일격 배율 +<style=\"accent-gn\">10%</style>.",
     "3002040": "<linktext=1200><style=\"ItemQuality_5\">환상 충격</style></linktext> 내부 쿨타임 +<style=\"accent-gn\">5</style>초, <linktext=1200><style=\"ItemQuality_5\">환상 충격</style></linktext> 파망 대미지 +<style=\"accent-gn\">100%</style>.",
     "3002050": "<linktext=1200><style=\"ItemQuality_5\">환상 충격</style></linktext>에 필요한 발동 횟수 +<style=\"accent-gn\">10</style>, <linktext=1200><style=\"ItemQuality_5\">환상 충격</style></linktext> 파망 대미지 +<style=\"accent-gn\">100%</style>.",
@@ -69333,10 +69333,10 @@
     "3002850": "<linktext=1204><style=\"ItemQuality_5\">몽환의 힘</style></linktext> 지속 시간 동안, 최대 체력 +<style=\"accent-gn\">15%</style>.",
     "3002860": "<linktext=1204><style=\"ItemQuality_5\">몽환의 힘</style></linktext> 지속 시간 +<style=\"accent-gn\">5</style>초.",
     "3002870": "<linktext=1204><style=\"ItemQuality_5\">몽환의 힘</style></linktext> 지속 시간 동안, 치명타, 속공, 행운, 숙련 <style=\"accent-gn\">4</style>개의 능력치 중 가장 높은 능력치의 최종 퍼센트 수치가 <style=\"accent-gn\">3%</style> 증가합니다.",
-    "3003010": "<style=\"accent-gn\">적멸의 꿈</style> 시전 시, 자신 주위 <style=\"accent-gn\">5</style>미터 내의 적에게 <linktext=1205><style=\"ItemQuality_5\">적멸</style></linktext>을 시전합니다.",
+    "3003010": "<style=\"accent-gn\">적멸의 꿈</style> 시전 시, 자신 주위 <style=\"accent-gn\">5</style>m 이내의 적에게 <linktext=1205><style=\"ItemQuality_5\">적멸</style></linktext>을 시전합니다.",
     "3003020": "자신의 현재 체력이 <style=\"accent-gn\">50%</style> 미만일 때 <linktext=1206><style=\"ItemQuality_5\">적멸 타격</style></linktext>이 발동됩니다. 해당 효과는 <style=\"accent-gn\">15</style>초마다 최대 1회 발동합니다.",
     "3003030": "자신이 죽음에 이르는 대미지를 받을 때, <style=\"accent-gn\">1</style>초 동안 지속되는 <linktext=1207><style=\"ItemQuality_5\">빈사</style></linktext> 효과가 발동됩니다. 해당 효과는 <style=\"accent-gn\">45</style>초마다 최대 1회 발동합니다.",
-    "3003040": "<style=\"accent-gn\">적멸의 꿈</style>의 범위가 <style=\"accent-gn\">10</style>미터로 확대됩니다.",
+    "3003040": "<style=\"accent-gn\">적멸의 꿈</style>의 범위가 <style=\"accent-gn\">10</style>m로 확대됩니다.",
     "3003050": "전투 상태 진입 시, <style=\"accent-gn\">적멸의 꿈</style>이 폭발하여, 범위 내 아군에게 <style=\"accent-gn\">8</style>초 동안 메인 능력치 +<style=\"accent-gn\">2%</style> 효과를 제공합니다. 이후 <style=\"accent-gn\">15</style>초마다 한 번씩 폭발합니다.",
     "3003060": "자신이 <style=\"accent-gn\">적멸의 꿈</style> 영향을 받는 적 및 아군을 대상으로 모든 원소 보너스 <style=\"accent-gn\">3%</style>를 획득합니다.",
     "3003070": "<style=\"accent-gn\">적멸의 꿈</style>이 범위 내 아군에게 <style=\"accent-gn\">5%</style>의 파망 대미지 감면 효과를 제공합니다. 범위 내 적군 목표가 <style=\"accent-gn\">3</style>명 이상일 때 파망 대미지 감면이 추가로 +<style=\"accent-gn\">3%</style>.",
@@ -69418,7 +69418,7 @@
     "3050120": "궁극의 참격은 더 이상 대미지 최대치의 제한을 받지 않으며, 추적 시간은 60초로 증가합니다. 궁극의 참격은 번개의 인장을 1개 소모할 때마다 공격력 150%의 대미지를 주던 효과가 공격력 {p1}만큼까지 증가합니다.",
     "3050130": "무궁뇌정의 힘 지속 시간 동안 {*Decision.unmarktime(1)*}마다 뇌압 1스택 획득합니다. 뇌절 파망 대미지 +{p2}.",
     "3050140": "월광의 낫이 2초마다 뇌전의 낫을 시전합니다. 단, 차륜의 낫이 소환한 월광의 낫 최대치가 1로 고정되며, 더 이상 적군 목표를 추적하지 않습니다. 월영을 다시 시전하면 월광의 낫은 자신의 위치로 돌아옵니다. 뇌전의 낫 파망 대미지 +{p1}.",
-    "3050150": "천뢰섬영의 의지 지속 시간 동안 벽력연참을 시전할 때마다 자신 5미터 범위 내 최대 6명 적군 목표에게 뇌격을 시전하며, 동시에 전하 씨앗 3개를 획득합니다. 뇌격 파망 대미지 +{p1}.",
+    "3050150": "천뢰섬영의 의지 지속 시간 동안 벽력연참을 시전할 때마다 자신 5m 범위 내 최대 6명 적군 목표에게 뇌격을 시전하며, 동시에 전하 씨앗 3개를 획득합니다. 뇌격 파망 대미지 +{p1}.",
     "3050400": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 발도 시전 시 추가로 뇌절 검기를 1회 부여합니다.",
     "3050410": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 추가로 번개의 인장 1개를 획득합니다(최대 5개).",
     "3050420": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 다음 궁극기는 반드시 치명타로 적용되며, 허망 대미지가 <style=\"accent-gn\">{p4}</style> 증가합니다.",
@@ -69436,7 +69436,7 @@
     "3051090": "토네이도는 행운의 일격을 발동할 수 있습니다. 토네이도 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 토네이도가 대미지를 줄 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3051100": "궁극・폭풍 가르기는 반드시 치명타로 적중합니다. 궁극・폭풍 가르기 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 팔콘 토스, 궁극・폭풍 가르기 시전 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3051110": "예리한 찌르기 <style=\"accent-gn\">{*Decision.unmarktime(1)*}</style>마다 충전 <style=\"accent-gn\">5%</style>를 획득합니다(해당 시간은 쿨타임 가속에 영향을 받습니다). 예리한 찌르기, 풍신・예리한 찌르기 파망 대미지 +<style=\"accent-gn\">{p2}</style>. 예리한 찌르기 시전 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(3)*}</style>pt 획득합니다.",
-    "3051120": "윈드 오라가 목표를 10회 명중할 때마다(여러 목표 명중 시 1회로 계산), 풍력 오라를 발동하며, 자신 주위 5미터 내 적군 목표에게 공격력 1500%만큼의 물리 대미지를 줍니다. 풍력 오라 파망 대미지 +{p1}.",
+    "3051120": "윈드 오라가 목표를 10회 명중할 때마다(여러 목표 명중 시 1회로 계산), 풍력 오라를 발동하며, 자신 주위 5m 이내 적군 목표에게 공격력 1500%만큼의 물리 대미지를 줍니다. 풍력 오라 파망 대미지 +{p1}.",
     "3051130": "그림자 나선이 전방으로 2개 추가 발사합니다. 그림자 나선 파망 대미지 +{p1}.",
     "3051140": "찰나 2단계 공격이 행운과 치명타를 동시에 발동하면, 궁극・폭풍 가르기를 1개 발사합니다. 궁극・폭풍 가르기 파망 대미지 +{p1}.",
     "3051150": "10초마다 바람의 분노를 획득합니다. 바람의 분노가 제공하는 대미지 버프가 15%에서 {p1}까지 증가합니다.",
@@ -69522,7 +69522,7 @@
     "3055110": "거암 강타가 1개 목표에게만 명중할 시, 대미지 및 체력 회복 효과가 2배로 적용됩니다. 거암 강타 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 바위의 심장 획득 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3055120": "실드를 획득하거나 실드를 잃을 때마다 대지 붕괴를 발동합니다. 단, 해당 대지 붕괴로는 실드를 획득할 수 없습니다. 해당 효과는 0.2초마다 최대 1회 발동합니다. 대지 붕괴 파망 대미지 +{p1}.",
     "3055130": "모래 장막 지속 시간 동안, 실드를 획득할 때마다 모래 결정 진동을 발동합니다. 해당 효과는 0.2초마다 최대 1회 발동합니다. 모래 결정 진동 파망 대미지 +{p1}.",
-    "3055140": "영웅의 방벽 시전 후 10초 동안, 자신 주위 5미터 범위 내 랜덤으로 거암 강타를 발동합니다. 거암 강타 파망 대미지 +{p1}.",
+    "3055140": "영웅의 방벽 시전 후 10초 동안, 자신 주위 5m 범위 내 랜덤으로 거암 강타를 발동합니다. 거암 강타 파망 대미지 +{p1}.",
     "3055150": "분노의 바위 시전 시 막기 반격을 발동합니다. 막기 반격 치명타 대미지가 {p1} 증가합니다.",
     "3055360": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 다음 실드 적용 시 최종 실드값이 <style=\"accent-gn\">{p3}</style> 증가합니다.",
     "3055370": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 대지 붕괴를 발동합니다. 해당 대지 붕괴의 허망 대미지가 <style=\"accent-gn\">{p3}</style> 증가합니다. {*Decision.unmarktime(2)*} 동안 최대 1회 발동합니다.",
@@ -69543,7 +69543,7 @@
     "3056110": "행운의 일격 파망 대미지가 <style=\"accent-gn\">{p2}</style> 증가합니다. 단, 공생의 인장으로 전환되는 치료량이 <style=\"accent-gn\">{p1}</style> 감소합니다. 행운의 일격을 발동할 때, 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(3)*}</style>pt 획득합니다.",
     "3056120": "재생의 파동 보유 시, 일반 공격이 아닌 클래스 스킬이 쿨타임에 들어갈 때 재생의 파동을 발동합니다.(회당 최대 1회 발동) 재생의 파동 파망 대미지 +{p1}.",
     "3056130": "인퓨전이 목표를 20회 명중할 때마다 사슴의 돌진을 발동합니다. 사슴의 돌진 파망 대미지 +{p1}.",
-    "3056140": "양분의 씨앗 투척 후, 주위 5미터 내 랜덤으로 에너지 주입을 발동합니다. 재생의 꽃망울 획득 후 양분의 씨앗을 투척합니다. 에너지 주입 파망 대미지 +{p1}.",
+    "3056140": "양분의 씨앗 투척 후, 주위 5m 이내 랜덤으로 에너지 주입을 발동합니다. 재생의 꽃망울 획득 후 양분의 씨앗을 투척합니다. 에너지 주입 파망 대미지 +{p1}.",
     "3056150": "양분 주기를 시전하는 동시에 적군 목표에게 지속 대미지 효과를 부여합니다. 양분 주기 파망 대미지 +{p1}.",
     "3056380": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 에너지 <style=\"accent-gn\">{*Decision.unmarknormal(3)*}</style>pt를 획득하며, 자연의 가호 남은 쿨타임이 1초 감소합니다. {*Decision.unmarktime(2)*} 동안 최대 1회 발동합니다.",
     "3056390": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 10초 동안 슈퍼 아머 상태가 되며, 스킬 시전 속도가 <style=\"accent-gn\">{p3}</style> 증가하고, 파망 대미지 감면이 <style=\"accent-gn\">{p4}</style> 증가합니다.",
@@ -69565,7 +69565,7 @@
     "3057120": "화염 음표는 행운의 일격을 발동할 수 있습니다. 행운의 일격 꿈 대미지가 {p1} 증가합니다.",
     "3057130": "용맹의 악장 활성화 시간 동안, 2초마다 랜덤으로 주위 목표에게 앵콜을 발동합니다. 앵콜 파망 대미지 +{p1}.",
     "3057140": "스피커가 3초마다 플레임 쇼크를 발동합니다. 플레임 쇼크 범위가 300% 증가합니다. 플레임 쇼크 파망 대미지 +{p1}.(어빌리티 스피커 폭염 충격 활성화 후 사용 가능)",
-    "3057150": "치유의 악장이 치료를 가할 시, 자신 주위 10미터 내 적군에게 공격력 100%만큼의 마법 대미지를 줍니다. 치유의 악장 파망 대미지 +{p1}.",
+    "3057150": "치유의 악장이 치료를 가할 시, 자신 주위 10m 이내 적군에게 공격력 100%만큼의 마법 대미지를 줍니다. 치유의 악장 파망 대미지 +{p1}.",
     "3057400": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 앵콜 스트링을 1회 발동합니다.",
     "3057410": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 다음 결집의 악장이 모든 연주 열정을 소모하며(최대 3개), 연주 열정을 1개 소모할 때마다 결집의 악장 최종 대미지가 <style=\"accent-gn\">{p3}</style> 증가합니다.",
     "3057420": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 불꽃의 랩소디를 발동합니다. {*Decision.unmarktime(2)*} 동안 최대 1회 발동합니다.",
@@ -69783,13 +69783,13 @@
     "3401199": "대상이 이후 <style=\"accent-gn\">10</style>초 동안 1초마다 공격력 <style=\"accent-gn\">20%</style>만큼의 대미지를 입습니다. 또한, 해당 대상으로부터 대미지를 받을 때, <style=\"accent-gn\">10%</style>의 고정 확률로 체력을 회복합니다. 회복량은 최대 체력의 <style=\"accent-gn\">0.5%</style>입니다.",
     "3401200": "「행운 효과」: <style=\"accent-gn\">3</style>m 범위 내 적군 목표에게 공격력의 <style=\"accent-gn\">1375%</style>에 해당하는 적응형 대미지를 줍니다. 치명타는 적용되지 않습니다.",
     "3401201": "<style=\"accent-gn\">3</style>m 범위 내 적군 목표에게 공격력의 <style=\"accent-gn\">850%</style>에 해당하는 적응형 대미지를 줍니다. 동시에 치명타 대미지는 항상 <style=\"accent-gn\">500%</style>로 결산됩니다.",
-    "3401202": "<style=\"accent-gn\">3</style>미터 범위 내 적군 목표에게 공격력 <style=\"accent-gn\">165%</style>의 적응형 대미지를 줍니다.",
+    "3401202": "<style=\"accent-gn\">3</style>m 범위 내 적군 목표에게 공격력 <style=\"accent-gn\">165%</style>의 적응형 대미지를 줍니다.",
     "3401203": "스택당 공격력이 <style=\"accent-gn\">18</style> 증가합니다(시즌 레벨에 따라 최대 <style=\"accent-gn\">50</style>까지 증가).",
     "3401204": "메인 능력치가 <style=\"accent-gn\">630</style> 증가합니다(시즌 레벨에 따라 최대 <style=\"accent-gn\">1470</style>까지 증가). 지속 시간 동안 남겨진 꿈을 획득할 수 없습니다.",
     "3401205": "공격력 -<style=\"accent-gn\">20%</style>, 받는 파망 대미지 +<style=\"accent-gn\">10%</style>, 이동속도 -<style=\"accent-gn\">20%</style>(중첩 불가).",
-    "3401206": "자신의 <style=\"accent-gn\">5</style>미터 내 적군 목표에게 공격력 <style=\"accent-gn\">200%</style>의 적응형 대미지를 주며, 목표에게 <style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>초 동안 <linktext=3005><style=\"ItemQuality_5\">스턴</style></linktext>을 부여합니다.",
+    "3401206": "자신의 <style=\"accent-gn\">5</style>m 이내 적군 목표에게 공격력 <style=\"accent-gn\">200%</style>의 적응형 대미지를 주며, 목표에게 <style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>초 동안 <linktext=3005><style=\"ItemQuality_5\">스턴</style></linktext>을 부여합니다.",
     "3401207": "사망에 면역됩니다.",
-    "3401208": "자신의 <style=\"accent-gn\">5</style>미터 내 적군 목표에게 물리 방어력 <style=\"accent-gn\">330%</style>의 적응형 대미지를 줍니다.",
+    "3401208": "자신의 <style=\"accent-gn\">5</style>m 이내 적군 목표에게 물리 방어력 <style=\"accent-gn\">330%</style>의 적응형 대미지를 줍니다.",
     "3401209": "최대 체력이 <style=\"accent-gn\">3%</style> 증가하고, 숙련이 <style=\"accent-gn\">2%</style> 증가합니다. 최대 <style=\"accent-gn\">3</style>스택까지 중첩됩니다.",
     "3401211": "<style=\"accent-gn\">마스터리 스킬</style> 공격 속도 +<style=\"accent-gn\">5%</style>, 지속 시간 <style=\"accent-gn\">10</style>초, 최대 <style=\"accent-gn\">5</style>스택 중첩 가능.",
     "3401212": "불 원소 보너스 +<style=\"accent-gn\">10%</style>, 지속 시간 <style=\"accent-gn\">8</style>초.",
@@ -69828,7 +69828,7 @@
     "maxHp": "케릭터가 공격을 받으면 체력이 감소하며, 0까지 감소되면 사망한다.",
     "atk": "스킬이 일정 비율로 주는 물리 대미지량과 치료량의 기본 값으로, 목표 물리 방어의 영향을 받는다.",
     "matk": "스킬이 일정 비율로 주는 마법 대미지량과 치료량의 기본 값으로, 목표 마법 방어의 영향을 받는다.",
-    "strength": "윈드 나이트, 헤비 가디언, 실드 나이트 클래스의 공격력 증가, 모든 클래스의 물리 방어 증가.",
+    "strength": "윈드 나이트, 헤비 가디언, 실드 나이트, 트윈 스트라이커 클래스의 공격력 증가, 모든 클래스의 물리 방어 증가.",
     "intellect": "프로스트 메이지, 실반 오라클, 비트 퍼포머 클래스의 공격력 증가. 모든 클래스의 마법 방어 증가.",
     "agility": "스톰 블레이드, 디바인 아처 클래스의 공격력 증가, 모든 클래스의 속공 증가.",
     "endurance": "모든 클래스의 최대 체력 증가."
@@ -70296,7 +70296,7 @@
     },
     "1117": {
       "name": "가시",
-      "description": "적에게 매 초마다 공격력의 <style=\"accent-gn\">20%</style>만큼의 <style=\"magic\">마법 대미지</style>를 입힙니다, <style=\"accent-gn\">10</style>초 지속. "
+      "description": "적에게 매 초마다 공격력의 <style=\"accent-gn\">20%</style>만큼의 <style=\"magic\">마법 대미지</style>를 입힙니다, <style=\"accent-gn\">10</style>초 지속."
     },
     "1119": {
       "name": "홍련 통찰",
@@ -70632,7 +70632,7 @@
     },
     "1202": {
       "name": "몽환의 화살",
-      "description": "<style=\"accent-gn\">3</style>미터 범위 내 적군 목표에게 공격력 <style=\"accent-gn\">165%</style>의 적응형 대미지를 줍니다."
+      "description": "<style=\"accent-gn\">3</style>m 범위 내 적군 목표에게 공격력 <style=\"accent-gn\">165%</style>의 적응형 대미지를 줍니다."
     },
     "1203": {
       "name": "몽롱한 꿈속",
@@ -70648,7 +70648,7 @@
     },
     "1206": {
       "name": "적멸 타격",
-      "description": "자신의 <style=\"accent-gn\">5</style>미터 내 적군 목표에게 공격력 <style=\"accent-gn\">200%</style>의 적응형 대미지를 주며, 목표에게 <style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>초 동안 <linktext=3005><style=\"ItemQuality_5\">스턴</style></linktext>을 부여합니다."
+      "description": "자신의 <style=\"accent-gn\">5</style>m 이내 적군 목표에게 공격력 <style=\"accent-gn\">200%</style>의 적응형 대미지를 주며, 목표에게 <style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>초 동안 <linktext=3005><style=\"ItemQuality_5\">스턴</style></linktext>을 부여합니다."
     },
     "1207": {
       "name": "빈사",
@@ -70656,7 +70656,7 @@
     },
     "1208": {
       "name": "허망의 판결",
-      "description": "자신의 <style=\"accent-gn\">5</style>미터 내 적군 목표에게 물리 방어력 <style=\"accent-gn\">330%</style>의 적응형 대미지를 줍니다."
+      "description": "자신의 <style=\"accent-gn\">5</style>m 이내 적군 목표에게 물리 방어력 <style=\"accent-gn\">330%</style>의 적응형 대미지를 줍니다."
     },
     "1209": {
       "name": "끝없는 사유",

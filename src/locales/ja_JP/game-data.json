@@ -26187,39 +26187,39 @@
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020141": {
-      "name": "プロビデンスアイの刻印",
+      "name": "ヘヴンアイの刻印",
       "description": "刻印を装備に装着すると、その刻印に秘められた固有の効果を装備に付与できる。<br>装着可能部位：腕輪-左、腕輪-右、護符"
     },
     "3020142": {
-      "name": "プロビデンスアイの刻印・精",
+      "name": "ヘヴンアイの刻印・精",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020143": {
-      "name": "プロビデンスアイの刻印・極",
+      "name": "ヘヴンアイの刻印・極",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020144": {
-      "name": "T-プロビデンスアイの刻印",
+      "name": "T-ヘヴンアイの刻印",
       "description": "刻印を装備に装着すると、その刻印に秘められた固有の効果を装備に付与できる。<br>装着可能部位：腕輪-左、腕輪-右、護符"
     },
     "3020145": {
-      "name": "T-プロビデンスアイの刻印・精",
+      "name": "T-ヘヴンアイの刻印・精",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020146": {
-      "name": "T-プロビデンスアイの刻印・極",
+      "name": "T-ヘヴンアイの刻印・極",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020147": {
-      "name": "F-プロビデンスアイの刻印",
+      "name": "F-ヘヴンアイの刻印",
       "description": "刻印を装備に装着すると、その刻印に秘められた固有の効果を装備に付与できる。<br>装着可能部位：腕輪-左、腕輪-右、護符"
     },
     "3020148": {
-      "name": "F-プロビデンスアイの刻印・精",
+      "name": "F-ヘヴンアイの刻印・精",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020149": {
-      "name": "F-プロビデンスアイの刻印・極",
+      "name": "F-ヘヴンアイの刻印・極",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "3020151": {
@@ -58952,7 +58952,7 @@
     },
     "3022": {
       "name": "炎の咆哮",
-      "description": "ボス・フレイムオーガを<style=\"accent-gn\">召喚</style>し、前方に火炎を放って対象に<style=\"physical\">物理ダメージ</style>を与える。与えたダメージ量に応じて自身を回復し、<style=\"accent-gn\">追加ダメージ軽減</style>を獲得する（この効果の上限は<style=\"accent-gn\">50%</style>）。<br><br><style=\"accent-gn\">スキルはリキャスト効果の影響を受けない。</style>",
+      "description": "ボス・フレイムオーガを<style=\"accent-gn\">召喚</style>し、前方に火炎を放って対象に<style=\"physical\">物理ダメージ</style>を与える。与えたダメージ量に応じて自身を回復し、<style=\"accent-gn\">追加ダメージ軽減</style>を獲得する（上限<style=\"accent-gn\">50%</style>）。<br><br><style=\"accent-gn\">スキルはリキャスト効果の影響を受けない。</style>",
       "skillLabel": [
         "ロールスキル",
         "物理",
@@ -59259,7 +59259,7 @@
     },
     "3028": {
       "name": "加護結界",
-      "description": "ファルファラを<style=\"accent-gn\">召喚</style>し、エリアを1つ生成する。そのエリア内にいる自身とパーティメンバーは<style=\"accent-gn\">追加ダメージ軽減</style>（この効果の上限は<style=\"accent-gn\">50%</style>）と<style=\"accent-gn\">剛体</style>を獲得する。<br><style=\"accent-gn\">【効果はスタック不可。同一効果は1つのみ適用される】</style><br><br><style=\"accent-gn\">スキルはリキャスト効果の影響を受けない。</style>",
+      "description": "ファルファラを<style=\"accent-gn\">召喚</style>し、エリアを1つ生成する。そのエリア内にいる自身とパーティメンバーは<style=\"accent-gn\">追加ダメージ軽減</style>（上限<style=\"accent-gn\">50%</style>）と<style=\"accent-gn\">剛体</style>を獲得する。<br><style=\"accent-gn\">【効果はスタック不可。同一効果は1つのみ適用される】</style><br><br><style=\"accent-gn\">スキルはリキャスト効果の影響を受けない。</style>",
       "skillLabel": [
         "ロールスキル",
         "プロテクト"
@@ -59970,7 +59970,7 @@
     },
     "120": {
       "name": "雷力",
-      "description": "自身が<style=\"accent-gn\">10</style>回ダメージを与えるごとに、<style=\"accent-gn\">雷の力</style>を発動する。<br><style=\"accent-gn\">雷の力</style>：雷属性攻撃力+<style=\"accent-gn\">22</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで可。"
+      "description": "自身が<style=\"accent-gn\">10</style>回ダメージを与えるごとに、<style=\"accent-gn\">雷の力</style>を発動する。<br><style=\"accent-gn\">雷の力</style>：雷属性攻撃力+<style=\"accent-gn\">22</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで。"
     },
     "121": {
       "name": "時間差月影",
@@ -60070,7 +60070,7 @@
     },
     "147": {
       "name": "雷圧",
-      "description": "<linktext=1584><style=\"ItemQuality_5\">墜竜閃</style></linktext>、<linktext=1585><style=\"ItemQuality_5\">瞬影斬</style></linktext>を発動するたび<style=\"accent-gn\">雷圧</style>+<style=\"accent-gn\">4</style>スタック。<style=\"accent-gn\">雷圧</style>は<style=\"accent-gn\">8</style>スタックまで可。"
+      "description": "<linktext=1584><style=\"ItemQuality_5\">墜竜閃</style></linktext>、<linktext=1585><style=\"ItemQuality_5\">瞬影斬</style></linktext>を発動するたび<style=\"accent-gn\">雷圧</style>+<style=\"accent-gn\">4</style>スタック。<style=\"accent-gn\">雷圧</style>は<style=\"accent-gn\">8</style>スタックまで。"
     },
     "148": {
       "name": "彼岸［強化］",
@@ -60218,7 +60218,7 @@
     },
     "211": {
       "name": "寒風の集約",
-      "description": "<linktext=1514><style=\"ItemQuality_5\">フローズンストーム</style></linktext>が対象に命中すると（複数対象に命中しても発動するのは1回のみ）、すべての<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を消費して<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>を召喚する（<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>数は消費した<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>数と同じ）。<br><linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>がダメージを与えると<style=\"accent-gn\">凍源</style>+<style=\"accent-gn\">5</style>pt。かつ、以後<style=\"accent-gn\">15</style>秒間にスキルが消費する<style=\"accent-gn\">凍源</style>-<style=\"accent-gn\">3</style>%。<style=\"accent-gn\">6</style>スタックまで可。"
+      "description": "<linktext=1514><style=\"ItemQuality_5\">フローズンストーム</style></linktext>が対象に命中すると（複数対象に命中しても発動するのは1回のみ）、すべての<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を消費して<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>を召喚する（<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>数は消費した<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>数と同じ）。<br><linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>がダメージを与えると<style=\"accent-gn\">凍源</style>+<style=\"accent-gn\">5</style>pt。かつ、以後<style=\"accent-gn\">15</style>秒間にスキルが消費する<style=\"accent-gn\">凍源</style>-<style=\"accent-gn\">3</style>%。<style=\"accent-gn\">6</style>スタックまで。"
     },
     "212": {
       "name": "霜天",
@@ -60374,7 +60374,7 @@
     },
     "253": {
       "name": "玄氷強化",
-      "description": "<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を<style=\"accent-gn\">1</style>個消費するたび<style=\"accent-gn\">>知力</style>+<style=\"accent-gn\">55</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。"
+      "description": "<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を<style=\"accent-gn\">1</style>個消費するたび<style=\"accent-gn\">>知力</style>+<style=\"accent-gn\">55</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで。"
     },
     "254": {
       "name": "霜襲来",
@@ -60506,7 +60506,7 @@
     },
     "314": {
       "name": "クリムゾンブロウ",
-      "description": "<style=\"accent-gn\">双炎ランク</style>を<style=\"accent-gn\">6</style>回獲得するか、<linktext=1625><style=\"ItemQuality_5\">バーニングギア</style></linktext>を発動するごとに、<linktext=1619><style=\"ItemQuality_5\">スパイラルブロウ</style></linktext>が<linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>に派生する。<br><linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>を発動した後、<linktext=1212><style=\"ItemQuality_5\">灼炎</style></linktext>を獲得する。"
+      "description": "<style=\"accent-gn\">双炎ランク</style>を<style=\"accent-gn\">6</style>回獲得するか、<linktext=1625><style=\"ItemQuality_5\">バーニングギア</style></linktext>を発動するごとに、<linktext=1619><style=\"ItemQuality_5\">スパイラルブロウ</style></linktext>が<linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>に派生する。<br><linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>を発動した後、<linktext=1212><style=\"ItemQuality_5\">熾炎</style></linktext>を獲得する。"
     },
     "315": {
       "name": "炎輪回帰",
@@ -60546,7 +60546,7 @@
     },
     "324": {
       "name": "流星火",
-      "description": "<style=\"accent-gn\">双炎ランク</style>S段階時、<linktext=1623><style=\"ItemQuality_5\">アースラクス</style></linktext>を発動するたびメイン対象の位置に<linktext=1215><style=\"ItemQuality_5\">流星火</style></linktext>を<style=\"accent-gn\">1</style>つ召喚する。"
+      "description": "<style=\"accent-gn\">双炎ランク</style>S段階時、<linktext=1623><style=\"ItemQuality_5\">ラースアクス</style></linktext>を発動するたびメイン対象の位置に<linktext=1215><style=\"ItemQuality_5\">流星火</style></linktext>を<style=\"accent-gn\">1</style>つ召喚する。"
     },
     "325": {
       "name": "無上の戦域",
@@ -60566,7 +60566,7 @@
     },
     "329": {
       "name": "双炎 [連撃]",
-      "description": "<style=\"accent-gn\">マスタリースキル</style>がメイン対象に<style=\"accent-gn\">5</style>回ダメージを与えるごとにバフを1スタック獲得し、以後の<style=\"accent-gn\">8</style>秒間、幸運の一撃の倍率+<style=\"accent-gn\">27%</style>、さらに幸運の一撃の会心率-<style=\"accent-gn\">20%</style>。この効果は<style=\"accent-gn\">3</style>スタックまで可。"
+      "description": "<style=\"accent-gn\">マスタリースキル</style>がメイン対象に<style=\"accent-gn\">5</style>回ダメージを与えるごとにバフを1スタック獲得し、以後の<style=\"accent-gn\">8</style>秒間、幸運の一撃の倍率+<style=\"accent-gn\">27%</style>、さらに幸運の一撃の会心率-<style=\"accent-gn\">20%</style>。この効果は<style=\"accent-gn\">3</style>スタックまで。"
     },
     "330": {
       "name": "イラプション・破",
@@ -60906,7 +60906,7 @@
     },
     "450": {
       "name": "風起",
-      "description": "<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>がダメージを与えると、<linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>の会心確率+<style=\"accent-gn\">7%</style>、会心ダメージ+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">5</style>秒、<style=\"accent-gn\">7</style>スタックまで可。"
+      "description": "<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>がダメージを与えると、<linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>の会心確率+<style=\"accent-gn\">7%</style>、会心ダメージ+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">5</style>秒、<style=\"accent-gn\">7</style>スタックまで。"
     },
     "451": {
       "name": "強攻",
@@ -60950,7 +60950,7 @@
     },
     "461": {
       "name": "追撃之力",
-      "description": "<linktext=1157><style=\"ItemQuality_5\">追撃身法</style></linktext>を消費すると、以後<style=\"accent-gn\">10</style>秒間の<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">15%</style>。<style=\"accent-gn\">2</style>スタックまで可。"
+      "description": "<linktext=1157><style=\"ItemQuality_5\">追撃身法</style></linktext>を消費すると、以後<style=\"accent-gn\">10</style>秒間の<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">15%</style>。<style=\"accent-gn\">2</style>スタックまで。"
     },
     "462": {
       "name": "卓絶風華",
@@ -61374,7 +61374,7 @@
     },
     "931": {
       "name": "剛身型",
-      "description": "<linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>の威力を強化し続ける。<br><linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>がエネミー<style=\"accent-gn\">1</style>体に命中するたびダメージ+<style=\"accent-gn\">30%</style>（最大は+<style=\"accent-gn\">150%</style>）。<br>攻撃を受けると、全属性ダメージ軽減+<style=\"accent-gn\">0.6%</style>。持続<style=\"accent-gn\">4</style>秒、<style=\"accent-gn\">10</style>スタックまで可。この効果は器用さ<style=\"accent-gn\">1%</style>につき+<style=\"accent-gn\">2%</style>。<br><br><i><style=\"text_third_gray\"><size=20>できるだけバリアを維持して受けるダメージを軽減しつつ、バリアがあるうちに各種効果を付与しよう。</size></style></i>"
+      "description": "<linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>の威力を強化し続ける。<br><linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>がエネミー<style=\"accent-gn\">1</style>体に命中するたびダメージ+<style=\"accent-gn\">30%</style>（最大は+<style=\"accent-gn\">150%</style>）。<br>攻撃を受けると、全属性ダメージ軽減+<style=\"accent-gn\">0.6%</style>。持続<style=\"accent-gn\">4</style>秒、<style=\"accent-gn\">10</style>スタックまで。この効果は器用さ<style=\"accent-gn\">1%</style>につき+<style=\"accent-gn\">2%</style>。<br><br><i><style=\"text_third_gray\"><size=20>できるだけバリアを維持して受けるダメージを軽減しつつ、バリアがあるうちに各種効果を付与しよう。</size></style></i>"
     },
     "932": {
       "name": "同調領域",
@@ -61438,7 +61438,7 @@
     },
     "947": {
       "name": "回復",
-      "description": "<style=\"accent-gn\">マスタリースキル</style>、<style=\"accent-gn\">特殊攻撃</style>で対象を<style=\"accent-gn\">1</style>回攻撃するごとに、<style=\"accent-gn\">5</style>秒間<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">10</style>スタックまで可。効果を<style=\"accent-gn\">10</style>スタック保有済みの場合は、<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">10%</style>に変更される。持続<style=\"accent-gn\">8</style>秒。有効中は次の<style=\"accent-gn\">マスタリースキル</style>が与えたダメージの<style=\"accent-gn\">20%</style>で自身のHPを回復するが、引き続き<style=\"accent-gn\">筋力</style>をスタックすることはできない。"
+      "description": "<style=\"accent-gn\">マスタリースキル</style>、<style=\"accent-gn\">特殊攻撃</style>で対象を<style=\"accent-gn\">1</style>回攻撃するごとに、<style=\"accent-gn\">5</style>秒間<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">10</style>スタックまで。効果を<style=\"accent-gn\">10</style>スタック保有済みの場合は、<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">10%</style>に変更される。持続<style=\"accent-gn\">8</style>秒。有効中は次の<style=\"accent-gn\">マスタリースキル</style>が与えたダメージの<style=\"accent-gn\">20%</style>で自身のHPを回復するが、引き続き<style=\"accent-gn\">筋力</style>をスタックすることはできない。"
     },
     "948": {
       "name": "砕星の鉄槌",
@@ -61562,7 +61562,7 @@
     },
     "1106": {
       "name": "臣狼の爪",
-      "description": "<style=\"accent-gn\">臣狼</style>が会心ダメージを与えると、自身と野獣のファスト+<style=\"accent-gn\">2%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。<br>ファストが<style=\"accent-gn\">35%</style>を超えると、超過したファスト<style=\"accent-gn\">1%</style>につき、攻撃力+<style=\"accent-gn\">0.2%</style>。"
+      "description": "<style=\"accent-gn\">臣狼</style>が会心ダメージを与えると、自身と野獣のファスト+<style=\"accent-gn\">2%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで。<br>ファストが<style=\"accent-gn\">35%</style>を超えると、超過したファスト<style=\"accent-gn\">1%</style>につき、攻撃力+<style=\"accent-gn\">0.2%</style>。"
     },
     "1107": {
       "name": "冥想",
@@ -61626,7 +61626,7 @@
     },
     "1123": {
       "name": "集中射撃",
-      "description": "対象<style=\"accent-gn\">1</style>体に命中すると<style=\"accent-gn\">3</style>秒間、光属性ボーナス+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">4</style>スタックまで可。"
+      "description": "対象<style=\"accent-gn\">1</style>体に命中すると<style=\"accent-gn\">3</style>秒間、光属性ボーナス+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">4</style>スタックまで。"
     },
     "1124": {
       "name": "勇敢な心",
@@ -61750,7 +61750,7 @@
     },
     "1154": {
       "name": "集中",
-      "description": "<linktext=1555><style=\"ItemQuality_5\">メンタルフォーカス</style></linktext>の有効中、<style=\"accent-gn\">>0.5</style>秒ごとに会心+<style=\"accent-gn\">0.5%</style>、会心ダメージ+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">15</style>スタックまで可。"
+      "description": "<linktext=1555><style=\"ItemQuality_5\">メンタルフォーカス</style></linktext>の有効中、<style=\"accent-gn\">>0.5</style>秒ごとに会心+<style=\"accent-gn\">0.5%</style>、会心ダメージ+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">15</style>スタックまで。"
     },
     "1155": {
       "name": "双矢極意",
@@ -62097,15 +62097,15 @@
       "description": "<style=\"accent-gn\">特殊攻撃</style>が消費する<style=\"accent-gn\">熱響</style>-<style=\"accent-gn\">1</style>。"
     },
     "1305": {
-      "name": "セッション・熱の核心",
+      "name": "奏鳴・熱核",
       "description": "<linktext=1133><style=\"ItemQuality_5\">奏鳴スキル</style></linktext>がHP<style=\"accent-gn\">50%</style>未満の味方対象に与える回復効果+<style=\"accent-gn\">100%</style>。"
     },
     "1306": {
-      "name": "フレアバースト [追撃]・初式",
+      "name": "追撃の炎爆",
       "description": "<style=\"accent-gn\">特殊攻撃</style>を<style=\"accent-gn\">3</style>回発動するごとに、次の<style=\"accent-gn\">通常攻撃</style>が命中した対象に<linktext=1190><style=\"ItemQuality_5\">火柱衝撃</style></linktext>を追加する。"
     },
     "1307": {
-      "name": "フレアバースト [追撃]・弐式",
+      "name": "追撃の炎爆［強化］",
       "description": "<linktext=1190><style=\"ItemQuality_5\">火柱衝撃</style></linktext>が2連撃に変わる。"
     },
     "1308": {
@@ -62113,11 +62113,11 @@
       "description": "<linktext=1603><style=\"ItemQuality_5\">フレイムラプソディー</style></linktext>状態時、任意の方法で取得した幸運確率+<style=\"accent-gn\">50%</style>。さらにダメージ軽減+<style=\"accent-gn\">25%</style>。<br><br><style=\"accent-gn\">小休止の癒し</style>：<style=\"accent-gn\">5</style>秒間、エネミー対象にダメージを与えなかった場合、自身の<style=\"accent-gn\">通常攻撃</style>が1段ごとに味方の最大<style=\"accent-gn\">10</style>名（パーティメンバー優先）のHPを回復する。攻撃4段の合計回復力は最大HPの<style=\"accent-gn\">15.75%</style>。究極スキルを発動すると、通常攻撃は直ちにHP回復を開始できるようになり、さらに<linktext=1615><style=\"ItemQuality_5\">バイオレントスイング</style></linktext>によって通常攻撃4段目のHP回復を発動できるようになる。エネミーにダメージを与えると無効になる。<br><br><i><style=\"text_third_gray\"><size=20>ブレイブメロディーとフレイムラプソディーの維持がカギ。ブレイブメロディーがもたらす回復効果が強化され、連続派生するバイオレントスイングがハーモニックアンセムの発動頻度をアップさせる。</size></style></i>"
     },
     "1309": {
-      "name": "ラッキーウェーブ",
+      "name": "幸運音波",
       "description": "<style=\"accent-gn\">マスタリースキル</style>、<linktext=1604><style=\"ItemQuality_5\">ハードディストーション</style></linktext>で幸運の一撃が発生すると、<style=\"accent-gn\">響波</style>+<style=\"accent-gn\">1</style>。"
     },
     "1310": {
-      "name": "三重ラプソディ",
+      "name": "散重狂想",
       "description": "<linktext=1603><style=\"ItemQuality_5\">フレイムラプソディー</style></linktext>が常に最強形態で出現する。<br><linktext=1603><style=\"ItemQuality_5\">フレイムラプソディー</style></linktext>状態時、自身の攻撃力+<style=\"accent-gn\">「ファスト%×0.6」</style>。"
     },
     "1311": {
@@ -62125,7 +62125,7 @@
       "description": "自身と<style=\"accent-gn\">30</style>m以内にいるパーティメンバーのブレイク効率+<style=\"accent-gn\">10%</style>（この効果はスタック不可）。<br><linktext=1614><style=\"ItemQuality_5\">ブレイブメロディー</style></linktext>発動後、自身と<style=\"accent-gn\">30</style>m以内にいるパーティメンバーのブレイク効率+<style=\"accent-gn\">30%</style>、さらにターゲットに対する最終ダメージ+<style=\"accent-gn\">15%</style>（この効果はスタック不可）。"
     },
     "1312": {
-      "name": "烈火ウェーブ",
+      "name": "音波烈火",
       "description": "攻撃力の<style=\"accent-gn\">10</style>倍のダメージを与えるたび、<style=\"accent-gn\">響波</style>+<style=\"accent-gn\">1</style>pt。<br><style=\"accent-gn\">響波</style>は<style=\"accent-gn\">50</style>ptまで累積可。<br><style=\"accent-gn\">熱響</style>を消費するスキルがダメージを与えると、<linktext=1191><style=\"ItemQuality_5\">烈火衝撃</style></linktext>を発動し、<style=\"accent-gn\">響波</style>を全てリセットする。<style=\"accent-gn\">響波</style><style=\"accent-gn\">1</style>ptにつき<linktext=1191><style=\"ItemQuality_5\">烈火衝撃</style></linktext>のダメージ+<style=\"accent-gn\">16%</style>。"
     },
     "1313": {
@@ -62310,7 +62310,7 @@
     },
     "1358": {
       "name": "漸進治癒和音",
-      "description": "<linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が<style=\"accent-gn\">1</style>秒持続するごとに回復量+<style=\"accent-gn\">7%</style>。<style=\"accent-gn\">5</style>スタックまで可。<br><linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が回復を与えると、対象の最大HPの<style=\"accent-gn\">0.3%</style>分の固定回復量を追加する。"
+      "description": "<linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が<style=\"accent-gn\">1</style>秒持続するごとに回復量+<style=\"accent-gn\">7%</style>。<style=\"accent-gn\">5</style>スタックまで。<br><linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が回復を与えると、対象の最大HPの<style=\"accent-gn\">0.3%</style>分の固定回復量を追加する。"
     },
     "1359": {
       "name": "会心の天秤",
@@ -65544,7 +65544,7 @@
       "name": "ボイス",
       "dialogue": "この世の理は、こんなふうに整然として、いささかの混乱もあってはならないのです。",
       "activeSkillName": "奥義！万象昇華",
-      "description": "<style=\"accent-gn\">召喚</style>したボイスがフロストパワーを集めてフロストエリアを生成し、氷属性<style=\"magic\">魔法ダメージ</style>を与える。<br>スキル発動後の一定時間、自身の<style=\"accent-gn\">攻撃力</style>がアップ。かつ、<style=\"accent-gn\">特殊攻撃</style>を発動するたび追加アップする。<style=\"accent-gn\">5スタック</style>まで可。スタック上限に達すると<style=\"accent-gn\">攻撃速度</style>と<style=\"accent-gn\">詠唱速度</style>ボーナスを獲得する。このボーナスは<style=\"accent-gn\">特殊攻撃</style>を発動し続ければ毎回<style=\"accent-gn\">3秒</style>延長される（追加延長は<style=\"accent-gn\">5回</style>まで。攻撃力ボーナスの持続時間は延長されない）。<br>スキルは<style=\"accent-gn\">2</style>回までチャージ可。",
+      "description": "<style=\"accent-gn\">召喚</style>したボイスがフロストパワーを集めてフロストエリアを生成し、氷属性<style=\"magic\">魔法ダメージ</style>を与える。<br>スキル発動後の一定時間、自身の<style=\"accent-gn\">攻撃力</style>がアップ。かつ、<style=\"accent-gn\">特殊攻撃</style>を発動するたび追加アップする。<style=\"accent-gn\">5スタック</style>まで。スタック上限に達すると<style=\"accent-gn\">攻撃速度</style>と<style=\"accent-gn\">詠唱速度</style>ボーナスを獲得する。このボーナスは<style=\"accent-gn\">特殊攻撃</style>を発動し続ければ毎回<style=\"accent-gn\">3秒</style>延長される（追加延長は<style=\"accent-gn\">5回</style>まで。攻撃力ボーナスの持続時間は延長されない）。<br>スキルは<style=\"accent-gn\">2</style>回までチャージ可。",
       "activeEffectParams": [
         [
           "合計ダメージ",
@@ -67109,12 +67109,12 @@
       "description": "ボス・狂悖の覇者を<style=\"accent-gn\">召喚</style>して<style=\"physical\">物理ダメージ</style>を与える。<br>スキル発動後の一定時間、パッシブ効果を上限まで獲得、かつ効果が<style=\"accent-gn\">2</style>倍になる。",
       "passiveBufDescriptions": [
         [
-          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">1.6%</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
-          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">2.08%</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
-          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">2.56%</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
-          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">3.04%</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
-          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">3.52%</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
-          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">4%</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される"
+          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">1.6%</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
+          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">2.08%</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
+          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">2.56%</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
+          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">3.04%</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
+          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">3.52%</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
+          "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">4%</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される"
         ]
       ],
       "activeEffectParams": [
@@ -67647,10 +67647,10 @@
       ]
     },
     "3981": {
-      "name": "プロビデンスアイ",
+      "name": "ヘヴンアイ",
       "dialogue": "skill_aoyi_advanced_texture025",
       "activeSkillName": "絶技！ロックオンショット",
-      "description": "精鋭・プロビデンスアイを<style=\"accent-gn\">召喚</style>して<style=\"physical\">物理ダメージ</style>を与える。<br>スキル発動後の一定時間、自身と周囲の味方最大<style=\"accent-gn\">10</style>名（パーティメンバー優先）が<style=\"accent-gn\">バリア</style>を得る。",
+      "description": "精鋭・ヘヴンアイを<style=\"accent-gn\">召喚</style>して<style=\"physical\">物理ダメージ</style>を与える。<br>スキル発動後の一定時間、自身と周囲の味方最大<style=\"accent-gn\">10</style>名（パーティメンバー優先）が<style=\"accent-gn\">バリア</style>を得る。",
       "activeEffectParams": [
         [
           "合計ダメージ",
@@ -67833,7 +67833,7 @@
           ]
         ],
         [
-          "「アクアメトリア」<brダメージ（1回）",
+          "「アクアメトリア」<br>ダメージ（1回）",
           [
             "1200%物理/魔法攻撃力+60",
             "1560%物理/魔法攻撃力+60",
@@ -68634,7 +68634,7 @@
     "2200180": "<linktext=1506><style=\"ItemQuality_5\">繚乱兜割</style></linktext>発動後の<style=\"accent-gn\">12</style>秒間、アビリティの迅雷電界、月影電禍、集中電界が<linktext=1106><style=\"ItemQuality_5\">電禍</style></linktext>を得る際、<style=\"accent-gn\">1</style>つ多く獲得する。",
     "2200200": "<linktext=1101><style=\"ItemQuality_5\">月刃</style></linktext>上限+<style=\"accent-gn\">1</style>。",
     "2200210": "<linktext=1503><style=\"ItemQuality_5\">迅雷連斬</style></linktext>を発動すると、<linktext=1167><style=\"ItemQuality_5\">刀意</style></linktext>を<style=\"accent-gn\">12</style>+幸運%×<style=\"accent-gn\">10</style>獲得する。",
-    "2200220": "自身が<style=\"accent-gn\">10</style>回ダメージを与えるごとに、<style=\"accent-gn\">雷の力</style>を発動する。 <style=\"accent-gn\">雷の力</style>：雷属性攻撃力+<style=\"accent-gn\">22</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで可。",
+    "2200220": "自身が<style=\"accent-gn\">10</style>回ダメージを与えるごとに、<style=\"accent-gn\">雷の力</style>を発動する。 <style=\"accent-gn\">雷の力</style>：雷属性攻撃力+<style=\"accent-gn\">22</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで。",
     "2200230": "<linktext=1167><style=\"ItemQuality_5\">刀意</style></linktext>上限+<style=\"accent-gn\">25</style>。 <linktext=1503><style=\"ItemQuality_5\">迅雷連斬</style></linktext>の1回の連撃中、毎回<style=\"accent-gn\">5</style>回目に強力な<linktext=1098><style=\"ItemQuality_5\">霹靂墜斬</style></linktext>を放ち、大ダメージを与える。",
     "2200240": "<linktext=1505><style=\"ItemQuality_5\">千雷</style></linktext>の持続中、<linktext=1101><style=\"ItemQuality_5\">月刃</style></linktext>の攻撃速度が2倍になる。",
     "2200250": "<style=\"accent-gn\">特殊攻撃</style>がダメージを与えると、エネミーに<style=\"accent-gn\">雷呪</style>を付与する。 <style=\"accent-gn\">雷呪</style>：1スタックにつき自身がエネミー対象に与えるダメージ+<style=\"accent-gn\">2%</style>。持続<style=\"accent-gn\">10</style>秒、最大<style=\"accent-gn\">4</style>スタックまで。",
@@ -68659,7 +68659,7 @@
     "2200460": "任意の方法で取得した会心が一定確率で+<style=\"accent-gn\">12%</style>。但し、任意の方法で取得した幸運が一定確率で-<style=\"accent-gn\">10%</style>。",
     "2200470": "<linktext=1167><style=\"ItemQuality_5\">刀意</style></linktext><style=\"accent-gn\">100</style>以上の場合、<linktext=1501><style=\"ItemQuality_5\">一閃</style></linktext>、<linktext=1554><style=\"ItemQuality_5\">飛雷</style></linktext>とその強化スキル（<linktext=1584><style=\"ItemQuality_5\">墜竜閃</style></linktext>、<linktext=1585><style=\"ItemQuality_5\">瞬影斬</style></linktext>）の会心+<style=\"accent-gn\">10%</style>、雷属性ダメージ+<style=\"accent-gn\">20%</style>。 <linktext=1167><style=\"ItemQuality_5\">刀意</style></linktext><style=\"accent-gn\">100</style>以上の場合、<linktext=1501><style=\"ItemQuality_5\">一閃</style></linktext>、<linktext=1554><style=\"ItemQuality_5\">飛雷</style></linktext>の発動速度が大幅にアップする。",
     "2200480": "<style=\"accent-gn\">マスタリースキル</style>、<style=\"accent-gn\">特殊攻撃</style>がダメージを与えると、<linktext=1104><style=\"ItemQuality_5\">雷印</style></linktext>を<style=\"accent-gn\">1</style>つ消費するたび雷属性ボーナス+<style=\"accent-gn\">1.5%</style>。",
-    "2200490": "<linktext=1584><style=\"ItemQuality_5\">墜竜閃</style></linktext>、<linktext=1585><style=\"ItemQuality_5\">瞬影斬</style></linktext>を発動するたび<style=\"accent-gn\">雷圧</style>+<style=\"accent-gn\">4</style>スタック。<style=\"accent-gn\">雷圧</style>は<style=\"accent-gn\">8</style>スタックまで可。",
+    "2200490": "<linktext=1584><style=\"ItemQuality_5\">墜竜閃</style></linktext>、<linktext=1585><style=\"ItemQuality_5\">瞬影斬</style></linktext>を発動するたび<style=\"accent-gn\">雷圧</style>+<style=\"accent-gn\">4</style>スタック。<style=\"accent-gn\">雷圧</style>は<style=\"accent-gn\">8</style>スタックまで。",
     "2200500": "<linktext=1556><style=\"ItemQuality_5\">彼岸</style></linktext>のリキャスト-<style=\"accent-gn\">30%</style>。",
     "2200510": "<linktext=1500><style=\"ItemQuality_5\">雷刃抜刀</style></linktext>が会心ダメージを与えた時に<linktext=1167><style=\"ItemQuality_5\">刀意</style></linktext>が<style=\"accent-gn\">20</style>ptを超えていた場合、<linktext=1100><style=\"ItemQuality_5\">雷撃</style></linktext>を発動する（<linktext=1500><style=\"ItemQuality_5\">雷刃抜刀</style></linktext>を発動するたび最大1回発動する）。",
     "2200520": "<linktext=1104><style=\"ItemQuality_5\">雷印</style></linktext>上限+<style=\"accent-gn\">1</style>。",
@@ -68708,7 +68708,7 @@
     "2201290": "<linktext=1135><style=\"ItemQuality_5\">憤怒</style></linktext>状態のとき、物理防御力+<style=\"accent-gn\">30%</style>。ただし、毎秒-<style=\"accent-gn\">5%</style>。",
     "2201300": "自身から<style=\"accent-gn\">3</style>m以内にいるエネミー1体につき<linktext=1122><style=\"ItemQuality_5\">抑圧</style></linktext>効果+<style=\"accent-gn\">3%</style>（最大<style=\"accent-gn\">15%</style>まで。精鋭以上の対象には効果2倍）。",
     "2201310": "<style=\"accent-gn\">怒り</style>消費時、一定確率で自身が<style=\"accent-gn\">5</style>秒間<linktext=1135><style=\"ItemQuality_5\">憤怒</style></linktext>状態になる。消費する<style=\"accent-gn\">怒り</style>が多いほど確率がアップする（怒りを<style=\"accent-gn\">1</style><style=\"accent-gn\">消費するたび</style>確率+<style=\"accent-gn\">1%</style>）。",
-    "2201330": "<linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>の威力を強化し続ける。 <linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>がエネミー<style=\"accent-gn\">1</style>体に命中するたびダメージ+<style=\"accent-gn\">30%</style>（最大は+<style=\"accent-gn\">150%</style>）。 攻撃を受けると、全属性ダメージ軽減+<style=\"accent-gn\">0.6%</style>。持続<style=\"accent-gn\">4</style>秒、<style=\"accent-gn\">10</style>スタックまで可。この効果は器用さ<style=\"accent-gn\">1%</style>につき+<style=\"accent-gn\">2%</style>。 <i><style=\"text_third_gray\"><size=20>できるだけバリアを維持して受けるダメージを軽減しつつ、バリアがあるうちに各種効果を付与しよう。</size></style></i>",
+    "2201330": "<linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>の威力を強化し続ける。 <linktext=1540><style=\"ItemQuality_5\">砕刃の猛撃</style></linktext>がエネミー<style=\"accent-gn\">1</style>体に命中するたびダメージ+<style=\"accent-gn\">30%</style>（最大は+<style=\"accent-gn\">150%</style>）。 攻撃を受けると、全属性ダメージ軽減+<style=\"accent-gn\">0.6%</style>。持続<style=\"accent-gn\">4</style>秒、<style=\"accent-gn\">10</style>スタックまで。この効果は器用さ<style=\"accent-gn\">1%</style>につき+<style=\"accent-gn\">2%</style>。 <i><style=\"text_third_gray\"><size=20>できるだけバリアを維持して受けるダメージを軽減しつつ、バリアがあるうちに各種効果を付与しよう。</size></style></i>",
     "2201340": "<linktext=1536><style=\"ItemQuality_5\">岩堅・崩裂の廻刃</style></linktext>が、<style=\"accent-gn\">5</style>秒持続する<linktext=1137><style=\"ItemQuality_5\">砂石圏</style></linktext>を生成する。",
     "2201350": "<linktext=1169><style=\"ItemQuality_5\">怒撃</style></linktext>でダメージを与えたとき、<linktext=1543><style=\"ItemQuality_5\">勇壮砦壁</style></linktext>のリキャスト-<style=\"accent-gn\">3</style>秒。 <linktext=1543><style=\"ItemQuality_5\">勇壮砦壁</style></linktext>を発動すると直ちに最大HPの<style=\"accent-gn\">50%</style>を回復し、上限を超えた回復量はバリア（10秒間持続）に変換される。",
     "2201360": "<linktext=1543><style=\"ItemQuality_5\">勇壮砦壁</style></linktext>で<linktext=1538><style=\"ItemQuality_5\">護刃の衝撃</style></linktext>、<linktext=1539><style=\"ItemQuality_5\">岩塊撃</style></linktext>を発動すると、<linktext=1136><style=\"ItemQuality_5\">晶義激震</style></linktext>を発動する。",
@@ -68724,7 +68724,7 @@
     "2201460": "<linktext=1123><style=\"ItemQuality_5\">弱点攻撃</style></linktext>発動時、<linktext=1124><style=\"ItemQuality_5\">剛身強化</style></linktext>効果を獲得する。",
     "2201470": "<linktext=1542><style=\"ItemQuality_5\">巨岩躯体</style></linktext>の有効中、受ける全ダメージ-<style=\"accent-gn\">10%</style>。",
     "2201480": "バリア強度+<style=\"accent-gn\">10%</style>。 <linktext=1541><style=\"ItemQuality_5\">砂塵外套</style></linktext>状態時、バリア強度+<style=\"accent-gn\">10%</style>。",
-    "2201490": "<style=\"accent-gn\">マスタリースキル</style>、<style=\"accent-gn\">特殊攻撃</style>で対象を<style=\"accent-gn\">1</style>回攻撃するごとに、<style=\"accent-gn\">5</style>秒間<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">10</style>スタックまで可。効果を<style=\"accent-gn\">10</style>スタック保有済みの場合は、<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">10%</style>に変更される。持続<style=\"accent-gn\">8</style>秒。有効中は次の<style=\"accent-gn\">マスタリースキル</style>が与えたダメージの<style=\"accent-gn\">20%</style>で自身のHPを回復するが、引き続き<style=\"accent-gn\">筋力</style>をスタックすることはできない。",
+    "2201490": "<style=\"accent-gn\">マスタリースキル</style>、<style=\"accent-gn\">特殊攻撃</style>で対象を<style=\"accent-gn\">1</style>回攻撃するごとに、<style=\"accent-gn\">5</style>秒間<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">10</style>スタックまで。効果を<style=\"accent-gn\">10</style>スタック保有済みの場合は、<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">10%</style>に変更される。持続<style=\"accent-gn\">8</style>秒。有効中は次の<style=\"accent-gn\">マスタリースキル</style>が与えたダメージの<style=\"accent-gn\">20%</style>で自身のHPを回復するが、引き続き<style=\"accent-gn\">筋力</style>をスタックすることはできない。",
     "2201500": "<style=\"accent-gn\">晶義</style>を<style=\"accent-gn\">20</style>個消費するたび、<linktext=1537><style=\"ItemQuality_5\">砕星衝</style></linktext>が<linktext=1594><style=\"ItemQuality_5\">砕星の鉄槌</style></linktext>に派生する。",
     "2201510": "<linktext=1594><style=\"ItemQuality_5\">砕星の鉄槌</style></linktext>を発動すると<style=\"accent-gn\">岩身</style>を獲得する。 <style=\"accent-gn\">岩身</style>：<style=\"accent-gn\">15</style>秒間、<style=\"accent-gn\">通常攻撃</style>が<linktext=1595><style=\"ItemQuality_5\">断裂の鉄槌</style></linktext>に、<linktext=1544><style=\"ItemQuality_5\">憤怒の剛撃</style></linktext>が<linktext=1134><style=\"ItemQuality_5\">地崩の山摧</style></linktext>にそれぞれ<style=\"accent-gn\">1</style>回派生する。 <style=\"accent-gn\">岩身</style>開放後の<style=\"accent-gn\">10</style>秒間は岩属性ボーナス+<style=\"accent-gn\">10%</style>。",
     "2201520": "<linktext=1537><style=\"ItemQuality_5\">砕星衝</style></linktext>、<linktext=1594><style=\"ItemQuality_5\">砕星の鉄槌</style></linktext>が対象を倒すと、<linktext=1537><style=\"ItemQuality_5\">砕星衝</style></linktext>のチャージが直ちに<style=\"accent-gn\">1</style>スタック回復する。",
@@ -68824,7 +68824,7 @@
     "2203040": "<style=\"accent-gn\">臣狼</style>が自身に追従して戦う。<linktext=1601><style=\"ItemQuality_5\">ハウリングボルト</style></linktext>使用時、<style=\"accent-gn\">30%</style>の固定確率で<style=\"accent-gn\">協力攻撃</style>を発動する。 <style=\"accent-gn\">臣狼</style> <style=\"accent-gn\">臣狼</style>が自身と協力して戦う。 <style=\"accent-gn\">通常攻撃</style>：エネミーを横薙ぎして攻撃力の<style=\"accent-gn\">60%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。 <style=\"accent-gn\">協力攻撃</style>：<style=\"accent-gn\">臣狼</style>が対象に飛びかかって噛みつき、攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。",
     "2203050": "<style=\"accent-gn\">特殊攻撃</style>を<style=\"accent-gn\">15</style>回発動するたび、次の<linktext=1550><style=\"ItemQuality_5\">アローレイン</style></linktext>が獲得する<style=\"accent-gn\">閃心</style>+<style=\"accent-gn\">100%</style>。",
     "2203060": "<linktext=1549><style=\"ItemQuality_5\">ワイルドコール</style></linktext>の有効中、<style=\"accent-gn\">臣狼</style>の攻撃が対象に命中すると必ず会心になる。",
-    "2203070": "<style=\"accent-gn\">臣狼</style>が会心ダメージを与えると、自身と野獣のファスト+<style=\"accent-gn\">2%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。 ファストが<style=\"accent-gn\">35%</style>を超えると、超過したファスト<style=\"accent-gn\">1%</style>につき、攻撃力+<style=\"accent-gn\">0.2%</style>。",
+    "2203070": "<style=\"accent-gn\">臣狼</style>が会心ダメージを与えると、自身と野獣のファスト+<style=\"accent-gn\">2%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで。 ファストが<style=\"accent-gn\">35%</style>を超えると、超過したファスト<style=\"accent-gn\">1%</style>につき、攻撃力+<style=\"accent-gn\">0.2%</style>。",
     "2203080": "<linktext=1138><style=\"ItemQuality_5\">閃心強化</style></linktext>状態が毎秒消費する<style=\"accent-gn\">閃心</style>が<style=\"accent-gn\">25</style>ptから<style=\"accent-gn\">20</style>ptに減少し、<linktext=1138><style=\"ItemQuality_5\">閃心強化</style></linktext>の持続時間を延長する。この効果は狼弓型使用時でも不変。 鷹弓型使用時の効果：<style=\"accent-gn\">閃心</style>の回復量が毎秒<style=\"accent-gn\">2</style>ptから<style=\"accent-gn\">3</style>ptにアップし、時間に応じて<linktext=1138><style=\"ItemQuality_5\">閃心強化</style></linktext>状態に入る速度が加速される。",
     "2203090": "<style=\"accent-gn\">臣狼</style>が<style=\"accent-gn\">協力攻撃</style>、<linktext=1139><style=\"ItemQuality_5\">掃撃</style></linktext>を発動すると、<style=\"accent-gn\">30%</style>の固定確率で<style=\"accent-gn\">幻影魔狼</style>を召喚し、<linktext=1140><style=\"ItemQuality_5\">咬撃</style></linktext>を発動する。 <linktext=1140><style=\"ItemQuality_5\">咬撃</style></linktext>は必ず<linktext=1141><style=\"ItemQuality_5\">HP流失</style></linktext>を付与し、対象がすでに<linktext=1141><style=\"ItemQuality_5\">HP流失</style></linktext>状態の場合は<linktext=1140><style=\"ItemQuality_5\">咬撃</style></linktext>が必ず会心になる。",
     "2203100": "<style=\"accent-gn\">臣狼</style>の<style=\"accent-gn\">協力攻撃</style>が<style=\"accent-gn\">50%</style>の固定確率で<linktext=1141><style=\"ItemQuality_5\">HP流失</style></linktext>を付与する。",
@@ -68840,7 +68840,7 @@
     "2203200": "<linktext=1547><style=\"ItemQuality_5\">ストライクボルト</style></linktext>、<linktext=1557><style=\"ItemQuality_5\">クアッドブラスト</style></linktext>の会心+<style=\"accent-gn\">7%</style>。",
     "2203210": "<style=\"accent-gn\">臣鷹</style>の攻撃が対象の物理防御力を<style=\"accent-gn\">30%</style>無視する。",
     "2203220": "会心<style=\"accent-gn\">1%</style>につき会心ダメージ+<style=\"accent-gn\">0.5%</style>。 <linktext=1547><style=\"ItemQuality_5\">ストライクボルト</style></linktext>、<linktext=1557><style=\"ItemQuality_5\">クアッドブラスト</style></linktext>が会心になると<style=\"accent-gn\">閃心</style>+<style=\"accent-gn\">2</style>pt。",
-    "2203230": "対象<style=\"accent-gn\">1</style>体に命中すると<style=\"accent-gn\">3</style>秒間、光属性ボーナス+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">4</style>スタックまで可。",
+    "2203230": "対象<style=\"accent-gn\">1</style>体に命中すると<style=\"accent-gn\">3</style>秒間、光属性ボーナス+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">4</style>スタックまで。",
     "2203240": "臣獣が精鋭以上の対象に与えるダメージ+<style=\"accent-gn\">15%</style>。",
     "2203250": "<style=\"accent-gn\">通常攻撃</style>がダメージを与えると、<style=\"accent-gn\">5%</style>の固定確率で<style=\"accent-gn\">特殊攻撃</style>が1回チャージされる。但し、チャージ回数上限は超えられない。",
     "2203260": "<linktext=1601><style=\"ItemQuality_5\">ハウリングボルト</style></linktext>および<style=\"accent-gn\">臣狼</style>との協力戦闘の威力を強化し続ける。 <linktext=1601><style=\"ItemQuality_5\">ハウリングボルト</style></linktext>が会心ダメージを与えると、最後まで<style=\"accent-gn\">200%</style>の会心ダメージを与える。 <linktext=1138><style=\"ItemQuality_5\">閃心強化</style></linktext>状態のとき、<style=\"accent-gn\">臣狼</style>の<style=\"accent-gn\">協力攻撃</style>発動確率が<style=\"accent-gn\">100%</style>になる。 <i><style=\"text_third_gray\"><size=20>臣狼が強化され、ファストによって自身と臣狼の攻撃がより頻繁になる。</size></style></i>",
@@ -68870,7 +68870,7 @@
     "2203510": "<linktext=1549><style=\"ItemQuality_5\">ワイルドコール</style></linktext>発動後の<style=\"accent-gn\">10</style>秒間に同スキルを再発動すると、フィールドの全野獣に命令して直ちに<linktext=1145><style=\"ItemQuality_5\">踏撃</style></linktext>を発動させることができる。",
     "2203520": "自身と<style=\"accent-gn\">臣鷹</style>が会心ダメージを与えると、対象に<linktext=1148><style=\"ItemQuality_5\">弓心</style></linktext>を<style=\"accent-gn\">1</style>スタック付加する。 <linktext=1148><style=\"ItemQuality_5\">弓心</style></linktext><style=\"accent-gn\">10</style>スタックごとに<linktext=1143><style=\"ItemQuality_5\">雷撃衝撃</style></linktext>を発動する。<style=\"accent-gn\">3</style>秒ごとに最大1回発動。",
     "2203530": "<style=\"accent-gn\">内部破裂</style>が<style=\"accent-gn\">5</style>回発動するたびに、<linktext=1150><style=\"ItemQuality_5\">幻影の臣鷹</style></linktext>を1羽召喚して対象に突進させる。<linktext=1150><style=\"ItemQuality_5\">幻影の臣鷹</style></linktext>が追加で対象に1体命中するごとに、ダメージ+<style=\"accent-gn\">20%</style>、最大で+<style=\"accent-gn\">200%</style>まで。",
-    "2203540": "<linktext=1555><style=\"ItemQuality_5\">メンタルフォーカス</style></linktext>の有効中、<style=\"accent-gn\">>0.5</style>秒ごとに会心+<style=\"accent-gn\">0.5%</style>、会心ダメージ+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">15</style>スタックまで可。",
+    "2203540": "<linktext=1555><style=\"ItemQuality_5\">メンタルフォーカス</style></linktext>の有効中、<style=\"accent-gn\">>0.5</style>秒ごとに会心+<style=\"accent-gn\">0.5%</style>、会心ダメージ+<style=\"accent-gn\">1%</style>。<style=\"accent-gn\">15</style>スタックまで。",
     "2203550": "<style=\"accent-gn\">特殊攻撃</style>が会心になると、<linktext=1548><style=\"ItemQuality_5\">ブラストショット</style></linktext>、<linktext=1582><style=\"ItemQuality_5\">チャージショット</style></linktext>の残りリキャスト-<style=\"accent-gn\">1</style>秒。",
     "2203560": "<linktext=1547><style=\"ItemQuality_5\">ストライクボルト</style></linktext>、<linktext=1557><style=\"ItemQuality_5\">クアッドブラスト</style></linktext>の会心ダメージ+<style=\"accent-gn\">15%</style>。",
     "2203570": "<linktext=1581><style=\"ItemQuality_5\">エナジーショット</style></linktext>が命中すると、対象に<style=\"accent-gn\">パラリシス</style>を付与する。 <style=\"accent-gn\">パラリシス</style>：移動速度-<style=\"accent-gn\">30%</style>。<linktext=1582><style=\"ItemQuality_5\">チャージショット</style></linktext>が命中すると必ず会心になる。持続<style=\"accent-gn\">5</style>秒。",
@@ -68894,7 +68894,7 @@
     "2204080": "<style=\"accent-gn\">氷晶コア</style>が放った<style=\"accent-gn\">氷矢</style>で会心が発生したとき、追加で攻撃力の<style=\"accent-gn\">28%</style>の<style=\"magic\">魔法ダメージ</style>を1回与える。このダメージは幸運の一撃を発動できる。",
     "2204090": "<style=\"accent-gn\">凍源</style>上限+<style=\"accent-gn\">40</style>。",
     "2204100": "<linktext=1558><style=\"ItemQuality_5\">メイルストローム</style></linktext>の<style=\"accent-gn\">凍源</style>回復効率+<style=\"accent-gn\">200%</style>。",
-    "2204110": "<linktext=1514><style=\"ItemQuality_5\">フローズンストーム</style></linktext>が対象に命中すると（複数対象に命中しても発動するのは1回のみ）、すべての<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を消費して<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>を召喚する（<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>数は消費した<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>数と同じ）。 <linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>がダメージを与えると<style=\"accent-gn\">凍源</style>+<style=\"accent-gn\">5</style>pt。かつ、以後<style=\"accent-gn\">15</style>秒間にスキルが消費する<style=\"accent-gn\">凍源</style>-<style=\"accent-gn\">3</style>%。<style=\"accent-gn\">6</style>スタックまで可。",
+    "2204110": "<linktext=1514><style=\"ItemQuality_5\">フローズンストーム</style></linktext>が対象に命中すると（複数対象に命中しても発動するのは1回のみ）、すべての<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を消費して<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>を召喚する（<linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>数は消費した<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>数と同じ）。 <linktext=1162><style=\"ItemQuality_5\">落氷</style></linktext>がダメージを与えると<style=\"accent-gn\">凍源</style>+<style=\"accent-gn\">5</style>pt。かつ、以後<style=\"accent-gn\">15</style>秒間にスキルが消費する<style=\"accent-gn\">凍源</style>-<style=\"accent-gn\">3</style>%。<style=\"accent-gn\">6</style>スタックまで。",
     "2204130": "<style=\"accent-gn\">凍源</style>を<style=\"accent-gn\">25</style>pt消費するたび、<linktext=1510><style=\"ItemQuality_5\">ウォータースフィア</style></linktext>の残りリキャスト-<style=\"accent-gn\">1</style>秒。",
     "2204140": "<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を消費して発動した<linktext=1512><style=\"ItemQuality_5\">フロストファング</style></linktext>がダメージを与えると、<style=\"accent-gn\">21%</style>の固定確率で<linktext=1165><style=\"ItemQuality_5\">氷慧</style></linktext>を召喚する。",
     "2204150": "<linktext=1512><style=\"ItemQuality_5\">フロストファング</style></linktext>で会心と幸運の一撃が同時発生した場合、<linktext=1511><style=\"ItemQuality_5\">メテオストーム</style></linktext>を直ちにリキャストする。すでにリキャスト済みだった場合は<linktext=1511><style=\"ItemQuality_5\">メテオストーム</style></linktext>を自動発動する（但し、そのダメージは半減）。1.5秒間に最大3回まで発動可能（攻撃速度の影響を受ける）。",
@@ -68932,7 +68932,7 @@
     "2204470": "<linktext=1515><style=\"ItemQuality_5\">パーマフロスト</style></linktext>の有効中、会心ダメージ+<style=\"accent-gn\">15%</style>。 かつ、パーティメンバーの会心確率+<style=\"accent-gn\">3%</style>。",
     "2204480": "<style=\"accent-gn\">知力</style><style=\"accent-gn\">265</style>ptにつき会心ダメージ+<style=\"accent-gn\">0.5%</style>。",
     "2204490": "<linktext=1513><style=\"ItemQuality_5\">ブリザード</style></linktext>の会心+<style=\"accent-gn\">50%</style>。 <linktext=1513><style=\"ItemQuality_5\">ブリザード</style></linktext>の会心ダメージ+<style=\"accent-gn\">15%</style>。",
-    "2204500": "<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を<style=\"accent-gn\">1</style>個消費するたび<style=\"accent-gn\">>知力</style>+<style=\"accent-gn\">55</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。",
+    "2204500": "<linktext=1161><style=\"ItemQuality_5\">玄氷</style></linktext>を<style=\"accent-gn\">1</style>個消費するたび<style=\"accent-gn\">>知力</style>+<style=\"accent-gn\">55</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで。",
     "2204510": "<linktext=1513><style=\"ItemQuality_5\">ブリザード</style></linktext>が対象に命中すると、その氷属性耐性-<style=\"accent-gn\">10%</style>。持続<style=\"accent-gn\">10</style>秒、スタック不可（自身にのみ有効）。",
     "2204520": "幸運の一撃ダメージ倍率+<style=\"accent-gn\">15%</style>。 幸運<style=\"accent-gn\">2%</style>につき幸運の一撃ダメージ倍率+<style=\"accent-gn\">1%</style>。",
     "2204530": "<linktext=1515><style=\"ItemQuality_5\">パーマフロスト</style></linktext>の有効中、<linktext=1509><style=\"ItemQuality_5\">フロストレイ</style></linktext>の消費-<style=\"accent-gn\">25%</style>。",
@@ -68996,7 +68996,7 @@
     "2205450": "<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>の有効中、<linktext=1102><style=\"ItemQuality_5\">剛体</style></linktext>を獲得し、受けるダメージ-<style=\"accent-gn\">20%</style>。 <linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>がダメージを与えると、HPを攻撃力の<style=\"accent-gn\">10%</style>分回復する。",
     "2205460": "ファスト<style=\"accent-gn\">1%</style>につき<style=\"accent-gn\">勇心</style>の自然回復速度+<style=\"accent-gn\">2%</style>。",
     "2205470": "<style=\"accent-gn\">勇心</style>を消費するスキル（<linktext=1523><style=\"ItemQuality_5\">螺旋撃</style></linktext>とその強化スキル、<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>、<linktext=1524><style=\"ItemQuality_5\">飛鳥投</style></linktext>とその強化スキル、<linktext=1517><style=\"ItemQuality_5\">烈風撃</style></linktext>）の風属性ボーナス+<style=\"accent-gn\">6%</style>。",
-    "2205480": "<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>がダメージを与えると、<linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>の会心確率+<style=\"accent-gn\">7%</style>、会心ダメージ+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">5</style>秒、<style=\"accent-gn\">7</style>スタックまで可。",
+    "2205480": "<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>がダメージを与えると、<linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>の会心確率+<style=\"accent-gn\">7%</style>、会心ダメージ+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">5</style>秒、<style=\"accent-gn\">7</style>スタックまで。",
     "2205490": "<linktext=1518><style=\"ItemQuality_5\">勇心風環</style></linktext>がダメージを与えると（複数の対象に命中しても有効なのは<style=\"accent-gn\">1</style>回のみ）、究極スキルの残りリキャスト-<style=\"accent-gn\">0.5</style>秒。",
     "2205500": "<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>を発動すると、以後<style=\"accent-gn\">10</style>秒間ファスト+<style=\"accent-gn\">25%</style>。",
     "2205510": "<linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>で会心が発生する確率が2倍になる。 <linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>の会心ダメージ+<style=\"accent-gn\">8%</style>。 ファスト<style=\"accent-gn\">1%</style>につき<linktext=1591><style=\"ItemQuality_5\">龍撃陣</style></linktext>、<linktext=1590><style=\"ItemQuality_5\">瞬影螺旋</style></linktext>の会心ダメージ+<style=\"accent-gn\">0.5%</style>。",
@@ -69007,7 +69007,7 @@
     "2205560": "<linktext=1187><style=\"ItemQuality_5\">風怒</style></linktext>の有効中、<linktext=1524><style=\"ItemQuality_5\">飛鳥投</style></linktext>が<style=\"accent-gn\">1</style>回<linktext=1589><style=\"ItemQuality_5\">嵐斬</style></linktext>に派生する。",
     "2205570": "<linktext=1152><style=\"ItemQuality_5\">鋭利</style></linktext>上限+<style=\"accent-gn\">1</style>。",
     "2205580": "<linktext=1520><style=\"ItemQuality_5\">飛燕乱</style></linktext>がダメージを与えると、<style=\"accent-gn\">15%</style>の固定確率で<linktext=1152><style=\"ItemQuality_5\">鋭利</style></linktext>を<style=\"accent-gn\">1</style>スタック追加獲得する。",
-    "2205590": "<linktext=1157><style=\"ItemQuality_5\">追撃身法</style></linktext>を消費すると、以後<style=\"accent-gn\">10</style>秒間の<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">15%</style>。<style=\"accent-gn\">2</style>スタックまで可。",
+    "2205590": "<linktext=1157><style=\"ItemQuality_5\">追撃身法</style></linktext>を消費すると、以後<style=\"accent-gn\">10</style>秒間の<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">15%</style>。<style=\"accent-gn\">2</style>スタックまで。",
     "2205600": "<linktext=1553><style=\"ItemQuality_5\">風姿卓絶</style></linktext>の有効中<linktext=1519><style=\"ItemQuality_5\">刹那</style></linktext>、<linktext=1520><style=\"ItemQuality_5\">飛燕乱</style></linktext>のダメージ+<style=\"accent-gn\">25%</style>。",
     "2205610": "<linktext=1521><style=\"ItemQuality_5\">鋭利衝</style></linktext>が強化され、<linktext=1159><style=\"ItemQuality_5\">風陣・鋭利衝</style></linktext>に変わる。",
     "2205620": "<linktext=1519><style=\"ItemQuality_5\">刹那</style></linktext>が消費する<linktext=1152><style=\"ItemQuality_5\">鋭利</style></linktext>+<style=\"accent-gn\">1</style>。 <linktext=1519><style=\"ItemQuality_5\">刹那</style></linktext>のダメージ+<style=\"accent-gn\">90%</style>。",
@@ -69142,7 +69142,7 @@
     "2207560": "<linktext=1608><style=\"ItemQuality_5\">パッショネート</style></linktext>およびその強化スキル（<linktext=1617><style=\"ItemQuality_5\">レイジパッショネート</style></linktext>）がスピーカーに命中したとき、スピーカーは直ちに<linktext=1197><style=\"ItemQuality_5\">フレイムショック</style></linktext>を1回放つ。",
     "2207570": "<linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>発動時、<linktext=1607><style=\"ItemQuality_5\">サージクインテット</style></linktext>にダメージ効果が付与され、合計ダメージ倍率が回復倍率と等しくなる。 かつ、自身の受けるダメージ<style=\"accent-gn\">-（10%+ファスト%×0.4）（最大で計-30%）</style>。",
     "2207580": "スピーカーが発動させたスキルのダメージと回復効果+<style=\"accent-gn\">30%</style>。",
-    "2207590": "<linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が<style=\"accent-gn\">1</style>秒持続するごとに回復量+<style=\"accent-gn\">7%</style>。<style=\"accent-gn\">5</style>スタックまで可。 <linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が回復を与えると、対象の最大HPの<style=\"accent-gn\">0.3%</style>分の固定回復量を追加する。",
+    "2207590": "<linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が<style=\"accent-gn\">1</style>秒持続するごとに回復量+<style=\"accent-gn\">7%</style>。<style=\"accent-gn\">5</style>スタックまで。 <linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>が回復を与えると、対象の最大HPの<style=\"accent-gn\">0.3%</style>分の固定回復量を追加する。",
     "2207600": "HPが<style=\"accent-gn\">50%</style>以上のエネミーターゲットに対する会心+<style=\"accent-gn\">10%</style>。 HPが<style=\"accent-gn\">50%</style>未満の味方ターゲットに対する会心+<style=\"accent-gn\">10%</style>。",
     "2207610": "<linktext=1606><style=\"ItemQuality_5\">ヒーリングメロディー</style></linktext>の効果を受けているターゲットに対する回復量+<style=\"accent-gn\">10%</style>。",
     "2207620": "与えるダメージの<style=\"accent-gn\">7%</style>と与える回復の<style=\"accent-gn\">15%</style>がリズムとして蓄積される。<linktext=1610><style=\"ItemQuality_5\">スポットライト</style></linktext>使用後の<style=\"accent-gn\">10</style>秒間、<style=\"accent-gn\">マスタリースキル</style>、<linktext=1609><style=\"ItemQuality_5\">コーラスヒーリング</style></linktext>を発動するとリズムを消費し、最大<style=\"accent-gn\">40%</style>の追加回復効果を与える。リズムの蓄積上限は魔法攻撃力の<style=\"accent-gn\">30</style>倍まで。",
@@ -69166,7 +69166,7 @@
     "2208120": "対象の失ったHPに応じてアビリティ「緋炎追撃」の効果を強化する。 対象のHPが<style=\"accent-gn\">80%</style>未満だった場合に発動し、基本効果+<style=\"accent-gn\">30%</style>。 対象のHPが低いほどボーナスが増え、HPが<style=\"accent-gn\">30%</style>まで低下すると、ボーナスが最大値の<style=\"accent-gn\">100%</style>に達する。",
     "2208130": "異なる<style=\"accent-gn\">特殊攻撃</style>、<style=\"accent-gn\">マスタリースキル</style>を発動することで、<style=\"accent-gn\">双炎ランク</style>をEからSまで上昇させることができる（全<style=\"accent-gn\">6</style>段階）。その持続する<style=\"accent-gn\">8</style>秒間、<style=\"accent-gn\">1</style>段階ごとに<linktext=1622><style=\"ItemQuality_5\">ツインラッシュ</style></linktext>、<linktext=1623><style=\"ItemQuality_5\">ラースアクス</style></linktext>、<linktext=1624><style=\"ItemQuality_5\">アクススパイラル</style></linktext>に<style=\"accent-gn\">2%</style>のリキャスト加速を付与する。 <i><style=\"text_third_gray\"><size=20>双炎ランクを発動してリキャストを加速させ、ツインラッシュに繋げてマスタリースキルダメージを上昇させ、さらにイラプションというコアメカニズムと組み合わせることで高火力のコンボダメージを叩き出す。</size></style></i>",
     "2208140": "<linktext=1622><style=\"ItemQuality_5\">ツインラッシュ</style></linktext>を発動した後、次の<style=\"accent-gn\">マスタリースキル</style>の最終ダメージ+<style=\"accent-gn\">20%</style>、ただし会心確率は半減する。",
-    "2208150": "<style=\"accent-gn\">双炎ランク</style>を<style=\"accent-gn\">6</style>回獲得するか、<linktext=1625><style=\"ItemQuality_5\">バーニングギア</style></linktext>を発動するごとに、<linktext=1619><style=\"ItemQuality_5\">スパイラルブロウ</style></linktext>が<linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>に派生する。 <linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>を発動した後、<linktext=1212><style=\"ItemQuality_5\">灼炎</style></linktext>を獲得する。",
+    "2208150": "<style=\"accent-gn\">双炎ランク</style>を<style=\"accent-gn\">6</style>回獲得するか、<linktext=1625><style=\"ItemQuality_5\">バーニングギア</style></linktext>を発動するごとに、<linktext=1619><style=\"ItemQuality_5\">スパイラルブロウ</style></linktext>が<linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>に派生する。 <linktext=1620><style=\"ItemQuality_5\">クリムゾンブロウ</style></linktext>を発動した後、<linktext=1212><style=\"ItemQuality_5\">熾炎</style></linktext>を獲得する。",
     "2208160": "<style=\"accent-gn\">双炎ランク</style>獲得時、<linktext=1622><style=\"ItemQuality_5\">ツインラッシュ</style></linktext>、<linktext=1623><style=\"ItemQuality_5\">ラースアクス</style></linktext>、<linktext=1624><style=\"ItemQuality_5\">アクススパイラル</style></linktext>のうち、残りリキャストが最も長いスキルのリキャスト-<style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>秒。",
     "2208170": "<linktext=1212><style=\"ItemQuality_5\">熾炎</style></linktext>状態のとき、<style=\"accent-gn\">マスタリースキル</style>がメイン対象に命中すると、<linktext=1213><style=\"ItemQuality_5\">鬼火</style></linktext>を付与する。",
     "2208180": "ターゲットに<linktext=1213><style=\"ItemQuality_5\">鬼火</style></linktext>が付与されたとき、<style=\"accent-gn\">30%</style>の固定確率で持続<style=\"accent-gn\">10</style>秒の<style=\"accent-gn\">狂炎</style>を<style=\"accent-gn\">1</style>スタック蓄積する。<style=\"accent-gn\">狂炎</style>が<style=\"accent-gn\">12</style>スタックに達すると<linktext=1214><style=\"ItemQuality_5\">フレアバースト</style></linktext>が発動し、<style=\"accent-gn\">狂炎</style>のスタック数がリセットされる。",
@@ -69176,12 +69176,12 @@
     "2208220": "<style=\"accent-gn\">双炎ランク</style><style=\"accent-gn\">1</style>段階につき<style=\"accent-gn\">筋力</style>+<style=\"accent-gn\">2.5%</style>。",
     "2208230": "<linktext=1622><style=\"ItemQuality_5\">ツインラッシュ</style></linktext>が失われた<style=\"accent-gn\">霊火</style>の<style=\"accent-gn\">5%</style>を回復する。<style=\"accent-gn\">双炎ランク</style>がS段階時はその回復効果+<style=\"accent-gn\">10%</style>。",
     "2208240": "<linktext=1624><style=\"ItemQuality_5\">アクススパイラル</style></linktext>がメイン対象に<linktext=1213><style=\"ItemQuality_5\">鬼火</style></linktext>を<style=\"accent-gn\">3</style>スタック付加する。 <style=\"accent-gn\">双炎ランク</style>S段階時、<linktext=1624><style=\"ItemQuality_5\">アクススパイラル</style></linktext>が対象に命中すると<style=\"accent-gn\">10</style>秒間持続する<style=\"accent-gn\">狂炎</style>を<style=\"accent-gn\">1</style>スタック付加し、<style=\"accent-gn\">12</style>スタックまで累積されると<linktext=1214><style=\"ItemQuality_5\">フレアバースト</style></linktext>を発動して<style=\"accent-gn\">狂炎</style>スタック数をクリアする。",
-    "2208250": "<style=\"accent-gn\">双炎ランク</style>S段階時、<linktext=1623><style=\"ItemQuality_5\">アースラクス</style></linktext>を発動するたびメイン対象の位置に<linktext=1215><style=\"ItemQuality_5\">流星火</style></linktext>を<style=\"accent-gn\">1</style>つ召喚する。",
+    "2208250": "<style=\"accent-gn\">双炎ランク</style>S段階時、<linktext=1623><style=\"ItemQuality_5\">ラースアクス</style></linktext>を発動するたびメイン対象の位置に<linktext=1215><style=\"ItemQuality_5\">流星火</style></linktext>を<style=\"accent-gn\">1</style>つ召喚する。",
     "2208260": "器用さ<style=\"accent-gn\">1%</style>につき火属性ボーナス+<style=\"accent-gn\">0.2%</style>。",
     "2208270": "究極スキルを発動した後、<style=\"accent-gn\">15</style>秒間、<style=\"accent-gn\">25%</style>の火属性ボーナスを獲得する。",
     "2208280": "<linktext=1623><style=\"ItemQuality_5\">ラースアクス</style></linktext>、<linktext=1622><style=\"ItemQuality_5\">ツインラッシュ</style></linktext>、<linktext=1624><style=\"ItemQuality_5\">アクススパイラル</style></linktext>で<linktext=1216><style=\"ItemQuality_5\">イラプション</style></linktext>が発動可能になる。",
     "2208290": "幸運は割合に応じて<linktext=1216><style=\"ItemQuality_5\">イラプション</style></linktext>の<style=\"accent-gn\">1</style>～<style=\"accent-gn\">3</style>段目の発動確率を上昇させる（幸運<style=\"accent-gn\">1%</style>につきそれぞれ+<style=\"accent-gn\">0.2%</style>/<style=\"accent-gn\">0.1%</style>/<style=\"accent-gn\">0.05%</style>）が、<linktext=1216><style=\"ItemQuality_5\">イラプション</style></linktext>の会心確率は半減する。",
-    "2208300": "<style=\"accent-gn\">マスタリースキル</style>がメイン対象に<style=\"accent-gn\">5</style>回ダメージを与えるごとにバフを1スタック獲得し、以後の<style=\"accent-gn\">8</style>秒間、幸運の一撃の倍率+<style=\"accent-gn\">27%</style>、さらに幸運の一撃の会心率-<style=\"accent-gn\">20%</style>。この効果は<style=\"accent-gn\">3</style>スタックまで可。",
+    "2208300": "<style=\"accent-gn\">マスタリースキル</style>がメイン対象に<style=\"accent-gn\">5</style>回ダメージを与えるごとにバフを1スタック獲得し、以後の<style=\"accent-gn\">8</style>秒間、幸運の一撃の倍率+<style=\"accent-gn\">27%</style>、さらに幸運の一撃の会心率-<style=\"accent-gn\">20%</style>。この効果は<style=\"accent-gn\">3</style>スタックまで。",
     "2208310": "<linktext=1216><style=\"ItemQuality_5\">イラプション</style></linktext>で幸運の一撃が発生可能になる。 幸運の一撃のダメージ倍率+<style=\"accent-gn\">5%</style>。幸運<style=\"accent-gn\">1%</style>につき幸運の一撃のダメージ倍率+<style=\"accent-gn\">0</style>.<style=\"accent-gn\">8%</style>。",
     "2208320": "<linktext=1216><style=\"ItemQuality_5\">イラプション</style></linktext>の幸運確率+<style=\"accent-gn\">8%</style>。",
     "2208330": "<linktext=1216><style=\"ItemQuality_5\">イラプション</style></linktext>が<style=\"accent-gn\">5%</style>の火属性ボーナスを獲得する。",
@@ -69256,7 +69256,7 @@
     "2401040": "千雷の有効中、物理ダメージ強化+{p1}",
     "2401110": "雷刃抜刀のダメージ+{p1}",
     "2401120": "雷刃抜刀が消費する雷印1つにつき、自身のダメージ+{p1}。持続8秒",
-    "2401130": "クラススキルがその時点の対象に会心ダメージを与えた場合、会心ダメージ+2%。持続5秒、5スタックまで可。",
+    "2401130": "クラススキルがその時点の対象に会心ダメージを与えた場合、会心ダメージ+2%。持続5秒、5スタックまで。",
     "2401140": "無窮雷陣が有効中でない場合、彼岸が獲得する雷印+1。",
     "2401210": "月影殺、繚乱兜割のダメージ+{p1}",
     "2401220": "雷霆鎌、審罰鎌のダメージ+{p1}",
@@ -69312,7 +69312,7 @@
     "2404230": "遠距離ダメージ+{p1}",
     "2404240": "ダメージ系のマスタリースキルが魔法増強を{p1}上昇させる",
     "2404250": "回復系のマスタリースキルが魔法増強を{p1}上昇させる",
-    "2404260": "直接回復系クラススキルが、回復を受ける対象に光意を1スタックする。光意：最大HP+2.5%。持続10秒、5スタックまで可。",
+    "2404260": "直接回復系クラススキルが、回復を受ける対象に光意を1スタックする。光意：最大HP+2.5%。持続10秒、5スタックまで。",
     "2404270": "光意が上限に達すると、直接回復系クラススキルを再発動した際、「春たけなわ」に変換される。春たけなわ：攻撃力の1200%相当のバリアを直ちに獲得し、受ける鼓舞効果+20%。持続10秒。",
     "2404280": "鼓舞効果+{p1}。",
     "2405010": "メンタルフォーカスの有効中、物理ダメージ強化+{p1}",
@@ -69324,7 +69324,7 @@
     "2405130": "レイジショットまたはレイジブラストを発動後、臣狼の攻撃速度+{p1}、持続8秒",
     "2405140": "臣狼の攻撃によって10%の確率で自身の光属性ボーナス+{p1}、持続8秒",
     "2405150": "器用さ1%につき会心ダメージ+0.2%。",
-    "2405160": "ハウリングボルトが対象に命中すると、自身の敏捷+1.5%。持続8秒、5スタックまで可。",
+    "2405160": "ハウリングボルトが対象に命中すると、自身の敏捷+1.5%。持続8秒、5スタックまで。",
     "2405210": "臣鷹出撃、雷撃衝撃のダメージ+{p1}",
     "2405220": "会心+{p1}",
     "2405230": "閃心強化を消費後、次の2回の特殊攻撃はチャージスタックを消費しない",
@@ -69383,7 +69383,7 @@
     "2409040": "イグニッションの有効中、物理ダメージ強化+{p1}",
     "2409050": "双炎ランク状態時、筋力32ptにつき火属性攻撃力+1pt。",
     "2409060": "双炎ランク1段階につき火属性攻撃力+10%。",
-    "2409070": "アクススパイラルがダメージを与えると10秒間、ラースアクスのダメージ+7%。この効果は3スタックまで可。",
+    "2409070": "アクススパイラルがダメージを与えると10秒間、ラースアクスのダメージ+7%。この効果は3スタックまで。",
     "2409080": "アクススパイラルがダメージを与えてから15秒間、イラプションのダメージ+13%。",
     "2409090": "ラーヴァインパクト、クリムゾンインパクト、バーニングクロスのダメージ+25%。",
     "2409100": "バーニングラッシュが会心ダメージを与えると、対象の物理防御力を42%無視する。",
@@ -69434,7 +69434,7 @@
     "3002100": "幸運の一撃を<style=\"accent-gn\">10</style>回発動するたびに、メインステータス+<style=\"accent-gn\">10%</style>、持続<style=\"accent-gn\">5</style>秒。",
     "3002210": "<style=\"accent-gn\">15</style>秒以内に<style=\"accent-gn\">通常攻撃</style>以外のクラススキルを<style=\"accent-gn\">10</style>回発動すると、次のクラススキルでダメージを与えたとき、<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>が発動する。この効果は<style=\"accent-gn\">15</style>秒ごとに最大1回発動。",
     "3002220": "<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>の会心確率が、 獲得手段を問わず+<style=\"accent-gn\">6%</style>。",
-    "3002230": "クラススキルのダメージで会心が<style=\"accent-gn\">1</style>回発生するたびに、<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>の滅妄ダメージ+<style=\"accent-gn\">6%</style>。持続<style=\"accent-gn\">8</style>秒、<style=\"accent-gn\">5</style>スタックまで可。",
+    "3002230": "クラススキルのダメージで会心が<style=\"accent-gn\">1</style>回発生するたびに、<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>の滅妄ダメージ+<style=\"accent-gn\">6%</style>。持続<style=\"accent-gn\">8</style>秒、<style=\"accent-gn\">5</style>スタックまで。",
     "3002240": "<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>が目標に命中したとき、ランダムで以下の3つの効果から1つを獲得する（スタック不可） <style=\"accent-gn\">時の狭間・幻</style>：メインステータス+<style=\"accent-gn\">10%</style>、持続<style=\"accent-gn\">10</style>秒。 <style=\"accent-gn\">時の狭間・夢</style>：<style=\"accent-gn\">特殊攻撃</style>、<style=\"accent-gn\">マスタリースキル</style>のリキャスト加速+<style=\"accent-gn\">22%</style>、持続<style=\"accent-gn\">7</style>秒。 <style=\"accent-gn\">時の狭間・眠</style>：<style=\"accent-gn\">マスタリースキル</style>滅妄ダメージ+<style=\"accent-gn\">25%</style>、持続<style=\"accent-gn\">15</style>秒。",
     "3002250": "エネミー対象を撃破すると、<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>のリキャストがただちに更新される。",
     "3002260": "<linktext=1201><style=\"ItemQuality_5\">幻夢の断罪</style></linktext>が周囲の対象<style=\"accent-gn\">2</style>体へ順に跳躍し、跳躍するたびに滅妄ダメージ-<style=\"accent-gn\">35%</style>。",
@@ -69448,7 +69448,7 @@
     "3002460": "精錬攻撃力、精錬防御力+<style=\"accent-gn\">10%</style>。",
     "3002470": "<linktext=1202><style=\"ItemQuality_5\">夢幻の矢</style></linktext>でダメージを与えたとき、物理および魔法防御力を無視する。",
     "3002480": "<style=\"accent-gn\">マスタリースキル</style>の滅妄ダメージ+<style=\"accent-gn\">20%</style>。",
-    "3002610": "<style=\"accent-gn\">通常攻撃</style>や<style=\"accent-gn\">特殊攻撃</style>でメイン対象にダメージを<style=\"accent-gn\">12</style>回与えるたびに（近接スキルはカウント数+<style=\"accent-gn\">1</style>追加）、<style=\"accent-gn\">8</style>秒間、<linktext=1203><style=\"ItemQuality_5\">夢幻迷界</style></linktext>を発動する。<style=\"accent-gn\">10</style>スタックまで可。",
+    "3002610": "<style=\"accent-gn\">通常攻撃</style>や<style=\"accent-gn\">特殊攻撃</style>でメイン対象にダメージを<style=\"accent-gn\">12</style>回与えるたびに（近接スキルはカウント数+<style=\"accent-gn\">1</style>追加）、<style=\"accent-gn\">8</style>秒間、<linktext=1203><style=\"ItemQuality_5\">夢幻迷界</style></linktext>を発動する。<style=\"accent-gn\">10</style>スタックまで。",
     "3002620": "<linktext=1203><style=\"ItemQuality_5\">夢幻迷界</style></linktext>の最大スタック数+<style=\"accent-gn\">3</style>。",
     "3002630": "戦闘開始時、<linktext=1203><style=\"ItemQuality_5\">夢幻迷界</style></linktext>を最大スタックで獲得する。ただし最大スタック数-<style=\"accent-gn\">2</style>。",
     "3002640": "<linktext=1203><style=\"ItemQuality_5\">夢幻迷界</style></linktext>1スタックにつき、物理および魔法防御を<style=\"accent-gn\">0.75%</style>無視する。",
@@ -69646,8 +69646,8 @@
     "3055050": "器用さ<style=\"accent-gn\">1%</style>につき攻撃力+<style=\"accent-gn\">{p1}</style>。 究極スキルを発動すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
     "3055060": "護刃の衝撃状態時、全属性ダメージ+<style=\"accent-gn\">{p1}</style>。 かつ1秒ごとに虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
     "3055070": "岩塊撃、巨岩の轟撃の滅妄ダメージ+<style=\"accent-gn\">{p1}</style>。 岩塊撃、巨岩の轟撃を発動すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
-    "3055080": "レジストに成功するたび<style=\"accent-gn\">15</style>秒間、自身の攻撃力+<style=\"accent-gn\">{p1}</style>。<style=\"accent-gn\">4</style>スタックまで可。 レジストに成功すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
-    "3055090": "レジストに成功するたび<style=\"accent-gn\">10</style>秒間、自身の最大HP+<style=\"accent-gn\">{p1}</style>。<style=\"accent-gn\">4</style>スタックまで可。 レジストに成功すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
+    "3055080": "レジストに成功するたび<style=\"accent-gn\">15</style>秒間、自身の攻撃力+<style=\"accent-gn\">{p1}</style>。<style=\"accent-gn\">4</style>スタックまで。 レジストに成功すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
+    "3055090": "レジストに成功するたび<style=\"accent-gn\">10</style>秒間、自身の最大HP+<style=\"accent-gn\">{p1}</style>。<style=\"accent-gn\">4</style>スタックまで。 レジストに成功すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
     "3055100": "レジスト反撃で幸運の一撃が発生可能になる。かつレジスト反撃の滅妄ダメージ+<style=\"accent-gn\">{p1}</style>。 レジスト反撃を発動すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
     "3055110": "巨岩の轟撃が対象1体のみに命中した場合、ダメージとHP回復効果が2倍になる。巨岩の轟撃の滅妄ダメージ+<style=\"accent-gn\">{p1}</style>。 岩心を取得すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
     "3055120": "バリアを獲得・喪失するたび地崩の山摧を発動するが、その回の地崩の山摧はバリアを獲得できない。この効果は0.2秒ごとに最大1回発動。 地崩の山摧の滅妄ダメージ+{p1}。",
@@ -69657,7 +69657,7 @@
     "3055360": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達すると、次に追加されるバリアが生成する最終バリア値+<style=\"accent-gn\">{p3}</style>。",
     "3055370": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達すると地崩の山摧を発動し、その回の地崩の山摧の虚妄ダメージ+<style=\"accent-gn\">{p3}</style>。{*Decision.unmarktime(2)*}間に最大1回発動。",
     "3055380": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達すると巨岩躯体、勇壮砦壁の残りのリキャスト-1秒。{*Decision.unmarktime(2)*}間に最大1回発動。",
-    "3055390": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達すると10秒間、最大HP+<style=\"accent-gn\">{p3}</style>。3スタックまで可。",
+    "3055390": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達すると10秒間、最大HP+<style=\"accent-gn\">{p3}</style>。3スタックまで。",
     "3055400": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達するとレジスト反撃を発動し、その回のレジスト反撃の虚妄ダメージ+<style=\"accent-gn\">{p3}</style>。{*Decision.unmarktime(2)*}間に最大1回発動。",
     "3055410": "虚妄エネルギーのチャージが<style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>ptに達すると10秒間、レジストダメージ軽減-<style=\"accent-gn\">{p3}</style>、クラススキルの最終ダメージ+<style=\"accent-gn\">{p4}</style>。",
     "3056010": "ワイルドブルーム、スタッグチャージの滅妄ダメージ+<style=\"accent-gn\">{p1}</style>。 ワイルドブルーム、スタッグチャージを発動すると虚妄エネルギー+<style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt。",
@@ -69803,7 +69803,7 @@
     "3210170": "攻撃が幸運の一撃になると「幸運効果」を発動する：対象の場所で爆発を起こし、ランダムに<style=\"accent-gn\">1～3</style>回、攻撃力<style=\"accent-gn\">{p1}</style>の火属性による<style=\"magic\">魔法ダメージ</style>を与える（リキャスト<style=\"accent-gn\">0.1秒</style>）",
     "3210180": "会心ダメージ+<style=\"accent-gn\">{p1}</style>。会心ダメージを与えるたび一定確率で+<style=\"accent-gn\">{p2}</style>（この確率は会心%に等しい。<style=\"accent-gn\">0.1秒</style>ごとに最大1回発動）。<style=\"accent-gn\">5</style>スタックまで可、持続<style=\"accent-gn\">2秒</style>",
     "3210190": "マスタリースキルがダメージを与えると攻撃力+<style=\"accent-gn\">{p1}</style>。ファスト<style=\"accent-gn\">10%</style>につき+1スタック。<style=\"accent-gn\">7</style>スタックまで可、持続<style=\"accent-gn\">5秒</style>",
-    "3210200": "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">{p1}</style>。<style=\"accent-gn\">5</style>スタックまで可。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
+    "3210200": "前回と異なるクラススキルをアクティブ発動するたび（通常攻撃は除く）、属性ボーナス+<style=\"accent-gn\">{p1}</style>。<style=\"accent-gn\">5</style>スタックまで。前回と同じスキルを発動すると削除され、スタック上限に達すると<style=\"accent-gn\">10秒</style>間はスタック減少も再スタックもされず、持続時間が終了すると削除される",
     "3210210": "回復スキルを発動すると、周囲に攻撃力の<style=\"accent-gn\">{p1}</style>の範囲<style=\"magic\">魔法ダメージ</style>を与える（回復スキルを発動するたび、このダメージ効果+<style=\"accent-gn\">{p2}</style>。<style=\"accent-gn\">10</style>スタックまで可、持続<style=\"accent-gn\">5秒</style>）",
     "3210220": "HPが<style=\"accent-gn\">{p1}</style>より多い場合「強壮」を獲得する。 【強壮】：剛体を獲得し、<linktext=3020><style=\"accent-gn\">状態異常</style></linktext>を無効化する 致命ダメージを受けると「絶境逢生」を獲得する。 【絶境逢生】：<style=\"accent-gn\">{*Decision.unmarktime(2)*}</style>間はHPが<style=\"accent-gn\">1%</style>未満にならず、1秒ごとに<style=\"accent-gn\">{p3}</style>回復する（<style=\"accent-gn\">{*Decision.unmarktime(4)*}</style>間に最大1回発動）",
     "3210230": "クラススキルがダメージを<style=\"accent-gn\">10</style>回与えるたび（攻撃するたび1回とカウント）、次のダメージに攻撃力の<style=\"accent-gn\">{p1}</style>の範囲物理/魔法（自動調整）<style=\"physical\">ダメージ</style>を追加する",
@@ -69903,7 +69903,7 @@
     "3401189": "自身の周囲のエネミーに攻撃力の<style=\"accent-gn\">300%</style>の<style=\"magic\">魔法ダメージ</style>を与える。",
     "3401190": "範囲内のエネミーに攻撃力の<style=\"accent-gn\">60%</style>の<style=\"magic\">魔法ダメージ</style>を与える（威力は<style=\"accent-gn\">通常攻撃</style>スキルのレベル/ランクに応じて上昇）。",
     "3401191": "自身の周囲<style=\"accent-gn\">5</style>mにフレイムショックを与え、接触したエネミー対象に攻撃力の<style=\"accent-gn\">350%</style>の<style=\"magic\">魔法ダメージ</style>を与える。",
-    "3401192": "<style=\"accent-gn\">10</style>秒間、対象のHPを攻撃力の<style=\"accent-gn\">70%</style>分回復する。<style=\"accent-gn\">10</style>スタックまで可。<style=\"accent-gn\">10</style>スタック時には、対象の持つ残りの<style=\"accent-gn\">音符</style>分の回復量が直ちに与えられる。",
+    "3401192": "<style=\"accent-gn\">10</style>秒間、対象のHPを攻撃力の<style=\"accent-gn\">70%</style>分回復する。<style=\"accent-gn\">10</style>スタックまで。<style=\"accent-gn\">10</style>スタック時には、対象の持つ残りの<style=\"accent-gn\">音符</style>分の回復量が直ちに与えられる。",
     "3401193": "ダメージか回復の<style=\"accent-gn\">マスタリースキル</style>を使用するたび<style=\"accent-gn\">50%</style>の固定確率で<style=\"accent-gn\">追奏弦音</style>を発動し、現在の対象にダメージを与えるか、HP最小の味方対象（パーティメンバー優先）のHPを回復する。",
     "3401194": "移動しつつ6秒間ブートし、前方にパッショネートを放ち続ける。",
     "3401195": "直ちに<style=\"accent-gn\">エネルギー</style>を<style=\"accent-gn\">100</style>獲得し、回復系の全<style=\"accent-gn\">マスタリースキル</style>のリキャストを終了する。また、以後<style=\"accent-gn\">10</style>秒間の魔法攻撃力+<style=\"accent-gn\">30%</style>。",
@@ -69920,10 +69920,10 @@
     "3401206": "自身の周囲<style=\"accent-gn\">5</style>m以内の敵に攻撃力<style=\"accent-gn\">200%</style>の自動適応ダメージを与え、<style=\"accent-gn\">1</style>.<style=\"accent-gn\">5</style>秒間 <linktext=3005><style=\"ItemQuality_5\">スタン</style></linktext>状態にする。",
     "3401207": "死亡を無効化する。",
     "3401208": "自身の周囲<style=\"accent-gn\">5</style>ｍ以内のエネミー対象に物理防御力<style=\"accent-gn\">330%</style>の自動適応ダメージを与える。",
-    "3401209": "最大HP+<style=\"accent-gn\">3%</style>、器用さ+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">3</style>スタックまで可。",
-    "3401211": "<style=\"accent-gn\">マスタリースキル</style>攻撃速度+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。",
+    "3401209": "最大HP+<style=\"accent-gn\">3%</style>、器用さ+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">3</style>スタックまで。",
+    "3401211": "<style=\"accent-gn\">マスタリースキル</style>攻撃速度+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで。",
     "3401212": "火属性ボーナス+<style=\"accent-gn\">10%</style>、持続<style=\"accent-gn\">8</style>秒。",
-    "3401213": "<style=\"accent-gn\">2</style>秒ごとに攻撃力の<style=\"accent-gn\">35%×スタック数</style>ptの<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで可。<style=\"accent-gn\">鬼火</style>がスタック上限に達しているときに新たに<style=\"accent-gn\">鬼火</style>が付与されると、直ちに攻撃力の<style=\"accent-gn\">35%</style>ptの<style=\"physical\">物理ダメージ</style>を与える。",
+    "3401213": "<style=\"accent-gn\">2</style>秒ごとに攻撃力の<style=\"accent-gn\">35%×スタック数</style>ptの<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで。<style=\"accent-gn\">鬼火</style>がスタック上限に達しているときに新たに<style=\"accent-gn\">鬼火</style>が付与されると、直ちに攻撃力の<style=\"accent-gn\">35%</style>ptの<style=\"physical\">物理ダメージ</style>を与える。",
     "3401214": "範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">800%</style>の<style=\"physical\">物理ダメージ</style>を与え、同時に<style=\"accent-gn\">霊火</style>を<style=\"accent-gn\">10</style>獲得する。",
     "3401215": "エネミー対象に攻撃力の<style=\"accent-gn\">500%</style>の<style=\"physical\">物理ダメージ</style>を与える。",
     "3401216": "ダメージを与えるたび、その時点の確率×(<style=\"accent-gn\">30%</style>+器用さ%)に応じて攻撃段数が追加される。確率は以下のとおり： <style=\"accent-gn\">1</style>段目の確率：<style=\"accent-gn\">20%</style>。 <style=\"accent-gn\">2</style>段目の確率：<style=\"accent-gn\">10%</style>。 <style=\"accent-gn\">3</style>段目の確率：<style=\"accent-gn\">5%</style>。",
@@ -69958,7 +69958,7 @@
     "maxHp": "キャラクターが攻撃を受けるとHPが減少し、０になると戦闘不能となる。",
     "atk": "スキルが与える物理ダメージ量と回復量の基礎値。ターゲットの物理防御力の影響を受ける。",
     "matk": "スキルが一定の割合で魔法ダメージ量と回復量の基礎値のダメージを与える。ターゲットの魔法防御力の影響を受ける。",
-    "strength": "ゲイルランサー、ヘヴィガーディアン、シールドファイターの攻撃力を上昇させる。全クラスの物理防御力を上昇させる。",
+    "strength": "ゲイルランサー、ヘヴィガーディアン、シールドファイター、ツインストライカーの攻撃力を上げる。全クラスの物理防御力を上げる",
     "intellect": "フロストメイジ、ヴァーダントオラクル、ビートパフォーマーの攻撃力を上昇させる。全クラスの魔法防御を上昇させる。",
     "agility": "ストームブレイド、ディバインアーチャーの攻撃力を上昇させる。全クラスのファストを上昇させる。",
     "endurance": "全クラスの最大HPを上昇させる。"
@@ -70546,7 +70546,7 @@
     },
     "1148": {
       "name": "弓心",
-      "description": "<style=\"accent-gn\">弓心</style>のスタック数が<style=\"accent-gn\">5</style>以上だった場合、追加スタックされるたび<style=\"accent-gn\">30%</style>の固定確率で<style=\"accent-gn\">内部破裂</style>し、範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える。<style=\"accent-gn\">弓心</style>は<style=\"accent-gn\">20</style>スタックまで可。但し、<style=\"accent-gn\">1</style>秒ごとにスタック数-<style=\"accent-gn\">1</style>。"
+      "description": "<style=\"accent-gn\">弓心</style>のスタック数が<style=\"accent-gn\">5</style>以上だった場合、追加スタックされるたび<style=\"accent-gn\">30%</style>の固定確率で<style=\"accent-gn\">内部破裂</style>し、範囲内のエネミー対象に攻撃力の<style=\"accent-gn\">100%</style>の<style=\"physical\">物理ダメージ</style>を与える。<style=\"accent-gn\">弓心</style>は<style=\"accent-gn\">20</style>スタックまで。但し、<style=\"accent-gn\">1</style>秒ごとにスタック数-<style=\"accent-gn\">1</style>。"
     },
     "1149": {
       "name": "天界の臣鷹",
@@ -70790,7 +70790,7 @@
     },
     "1209": {
       "name": "無限思考",
-      "description": "最大HP+<style=\"accent-gn\">3%</style>、器用さ+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">3</style>スタックまで可。"
+      "description": "最大HP+<style=\"accent-gn\">3%</style>、器用さ+<style=\"accent-gn\">2%</style>。<style=\"accent-gn\">3</style>スタックまで。"
     },
     "1210": {
       "name": "工匠の力",
@@ -70798,15 +70798,15 @@
     },
     "1211": {
       "name": "炎魂",
-      "description": "<style=\"accent-gn\">マスタリースキル</style>攻撃速度+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで可。"
+      "description": "<style=\"accent-gn\">マスタリースキル</style>攻撃速度+<style=\"accent-gn\">5%</style>。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">5</style>スタックまで。"
     },
     "1212": {
-      "name": "灼炎",
+      "name": "熾炎",
       "description": "火属性ボーナス+<style=\"accent-gn\">10%</style>、持続<style=\"accent-gn\">8</style>秒。"
     },
     "1213": {
       "name": "鬼火",
-      "description": "<style=\"accent-gn\">2</style>秒ごとに攻撃力の<style=\"accent-gn\">35%×スタック数</style>ptの<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで可。<style=\"accent-gn\">鬼火</style>がスタック上限に達しているときに新たに<style=\"accent-gn\">鬼火</style>が付与されると、直ちに攻撃力の<style=\"accent-gn\">35%</style>ptの<style=\"physical\">物理ダメージ</style>を与える。"
+      "description": "<style=\"accent-gn\">2</style>秒ごとに攻撃力の<style=\"accent-gn\">35%×スタック数</style>ptの<style=\"physical\">物理ダメージ</style>を与える。持続<style=\"accent-gn\">10</style>秒、<style=\"accent-gn\">10</style>スタックまで。<style=\"accent-gn\">鬼火</style>がスタック上限に達しているときに新たに<style=\"accent-gn\">鬼火</style>が付与されると、直ちに攻撃力の<style=\"accent-gn\">35%</style>ptの<style=\"physical\">物理ダメージ</style>を与える。"
     },
     "1214": {
       "name": "フレアバースト",
