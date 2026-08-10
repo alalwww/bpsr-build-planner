@@ -26,14 +26,13 @@ function LinkTextPopup({ state, handlers, onMouseEnter, onMouseLeave }: LinkText
       x={state.x}
       y={state.y}
       clamp
+      align={state.align}
       className="linktext-popup"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
       {name && <div className="linktext-popup__name">{name}</div>}
-      {description && (
-        <p className="linktext-popup__desc">{renderMarkup(description, handlers)}</p>
-      )}
+      {description && <p className="linktext-popup__desc">{renderMarkup(description, handlers)}</p>}
     </FloatingTooltip>
   );
 }

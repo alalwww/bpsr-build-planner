@@ -10,6 +10,7 @@ export interface LinkTextPopupState {
   id: number;
   x: number;
   y: number;
+  align: 'left' | 'right';
 }
 
 // <linktext=ID>...</linktext> をクリックした際に、その説明をネストしたポップアップで表示する
@@ -43,9 +44,15 @@ export function useLinkTextPopup() {
       // 対が発生せず(座標は変わっていないため)、閉じるきっかけを失って開いたままになる。
       // 箱の位置を固定しておけば、開いた瞬間から出ているmouseenter状態がそのまま有効な
       // ままなので、後で本当にポインタが離れた時に正しくmouseleaveが発火する。
-      setPopup((prev) =>
-        prev ? { ...prev, id } : { id, x: e.clientX + LINKTEXT_POPUP_GAP, y: e.clientY },
-      );
+      setPopup((prev) => {
+        if (prev) return { ...prev, id };
+        // 画面右半分でのクリックは左側(align='left')に、左半分は右側に開き、
+        // 画面端でのはみ出しを避ける。
+        const align: 'left' | 'right' = e.clientX > window.innerWidth / 2 ? 'left' : 'right';
+        const x =
+          align === 'left' ? e.clientX - LINKTEXT_POPUP_GAP : e.clientX + LINKTEXT_POPUP_GAP;
+        return { id, x, y: e.clientY, align };
+      });
     },
     onMouseEnter: (id) => {
       if (popup?.id === id) cancelClose();
