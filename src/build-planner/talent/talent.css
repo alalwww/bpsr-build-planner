@@ -115,6 +115,46 @@
   color: #f4a13a;
 }
 
+/* ロックボタン: 編集中(未ロック)は緑系、ロック中は赤系。ホバー時は現在の状態ラベルから
+   操作ラベルへ切り替える(CSSのみで実現)。 */
+.talent-tree-panel__lock-toggle {
+  background: #142a1c;
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.talent-tree-panel__lock-toggle:hover {
+  border-color: #86efac;
+  color: #86efac;
+}
+
+.talent-tree-panel__lock-toggle-action {
+  display: none;
+}
+
+.talent-tree-panel__lock-toggle:hover .talent-tree-panel__lock-toggle-status {
+  display: none;
+}
+
+.talent-tree-panel__lock-toggle:hover .talent-tree-panel__lock-toggle-action {
+  display: inline;
+}
+
+.talent-tree-panel__lock-toggle--locked {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #2a1414;
+}
+
+.talent-tree-panel__lock-toggle--locked:hover {
+  border-color: #f87171;
+  color: #f87171;
+}
+
 .talent-tree-panel__zoom {
   display: flex;
   align-items: center;
@@ -258,6 +298,11 @@
 /* ノードツールチップ(FloatingTooltip共通ベースの拡張) */
 .talent-tree-panel__tooltip {
   max-width: 300px;
+}
+
+.talent-tree-panel__tooltip--pinned {
+  border-color: #5a5a8a;
+  box-shadow: 0 4px 20px rgba(90, 90, 160, 0.45);
 }
 
 .talent-tree-panel__tooltip-header {

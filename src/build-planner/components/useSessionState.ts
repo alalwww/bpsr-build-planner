@@ -24,3 +24,10 @@ export function useSessionState<T>(
   };
   return [value, setAndStore];
 }
+
+// useSessionStateを使わない箇所(Zustandストアのアクション内等)から、次回マウント時の
+// 初期値としてセッションストアへ書き込むための非フック版セッター。既にマウント済みの
+// コンポーネントインスタンスの表示中の値までは更新しない(そちらはuseState経由が必要)。
+export function setSessionValue<T>(key: string, value: T): void {
+  store.set(key, value);
+}

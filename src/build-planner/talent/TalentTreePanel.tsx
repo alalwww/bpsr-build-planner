@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useShallow } from 'zustand/react/shallow';
 import './talent.css';
@@ -11,6 +11,7 @@ import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import { useDragScroll } from '../components/useDragScroll';
+import { useSessionState } from '../components/useSessionState';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
@@ -55,8 +56,10 @@ interface HoveredNodeInfo {
   name: string;
   desc: string;
   unlockRequired: number | null;
-  x: number; // tooltip position (icon rect right + 10)
+  x: number; // tooltip position (align='right'ならicon rect右端+10、'left'なら左端-10)
   y: number; // tooltip position (icon rect top)
+  align: 'left' | 'right'; // ノードがキャンバス中央より右なら'left'(左に表示)、左なら'right'
+  pinned: boolean;
 }
 
 // ---- Component ----
@@ -120,13 +123,20 @@ export default function TalentTreePanel({
   const {
     tooltip: hoveredNodeInfo,
     open: openNodeTooltip,
+    openImmediate: openNodeTooltipImmediate,
     cancelClose: cancelTooltipClose,
     scheduleClose: scheduleTooltipClose,
   } = useAnchorTooltip<HoveredNodeInfo>(500, (a, b) => a.node.id === b.node.id); // 別ノードへの切り替えは一旦閉じて0.5秒待たせるhover intent
   const linkTextPopup = useLinkTextPopup();
+  // アビリティツリーの誤操作防止ロック。既定はOFF(編集中)。セッション中(ページを開いている
+  // 間)は維持するがlocalStorageには永続化しない。ロック中はノードクリックでの取得/解除を
+  // 無効化し、代わりにシングルクリックでツールチップを固定できるようにする。
+  const [locked, setLocked] = useSessionState('talentTree.locked', false);
+  const isPinned = locked && (hoveredNodeInfo?.pinned ?? false);
   const [pendingSwitchBdType, setPendingSwitchBdType] = useState<0 | 1 | null>(null);
   const [pendingR1Deselect, setPendingR1Deselect] = useState<number | null>(null);
   const [pendingReset, setPendingReset] = useState(false);
+  const [pendingRecommend, setPendingRecommend] = useState(false);
 
   // professionTypeKey が変化したとき activeBdType を同期（プランロード時も含む）
   useEffect(() => {
@@ -138,6 +148,7 @@ export default function TalentTreePanel({
     setPendingSwitchBdType(null);
     setPendingR1Deselect(null);
     setPendingReset(false);
+    setPendingRecommend(false);
   }, [professionKey]);
 
   const activeStage1Info = useMemo(
@@ -175,6 +186,19 @@ export default function TalentTreePanel({
     () => countCost(effectiveR2EnabledIds, nodesById),
     [effectiveR2EnabledIds, nodesById],
   );
+
+  // 全ポイント取得済み(R1・R2とも上限)の状態でアビリティツリーから別パネルへ移動した
+  // (=アンマウントされた)場合、編集は完了したものとみなし、次回開いたときの既定を
+  // ロック中にする。マウント中の値変化のたびではなく、真のアンマウント時のみ判定したい
+  // ためrefで最新値を保持し、effect自体は空配列依存にする。
+  const pointsFullRef = useRef(false);
+  pointsFullRef.current = r1Used === R1_MAX && r2Used === R2_MAX;
+  useEffect(() => {
+    return () => {
+      if (pointsFullRef.current) setLocked(true);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const usedPoints = activeStage === 'r1' ? r1Used : r2Used;
   // R1+R2 合計消費ポイント（Unlock 条件 type=3 の判定に使用）
   const totalUsed = r1Used + r2Used;
@@ -183,8 +207,11 @@ export default function TalentTreePanel({
     [totalUsed],
   );
 
-  // ホバーパス
-  const hoveredId = hoveredNodeInfo?.node.id ?? null;
+  // ホバーパス。カーソル形状/選択可能ハイライト/経路プレビュー用の「実際に今ホバーしている
+  // ノード」。ツールチップ表示用のhoveredNodeInfo(0.5秒のhover intentで遅延する)とは
+  // 別管理にし、こちらは実際のマウス位置に即座に追従させる。
+  const [trueHoveredId, setTrueHoveredId] = useState<number | null>(null);
+  const hoveredId = trueHoveredId;
 
   const stageFilter = useCallback(
     (n: TreeNode) =>
@@ -197,8 +224,20 @@ export default function TalentTreePanel({
     if (enabledIds.has(hoveredId)) return null;
     const hovNode = nodesById.get(hoveredId);
     if (hovNode && !isUnlockMet(hovNode)) return null;
-    return findEffectivePath(hoveredId, enabledIds, nodesById, stageFilter, isUnlockMet);
-  }, [hoveredId, enabledIds, nodesById, stageFilter, isUnlockMet]);
+    const path = findEffectivePath(hoveredId, enabledIds, nodesById, stageFilter, isUnlockMet);
+    if (path == null) return null;
+    // 経路上の未取得ノードの合計消費ポイントが残りポイントを超える場合、実際には
+    // クリックしても取得できない(handleNodeClickの判定と同じ)ため、ハイライトも出さない。
+    const pathCost = path
+      .filter((id) => !enabledIds.has(id))
+      .reduce((sum, id) => {
+        const n = nodesById.get(id);
+        const td = n ? talentTree.nodes[String(n.talentId)] : undefined;
+        return sum + (td?.cost ?? 0);
+      }, 0);
+    if (usedPoints + pathCost > maxPoints) return null;
+    return path;
+  }, [hoveredId, enabledIds, nodesById, stageFilter, isUnlockMet, usedPoints, maxPoints]);
 
   const hoverPathSet = useMemo(
     () => (hoverPath ? new Set(hoverPath) : new Set<number>()),
@@ -266,8 +305,9 @@ export default function TalentTreePanel({
       // R2 リセットは onSelectProfessionType 経由で親 useBuildState が担当
       setActiveBdType(newBdType);
       onSelectProfessionType(newBdType === 0 ? 'type1' : 'type2');
+      setLocked(false);
     },
-    [onSelectProfessionType],
+    [onSelectProfessionType, setLocked],
   );
 
   const doR1Deselect = useCallback(
@@ -373,7 +413,7 @@ export default function TalentTreePanel({
     ],
   );
 
-  const handleRecommend = useCallback(() => {
+  const doRecommend = useCallback(() => {
     if (activeStage === 'r1') {
       if (!stage0Info?.recommendTalent?.length) return;
       setR1EnabledIds(new Set<number>(stage0Info.recommendTalent));
@@ -384,12 +424,25 @@ export default function TalentTreePanel({
         setR1EnabledIds(new Set<number>(stage0Info.recommendTalent));
       }
     }
-  }, [activeStage, stage0Info, activeStage1Info, setR1EnabledIds, setR2EnabledIds]);
+    setLocked(false);
+  }, [activeStage, stage0Info, activeStage1Info, setR1EnabledIds, setR2EnabledIds, setLocked]);
+
+  const handleRecommend = useCallback(() => {
+    const r2Root = activeStage1Info?.rootId;
+    const hasNonRootR2 =
+      r2Root != null ? [...r2EnabledIds].some((id) => id !== r2Root) : r2EnabledIds.size > 0;
+    if (r1EnabledIds.size > 0 || hasNonRootR2) {
+      setPendingRecommend(true);
+      return;
+    }
+    doRecommend();
+  }, [activeStage1Info, r1EnabledIds, r2EnabledIds, doRecommend]);
 
   const doReset = useCallback(() => {
     setR1EnabledIds(new Set());
     setR2EnabledIds(new Set());
-  }, [setR1EnabledIds, setR2EnabledIds]);
+    setLocked(false);
+  }, [setR1EnabledIds, setR2EnabledIds, setLocked]);
 
   const handleReset = useCallback(() => {
     const r2Root = activeStage1Info?.rootId;
@@ -462,6 +515,26 @@ export default function TalentTreePanel({
           </button>
         </div>
         <div className="talent-tree-panel__actions">
+          <button
+            type="button"
+            className={`talent-tree-panel__lock-toggle${locked ? ' talent-tree-panel__lock-toggle--locked' : ''}`}
+            onClick={() => setLocked((v) => !v)}
+          >
+            <span className="talent-tree-panel__lock-toggle-status">
+              {tUi(
+                locked
+                  ? 'buildPlanner.talentTree.lockToggleLocked'
+                  : 'buildPlanner.talentTree.lockToggleEditing',
+              )}
+            </span>
+            <span className="talent-tree-panel__lock-toggle-action">
+              {tUi(
+                locked
+                  ? 'buildPlanner.talentTree.lockToggleUnlockAction'
+                  : 'buildPlanner.talentTree.lockToggleLockAction',
+              )}
+            </span>
+          </button>
           <button type="button" className="talent-tree-panel__recommend" onClick={handleRecommend}>
             {tUi('buildPlanner.talentTree.recommend')}
           </button>
@@ -504,7 +577,10 @@ export default function TalentTreePanel({
         <div
           className="talent-tree-panel__scroll"
           style={scrollStyle}
-          onMouseLeave={scheduleTooltipClose}
+          onMouseLeave={() => {
+            setTrueHoveredId(null);
+            if (!isPinned) scheduleTooltipClose();
+          }}
           ref={scrollDragRef}
         >
           <svg width={svgW} height={svgH} className="talent-tree-panel__svg">
@@ -601,6 +677,12 @@ export default function TalentTreePanel({
                 })();
 
               const isHoveredNode = node.id === hoveredId;
+              // ロック中は選択可否に関わらず、ツールチップの対象(実際に表示されている
+              // ノード)であることだけを示すボーダーを表示する(誤操作防止モードでは
+              // 選択判定自体が意味を持たないため)。ツールチップの表示タイミング
+              // (0.5秒のhover intent、または固定表示)に同期させるため、実ホバーの
+              // isHoveredNodeではなくhoveredNodeInfo(ツールチップ側の状態)を直接見る。
+              const isLockedTooltipTarget = locked && hoveredNodeInfo?.node.id === node.id;
               const isUnlockBlocked = !isEnabled && !unlockMet;
               const isHoverTarget =
                 isHoveredNode &&
@@ -617,7 +699,7 @@ export default function TalentTreePanel({
               const isHoverEnabled = isHoveredNode && isEnabled;
               if (isEnabled) {
                 fill = showRoleBg ? 'rgba(0,0,0,0)' : roleTheme.fillColor;
-                if (isHoverEnabled) {
+                if (isHoverEnabled || isLockedTooltipTarget) {
                   stroke = 'rgba(255,255,255,0.9)';
                   sw = 2.5;
                 } else if (!showRoleBg) {
@@ -627,7 +709,7 @@ export default function TalentTreePanel({
                   stroke = 'none';
                   sw = 0;
                 }
-              } else if (isHoverTarget) {
+              } else if (isHoverTarget || isLockedTooltipTarget) {
                 fill = showRoleBg ? 'rgba(0,0,0,0)' : 'rgba(22,22,34,0.95)';
                 stroke = '#ffffff';
                 sw = 3;
@@ -656,19 +738,62 @@ export default function TalentTreePanel({
                 sw = 2;
               }
 
-              const cursor =
-                activeStage === 'r2' && !r1Full
+              // ロック中はクリックの意味が「ツールチップ固定」のみになり、取得可否に関する
+              // 制約は関係ないため、常にpointerでよい。
+              const cursor = locked
+                ? 'pointer'
+                : activeStage === 'r2' && !r1Full
                   ? 'not-allowed'
                   : isHoverBlocked || isUnlockBlocked
                     ? 'not-allowed'
                     : 'pointer';
 
+              // ノードがキャンバス中央より右にあれば左側(align='left')、左にあれば
+              // 右側(align='right')にツールチップを表示し、画面端でのはみ出しを避ける。
+              // canvasWrapperRef(useCtrlWheelZoom)はcallback refで.currentを持たないため、
+              // DOM走査でキャンバス要素の矩形を取得する。
+              const tooltipPos = (
+                rect: DOMRect,
+                target: Element,
+              ): { x: number; align: 'left' | 'right' } => {
+                const canvasRect = target
+                  .closest('.talent-tree-panel__canvas-wrapper')
+                  ?.getBoundingClientRect();
+                const canvasMidX = canvasRect ? canvasRect.left + canvasRect.width / 2 : Infinity;
+                const nodeCenterX = rect.left + rect.width / 2;
+                return nodeCenterX > canvasMidX
+                  ? { x: rect.left - 10, align: 'left' }
+                  : { x: rect.right + 10, align: 'right' };
+              };
+
               return (
                 <g
                   key={`n${node.id}`}
                   className="talent-tree-panel__node"
-                  onClick={() => handleNodeClick(node.id)}
+                  onClick={(e) => {
+                    // ロック中(誤操作防止)はクリックでの取得/解除を無効化し、代わりに
+                    // シングルクリックでツールチップを固定/解除する。
+                    if (!locked) {
+                      handleNodeClick(node.id);
+                      return;
+                    }
+                    const rect = (e.currentTarget as SVGGElement).getBoundingClientRect();
+                    openNodeTooltipImmediate({
+                      node,
+                      td,
+                      name,
+                      desc,
+                      unlockRequired,
+                      ...tooltipPos(rect, e.currentTarget),
+                      y: rect.top,
+                      pinned: !isPinned || hoveredNodeInfo?.node.id !== node.id,
+                    });
+                  }}
                   onMouseEnter={(e) => {
+                    // カーソル形状/選択可能ハイライトは実際のホバー位置に即座に追従させる
+                    // (ツールチップ表示側の0.5秒hover intentとは独立させる)。
+                    setTrueHoveredId(node.id);
+                    if (isPinned) return;
                     const rect = (e.currentTarget as SVGGElement).getBoundingClientRect();
                     openNodeTooltip({
                       node,
@@ -676,11 +801,15 @@ export default function TalentTreePanel({
                       name,
                       desc,
                       unlockRequired,
-                      x: rect.right + 10,
+                      ...tooltipPos(rect, e.currentTarget),
                       y: rect.top,
+                      pinned: false,
                     });
                   }}
-                  onMouseLeave={scheduleTooltipClose}
+                  onMouseLeave={() => {
+                    setTrueHoveredId((prev) => (prev === node.id ? null : prev));
+                    if (!isPinned) scheduleTooltipClose();
+                  }}
                   style={{ cursor }}
                 >
                   {isR2Root ? (
@@ -761,9 +890,13 @@ export default function TalentTreePanel({
         <FloatingTooltip
           x={hoveredNodeInfo.x}
           y={hoveredNodeInfo.y}
-          className="talent-tree-panel__tooltip"
+          clamp
+          align={hoveredNodeInfo.align}
+          className={`talent-tree-panel__tooltip${isPinned ? ' talent-tree-panel__tooltip--pinned' : ''}`}
           onMouseEnter={cancelTooltipClose}
-          onMouseLeave={scheduleTooltipClose}
+          onMouseLeave={() => {
+            if (!isPinned) scheduleTooltipClose();
+          }}
         >
           <div className="talent-tree-panel__tooltip-header">
             {getTalentIconUrl(hoveredNodeInfo.td?.icon ?? '') && (
@@ -802,7 +935,13 @@ export default function TalentTreePanel({
       {/* 型切替確認ダイアログ */}
       {pendingSwitchBdType !== null && (
         <ConfirmDialog
-          message={tUi('buildPlanner.talentTree.confirmTypeChangeMsg')}
+          message={
+            <>
+              {tUi('buildPlanner.talentTree.confirmTypeChangeMsg')}
+              <br />
+              {tUi('buildPlanner.talentTree.confirmLockNote')}
+            </>
+          }
           confirmLabel={tUi('buildPlanner.talentTree.confirmTypeChangeYes')}
           onConfirm={() => {
             doSwitchBdType(pendingSwitchBdType);
@@ -827,10 +966,36 @@ export default function TalentTreePanel({
         />
       )}
 
+      {/* 推奨アビリティ確認ダイアログ */}
+      {pendingRecommend && (
+        <ConfirmDialog
+          message={
+            <>
+              {tUi('buildPlanner.talentTree.confirmRecommendMsg')}
+              <br />
+              {tUi('buildPlanner.talentTree.confirmLockNote')}
+            </>
+          }
+          confirmLabel={tUi('buildPlanner.talentTree.confirmRecommendYes')}
+          onConfirm={() => {
+            doRecommend();
+            setPendingRecommend(false);
+          }}
+          cancelLabel={tUi('buildPlanner.talentTree.confirmRecommendCancel')}
+          onCancel={() => setPendingRecommend(false)}
+        />
+      )}
+
       {/* リセット確認ダイアログ */}
       {pendingReset && (
         <ConfirmDialog
-          message={tUi('buildPlanner.talentTree.confirmResetMsg')}
+          message={
+            <>
+              {tUi('buildPlanner.talentTree.confirmResetMsg')}
+              <br />
+              {tUi('buildPlanner.talentTree.confirmLockNote')}
+            </>
+          }
           confirmLabel={tUi('buildPlanner.talentTree.confirmResetYes')}
           onConfirm={() => {
             doReset();

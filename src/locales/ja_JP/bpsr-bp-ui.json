@@ -272,7 +272,15 @@
       "confirmResetYes": "リセットする",
       "confirmResetCancel": "キャンセル",
       "r1Label": "クラスR1",
-      "unlockAtPoints": "消費ポイントが{{required}}に達すると解放（現在 {{current}}）"
+      "unlockAtPoints": "消費ポイントが{{required}}に達すると解放（現在 {{current}}）",
+      "lockToggleEditing": "編集中",
+      "lockToggleLocked": "ロック中",
+      "lockToggleLockAction": "編集をロック",
+      "lockToggleUnlockAction": "編集する",
+      "confirmLockNote": "ロック中の場合はロックは解除されます。",
+      "confirmRecommendMsg": "推奨アビリティを適用すると、現在の選択内容がリセットされます。適用しますか？",
+      "confirmRecommendYes": "適用する",
+      "confirmRecommendCancel": "キャンセル"
     },
     "stats": {
       "maxHp": "最大HP",

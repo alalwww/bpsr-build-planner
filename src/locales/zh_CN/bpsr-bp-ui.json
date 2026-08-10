@@ -272,7 +272,15 @@
       "confirmResetYes": "重置",
       "confirmResetCancel": "取消",
       "r1Label": "职业R1",
-      "unlockAtPoints": "消耗点数达到{{required}}时解锁（当前 {{current}}）"
+      "unlockAtPoints": "消耗点数达到{{required}}时解锁（当前 {{current}}）",
+      "lockToggleEditing": "编辑中",
+      "lockToggleLocked": "锁定中",
+      "lockToggleLockAction": "锁定编辑",
+      "lockToggleUnlockAction": "编辑",
+      "confirmLockNote": "锁定中的话，锁定将被解除。",
+      "confirmRecommendMsg": "应用推荐技能后，当前选择内容将被重置。是否应用？",
+      "confirmRecommendYes": "应用",
+      "confirmRecommendCancel": "取消"
     },
     "stats": {
       "maxHp": "最大HP",

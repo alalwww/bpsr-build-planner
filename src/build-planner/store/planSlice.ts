@@ -12,6 +12,7 @@ import {
   STATIC_AUTOSAVE_DEFAULTS,
 } from '../plan/planDefaults';
 import { hasLegacyPhantomFactor, initPhantomNodeSelections } from '../phantom/phantomData';
+import { setSessionValue } from '../components/useSessionState';
 import type { CookingBuffState, EquipmentSlotId, EquippedItems } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
 import { normalSkillCount } from './skillSlice';
@@ -160,6 +161,11 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
     },
 
     applyPlanState: (plan) => {
+      // セーブ/コード/URLからのプラン復元時は、アビリティツリーを次回開いたときに
+      // 誤操作防止のためロック状態をデフォルトにする(TalentTreePanelはこの復元時
+      // アンマウント済みのことが多く直接更新できないため、セッションストアに
+      // 書き込んでおいて次回マウント時の初期値として読ませる)。
+      setSessionValue('talentTree.locked', true);
       const state = get();
       // 保存済みアイテムを最新データで上書き（スキーマ変更時の旧形式フィールドを更新）
       const refreshedEquipped: EquippedItems = {};

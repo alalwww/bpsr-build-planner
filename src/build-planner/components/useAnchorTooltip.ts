@@ -49,6 +49,14 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
     }
   };
 
+  // hoverDelayを無視して即座に表示する(クリックでツールチップを固定する等、明示的な
+  // 操作に対してホバー待ちを課したくない場合に使う)。
+  const openImmediate = (state: T) => {
+    cancelClose();
+    cancelOpen();
+    setTooltip(state);
+  };
+
   const scheduleClose = () => {
     cancelOpen();
     cancelClose();
@@ -61,5 +69,5 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
     setTooltip(null);
   };
 
-  return { tooltip, open, cancelClose, scheduleClose, close };
+  return { tooltip, open, openImmediate, cancelClose, scheduleClose, close };
 }

@@ -272,7 +272,15 @@
       "confirmResetYes": "Reset",
       "confirmResetCancel": "Cancel",
       "r1Label": "Expertise I",
-      "unlockAtPoints": "Unlocks at {{required}} points used (current: {{current}})"
+      "unlockAtPoints": "Unlocks at {{required}} points used (current: {{current}})",
+      "lockToggleEditing": "Editing",
+      "lockToggleLocked": "Locked",
+      "lockToggleLockAction": "Lock editing",
+      "lockToggleUnlockAction": "Edit",
+      "confirmLockNote": "If locked, the lock will be released.",
+      "confirmRecommendMsg": "Applying the recommended abilities will reset your current selection. Continue?",
+      "confirmRecommendYes": "Apply",
+      "confirmRecommendCancel": "Cancel"
     },
     "stats": {
       "maxHp": "Max HP",
