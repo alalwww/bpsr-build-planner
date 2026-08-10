@@ -105,6 +105,9 @@ export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean, hoverDel
       },
       onClick: (e) => {
         e.stopPropagation();
+        // 保留中のホバー遅延表示タイマーがあれば止める。放置すると、クリックで固定した
+        // 直後に古い(非固定の)内容でタイマーが発火し、固定表示を上書きしてしまう。
+        cancelOpen();
         if (isCurrent() && tooltip?.pinned) {
           setTooltip((prev) => (prev ? { ...prev, pinned: false } : null));
         } else {
