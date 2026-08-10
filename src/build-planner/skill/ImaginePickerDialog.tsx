@@ -44,7 +44,10 @@ function ImaginePickerDialog({
     open: openHover,
     cancelClose: cancelHoverClose,
     scheduleClose: hideHover,
-  } = useAnchorTooltip<{ skillId: number; x: number; y: number }>();
+  } = useAnchorTooltip<{ skillId: number; x: number; y: number }>(
+    500,
+    (a, b) => a.skillId === b.skillId,
+  ); // 別イマジンへの切り替えは一旦閉じて0.5秒待たせるhover intent
 
   const showHover = (id: number, e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();

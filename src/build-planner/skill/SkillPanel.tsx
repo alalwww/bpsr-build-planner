@@ -88,9 +88,11 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
     talentR2EnabledIds,
     talentNodesById,
   );
+  // 500ms: 何も表示されていない状態からの初回ホバーのみ待たせる(hover intent)。
   const { tooltip, makeHandlers, cancelClose, scheduleClose, close } =
     useCursorTooltip<SkillTooltipKey>(
       (a, b) => a.skillId === b.skillId && a.isImagine === b.isImagine,
+      500,
     );
 
   const makeCircleHandlers = (

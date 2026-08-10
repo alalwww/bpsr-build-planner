@@ -30,9 +30,15 @@ export type CursorTooltipHoverHandlers = Pick<
 // ホバー中はマウスカーソルに追従し、クリックでその位置に固定(ピン留め)、
 // 再度同じ対象をクリックするとピン留め解除、といった挙動を持つポップアップの
 // 位置/表示状態を共通化するフック。Skill/Module/装備パネルの各ポップアップで共用する。
-export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean) {
+//
+// hoverDelay(ms、既定0=即時表示)を指定すると、表示中のものと異なる対象へホバー移動した
+// 場合は一旦閉じ(即座に非表示にし)、この時間ホバーし続けて初めて新しい内容を表示する
+// (いわゆるhover intent)。同一対象への再入場(closeのグレース期間中に一瞬外れて
+// 戻ってきた場合等)は「切り替わっていない」とみなし、待たせずそのまま表示を継続する。
+export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean, hoverDelay = 0) {
   const [tooltip, setTooltip] = useState<CursorTooltipState<T> | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const cancelClose = () => {
     if (closeTimerRef.current !== null) {
@@ -41,12 +47,21 @@ export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean) {
     }
   };
 
+  const cancelOpen = () => {
+    if (openTimerRef.current !== null) {
+      clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
+    }
+  };
+
   const scheduleClose = () => {
+    cancelOpen();
     cancelClose();
     closeTimerRef.current = setTimeout(() => setTooltip(null), CLOSE_DELAY);
   };
 
   const close = () => {
+    cancelOpen();
     cancelClose();
     setTooltip(null);
   };
@@ -61,7 +76,18 @@ export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean) {
     return {
       onMouseEnter: (e) => {
         cancelClose();
-        if (!tooltip?.pinned) setTooltip({ key, ...posFor(e, align), pinned: false });
+        cancelOpen();
+        if (tooltip?.pinned) return;
+        const pos = posFor(e, align);
+        if (hoverDelay > 0 && !isCurrent()) {
+          if (tooltip !== null) setTooltip(null);
+          openTimerRef.current = setTimeout(() => {
+            openTimerRef.current = null;
+            setTooltip({ key, ...pos, pinned: false });
+          }, hoverDelay);
+        } else {
+          setTooltip({ key, ...pos, pinned: false });
+        }
       },
       onMouseMove: (e) => {
         if (tooltip?.pinned) return;
@@ -69,6 +95,7 @@ export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean) {
         setTooltip((prev) => (prev ? { ...prev, ...posFor(e, align) } : prev));
       },
       onMouseLeave: () => {
+        cancelOpen();
         if (!tooltip?.pinned) scheduleClose();
       },
       onMouseDown: (e) => {

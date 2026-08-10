@@ -122,7 +122,7 @@ export default function TalentTreePanel({
     open: openNodeTooltip,
     cancelClose: cancelTooltipClose,
     scheduleClose: scheduleTooltipClose,
-  } = useAnchorTooltip<HoveredNodeInfo>();
+  } = useAnchorTooltip<HoveredNodeInfo>(500, (a, b) => a.node.id === b.node.id); // 別ノードへの切り替えは一旦閉じて0.5秒待たせるhover intent
   const linkTextPopup = useLinkTextPopup();
   const [pendingSwitchBdType, setPendingSwitchBdType] = useState<0 | 1 | null>(null);
   const [pendingR1Deselect, setPendingR1Deselect] = useState<number | null>(null);
