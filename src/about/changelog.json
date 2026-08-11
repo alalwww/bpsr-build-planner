@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.10.1",
+      "date": "2026-08-11T18:24:43.884Z",
+      "summary": {
+        "ja": "ツールチップ表示の改善とステータス計算の不具合修正",
+        "en": "Improve tooltip display and fix stat calculation issues"
+      },
+      "changes": {
+        "ja": [
+          "各種ツールチップの表示タイミングや表示固定の動作を統一",
+          "追加バフ効果ダイアログの料理、属性強度薬、ダメージ強化薬、能力共鳴(響奏バフ)などの初期値を現環境に合わせ見直し",
+          "装備選択ダイアログ左上に現在の装備アイテム名表示を追加(装備名のコピーができるように)",
+          "アビリティツリーの自動ロック条件を修正(編集が終わっていそうな場合に自動ロック)",
+          "ステータス詳細のバフ効果を改善(属性強度は非表示とし属性ボーナスを表示する、など)",
+          "物理・魔法増強の計算不具合を修正"
+        ],
+        "en": [
+          "Unify the display timing and pin/dismiss behavior across various tooltips",
+          "Revise default values in the additional buff effects dialog (cooking, elemental strength potion, damage-enhancement potion, stat resonance, etc.) to match the current environment",
+          "Add the equipped item name to the top-left of the equipment picker dialog's preview (so it can be copied)",
+          "Fix the ability tree's auto-lock condition to trigger only when editing appears to be finished",
+          "Improve the stats detail buff-effect table (hide elemental strength and show elemental bonus instead, etc.)",
+          "Fix the physical/magical boost calculation bug"
+        ]
+      }
+    },
+    {
       "version": "0.10.0",
       "date": "2026-08-10T17:35:58.068Z",
       "summary": {
