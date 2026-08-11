@@ -799,6 +799,11 @@ export default function TalentTreePanel({
                       handleNodeClick(node.id);
                       return;
                     }
+                    // 固定中の対象を再クリック=固定解除。ホバー追従表示に戻すのではなく閉じる。
+                    if (isPinned && hoveredNodeInfo?.node.id === node.id) {
+                      closeNodeTooltip();
+                      return;
+                    }
                     openNodeTooltipImmediate({
                       node,
                       td,
@@ -806,7 +811,7 @@ export default function TalentTreePanel({
                       desc,
                       unlockRequired,
                       ...cursorTooltipPos(e),
-                      pinned: !isPinned || hoveredNodeInfo?.node.id !== node.id,
+                      pinned: true,
                     });
                   }}
                   onMouseDown={(e) => {

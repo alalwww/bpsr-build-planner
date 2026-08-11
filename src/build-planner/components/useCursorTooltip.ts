@@ -112,7 +112,8 @@ export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean, hoverDel
         // 直後に古い(非固定の)内容でタイマーが発火し、固定表示を上書きしてしまう。
         cancelOpen();
         if (isCurrent() && tooltip?.pinned) {
-          setTooltip((prev) => (prev ? { ...prev, pinned: false } : null));
+          // 固定中の対象を再クリック=固定解除。ホバー追従表示に戻すのではなく閉じる。
+          close();
         } else {
           setTooltip({ key, ...posFor(e, align), pinned: true });
         }
