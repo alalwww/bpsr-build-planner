@@ -9,6 +9,7 @@ import {
   getItemsBySlot,
 } from './equipmentData';
 import type { Profession, ProfessionTypeKey } from '../profession';
+import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useBuildStore } from '../store/useBuildStore';
 import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
@@ -153,11 +154,17 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
   const [candidateGsFilter, setCandidateGsFilter] = useState<CandidateGsFilter | null>(() =>
     getDefaultCandidateGsFilter(),
   );
-  const [hoveredSlot, setHoveredSlot] = useState<{
-    slot: EquipmentSlotId;
-    x: number;
-    y: number;
-  } | null>(null);
+  // スキルパネル等と揃え、0.5秒とどまってから表示するhover intent。カーソルが動き続けている
+  // 間はopenが呼ばれるたびリセットされる(EquipmentSlotButtonのonHoverMoveはmousemoveの
+  // たびに呼ばれるため、入室直後の1回目も含めてenter/move兼用で機能する)。
+  const {
+    tooltip: hoveredSlot,
+    open: openHoveredSlot,
+    close: closeHoveredSlot,
+  } = useAnchorTooltip<{ slot: EquipmentSlotId; x: number; y: number }>(
+    500,
+    (a, b) => a.slot === b.slot,
+  );
 
   const renderSlot = (slot: EquipmentSlotId) => {
     const item = equipped[slot];
@@ -172,8 +179,8 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
         isBottom={BOTTOM_SLOT_SET.has(slot)}
         onOpen={() => setOpenSlot(slot)}
         onUnequip={() => onUnequip(slot)}
-        onHoverMove={item ? (x, y) => setHoveredSlot({ slot, x, y }) : undefined}
-        onHoverEnd={item ? () => setHoveredSlot(null) : undefined}
+        onHoverMove={item ? (x, y) => openHoveredSlot({ slot, x, y }) : undefined}
+        onHoverEnd={item ? closeHoveredSlot : undefined}
       />
     );
   };

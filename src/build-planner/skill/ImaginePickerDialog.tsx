@@ -145,6 +145,7 @@ function ImaginePickerDialog({
                   onClose();
                 }}
                 onMouseEnter={(e) => showHover(bi.id, e)}
+                onMouseMove={(e) => showHover(bi.id, e)}
                 onMouseLeave={hideHover}
               >
                 <SkillCircle iconPath={bi.icon} isImagine rarityType={bi.rarityType} size="sm" />

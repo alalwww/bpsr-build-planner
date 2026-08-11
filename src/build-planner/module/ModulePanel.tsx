@@ -23,12 +23,24 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
   const moduleSlots = useBuildStore((s) => s.moduleSlots);
   const onSetModuleSlot = useBuildStore((s) => s.setModuleSlot);
   const [openSlot, setOpenSlot] = useState<number | null>(null);
+  // パワーコア効果アイコン(スロット/合計欄)は他パネルと揃え、0.5秒とどまってから
+  // 表示するhover intent。
   const {
     tooltip: effectPopup,
     makeHandlers: makeEffectHandlers,
     cancelClose: cancelEffectPopupClose,
     scheduleClose: scheduleEffectPopupClose,
     close: closeEffectPopup,
+  } = useCursorTooltip<EffectPopupKey>((a, b) => a.effectId === b.effectId, 500);
+
+  // モジュール選択ダイアログのドロップダウン選択肢用は現状の即時表示のまま据え置くため、
+  // 別インスタンスとして分離する(hoverDelayをアイコン側と共有しない)。
+  const {
+    tooltip: dropdownEffectPopup,
+    makeHandlers: makeDropdownEffectHandlers,
+    cancelClose: cancelDropdownEffectPopupClose,
+    scheduleClose: scheduleDropdownEffectPopupClose,
+    close: closeDropdownEffectPopup,
   } = useCursorTooltip<EffectPopupKey>((a, b) => a.effectId === b.effectId);
 
   const recommendedEffectIds = useMemo<Set<number>>(() => {
@@ -43,10 +55,10 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
     makeEffectHandlers({ effectId, align }, align);
 
   // モジュール選択ダイアログのドロップダウン選択肢用。クリックは効果の選択に使うため、
-  // makeEffectHandlersが返すonClick/onMouseDown(クリックでピン留め)は含めず、
+  // makeDropdownEffectHandlersが返すonClick/onMouseDown(クリックでピン留め)は含めず、
   // ホバーで追従表示するハンドラのみを渡す(EffectSelect.tsx参照)。
   const getEffectHoverHandlers = (effectId: number, align: 'right' | 'left') => {
-    const { onMouseEnter, onMouseMove, onMouseLeave } = makeEffectHandlers(
+    const { onMouseEnter, onMouseMove, onMouseLeave } = makeDropdownEffectHandlers(
       { effectId, align },
       align,
     );
@@ -94,6 +106,20 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
         />
       )}
 
+      {dropdownEffectPopup && (
+        <EffectInfoPopup
+          effectId={dropdownEffectPopup.key.effectId}
+          moduleSlots={moduleSlots}
+          x={dropdownEffectPopup.x}
+          y={dropdownEffectPopup.y}
+          align={dropdownEffectPopup.key.align}
+          pinned={dropdownEffectPopup.pinned}
+          onMouseEnter={cancelDropdownEffectPopupClose}
+          onMouseLeave={scheduleDropdownEffectPopupClose}
+          onClose={closeDropdownEffectPopup}
+        />
+      )}
+
       {openSlot != null && (
         <ModuleDialog
           slotIndex={openSlot}
@@ -102,7 +128,7 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
           onClose={() => setOpenSlot(null)}
           recommendedEffectIds={recommendedEffectIds}
           getEffectHoverHandlers={(effectId) => getEffectHoverHandlers(effectId, 'right')}
-          onCloseEffectHoverPopup={closeEffectPopup}
+          onCloseEffectHoverPopup={closeDropdownEffectPopup}
         />
       )}
     </section>

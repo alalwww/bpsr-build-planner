@@ -61,6 +61,7 @@ function RoleSkillPickerDialog({
                   onClose();
                 }}
                 onMouseEnter={(e) => showHover(id, e)}
+                onMouseMove={(e) => showHover(id, e)}
                 onMouseLeave={hideHover}
               >
                 <SkillCircle iconPath={sd?.icon} size="sm" />
