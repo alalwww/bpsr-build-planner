@@ -461,6 +461,8 @@
         "magicalAtk": "法术攻击力",
         "refinedPhysAtk": "精炼物攻",
         "refinedMagAtk": "精炼法攻",
+        "physicalEnhance": "物理强化度",
+        "magicalEnhance": "法术强化度",
         "physicalBoost": "物理增强",
         "magicalBoost": "法术增强",
         "atkSpeed": "攻击速度",

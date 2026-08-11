@@ -461,6 +461,8 @@
         "magicalAtk": "마법 공격력",
         "refinedPhysAtk": "정련 물공",
         "refinedMagAtk": "정련 마공",
+        "physicalEnhance": "물리 강화도",
+        "magicalEnhance": "마법 강화도",
         "physicalBoost": "물리 증강",
         "magicalBoost": "마법 증강",
         "atkSpeed": "공격 속도",

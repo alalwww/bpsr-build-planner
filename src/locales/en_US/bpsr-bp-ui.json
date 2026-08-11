@@ -461,6 +461,8 @@
         "magicalAtk": "Magical ATK",
         "refinedPhysAtk": "Refined Phys ATK",
         "refinedMagAtk": "Refined Mag ATK",
+        "physicalEnhance": "Physical Enhance",
+        "magicalEnhance": "Magical Enhance",
         "physicalBoost": "Physical Boost",
         "magicalBoost": "Magical Boost",
         "atkSpeed": "Attack Speed",
