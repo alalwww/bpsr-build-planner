@@ -32,9 +32,11 @@ export type CursorTooltipHoverHandlers = Pick<
 // 位置/表示状態を共通化するフック。Skill/Module/装備パネルの各ポップアップで共用する。
 //
 // hoverDelay(ms、既定0=即時表示)を指定すると、表示中のものと異なる対象へホバー移動した
-// 場合は一旦閉じ(即座に非表示にし)、この時間ホバーし続けて初めて新しい内容を表示する
-// (いわゆるhover intent)。同一対象への再入場(closeのグレース期間中に一瞬外れて
-// 戻ってきた場合等)は「切り替わっていない」とみなし、待たせずそのまま表示を継続する。
+// 場合は一旦閉じ(即座に非表示にし)、カーソルが動かずこの時間とどまり続けて初めて新しい
+// 内容を表示する(いわゆるhover intent)。要素内でカーソルが動くたびタイマーは最新位置で
+// リセットされるため、動き続けている間は表示されない。同一対象への再入場(closeの
+// グレース期間中に一瞬外れて戻ってきた場合等)は「切り替わっていない」とみなし、
+// 待たせずそのまま表示を継続する。
 export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean, hoverDelay = 0) {
   const [tooltip, setTooltip] = useState<CursorTooltipState<T> | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -73,27 +75,28 @@ export function useCursorTooltip<T>(isSameKey: (a: T, b: T) => boolean, hoverDel
 
   const makeHandlers = (key: T, align: 'left' | 'right' = 'right'): CursorTooltipHandlers => {
     const isCurrent = () => tooltip !== null && isSameKey(tooltip.key, key);
-    return {
-      onMouseEnter: (e) => {
-        cancelClose();
-        cancelOpen();
-        if (tooltip?.pinned) return;
-        const pos = posFor(e, align);
-        if (hoverDelay > 0 && !isCurrent()) {
-          if (tooltip !== null) setTooltip(null);
-          openTimerRef.current = setTimeout(() => {
-            openTimerRef.current = null;
-            setTooltip({ key, ...pos, pinned: false });
-          }, hoverDelay);
-        } else {
+    // ホバー中(enter/move共通)。要素内でカーソルが動くたびonMouseMoveからも呼ぶことで、
+    // hover intentの表示待ちタイマーを最新のカーソル位置でリセットする(=動き続けている
+    // 間は表示されず、静止して初めて表示される)。既に表示中(isCurrent)なら遅延なく
+    // 位置だけを更新する。
+    const hover = (e: React.MouseEvent) => {
+      cancelClose();
+      if (tooltip?.pinned) return;
+      cancelOpen();
+      const pos = posFor(e, align);
+      if (hoverDelay > 0 && !isCurrent()) {
+        if (tooltip !== null) setTooltip(null);
+        openTimerRef.current = setTimeout(() => {
+          openTimerRef.current = null;
           setTooltip({ key, ...pos, pinned: false });
-        }
-      },
-      onMouseMove: (e) => {
-        if (tooltip?.pinned) return;
-        if (!isCurrent()) return;
-        setTooltip((prev) => (prev ? { ...prev, ...posFor(e, align) } : prev));
-      },
+        }, hoverDelay);
+      } else {
+        setTooltip({ key, ...pos, pinned: false });
+      }
+    };
+    return {
+      onMouseEnter: hover,
+      onMouseMove: hover,
       onMouseLeave: () => {
         cancelOpen();
         if (!tooltip?.pinned) scheduleClose();

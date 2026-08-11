@@ -15,6 +15,12 @@ const CLOSE_DELAY = 120;
 // (hover intent)。isSameState を渡すと、同一対象への再入場(closeのグレース期間中に
 // 一瞬外れて戻ってきた場合等)を「切り替わっていない」とみなし、待たせずそのまま表示を
 // 継続できる(省略時は毎回別対象とみなす=常に閉じてから待たせる)。
+//
+// hover intentは「カーソルが動かずにhoverDelay分とどまり続けたら表示する」仕様のため、
+// 呼び出し側はonMouseEnterだけでなくonMouseMove(カーソル位置更新のたび)からもopenを
+// 呼ぶこと。表示待ち(pending)中にopenが呼ばれると、都度cancelOpenでタイマーを破棄して
+// 最新位置で再スケジュールするため、動き続けている間は表示されない。既に表示中(isSame)
+// なら遅延なく位置が更新される。
 export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) => boolean) {
   const [tooltip, setTooltip] = useState<T | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -69,12 +75,5 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
     setTooltip(null);
   };
 
-  // 表示中のtooltipの内容を部分更新する(カーソル追従での位置更新等)。hover intentの
-  // 表示待ちタイマー(open中のpending状態)には影響しない。tooltipが表示されていない間
-  // (pending中も含む)は何もしない。
-  const move = (updater: (prev: T) => T) => {
-    setTooltip((prev) => (prev ? updater(prev) : prev));
-  };
-
-  return { tooltip, open, openImmediate, move, cancelClose, scheduleClose, close };
+  return { tooltip, open, openImmediate, cancelClose, scheduleClose, close };
 }

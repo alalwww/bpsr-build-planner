@@ -125,7 +125,6 @@ export default function TalentTreePanel({
     tooltip: hoveredNodeInfo,
     open: openNodeTooltip,
     openImmediate: openNodeTooltipImmediate,
-    move: moveNodeTooltip,
     cancelClose: cancelTooltipClose,
     scheduleClose: scheduleTooltipClose,
     close: closeNodeTooltip,
@@ -771,6 +770,24 @@ export default function TalentTreePanel({
                 return { x, y: e.clientY, align };
               };
 
+              // ホバー中(enter/move共通)のツールチップ表示処理。要素内でカーソルが動くたび
+              // onMouseMoveからも呼ぶことで、hover intentの0.5秒タイマーを最新のカーソル位置で
+              // リセットする(=カーソルが動き続けている間は表示されず、静止して初めて表示される)。
+              // 既に表示中(同一ノード)の場合はopen内部のisSame判定により遅延なく位置が
+              // 更新される(openNodeTooltipImmediateと同じuseAnchorTooltip.openを再利用)。
+              const hoverNodeTooltip = (e: React.MouseEvent) => {
+                if (isPinned) return;
+                openNodeTooltip({
+                  node,
+                  td,
+                  name,
+                  desc,
+                  unlockRequired,
+                  ...cursorTooltipPos(e),
+                  pinned: false,
+                });
+              };
+
               return (
                 <g
                   key={`n${node.id}`}
@@ -802,26 +819,9 @@ export default function TalentTreePanel({
                     // カーソル形状/選択可能ハイライトは実際のホバー位置に即座に追従させる
                     // (ツールチップ表示側の0.5秒hover intentとは独立させる)。
                     setTrueHoveredId(node.id);
-                    if (isPinned) return;
-                    openNodeTooltip({
-                      node,
-                      td,
-                      name,
-                      desc,
-                      unlockRequired,
-                      ...cursorTooltipPos(e),
-                      pinned: false,
-                    });
+                    hoverNodeTooltip(e);
                   }}
-                  onMouseMove={(e) => {
-                    if (isPinned) return;
-                    if (hoveredNodeInfo?.node.id !== node.id) return;
-                    // cursorTooltipPos(e)はここで即時評価する。moveNodeTooltip(setState)の
-                    // 更新関数はReactにより遅延実行されることがあり、その時点ではe.currentTarget
-                    // が既にnullになっている(Reactが合成イベントの参照をディスパッチ後に破棄する)ため。
-                    const pos = cursorTooltipPos(e);
-                    moveNodeTooltip((prev) => ({ ...prev, ...pos }));
-                  }}
+                  onMouseMove={hoverNodeTooltip}
                   onMouseLeave={() => {
                     setTrueHoveredId((prev) => (prev === node.id ? null : prev));
                     if (!isPinned) scheduleTooltipClose();
