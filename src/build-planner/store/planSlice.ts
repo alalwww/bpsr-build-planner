@@ -161,10 +161,9 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
     },
 
     applyPlanState: (plan) => {
-      // セーブ/コード/URLからのプラン復元時は、アビリティツリーを次回開いたときに
-      // 誤操作防止のためロック状態をデフォルトにする(TalentTreePanelはこの復元時
-      // アンマウント済みのことが多く直接更新できないため、セッションストアに
-      // 書き込んでおいて次回マウント時の初期値として読ませる)。
+      // セーブ/コード/URLからのプラン復元時は、誤操作防止のためロック状態をデフォルトにする。
+      // TalentTreePanelがマウント中(アビリティツリー表示中にロードした)ならuseSyncExternalStore
+      // 経由で表示側も即座にロック表示へ切り替わり、アンマウント中なら次回マウント時の初期値になる。
       setSessionValue('talentTree.locked', true);
       const state = get();
       // 保存済みアイテムを最新データで上書き（スキーマ変更時の旧形式フィールドを更新）
