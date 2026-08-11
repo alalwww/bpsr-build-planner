@@ -423,13 +423,11 @@ export const RAW_PERCENT_STAT_IDS = new Set<StatId>([
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリ用。
 // 蒼海武器シリーズ等)。対象ステータスはderiveStats側で収益減少曲線を経由しない固定基礎%への
-// 直接加算(会心ダメージ/幸運の一撃ダメージ率/会心回復/バリア強度)か、物理・魔法増強であり、
-// 単純な%乗算ではないため実数値の平坦加算として扱う。
-// (会心/幸運/ファスト/器用さの"%"バリアントはEVO_PCT_FINAL_ATTR_TO_STAT側を参照)
+// 直接加算(会心ダメージ/幸運の一撃ダメージ率/会心回復/バリア強度)。
+// (会心/幸運/ファスト/器用さ/万能の"%"バリアント、物理・魔法増強の"%"バリアントは
+// EVO_PCT_FINAL_ATTR_TO_STAT側を参照)
 export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11812: 'barrierStrength',
-  12552: 'physicalEnhance',
-  12572: 'magicalEnhance',
   12512: 'critDamageBonus',
   12532: 'luckyHitDamageBonus',
   12742: 'critRecoveryBonus',
@@ -448,16 +446,23 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリのうち、
 // 会心/幸運/ファスト/器用さ/万能の"%"バリアント。既存のflat系attrId(11112/11132/11122/11142/
-// 11152)とgame-data.json上で同名のため、収益逓減カーブ適用後の最終%への乗算ボーナスとして扱う
-// (IMAGINE_PCT_FINALと同じ意味・同じ単位: 1/10000)。
+// 11152)とgame-data.json上で同名のため、収益逓減カーブ適用後の最終%への直接加算として扱う
+// (finalPctAddendと同じ単位: 100 = 1%)。
 // 11952(万能)は蒼海武器レアステータスでのみ確認。他4件と同じ命名規則・並び(11712/11782/
 // 11932/11942の次)であることからの類推であり、ゲーム内表示での実測未確認。
+// 12552/12572(物理/魔法増強の"%"バリアント、蒼海武器等)も同様に、強化薬等由来の実数値が
+// 収益逓減カーブを経由して算出された最終%(physicalBoostPercent/magicalBoostPercent)への
+// 直接加算として扱う(2026-08-12不具合報告: 従来はphysicalEnhance/magicalEnhanceの実数値へ
+// 平坦加算していたため、カーブ通過前の実数値段階で強化薬分と合算されてしまい、収益逓減の
+// 影響を余分に受けて過小評価になっていた)。
 export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11712: 'crit',
   11782: 'luck',
   11932: 'haste',
   11942: 'mastery',
   11952: 'versatility',
+  12552: 'physicalEnhance',
+  12572: 'magicalEnhance',
 };
 
 // 刻印(伝説刻印) AttrId → 最終ステータスへの%乗算(武器/アクセサリのみ・isPercent=true)。

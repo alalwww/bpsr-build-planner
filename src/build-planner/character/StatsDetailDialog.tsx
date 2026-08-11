@@ -26,14 +26,20 @@ interface StatsDetailDialogProps {
 
 const ELEMENTS = ['all', ...ELEMENT_IDS] as const;
 
-// 会心/ファスト/幸運/器用さ/万能: cookingBonusが最終%表示値への直接加算(単位: %そのまま)のため、
-// 追加バフ列では他ステータス(実数加算)と異なり%表記で表示する。
+// 会心/ファスト/幸運/器用さ/万能/物理増強/魔法増強: cookingBonusが最終%表示値への直接加算
+// (単位: %そのまま)のため、追加バフ列では他ステータス(実数加算)と異なり%表記で表示する。
+// 物理/魔法増強はRAW_PERCENT_STAT_IDSにも含まれるが、その実数値(entry.additive等)は
+// 収益逓減カーブ通過"前"の単位である一方、cookingBonus(蒼海武器等のfinalPctAddend由来)は
+// カーブ通過"後"の最終%への直接加算のため、isRawPercent側の/100変換を適用してはいけない
+// (2026-08-12不具合報告)。
 const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>([
   'crit',
   'haste',
   'luck',
   'mastery',
   'versatility',
+  'physicalEnhance',
+  'magicalEnhance',
 ]);
 
 function fmtPct(v: number) {

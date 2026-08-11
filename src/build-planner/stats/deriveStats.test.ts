@@ -262,6 +262,43 @@ describe('deriveStats', () => {
     );
   });
 
+  it('matches the user-reported damage-enhancement potion example (+640 real -> 5.4983%, k=11000)', () => {
+    const profession = PROFESSIONS.stormBlade;
+    const raw: Record<StatId, number> = { ...zeroRaw(), physicalEnhance: 640 };
+
+    const result = deriveStats(raw, profession);
+
+    expect(SEASON_CONSTANTS.diminishingEnhance).toBe(11000);
+    expect(result.physicalBoostPercent).toBeCloseTo((100 * 640) / (640 + 11000), 4);
+  });
+
+  it('adds finalPctAddend.physicalEnhance/magicalEnhance (e.g. Azure Sea weapon "物理/魔法増強+n%") directly on top of the diminishing-curve result instead of merging into the same curve input as the potion', () => {
+    const profession = PROFESSIONS.stormBlade;
+    const raw: Record<StatId, number> = {
+      ...zeroRaw(),
+      physicalEnhance: 640,
+      magicalEnhance: 640,
+    };
+
+    const withoutWeapon = deriveStats(raw, profession);
+    // finalPctAddendはcalcStatValueと同じ実数値表記(100 = 1%)のため、500 = +5%。
+    const withWeapon = deriveStats(raw, profession, {}, 0, 0, 0, 0, {
+      physicalEnhance: 500,
+      magicalEnhance: 500,
+    });
+
+    expect(withoutWeapon.physicalBoostPercent).toBeCloseTo(
+      diminishingPercent(raw.physicalEnhance, SEASON_CONSTANTS.diminishingEnhance),
+    );
+    // +5%が収益逓減カーブを経由していれば640+500=1140を入力した値になるはずだが、そうならず
+    // 単純加算になっていることを確認する(カーブ通過"後"の最終%への直接加算であることの検証)。
+    expect(withWeapon.physicalBoostPercent).toBeCloseTo(withoutWeapon.physicalBoostPercent + 5);
+    expect(withWeapon.magicalBoostPercent).toBeCloseTo(withoutWeapon.magicalBoostPercent + 5);
+    expect(withWeapon.physicalBoostPercent).not.toBeCloseTo(
+      diminishingPercent(1140, SEASON_CONSTANTS.diminishingEnhance),
+    );
+  });
+
   it('ignores unrelated conversionRateBonus keys (magical attacker does not get an atk bonus meant for physical)', () => {
     const profession = PROFESSIONS.frostMage; // magical, mainStat=intellect
     const raw: Record<StatId, number> = { ...zeroRaw(), atk: 100, intellect: 150 };

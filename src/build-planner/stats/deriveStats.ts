@@ -15,7 +15,11 @@ import {
 // floorしてから足すと1348、先に0.6として1回で乗算すると1349になり、ゲーム内実測値は前者
 // (1348)と一致した)。raw側の実数値ステータス自体は既にcalculateRawStats側で整数へ
 // 切り捨て済みのため、ここでは追加のfloorは行わない。
-function convertBySeparatelyTruncatedRates(rawValue: number, baseRate: number, bonusRate: number): number {
+function convertBySeparatelyTruncatedRates(
+  rawValue: number,
+  baseRate: number,
+  bonusRate: number,
+): number {
   return Math.floor(rawValue * baseRate) + Math.floor(rawValue * bonusRate);
 }
 
@@ -106,8 +110,7 @@ function computeSpeedPercents(
     atkSpeedPercent:
       hastePercent * (profession.atkSpeedPerHastePercent + atkSpeedPerHastePercentBonus) +
       atkSpeedFinalPctAddend,
-    castSpeedPercent:
-      hastePercent * profession.castSpeedPerHastePercent + castSpeedFinalPctAddend,
+    castSpeedPercent: hastePercent * profession.castSpeedPerHastePercent + castSpeedFinalPctAddend,
   };
 }
 
@@ -192,6 +195,11 @@ export function deriveStats(
   // 倍率への変換率ボーナス。calculateRawStatsのluckyHitDamageRatioBonusをそのまま渡す
   // (基礎係数0.25に加算する)。
   luckyHitDamageRatioBonus = 0,
+  // 進化ステータス(蒼海武器等)の物理/魔法増強"%"バリアントによる、収益逓減カーブ適用後の
+  // 最終%への直接加算(単位: 100 = 1%)。calculateRawStatsのfinalPctAddendをそのまま渡す。
+  // 強化薬(スターオイル)由来の実数値(raw.physicalEnhance/magicalEnhance)はカーブを経由させ、
+  // こちらはカーブ通過後の結果に加算する点に注意(2026-08-12不具合報告)。
+  finalPctAddend: Partial<Record<StatId, number>> = {},
 ): DerivedStats {
   const enduranceMaxHpBonus = raw.endurance * profession.hpPerEndurancePoint;
   const maxHp = raw.maxHp + enduranceMaxHpBonus;
@@ -256,14 +264,12 @@ export function deriveStats(
     DIMINISHING_A_BASE_PERCENT.resist,
   );
 
-  const physicalBoostPercent = diminishingPercent(
-    raw.physicalEnhance,
-    SEASON_CONSTANTS.diminishingEnhance,
-  );
-  const magicalBoostPercent = diminishingPercent(
-    raw.magicalEnhance,
-    SEASON_CONSTANTS.diminishingEnhance,
-  );
+  const physicalBoostPercent =
+    diminishingPercent(raw.physicalEnhance, SEASON_CONSTANTS.diminishingEnhance) +
+    (finalPctAddend.physicalEnhance ?? 0) / 100;
+  const magicalBoostPercent =
+    diminishingPercent(raw.magicalEnhance, SEASON_CONSTANTS.diminishingEnhance) +
+    (finalPctAddend.magicalEnhance ?? 0) / 100;
 
   const luckyHitMultipliers = computeLuckyHitMultipliers(
     luckPercent,
