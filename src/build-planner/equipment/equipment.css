@@ -1059,6 +1059,23 @@
   object-fit: contain;
 }
 
+.equip-preview-box__name {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  right: 8px;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  text-shadow:
+    0 0 4px #000000,
+    0 0 8px #000000,
+    0 0 12px #000000;
+}
+
 /* ---- 装着効果カスタムドロップダウン ---- */
 .equip-enchant-section {
   display: flex;

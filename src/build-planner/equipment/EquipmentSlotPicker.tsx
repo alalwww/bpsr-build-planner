@@ -542,6 +542,14 @@ function EquipmentSlotPicker({
               {equippedItem && iconUrl && (
                 <img className="equip-preview-box__icon" src={iconUrl} alt="" />
               )}
+              {equippedItem && (
+                <span
+                  className="equip-preview-box__name"
+                  style={{ color: getItemNameColor(equippedItem) }}
+                >
+                  {t(`items.${equippedItem.id}.name`, { ns: 'game-data' })}
+                </span>
+              )}
             </div>
 
             <div className="equip-details-section">
