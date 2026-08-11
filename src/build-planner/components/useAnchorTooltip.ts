@@ -69,5 +69,12 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
     setTooltip(null);
   };
 
-  return { tooltip, open, openImmediate, cancelClose, scheduleClose, close };
+  // 表示中のtooltipの内容を部分更新する(カーソル追従での位置更新等)。hover intentの
+  // 表示待ちタイマー(open中のpending状態)には影響しない。tooltipが表示されていない間
+  // (pending中も含む)は何もしない。
+  const move = (updater: (prev: T) => T) => {
+    setTooltip((prev) => (prev ? updater(prev) : prev));
+  };
+
+  return { tooltip, open, openImmediate, move, cancelClose, scheduleClose, close };
 }

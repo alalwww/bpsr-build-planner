@@ -8,6 +8,7 @@ import FloatingTooltip from '../components/FloatingTooltip';
 import LinkTextPopup from '../components/LinkTextPopup';
 import ZoomControls from '../components/ZoomControls';
 import { useAnchorTooltip } from '../components/useAnchorTooltip';
+import { CURSOR_TOOLTIP_GAP } from '../components/useCursorTooltip';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import { useDragScroll } from '../components/useDragScroll';
@@ -56,9 +57,9 @@ interface HoveredNodeInfo {
   name: string;
   desc: string;
   unlockRequired: number | null;
-  x: number; // tooltip position (align='right'ならicon rect右端+10、'left'なら左端-10)
-  y: number; // tooltip position (icon rect top)
-  align: 'left' | 'right'; // ノードがキャンバス中央より右なら'left'(左に表示)、左なら'right'
+  x: number; // tooltip position (マウスカーソルのclientX ± CURSOR_TOOLTIP_GAP)
+  y: number; // tooltip position (マウスカーソルのclientY)
+  align: 'left' | 'right'; // カーソルがキャンバス中央より右なら'left'(左に表示)、左なら'right'
   pinned: boolean;
 }
 
@@ -124,8 +125,10 @@ export default function TalentTreePanel({
     tooltip: hoveredNodeInfo,
     open: openNodeTooltip,
     openImmediate: openNodeTooltipImmediate,
+    move: moveNodeTooltip,
     cancelClose: cancelTooltipClose,
     scheduleClose: scheduleTooltipClose,
+    close: closeNodeTooltip,
   } = useAnchorTooltip<HoveredNodeInfo>(500, (a, b) => a.node.id === b.node.id); // 別ノードへの切り替えは一旦閉じて0.5秒待たせるhover intent
   const linkTextPopup = useLinkTextPopup();
   // アビリティツリーの誤操作防止ロック。既定はOFF(編集中)。セッション中(ページを開いている
@@ -748,22 +751,24 @@ export default function TalentTreePanel({
                     ? 'not-allowed'
                     : 'pointer';
 
-              // ノードがキャンバス中央より右にあれば左側(align='left')、左にあれば
-              // 右側(align='right')にツールチップを表示し、画面端でのはみ出しを避ける。
+              // スキルパネル(useCursorTooltip)と同じ形式で、マウスカーソルに追従する位置に
+              // 表示する。カーソルがキャンバス中央より右側にあれば左側(align='left')、
+              // 左側にあれば右側(align='right')に出し、画面端でのはみ出しを避ける。
               // canvasWrapperRef(useCtrlWheelZoom)はcallback refで.currentを持たないため、
               // DOM走査でキャンバス要素の矩形を取得する。
-              const tooltipPos = (
-                rect: DOMRect,
-                target: Element,
-              ): { x: number; align: 'left' | 'right' } => {
-                const canvasRect = target
+              const cursorTooltipPos = (
+                e: React.MouseEvent,
+              ): { x: number; y: number; align: 'left' | 'right' } => {
+                const canvasRect = (e.currentTarget as Element)
                   .closest('.talent-tree-panel__canvas-wrapper')
                   ?.getBoundingClientRect();
                 const canvasMidX = canvasRect ? canvasRect.left + canvasRect.width / 2 : Infinity;
-                const nodeCenterX = rect.left + rect.width / 2;
-                return nodeCenterX > canvasMidX
-                  ? { x: rect.left - 10, align: 'left' }
-                  : { x: rect.right + 10, align: 'right' };
+                const align: 'left' | 'right' = e.clientX > canvasMidX ? 'left' : 'right';
+                const x =
+                  align === 'left'
+                    ? e.clientX - CURSOR_TOOLTIP_GAP
+                    : e.clientX + CURSOR_TOOLTIP_GAP;
+                return { x, y: e.clientY, align };
               };
 
               return (
@@ -777,34 +782,45 @@ export default function TalentTreePanel({
                       handleNodeClick(node.id);
                       return;
                     }
-                    const rect = (e.currentTarget as SVGGElement).getBoundingClientRect();
                     openNodeTooltipImmediate({
                       node,
                       td,
                       name,
                       desc,
                       unlockRequired,
-                      ...tooltipPos(rect, e.currentTarget),
-                      y: rect.top,
+                      ...cursorTooltipPos(e),
                       pinned: !isPinned || hoveredNodeInfo?.node.id !== node.id,
                     });
+                  }}
+                  onMouseDown={(e) => {
+                    // ドキュメント側の外側クリック検知(FloatingTooltipのonRequestClose)が、
+                    // ノード自身のクリック(固定切り替え/別ノードへの固定移動)より先に
+                    // ピン留めを解除してしまわないようにする(useCursorTooltipと同じ対策)。
+                    e.stopPropagation();
                   }}
                   onMouseEnter={(e) => {
                     // カーソル形状/選択可能ハイライトは実際のホバー位置に即座に追従させる
                     // (ツールチップ表示側の0.5秒hover intentとは独立させる)。
                     setTrueHoveredId(node.id);
                     if (isPinned) return;
-                    const rect = (e.currentTarget as SVGGElement).getBoundingClientRect();
                     openNodeTooltip({
                       node,
                       td,
                       name,
                       desc,
                       unlockRequired,
-                      ...tooltipPos(rect, e.currentTarget),
-                      y: rect.top,
+                      ...cursorTooltipPos(e),
                       pinned: false,
                     });
+                  }}
+                  onMouseMove={(e) => {
+                    if (isPinned) return;
+                    if (hoveredNodeInfo?.node.id !== node.id) return;
+                    // cursorTooltipPos(e)はここで即時評価する。moveNodeTooltip(setState)の
+                    // 更新関数はReactにより遅延実行されることがあり、その時点ではe.currentTarget
+                    // が既にnullになっている(Reactが合成イベントの参照をディスパッチ後に破棄する)ため。
+                    const pos = cursorTooltipPos(e);
+                    moveNodeTooltip((prev) => ({ ...prev, ...pos }));
                   }}
                   onMouseLeave={() => {
                     setTrueHoveredId((prev) => (prev === node.id ? null : prev));
@@ -893,6 +909,7 @@ export default function TalentTreePanel({
           clamp
           align={hoveredNodeInfo.align}
           className={`talent-tree-panel__tooltip${isPinned ? ' talent-tree-panel__tooltip--pinned' : ''}`}
+          onRequestClose={isPinned ? closeNodeTooltip : undefined}
           onMouseEnter={cancelTooltipClose}
           onMouseLeave={() => {
             if (!isPinned) scheduleTooltipClose();
