@@ -63,6 +63,8 @@ const SLOT_ORDER: EquipmentSlotId[] = [
 
 // クラス・進化ステータス・属性は文字列リテラルのままだと繰り返し出現して肥大化するため、
 // 固定順序リストのインデックス(数値)に変換する。
+// 既存データとの互換性を保つため、新しいクラスの追加時は必ず末尾に追記すること
+// (途中への挿入や並び替えは既存の保存データのクラス判定を破壊する)。
 const PROFESSION_KEY_ORDER: ProfessionKey[] = [
   'heavyGuardian',
   'shieldFighter',
@@ -72,7 +74,16 @@ const PROFESSION_KEY_ORDER: ProfessionKey[] = [
   'frostMage',
   'verdantOracle',
   'beatPerformer',
+  'twinStriker',
 ];
+
+// コンパイル時の網羅性チェック: ProfessionKey にクラスを追加したのに
+// PROFESSION_KEY_ORDER への追記を忘れると、この型が `never` に収まらずビルドエラーになる。
+type AssertNeverProfessionKey<T extends never> = T;
+const _professionKeyOrderCoversAllKeys: AssertNeverProfessionKey<
+  Exclude<ProfessionKey, (typeof PROFESSION_KEY_ORDER)[number]>
+> = undefined as never;
+void _professionKeyOrderCoversAllKeys;
 
 const EVOLUTION_STAT_ORDER: EvolutionStatId[] = ['haste', 'crit', 'luck', 'versatility', 'mastery'];
 
@@ -315,7 +326,14 @@ const FIELD_SPECS = [
   field(
     'professionKey',
     (s) => PROFESSION_KEY_ORDER.indexOf(s.professionKey),
-    (raw) => PROFESSION_KEY_ORDER[typeof raw === 'number' ? raw : -1],
+    (raw) => {
+      // 修正前のバージョンでは PROFESSION_KEY_ORDER に twinStriker が未登録だったため、
+      // ツインストライカーで保存したデータは indexOf が -1 を返し、その値がそのまま
+      // 保存されていた。職業選択は必須(未選択のデータは存在しない)なので、-1 は
+      // 「当時ツインストライカーとして保存された」ことを示す値として復元する。
+      if (raw === -1) return 'twinStriker';
+      return PROFESSION_KEY_ORDER[typeof raw === 'number' ? raw : -1];
+    },
   ),
   field(
     'professionTypeKey',
