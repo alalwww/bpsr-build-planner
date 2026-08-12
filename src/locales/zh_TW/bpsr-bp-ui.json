@@ -450,6 +450,7 @@
         "atk": "屬性攻擊力",
         "str": "屬性強度",
         "bonus": "屬性加成",
+        "strBonus": "屬性強度/加成",
         "resist": "屬性抗性",
         "reduction": "屬性減免"
       },
@@ -465,6 +466,8 @@
         "magicalEnhance": "法術強化度",
         "physicalBoost": "物理增強",
         "magicalBoost": "法術增強",
+        "physicalEnhanceBuff": "物理強化度/增強",
+        "magicalEnhanceBuff": "法術強化度/增強",
         "atkSpeed": "攻擊速度",
         "castSpeed": "施法速度",
         "critDamage": "暴擊傷害",

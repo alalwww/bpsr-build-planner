@@ -450,6 +450,7 @@
         "atk": " ATK",
         "str": " Strength",
         "bonus": " Bonus",
+        "strBonus": " Strength/Bonus",
         "resist": " Resist",
         "reduction": " Reduction"
       },
@@ -465,6 +466,8 @@
         "magicalEnhance": "Magical Enhance",
         "physicalBoost": "Physical Boost",
         "magicalBoost": "Magical Boost",
+        "physicalEnhanceBuff": "Physical Enhance/Boost",
+        "magicalEnhanceBuff": "Magical Enhance/Boost",
         "atkSpeed": "Attack Speed",
         "castSpeed": "Cast Speed",
         "critDamage": "Crit Damage",

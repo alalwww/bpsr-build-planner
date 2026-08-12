@@ -450,6 +450,7 @@
         "atk": "属性攻撃力",
         "str": "属性強度",
         "bonus": "属性ボーナス",
+        "strBonus": "属性強度/ボーナス",
         "resist": "属性耐性",
         "reduction": "属性軽減"
       },
@@ -465,6 +466,8 @@
         "magicalEnhance": "魔法強化度",
         "physicalBoost": "物理増強",
         "magicalBoost": "魔法増強",
+        "physicalEnhanceBuff": "物理ダメージ強化度/増強",
+        "magicalEnhanceBuff": "魔法ダメージ強化度/増強",
         "atkSpeed": "攻撃速度",
         "castSpeed": "詠唱速度",
         "critDamage": "会心ダメージ",

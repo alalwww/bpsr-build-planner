@@ -401,11 +401,11 @@ export const EVO_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 // を持つステータス。素の実数値ではなく%表記で表示すべき箇所(StatsDetailDialogの追加バフ列、
 // PhantomEffectSummaryDialogの合計テーブル等)で共通利用する(2026-08-09不具合報告: +400のような
 // 素の実数値がそのまま表示され分かりづらかった)。
-// 物理/魔法増強(系列C)は収益逓減カーブを経由するため厳密には他と単位の意味が異なるが、
-// 個々の加算源自体は同じ"100=1%"の実数値で表現されるため同じ表記に揃える。
+// 物理/魔法増強(physicalEnhance/magicalEnhance)は含めない: 収益逓減カーブを経由する"強化度"
+// レーティング(会心/ファスト等と同じ性質)であり、実数値をそのまま/100して%表示すると
+// カーブ変換後の実際の%とは一致しない(2026-08-12不具合報告)。属性ボーナス(fireBonus等)は
+// カーブを経由しない直接加算のためこちらに含める。
 export const RAW_PERCENT_STAT_IDS = new Set<StatId>([
-  'physicalEnhance',
-  'magicalEnhance',
   'critDamageBonus',
   'critRecoveryBonus',
   'luckyHitDamageBonus',
@@ -419,6 +419,13 @@ export const RAW_PERCENT_STAT_IDS = new Set<StatId>([
   'physicalReductionBonus',
   'magicalReductionBonus',
   'physicalDefIgnoreBonus',
+  'fireBonus',
+  'iceBonus',
+  'forestBonus',
+  'thunderBonus',
+  'windBonus',
+  'rockBonus',
+  'lightBonus',
 ]);
 
 // 進化ステータス固定効果 AttrId → StatId (fixedEvolutionStats の isPercent=true エントリ用。

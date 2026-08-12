@@ -26,27 +26,30 @@ interface StatsDetailDialogProps {
 
 const ELEMENTS = ['all', ...ELEMENT_IDS] as const;
 
-// 会心/ファスト/幸運/器用さ/万能: cookingBonusが最終%表示値への直接加算(単位: %そのまま)のため、
-// 追加バフ列では他ステータス(実数加算)と異なり%表記で表示する。
-// 物理/魔法増強・属性ボーナスも同種の直接加算(蒼海武器等のfinalPctAddend由来)を持つが、
-// 対応するraw StatId(physicalEnhance/magicalEnhance/各属性強度)自体はCURVE_PRECURSOR_STAT_IDS
-// によりバフ効果テーブルの汎用ループから除外し、代わりに手動で組み立てた合成行(下記
-// curveBoostRow参照)で表示するため、このSetには含めない(2026-08-12不具合報告: 収益逓減
-// カーブを経由する実数値をisRawPercentの/100変換だけで%表示すると、実際の変換結果と
-// 一致しない誤った値になる)。
+// 会心/ファスト/幸運/器用さ/万能/物理増強/魔法増強: cookingBonusが最終%表示値への直接加算
+// (単位: %そのまま)のため、追加バフ列では他ステータス(実数加算)と異なり%表記で表示する。
+// 物理/魔法増強はRAW_PERCENT_STAT_IDSには含めない(rawStats.physicalEnhance等は会心/ファスト
+// 等と同じ収益逓減カーブ前提のレーティングであり、cookingBonus側だけがカーブ後の最終%への
+// 直接加算(蒼海武器等のfinalPctAddend由来)という異なる単位のため。2026-08-12不具合報告の
+// 反省を踏まえ、バフ効果テーブルではレーティングとしての内訳(加算元)表示に統一する。カーブ
+// 変換後の最終%は「攻撃ステータス」セクションの物理/魔法増強行で確認できる)。
 const FINAL_PCT_ADDEND_STAT_IDS = new Set<StatId>([
   'crit',
   'haste',
   'luck',
   'mastery',
   'versatility',
+  'physicalEnhance',
+  'magicalEnhance',
 ]);
 
-// 収益逓減カーブ(diminishingPercent)を経由する実数値のraw StatId。実数値そのものをバフ効果
-// テーブルの汎用ループで/100してもカーブ変換後の実際の%とは一致しないため除外し、代わりに
-// curveBoostRowで「カーブ変換後の%(加算列)」+「カーブを経由しない直接加算分(追加バフ列)」の
-// 合成行として表示する(物理/魔法増強・属性ボーナス。2026-08-12不具合報告)。
-const CURVE_PRECURSOR_STAT_IDS = new Set<StatId>([
+// バフ効果テーブルの汎用ループ(Object.keys(rawStatsBreakdown)、buildPlanner.stats.*の汎用名を
+// 使う)から除外し、専用ラベルで手動組み立てする(下記buildRow/elemStrengthRow参照)StatId。
+// - physicalEnhance/magicalEnhance: 装備選択等でも使う汎用名「物理増強」と表記を分けるため。
+// - 属性強度(fireAttrStr等)・属性ボーナス(fireBonus等): 収益逓減カーブ前提のレーティング
+//   (属性強度)とカーブを経由しない直接加算(属性ボーナス)を「属性強度/ボーナス」の1行に
+//   合成するため(elemStrengthRow参照)。
+const CUSTOM_LABEL_STAT_IDS = new Set<StatId>([
   'physicalEnhance',
   'magicalEnhance',
   'allAttrStr',
@@ -215,103 +218,97 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     cookingBuff: string;
   }
 
-  // 収益逓減カーブを経由するステータス(物理/魔法増強・属性ボーナス)用の合成行。
-  // 加算列=カーブ変換後の%(強化薬/属性強度等の実数値由来)、追加バフ列=カーブを経由しない
-  // 直接加算分(蒼海武器レアステータス等由来)。どちらも0の場合は行自体を出さない。
-  const curveBoostRow = (
-    statId: string,
-    label: string,
-    curveValue: number,
-    directValue: number,
-  ): BuffRow | null => {
-    if (curveValue === 0 && directValue === 0) return null;
+  // 行を出すべきか(素の値から加算/乗算/料理バフ/ステ変換のいずれかで変化しているか)。
+  const hasBuffContribution = (statId: StatId): boolean => {
+    const entry = rawStatsBreakdown[statId];
+    return (
+      entry.additive !== 0 ||
+      entry.multiplier !== 1 ||
+      !!entry.cookingBonus ||
+      conversionBonusFor(statId) !== 0
+    );
+  };
+
+  // rawStatsBreakdownの1エントリを表示行に変換する(汎用ループ・専用ラベル行の両方で共用)。
+  const buildRow = (statId: StatId, label: string): BuffRow => {
+    const entry = rawStatsBreakdown[statId];
+    const isRawPercent = RAW_PERCENT_STAT_IDS.has(statId);
+    const initialValue = entry.base + conversionBonusFor(statId);
     return {
       statId,
       label,
-      initialValue: '',
-      additive: curveValue !== 0 ? `${fmtSigned(curveValue)}%` : '',
-      multiplier: '',
-      cookingBuff: directValue !== 0 ? `${fmtSigned(directValue)}%` : '',
+      initialValue:
+        initialValue > 0
+          ? isRawPercent
+            ? `${fmtDec2(initialValue / 100)}%`
+            : fmtIntTrunc(initialValue)
+          : '',
+      additive: isRawPercent ? `${fmtSigned(entry.additive / 100)}%` : fmtSigned(entry.additive),
+      multiplier: entry.multiplier === 1 ? '' : `${fmtSigned((entry.multiplier - 1) * 100)}%`,
+      cookingBuff: entry.cookingBonus
+        ? FINAL_PCT_ADDEND_STAT_IDS.has(statId)
+          ? `${fmtSigned(entry.cookingBonus)}%`
+          : isRawPercent
+            ? `${fmtSigned(entry.cookingBonus / 100)}%`
+            : fmtSigned(entry.cookingBonus)
+        : '',
     };
   };
 
   // バフ効果: 素の値(BASE_STATS)から加算/乗算/料理バフのいずれかで変化しているステータス、
   // および物理/魔法攻撃力・最大HP・物理/魔法防御力・ファスト(メインステータスからの変換分がある場合)を抽出。
-  // 収益逓減カーブを経由するraw StatId(CURVE_PRECURSOR_STAT_IDS)は実数値のままでは意味を
-  // 持たないため除外し、代わりにcurveBoostRowによる合成行(下記)で表示する。
+  // 専用ラベルで手動組み立てするステータス(CUSTOM_LABEL_STAT_IDS)はここでは除外し、
+  // 下記enhanceBuffRows/elemBuffRowsで表示する。
   const genericBuffRows: BuffRow[] = (Object.keys(rawStatsBreakdown) as StatId[])
-    .filter((statId) => {
-      if (CURVE_PRECURSOR_STAT_IDS.has(statId)) return false;
-      const entry = rawStatsBreakdown[statId];
-      return (
-        entry.additive !== 0 ||
-        entry.multiplier !== 1 ||
-        !!entry.cookingBonus ||
-        conversionBonusFor(statId) !== 0
-      );
-    })
-    .map((statId) => {
-      const entry = rawStatsBreakdown[statId];
-      const isRawPercent = RAW_PERCENT_STAT_IDS.has(statId);
-      const initialValue = entry.base + conversionBonusFor(statId);
-      return {
-        statId,
-        label: t(`buildPlanner.stats.${statId}`),
-        initialValue:
-          initialValue > 0
-            ? isRawPercent
-              ? `${fmtDec2(initialValue / 100)}%`
-              : fmtIntTrunc(initialValue)
-            : '',
-        additive: isRawPercent ? `${fmtSigned(entry.additive / 100)}%` : fmtSigned(entry.additive),
-        multiplier: entry.multiplier === 1 ? '' : `${fmtSigned((entry.multiplier - 1) * 100)}%`,
-        cookingBuff: entry.cookingBonus
-          ? FINAL_PCT_ADDEND_STAT_IDS.has(statId)
-            ? `${fmtSigned(entry.cookingBonus)}%`
-            : isRawPercent
-              ? `${fmtSigned(entry.cookingBonus / 100)}%`
-              : fmtSigned(entry.cookingBonus)
-          : '',
-      };
-    });
+    .filter((statId) => !CUSTOM_LABEL_STAT_IDS.has(statId) && hasBuffContribution(statId))
+    .map((statId) => buildRow(statId, t(`buildPlanner.stats.${statId}`)));
 
-  // 物理/魔法増強: 強化薬(スターオイル)等の実数値がカーブを経由して得られる%を加算列、
-  // 蒼海武器等のfinalPctAddend由来の直接加算分(derivedStats側の最終値からカーブ変換分を
-  // 差し引いた残り)を追加バフ列に表示する。
-  const physicalEnhanceCurve = elemBonusPercent(rawStats.physicalEnhance);
-  const magicalEnhanceCurve = elemBonusPercent(rawStats.magicalEnhance);
-  const curveBuffRows: BuffRow[] = [
-    curveBoostRow(
-      'physicalBoostCurve',
-      te('stat.physicalBoost'),
-      physicalEnhanceCurve,
-      derivedStats.physicalBoostPercent - physicalEnhanceCurve,
-    ),
-    curveBoostRow(
-      'magicalBoostCurve',
-      te('stat.magicalBoost'),
-      magicalEnhanceCurve,
-      derivedStats.magicalBoostPercent - magicalEnhanceCurve,
-    ),
-    curveBoostRow(
-      'elemBonusAllCurve',
-      elemName('all', 'bonus'),
-      elemBonusPercent(rawStats.allAttrStr),
-      0,
-    ),
+  // 物理/魔法増強: 会心/ファスト等と同じレーティング(強化度)として、初期値/加算/乗算列に
+  // 加算元の内訳を表示する(装備選択等でも使う汎用名「物理増強」と区別するため専用ラベルを使う)。
+  const enhanceBuffRows: BuffRow[] = (
+    [
+      ['physicalEnhance', te('stat.physicalEnhanceBuff')],
+      ['magicalEnhance', te('stat.magicalEnhanceBuff')],
+    ] as [StatId, string][]
+  )
+    .filter(([statId]) => hasBuffContribution(statId))
+    .map(([statId, label]) => buildRow(statId, label));
+
+  // 属性強度(fireAttrStr等、収益逓減カーブ前提のレーティング)と属性ボーナス(fireBonus等、
+  // カーブを経由しない直接加算、蒼海武器レアステータス・バトルイマジン等由来)を1行に合成する。
+  // 初期値/加算/乗算は属性強度側(他のレーティング系ステータスと同じ扱い)、追加バフ列は
+  // 属性ボーナス側("raw/100=%"規約、RAW_PERCENT_STAT_IDS)を表示する。
+  const elemStrengthRow = (
+    strStatId: StatId,
+    bonusStatId: StatId | undefined,
+    label: string,
+  ): BuffRow | null => {
+    const strEntry = rawStatsBreakdown[strStatId];
+    const bonusEntry = bonusStatId ? rawStatsBreakdown[bonusStatId] : undefined;
+    const directPercent = bonusEntry
+      ? (bonusEntry.additive + (bonusEntry.cookingBonus ?? 0)) / 100
+      : 0;
+    if (!hasBuffContribution(strStatId) && directPercent === 0) return null;
+    const initialValue = strEntry.base + conversionBonusFor(strStatId);
+    return {
+      statId: strStatId,
+      label,
+      initialValue: initialValue > 0 ? fmtIntTrunc(initialValue) : '',
+      additive: fmtSigned(strEntry.additive),
+      multiplier: strEntry.multiplier === 1 ? '' : `${fmtSigned((strEntry.multiplier - 1) * 100)}%`,
+      cookingBuff: directPercent !== 0 ? `${fmtSigned(directPercent)}%` : '',
+    };
+  };
+
+  const elemBuffRows: BuffRow[] = [
+    elemStrengthRow('allAttrStr', undefined, elemName('all', 'strBonus')),
     ...ELEMENTS.slice(1).map((elem) => {
       const e = elem as ElementId;
-      const str = rawStats[ELEMENT_ATTR_STR_STAT[e]];
-      return curveBoostRow(
-        `elemBonus:${elem}Curve`,
-        elemName(elem, 'bonus'),
-        elemBonusPercent(str),
-        elemDirectBonusPercent(e),
-      );
+      return elemStrengthRow(ELEMENT_ATTR_STR_STAT[e], ELEMENT_BONUS_STAT[e], elemName(e, 'strBonus'));
     }),
   ].filter((row): row is BuffRow => row !== null);
 
-  const buffRows = [...genericBuffRows, ...curveBuffRows];
+  const buffRows = [...genericBuffRows, ...enhanceBuffRows, ...elemBuffRows];
 
   const attackRows = [
     { label: te('stat.strength'), value: fmtDec2(rawStats.strength) },
@@ -392,7 +389,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     return { label: elemName(elem, 'atk'), value: fmtDec2(raw), raw };
   }).filter((row) => row.raw > 0);
 
-  // elemBonusPercent/elemDirectBonusPercentはbuffRows(合成行)と共用のため、
+  // elemBonusPercent/elemDirectBonusPercent(カーブ変換後の最終%表示用)は
   // 上のconversionBonusFor付近で定義済み。
 
   const elemBonusRows = [
