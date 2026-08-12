@@ -3,7 +3,7 @@ import FloatingTooltip from '../components/FloatingTooltip';
 import LinkTextPopup from '../components/LinkTextPopup';
 import { renderMarkup } from '../components/renderMarkup';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
-import { IMAGINE_FLAT_STAT } from '../stats/attrMaps';
+import { IMAGINE_FLAT_STAT, RAW_PERCENT_STAT_IDS } from '../stats/attrMaps';
 import {
   type BattleImagineData,
   getBattleImagineData,
@@ -185,7 +185,10 @@ function SkillTooltip({
             const value = eff[rank + 1] ?? eff[1];
             // 会心/ファスト/幸運/器用さ/万能/レジストは%専用のAttrIdを持たず実数値レーティングのため、
             // 他の%系(筋力等の基礎ステータス%ボーナスや最終ステータス%ボーナス)と区別して表示する。
-            const isFlat = IMAGINE_FLAT_STAT[eff[0]] !== undefined;
+            // IMAGINE_FLAT_STATには会心ダメージ(RAW_PERCENT_STAT_IDS対象、raw/100=%の生値)も
+            // addStat経路として同居しているため、表示上の%要否はRAW_PERCENT_STAT_IDSで判定する。
+            const flatStatId = IMAGINE_FLAT_STAT[eff[0]];
+            const isFlat = flatStatId !== undefined && !RAW_PERCENT_STAT_IDS.has(flatStatId);
             return (
               <div key={eff[0]} className="skill-tooltip__passive-row">
                 <span className="skill-tooltip__passive-name">
