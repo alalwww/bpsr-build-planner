@@ -1095,8 +1095,10 @@ describe('calculateRawStats', () => {
   describe('バトルイマジン パッシブ', () => {
     // イマジン「ムークボス」(id 3923)のpassiveEffects: [[12512, 1000,1300,1600,1900,2200,2500]]。
     // rank2 → eff[2+1]=1600(会心ダメージ+16%)。2026-08-09不具合報告でIMAGINE_FLAT_STATに
-    // 12512(会心ダメージ)が漏れていたことが判明し追加(EVO_PCT_ATTR_TO_STAT/MOD_ATTR_TO_STATには
-    // 既に登録済みだった)。
+    // 12512(会心ダメージ)が漏れていたことが判明し追加。2026-08-12不具合報告(会心ダメージが
+    // "実数値レーティング"用のIMAGINE_FLAT_STATに混在していたため、ツールチップが%表記されない
+    // 別バグの原因になっていた)を機に、"raw/100=%"系のIMAGINE_RAW_PERCENT_STATへ切り出した
+    // (バリア強度/ブレイク効率等と同じ経路に統合。計算結果自体は変わらない)。
     it('routes 会心ダメージ (attrId 12512, passiveEffects) to rawStats.critDamageBonus', () => {
       const input: CalculateRawStatsInput = {
         ...baseInput(),
@@ -1123,6 +1125,81 @@ describe('calculateRawStats', () => {
       const result = calculateRawStats(input);
 
       expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 728);
+    });
+
+    // 2026-08-12不具合報告: 会心ダメージ以外の"raw/100=%"系パッシブ(バリア強度/ブレイク効率/
+    // 属性ボーナス/回復力/被回復量増加)がIMAGINE_PCT_BASE・IMAGINE_FLAT_STATのいずれにも
+    // マッチせず、rawStatsへ全く反映されていなかった(ツールチップ上の表示だけは正しかったため
+    // 発見が遅れた)。IMAGINE_RAW_PERCENT_STAT追加により解消。
+
+    // イマジン「烈影」(id 3908)のpassiveEffects: [[11792, 800,1040,1280,1520,1760,2000]]。
+    // rank3 → eff[3+1]=1520(回復力+15.2%)。
+    it('routes 回復力 (attrId 11792, passiveEffects) to rawStats.healingPower', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3908, null],
+        imagineRanks: [3, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.healingPower).toBe(BASE_STATS.healingPower + 1520);
+    });
+
+    // イマジン(id 3901)のpassiveEffects: [[11802, 800,1040,1280,1520,1760,2000]]。
+    // rank2 → eff[2+1]=1280(被回復量増加+12.8%)。
+    it('routes 被回復量増加 (attrId 11802, passiveEffects) to rawStats.receivedRecovery', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3901, null],
+        imagineRanks: [2, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.receivedRecovery).toBe(BASE_STATS.receivedRecovery + 1280);
+    });
+
+    // イマジン(id 3935)のpassiveEffects: [[11812, 800,1040,1280,1520,1760,2000]]。
+    // rank1 → eff[1+1]=1040(バリア強度+10.4%)。
+    it('routes バリア強度 (attrId 11812, passiveEffects) to rawStats.barrierStrength', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3935, null],
+        imagineRanks: [1, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.barrierStrength).toBe(BASE_STATS.barrierStrength + 1040);
+    });
+
+    // イマジン(id 3906)のpassiveEffects: [[11832, 2000,2600,3200,3800,4400,5000]]。
+    // rank4 → eff[4+1]=4400(ブレイク効率+44%)。
+    it('routes ブレイク効率 (attrId 11832, passiveEffects) to rawStats.breakEfficiency', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3906, null],
+        imagineRanks: [4, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.breakEfficiency).toBe(BASE_STATS.breakEfficiency + 4400);
+    });
+
+    // イマジン(id 3979)のpassiveEffects: [[13112, 300,390,480,570,660,750]]。
+    // rank5(G5) → eff[5+1]=750(火属性ボーナス+7.5%)。
+    it('routes 火属性ボーナス (attrId 13112, passiveEffects) to rawStats.fireBonus', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3979, null],
+        imagineRanks: [5, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.rawStats.fireBonus).toBe(BASE_STATS.fireBonus + 750);
     });
   });
 

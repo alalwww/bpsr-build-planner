@@ -516,9 +516,7 @@ export type ImagineFinalStatId = keyof typeof IMAGINE_PCT_FINAL;
 // AttrIdを持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
 // deriveStats側で一括適用されるため、ここで%として扱うと二重に乗算されてしまう)。
 // 11172(レジスト、AttrBlockのAttrAdd)はイマジン「ゴブリン衛士」(id 3914)のパッシブでのみ使用。
-// 12512(会心ダメージ、AttrCritDamageのAttrAdd)はイマジン「ムークボス」(id 3923)のパッシブで
-// 使用(2026-08-09不具合報告で発覚。EVO_PCT_ATTR_TO_STAT/MOD_ATTR_TO_STATには既に登録済みだった
-// のに、イマジン側だけ漏れていた)。
+// 会心ダメージ等の"raw/100=%"系AttrId(既に%済みの生値)はここには含めない。IMAGINE_RAW_PERCENT_STAT参照。
 export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
   11112: 'crit',
   11122: 'haste',
@@ -526,7 +524,27 @@ export const IMAGINE_FLAT_STAT: Partial<Record<number, StatId>> = {
   11142: 'mastery',
   11152: 'versatility',
   11172: 'resist',
+};
+
+// バトルイマジン パッシブのうち、収益逓減カーブを経由しない"raw/100=%"規約(RAW_PERCENT_STAT_IDS/
+// EVO_PCT_ATTR_TO_STAT等と同じ単位)の生値を持つもの。IMAGINE_FLAT_STATの実数値レーティングとは
+// 異なり、addStatで加算した値をそのまま/100して%表示する(SkillTooltip/StatsDetailDialog共通)。
+// 12512(会心ダメージ)はイマジン「ムークボス」(id 3923)のパッシブで使用。2026-08-09不具合報告で
+// EVO_PCT_ATTR_TO_STAT/MOD_ATTR_TO_STATには既に登録済みなのにイマジン側だけ漏れていたことが発覚し、
+// 一旦IMAGINE_FLAT_STATへ追加(実数値レーティングと混同し%表記漏れの原因になっていた)。2026-08-12
+// 不具合報告(バリア強度/ブレイク効率/属性ボーナス等も同様に未対応と判明)を機に、"raw/100=%"系を
+// このマップへ切り出して集約した。
+export const IMAGINE_RAW_PERCENT_STAT: Partial<Record<number, StatId>> = {
+  11792: 'healingPower',
+  11802: 'receivedRecovery',
+  11812: 'barrierStrength',
+  11832: 'breakEfficiency',
   12512: 'critDamageBonus',
+  13112: ELEMENT_BONUS_STAT.fire,
+  13122: ELEMENT_BONUS_STAT.ice,
+  13142: ELEMENT_BONUS_STAT.thunder,
+  13152: ELEMENT_BONUS_STAT.wind,
+  13172: ELEMENT_BONUS_STAT.light,
 };
 
 // バトルイマジン パッシブのうち、FightAttrTable直下のAttrIdを持たずBuffId参照でのみ効果が

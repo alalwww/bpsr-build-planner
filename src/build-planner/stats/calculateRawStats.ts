@@ -46,6 +46,7 @@ import {
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
+  IMAGINE_RAW_PERCENT_STAT,
   type ImagineFinalStatId,
   LEGENDARY_AFFIX_FLAT_STAT,
   MOD_ADAPTIVE_ATK_ATTR_ID,
@@ -631,10 +632,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         addPctBonus(pctStatId, value);
         continue;
       }
-      const flatStatId = IMAGINE_FLAT_STAT[eff[0]];
-      if (flatStatId != null) {
+      // 実数値レーティング(IMAGINE_FLAT_STAT)と"raw/100=%"の生値(IMAGINE_RAW_PERCENT_STAT)は
+      // どちらもrawStatsへの単純加算(addStat)で計算できるため、同じ経路にまとめる。
+      const addStatId = IMAGINE_FLAT_STAT[eff[0]] ?? IMAGINE_RAW_PERCENT_STAT[eff[0]];
+      if (addStatId != null) {
         const value = eff[rank + 1] ?? eff[1];
-        addStat(flatStatId, value);
+        addStat(addStatId, value);
       }
     }
     // BuffId参照のパッシブ(IMAGINE_BUF_FLAT_STAT参照。無条件で常時有効な先頭パラメータのみ対応)。
