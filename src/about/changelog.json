@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.10.3",
+      "date": "2026-08-12T15:29:18.955Z",
+      "summary": {
+        "ja": "ツインストライカーの保存データがロードに失敗する不具合の修正",
+        "en": "Fix Twin Striker save data failing to load"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.10.2",
       "date": "2026-08-12T08:20:45.472Z",
       "summary": {
