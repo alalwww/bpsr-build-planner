@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.10.2",
+      "date": "2026-08-12T08:20:45.472Z",
+      "summary": {
+        "ja": "バトルイマジンのステータス計算とステータス詳細画面の改善",
+        "en": "Improve battle imagine stat calculations and the stats-detail screen"
+      },
+      "changes": {
+        "ja": [
+          "バトルイマジン「ムークボス」等の会心ダメージパッシブが％表示されず生値のまま表示される不具合の修正",
+          "バトルイマジンのバリア強度・ブレイク効率・属性ボーナス・回復力・被回復量増加のパッシブ効果がステータス計算に反映されていなかった不具合の修正",
+          "ステータス詳細の物理/魔法増強・属性ボーナスの数値表示、会心回復・幸運の一撃ダメージ倍率の基礎値表示の誤り・漏れの修正",
+          "ステータス詳細のバフ効果表の「サマリ」への整理(合計列追加・表示順見直し・支援クラス向け幸運の一撃回復の倍率表示等)"
+        ],
+        "en": [
+          "Fix crit damage passives (e.g. on Mookboss) showing as a raw number instead of a percentage",
+          "Fix battle imagine passives for barrier strength, break efficiency, elemental bonus, healing power, and received recovery not applying to stats",
+          "Fix incorrect or missing base values in the stats-detail dialog for physical/magical boost, elemental bonus, crit recovery, and lucky hit damage/recovery multiplier",
+          "Reorganize the stats-detail buff-effect table into a Summary section with a total column, reordered rows, and a lucky hit recovery row for support classes"
+        ]
+      }
+    },
+    {
       "version": "0.10.1",
       "date": "2026-08-11T18:24:43.884Z",
       "summary": {
