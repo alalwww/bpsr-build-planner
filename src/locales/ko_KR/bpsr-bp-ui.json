@@ -419,7 +419,7 @@
     "detailStats": {
       "title": "스탯 상세",
       "sections": {
-        "buffEffects": "버프 효과",
+        "buffEffects": "요약",
         "attack": "공격 스탯",
         "survival": "생존 스탯",
         "support": "지원 스탯",
@@ -430,10 +430,11 @@
       },
       "buffEffects": {
         "empty": "변경된 스탯이 없습니다",
-        "initialValue": "초기값/스탯 변환값",
+        "initialValue": "초기값/Lv 가산값/스탯 변환값",
         "additive": "가산",
         "multiplier": "승산",
-        "cookingBuff": "추가 버프"
+        "cookingBuff": "추가 버프",
+        "total": "합계"
       },
       "elem": {
         "all": "전체",

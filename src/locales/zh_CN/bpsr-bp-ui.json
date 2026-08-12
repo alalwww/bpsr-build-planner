@@ -419,7 +419,7 @@
     "detailStats": {
       "title": "属性详情",
       "sections": {
-        "buffEffects": "增益效果",
+        "buffEffects": "摘要",
         "attack": "攻击属性",
         "survival": "生存属性",
         "support": "支援属性",
@@ -430,10 +430,11 @@
       },
       "buffEffects": {
         "empty": "没有已更改的属性",
-        "initialValue": "初始值/属性换算值",
+        "initialValue": "初始值/等级加成/属性换算值",
         "additive": "加算",
         "multiplier": "乘算",
-        "cookingBuff": "额外增益"
+        "cookingBuff": "额外增益",
+        "total": "合计"
       },
       "elem": {
         "all": "全",

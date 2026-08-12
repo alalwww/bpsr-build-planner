@@ -419,7 +419,7 @@
     "detailStats": {
       "title": "Stat Details",
       "sections": {
-        "buffEffects": "Buff Effects",
+        "buffEffects": "Summary",
         "attack": "Attack Stats",
         "survival": "Survival Stats",
         "support": "Support Stats",
@@ -430,10 +430,11 @@
       },
       "buffEffects": {
         "empty": "No stats have been changed",
-        "initialValue": "Initial/Converted",
+        "initialValue": "Initial/Lv/Converted",
         "additive": "Additive",
         "multiplier": "Multiplier",
-        "cookingBuff": "Additional Buff"
+        "cookingBuff": "Additional Buff",
+        "total": "Total"
       },
       "elem": {
         "all": "All",

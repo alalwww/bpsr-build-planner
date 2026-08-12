@@ -419,7 +419,7 @@
     "detailStats": {
       "title": "ステータス詳細",
       "sections": {
-        "buffEffects": "バフ効果",
+        "buffEffects": "サマリ",
         "attack": "攻撃ステータス",
         "survival": "生存ステータス",
         "support": "支援ステータス",
@@ -430,10 +430,11 @@
       },
       "buffEffects": {
         "empty": "変更されたステータスはありません",
-        "initialValue": "初期値/ステ変換値",
+        "initialValue": "初期値/Lv加算値/ステ変換値",
         "additive": "加算",
         "multiplier": "乗算",
-        "cookingBuff": "追加バフ"
+        "cookingBuff": "追加バフ",
+        "total": "合計"
       },
       "elem": {
         "all": "全",

@@ -1203,6 +1203,36 @@ describe('calculateRawStats', () => {
     });
   });
 
+  describe('breakdown.levelBonus(冒険者レベル/潜在レベルによる加算)', () => {
+    // ステータス詳細の「初期値/Lv加算値/ステ変換値」列に表示するため、冒険者レベル/潜在レベル
+    // による加算はaddStat(breakdown.additive)ではなくlevelBonusへ積む(2026-08-13 UI改善)。
+    it('routes adventurer-level stat bonuses to breakdown.levelBonus, not breakdown.additive', () => {
+      const zeroLevel = calculateRawStats({ ...baseInput(), adventurerLevel: 0 });
+      const leveled = calculateRawStats({ ...baseInput(), adventurerLevel: 60 });
+
+      const zeroBonus = zeroLevel.breakdown.strength.levelBonus ?? 0;
+      const levelBonus = leveled.breakdown.strength.levelBonus ?? 0;
+      expect(levelBonus).toBeGreaterThan(zeroBonus);
+      expect(leveled.rawStats.strength).toBe(
+        zeroLevel.rawStats.strength + (levelBonus - zeroBonus),
+      );
+      expect(leveled.breakdown.strength.additive).toBe(zeroLevel.breakdown.strength.additive);
+    });
+
+    // PHANTOM_LEVEL_ATTR_TO_STAT(attrMaps.ts): 11442→illusionPower, 11042→endurance。
+    it('routes phantom-level stat bonuses to breakdown.levelBonus, not breakdown.additive', () => {
+      const zeroLevel = calculateRawStats({ ...baseInput(), phantomLevel: 0 });
+      const leveled = calculateRawStats({ ...baseInput(), phantomLevel: 10 });
+
+      const levelBonus = leveled.breakdown.illusionPower.levelBonus ?? 0;
+      expect(levelBonus).toBeGreaterThan(0);
+      expect(leveled.rawStats.illusionPower).toBe(zeroLevel.rawStats.illusionPower + levelBonus);
+      expect(leveled.breakdown.illusionPower.additive).toBe(
+        zeroLevel.breakdown.illusionPower.additive ?? 0,
+      );
+    });
+  });
+
   describe('幸運の一撃ダメージ倍率の変換率ボーナス(luckyHitDamageRatioBonus)', () => {
     // ビートパフォーマーR2アビリティ「幸運相乗」(talentId 1338, buffId 2207390):
     // 「幸運1%につき幸運の一撃ダメージ倍率+0.5%」(deriveStats.tsの基礎係数0.25に加算する)。

@@ -5,6 +5,7 @@ import '../components/components.css';
 import './character.css';
 import { CollapsibleBody } from '../components/CollapsibleSection';
 import DraggableDialog from '../components/DraggableDialog';
+import { PROFESSIONS } from '../profession';
 import { ELEMENT_IDS, type ElementId, type StatId } from '../types';
 import {
   ELEMENT_ATK_STAT,
@@ -142,6 +143,12 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   const { rawStats, rawStatsBreakdown, stats, derivedStats } = useBuildStore(
     useShallow(computeStatsBundle),
   );
+  const professionKey = useBuildStore((s) => s.professionKey);
+  const profession = PROFESSIONS[professionKey];
+  // 幸運の一撃回復の倍率は現状ヴァーダントオラクル/ビートパフォーマー(支援寄りの回復スキルを
+  // 持つクラス)でのみ意味を持つため、この2クラスの場合のみ表示する。
+  const isLuckyHitRecoveryRelevant =
+    professionKey === 'verdantOracle' || professionKey === 'beatPerformer';
 
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     buffEffects: false,
@@ -177,9 +184,12 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
   // 物理/魔法攻撃力はメインステータスから、最大HPは耐久力から、物理防御力は筋力から、
   // 魔法防御力は知力から、ファストは俊敏から変換された分を、素の値(entry.base)と
   // 同様に加算列の末尾へ初期値扱いの括弧書きで表示する。
-  // 会心ダメージ/幸運の一撃ダメージ倍率は、装備等の加算元がない基礎%(FIXED_BASE_PERCENT)や
-  // 幸運%からの変換分がRAW_PERCENT_STAT_IDS表示(実数値/100=%)の単位に乗るよう、あらかじめ
-  // 100倍して返す(2026-08-09不具合報告: これらの「初期値/ステ変換値」が常に空欄だった)。
+  // 会心ダメージ/幸運の一撃ダメージ倍率・回復倍率/会心回復/戦闘時スタミナ回復は、装備等の
+  // 加算元がない固定の基礎値(FIXED_BASE_PERCENT/profession.staminaRegenPerSecond)を持つため、
+  // ここで初期値として加える(2026-08-09/2026-08-13不具合報告: これらの「初期値/ステ変換値」が
+  // 常に空欄だった)。幸運の一撃ダメージ/回復倍率は基礎40%のみを返し、幸運確率由来の変換分は
+  // luckyConversionForで別途「加算」列側に出す(2026-08-13 UI改善: 従来は基礎+変換分を
+  // まとめてここに含めていたため、幸運確率由来の加算分が「加算」列に出てこなかった)。
   const conversionBonusFor = (statId: StatId): number => {
     if (statId === 'atk') return derivedStats.physicalAtkMainStatBonus;
     if (statId === 'matk') return derivedStats.magicalAtkMainStatBonus;
@@ -188,10 +198,30 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     if (statId === 'magicalDef') return derivedStats.magicalDefIntellectBonus;
     if (statId === 'haste') return derivedStats.hasteAgilityBonus;
     if (statId === 'critDamageBonus') return FIXED_BASE_PERCENT.critDamage * 100;
+    if (statId === 'critRecoveryBonus') return FIXED_BASE_PERCENT.critRecovery * 100;
+    if (statId === 'luckyHitDamageBonus' || statId === 'luckyHitRecoveryBonus') {
+      return FIXED_BASE_PERCENT.luckyHitBase * 100;
+    }
+    if (statId === 'staminaRegen') return profession.staminaRegenPerSecond;
+    return 0;
+  };
+
+  // 幸運の一撃ダメージ/回復倍率のうち、幸運確率(最終%値)を元に加算される分(raw/100=%単位)。
+  // derivedStatsの最終値から、基礎40%とrawStats側の平坦加算(通常の加算列)を差し引いた残り。
+  const luckyConversionFor = (statId: StatId): number => {
     if (statId === 'luckyHitDamageBonus') {
-      // 幸運の一撃ダメージ倍率(derivedStats、装備等の加算込みの最終値)から、その加算分
-      // (rawStats.luckyHitDamageBonus)を差し引き、基礎40%+幸運%からの変換分のみを残す。
-      return derivedStats.luckyHitDamageMultiplierPercent * 100 - rawStats.luckyHitDamageBonus;
+      return (
+        derivedStats.luckyHitDamageMultiplierPercent * 100 -
+        FIXED_BASE_PERCENT.luckyHitBase * 100 -
+        rawStats.luckyHitDamageBonus
+      );
+    }
+    if (statId === 'luckyHitRecoveryBonus') {
+      return (
+        derivedStats.luckyHitRecoveryMultiplierPercent * 100 -
+        FIXED_BASE_PERCENT.luckyHitBase * 100 -
+        rawStats.luckyHitRecoveryBonus
+      );
     }
     return 0;
   };
@@ -216,24 +246,66 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     additive: string;
     multiplier: string;
     cookingBuff: string;
+    total: string;
   }
 
-  // 行を出すべきか(素の値から加算/乗算/料理バフ/ステ変換のいずれかで変化しているか)。
+  // 行を出すべきか(素の値から加算/乗算/料理バフ/ステ変換/レベル加算/幸運確率変換分の
+  // いずれかで変化しているか)。
   const hasBuffContribution = (statId: StatId): boolean => {
     const entry = rawStatsBreakdown[statId];
     return (
       entry.additive !== 0 ||
       entry.multiplier !== 1 ||
       !!entry.cookingBonus ||
-      conversionBonusFor(statId) !== 0
+      !!entry.levelBonus ||
+      conversionBonusFor(statId) !== 0 ||
+      luckyConversionFor(statId) !== 0
     );
+  };
+
+  // 合計列: 会心/幸運/会心ダメージ等は収益逓減カーブ(+基礎%)通過後の最終%(derivedStats)、
+  // 筋力/知力等の実数値ステータスは加算元の内訳と同じ単位の合計(rawStats、maxHp/atk等は
+  // メインステータス変換込みのstats)をそのまま表示する。
+  const DERIVED_PERCENT_STAT: Partial<Record<StatId, number>> = {
+    crit: derivedStats.critPercent,
+    haste: derivedStats.hastePercent,
+    luck: derivedStats.luckPercent,
+    mastery: derivedStats.masteryPercent,
+    versatility: derivedStats.versatilityPercent,
+    resist: derivedStats.resistPercent,
+    critDamageBonus: derivedStats.critDamageBonusPercent,
+    luckyHitDamageBonus: derivedStats.luckyHitDamageMultiplierPercent,
+    critRecoveryBonus: derivedStats.critRecoveryPercent,
+    luckyHitRecoveryBonus: derivedStats.luckyHitRecoveryMultiplierPercent,
+    physicalReductionBonus: derivedStats.physicalReductionPercent,
+    magicalReductionBonus: derivedStats.magicalReductionPercent,
+    physicalDefIgnoreBonus: derivedStats.physicalDefIgnorePercent,
+    physicalEnhance: derivedStats.physicalBoostPercent,
+    magicalEnhance: derivedStats.magicalBoostPercent,
+  };
+  // %変換を経ない実数値ステータスのうち、rawStatsそのものではなくメインステータス変換込みの
+  // 最終値(stats)・戦闘時スタミナ回復のような別枠のderivedStats値を使うもの。
+  const FINAL_RAW_STAT_OVERRIDE: Partial<Record<StatId, number>> = {
+    maxHp: stats.maxHp,
+    atk: stats.atk,
+    matk: stats.matk,
+    physicalDef: stats.physicalDef,
+    magicalDef: stats.magicalDef,
+    staminaRegen: derivedStats.staminaRegenPerSecond,
+  };
+  const totalFor = (statId: StatId): string => {
+    const pct = DERIVED_PERCENT_STAT[statId];
+    if (pct !== undefined) return fmtPct(pct);
+    if (RAW_PERCENT_STAT_IDS.has(statId)) return fmtPct(rawStats[statId] / 100);
+    const override = FINAL_RAW_STAT_OVERRIDE[statId];
+    return fmtDec2(override !== undefined ? override : rawStats[statId]);
   };
 
   // rawStatsBreakdownの1エントリを表示行に変換する(汎用ループ・専用ラベル行の両方で共用)。
   const buildRow = (statId: StatId, label: string): BuffRow => {
     const entry = rawStatsBreakdown[statId];
     const isRawPercent = RAW_PERCENT_STAT_IDS.has(statId);
-    const initialValue = entry.base + conversionBonusFor(statId);
+    const initialValue = entry.base + (entry.levelBonus ?? 0) + conversionBonusFor(statId);
     return {
       statId,
       label,
@@ -243,7 +315,9 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
             ? `${fmtDec2(initialValue / 100)}%`
             : fmtIntTrunc(initialValue)
           : '',
-      additive: isRawPercent ? `${fmtSigned(entry.additive / 100)}%` : fmtSigned(entry.additive),
+      additive: isRawPercent
+        ? `${fmtSigned((entry.additive + luckyConversionFor(statId)) / 100)}%`
+        : fmtSigned(entry.additive),
       multiplier: entry.multiplier === 1 ? '' : `${fmtSigned((entry.multiplier - 1) * 100)}%`,
       cookingBuff: entry.cookingBonus
         ? FINAL_PCT_ADDEND_STAT_IDS.has(statId)
@@ -252,16 +326,86 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
             ? `${fmtSigned(entry.cookingBonus / 100)}%`
             : fmtSigned(entry.cookingBonus)
         : '',
+      total: totalFor(statId),
     };
   };
 
   // バフ効果: 素の値(BASE_STATS)から加算/乗算/料理バフのいずれかで変化しているステータス、
   // および物理/魔法攻撃力・最大HP・物理/魔法防御力・ファスト(メインステータスからの変換分がある場合)を抽出。
-  // 専用ラベルで手動組み立てするステータス(CUSTOM_LABEL_STAT_IDS)はここでは除外し、
-  // 下記enhanceBuffRows/elemBuffRowsで表示する。
-  const genericBuffRows: BuffRow[] = (Object.keys(rawStatsBreakdown) as StatId[])
-    .filter((statId) => !CUSTOM_LABEL_STAT_IDS.has(statId) && hasBuffContribution(statId))
-    .map((statId) => buildRow(statId, t(`buildPlanner.stats.${statId}`)));
+  // 専用ラベルで手動組み立てするステータス(CUSTOM_LABEL_STAT_IDS)、および表の先頭/末尾や
+  // 会心回復の直後等、特定の位置へ個別に並べ替えるステータス(illusionPower/staminaRegen/
+  // moveSpeed/luckyHitRecoveryBonus)はここでは除外する(下記参照)。
+  const EXTRA_CUSTOM_POSITION_STAT_IDS = new Set<StatId>([
+    'illusionPower',
+    'staminaRegen',
+    'moveSpeed',
+    'luckyHitRecoveryBonus',
+  ]);
+  const buildGenericRows = (statIds: StatId[]): BuffRow[] =>
+    statIds
+      .filter(
+        (statId) =>
+          !EXTRA_CUSTOM_POSITION_STAT_IDS.has(statId) &&
+          !CUSTOM_LABEL_STAT_IDS.has(statId) &&
+          hasBuffContribution(statId),
+      )
+      .map((statId) => buildRow(statId, t(`buildPlanner.stats.${statId}`)));
+
+  // シーズン強度(S3では「滅妄強度」)は他の全ステータスより上、表の先頭に表示する。
+  const illusionPowerRow = hasBuffContribution('illusionPower')
+    ? buildRow('illusionPower', t('buildPlanner.stats.illusionPower'))
+    : null;
+
+  // 戦闘時のスタミナ回復率は他の全ステータスより下、表の末尾に表示する。クラス基礎値のみで
+  // 加算元(瞬間ブレス等)が無い場合は合計=初期値になり出す意味が薄いため、その場合は非表示。
+  const staminaRegenRow =
+    (rawStatsBreakdown.staminaRegen.additive ?? 0) !== 0
+      ? buildRow('staminaRegen', t('buildPlanner.stats.staminaRegen'))
+      : null;
+
+  // 移動速度は戦闘時のスタミナ回復率のさらに下、表の最末尾に表示する。
+  const moveSpeedRow = hasBuffContribution('moveSpeed')
+    ? buildRow('moveSpeed', t('buildPlanner.stats.moveSpeed'))
+    : null;
+
+  // 幸運の一撃回復の倍率: 会心回復の直下に表示する(下のbuffRows参照)。初期値40%・幸運確率
+  // 由来の加算はluckyHitダメージ倍率と同じ扱い(conversionBonusFor/luckyConversionFor)。
+  const luckyHitRecoveryRow = isLuckyHitRecoveryRelevant
+    ? buildRow('luckyHitRecoveryBonus', t('buildPlanner.stats.luckyHitRecoveryBonus'))
+    : null;
+
+  const allStatIds = Object.keys(rawStatsBreakdown) as StatId[];
+  const elemAtkStartIndex = allStatIds.indexOf('allAttrAtk');
+  const elemAtkEndIndex = allStatIds.indexOf('darkAtk');
+  const refineDefIndex = allStatIds.indexOf('refineDef');
+  // BASE_STATS上は筋力→俊敏→知力の順だが、表示は筋力→知力→俊敏にする。
+  const MAIN_STAT_ORDER: StatId[] = ['strength', 'intellect', 'agility'];
+  const beforeElemAtkIds = allStatIds.slice(0, elemAtkStartIndex);
+  const strengthIndex = beforeElemAtkIds.indexOf('strength');
+  const reorderedBeforeElemAtkIds = [
+    ...beforeElemAtkIds.slice(0, strengthIndex),
+    ...MAIN_STAT_ORDER,
+    ...beforeElemAtkIds.slice(strengthIndex).filter((id) => !MAIN_STAT_ORDER.includes(id)),
+  ];
+  const genericBuffRowsBeforeElemAtk = buildGenericRows(reorderedBeforeElemAtkIds);
+  // 属性攻撃力グループの直後から精錬(refineDef)までには属性強度(fireAttrStr等、
+  // CUSTOM_LABEL_STAT_IDSで除外済み)も含まれるが、実際に行になるのは精錬のみ。
+  const genericBuffRowsRefine = buildGenericRows(
+    allStatIds.slice(elemAtkEndIndex + 1, refineDefIndex + 1),
+  );
+  const genericBuffRowsElemAtk = buildGenericRows(
+    allStatIds.slice(elemAtkStartIndex, elemAtkEndIndex + 1),
+  );
+  // 会心回復(critRecoveryBonus)の直後に幸運の一撃回復の倍率(luckyHitRecoveryRow)を挟むため、
+  // 精錬より後ろのステータスを会心回復までとそれ以降の2つに分ける。
+  const afterRefineIds = allStatIds.slice(refineDefIndex + 1);
+  const critRecoveryIndex = afterRefineIds.indexOf('critRecoveryBonus');
+  const genericBuffRowsUntilCritRecovery = buildGenericRows(
+    afterRefineIds.slice(0, critRecoveryIndex + 1),
+  );
+  const genericBuffRowsAfterCritRecovery = buildGenericRows(
+    afterRefineIds.slice(critRecoveryIndex + 1),
+  );
 
   // 物理/魔法増強: 会心/ファスト等と同じレーティング(強化度)として、初期値/加算/乗算列に
   // 加算元の内訳を表示する(装備選択等でも使う汎用名「物理増強」と区別するため専用ラベルを使う)。
@@ -297,6 +441,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       additive: fmtSigned(strEntry.additive),
       multiplier: strEntry.multiplier === 1 ? '' : `${fmtSigned((strEntry.multiplier - 1) * 100)}%`,
       cookingBuff: directPercent !== 0 ? `${fmtSigned(directPercent)}%` : '',
+      total: fmtPct(elemBonusPercent(rawStats[strStatId]) + directPercent),
     };
   };
 
@@ -308,7 +453,19 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     }),
   ].filter((row): row is BuffRow => row !== null);
 
-  const buffRows = [...genericBuffRows, ...enhanceBuffRows, ...elemBuffRows];
+  const buffRows = [
+    ...(illusionPowerRow ? [illusionPowerRow] : []),
+    ...genericBuffRowsBeforeElemAtk,
+    ...genericBuffRowsRefine,
+    ...genericBuffRowsElemAtk,
+    ...elemBuffRows,
+    ...enhanceBuffRows,
+    ...genericBuffRowsUntilCritRecovery,
+    ...(luckyHitRecoveryRow ? [luckyHitRecoveryRow] : []),
+    ...genericBuffRowsAfterCritRecovery,
+    ...(staminaRegenRow ? [staminaRegenRow] : []),
+    ...(moveSpeedRow ? [moveSpeedRow] : []),
+  ];
 
   const attackRows = [
     { label: te('stat.strength'), value: fmtDec2(rawStats.strength) },
@@ -457,7 +614,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       resizable
       windowed={windowed}
       initialPos={{ x: 200, y: 60 }}
-      initialSize={{ w: 540, h: 540 }}
+      initialSize={{ w: 648, h: 540 }}
     >
       <div className="stats-detail__body">
         <div className="stats-detail__section">
@@ -481,6 +638,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
                     <th className="stats-detail__value">{te('buffEffects.additive')}</th>
                     <th className="stats-detail__value">{te('buffEffects.multiplier')}</th>
                     <th className="stats-detail__value">{te('buffEffects.cookingBuff')}</th>
+                    <th className="stats-detail__value">{te('buffEffects.total')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -497,6 +655,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
                         <td className="stats-detail__value">{row.additive}</td>
                         <td className="stats-detail__value">{row.multiplier}</td>
                         <td className="stats-detail__value">{row.cookingBuff}</td>
+                        <td className="stats-detail__value">{row.total}</td>
                       </tr>
                     );
                   })}

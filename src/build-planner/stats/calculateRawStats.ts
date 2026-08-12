@@ -161,12 +161,14 @@ export interface CalculateRawStatsInput {
 }
 
 // ステータス1件分の「素の値からの変化」内訳。additive=平坦加算の合計、multiplier=%ボーナスの累積倍率、
-// cookingBonus=料理バフ(料理・海風の宴)による最終加算(あれば)。
+// cookingBonus=料理バフ(料理・海風の宴)による最終加算(あれば)、levelBonus=冒険者レベル/潜在
+// レベルによる加算(あれば。ステータス詳細では初期値/ステ変換値列側に表示するためadditiveとは分ける)。
 export interface StatBreakdownEntry {
   base: number;
   additive: number;
   multiplier: number;
   cookingBonus?: number;
+  levelBonus?: number;
 }
 
 export interface CalculateRawStatsResult {
@@ -245,9 +247,16 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // (例: +10%と+15%の2つの効果は 1.1*1.15 ではなく 1.25 倍として扱う)。
   const additive: Partial<Record<StatId, number>> = {};
   const pctBonus: Partial<Record<StatId, number>> = {};
+  const levelBonus: Partial<Record<StatId, number>> = {};
   const addStat = (statId: StatId, value: number) => {
     total[statId] += value;
     additive[statId] = (additive[statId] ?? 0) + value;
+  };
+  // 冒険者レベル/潜在レベルによる加算専用(ステータス詳細の初期値/ステ変換値列側に表示するため、
+  // addStatのadditive(加算列)ではなくlevelBonus(初期値/ステ変換値列)に積む)。
+  const addLevelStat = (statId: StatId, value: number) => {
+    total[statId] += value;
+    levelBonus[statId] = (levelBonus[statId] ?? 0) + value;
   };
   const addPctBonus = (statId: StatId, rawValue: number) => {
     pctBonus[statId] = (pctBonus[statId] ?? 0) + rawValue;
@@ -605,7 +614,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const lvData = levelCumulativeData[Math.min(adventurerLevel, levelCumulativeData.length - 1)];
   if (lvData) {
     for (const [sid, val] of Object.entries(lvData.stats) as [StatId, number][]) {
-      addStat(sid, val);
+      addLevelStat(sid, val);
     }
   }
 
@@ -613,7 +622,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   if (phantomLevel > 0 && playerLevelSeasonData.levelUpAttr.length > 0) {
     for (const [attrId, perLevel] of playerLevelSeasonData.levelUpAttr) {
       const statId = PHANTOM_LEVEL_ATTR_TO_STAT[attrId];
-      if (statId !== undefined) addStat(statId, phantomLevel * perLevel);
+      if (statId !== undefined) addLevelStat(statId, phantomLevel * perLevel);
     }
   }
 
@@ -851,6 +860,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       ...(statId === profession.mainStat && statResonanceBonus !== 0
         ? { cookingBonus: statResonanceBonus }
         : {}),
+      ...(levelBonus[statId] ? { levelBonus: levelBonus[statId] } : {}),
     };
   }
 
