@@ -90,8 +90,9 @@ import {
   type TalentTreeNode,
 } from './gameData';
 import { calcStatValue } from './statValue';
-import type { DerivedStats } from './deriveStats';
+import { convertBySeparatelyTruncatedRates, type DerivedStats } from './deriveStats';
 import { calcGlobalLink } from '../module/moduleData';
+import { COMMON_STAT_COEFFICIENTS } from './commonCoefficients';
 
 // %ボーナスの内部表現の基数(1万 = 100%。例: rawValue=1500 → 15%)。
 const PERCENT_BASIS_POINTS = 10000;
@@ -118,6 +119,19 @@ function truncateInt(value: number): number {
   return Math.floor(roundClean(value));
 }
 
+// 整数へ四捨五入する。floorする直前にもroundCleanで丸める(truncateIntと同じ理由)。
+// 収益逓減カーブの対象になる会心/ファスト/幸運/器用さ/万能(PCT_BONUS_ROUNDED_STAT_IDS)に
+// %ボーナス(潜在因子の極性バフ等)を乗算する箇所限定で使う(2026-09-02/03不具合報告: 幸運
+// 29,040に極性因子+7.83%適用後の実測値31,314は、floor(31313.832)の31313ではなく
+// 四捨五入のround(31313.832)=31314と一致。別の実測28,329×1.0783=30,547.1607→実測30547も
+// round()と一致(floor()でも同じ結果になるため単独では判別できないが、前者の実測と合わせて
+// 四捨五入と判断)。メインステータス(筋力/知力/敏捷)は同じ%ボーナス適用処理でもfloorのまま
+// (2026-08-06不具合報告: 知力15×1.05=15.75→実測15。round()なら16になり実測と食い違うため、
+// この2種の丸め方式は統一しない)。
+function roundToInt(value: number): number {
+  return Math.round(roundClean(value));
+}
+
 // ゲーム内で常に整数として扱われることが実測で確認できているStatId(2026-08-06不具合報告)。
 // 会心/ファスト/幸運/器用さ/万能(INSPIRATION_PERCENT_STAT_IDSと同じ5種)とメインステータス
 // (筋力/知力/敏捷)が対象。他のStatId(耐久力・防御力・属性系等)は未検証のため、当面は
@@ -126,6 +140,17 @@ const INTEGER_TRUNCATED_STAT_IDS = new Set<StatId>([
   'strength',
   'intellect',
   'agility',
+  'crit',
+  'haste',
+  'luck',
+  'mastery',
+  'versatility',
+]);
+
+// INTEGER_TRUNCATED_STAT_IDSのうち、%ボーナス適用時の丸めがfloorではなくround(四捨五入)と
+// 実測確認できているStatId(roundToIntのコメント参照)。収益逓減カーブの対象になる5種のみで、
+// メインステータス(筋力/知力/敏捷)は含まない。
+const PCT_BONUS_ROUNDED_STAT_IDS = new Set<StatId>([
   'crit',
   'haste',
   'luck',
@@ -208,6 +233,11 @@ export interface CalculateRawStatsResult {
   // による、幸運%1ptあたりの幸運の一撃ダメージ倍率への変換率ボーナス。deriveStats()側の
   // 基礎係数0.25に加算する。
   luckyHitDamageRatioBonus: number;
+  // ファストの俊敏変換込み実数値(deriveStats側のhasteReal相当)。極性因子等によるファスト
+  // 自身への%ボーナスを、俊敏変換分も含めた合算値に対して一度だけ適用した正確な値
+  // (rawStats.hasteは従来通り俊敏変換分を含まないため、これと単純加算するとその分の
+  // %ボーナスが抜け落ちる。上記hasteRealAdjustedのコメント参照)。deriveStats()に渡す。
+  hasteRealAdjusted: number;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -660,6 +690,20 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     }
   }
 
+  // 絆レベル「5ステータス中最大の1項目」判定用のベース値スナップショット。装備・アビリティ・
+  // バトルイマジン・冒険者レベル・潜在レベル(常時反映分)までの値のみを使い、これから適用する
+  // 潜在因子効果(極性因子の%ボーナス含む)・絆レベル効果自身による変動は含めない
+  // (2026-09-02不具合報告: 判定基準に極性因子の%ボーナスが混ざると、心相投影のON/OFFで
+  // 判定結果自体が変わってしまい、ファストの方が高いはずの状況で幸運に絆レベル効果が誤って
+  // 付与されていた。ファストはこのスナップショット時点では俊敏からの変換分〈hasteReal相当〉が
+  // 未加算のため、その分だけ個別に加算して補正する)。
+  const highestOfBaseStats: Record<StatId, number> = { ...total };
+  highestOfBaseStats.haste += convertBySeparatelyTruncatedRates(
+    total.agility,
+    COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
+    conversionRateBonus.haste ?? 0,
+  );
+
   // 潜在因子効果 (enabled 時のみ)。ツリー(テンプレート)自体が未開放の場合はphantomEnabledが
   // 自動的にfalseになる(store側、setPhantomTemplateId/setPhantomLevel)ため、ここでは
   // テンプレート自体の開放Lvは見ずノード個別の開放Lvのみ判定すればよい。
@@ -744,7 +788,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   }
 
   // 絆レベル効果 (enabled 時のみ)
-  // 「最も高い1項目に加算」は因子効果反映後の total を参照して決定する
+  // 「最も高い1項目に加算」は highestOfBaseStats (潜在因子効果・絆レベル効果自身より前の
+  // スナップショット、上記コメント参照) を参照して決定する。
   if (phantomEnabled && phantomTemplateId != null) {
     const tmpl = seasonTalentData.templates[String(phantomTemplateId)];
     if (tmpl) {
@@ -760,10 +805,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
             if (eff.type === 'static') {
               addStat(eff.stat, eff.value);
             } else if (eff.type === 'highest_of') {
-              // 現時点の total から最大値の stat に加算
+              // highestOfBaseStats(潜在因子効果より前のスナップショット)から最大値の stat に
+              // 加算する。totalそのものを比較に使うと、潜在因子の極性バフ(%ボーナス)や絆レベル
+              // 効果自身の加算(同種の他レベル分)が判定に混ざってしまい、心相投影のON/OFFで
+              // 判定結果自体が変わってしまう(2026-09-02不具合報告: ファストの方が高いはずの
+              // 状況で、極性因子の%ボーナスが幸運側に乗ることで幸運に誤って絆レベル効果が
+              // 付与されていた)。
               let maxStat = eff.stats[0];
               for (const s of eff.stats.slice(1)) {
-                if (total[s] > total[maxStat]) maxStat = s;
+                if (highestOfBaseStats[s] > highestOfBaseStats[maxStat]) maxStat = s;
               }
               addStat(maxStat, eff.value);
             } else if (eff.type === 'final_pct') {
@@ -835,12 +885,19 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // %ボーナスの適用: 同一ステータスに対する複数の%ボーナスは合算してから一度だけ乗算する
   // (例: +10%と+15%は 1.1*1.15 ではなく 1.25 倍として扱う)。
   // 浮動小数点誤差(15%のつもりが14.999...%になる等)を避けるため、乗算結果は一旦
-  // roundCleanで丸め、最終的なステータス計算結果をtruncate2(またはINTEGER_TRUNCATED_STAT_IDS
-  // に該当する場合はtruncateInt)で切り捨てる。
+  // roundCleanで丸め、最終的なステータス計算結果をtruncate2、PCT_BONUS_ROUNDED_STAT_IDSに
+  // 該当する場合はroundToInt(四捨五入)、それ以外のINTEGER_TRUNCATED_STAT_IDSはtruncateInt
+  // (切り捨て)で丸める(両ヘルパーのコメント参照)。
+  // hasteのみ、この時点ではまだ俊敏由来の変換分(hasteReal相当)を合算していないため、
+  // このループでは一旦スキップする(下記hasteRealAdjustedの計算を参照)。
   for (const [statId, rawValue] of Object.entries(pctBonus) as [StatId, number][]) {
-    if (rawValue === 0) continue;
+    if (rawValue === 0 || statId === 'haste') continue;
     const factor = roundClean(1 + rawValue / PERCENT_BASIS_POINTS);
-    const truncate = INTEGER_TRUNCATED_STAT_IDS.has(statId) ? truncateInt : truncate2;
+    const truncate = PCT_BONUS_ROUNDED_STAT_IDS.has(statId)
+      ? roundToInt
+      : INTEGER_TRUNCATED_STAT_IDS.has(statId)
+        ? truncateInt
+        : truncate2;
     total[statId] = truncate(roundClean(total[statId] * factor));
   }
 
@@ -849,6 +906,28 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const statResonanceBonus = calcStatResonanceBonus(cookingBuff);
   if (statResonanceBonus !== 0) {
     total[profession.mainStat] += statResonanceBonus;
+  }
+
+  // ファストの俊敏変換込み実数値(hasteReal相当)を、極性因子等によるファスト自身への%ボーナスも
+  // 反映した状態で計算する。deriveStats側の従来実装は「%ボーナス適用済みのraw.haste」+
+  // 「%ボーナス未適用の俊敏変換分」を単純加算していたため、俊敏変換分だけ%ボーナスが
+  // 素通りしてしまっていた(2026-09-02不具合報告: 極性因子「幸運+7.83%/ファスト-4.70%」適用時、
+  // 実測ファスト29,760に対し29,778と算出。(28842+2000+386)*0.953を切り捨てた29,760が正しく、
+  // 俊敏変換分386%ボーナス未適用分の差18がそのまま誤差になっていた)。ここでagility(俊敏)は
+  // 上のstatResonanceBonus適用まで含めた最終値を使う(メインステータスが俊敏のクラスでも
+  // 正しく反映されるように)。
+  const hasteAgilityBonus = convertBySeparatelyTruncatedRates(
+    total.agility,
+    COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
+    conversionRateBonus.haste ?? 0,
+  );
+  const hasteRawValue = pctBonus.haste ?? 0;
+  const hasteFactor = roundClean(1 + hasteRawValue / PERCENT_BASIS_POINTS);
+  const hasteRealAdjusted = roundToInt(roundClean((total.haste + hasteAgilityBonus) * hasteFactor));
+  // rawStats.haste自体は従来通り、俊敏変換分を含まない値として返す(表示側は
+  // derivedStats.hasteReal/hasteRealAdjustedを参照する。CharacterPanel.tsx参照)。
+  if (hasteRawValue !== 0) {
+    total.haste = roundToInt(roundClean(total.haste * hasteFactor));
   }
 
   const breakdown = {} as Record<StatId, StatBreakdownEntry>;
@@ -875,6 +954,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     atkSpeedPerHastePercentBonus,
     castSpeedFinalPctAddend,
     luckyHitDamageRatioBonus,
+    hasteRealAdjusted,
   };
 }
 

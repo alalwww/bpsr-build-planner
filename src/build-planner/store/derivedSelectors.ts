@@ -344,6 +344,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     rawStatsResult.castSpeedFinalPctAddend,
     rawStatsResult.luckyHitDamageRatioBonus,
     rawStatsResult.finalPctAddend,
+    rawStatsResult.hasteRealAdjusted,
   );
 
   const finalStatsResult = selectFinalStatsResult(

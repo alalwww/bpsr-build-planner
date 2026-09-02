@@ -15,7 +15,7 @@ import {
 // floorしてから足すと1348、先に0.6として1回で乗算すると1349になり、ゲーム内実測値は前者
 // (1348)と一致した)。raw側の実数値ステータス自体は既にcalculateRawStats側で整数へ
 // 切り捨て済みのため、ここでは追加のfloorは行わない。
-function convertBySeparatelyTruncatedRates(
+export function convertBySeparatelyTruncatedRates(
   rawValue: number,
   baseRate: number,
   bonusRate: number,
@@ -200,6 +200,12 @@ export function deriveStats(
   // 強化薬(スターオイル)由来の実数値(raw.physicalEnhance/magicalEnhance)はカーブを経由させ、
   // こちらはカーブ通過後の結果に加算する点に注意(2026-08-12不具合報告)。
   finalPctAddend: Partial<Record<StatId, number>> = {},
+  // calculateRawStatsのhasteRealAdjusted(俊敏変換分まで含めてファスト自身への%ボーナスを
+  // 一度に適用した正確な実数値)。未指定時は従来通りraw.haste+hasteAgilityBonusの単純加算に
+  // フォールバックする(2026-09-02不具合報告: 極性因子等のファスト自身への%ボーナスが
+  // 俊敏変換分には掛からず、実測よりファストの実数値が大きく算出されていた。詳細は
+  // calculateRawStats.tsのhasteRealAdjusted算出コメント参照)。
+  hasteRealAdjusted?: number,
 ): DerivedStats {
   const enduranceMaxHpBonus = raw.endurance * profession.hpPerEndurancePoint;
   const maxHp = raw.maxHp + enduranceMaxHpBonus;
@@ -234,7 +240,7 @@ export function deriveStats(
     COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
     conversionRateBonus.haste ?? 0,
   );
-  const hasteReal = raw.haste + hasteAgilityBonus;
+  const hasteReal = hasteRealAdjusted ?? raw.haste + hasteAgilityBonus;
   const hastePercent = diminishingPercent(
     hasteReal,
     SEASON_CONSTANTS.diminishingA,

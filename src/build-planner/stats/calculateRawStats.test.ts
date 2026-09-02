@@ -859,7 +859,9 @@ describe('calculateRawStats', () => {
     // Level 6 (unlockFraction 35) is template-specific and excluded here (bondPoints=25).
     // Per src/locales/*/game-data.json attrDescs: each of 3003610/20/40 grants
     // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each
-    // (their "highest_of" component lands on rawStats.crit here since everything ties at 0).
+    // (their "highest_of" component lands on rawStats.haste here: crit/luck/mastery/versatility
+    // are tied at 0, but haste's comparison base includes the agility->haste conversion of the
+    // baseline 15 agility (BASE_STATS.agility), floor(15*0.8)=12, so it edges out the others).
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       phantomEnabled: true,
@@ -871,7 +873,7 @@ describe('calculateRawStats', () => {
 
     expect(result.rawStats.illusionPower).toBe(BASE_STATS.illusionPower + 100 * 3);
     expect(result.rawStats.endurance).toBe(BASE_STATS.endurance + 750 * 5);
-    expect(result.rawStats.crit).toBe(BASE_STATS.crit + 750 + 1250);
+    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 750 + 1250);
   });
 
   // src/data/season-talents.json: template 1 (イマジンインパクト) node 1003「リビルド」
