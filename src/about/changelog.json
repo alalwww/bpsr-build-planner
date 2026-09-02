@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.10.4",
+      "date": "2026-09-02T16:23:07.030Z",
+      "summary": {
+        "ja": "心相投影の絆レベル効果および計算処理の不具合および因子の説明の不備を修正",
+        "en": "Fix phantom projection bond-level effect and calculation issues, and factor effect description problems"
+      },
+      "changes": {
+        "ja": [
+          "絆レベル効果の「5項目中最高値」ボーナス対象の判定前に極性因子の効果が反映され誤ったステータスにボーナスが乗ることがあった不具合を修正。",
+          "絆レベル効果の「5項目中最高値」ボーナス対象の判定に俊敏から得られるファストが比較時に含まれておらず過小評価されていた不具合を修正。",
+          "極性因子の効果適用後の実数値の端数処理を切り捨てから四捨五入に修正。",
+          "極性因子の効果説明文中の%値が小数点第一位で丸められていた不具合を修正。（e.g.極性X6の「幸運値+7.8%」→「幸運値+7.83%」）"
+        ],
+        "en": [
+          "Fix bond-level effect's \"highest of five\" bonus-target selection reflecting the polarity factor's own bonus before comparison, which could apply the bonus to the wrong stat.",
+          "Fix bond-level effect's \"highest of five\" bonus-target selection excluding the fast value derived from agility during comparison, causing it to be undervalued.",
+          "Fix polarity factor's post-effect real-value rounding to round to the nearest value instead of truncating.",
+          "Fix polarity factor effect text rounding percent values to one decimal place (e.g. Polarity X6's \"Luck +7.8%\" now correctly shows \"Luck +7.83%\")."
+        ]
+      }
+    },
+    {
       "version": "0.10.3",
       "date": "2026-08-12T15:29:18.955Z",
       "summary": {
