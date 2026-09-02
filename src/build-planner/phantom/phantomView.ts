@@ -99,7 +99,10 @@ export function getFactorEffectDesc(tg: GameDataT, classKey: string, grade: numb
     const buffId = gradeData.effects[idx3][1];
     const pars = gradeData.buffPars?.[idx3] ?? [];
     const tmpl = tg(`attrDescs.${buffId}`, { defaultValue: '' });
-    if (tmpl) return renderEffectDesc(tmpl, pars, true);
+    // 因子の極性バフ(例: 極性X6「幸運+7.83%」)はparsが1/100単位(百分の一%まで表現可能)の
+    // 精度を持つため、下のtype1分岐(器用さ等)と同じく小数第2位まで表示する
+    // (2026-09-03不具合報告: 既定の1桁だと7.83%が7.8%に丸まっていた)。
+    if (tmpl) return renderEffectDesc(tmpl, pars, true, 2);
   }
   // type 1: stat boost（極性・恒常性など）
   const type1 = gradeData.effects.filter((e) => e[0] === 1);

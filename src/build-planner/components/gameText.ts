@@ -19,6 +19,12 @@ export function substituteEffectDescParams(
   template: string,
   pars: number[],
   pAsPercent = false,
+  // {pn}をpAsPercentで%表示する際の小数桁数。既定は1桁(大半の効果説明はこの粒度で十分)だが、
+  // 潜在因子の極性因子(例: 極性X6「あらゆる手段で獲得する幸運値+7.83%」)はpars自体が
+  // 1/100単位(=1%を100とする、百分の一%まで表現可能)の精度を持つため、既定の1桁だと
+  // 7.83%が7.8%に丸まってしまう(2026-09-03不具合報告)。呼び出し側(getFactorEffectDesc)で
+  // 2を指定する。
+  percentFractionDigits = 1,
 ): string {
   return template
     .replace(/\{\*Decision\.unmarknormal\((\d+)\)\*}/g, (_, n) => {
@@ -36,7 +42,7 @@ export function substituteEffectDescParams(
     .replace(/\{p(\d+)}/g, (_, n) => {
       const v = pars[parseInt(n) - 1];
       if (v == null) return '?';
-      if (pAsPercent) return formatPercentParam(v);
+      if (pAsPercent) return formatPercentParam(v, percentFractionDigits);
       return String(v);
     })
     .trim();
@@ -45,8 +51,13 @@ export function substituteEffectDescParams(
 // テンプレート中のプレースホルダを置換し、装飾タグも除去したプレーン文字列を返す
 // (renderMarkupを使わずそのまま文字列表示する箇所向け。linktextはクリック不可のまま
 // 表示テキストのみ残す)。
-export function renderEffectDesc(template: string, pars: number[], pAsPercent = false): string {
-  return substituteEffectDescParams(template, pars, pAsPercent)
+export function renderEffectDesc(
+  template: string,
+  pars: number[],
+  pAsPercent = false,
+  percentFractionDigits = 1,
+): string {
+  return substituteEffectDescParams(template, pars, pAsPercent, percentFractionDigits)
     .replace(/<style[^>]*>([^<]*)<\/style>/g, '$1')
     .replace(/<linktext=[^>]*>([^<]*)<\/linktext>/g, '$1')
     .replace(/<[^>]+>/g, '')
