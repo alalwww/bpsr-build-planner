@@ -199,6 +199,16 @@
     "planLoadErrorMsg": "保存プランの読み込みに失敗しました。データが破損している可能性があります。",
     "autoSaveLoadErrorMsg": "自動保存データの読み込みに失敗しました。データが破損している可能性があります。",
     "phantomLegacyFactorResetMsg": "シーズン２の潜在心相晶は無効化されたため、リセットします。",
+    "modulePreset": {
+      "placeholder": "プリセットを選択",
+      "save": "プリセットを保存",
+      "saveTitle": "プリセットを保存",
+      "defaultName": "プリセット {{n}}",
+      "noPresets": "保存されたプリセットはありません",
+      "capReachedMsg": "保存上限({{max}}件)に達しています。不要なプリセットを削除してから保存してください。",
+      "confirmSwitchMsg": "「{{name}}」に切り替えます。現在の変更は失われます。",
+      "nameDuplicate": "同名のプリセットが既に存在します"
+    },
     "baseStats": "基礎ステータス",
     "evolutionStats": "進化ステータス",
     "rareStats": "レアステータス",

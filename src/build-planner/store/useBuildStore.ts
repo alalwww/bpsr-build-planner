@@ -4,6 +4,7 @@ import { shallow } from 'zustand/shallow';
 import { persistAutoSave, persistBuildPlans } from '../plan/buildPlan';
 import { createEquipmentSlice } from './equipmentSlice';
 import { createModuleSlice } from './moduleSlice';
+import { createModulePresetSlice } from './modulePresetSlice';
 import { createPhantomSlice } from './phantomSlice';
 import { createPlanSlice } from './planSlice';
 import { createSkillSlice } from './skillSlice';
@@ -16,6 +17,7 @@ export const useBuildStore = create<BuildStore>()(
     ...createTalentSlice(...a),
     ...createSkillSlice(...a),
     ...createModuleSlice(...a),
+    ...createModulePresetSlice(...a),
     ...createPhantomSlice(...a),
     ...createPlanSlice(...a),
   })),

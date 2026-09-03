@@ -199,6 +199,16 @@
     "planLoadErrorMsg": "讀取已保存的方案失敗，數據可能已損壞。",
     "autoSaveLoadErrorMsg": "讀取自動保存數據失敗，數據可能已損壞。",
     "phantomLegacyFactorResetMsg": "第二賽季的潛能心相晶已停用，因此將被重置。",
+    "modulePreset": {
+      "placeholder": "選擇預設",
+      "save": "保存預設",
+      "saveTitle": "保存預設",
+      "defaultName": "預設 {{n}}",
+      "noPresets": "尚無已保存的預設",
+      "capReachedMsg": "已達到保存上限({{max}}個)。請先刪除不需要的預設後再保存。",
+      "confirmSwitchMsg": "將切換到「{{name}}」，目前的變更將遺失。",
+      "nameDuplicate": "已存在同名的預設"
+    },
     "baseStats": "基礎屬性",
     "evolutionStats": "進化屬性",
     "rareStats": "稀有屬性",

@@ -7,6 +7,7 @@ import ModuleSlot from './ModuleSlot';
 import ModuleTotalStats from './ModuleTotalStats';
 import EffectInfoPopup from './EffectInfoPopup';
 import ModuleDialog from './ModuleDialog';
+import ModulePresetBar from './ModulePresetBar';
 import { useCursorTooltip } from '../components/useCursorTooltip';
 
 interface ModulePanelProps {
@@ -67,6 +68,7 @@ function ModulePanel({ profession, professionTypeKey }: ModulePanelProps) {
 
   return (
     <section className="module-panel">
+      <ModulePresetBar />
       <div className="module-panel__layout">
         <div className="module-panel__slots">
           {[0, 1, 2, 3, 4].map((idx) => (

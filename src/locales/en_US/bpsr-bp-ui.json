@@ -199,6 +199,16 @@
     "planLoadErrorMsg": "Failed to load your saved plans. The data may be corrupted.",
     "autoSaveLoadErrorMsg": "Failed to load your auto-saved data. The data may be corrupted.",
     "phantomLegacyFactorResetMsg": "Season 2 Phantom Factors have been disabled, so your Phantom Projection settings have been reset.",
+    "modulePreset": {
+      "placeholder": "Select a preset",
+      "save": "Save Preset",
+      "saveTitle": "Save Preset",
+      "defaultName": "Preset {{n}}",
+      "noPresets": "No saved presets",
+      "capReachedMsg": "Reached the save limit ({{max}}). Delete a preset before saving a new one.",
+      "confirmSwitchMsg": "Switch to \"{{name}}\"? Your current changes will be lost.",
+      "nameDuplicate": "A preset with this name already exists"
+    },
     "baseStats": "Base Stats",
     "evolutionStats": "Advanced Attributes",
     "rareStats": "Rare Attributes",
