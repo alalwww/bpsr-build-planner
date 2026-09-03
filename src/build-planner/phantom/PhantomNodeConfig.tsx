@@ -80,10 +80,17 @@ export default function PhantomNodeConfig({
     previousValue: PhantomFactorSlotValue | null;
   } | null>(null);
 
+  // phantomFactorSlots はツリーをまたいでキー(groupId)を保持するため(store側コメント参照)、
+  // 重複判定は現在表示中のツリーに属するgroupIdのみを対象にする(他ツリーの因子装着は無視)。
+  const currentTreeGroupIds = new Set(treeSteps.flatMap((step) => step.nodeIds));
+
   const handleSetFactor = (groupId: number, value: PhantomFactorSlotValue | null) => {
     if (value) {
       const conflict = Object.entries(phantomFactorSlots).find(
-        ([gid, v]) => Number(gid) !== groupId && v?.classKey === value.classKey,
+        ([gid, v]) =>
+          Number(gid) !== groupId &&
+          currentTreeGroupIds.has(Number(gid)) &&
+          v?.classKey === value.classKey,
       );
       if (conflict) {
         setPendingFactorSwap({
