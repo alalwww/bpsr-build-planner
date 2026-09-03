@@ -77,6 +77,12 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
   const autoSaveOnMount = getAutoSaveOnMount();
   const buildPlansOnMount = loadBuildPlans();
 
+  // 起動時の自動保存復元は、各スライスが個別にautoSaveOnMount.stateから初期値を組み立てる
+  // (applyPlanStateを経由しない)ため、そちらでは行われるロック状態のデフォルト化が漏れていた。
+  // 既存プランが復元された場合は起動時点でもapplyPlanStateと同じくロック状態を既定にする
+  // (誤操作防止。TalentTreePanel未マウント時点の書き込みなので、次回マウント時の初期値になる)。
+  if (autoSaveOnMount.state != null) setSessionValue('talentTree.locked', true);
+
   return {
     cookingBuff: DEFAULT_COOKING_BUFF,
     professionKey: autoSaveOnMount.state?.professionKey ?? DEFAULT_PROFESSION_KEY,
