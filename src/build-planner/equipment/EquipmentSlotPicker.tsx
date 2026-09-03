@@ -269,10 +269,18 @@ function EquipmentSlotPicker({
     return (b.level ?? 0) - (a.level ?? 0) || b.id - a.id;
   });
   // selectedEnchant は基本/精/極いずれかのID。base → refined/perfect を逆引き。
-  const { base: baseEnchantItem, data: selectedEnchantData } = resolveEnchantSelection(
-    sortedEnchants,
-    selectedEnchant,
-  );
+  const {
+    base: baseEnchantItem,
+    data: selectedEnchantData,
+    grade: equippedEnchantGrade,
+  } = resolveEnchantSelection(sortedEnchants, selectedEnchant);
+
+  // 装着中の刻印の実際の段階(equippedEnchantGrade)に希望グレードを追従させる。
+  // ダイアログを開き直した時・ヘッダーの部位切り替えで別部位に移った時のどちらでも、
+  // 「精」等が装着済みのまま既定の「通常」に戻って見えてしまう不具合を防ぐ。
+  useEffect(() => {
+    setEnchantGradePreference(equippedEnchantGrade);
+  }, [slot, equippedEnchantGrade]);
 
   // 装備選択ドロップダウンのトリガーにフォーカスがある間、パネルを開かずに上下矢印キーで
   // 選択を直接変更できるようにする(ネイティブselect/Stepperのコンボと同じ操作感)。

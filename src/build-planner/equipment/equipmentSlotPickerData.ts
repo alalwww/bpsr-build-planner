@@ -105,10 +105,12 @@ export function resolveEnchantSelection(
             e.perfect?.id === selectedEnchantId,
         )
       : undefined;
+  // base===undefined(未選択)の場合、`base?.refined?.id === selectedEnchantId` は
+  // undefined === undefined で誤って true になってしまうため、base自体の有無を先に見る。
   const grade: EnchantGrade =
-    base?.refined?.id === selectedEnchantId
+    base !== undefined && base.refined?.id === selectedEnchantId
       ? 'refined'
-      : base?.perfect?.id === selectedEnchantId
+      : base !== undefined && base.perfect?.id === selectedEnchantId
         ? 'perfect'
         : 'base';
   const data = grade === 'refined' ? base?.refined : grade === 'perfect' ? base?.perfect : base;
