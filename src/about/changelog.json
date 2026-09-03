@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.10.5",
+      "date": "2026-09-03T13:34:35.768Z",
+      "summary": {
+        "ja": "潜在・アビリティの不具合修正",
+        "en": "Fix issues in Phantom and Talents"
+      },
+      "changes": {
+        "ja": [
+          "潜在で、別の心相投影ツリーで既に装着している因子を装着しようとすると、不要な入れ替え確認ダイアログが表示される不具合を修正",
+          "サイトを開いた直後にアビリティタブを開くと、アビリティポイント消費済みでも誤操作防止ロックがかかっていない不具合を修正"
+        ],
+        "en": [
+          "Fix Phantom incorrectly prompting a swap confirmation when equipping a factor already used in a different projection tree",
+          "Fix the Talents tab not defaulting to misclick-protection lock right after loading the site, even when points had already been spent"
+        ]
+      }
+    },
+    {
       "version": "0.10.4",
       "date": "2026-09-02T16:23:07.030Z",
       "summary": {
