@@ -424,6 +424,52 @@
   overflow: hidden;
 }
 
+/* ヘッダーの部位切り替えボタン(閉じるボタンの左に並ぶ) */
+.equipment-dialog__slot-switch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.equipment-dialog__slot-switch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 3px;
+  background: #2a2a34;
+  border: 1px solid #3a3a45;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.equipment-dialog__slot-switch-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.equipment-dialog__slot-switch-btn:hover {
+  background: #3a3a48;
+  border-color: #55555f;
+}
+
+.equipment-dialog__slot-switch-btn--active {
+  background: #454558;
+  border-color: #8a8aa0;
+}
+
+.equipment-dialog__slot-switch-btn--active img {
+  opacity: 1;
+}
+
 .equipment-dialog__columns {
   display: flex;
   gap: 0;

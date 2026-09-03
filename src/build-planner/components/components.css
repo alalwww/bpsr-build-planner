@@ -310,7 +310,6 @@
 .draggable-dialog__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   flex-shrink: 0;
   cursor: move;
@@ -334,6 +333,11 @@
 
 .draggable-dialog__title {
   margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 14px;
   color: #e8e6e1;
 }

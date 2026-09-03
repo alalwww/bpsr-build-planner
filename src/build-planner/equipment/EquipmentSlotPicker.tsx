@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -90,6 +90,8 @@ interface EquipmentSlotPickerProps {
   ) => void;
   onSetEnchant: (itemId: number | undefined) => void;
   onClose: () => void;
+  /** ダイアログを閉じずに部位を切り替えるボタン群(親でスロット一覧・アイコンを組み立てて渡す)。 */
+  headerExtra?: ReactNode;
 }
 
 // 装着効果コスト(通常/上級)の材料アイコン+名前+個数の一覧。tooltip・選択中詳細の
@@ -150,11 +152,19 @@ function EquipmentSlotPicker({
   onSetLegendaryAffixGroup,
   onSetEnchant,
   onClose,
+  headerExtra,
 }: EquipmentSlotPickerProps) {
   const { t } = useTranslation();
   const [editingEvoSlot, setEditingEvoSlot] = useState<number | null>(null);
   const [affixPickerOpen, setAffixPickerOpen] = useState(false);
   const [affixGroupOpenIndex, setAffixGroupOpenIndex] = useState<number | null>(null);
+  // ヘッダーの部位切り替えボタンでダイアログを閉じずにslotだけが変わるため、
+  // 前の部位のUI状態(編集中スロット等)が残らないようリセットする。
+  useEffect(() => {
+    setEditingEvoSlot(null);
+    setAffixPickerOpen(false);
+    setAffixGroupOpenIndex(null);
+  }, [slot]);
   // 装着効果の希望グレード(通常/精/極)。候補一覧からの選択・ホバープレビューに
   // 自動適用される「常時表示」の永続的な選好状態(常にどれかを選択中)。
   const [enchantGradePreference, setEnchantGradePreference] = useState<EnchantGrade>('base');
@@ -530,6 +540,7 @@ function EquipmentSlotPicker({
         title={t('buildPlanner.selectEquipmentTitle', { slot: slotLabel })}
         onClose={onClose}
         className="equipment-dialog--wide"
+        headerExtra={headerExtra}
       >
         <div className="equipment-dialog__columns">
           {/* 左列: アイコンプレビュー / 装備選択 / 完成度 */}

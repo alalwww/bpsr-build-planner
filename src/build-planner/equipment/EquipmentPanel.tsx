@@ -87,6 +87,13 @@ function getEquipBgUrl(slot: EquipmentSlotId, item?: EquipmentItem): string | un
 
 const BOTTOM_SLOT_SET = new Set<EquipmentSlotId>(EQUIPMENT_BOTTOM_SLOTS);
 
+// 装備選択ダイアログのヘッダーにある部位切り替えボタン用の全部位一覧(表示順)。
+const ALL_EQUIPMENT_SLOTS: EquipmentSlotId[] = [
+  'weapon',
+  ...EQUIPMENT_TOP_SLOTS,
+  ...EQUIPMENT_BOTTOM_SLOTS,
+];
+
 // パネル右側寄りの部位はポップアップが画面外/クリック操作の邪魔になるため左側に表示する。
 const LEFT_ALIGNED_POPUP_SLOTS = new Set<EquipmentSlotId>([
   'arms',
@@ -187,6 +194,29 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
 
   const hoveredItem = hoveredSlot ? equipped[hoveredSlot.slot] : undefined;
 
+  // 装備選択ダイアログのヘッダーに表示する部位切り替えボタン。ダイアログを閉じずに
+  // openSlotだけを変更する(アイコンは常に未装備時のプレースホルダーを使い、部位の
+  // 種類がひと目でわかるようにする。装備中アイテムのアイコンは使わない)。
+  const slotSwitcher = openSlot ? (
+    <div className="equipment-dialog__slot-switch">
+      {ALL_EQUIPMENT_SLOTS.map((slot) => {
+        const iconUrl = getSlotIconUrl(slot, undefined);
+        return (
+          <button
+            key={slot}
+            type="button"
+            className={`equipment-dialog__slot-switch-btn${slot === openSlot ? ' equipment-dialog__slot-switch-btn--active' : ''}`}
+            title={t(`buildPlanner.slots.${slot}`)}
+            aria-label={t(`buildPlanner.slots.${slot}`)}
+            onClick={() => setOpenSlot(slot)}
+          >
+            {iconUrl && <img src={iconUrl} alt="" />}
+          </button>
+        );
+      })}
+    </div>
+  ) : null;
+
   return (
     <section className="equipment-panel">
       <div className="equipment-panel__weapon">{renderSlot('weapon')}</div>
@@ -228,6 +258,7 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
           onSetLegendaryAffixGroup={(idx, sel) => onSetLegendaryAffixGroup(openSlot, idx, sel)}
           onSetEnchant={(itemId) => onSetEnchant(openSlot, itemId)}
           onClose={() => setOpenSlot(null)}
+          headerExtra={slotSwitcher}
         />
       )}
       {!openSlot && hoveredSlot && hoveredItem && (
