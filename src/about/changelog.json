@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "version": "0.11.0",
+      "date": "2026-09-03T15:09:57.319Z",
+      "summary": {
+        "ja": "装備切り替えボタンの追加とモジュール保存機能の追加",
+        "en": "Add equipment slot switch button and module preset saving"
+      },
+      "changes": {
+        "ja": [
+          "装備選択ダイアログの右上に装備部位を切り替えるボタンを追加",
+          "モジュールの組み合わせを保存する機能を追加(最大20個としてますが必要であれば増やします)",
+          "装備選択ダイアログの装着効果の「通常」「精」「極」の選択状態が連動していなかった不具合を修正"
+        ],
+        "en": [
+          "Add a button to switch equipment slots from the top-right of the equipment selection dialog",
+          "Add module preset saving (currently capped at 20 — happy to raise the limit if needed)",
+          "Fix the equip-effect grade (Normal/Refined/Perfect) selection not syncing with the actually equipped grade"
+        ]
+      }
+    },
+    {
       "version": "0.10.5",
       "date": "2026-09-03T13:34:35.768Z",
       "summary": {
