@@ -44729,7 +44729,7 @@
     },
     "1246": {
       "name": "타이드풀",
-      "description": "목표 위치에 휘몰아치는 물 회오리를 소환해 적에게 <style=\"magic\">마법 대미지</style>를 입힙니다. 소환 후 <style=\"accent-gn\">5</style>초 동안 채널링이 지속되며 스킬을 다시 시전해 일찍 중단할 수 있습니다.<br><br><style=\"accent-gn\">극한・타이드풀</style><br><style=\"accent-gn\">극한</style> 상태일 때, 물 회오리가 사라지기 전에 얼어붙은 뒤 강력한 폭발을 일으켜 범위 내 모든 적에게 더욱 높은 <style=\"magic\">마법 대미지</style>를 입힙니다.<br><br><size=22><style=\"tipsYellow\">팁: 채널링하는 동안 이동할 수 없으며, 다른 스킬도 시전할 수 없습니다. 파티 플레이 시, 다른 파티원의 범위 공격과 함께 시전하세요.</style></size>",
+      "description": "목표 위치에 휘몰아치는 워터 토네이도를 소환해 적에게 <style=\"magic\">마법 대미지</style>를 입힙니다. 소환 후 <style=\"accent-gn\">5</style>초 동안 채널링이 지속되며 스킬을 다시 시전해 일찍 중단할 수 있습니다.<br><br><style=\"accent-gn\">극한・타이드풀</style><br><style=\"accent-gn\">극한</style> 상태일 때, 워터 토네이도가 사라지기 전에 얼어붙은 뒤 강력한 폭발을 일으켜 범위 내 모든 적에게 더욱 높은 <style=\"magic\">마법 대미지</style>를 입힙니다.<br><br><size=22><style=\"tipsYellow\">팁: 채널링하는 동안 이동할 수 없으며, 다른 스킬도 시전할 수 없습니다. 파티 플레이 시, 다른 파티원의 범위 공격과 함께 시전하세요.</style></size>",
       "skillLabel": [
         "마스터리 스킬",
         "마법",
@@ -44741,7 +44741,7 @@
       ],
       "activeEffectParams": [
         [
-          "물 회오리 단일 대미지",
+          "워터 토네이도 단일 대미지",
           [
             {
               "r": [
@@ -61456,7 +61456,7 @@
     },
     "1112": {
       "name": "트윈 스타 애로우",
-      "description": "<linktext=1546><style=\"ItemQuality_5\">꿰뚫는 눈・샤이닝 애로우</style></linktext>가 추가로 1회 <style=\"accent-gn\">라이트 에너지</style> 폭발을 일으켜 공격력 <style=\"accent-gn\">1,500%</style>만큼의 <style=\"physical\">물리 대미지</style>(궁극기 스킬 레벨업 및 승급에 따라 성장)를 입힙니다. 해당 공격은 적을 공중에 띄우며, 공격이 명중한 대상은 이후 <style=\"accent-gn\">10</style>초 동안 자신으로부터 받는 대미지가 <style=\"accent-gn\">5%</style> 증가합니다."
+      "description": "<linktext=1546><style=\"ItemQuality_5\">꿰뚫는 눈・샤이닝 애로우</style></linktext>가 추가로 1회 <style=\"accent-gn\">라이트 에너지</style> 폭발을 일으켜 공격력 <style=\"accent-gn\">1,500%</style>만큼의 <style=\"physical\">물리 대미지</style>(궁극 스킬 레벨업 및 승급에 따라 성장)를 입힙니다. 해당 공격은 적을 공중에 띄우며, 공격이 명중한 대상은 이후 <style=\"accent-gn\">10</style>초 동안 자신으로부터 받는 대미지가 <style=\"accent-gn\">5%</style> 증가합니다."
     },
     "1114": {
       "name": "신비한 화살의 궤적",
@@ -68700,7 +68700,7 @@
     "2203100": "<style=\"accent-gn\">늑대</style>의 <style=\"accent-gn\">협동 공격</style>이 <style=\"accent-gn\">50%</style>의 고정 확률로 <linktext=1141><style=\"ItemQuality_5\">출혈</style></linktext>을 부여합니다.",
     "2203110": "<linktext=1601><style=\"ItemQuality_5\">스톰 애로우</style></linktext>로 대미지를 입힐 때 <style=\"accent-gn\">10%</style>의 고정 확률로 <style=\"accent-gn\">늑대</style>를 1마리 소환합니다. 소환된 <style=\"accent-gn\">늑대</style>는 <style=\"accent-gn\">8</style>초 동안 지속됩니다. 해당 효과는 <style=\"accent-gn\">40</style>초마다 최대 1회 발동합니다.",
     "2203120": "<linktext=1138><style=\"ItemQuality_5\">라이트 리캐스트</style></linktext> 상태일 때 <style=\"accent-gn\">늑대</style>의 모든 공격이 적의 물리 방어를 무시합니다.",
-    "2203130": "<linktext=1546><style=\"ItemQuality_5\">꿰뚫는 눈・샤이닝 애로우</style></linktext>가 추가로 1회 <style=\"accent-gn\">라이트 에너지</style> 폭발을 일으켜 공격력 <style=\"accent-gn\">1,500%</style>만큼의 <style=\"physical\">물리 대미지</style>(궁극기 스킬 레벨업 및 승급에 따라 성장)를 입힙니다. 해당 공격은 적을 공중에 띄우며, 공격이 명중한 대상은 이후 <style=\"accent-gn\">10</style>초 동안 자신으로부터 받는 대미지가 <style=\"accent-gn\">5%</style> 증가합니다.",
+    "2203130": "<linktext=1546><style=\"ItemQuality_5\">꿰뚫는 눈・샤이닝 애로우</style></linktext>가 추가로 1회 <style=\"accent-gn\">라이트 에너지</style> 폭발을 일으켜 공격력 <style=\"accent-gn\">1,500%</style>만큼의 <style=\"physical\">물리 대미지</style>(궁극 스킬 레벨업 및 승급에 따라 성장)를 입힙니다. 해당 공격은 적을 공중에 띄우며, 공격이 명중한 대상은 이후 <style=\"accent-gn\">10</style>초 동안 자신으로부터 받는 대미지가 <style=\"accent-gn\">5%</style> 증가합니다.",
     "2203140": "<linktext=1138><style=\"ItemQuality_5\">라이트 리캐스트</style></linktext> 지속 시간 동안 <linktext=1601><style=\"ItemQuality_5\">스톰 애로우</style></linktext> 시전 시 <linktext=1142><style=\"ItemQuality_5\">샤이닝 애로우</style></linktext>를 추가로 발사합니다. 소환 중인 야수 <style=\"accent-gn\">1</style>마리당 <style=\"accent-gn\">1</style>발씩 추가됩니다(최대 <style=\"accent-gn\">4</style>발).",
     "2203150": "<linktext=1555><style=\"ItemQuality_5\">정신 집중</style></linktext> 지속 시간이 <style=\"accent-gn\">3</style>초 연장됩니다.",
     "2203160": "<style=\"accent-gn\">팔콘</style>이 <linktext=1143><style=\"ItemQuality_5\">섬광 돌진</style></linktext>을 시전하면 <style=\"accent-gn\">신속함</style>이 발동됩니다. <style=\"accent-gn\">신속함</style>: 공격 속도 +<style=\"accent-gn\">10%</style>, <style=\"accent-gn\">8</style>초 지속, 최대 <style=\"accent-gn\">3</style>스택 중첩.",
@@ -69357,7 +69357,7 @@
     "3003450": "자신의 <style=\"accent-gn\">궁극 스킬</style> 쿨타임 가속 +<style=\"accent-gn\">15%</style>.",
     "3003460": "<linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext> 최대 중첩 스택 수 +<style=\"accent-gn\">1</style>. 이동하지 않을 때, <linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext>의 지속 시간이 감소하지 않습니다.",
     "3003470": "<linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext>가 이제 최대 <style=\"accent-gn\">5</style>명의 파티원에게 적용됩니다. 대신, 최대 중첩 스택 수가 <style=\"accent-gn\">1</style> 감소합니다.",
-    "3003480": "궁극기 시전 후 즉시 <linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext>를 <style=\"accent-gn\">1</style>스택 획득하며, 이후 <style=\"accent-gn\">10</style>초 동안, <linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext>가 제공하는 능력치 효과가 2배로 증가합니다.",
+    "3003480": "궁극 스킬 시전 후 즉시 <linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext>를 <style=\"accent-gn\">1</style>스택 획득하며, 이후 <style=\"accent-gn\">10</style>초 동안, <linktext=1209><style=\"ItemQuality_5\">끝없는 사유</style></linktext>가 제공하는 능력치 효과가 2배로 증가합니다.",
     "3003610": "파망 강도 +<style=\"accent-gn\">100</style>, 내구력 +<style=\"accent-gn\">750</style>.",
     "3003620": "파망 강도 +<style=\"accent-gn\">100</style>, 내구력 +<style=\"accent-gn\">750</style>.",
     "3003630": "치명타/속공/행운/숙련/만능 5개의 능력치 중 가장 높은 능력치 +<style=\"accent-gn\">750</style>, 내구력 +<style=\"accent-gn\">750</style>.",
@@ -69399,7 +69399,7 @@
     "3004620": "[파동] 옵션을 더 높은 확률로 획득합니다.",
     "3004630": "시작 시, 희귀 [파동] 옵션을 추가로 1개 보유합니다.",
     "3004640": "첫 드롭은 반드시 에픽 이상 [파동] 옵션입니다.",
-    "3004810": "시작 시, 에픽 옵션 [숙련]을 보유합니다. 숙련 증폭: 숙련 1%당 물리 증폭 및 마법 증폭이 0.4% 증가합니다.",
+    "3004810": "시작 시, 에픽 옵션 [숙련]을 보유합니다. 숙련 증폭: 숙련 1%당 물리 버프 및 마법 버프가 0.4% 증가합니다.",
     "3004820": "[숙련] 옵션을 더 높은 확률로 획득합니다.",
     "3004830": "시작 시, 희귀 [숙련] 옵션을 추가로 1개 보유합니다.",
     "3004840": "첫 드롭은 반드시 에픽 이상 [숙련] 옵션입니다.",
@@ -69408,7 +69408,7 @@
     "3050020": "일섬, 비뢰신 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 일섬, 비뢰신 시전 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3050030": "용섬, 그림자 베기 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 용섬, 그림자 베기 시전 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3050040": "뇌절 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 뇌절 시전 속도가 대폭 증가합니다. 뇌절 시전 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
-    "3050050": "무궁뇌정의 힘 충전 횟수 +<style=\"accent-gn\">1</style>. 궁극기 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 무궁뇌정의 힘 지속 기간 동안 초당 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
+    "3050050": "무궁뇌정의 힘 충전 횟수 +<style=\"accent-gn\">1</style>. 궁극 스킬 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 무궁뇌정의 힘 지속 기간 동안 초당 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3050060": "벽력연참, 벽력승룡참 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 벽력연참 시전 시 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3050070": "뇌전의 낫, 신벌의 낫 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 전하 씨앗 10개 소모할 때마다 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
     "3050080": "월광의 낫 파망 대미지 +<style=\"accent-gn\">{p1}</style>. 전투 상태에서 이동하지 않을 때, 초당 허망 에너지를 <style=\"accent-gn\">{*Decision.unmarknormal(2)*}</style>pt 획득합니다.",
@@ -69421,7 +69421,7 @@
     "3050150": "천뢰섬영의 의지 지속 시간 동안 벽력연참을 시전할 때마다 자신 5m 범위 내 최대 6명 적군 목표에게 뇌격을 시전하며, 동시에 전하 씨앗 3개를 획득합니다. 뇌격 파망 대미지 +{p1}.",
     "3050400": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 발도 시전 시 추가로 뇌절 검기를 1회 부여합니다.",
     "3050410": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 추가로 번개의 인장 1개를 획득합니다(최대 5개).",
-    "3050420": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 다음 궁극기는 반드시 치명타로 적용되며, 허망 대미지가 <style=\"accent-gn\">{p4}</style> 증가합니다.",
+    "3050420": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 다음 궁극 스킬은 반드시 치명타로 적용되며, 허망 대미지가 <style=\"accent-gn\">{p4}</style> 증가합니다.",
     "3050430": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 도의 10pt 및 전하 씨앗 1개를 획득합니다.",
     "3050440": "허상 에너지 충전이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>에 도달하면 10초 동안 자신의 행운의 일격 배율이 <style=\"accent-gn\">{p4}</style> 증가하고 월광의 낫으로 획득 가능한 모든 행운 확률이 <style=\"accent-gn\">{p3}</style> 증가합니다.",
     "3050450": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 뇌전의 낫을 발동합니다.",
@@ -69630,7 +69630,7 @@
     "3060420": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 10초 동안 무상화참 최종 대미지가 <style=\"accent-gn\">{p3}</style> 증가합니다.",
     "3060430": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 대홍련환을 발동합니다. 해당 대홍련환 허망 대미지가 <style=\"accent-gn\">{p3}</style> 증가합니다. {*Decision.unmarktime(2)*} 동안 최대 1회 발동합니다.",
     "3060440": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 10초 동안 광염난무 최종 대미지가 <style=\"accent-gn\">{p3}</style> 증가합니다.",
-    "3060450": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 궁극기의 남은 쿨타임이 0.5초 감소합니다. {*Decision.unmarktime(2)*} 동안 최대 1회 발동합니다.",
+    "3060450": "허망 에너지 충전량이 <style=\"accent-gn\">{*Decision.unmarknormal(1)*}</style>pt에 도달하면, 궁극 스킬의 남은 쿨타임이 0.5초 감소합니다. {*Decision.unmarktime(2)*} 동안 최대 1회 발동합니다.",
     "3200002": "영구적으로 슈퍼 아머 상태를 획득하며, 체력이 <style=\"accent-gn\">30%</style> 미만일 시 <style=\"accent-gn\">{p1}</style>만큼 모든 원소 대미지 감면을 획득한다.",
     "3200004": "특수 공격 대미지 및 치료가 <style=\"accent-gn\">{p1} 증가한다.</style>",
     "3200005": "마스터리 스킬 대미지 및 치료가 <style=\"accent-gn\">{p1} 증가한다.</style>",
@@ -70736,7 +70736,7 @@
     },
     "1508": {
       "name": "타이드풀",
-      "description": "목표 위치에 휘몰아치는 물 회오리를 소환해 적에게 <style=\"magic\">마법 대미지</style>를 입힙니다. 소환 후 <style=\"accent-gn\">5</style>초 동안 채널링이 지속되며 스킬을 다시 시전해 일찍 중단할 수 있습니다.<br><br><style=\"accent-gn\">극한・타이드풀</style><br><style=\"accent-gn\">극한</style> 상태일 때, 물 회오리가 사라지기 전에 얼어붙은 뒤 강력한 폭발을 일으켜 범위 내 모든 적에게 더욱 높은 <style=\"magic\">마법 대미지</style>를 입힙니다.<br><br><size=22><style=\"tipsYellow\">팁: 채널링하는 동안 이동할 수 없으며, 다른 스킬도 시전할 수 없습니다. 파티 플레이 시, 다른 파티원의 범위 공격과 함께 시전하세요.</style></size>"
+      "description": "목표 위치에 휘몰아치는 워터 토네이도를 소환해 적에게 <style=\"magic\">마법 대미지</style>를 입힙니다. 소환 후 <style=\"accent-gn\">5</style>초 동안 채널링이 지속되며 스킬을 다시 시전해 일찍 중단할 수 있습니다.<br><br><style=\"accent-gn\">극한・타이드풀</style><br><style=\"accent-gn\">극한</style> 상태일 때, 워터 토네이도가 사라지기 전에 얼어붙은 뒤 강력한 폭발을 일으켜 범위 내 모든 적에게 더욱 높은 <style=\"magic\">마법 대미지</style>를 입힙니다.<br><br><size=22><style=\"tipsYellow\">팁: 채널링하는 동안 이동할 수 없으며, 다른 스킬도 시전할 수 없습니다. 파티 플레이 시, 다른 파티원의 범위 공격과 함께 시전하세요.</style></size>"
     },
     "1509": {
       "name": "프로스트 레이",
