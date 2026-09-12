@@ -457,6 +457,8 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     masteryRanks: state.masteryRanks,
     battleImagines: state.battleImagines,
     imagineRanks: state.imagineRanks,
+    roleSkillSlots: state.roleSkillSlots,
+    roleSkillRanks: state.roleSkillRanks,
     moduleSlots: state.moduleSlots,
     adventurerLevel: state.adventurerLevel,
     talentR1EnabledIds: state.talentR1EnabledIds,

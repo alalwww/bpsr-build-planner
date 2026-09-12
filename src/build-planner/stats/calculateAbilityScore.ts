@@ -63,6 +63,8 @@ export interface CalculateAbilityScoreInput {
   masteryRanks: number[];
   battleImagines: (number | null)[];
   imagineRanks: number[];
+  roleSkillSlots: (number | null)[];
+  roleSkillRanks: number[];
   moduleSlots: ModuleSlots;
   adventurerLevel: number;
   talentR1EnabledIds: Set<number>;
@@ -230,6 +232,8 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     masteryRanks,
     battleImagines,
     imagineRanks,
+    roleSkillSlots,
+    roleSkillRanks,
     moduleSlots,
     adventurerLevel,
     talentR1EnabledIds,
@@ -251,6 +255,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     skillFixed: 0,
     skillMastery: 0,
     skillImagine: 0,
+    skillRole: 0,
     equipmentBase: 0,
     equipmentEnchant: 0,
     equipmentRefine: 0,
@@ -318,6 +323,13 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     const id = battleImagines[i];
     if (id == null) continue;
     fv.skillImagine += calculateSkillAbilityScore(id, undefined, imagineRanks[i] ?? 0, true);
+  }
+
+  // ロールスキル (skillFightValues[level-1]。G1=0、G2以降でのみ加算される)
+  for (let i = 0; i < roleSkillSlots.length; i++) {
+    const id = roleSkillSlots[i];
+    if (id == null) continue;
+    fv.skillRole += calculateSkillAbilityScore(id, roleSkillRanks[i] ?? 1, 0, false);
   }
 
   // --- アビリティ (武器熟練ツリーノード: R1/R2別) ---

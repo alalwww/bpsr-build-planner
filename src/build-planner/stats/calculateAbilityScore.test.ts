@@ -45,6 +45,8 @@ function baseInput(): CalculateAbilityScoreInput {
     masteryRanks: [],
     battleImagines: [null, null],
     imagineRanks: [5, 5],
+    roleSkillSlots: [null, null, null, null],
+    roleSkillRanks: [1, 1, 1, 1],
     moduleSlots: [null, null, null, null, null],
     adventurerLevel: 0,
     talentR1EnabledIds: new Set(),
@@ -69,6 +71,7 @@ describe('calculateAbilityScore', () => {
     expect(result.abilityR2).toBe(0);
     expect(result.skillMastery).toBe(0);
     expect(result.skillImagine).toBe(0);
+    expect(result.skillRole).toBe(0);
     expect(result.equipmentBase).toBe(0);
     expect(result.equipmentEnchant).toBe(0);
     expect(result.equipmentRefine).toBe(0);
@@ -112,6 +115,26 @@ describe('calculateAbilityScore phantom (潜在) tree', () => {
     // node 1708(need Lv55, fv=260)とnode 1710(need Lv60, fv=260)は潜在Lv47では未開放のため
     // 1950-520=1430が正しい(修正前は開放Lvを無視して1950を計上していた)。
     expect(result.phantom).toBe(1430);
+  });
+});
+
+describe('calculateAbilityScore role skill (汎用ロールスキル)', () => {
+  it('contributes zero at G1 (level=1) and only the SkillFightLevelTable delta from G2 onward', () => {
+    // src/data/skill-fight-values.json["3021"] = [0, 100, 200, 300] (G1-G4).
+    // G1は常に0で、G2以降のみ加算される仕様(SkillAoyiGuideTableの幻想図鑑ランクアップに連動)。
+    const g1 = calculateAbilityScore({
+      ...baseInput(),
+      roleSkillSlots: [3021, null, null, null],
+      roleSkillRanks: [1, 1, 1, 1],
+    });
+    expect(g1.skillRole).toBe(0);
+
+    const g3 = calculateAbilityScore({
+      ...baseInput(),
+      roleSkillSlots: [3021, null, null, null],
+      roleSkillRanks: [3, 1, 1, 1],
+    });
+    expect(g3.skillRole).toBe(200);
   });
 });
 
