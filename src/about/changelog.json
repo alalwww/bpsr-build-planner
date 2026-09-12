@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "version": "0.11.2",
+      "date": "2026-09-12T05:08:22.518Z",
+      "summary": {
+        "ja": "ロールスキルの能力スコア計算修正とランク表示の調整",
+        "en": "Fix role skill ability score calculation and adjust rank display"
+      },
+      "changes": {
+        "ja": [
+          "ロールスキル(汎用ロールスキル)の能力スコアが計算に反映されていなかった不具合の修正",
+          "スキル・バトルイマジン・ロールスキルのランク表記を各言語(日本語:G、英語:Tier、簡体字:阶、繁体字:階、韓国語:등급)に対応",
+          "ロールスキルのLv表示不具合(旧データでLv.0と表示される、育成不可のロールスキルに誤って操作ボタンが表示される)を修正"
+        ],
+        "en": [
+          "Fix role skill ability score not being included in the total",
+          "Localize skill/battle imagine/role skill rank notation per language (Japanese: G, English: Tier, Simplified Chinese: 阶, Traditional Chinese: 階, Korean: 등급)",
+          "Fix role skill Lv display issues (showing Lv.0 with older save data, editable controls appearing on non-growable role skills)"
+        ]
+      }
+    },
+    {
       "version": "0.11.1",
       "date": "2026-09-09T12:23:52.078Z",
       "summary": {
