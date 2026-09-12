@@ -48,20 +48,29 @@ function RoleSkillSlot({
               >
                 {name}
               </div>
-              {maxRank > 0 && (
-                <div className="skill-card__foot">
-                  <div className="skill-card__steppers">
-                    <Stepper
-                      className="skill-stepper"
-                      label="Lv"
-                      value={rank}
-                      min={1}
-                      max={maxRank}
-                      onChange={onSetRank}
-                    />
-                  </div>
+              <div className="skill-card__foot">
+                <div className="skill-card__steppers">
+                  <Stepper
+                    className="skill-stepper"
+                    label="Lv"
+                    value={rank}
+                    min={1}
+                    max={Math.max(1, maxRank)}
+                    onChange={onSetRank}
+                    hideButtons={maxRank <= 0}
+                  />
+                  <span className="skill-card__sep">|</span>
+                  <Stepper
+                    className="skill-stepper"
+                    value={0}
+                    min={0}
+                    max={0}
+                    formatValue={(v) => tUi('buildPlanner.skill.rankFormat', { v })}
+                    onChange={() => {}}
+                    hideButtons
+                  />
                 </div>
-              )}
+              </div>
               <button type="button" className="skill-slot__clear-btn" onClick={onClear}>
                 ✕
               </button>

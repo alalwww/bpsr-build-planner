@@ -93,7 +93,7 @@ function ImaginePickerDialog({
               <ToggleChip
                 key={r}
                 selected={rank === r}
-                label={`G${r}`}
+                label={tUi('buildPlanner.skill.rankFormat', { v: r })}
                 onClick={() => setRank(r)}
               />
             ))}

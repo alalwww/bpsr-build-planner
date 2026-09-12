@@ -228,6 +228,7 @@
     "skill": {
       "masterySkills": "精通技能",
       "rank": "階級",
+      "rankFormat": "{{v}}階",
       "selectImagine": "選擇幻想",
       "selectRoleSkill": "選擇職責技能",
       "equip": "裝載"

@@ -63,6 +63,13 @@ export const STATIC_AUTOSAVE_DEFAULTS = {
 // ロールスキルスロット数(バトルイマジンと同じ「4枠に選んで配置する」方式)。
 export const ROLE_SKILL_SLOT_COUNT = 4;
 
+// ロールスキルのLvは1が最小(Lv0は、Lv表示欄が無かった旧仕様の名残として自動保存/
+// 共有コードに残っている場合がある)。ロード時にここで1へ補正することで、以後の
+// 自動保存でも補正後の値がそのまま書き戻される(ストア自体を正規化するため)。
+export function normalizeRoleSkillRanks(ranks: number[]): number[] {
+  return ranks.map((r) => Math.max(1, r));
+}
+
 // マスタリースキルの初期装着状態(先頭3個を装着済みにする)。セーブデータなし/リセット/
 // 転職のいずれでも同じ初期値になるよう、ここを唯一の参照元にする。
 export function defaultMasteryEquipped(skillCount: number): boolean[] {
@@ -74,7 +81,7 @@ export function getDefaultProfessionState(professionKey: ProfessionKey) {
   const professionId = PROFESSIONS[professionKey].professionId;
   const skillCount = getClassData(professionId)?.normalSkill.length ?? 0;
   // roleSkill配列(先頭4件が固定ロールスキル、Talent別)の先頭4件を初期スロットに充てる。
-  // 固定ロールスキルはランクを持たないため rank は 0。
+  // 固定ロールスキルはLvを持たないため常にLv.1固定(rankは1)。
   const defaultRoleSkills =
     getClassData(professionId)?.roleSkill.slice(0, ROLE_SKILL_SLOT_COUNT) ?? [];
   return {
@@ -89,7 +96,7 @@ export function getDefaultProfessionState(professionKey: ProfessionKey) {
       { length: ROLE_SKILL_SLOT_COUNT },
       (_, i) => defaultRoleSkills[i] ?? null,
     ) as (number | null)[],
-    roleSkillRanks: Array(ROLE_SKILL_SLOT_COUNT).fill(0) as number[],
+    roleSkillRanks: Array(ROLE_SKILL_SLOT_COUNT).fill(1) as number[],
   };
 }
 

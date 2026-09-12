@@ -139,7 +139,7 @@ describe('skillSlice', () => {
 
     const state = useBuildStore.getState();
     expect(state.roleSkillSlots).toEqual([3011, 3012, 3013, 3014]);
-    expect(state.roleSkillRanks).toEqual([0, 0, 0, 0]);
+    expect(state.roleSkillRanks).toEqual([1, 1, 1, 1]);
   });
 
   it('setRoleSkillSlot/setRoleSkillRank: 指定indexのみ更新する', () => {
@@ -464,7 +464,22 @@ describe('planSlice', () => {
 
     const state = useBuildStore.getState();
     expect(state.roleSkillSlots).toEqual([3011, 3012, 3013, 3014]);
-    expect(state.roleSkillRanks).toEqual([0, 0, 0, 0]);
+    expect(state.roleSkillRanks).toEqual([1, 1, 1, 1]);
+  });
+
+  it('applyPlanState: 旧データでroleSkillRanksに0が残っていてもLv.1へ補正され、以後の自動保存も1のまま書き戻される', () => {
+    const plan = useBuildStore.getState().buildAutoSaveState('旧Lv0データ再現');
+    // Lv表示欄が無かった旧UI時代の保存データを再現する(固定ロールスキルは常に0のまま保存されていた)。
+    useBuildStore
+      .getState()
+      .applyPlanState({ ...plan, roleSkillSlots: [3011, 3012, 3013, 3014], roleSkillRanks: [0, 0, 0, 0] });
+
+    const state = useBuildStore.getState();
+    expect(state.roleSkillRanks).toEqual([1, 1, 1, 1]);
+
+    // 補正後の状態をそのまま自動保存(buildAutoSaveState)しても0が復活しないことを確認する。
+    const resaved = state.buildAutoSaveState();
+    expect(resaved.roleSkillRanks).toEqual([1, 1, 1, 1]);
   });
 
   it('resetPlan: 装備をデフォルトの初期ロードアウトへ戻す', () => {

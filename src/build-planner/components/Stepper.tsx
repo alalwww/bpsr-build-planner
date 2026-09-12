@@ -29,6 +29,8 @@ interface StepperProps {
   disableList?: boolean;
   /** true の場合、±ボタン・入力欄すべてを非活性にする(値の上下限に関わらず)。 */
   disabled?: boolean;
+  /** true の場合、▲▼ボタン(stackedレイアウトのみ)自体を描画しない(値表示のみの固定値用)。 */
+  hideButtons?: boolean;
 }
 
 // 値の増減を行う共通ステッパー。レイアウトを2種類サポートする:
@@ -48,6 +50,7 @@ function Stepper({
   options,
   disableList = false,
   disabled = false,
+  hideButtons = false,
 }: StepperProps) {
   const rootClassName = `${className}${modifierClassName ? ` ${modifierClassName}` : ''}`;
   const [isOpen, setIsOpen] = useState(false);
@@ -242,24 +245,26 @@ function Stepper({
       {label && <span className={`${className}__label`}>{label}.</span>}
       <span className={`${className}__value`}>{formatValue ? formatValue(value) : value}</span>
       {extraLabel && <span className={`${className}__extra-label`}>{extraLabel}</span>}
-      <div className={`${className}__btns`}>
-        <button
-          type="button"
-          className={`${className}__btn`}
-          onClick={() => onChange(Math.min(max, value + 1))}
-          disabled={disabled || value >= max}
-        >
-          ▲
-        </button>
-        <button
-          type="button"
-          className={`${className}__btn`}
-          onClick={() => onChange(Math.max(min, value - 1))}
-          disabled={disabled || value <= min}
-        >
-          ▼
-        </button>
-      </div>
+      {!hideButtons && (
+        <div className={`${className}__btns`}>
+          <button
+            type="button"
+            className={`${className}__btn`}
+            onClick={() => onChange(Math.min(max, value + 1))}
+            disabled={disabled || value >= max}
+          >
+            ▲
+          </button>
+          <button
+            type="button"
+            className={`${className}__btn`}
+            onClick={() => onChange(Math.max(min, value - 1))}
+            disabled={disabled || value <= min}
+          >
+            ▼
+          </button>
+        </div>
+      )}
     </div>
   );
 }

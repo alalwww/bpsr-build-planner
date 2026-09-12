@@ -228,6 +228,7 @@
     "skill": {
       "masterySkills": "マスタリースキル",
       "rank": "ランク",
+      "rankFormat": "G{{v}}",
       "selectImagine": "イマジン選択",
       "selectRoleSkill": "ロールスキルを選択",
       "equip": "装着"

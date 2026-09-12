@@ -49,7 +49,6 @@ function RoleSkillPickerDialog({
             const disabled = excludeIds.includes(id);
             const sd = getSkillData(id);
             const name = t(`skills.${id}.name`, { defaultValue: String(id) });
-            const defaultRank = (sd?.maxRank ?? 0) > 0 ? 1 : 0;
             return (
               <button
                 key={id}
@@ -57,7 +56,7 @@ function RoleSkillPickerDialog({
                 className={`skill-picker-dialog__item${disabled ? ' skill-picker-dialog__item--disabled' : ''}`}
                 disabled={disabled}
                 onClick={() => {
-                  onSelect(id, defaultRank);
+                  onSelect(id, 1);
                   onClose();
                 }}
                 onMouseEnter={(e) => showHover(id, e)}

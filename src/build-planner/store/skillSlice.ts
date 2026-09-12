@@ -6,6 +6,7 @@ import { getClassData } from '../stats/gameData';
 import {
   defaultMasteryEquipped,
   getDefaultProfessionState,
+  normalizeRoleSkillRanks,
   STATIC_AUTOSAVE_DEFAULTS,
 } from '../plan/planDefaults';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
@@ -72,7 +73,9 @@ export const createSkillSlice: StateCreator<BuildStore, [], [], SkillSlice> = (s
     battleImagines: autoSaveOnMount?.battleImagines ?? STATIC_AUTOSAVE_DEFAULTS.battleImagines,
     imagineRanks: autoSaveOnMount?.imagineRanks ?? STATIC_AUTOSAVE_DEFAULTS.imagineRanks,
     roleSkillSlots: autoSaveOnMount?.roleSkillSlots ?? defaultProfessionState.roleSkillSlots,
-    roleSkillRanks: autoSaveOnMount?.roleSkillRanks ?? defaultProfessionState.roleSkillRanks,
+    roleSkillRanks: normalizeRoleSkillRanks(
+      autoSaveOnMount?.roleSkillRanks ?? defaultProfessionState.roleSkillRanks,
+    ),
 
     setMasteryEquippedState: (masteryEquipped) => set({ masteryEquipped }),
     setMasteryLevelsState: (masteryLevels) => set({ masteryLevels }),

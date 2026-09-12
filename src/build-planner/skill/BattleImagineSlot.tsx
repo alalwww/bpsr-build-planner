@@ -67,11 +67,10 @@ function BattleImagineSlot({
                 <div className="skill-card__steppers">
                   <Stepper
                     className="skill-stepper"
-                    label={tUi('buildPlanner.skill.rank')}
                     value={rank}
                     min={0}
                     max={bi?.maxRank ?? 5}
-                    formatValue={(v) => `G${v}`}
+                    formatValue={(v) => tUi('buildPlanner.skill.rankFormat', { v })}
                     onChange={onSetRank}
                   />
                 </div>

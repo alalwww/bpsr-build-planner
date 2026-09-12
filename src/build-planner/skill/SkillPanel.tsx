@@ -238,7 +238,7 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
         </div>
         <div className="role-skill-row">
           {roleSkillSlots.map((skillId, i) => {
-            const rank = roleSkillRanks[i] ?? 0;
+            const rank = roleSkillRanks[i] ?? 1;
             const align = i === 2 || i === 3 ? 'left' : 'right';
             return (
               <RoleSkillSlot

@@ -52,7 +52,7 @@ function MasterySkillCard({
               value={rank}
               min={0}
               max={6}
-              formatValue={(v) => `G${v}`}
+              formatValue={(v) => tUi('buildPlanner.skill.rankFormat', { v })}
               onChange={onSetRank}
             />
           </div>

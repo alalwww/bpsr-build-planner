@@ -9,6 +9,7 @@ import { decodePlanCode, encodePlanCode } from '../plan/planCode';
 import {
   getDefaultAutoSaveState,
   getDefaultProfessionState,
+  normalizeRoleSkillRanks,
   STATIC_AUTOSAVE_DEFAULTS,
 } from '../plan/planDefaults';
 import { hasLegacyPhantomFactor, initPhantomNodeSelections } from '../phantom/phantomData';
@@ -198,7 +199,9 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setImagineRanksState(plan.imagineRanks ?? STATIC_AUTOSAVE_DEFAULTS.imagineRanks);
       const roleSkillDefaults = getDefaultProfessionState(plan.professionKey);
       state.setRoleSkillSlotsState(plan.roleSkillSlots ?? roleSkillDefaults.roleSkillSlots);
-      state.setRoleSkillRanksState(plan.roleSkillRanks ?? roleSkillDefaults.roleSkillRanks);
+      state.setRoleSkillRanksState(
+        normalizeRoleSkillRanks(plan.roleSkillRanks ?? roleSkillDefaults.roleSkillRanks),
+      );
       state.setTalentR1EnabledIds(new Set(plan.talentR1EnabledIds));
       state.setTalentR2EnabledIds(new Set(plan.talentR2EnabledIds));
       state.setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
