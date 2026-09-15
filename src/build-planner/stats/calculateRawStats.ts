@@ -43,6 +43,7 @@ import {
   EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
   FACTOR_SINGLE_STAT_PCT_BONUS,
+  FINAL_PCT_STAT_IDS,
   IMAGINE_BUF_FLAT_STAT,
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
@@ -788,7 +789,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           const singleStat = FACTOR_SINGLE_STAT_PCT_BONUS[buffId];
           if (singleStat) {
             const pars = gradeData.buffPars?.[i] ?? [];
-            addPctBonus(singleStat.stat, pars[singleStat.paramIndex] ?? 0);
+            const value = pars[singleStat.paramIndex] ?? 0;
+            phantomFinalPct[singleStat.stat] = (phantomFinalPct[singleStat.stat] ?? 0) + value;
           }
         }
       }
@@ -886,7 +888,18 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       { add: number; multPercent: number; finalValue: number },
     ][]) {
       if (entry.add !== 0) addStat(statId, entry.add);
-      if (entry.multPercent !== 0) addPctBonus(statId, entry.multPercent * 100);
+      if (entry.multPercent !== 0) {
+        // maxHp/atk/matk(/physicalDef)は他のrawStatから変換加算される"derived"な値のため、
+        // rawStats側の%ボーナス(addPctBonus)では変換後の分に反映されない。FinalPctバケツ
+        // (phantomFinalPct、mainStat/耐久力変換後の値に一度だけ乗算)へ振り分ける
+        // (FACTOR_SINGLE_STAT_PCT_BONUSと同じ理由、2026-09-17不具合報告: maxHp/atk/matkの
+        // %補正が変換後の加算分に未反映だった)。
+        if (FINAL_PCT_STAT_IDS.has(statId)) {
+          phantomFinalPct[statId] = (phantomFinalPct[statId] ?? 0) + entry.multPercent * 100;
+        } else {
+          addPctBonus(statId, entry.multPercent * 100);
+        }
+      }
     }
   }
 

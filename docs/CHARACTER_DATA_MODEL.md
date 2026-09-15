@@ -200,8 +200,16 @@ UIは `PhantomTreeSvg.tsx`(ツリー描画)・`PhantomNodeConfig.tsx` / `Phantom
   条件付き/スキル固有効果(対応するStatIdが存在せず対象外)だが、ビートパフォーマーX4
   (`buffId 3057040`)のように「無条件の単独ステータス%ボーナス+スキル固有の副作用」が
   混在するものは`attrMaps.ts`の`FACTOR_SINGLE_STAT_PCT_BONUS`(`buffPars`内の対象
-  `paramIndex`のみ反映)で個別対応する(2026-09-16不具合報告: 魔法攻撃力+p2が
-  未反映だった。p1側の「ピースフルロンドの回復量変換-x%」はスキル固有のため対象外のまま)。
+  `paramIndex`のみ反映)で個別対応する(2026-09-16不具合報告: 魔法攻撃力+p2が未反映だった。
+  p1側の「ピースフルロンドの回復量変換-x%」はスキル固有のため対象外のまま)。
+  この`stat`はatk/matk/maxHp/physicalDefの4種(`IMAGINE_PCT_FINAL`と同じ値域、型は
+  `FinalPctStatId`)に限定している。atk/matkはメインステータス変換(知力→魔法攻撃力等、
+  `deriveStats.ts`)を経由する"derived"な値のため、rawStats側の%ボーナス(`addPctBonus`、
+  `calculateRawStats.ts`内の`pctBonus`)に積むと変換後の分(知力由来の魔法攻撃力等)に
+  反映されない。`phantomFinalPct`(`IMAGINE_PCT_FINAL`と同じ、mainStat変換後の
+  `derived.magicalAtk`等に乗算するバケツ)に積む必要がある(2026-09-17不具合報告:
+  最初の修正でaddPctBonusに積んだところ、知力由来の魔法攻撃力分だけ%が反映されず、
+  G7実測4532→4832のはずが4548にしかならなかった)。
 
 ## 改鋳進化ステータス (Kaitchu)
 

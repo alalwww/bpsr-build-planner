@@ -853,7 +853,7 @@ describe('calculateRawStats', () => {
     );
   });
 
-  it('applies beatPerformer X4 phantom factor (2026-09-16 bug report: magic atk not reflected)', () => {
+  it('routes the beatPerformer X4 phantom factor to phantomFinalPct.matk, not the raw pctBonus bucket', () => {
     // src/data/phantom-factors.json: byClass["202181"].seasonId=3 (current), professionIds=[13]
     // (beatPerformer). grade1 effects=[[3,3057040,1]], buffPars=[[500,195,8]]. attrDescs.3057040:
     // 「魔法攻撃力+{p2}だが、ピースフルロンドが変換する回復量-{p1}。...」-> the matk bonus itself
@@ -861,8 +861,13 @@ describe('calculateRawStats', () => {
     // FACTOR_SINGLE_STAT_PCT_BONUS[3057040]={stat:'matk',paramIndex:1}. pars[0]=500 is a
     // skill-specific penalty (ピースフルロンドの回復量変換) with no corresponding StatId, left
     // unmodeled by design (same treatment as other skill-specific factor effects).
-    // Before the fix, effectType=3 buffIds outside FACTOR_POLARITY_EFFECTS were silently
-    // dropped, so this factor contributed nothing to matk at all.
+    //
+    // This must land in phantomFinalPct (applied to derived.magicalAtk, i.e. after the
+    // intellect->matk mainStat conversion in deriveStats.ts), not rawStats.matk's pctBonus
+    // (applied to rawStats.matk before that conversion) -- see the applyFinalStatModifiers
+    // test below for why (2026-09-17 bug report: G7's +6.64% only moved matk 4532->4548
+    // instead of the expected ->4832, because the fix's first pass used addPctBonus, which
+    // skips the intellect-derived portion of magicalAtk entirely).
     const withoutFactor = calculateRawStats({
       ...baseInput(),
       profession: PROFESSIONS.beatPerformer,
@@ -881,8 +886,10 @@ describe('calculateRawStats', () => {
       phantomFactorSlots: { 163: { classKey: '202181', grade: 1 } },
     });
 
+    expect(withoutFactor.phantomFinalPct.matk).toBeUndefined();
     expect(withoutFactor.breakdown.matk.multiplier).toBe(1);
-    expect(withFactor.breakdown.matk.multiplier).toBeCloseTo(1.0195);
+    expect(withFactor.phantomFinalPct.matk).toBe(195);
+    expect(withFactor.breakdown.matk.multiplier).toBe(1); // raw pctBonus bucket untouched
   });
 
   it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {
@@ -1402,7 +1409,32 @@ describe('calculateRawStats', () => {
   });
 
   describe('statCorrections (ステータス補正・仮)', () => {
-    it('applies add and multPercent like any other additive/%-bonus source when enabled', () => {
+    it('applies add directly to rawStats and multPercent as a raw pctBonus for a plain stat (crit)', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        cookingBuff: {
+          ...DEFAULT_COOKING_BUFF,
+          statCorrectionEnabled: true,
+          statCorrections: {
+            crit: { add: 1000, multPercent: 10, finalValue: 0 },
+          },
+        },
+      };
+
+      const result = calculateRawStats(input);
+
+      // (BASE_STATS.crit + 1000) * 1.10 -- crit has no other-stat-derived portion, so the
+      // plain rawStats pctBonus bucket is correct here (unlike maxHp/atk/matk below).
+      expect(result.rawStats.crit).toBe((BASE_STATS.crit + 1000) * 1.1);
+      expect(result.phantomFinalPct.crit).toBeUndefined();
+    });
+
+    // maxHp(耐久力由来)/atk・matk(メインステータス由来)はderiveStats.ts側で他のrawStatから
+    // 変換加算される"derived"な値のため、multPercentはrawStats自体への%ボーナス
+    // (addPctBonus)ではなくFinalPctバケツ(phantomFinalPct)へ積む必要がある(2026-09-17
+    // 不具合報告: beatPerformer X4と同じ原因で、この設定パネルのmaxHp/atk/matkの%補正も
+    // 変換後の加算分(耐久力由来のmaxHp/メインステータス由来のatk・matk)に未反映だった)。
+    it('routes maxHp/atk/matk multPercent to phantomFinalPct instead of the raw pctBonus bucket', () => {
       const input: CalculateRawStatsInput = {
         ...baseInput(),
         cookingBuff: {
@@ -1410,14 +1442,17 @@ describe('calculateRawStats', () => {
           statCorrectionEnabled: true,
           statCorrections: {
             maxHp: { add: 1000, multPercent: 10, finalValue: 0 },
+            matk: { add: 0, multPercent: 5, finalValue: 0 },
           },
         },
       };
 
       const result = calculateRawStats(input);
 
-      // (BASE_STATS.maxHp + 1000) * 1.10
-      expect(result.rawStats.maxHp).toBe((BASE_STATS.maxHp + 1000) * 1.1);
+      expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp + 1000); // add only, no *1.1 here
+      expect(result.phantomFinalPct.maxHp).toBe(1000); // 10% -> 1000/10000
+      expect(result.phantomFinalPct.matk).toBe(500); // 5% -> 500/10000
+      expect(result.breakdown.matk.multiplier).toBe(1); // raw pctBonus bucket untouched
     });
 
     it('ignores every statCorrections entry when statCorrectionEnabled is false', () => {
@@ -1542,6 +1577,28 @@ describe('applyFinalStatModifiers', () => {
     expect(result.stats.haste).toBeCloseTo(derived.hastePercent * 1.1 + 6);
     expect(result.breakdown.haste.multiplier).toBeCloseTo(1.1);
     expect(result.breakdown.haste.cookingBonus).toBeCloseTo(6);
+  });
+
+  it('applies phantomFinalPct.matk to the full magicalAtk, including the intellect-derived portion (2026-09-17 bug report: beatPerformer X4 G7)', () => {
+    // In-game measurement: magicalAtk 4532 (=4281 intellect-derived + 251 other) with G7's
+    // matk+6.64% equipped -> 4532*1.0664=4832.9248, and the game truncates to 4832. The
+    // regression was that the fix routed the bonus through rawStats.matk's own pctBonus
+    // (applied before deriveStats' intellect->matk conversion), so only the 251 "other" part
+    // was scaled (251*0.0664=~16.7), giving 4548 instead of 4832.
+    const derived = { ...zeroDerivedStats(), magicalAtkMainStatBonus: 4281, magicalAtk: 4532 };
+
+    const result = applyFinalStatModifiers(
+      BASE_STATS,
+      baseBreakdown(),
+      derived,
+      {},
+      [null, null],
+      [5, 5],
+      { matk: 664 }, // G7: pars[1]=664 -> +6.64%
+      {},
+    );
+
+    expect(result.stats.matk).toBe(4832);
   });
 
   it('adds finalPctAddend directly to versatility (220以降蒼海武器の万能+8%等)', () => {

@@ -223,7 +223,7 @@ export function computePhantomEffectTotals(
       }
       const singleStat = FACTOR_SINGLE_STAT_PCT_BONUS[buffId];
       if (singleStat) {
-        addPct(singleStat.stat, pars[singleStat.paramIndex] ?? 0);
+        addFinalPct(singleStat.stat, pars[singleStat.paramIndex] ?? 0);
         continue;
       }
       const tmplStr = tg(`attrDescs.${buffId}`, { defaultValue: '' });

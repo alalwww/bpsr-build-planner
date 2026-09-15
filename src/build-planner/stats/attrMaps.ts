@@ -301,18 +301,24 @@ export const FACTOR_POLARITY_EFFECTS: Partial<Record<number, PolarityEffect>> = 
 
 // 潜在因子 effectType=3(第六感、クラス固有)のうち、FACTOR_POLARITY_EFFECTSのような
 // 「対になる2ステータスへのboost/penalty」ではなく、無条件で常時有効な単独ステータスへの
-// %乗算ボーナスを持つもの。buffPars内の対象インデックス(paramIndex)のみを対象にする
+// %ボーナスを持つもの。buffPars内の対象インデックス(paramIndex)のみを対象にする
 // (残りのパラメータはスキル固有の副作用のため、他のスキル固有効果と同様にこのアプリの
 // 静的ステータスモデルでは対象外)。
+// atk/matk/maxHp/physicalDefはメインステータス変換(知力→魔法攻撃力等)を経由する
+// "derived"な値のため、raw stat自体への%乗算(addPctBonus)では変換後の分に反映されない
+// (2026-09-16不具合報告: ビートパフォーマーX4「魔法攻撃力+6.64%」がG7実測4532→4832なのに
+// 4548にしかならなかった。知力由来の魔法攻撃力分に%が反映されていなかったのが原因)。
+// IMAGINE_PCT_FINALと同じ「最終値%ボーナス」バケツ(phantomFinalPct)に積むことで、
+// mainStat変換後の合計値に一度だけ乗算されるようにする。対象はIMAGINE_PCT_FINALと同じ4種
+// (maxHp/atk/matk/physicalDef)に限る。
 export interface FactorSingleStatBonus {
-  stat: StatId;
+  stat: FinalPctStatId;
   paramIndex: number;
 }
 
 export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleStatBonus>> = {
   // ビートパフォーマーX4「第六感」: 魔法攻撃力+p2(pars[1]、無条件)。p1(pars[0])は
-  // 「ピースフルロンドが変換する回復量-x%」というスキル固有の副作用のため対象外
-  // (2026-09-16不具合報告: 魔法攻撃力に未反映)。
+  // 「ピースフルロンドが変換する回復量-x%」というスキル固有の副作用のため対象外。
   3057040: { stat: 'matk', paramIndex: 1 },
 };
 
@@ -535,6 +541,16 @@ export const IMAGINE_PCT_FINAL = {
   11354: 'physicalDef',
 } as const;
 export type ImagineFinalStatId = keyof typeof IMAGINE_PCT_FINAL;
+// IMAGINE_PCT_FINALの値側('maxHp'/'atk'/'matk'/'physicalDef')の型。他のマップ
+// (FACTOR_SINGLE_STAT_PCT_BONUS等)がphantomFinalPctへ積む対象stat名を指定する際に使う。
+export type FinalPctStatId = (typeof IMAGINE_PCT_FINAL)[ImagineFinalStatId];
+// maxHp(耐久力由来)/atk・matk(メインステータス由来)/physicalDef(筋力由来)は、他のrawStatから
+// deriveStats.ts内で変換加算される"derived"な値のため、rawStats自体への%ボーナス
+// (addPctBonus)を掛けても変換後の加算分には反映されない。%ボーナスはこの4種に限りFinalPct
+// バケツ(phantomFinalPct、mainStat変換後の値に一度だけ乗算)へ振り分ける必要がある
+// (2026-09-17不具合報告: cookingBuff.statCorrectionsのmaxHp/atk/matkの%補正が、addPctBonus
+// 経由では耐久力/メインステータス由来分に未反映だった)。
+export const FINAL_PCT_STAT_IDS = new Set<string>(Object.values(IMAGINE_PCT_FINAL));
 
 // バトルイマジン パッシブの会心/ファスト/幸運/器用さ/万能/レジストは、筋力等と違って%専用の
 // AttrIdを持たず、TALENT/MOD/ENCHANT等と同じ実数値レーティングとして加算される(収益減少カーブは
