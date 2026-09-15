@@ -195,6 +195,13 @@ UIは `PhantomTreeSvg.tsx`(ツリー描画)・`PhantomNodeConfig.tsx` / `Phantom
   現シーズンでは無効(ゲーム内説明文で明記)。旧セーブデータ互換のためデータ自体は保持しつつ、
   UI側は現行シーズンの最大 `seasonId` との比較で無効表記・並び替えを行う
   (`CURRENT_FACTOR_SEASON_ID`, `phantomView.ts`)。
+- typeId=3(第六感、クラス固有)の効果(`effectType=3`、`FACTOR_POLARITY_EFFECTS`
+  で扱う極性の対boost/penaltyとは別枠)はクラスごとにX1〜X11相当の11種あり、大半は
+  条件付き/スキル固有効果(対応するStatIdが存在せず対象外)だが、ビートパフォーマーX4
+  (`buffId 3057040`)のように「無条件の単独ステータス%ボーナス+スキル固有の副作用」が
+  混在するものは`attrMaps.ts`の`FACTOR_SINGLE_STAT_PCT_BONUS`(`buffPars`内の対象
+  `paramIndex`のみ反映)で個別対応する(2026-09-16不具合報告: 魔法攻撃力+p2が
+  未反映だった。p1側の「ピースフルロンドの回復量変換-x%」はスキル固有のため対象外のまま)。
 
 ## 改鋳進化ステータス (Kaitchu)
 

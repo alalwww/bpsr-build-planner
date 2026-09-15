@@ -42,6 +42,7 @@ import {
   EVO_PCT_ATTR_TO_STAT,
   EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
+  FACTOR_SINGLE_STAT_PCT_BONUS,
   IMAGINE_BUF_FLAT_STAT,
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
@@ -776,12 +777,19 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           const [effectType, buffId] = gradeData.effects[i];
           if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
           const polarity = FACTOR_POLARITY_EFFECTS[buffId];
-          if (!polarity) continue;
-          const pars = gradeData.buffPars?.[i] ?? [];
-          const boostPct = pars[polarity.boostIdx] ?? 0;
-          const penaltyPct = pars[polarity.penaltyIdx] ?? 0;
-          addPctBonus(polarity.boostStat, boostPct);
-          addPctBonus(polarity.penaltyStat, -penaltyPct);
+          if (polarity) {
+            const pars = gradeData.buffPars?.[i] ?? [];
+            const boostPct = pars[polarity.boostIdx] ?? 0;
+            const penaltyPct = pars[polarity.penaltyIdx] ?? 0;
+            addPctBonus(polarity.boostStat, boostPct);
+            addPctBonus(polarity.penaltyStat, -penaltyPct);
+            continue;
+          }
+          const singleStat = FACTOR_SINGLE_STAT_PCT_BONUS[buffId];
+          if (singleStat) {
+            const pars = gradeData.buffPars?.[i] ?? [];
+            addPctBonus(singleStat.stat, pars[singleStat.paramIndex] ?? 0);
+          }
         }
       }
     }

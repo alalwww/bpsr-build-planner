@@ -299,6 +299,23 @@ export const FACTOR_POLARITY_EFFECTS: Partial<Record<number, PolarityEffect>> = 
   3058080: { boostStat: 'haste', boostIdx: 1, penaltyStat: 'crit', penaltyIdx: 0 }, // ファスト+, 会心-
 };
 
+// 潜在因子 effectType=3(第六感、クラス固有)のうち、FACTOR_POLARITY_EFFECTSのような
+// 「対になる2ステータスへのboost/penalty」ではなく、無条件で常時有効な単独ステータスへの
+// %乗算ボーナスを持つもの。buffPars内の対象インデックス(paramIndex)のみを対象にする
+// (残りのパラメータはスキル固有の副作用のため、他のスキル固有効果と同様にこのアプリの
+// 静的ステータスモデルでは対象外)。
+export interface FactorSingleStatBonus {
+  stat: StatId;
+  paramIndex: number;
+}
+
+export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleStatBonus>> = {
+  // ビートパフォーマーX4「第六感」: 魔法攻撃力+p2(pars[1]、無条件)。p1(pars[0])は
+  // 「ピースフルロンドが変換する回復量-x%」というスキル固有の副作用のため対象外
+  // (2026-09-16不具合報告: 魔法攻撃力に未反映)。
+  3057040: { stat: 'matk', paramIndex: 1 },
+};
+
 // 潜在レベルアップ AttrId → StatId マッピング
 export const PHANTOM_LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11442: 'illusionPower',

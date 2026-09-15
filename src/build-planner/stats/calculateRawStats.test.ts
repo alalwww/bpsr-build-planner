@@ -853,6 +853,38 @@ describe('calculateRawStats', () => {
     );
   });
 
+  it('applies beatPerformer X4 phantom factor (2026-09-16 bug report: magic atk not reflected)', () => {
+    // src/data/phantom-factors.json: byClass["202181"].seasonId=3 (current), professionIds=[13]
+    // (beatPerformer). grade1 effects=[[3,3057040,1]], buffPars=[[500,195,8]]. attrDescs.3057040:
+    // 「魔法攻撃力+{p2}だが、ピースフルロンドが変換する回復量-{p1}。...」-> the matk bonus itself
+    // is unconditional, so pars[1]=195(=1.95%) should apply via
+    // FACTOR_SINGLE_STAT_PCT_BONUS[3057040]={stat:'matk',paramIndex:1}. pars[0]=500 is a
+    // skill-specific penalty (ピースフルロンドの回復量変換) with no corresponding StatId, left
+    // unmodeled by design (same treatment as other skill-specific factor effects).
+    // Before the fix, effectType=3 buffIds outside FACTOR_POLARITY_EFFECTS were silently
+    // dropped, so this factor contributed nothing to matk at all.
+    const withoutFactor = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      phantomEnabled: true,
+      phantomLevel: 10,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      phantomEnabled: true,
+      phantomLevel: 10,
+      phantomTemplateId: 7,
+      phantomNodeSelections: {},
+      phantomFactorSlots: { 163: { classKey: '202181', grade: 1 } },
+    });
+
+    expect(withoutFactor.breakdown.matk.multiplier).toBe(1);
+    expect(withFactor.breakdown.matk.multiplier).toBeCloseTo(1.0195);
+  });
+
   it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {
     // src/data/season-talents.json: template 1 (advancedEffectId=100), levels 1-5 are shared
     // across all 8 templates: unlockFraction 2/5/12/20/25 -> buffId 3003610/20/30/40/50.

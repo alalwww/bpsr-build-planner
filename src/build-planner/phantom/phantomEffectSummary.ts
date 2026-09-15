@@ -4,6 +4,7 @@ import { PROFESSIONS } from '../profession';
 import {
   BOND_BUFF_STAT_EFFECTS,
   FACTOR_POLARITY_EFFECTS,
+  FACTOR_SINGLE_STAT_PCT_BONUS,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
   ORDINARY_EFFECT_BONUS,
@@ -218,17 +219,22 @@ export function computePhantomEffectTotals(
       if (polarity) {
         addPct(polarity.boostStat, pars[polarity.boostIdx] ?? 0);
         addPct(polarity.penaltyStat, -(pars[polarity.penaltyIdx] ?? 0));
-      } else {
-        const tmplStr = tg(`attrDescs.${buffId}`, { defaultValue: '' });
-        if (tmplStr) {
-          individualEffects.push({
-            key: `factor-${node.groupId}-buff-${buffId}`,
-            name,
-            desc: substituteEffectDescParams(tmplStr, pars, true),
-            icon,
-            sortOrder: factorSortOrder,
-          });
-        }
+        continue;
+      }
+      const singleStat = FACTOR_SINGLE_STAT_PCT_BONUS[buffId];
+      if (singleStat) {
+        addPct(singleStat.stat, pars[singleStat.paramIndex] ?? 0);
+        continue;
+      }
+      const tmplStr = tg(`attrDescs.${buffId}`, { defaultValue: '' });
+      if (tmplStr) {
+        individualEffects.push({
+          key: `factor-${node.groupId}-buff-${buffId}`,
+          name,
+          desc: substituteEffectDescParams(tmplStr, pars, true),
+          icon,
+          sortOrder: factorSortOrder,
+        });
       }
     }
   }
