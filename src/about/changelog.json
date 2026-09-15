@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.11.3",
+      "date": "2026-09-15T17:05:45.239Z",
+      "summary": {
+        "ja": "攻撃力・最大HPの%ボーナス計算の不具合修正",
+        "en": "Fix percentage-bonus calculation bugs for attack power and max HP"
+      },
+      "changes": {
+        "ja": [
+          "潜在因子「ビートパフォーマーX4」の魔法攻撃力ボーナスが反映されていなかった不具合の修正",
+          "ステータス補正(仮)のHP・攻撃力%補正が、知力や耐久力等から変換される分に反映されていなかった不具合の修正"
+        ],
+        "en": [
+          "Fix the beatPerformer X4 phantom factor's magic attack bonus not being applied",
+          "Fix the stat correction panel's HP/attack % bonuses not applying to the portion converted from intellect/endurance etc."
+        ]
+      }
+    },
+    {
       "version": "0.11.2",
       "date": "2026-09-12T05:08:22.518Z",
       "summary": {
