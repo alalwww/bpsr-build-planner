@@ -897,10 +897,8 @@ describe('calculateRawStats', () => {
     // across all 8 templates: unlockFraction 2/5/12/20/25 -> buffId 3003610/20/30/40/50.
     // Level 6 (unlockFraction 35) is template-specific and excluded here (bondPoints=25).
     // Per src/locales/*/game-data.json attrDescs: each of 3003610/20/40 grants
-    // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each
-    // (their "highest_of" component lands on rawStats.haste here: crit/luck/mastery/versatility
-    // are tied at 0, but haste's comparison base includes the agility->haste conversion of the
-    // baseline 15 agility (BASE_STATS.agility), floor(15*0.8)=12, so it edges out the others).
+    // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each.
+    // 「最も高い」は画面表示%で比較するため、基礎5%を持つcritが選ばれる。
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       phantomEnabled: true,
@@ -912,7 +910,50 @@ describe('calculateRawStats', () => {
 
     expect(result.rawStats.illusionPower).toBe(BASE_STATS.illusionPower + 100 * 3);
     expect(result.rawStats.endurance).toBe(BASE_STATS.endurance + 750 * 5);
-    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 750 + 1250);
+    expect(result.rawStats.crit).toBe(BASE_STATS.crit + 750 + 1250);
+    expect(result.rawStats.haste).toBe(BASE_STATS.haste);
+  });
+
+  it('applies the conditional intellect factor as active for the static planner snapshot', () => {
+    const withoutFactor = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403, 1405: 1405, 149: 149 },
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403, 1405: 1405, 149: 149 },
+      phantomFactorSlots: { 147: { classKey: '202187', grade: 7 } },
+    });
+
+    expect(withFactor.rawStats.intellect).toBe(withoutFactor.rawStats.intellect + 277);
+  });
+
+  it('applies the flat max-HP parameter of the endurance phantom factor', () => {
+    const withoutFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403 },
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403 },
+      phantomFactorSlots: { 143: { classKey: '202204', grade: 7 } },
+    });
+
+    expect(withFactor.rawStats.maxHp).toBe(withoutFactor.rawStats.maxHp + 1960);
   });
 
   // src/data/season-talents.json: template 1 (イマジンインパクト) node 1003「リビルド」

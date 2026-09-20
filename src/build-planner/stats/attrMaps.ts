@@ -322,6 +322,19 @@ export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleSt
   3057040: { stat: 'matk', paramIndex: 1 },
 };
 
+export interface FactorSingleStatFlatBonus {
+  stat: StatId;
+  paramIndex: number;
+}
+
+// 条件付き効果は、静的なビルド比較では条件を満たした状態として扱う。
+export const FACTOR_SINGLE_STAT_FLAT_BONUS: Partial<
+  Record<number, FactorSingleStatFlatBonus>
+> = {
+  3057100: { stat: 'intellect', paramIndex: 0 }, // HP 80%超: 知力+p1
+  3059050: { stat: 'maxHp', paramIndex: 0 }, // 最大HP+p1
+};
+
 // 潜在レベルアップ AttrId → StatId マッピング
 export const PHANTOM_LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11442: 'illusionPower',

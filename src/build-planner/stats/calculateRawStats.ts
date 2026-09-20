@@ -42,6 +42,7 @@ import {
   EVO_PCT_ATTR_TO_STAT,
   EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
+  FACTOR_SINGLE_STAT_FLAT_BONUS,
   FACTOR_SINGLE_STAT_PCT_BONUS,
   FINAL_PCT_STAT_IDS,
   IMAGINE_BUF_FLAT_STAT,
@@ -79,6 +80,8 @@ import {
   TALENT_RAW_FLAT_TO_STAT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
+import { diminishingPercent } from './formulas';
+import { STAT_BASE_PERCENT, STAT_SEASON_CONSTANT } from './seasonConstants';
 import {
   calcModuleEffectLevels,
   enchantEffectsById,
@@ -705,6 +708,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
     conversionRateBonus.haste ?? 0,
   );
+  type BondComparableStat = 'crit' | 'haste' | 'luck' | 'mastery' | 'versatility';
+  const getBaseDisplayedPercent = (stat: BondComparableStat): number =>
+    diminishingPercent(
+      highestOfBaseStats[stat],
+      STAT_SEASON_CONSTANT[stat],
+      STAT_BASE_PERCENT[stat],
+    );
 
   // 潜在因子効果 (enabled 時のみ)。ツリー(テンプレート)自体が未開放の場合はphantomEnabledが
   // 自動的にfalseになる(store側、setPhantomTemplateId/setPhantomLevel)ため、ここでは
@@ -791,6 +801,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
             const pars = gradeData.buffPars?.[i] ?? [];
             const value = pars[singleStat.paramIndex] ?? 0;
             phantomFinalPct[singleStat.stat] = (phantomFinalPct[singleStat.stat] ?? 0) + value;
+            continue;
+          }
+          const flatStat = FACTOR_SINGLE_STAT_FLAT_BONUS[buffId];
+          if (flatStat) {
+            const pars = gradeData.buffPars?.[i] ?? [];
+            addStat(flatStat.stat, pars[flatStat.paramIndex] ?? 0);
           }
         }
       }
@@ -823,7 +839,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
               // 付与されていた)。
               let maxStat = eff.stats[0];
               for (const s of eff.stats.slice(1)) {
-                if (highestOfBaseStats[s] > highestOfBaseStats[maxStat]) maxStat = s;
+                if (
+                  getBaseDisplayedPercent(s as BondComparableStat) >
+                  getBaseDisplayedPercent(maxStat as BondComparableStat)
+                )
+                  maxStat = s;
               }
               addStat(maxStat, eff.value);
             } else if (eff.type === 'final_pct') {
