@@ -612,6 +612,12 @@ export const IMAGINE_BUF_FLAT_STAT: Partial<Record<number, { stat: StatId; param
     3210180: { stat: 'critDamageBonus', paramIndex: 0 },
   };
 
+// 現在のクラス型に対応するメインステータスへの%ボーナス。
+// 3200038: p1が筋力/知力/敏捷+%、p2が回復量+%。
+export const IMAGINE_BUF_MAIN_STAT_PCT: Partial<Record<number, number>> = {
+  3200038: 0,
+};
+
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
 // (このアプリの静的ステータスモデルでは表現不可)だが、一部は単純なステータスボーナスとして
 // 表現できる。BuffId(effectType=3の第2要素)ごとに手動で対応付ける。

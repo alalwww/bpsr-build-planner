@@ -46,6 +46,7 @@ import {
   FACTOR_SINGLE_STAT_PCT_BONUS,
   FINAL_PCT_STAT_IDS,
   IMAGINE_BUF_FLAT_STAT,
+  IMAGINE_BUF_MAIN_STAT_PCT,
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
@@ -687,6 +688,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     // BuffId参照のパッシブ(IMAGINE_BUF_FLAT_STAT参照。無条件で常時有効な先頭パラメータのみ対応)。
     for (const eff of ima?.bufPassiveEffects ?? []) {
       const buffId = eff[0] as number;
+      const mainStatPctParamIndex = IMAGINE_BUF_MAIN_STAT_PCT[buffId];
+      if (mainStatPctParamIndex != null) {
+        const rankParams = (eff[rank + 1] ?? eff[1]) as number[];
+        const value = rankParams[mainStatPctParamIndex];
+        if (value != null) addPctBonus(profession.mainStat, value);
+        continue;
+      }
       const bufFlat = IMAGINE_BUF_FLAT_STAT[buffId];
       if (bufFlat == null) continue;
       const rankParams = (eff[rank + 1] ?? eff[1]) as number[];

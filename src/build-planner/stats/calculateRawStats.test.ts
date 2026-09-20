@@ -853,6 +853,23 @@ describe('calculateRawStats', () => {
     );
   });
 
+  it('applies the adaptive main-stat percent from battle imagine buff 3200038', () => {
+    const withoutImagine = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+    });
+    const withImagine = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      battleImagines: [3971, null],
+      imagineRanks: [5, 5],
+    });
+
+    expect(withImagine.rawStats.intellect).toBe(
+      Math.floor(withoutImagine.rawStats.intellect * 1.15),
+    );
+  });
+
   it('routes the beatPerformer X4 phantom factor to phantomFinalPct.matk, not the raw pctBonus bucket', () => {
     // src/data/phantom-factors.json: byClass["202181"].seasonId=3 (current), professionIds=[13]
     // (beatPerformer). grade1 effects=[[3,3057040,1]], buffPars=[[500,195,8]]. attrDescs.3057040:
