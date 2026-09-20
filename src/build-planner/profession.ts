@@ -185,10 +185,9 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     staminaRegenPerSecond: 240,
     talentSchoolIds: [119, 120],
   },
-  // TODO(シーズン3): 係数は未確認。近接・物理・筋力ベースの他クラス(galeLancer/
-  // stormBlade)の値を暫定採用している。docs/STATUS_CALCULATION.md 方式でのゲーム内
-  // 確認が取れ次第、正しい値に差し替えること。talentSchoolIds はZTable
-  // (ProfessionSystemTable.ShowTalentStage)由来のため確定値。
+  // TODO(S3): Attack and speed coefficients are still provisional.
+  // The HP coefficient is verified as 8.5 by both an in-game measurement and the Wiki.
+  // talentSchoolIds are confirmed from ProfessionSystemTable.ShowTalentStage.
   twinStriker: {
     key: 'twinStriker',
     professionId: 3,
@@ -196,7 +195,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     attackType: 'physical',
     element: 'fire',
     atkPerMainStatPoint: 0.6,
-    hpPerEndurancePoint: 6,
+    hpPerEndurancePoint: 8.5,
     atkSpeedPerHastePercent: 0.6,
     castSpeedPerHastePercent: 1,
     staminaRegenPerSecond: 185,

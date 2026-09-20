@@ -41,6 +41,12 @@ describe('deriveStats', () => {
     expect(result.staminaRegenPerSecond).toBe(PROFESSIONS.stormBlade.staminaRegenPerSecond);
   });
 
+  it('uses the 8.5 HP per endurance conversion rate for Twin Striker', () => {
+    const raw = { ...zeroRaw(), maxHp: 1000, endurance: 200 };
+
+    expect(deriveStats(raw, PROFESSIONS.twinStriker).maxHp).toBe(2700);
+  });
+
   it('routes the main stat bonus to physicalAtk for a physical attacker (stormBlade, mainStat=agility)', () => {
     const profession = PROFESSIONS.stormBlade;
     const raw: Record<StatId, number> = {
