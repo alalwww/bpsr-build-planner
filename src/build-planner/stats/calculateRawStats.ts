@@ -71,6 +71,7 @@ import {
   TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
   TALENT_ATTR_TO_STAT,
   TALENT_BASE_PCT_TO_STAT,
+  TALENT_CONDITIONAL_FINAL_PCT,
   TALENT_EFFECT_TYPE_CONVERSION_RATE,
   TALENT_EFFECT_TYPE_FLAT_STAT,
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
@@ -308,6 +309,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const finalPctAddend: Partial<Record<StatId, number>> = {};
   // アビリティによる「5ステータスのうち最終値最大の1項目」への最終%加算量(例: 二段増幅)。
   let highestStatFinalPctBonus = 0;
+  const conditionalFinalPctBonuses = new Set<number>();
   // アビリティによる攻撃速度への直接加算量(%、例: ディバインアーチャー「迅射」)。
   // atkSpeedPercentはDerivedStats側の値のためderiveStats()に渡す。
   let atkSpeedFinalPctAddend = 0;
@@ -507,6 +509,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
           // 型によって効果内容が変わるアビリティ(例: ビートパフォーマー「変奏」)。
           // 対応する型(type1)使用時のみ最終%ボーナスとして反映する。
+          const conditionalBonus = TALENT_CONDITIONAL_FINAL_PCT[eff[1]];
+          if (conditionalBonus) conditionalFinalPctBonuses.add(eff[1]);
           const bonus = TALENT_TYPE1_ONLY_FINAL_PCT[eff[1]];
           if (bonus && professionTypeKey === 'type1') {
             phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
@@ -966,6 +970,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const statResonanceBonus = calcStatResonanceBonus(cookingBuff);
   if (statResonanceBonus !== 0) {
     total[profession.mainStat] += statResonanceBonus;
+  }
+
+  for (const buffId of conditionalFinalPctBonuses) {
+    const bonus = TALENT_CONDITIONAL_FINAL_PCT[buffId];
+    if (bonus && total[bonus.thresholdStat] >= bonus.threshold) {
+      phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
+    }
   }
 
   // ファストの俊敏変換込み実数値(hasteReal相当)を、極性因子等によるファスト自身への%ボーナスも

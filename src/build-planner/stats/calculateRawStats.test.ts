@@ -639,6 +639,40 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
   });
 
+  it('applies Shield Fighter HP Boost only when final strength reaches 500', () => {
+    const talentNodesById = new Map([
+      [
+        1,
+        {
+          id: 1,
+          talentId: 1233,
+          stage: 0,
+          bdType: 0,
+          preNodes: [],
+          nextNodes: [],
+          position: [0, 0] as [number, number],
+        },
+      ],
+    ]);
+    const withStrength = (strength: number) =>
+      calculateRawStats({
+        ...baseInput(),
+        profession: PROFESSIONS.shieldFighter,
+        talentR1EnabledIds: new Set([1]),
+        talentNodesById,
+        equipped: {
+          weapon: makeEquipmentItem({
+            slot: 'weapon',
+            part: 200,
+            baseStats: [[11012, strength, strength, 0, 0]],
+          }),
+        },
+      });
+
+    expect(withStrength(484).phantomFinalPct.maxHp).toBeUndefined();
+    expect(withStrength(485).phantomFinalPct.maxHp).toBe(1200);
+  });
+
   it('routes a type=1 effect with the attack-speed "%final" attrId to atkSpeedFinalPctAddend (divineArcher "迅射", talentId 1135)', () => {
     // src/data/talent-tree.json: nodes["1135"].effects = [[1, 11722, 300]] (stage:0 = R1)
     // attrId 11722 is attack speed's "%final" variant (unit 1/10000) -> +3%, not a flat 11722-mapped stat.

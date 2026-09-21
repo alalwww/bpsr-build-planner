@@ -97,6 +97,18 @@ export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1Only
   2207340: { stat: 'maxHp', value: 2000 },
 };
 
+export interface TalentConditionalFinalPct {
+  thresholdStat: StatId;
+  threshold: number;
+  stat: StatId;
+  value: number;
+}
+
+// Shield Fighter R1 HP Boost: max HP +12% when strength reaches 500.
+export const TALENT_CONDITIONAL_FINAL_PCT: Partial<Record<number, TalentConditionalFinalPct>> = {
+  2206340: { thresholdStat: 'strength', threshold: 500, stat: 'maxHp', value: 1200 },
+};
+
 // アビリティ type=1 効果のうち、attrIdが「攻撃速度」の%finalバリアント(単位1/10000)のもの。
 // atkSpeedPercentはStatId(rawStats)ではなくDerivedStats側の値のため、TALENT_ATTR_TO_STAT/
 // IMAGINE_PCT_FINALには乗らず、deriveStats()への直接加算として個別に扱う
