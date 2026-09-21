@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.11.4",
+      "date": "2026-09-21T07:38:02.971Z",
+      "summary": {
+        "ja": "ステータス詳細のバフ効果内訳に攻撃速度・詠唱速度の項目が表示されない不具合の修正",
+        "en": "Fix attack/cast speed bonuses not appearing in the Stats Detail buff-effect breakdown"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.11.3",
       "date": "2026-09-15T17:05:45.239Z",
       "summary": {
