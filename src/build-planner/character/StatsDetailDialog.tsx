@@ -140,9 +140,14 @@ function Section({
 export default function StatsDetailDialog({ onClose, windowed = false }: StatsDetailDialogProps) {
   const { t } = useTranslation();
 
-  const { rawStats, rawStatsBreakdown, stats, derivedStats } = useBuildStore(
-    useShallow(computeStatsBundle),
-  );
+  const {
+    rawStats,
+    rawStatsBreakdown,
+    stats,
+    derivedStats,
+    atkSpeedDirectBonusPercent,
+    castSpeedDirectBonusPercent,
+  } = useBuildStore(useShallow(computeStatsBundle));
   const professionKey = useBuildStore((s) => s.professionKey);
   const profession = PROFESSIONS[professionKey];
   // 幸運の一撃回復の倍率は現状ヴァーダントオラクル/ビートパフォーマー(支援寄りの回復スキルを
@@ -453,6 +458,48 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     }),
   ].filter((row): row is BuffRow => row !== null);
 
+  // 攻撃速度/詠唱速度: rawStats側のStatId(内訳)を持たない派生値のため、他の行のように
+  // buildRow(rawStatsBreakdown)経由では組み立てられない。ファスト%からの変換分(初期値)と、
+  // モジュール「集中・攻撃速度/詠唱」・アビリティ・伝説刻印のfinal%バリアント・レイドセット
+  // 効果由来の直接加算分(atkSpeedDirectBonusPercent/castSpeedDirectBonusPercent、
+  // useBuildStore側で合算済み)を手動で組み立てる(2026-09-21不具合報告: モジュールの攻撃速度
+  // 補正がバフ効果の内訳に一切表示されず、加算されていないように見えていた。合計値自体は
+  // 既に正しく合算されていたが、可視化する行が存在しなかった)。直接加算分が0の場合、
+  // ファスト依存分のみでバフ効果とは言えないため非表示にする(他の行のhasBuffContributionと
+  // 同じ考え方)。
+  const speedBuffRow = (
+    statId: string,
+    label: string,
+    totalPercent: number,
+    directBonusPercent: number,
+  ): BuffRow | null => {
+    if (directBonusPercent === 0) return null;
+    return {
+      statId,
+      label,
+      initialValue: `${fmtDec2(totalPercent - directBonusPercent)}%`,
+      additive: '',
+      multiplier: '',
+      cookingBuff: `${fmtSigned(directBonusPercent)}%`,
+      total: fmtPct(totalPercent),
+    };
+  };
+
+  const speedBuffRows: BuffRow[] = [
+    speedBuffRow(
+      'atkSpeedPercent',
+      te('stat.atkSpeed'),
+      derivedStats.atkSpeedPercent,
+      atkSpeedDirectBonusPercent,
+    ),
+    speedBuffRow(
+      'castSpeedPercent',
+      te('stat.castSpeed'),
+      derivedStats.castSpeedPercent,
+      castSpeedDirectBonusPercent,
+    ),
+  ].filter((row): row is BuffRow => row !== null);
+
   const buffRows = [
     ...(illusionPowerRow ? [illusionPowerRow] : []),
     ...genericBuffRowsBeforeElemAtk,
@@ -460,6 +507,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     ...genericBuffRowsElemAtk,
     ...elemBuffRows,
     ...enhanceBuffRows,
+    ...speedBuffRows,
     ...genericBuffRowsUntilCritRecovery,
     ...(luckyHitRecoveryRow ? [luckyHitRecoveryRow] : []),
     ...genericBuffRowsAfterCritRecovery,

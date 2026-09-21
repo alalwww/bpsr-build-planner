@@ -289,6 +289,15 @@ export interface StatsBundle {
   talentNodesById: Map<number, TalentTreeNode>;
   r1NodeCount: number;
   skillReplacements: Record<number, number>;
+  // 攻撃速度%/詠唱速度%のうち、ファスト%からの変換分ではなく直接加算された分(モジュール
+  // 「集中・攻撃速度/詠唱」・アビリティ・伝説刻印のfinal%バリアント合算 + 攻撃速度のみ
+  // レイドセット効果の条件付き加算(suitAtkSpeedBonus)を含む)。StatsDetailDialogの
+  // バフ効果内訳で「攻撃速度/詠唱速度に何が加算されているか」を可視化するために使う
+  // (2026-09-21不具合報告: モジュールの攻撃速度補正がバフ効果の内訳に一切表示されず、
+  // 加算されていないように見えていた。derivedStats.atkSpeedPercent自体は既に正しく
+  // 合算済みだったが、rawStats側のStatIdを持たないためバフ効果テーブルには一切出てこなかった)。
+  atkSpeedDirectBonusPercent: number;
+  castSpeedDirectBonusPercent: number;
 }
 
 // state から stats/abilityScore 等の全派生値をまとめて計算する。各段は memoize1 済みの
@@ -482,5 +491,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     talentNodesById,
     r1NodeCount,
     skillReplacements,
+    atkSpeedDirectBonusPercent: rawStatsResult.atkSpeedFinalPctAddend + suitAtkSpeedBonus,
+    castSpeedDirectBonusPercent: rawStatsResult.castSpeedFinalPctAddend,
   };
 }
