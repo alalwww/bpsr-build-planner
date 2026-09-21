@@ -329,6 +329,9 @@ export interface FactorSingleStatBonus {
 }
 
 export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleStatBonus>> = {
+  // Heavy Guardian factor: attack + per agility 1% (3055050).
+  // The second parameter is combat-only energy gain and is intentionally ignored.
+  3055050: { stat: 'atk', paramIndex: 0 },
   // Shield Fighter factor: attack + per agility 1% (3054060).
   3054060: { stat: 'atk', paramIndex: 0 },
   // ビートパフォーマーX4「第六感」: 魔法攻撃力+p2(pars[1]、無条件)。p1(pars[0])は
