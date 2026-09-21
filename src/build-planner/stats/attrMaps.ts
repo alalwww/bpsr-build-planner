@@ -499,6 +499,7 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 // 平坦加算していたため、カーブ通過前の実数値段階で強化薬分と合算されてしまい、収益逓減の
 // 影響を余分に受けて過小評価になっていた)。
 export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11324: 'maxHp',
   11712: 'crit',
   11782: 'luck',
   11932: 'haste',

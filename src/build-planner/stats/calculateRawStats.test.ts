@@ -749,6 +749,31 @@ describe('calculateRawStats', () => {
     expect(result.finalPctAddend.luck).toBe(600);
   });
 
+  it('routes a fixed-evolution maxHp percent to the final multiplier bucket', () => {
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.galeLancer,
+      professionTypeKey: 'type2',
+      equipped: {
+        weapon: makeEquipmentItem({
+          slot: 'weapon',
+          part: 200,
+          quality: 5,
+          baseStats: [[11442, 300, 300, 500, 500]],
+          fixedEvolutionStats: {
+            '108': [[1, 11324, 1500, 1500, true, 300, 300]],
+          },
+        }),
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.phantomFinalPct.maxHp).toBe(1500);
+    expect(result.finalPctAddend.maxHp).toBeUndefined();
+    expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
+  });
+
   it('excludes a legacy (past-season) phantom factor from stat effects entirely', () => {
     // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3),
     // slotted into template 7's groupId=163 (reachable with no node selections needed).
@@ -1056,6 +1081,15 @@ describe('calculateRawStats', () => {
       expect(result.rawStats.critRecoveryBonus).toBe(BASE_STATS.critRecoveryBonus + 1200);
       // maxHp(既存のMOD_ATTR_TO_STATマッピング)も引き続き正しく積まれること。
       expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp + 1800);
+    });
+
+    it('routes magic-resistance maxHp percent to the final multiplier bucket', () => {
+      const input = twoSlotModuleInput(5500303, 1307);
+
+      const result = calculateRawStats(input);
+
+      expect(result.phantomFinalPct.maxHp).toBe(400);
+      expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
     });
 
     // effectId 1408(「集中・攻撃速度」)のlv6 config = [[5,99006,50],[1,11722,600]]。

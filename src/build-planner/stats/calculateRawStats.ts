@@ -366,10 +366,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         }
         const finalStatId = EVO_PCT_FINAL_ATTR_TO_STAT[attrId];
         if (finalStatId !== undefined) {
+          const value = calcStatValue(min, max, pLine);
+          if (FINAL_PCT_STAT_IDS.has(finalStatId)) {
+            phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + value;
+            continue;
+          }
           // 会心/幸運/ファスト/器用さの"%"バリアント: 鼓舞/HP変動と同じく、収益逓減カーブ適用後の
           // 最終%表示値に直接加算する(乗算ではない)。%空間の値のため丸めない。
           finalPctAddend[finalStatId] =
-            (finalPctAddend[finalStatId] ?? 0) + calcStatValue(min, max, pLine);
+            (finalPctAddend[finalStatId] ?? 0) + value;
           continue;
         }
         const statId = isPercent ? EVO_PCT_ATTR_TO_STAT[attrId] : EVO_ATTR_TO_STAT[attrId];
@@ -618,6 +623,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID) {
         // 詠唱速度の%finalバリアント(「集中・詠唱」等)。単位は攻撃速度側と同じ100=1%。
         castSpeedFinalPctAddend += value / 100;
+      } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === 11324) {
+        phantomFinalPct.maxHp = (phantomFinalPct.maxHp ?? 0) + value;
       } else if (effectType === MOD_EFFECT_TYPE_STAT) {
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
@@ -640,6 +647,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (linkRow) {
       for (const [effectType, attrId, value] of linkRow[2]) {
         if (effectType !== MOD_EFFECT_TYPE_STAT) continue;
+        if (attrId === 11324) {
+          phantomFinalPct.maxHp = (phantomFinalPct.maxHp ?? 0) + value;
+          continue;
+        }
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
       }
