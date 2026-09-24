@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.12.2",
+      "date": "2026-09-24T13:40:57.978Z",
+      "summary": {
+        "ja": "スマートフォン横画面での表示判定の不具合修正",
+        "en": "Fix smartphone landscape screen detection"
+      },
+      "changes": {
+        "ja": [
+          "画面幅の広いスマートフォン(Pixel 6 Pro等)を横向きで閲覧した際、スマートフォン向けの表示・操作性の調整(PC版推奨案内、パネルの折りたたみ、装備選択画面の全画面表示など)が正しく適用されていなかった不具合の修正",
+          "バージョン情報・プライバシーポリシーのダイアログを、スマートフォンでは全画面表示に変更"
+        ],
+        "en": [
+          "Fix smartphone-specific display and usability adjustments (PC-site notice, collapsible panels, fullscreen equipment picker, etc.) not applying when wider-screen phones (e.g. Pixel 6 Pro) are held in landscape orientation",
+          "Make the About and privacy policy dialogs fullscreen on smartphones"
+        ]
+      }
+    },
+    {
       "version": "0.12.1",
       "date": "2026-09-24T11:44:43.218Z",
       "summary": {
