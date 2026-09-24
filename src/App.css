@@ -26,3 +26,29 @@ main {
   flex-direction: column;
   overflow: hidden;
 }
+
+/* スマホの横画面は高さが極端に低く、常時表示のフッターだけで画面の大きな割合を
+   占めてしまう。フッターを画面内に固定表示せず、ページ全体を縦スクロール可能にして
+   スクロールしないと見えない位置(画面外)まで押し出す。 */
+@media (max-width: 767px) and (orientation: landscape) {
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+  }
+
+  #root {
+    height: auto;
+    min-height: 100%;
+  }
+
+  main {
+    /* dvh(動的ビューポート高さ)はモバイルブラウザのアドレスバー等の表示状態に
+       応じて変わる実際の表示領域。100vhだとアドレスバー分を含めた高さになり
+       画面が見切れることがあるため、フォールバックとして先に指定しておく。 */
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-shrink: 0;
+  }
+}
