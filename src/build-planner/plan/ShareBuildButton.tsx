@@ -204,6 +204,7 @@ function ShareBuildButton({ open, onOpenChange, onSwitchToExport }: ShareBuildBu
           closeOnOverlayClick={false}
           closeIcon
           hideConfirmButton
+          className="share-build-dialog"
         >
           <ul className="share-dialog__notes">
             {noteItems.map((item) => (

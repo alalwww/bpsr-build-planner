@@ -183,6 +183,40 @@
   max-width: 480px;
 }
 
+/* インポート/エクスポート等、textareaを含み情報量が多いダイアログをスマホでは
+   画面全面のフルスクリーンにする(equipment-dialog--wideと同じ方針)。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.confirm-dialog--wide {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+}
+
+/* シェアダイアログ: PC表示のサイズはconfirm-dialogのまま変更せず、スマホでのみ
+   フルスクリーンにする。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.share-build-dialog {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+}
+
 .confirm-dialog__textarea {
   background: #15151b;
   border: 1px solid #3a3a50;

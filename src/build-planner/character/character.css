@@ -704,6 +704,25 @@
   max-width: 980px;
 }
 
+/* スマホ幅では左右2ペイン構成を横に収めきれないため、画面全面のフルスクリーン
+   ダイアログにしたうえで、ペインを縦積み(1本のスクロール)に組み替える
+   (equipment-dialog--wideと同じ方針。ペイン自体のモバイル用上書きは、各クラスの
+   基本定義がCSS記述順序で後に来ないよう、それぞれの定義の直後に置く)。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.buff-effect-dialog {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+}
+
 .buff-effect-dialog__save-notice {
   margin: -4px 2px 8px;
   font-size: 11px;
@@ -714,6 +733,13 @@
   display: flex;
   align-items: flex-start;
   gap: 16px;
+}
+
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .buff-effect-dialog__panes {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .buff-effect-dialog__body {
@@ -860,6 +886,14 @@
   border-left: 1px solid #3a3a45;
 }
 
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .buff-effect-dialog__stat-correction-pane {
+    padding: 12px 0 0;
+    border-left: none;
+    border-top: 1px solid #3a3a45;
+  }
+}
+
 .buff-effect-dialog__stat-correction-toggle {
   align-self: flex-start;
 }
@@ -906,6 +940,27 @@
 
 .stats-detail {
   user-select: none;
+}
+
+/* このダイアログはresizable(DraggableDialog)のため、position/width/heightが
+   インラインstyleで指定されており、CSSで上書きするには!importantが必要。
+   resize-handleもドラッグ操作前提のUIのためモバイルでは非表示にする。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.stats-detail {
+    position: fixed !important;
+    inset: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+  }
+
+  .stats-detail .draggable-dialog__resize-handle {
+    display: none;
+  }
 }
 
 .stats-detail__body {
@@ -1005,9 +1060,30 @@
   min-width: 400px;
 }
 
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.profession-dialog {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+}
+
 .profession-dialog__body {
   display: flex;
   gap: 12px;
+}
+
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .profession-dialog__body {
+    flex-direction: column;
+  }
 }
 
 .profession-dialog__section {
