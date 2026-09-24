@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.12.3",
+      "date": "2026-09-24T16:55:55.765Z",
+      "summary": {
+        "ja": "スマートフォン表示のさらなる改善",
+        "en": "Further improve smartphone display"
+      },
+      "changes": {
+        "ja": [
+          "スマホ横画面でアドレスバーが自動的に隠れる位置までスクロールすると、上部の操作要素に手が届きにくくなっていた問題を解消(上部余白の確保、画面回転時の自動スクロールで余白を飛ばす対応)",
+          "モジュール選択・ステータス詳細・追加バフ効果・クラス選択・インポート・エクスポート・シェアの各ダイアログを、スマートフォンでは全画面表示に変更"
+        ],
+        "en": [
+          "Fix top controls being hard to reach on smartphone landscape screens once scrolled past the auto-hiding address bar (reserve top padding, auto-scroll past it on rotation)",
+          "Make the module, stats detail, buff effect, profession picker, import/export, and share dialogs fullscreen on smartphones"
+        ]
+      }
+    },
+    {
       "version": "0.12.2",
       "date": "2026-09-24T13:40:57.978Z",
       "summary": {
