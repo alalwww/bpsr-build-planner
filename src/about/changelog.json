@@ -1,6 +1,30 @@
 {
   "entries": [
     {
+      "version": "0.12.0",
+      "date": "2026-09-24T11:18:40.405Z",
+      "summary": {
+        "ja": "スマートフォン表示への対応",
+        "en": "Improve smartphone support"
+      },
+      "changes": {
+        "ja": [
+          "スマートフォン幅での閲覧時、PC版サイトでの利用を推奨する案内の表示(横向き表示の提案を含む)",
+          "スマートフォン幅でのキャラクターパネル・心相投影詳細欄の開閉、装備・モジュールタブの横スクロール対応など、操作性の改善",
+          "装備選択ダイアログのスマートフォン向けレイアウトの最適化",
+          "画面下部や端に近い位置でドロップダウンやツールチップを開いた際、画面外にはみ出て操作・確認できなくなる不具合の修正",
+          "心相投影のノードを選択した際、詳細欄が画面外までスクロールされてしまうことがある不具合の修正"
+        ],
+        "en": [
+          "Add a notice recommending the PC site when viewing on a smartphone, including a suggestion to rotate to landscape",
+          "Improve usability at smartphone widths: collapsible character panel and phantom detail pane, horizontal scrolling for equipment/module tabs",
+          "Optimize the equipment picker dialog layout for smartphone screens",
+          "Fix dropdowns and tooltips overflowing off-screen when opened near the bottom or edge of the screen",
+          "Fix the phantom detail pane sometimes scrolling past the selected node, off-screen"
+        ]
+      }
+    },
+    {
       "version": "0.11.4",
       "date": "2026-09-21T07:38:02.971Z",
       "summary": {
