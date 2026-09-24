@@ -76,7 +76,14 @@
   /* 折りたたみトグル(.character-panel__collapse-toggle、right:8px、width:24px)が
      右上に絶対配置されているため、余白が無いとプラン名入力欄・展開ボタンが
      ボタンの背面に隠れてしまう。 */
-  padding-right: 10px;
+  padding-right: 20px;
+}
+
+/* character-panel__scroll に縦スクロールバーが出ている間は、スクロールバー自体が
+   折りたたみトグルとの間に隙間を作ってくれるため、ヘッダーのpadding-rightを
+   狭めて詰める(CharacterPanel.tsx側でscrollHeight/clientHeightを監視して判定)。 */
+.character-panel__scroll--has-scrollbar .character-panel__header {
+  padding-right: 15px;
 }
 
 .character-panel__name-input {
