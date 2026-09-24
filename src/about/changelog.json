@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.12.4",
+      "date": "2026-09-24T18:39:23.446Z",
+      "summary": {
+        "ja": "レイアウト崩れ・操作不能箇所の修正",
+        "en": "Fix layout glitches and unreachable controls"
+      },
+      "changes": {
+        "ja": [
+          "潜在パネルでノード効果を表示すると、本来パネル内で完結すべきスクロールがページ全体のスクロールに漏れ出し、絆ポイント・ノード効果の固定表示も崩れる不具合の修正",
+          "モジュール選択パネルの合計ステータス欄が内容量に応じてスクロールできず、一部が見えなくなる不具合の修正",
+          "モジュールスロットに効果を3つ設定した際のアイコンとの高さ不一致、および横スクロールバーが常に表示される不具合の修正",
+          "キャラクターパネルをスクロールすると折りたたみ/展開ボタンが画面外に出て押せなくなる不具合の修正",
+          "潜在パネル・キャラクターパネルの折りたたみ/展開ボタンが隣接するラベル(合計絆ポイント、プラン名入力欄)に重なって隠れる不具合の修正",
+          "スマホ横画面で確保する上部余白のさらなる拡大"
+        ],
+        "en": [
+          "Fix node effect content in the phantom panel leaking into a page-level scroll instead of staying confined within the panel, breaking the fixed bond-points/node-effect display",
+          "Fix the module panel's total stats column not scrolling when its content overflows",
+          "Fix module slots with 3 power core effects showing a height mismatch against the icon, and a horizontal scrollbar always appearing in the module panel",
+          "Fix the character panel's collapse toggle scrolling off-screen and becoming unreachable",
+          "Fix the phantom panel's and character panel's collapse toggles overlapping and hiding adjacent labels (bond points total, plan name input)",
+          "Widen the reserved top padding on smartphone landscape screens further"
+        ]
+      }
+    },
+    {
       "version": "0.12.3",
       "date": "2026-09-24T16:55:55.765Z",
       "summary": {
