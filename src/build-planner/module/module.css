@@ -9,6 +9,8 @@
   border-radius: 8px;
   padding: 16px;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* スロット一覧(左50%)と合計ステータス(右)を%指定で横並びさせているため、
@@ -280,16 +282,26 @@
   flex-direction: column;
   gap: 8px;
   min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* Right column: total stats */
 .module-panel__stats {
   flex: 1;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* Empty slot */
+/* 空きスロットはbutton要素、装着済みスロット(.module-slot--configured)はdiv要素で
+   実装されており、UAスタイルシートの既定box-sizingがbutton=border-box、
+   div=content-boxと食い違う。border分(2px)だけwidth:100%の実際の占有幅がずれ、
+   親(.module-panel__slots、overflow-y:auto)の縦スクロールバー分を差し引いた幅と
+   一致しなくなり、横スクロールバーが出てしまっていたため明示的に揃える。 */
 .module-slot {
+  box-sizing: border-box;
   background: #22222b;
   border: 1px dashed #3a3a45;
   border-radius: 8px;
@@ -323,7 +335,16 @@
 }
 
 /* Configured slot: left 1/4 = mod icon, right 3/4 = effects */
+/* min-heightが無いとボタン自体は子コンテンツにフィットして伸びるだけで済むが、
+   実際にはアイコン列(.module-slot__icon-section、padding+border+icon72px+段数表示で
+   約116px)より、パワーコア効果3つ選択時の効果列(.module-slot__effects-section、
+   padding20px+行36px×3+gap6px×2で140px)の方が大きくなり、両者が食い違ったまま
+   個別にレイアウトされることでアイコン列側の余白計算がずれ、崩れて見えることが
+   あった。効果列側の必要最大高さ(140px)をボタン自体のmin-heightとして明示し、
+   アイコン列はalign-items:stretchでこの高さに揃えた上でjustify-content:centerに
+   よって中央配置させる。 */
 .module-slot--configured {
+  min-height: 140px;
   background: #22222b;
   border: 1px solid #3a3a55;
   border-radius: 8px;
@@ -380,6 +401,10 @@
   align-items: center;
   gap: 8px;
   min-width: 0;
+  /* 行内で一番大きい要素(.module-slot__effect-icon、36px)に合わせて明示する。
+     未指定だとブラウザのデフォルト行送り分の余白が乗り、下の.module-slot--configured
+     min-height算出の前提(3行合計)とずれてしまう。 */
+  min-height: 36px;
 }
 
 /* Clickable icon wrapper */
