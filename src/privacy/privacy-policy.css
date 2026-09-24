@@ -7,6 +7,24 @@
   overflow-y: auto;
 }
 
+/* スマホ幅では狭いダイアログ内での長文が読みづらいため、画面全面の
+   フルスクリーンダイアログにする(内容は元々1本のスクロールのため、
+   幅・高さの制約を外すだけでよい)。
+   横画面は縦画面時の幅がそのまま高さになる一方、縦画面時の高さが横画面の幅になり
+   767pxを超える機種があるため(Pixel 6 Pro等)、幅だけでなく「横画面で高さが低い」
+   ケースも条件に含める。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.privacy-policy-dialog {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+  }
+}
+
 .privacy-policy {
   font-size: 12px;
   color: #bcbbb7;

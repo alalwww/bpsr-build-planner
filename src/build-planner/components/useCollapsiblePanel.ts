@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { MOBILE_MAX_WIDTH } from './useMediaQuery';
+import { MOBILE_QUERY } from './useMediaQuery';
 
-// 保存済みの選択があればそれを優先し、初回訪問時はスマートフォン幅であれば
-// 既定で折りたたんでおく(横並びペインが極端に狭くなるのを避けるため)。
+// 保存済みの選択があればそれを優先し、初回訪問時はスマートフォン相当(useIsMobileと
+// 同じ判定)であれば既定で折りたたんでおく(横並びペインが極端に狭くなるのを避けるため)。
 function readInitial(key: string): boolean {
   try {
     const raw = localStorage.getItem(key);
@@ -10,7 +10,7 @@ function readInitial(key: string): boolean {
   } catch {
     // localStorageが使えない環境では画面幅だけで判断する
   }
-  return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`).matches;
+  return window.matchMedia(MOBILE_QUERY).matches;
 }
 
 function persist(key: string, collapsed: boolean): void {

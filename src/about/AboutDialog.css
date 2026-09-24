@@ -6,3 +6,28 @@
   max-width: 500px;
   max-height: 80vh;
 }
+
+/* スマホ幅ではヘッダー(アプリ情報)部分だけで画面の大半を占め、変更履歴が
+   ほとんど見えなくなるため、画面全面のフルスクリーンダイアログにしたうえで、
+   ヘッダーを含めて全体を1本のスクロールにする(about-panel.css側で変更履歴
+   だけを個別スクロールにしていたのを打ち消す)。
+   横画面は縦画面時の幅がそのまま高さになる一方、縦画面時の高さが横画面の幅になり
+   767pxを超える機種があるため(Pixel 6 Pro等)、幅だけでなく「横画面で高さが低い」
+   ケースも条件に含める。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.about-dialog {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+
+  .draggable-dialog.about-dialog .about-panel__changelog {
+    overflow-y: visible;
+  }
+}

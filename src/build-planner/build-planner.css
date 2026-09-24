@@ -278,7 +278,7 @@
 
 /* スマホ幅では各タブパネル(装備/スキル/モジュール等)が横に収まりきらないため、
    崩したまま隠すのではなく横スクロールで全体に到達できるようにする。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .build-planner__content {
     overflow-x: auto;
     overflow-y: hidden;

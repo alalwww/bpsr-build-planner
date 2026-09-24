@@ -186,7 +186,7 @@
 
 /* スマホ幅では武器スロット(250px固定)+装備グリッドを縮めきれないため、本来の
    最小幅を確保したうえで.build-planner__content側の横スクロールに委ねる。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .equipment-panel {
     min-width: 640px;
   }
@@ -202,7 +202,7 @@
 
 /* スマホ幅では武器スロットだけ固定250pxのままだと他の部位に対して幅を取りすぎるため、
    固定幅をやめてグリッド側(equipment-panel__grids)と同じ比率で伸縮させる。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .equipment-panel__weapon {
     width: auto;
     flex: 1;
@@ -225,7 +225,7 @@
 
 /* 武器1個分に対してグリッド側は4部位並ぶため、幅の比率を1:3にして
    武器がグリッドの1マスと近いバランスになるようにする。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .equipment-panel__grids {
     flex: 3;
   }
@@ -352,7 +352,7 @@
 
 /* スマホ幅ではスロット自体が狭く、既定のフォントサイズだと部位名が折り返されて
    読みにくいため縮小する。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .equipment-slot__label {
     padding: 6px;
     font-size: 18px;
@@ -460,7 +460,7 @@
 
 /* スマホ幅では4カラム構成を横に収めきれないため、画面全面のフルスクリーン
    ダイアログにしたうえで、各カラムを縦積み(1本のスクロール)に組み替える。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .draggable-dialog.equipment-dialog--wide {
     position: fixed;
     inset: 0;
@@ -562,7 +562,7 @@
   padding: 2px 0 2px 14px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .equipment-dialog__columns {
     flex-direction: column;
     overflow-y: auto;
@@ -1181,7 +1181,7 @@
 /* スマホ幅の縦積みレイアウトでは横幅いっぱいのプレビューが大きすぎるため、
    縦横比(1:1)を維持したまま半分のサイズに縮小して中央寄せする(width/
    padding-bottomはどちらも親要素の幅基準の%のため、同じ値にすると正方形を維持できる)。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .equip-preview-box {
     width: 50%;
     padding-bottom: 50%;

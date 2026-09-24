@@ -247,7 +247,7 @@
 /* スマホ幅では展開時、ツリーの横に並べる(50%ずつ)のではなく、ツリーの上に
    重ねるオーバーレイにして横幅をより広く使えるようにする。折りたたみ時は
    通常のflexアイテム(32px幅の細いバー)のまま変わらない。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .phantom-right {
     position: absolute;
     inset: 0 0 0 auto;
@@ -472,7 +472,7 @@
 
 /* スマホの狭い高さ(特にオーバーレイ表示)では300pxの余白がコンテンツ表示領域を
    圧迫しすぎるため縮める。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .phantom-node-config {
     padding-bottom: 60px;
   }

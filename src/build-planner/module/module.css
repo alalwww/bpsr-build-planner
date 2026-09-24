@@ -13,7 +13,7 @@
 
 /* スロット一覧(左50%)と合計ステータス(右)を%指定で横並びさせているため、
    スマホ幅ではmin-widthを確保したうえで.build-planner__content側の横スクロールに委ねる。 */
-@media (max-width: 767px) {
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
   .module-panel {
     min-width: 640px;
   }
