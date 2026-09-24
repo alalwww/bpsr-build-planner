@@ -1,10 +1,17 @@
 /* ---- Phantom Panel ---- */
 
+/* height:100%だと、containing block(.build-planner__content)の高さが
+   flexアイテムとしての算出値であり明示指定ではないため、CSS的にはautoに解決されて
+   しまい、ツリーSVGや設定リストのコンテンツ量に応じてパネル全体(延いては
+   ページ全体)が伸びてしまっていた。他パネル(equipment/module/skill)と同じ
+   flex:1 + min-height:0 に揃えることで、.build-planner__content の残りスペースに
+   確実に収まるようにする。 */
 .phantom-panel {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
   background: #1c1c24;
   border: 1px solid #2a2a33;
   border-radius: 8px;
@@ -397,6 +404,15 @@
   padding: 10px 12px;
   color: #9090a8;
   min-height: 150px;
+}
+
+/* スマホ横画面はビューポート自体が低く、絆ポイント+ノード効果(固定表示)だけで
+   高さの大半を占めると、下のノード設定側に配分される高さが不足してスクロール
+   領域が実質0になってしまう。ノード効果側の最小高さを縮めて余地を残す。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .phantom-desc-content {
+    min-height: 60px;
+  }
 }
 
 .phantom-desc-placeholder {
