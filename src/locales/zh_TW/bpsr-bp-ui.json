@@ -5,6 +5,11 @@
     "save": "保存",
     "close": "關閉"
   },
+  "mobileNotice": {
+    "body": "在智能手機上，部分功能可能無法正常使用。若要使用全部功能，建議在電腦端瀏覽本站。",
+    "rotateHint": "將屏幕橫放會更方便操作。",
+    "close": "關閉"
+  },
   "footer": {
     "copyright": "© 2026 alalwww",
     "disclaimer": "本工具為非官方粉絲製作工具。藍色協議：星痕共鳴的著作權及商標歸各權利方所有。"
@@ -58,6 +63,8 @@
     "empty": "暫無更新日誌"
   },
   "buildPlanner": {
+    "collapsePanel": "收起角色面板",
+    "expandPanel": "展開角色面板",
     "resetPlan": "重置當前構築",
     "buildPlanPlaceholder": "構築方案名稱",
     "seasonBadge": "Season 3",
@@ -385,6 +392,8 @@
       "tierLabel": "{{n}}件套"
     },
     "phantom": {
+      "collapsePane": "收起詳情面板",
+      "expandPane": "展開詳情面板",
       "level": "潛能等級",
       "template": "心相投影",
       "templatePlaceholder": "未選擇",

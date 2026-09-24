@@ -1,0 +1,45 @@
+.mobile-notice {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #3a2f1a;
+  border-bottom: 1px solid #f4a13a;
+  color: #f4e8c1;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.mobile-notice__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mobile-notice__text {
+  margin: 0;
+}
+
+.mobile-notice__text + .mobile-notice__text {
+  margin-top: 4px;
+  color: #f4a13a;
+}
+
+.mobile-notice__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  color: #f4e8c1;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.mobile-notice__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

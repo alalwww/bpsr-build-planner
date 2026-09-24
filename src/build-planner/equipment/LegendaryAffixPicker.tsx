@@ -5,6 +5,7 @@ import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
 import { useDelayedUnmount } from '../components/useDelayedUnmount';
 import { useDropdownKeyboardNav } from '../components/useDropdownKeyboardNav';
+import { useDropdownPlacement } from '../components/useDropdownPlacement';
 import { getStatIconUrlForAttrId } from '../stats/statIcons';
 import type { LegendaryAffixEntry, LegendaryAffixSelection } from '../types';
 
@@ -36,6 +37,9 @@ function LegendaryAffixPicker({
   useCloseOnOutsideClick(containerRef, isOpen, onToggleOpen);
   const shouldRenderPicker = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
   useDropdownKeyboardNav(panelRef, isOpen && shouldRenderPicker, onToggleOpen, triggerRef);
+  // スマホ幅の縦積みダイアログ等、トリガーが画面下部にあると選択肢が画面外にはみ出るため、
+  // 下に十分な余白がなければ上に開く。
+  const placement = useDropdownPlacement(triggerRef, isOpen);
   const selectedAffixEntry = legendaryAffixList.find(
     (e) => e.attrId === selectedLegendaryAffix?.attrId,
   );
@@ -55,7 +59,9 @@ function LegendaryAffixPicker({
   // {attrId, value}のオブジェクト値は参照が毎レンダー変わるため isEqual で構造比較する。
   const affixOptions: (LegendaryAffixSelection | undefined)[] = [
     undefined,
-    ...legendaryAffixList.flatMap(({ attrId, values }) => values.map((value) => ({ attrId, value }))),
+    ...legendaryAffixList.flatMap(({ attrId, values }) =>
+      values.map((value) => ({ attrId, value })),
+    ),
   ];
   const handleTriggerKeyDown = useArrowKeySelect({
     values: affixOptions,
@@ -75,13 +81,14 @@ function LegendaryAffixPicker({
         onKeyDown={handleTriggerKeyDown}
       >
         <span className="equip-evo-slot__stat equip-affix-slot__stat">
-          {selectedLegendaryAffix != null && getStatIconUrlForAttrId(selectedLegendaryAffix.attrId) && (
-            <img
-              src={getStatIconUrlForAttrId(selectedLegendaryAffix.attrId)}
-              alt=""
-              className="equip-evo-slot__icon"
-            />
-          )}
+          {selectedLegendaryAffix != null &&
+            getStatIconUrlForAttrId(selectedLegendaryAffix.attrId) && (
+              <img
+                src={getStatIconUrlForAttrId(selectedLegendaryAffix.attrId)}
+                alt=""
+                className="equip-evo-slot__icon"
+              />
+            )}
           {selectedLegendaryAffix != null
             ? t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })
             : t('buildPlanner.evolutionStatUnset')}
@@ -93,10 +100,14 @@ function LegendaryAffixPicker({
       </button>
       {shouldRenderPicker && (
         <div
-          className={`equip-evo-picker-anchor dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}`}
+          className={`equip-evo-picker-anchor dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}${placement.direction === 'up' ? ' equip-evo-picker-anchor--up' : ''}`}
         >
           <div className="dropdown-panel-anim__inner">
-            <div className="equip-evo-picker equip-affix-picker" ref={panelRef}>
+            <div
+              className="equip-evo-picker equip-affix-picker"
+              ref={panelRef}
+              style={{ maxHeight: placement.maxHeight, overflowY: 'auto' }}
+            >
               <button
                 type="button"
                 className={`equip-evo-option equip-affix-unset${selectedLegendaryAffix == null ? ' equip-evo-option--selected' : ''}`}

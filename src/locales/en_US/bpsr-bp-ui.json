@@ -5,6 +5,11 @@
     "save": "Save",
     "close": "Close"
   },
+  "mobileNotice": {
+    "body": "Some features may not work correctly on smartphones. For full functionality, we recommend viewing this site on a PC.",
+    "rotateHint": "Rotating your screen to landscape makes it easier to use.",
+    "close": "Close"
+  },
   "footer": {
     "copyright": "© 2026 alalwww",
     "disclaimer": "This is an unofficial fan-made tool. Blue Protocol: Star Resonance is copyrighted and trademarked by its respective owners."
@@ -58,6 +63,8 @@
     "empty": "No changelog entries"
   },
   "buildPlanner": {
+    "collapsePanel": "Collapse character panel",
+    "expandPanel": "Expand character panel",
     "resetPlan": "Reset current build",
     "buildPlanPlaceholder": "Build Plan Name",
     "seasonBadge": "Season 3",
@@ -385,6 +392,8 @@
       "tierLabel": "{{n}}-Piece Set"
     },
     "phantom": {
+      "collapsePane": "Collapse detail pane",
+      "expandPane": "Expand detail pane",
       "level": "Phantom Level",
       "template": "Projection",
       "templatePlaceholder": "Not Selected",

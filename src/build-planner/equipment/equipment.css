@@ -184,12 +184,29 @@
   padding: 16px;
 }
 
+/* スマホ幅では武器スロット(250px固定)+装備グリッドを縮めきれないため、本来の
+   最小幅を確保したうえで.build-planner__content側の横スクロールに委ねる。 */
+@media (max-width: 767px) {
+  .equipment-panel {
+    min-width: 640px;
+  }
+}
+
 .equipment-panel__weapon {
   position: relative;
   width: 250px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+}
+
+/* スマホ幅では武器スロットだけ固定250pxのままだと他の部位に対して幅を取りすぎるため、
+   固定幅をやめてグリッド側(equipment-panel__grids)と同じ比率で伸縮させる。 */
+@media (max-width: 767px) {
+  .equipment-panel__weapon {
+    width: auto;
+    flex: 1;
+  }
 }
 
 .equipment-panel__weapon .equipment-slot {
@@ -204,6 +221,14 @@
   flex-direction: column;
   gap: 16px;
   overflow: hidden;
+}
+
+/* 武器1個分に対してグリッド側は4部位並ぶため、幅の比率を1:3にして
+   武器がグリッドの1マスと近いバランスになるようにする。 */
+@media (max-width: 767px) {
+  .equipment-panel__grids {
+    flex: 3;
+  }
 }
 
 .equipment-panel__grid {
@@ -325,6 +350,15 @@
   letter-spacing: -0.02em;
 }
 
+/* スマホ幅ではスロット自体が狭く、既定のフォントサイズだと部位名が折り返されて
+   読みにくいため縮小する。 */
+@media (max-width: 767px) {
+  .equipment-slot__label {
+    padding: 6px;
+    font-size: 18px;
+  }
+}
+
 .equipment-slot__item-level {
   margin-left: 10px;
   font-size: 11px;
@@ -424,6 +458,22 @@
   overflow: hidden;
 }
 
+/* スマホ幅では4カラム構成を横に収めきれないため、画面全面のフルスクリーン
+   ダイアログにしたうえで、各カラムを縦積み(1本のスクロール)に組み替える。 */
+@media (max-width: 767px) {
+  .draggable-dialog.equipment-dialog--wide {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+  }
+}
+
 /* ヘッダーの部位切り替えボタン(閉じるボタンの左に並ぶ) */
 .equipment-dialog__slot-switch {
   display: flex;
@@ -510,6 +560,32 @@
 
 .equipment-dialog__col-right {
   padding: 2px 0 2px 14px;
+}
+
+@media (max-width: 767px) {
+  .equipment-dialog__columns {
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .equipment-dialog__col-left,
+  .equipment-dialog__col-center,
+  .equipment-dialog__col-enchant,
+  .equipment-dialog__col-right {
+    flex: none;
+    width: 100%;
+    overflow: visible;
+    padding: 14px 0;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #2a2a33;
+  }
+
+  .equipment-dialog__col-left {
+    border-top: none;
+    padding-top: 0;
+  }
 }
 
 /* Refine level: 自由入力(input) + ±1ボタン + リスト選択ドロップダウン(Stepper inline + options) */
@@ -952,6 +1028,12 @@
   z-index: 10;
 }
 
+/* トリガーの下に十分な余白がない場合、上に開く(useDropdownPlacement判定)。 */
+.equip-evo-picker-anchor--up {
+  top: auto;
+  bottom: 100%;
+}
+
 .equip-evo-picker {
   background: #1e1e27;
   border: 1px solid #3a3a45;
@@ -960,6 +1042,13 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.equip-evo-picker-anchor--up .equip-evo-picker {
+  border-top: 1px solid #3a3a45;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .equip-evo-option {
@@ -1087,6 +1176,17 @@
   overflow: hidden;
   background: #1a1a22;
   flex-shrink: 0;
+}
+
+/* スマホ幅の縦積みレイアウトでは横幅いっぱいのプレビューが大きすぎるため、
+   縦横比(1:1)を維持したまま半分のサイズに縮小して中央寄せする(width/
+   padding-bottomはどちらも親要素の幅基準の%のため、同じ値にすると正方形を維持できる)。 */
+@media (max-width: 767px) {
+  .equip-preview-box {
+    width: 50%;
+    padding-bottom: 50%;
+    margin: 0 auto;
+  }
 }
 
 .equip-preview-box__bg {

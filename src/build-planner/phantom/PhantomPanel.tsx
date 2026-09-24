@@ -16,6 +16,7 @@ import type { ProfessionKey } from '../profession';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
 import CollapsibleSection from '../components/CollapsibleSection';
+import { useCollapsiblePanel } from '../components/useCollapsiblePanel';
 import Stepper from '../components/Stepper';
 import ToggleSwitch from '../components/ToggleSwitch';
 import ZoomControls from '../components/ZoomControls';
@@ -73,6 +74,10 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const onPhantomFactorSlot = useBuildStore((s) => s.setPhantomFactorSlot);
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   const [effectSummaryOpen, setEffectSummaryOpen] = useState(false);
+  const [descOpen, setDescOpen] = useState(true);
+  const [rightPaneCollapsed, toggleRightPaneCollapsed, openRightPane] = useCollapsiblePanel(
+    'bpsr-phantom-right-collapsed',
+  );
   // ツリー側のノード選択とノード設定側の該当行は同じ selectedNodeId を共有し、相互に強調表示する。
   const toggleSelectedNode = (nodeId: number) =>
     setSelectedNodeId((prev) => (prev === nodeId ? null : nodeId));
@@ -82,24 +87,44 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const onToggleNodeFromTree = (nodeId: number) => {
     selectionOriginRef.current = 'tree';
     toggleSelectedNode(nodeId);
+    // 詳細ペインを閉じたままだとノード効果が見えないため、タップに連動して開く
+    // (スマホでは折りたたみが既定のため、特に重要)。
+    openRightPane();
   };
   const onToggleNodeFromConfig = (nodeId: number) => {
     selectionOriginRef.current = 'config';
     toggleSelectedNode(nodeId);
   };
+  // ツリーの背景(ノード以外)をクリックした際、開いている詳細ペインを閉じる
+  // (スマホではオーバーレイ表示のため、ツリー側を操作したい時の導線として必要)。
+  // ノード自体のクリックはバブリングしてここにも届くため、closestで除外する。
+  const onTreeAreaClick = (e: React.MouseEvent) => {
+    if (rightPaneCollapsed) return;
+    if ((e.target as HTMLElement).closest('.phantom-tree-node')) return;
+    toggleRightPaneCollapsed();
+  };
   useEffect(() => {
     if (selectedNodeId == null) return;
-    if (selectionOriginRef.current === 'tree') {
-      document
-        .querySelector('.phantom-node-config .phantom-config-row--highlight')
-        ?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    } else if (selectionOriginRef.current === 'config') {
-      document
-        .querySelector('.phantom-tree-area .phantom-tree-node[data-selected="true"]')
-        ?.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
-    }
+    const scrollToSelection = () => {
+      if (selectionOriginRef.current === 'tree') {
+        document
+          .querySelector('.phantom-node-config .phantom-config-row--highlight')
+          ?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      } else if (selectionOriginRef.current === 'config') {
+        document
+          .querySelector('.phantom-tree-area .phantom-tree-node[data-selected="true"]')
+          ?.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+      }
+    };
+    // ツリー側のノードタップで詳細ペイン(phantom-right)を初めて開く場合、
+    // .phantom-right の width transition(0.18s、32px→展開幅)が完了する前に
+    // scrollIntoView すると、まだ折りたたみ状態の幅(32px、テキストが縦に折り返された
+    // 状態)でレイアウト計算されてしまい、選択行が画面外まで飛んでしまうことがあった。
+    // transition時間より余裕を持たせて遅延させ、レイアウトが確定してから実行することで
+    // この問題を避けつつ、behavior:'smooth' のスクロールアニメーションを維持する。
+    const timer = setTimeout(scrollToSelection, 200);
+    return () => clearTimeout(timer);
   }, [selectedNodeId]);
-  const [descOpen, setDescOpen] = useState(true);
   const {
     zoom,
     setZoom,
@@ -271,7 +296,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                 percentClassName="phantom-zoom-pct"
               />
             </div>
-            <div className="phantom-tree-area" ref={treeAreaRef}>
+            <div className="phantom-tree-area" ref={treeAreaRef} onClick={onTreeAreaClick}>
               <PhantomTreeSvg
                 treeSteps={treeSteps}
                 phantomTemplateId={phantomTemplateId}
@@ -286,46 +311,73 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
           </div>
 
           {/* 右: 絆ポイント + ノード効果 + 設定 */}
-          <div className="phantom-right">
-            {/* 合計絆ポイント（最上部） */}
-            <PhantomBondSection
-              phantomTemplateId={phantomTemplateId}
-              phantomBondPoints={phantomBondPoints}
-              onBondPointsChange={onPhantomBondPointsChange}
-              phantomLevel={phantomLevel}
-            />
-
-            {/* ノード効果（折り畳み可能） */}
-            <CollapsibleSection
-              className="phantom-desc-area"
-              toggleClassName="phantom-desc-toggle"
-              open={descOpen}
-              onToggle={() => setDescOpen((v) => !v)}
-              label={t('buildPlanner.phantom.nodeEffect')}
+          <div className={`phantom-right${rightPaneCollapsed ? ' phantom-right--collapsed' : ''}`}>
+            <button
+              type="button"
+              className="phantom-right__collapse-toggle"
+              onClick={toggleRightPaneCollapsed}
+              title={t(
+                rightPaneCollapsed
+                  ? 'buildPlanner.phantom.expandPane'
+                  : 'buildPlanner.phantom.collapsePane',
+              )}
+              aria-label={t(
+                rightPaneCollapsed
+                  ? 'buildPlanner.phantom.expandPane'
+                  : 'buildPlanner.phantom.collapsePane',
+              )}
             >
-              <div className="phantom-desc-content">
-                <PhantomNodeEffect
-                  selectedNodeId={selectedNodeId}
-                  phantomFactorSlots={phantomFactorSlots}
-                  phantomLevel={phantomLevel}
-                  phantomTemplateId={phantomTemplateId}
-                />
-              </div>
-            </CollapsibleSection>
-            {/* ノード設定 */}
-            <PhantomNodeConfig
-              treeSteps={treeSteps}
-              activeNodeIds={activeNodeIds}
-              levelUnlockedNodeIds={levelUnlockedNodeIds}
-              selectedNodeId={selectedNodeId}
-              phantomTemplateId={phantomTemplateId}
-              phantomNodeSelections={phantomNodeSelections}
-              phantomFactorSlots={phantomFactorSlots}
-              professionId={professionId}
-              onToggleNode={onToggleNodeFromConfig}
-              onPhantomNodeSelection={onPhantomNodeSelection}
-              onPhantomFactorSlot={onPhantomFactorSlot}
-            />
+              {rightPaneCollapsed ? '‹' : '›'}
+            </button>
+            {!rightPaneCollapsed && (
+              <>
+                {/* 絆ポイント・ノード効果は常時表示したい情報のため、下のノード設定側だけを
+                    スクロールさせ、ここは固定表示のままにする。 */}
+                <div className="phantom-right__fixed">
+                  {/* 合計絆ポイント（最上部） */}
+                  <PhantomBondSection
+                    phantomTemplateId={phantomTemplateId}
+                    phantomBondPoints={phantomBondPoints}
+                    onBondPointsChange={onPhantomBondPointsChange}
+                    phantomLevel={phantomLevel}
+                  />
+
+                  {/* ノード効果（折り畳み可能） */}
+                  <CollapsibleSection
+                    className="phantom-desc-area"
+                    toggleClassName="phantom-desc-toggle"
+                    open={descOpen}
+                    onToggle={() => setDescOpen((v) => !v)}
+                    label={t('buildPlanner.phantom.nodeEffect')}
+                  >
+                    <div className="phantom-desc-content">
+                      <PhantomNodeEffect
+                        selectedNodeId={selectedNodeId}
+                        phantomFactorSlots={phantomFactorSlots}
+                        phantomLevel={phantomLevel}
+                        phantomTemplateId={phantomTemplateId}
+                      />
+                    </div>
+                  </CollapsibleSection>
+                </div>
+                <div className="phantom-right__scroll">
+                  {/* ノード設定 */}
+                  <PhantomNodeConfig
+                    treeSteps={treeSteps}
+                    activeNodeIds={activeNodeIds}
+                    levelUnlockedNodeIds={levelUnlockedNodeIds}
+                    selectedNodeId={selectedNodeId}
+                    phantomTemplateId={phantomTemplateId}
+                    phantomNodeSelections={phantomNodeSelections}
+                    phantomFactorSlots={phantomFactorSlots}
+                    professionId={professionId}
+                    onToggleNode={onToggleNodeFromConfig}
+                    onPhantomNodeSelection={onPhantomNodeSelection}
+                    onPhantomFactorSlot={onPhantomFactorSlot}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

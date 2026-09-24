@@ -4,6 +4,7 @@ import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
 import { useDelayedUnmount } from '../components/useDelayedUnmount';
 import { useDropdownKeyboardNav } from '../components/useDropdownKeyboardNav';
+import { useDropdownPlacement } from '../components/useDropdownPlacement';
 
 const CLOSE_ANIM_MS = 150;
 
@@ -44,6 +45,9 @@ function EvoSlotPicker<T extends string | number>({
   useCloseOnOutsideClick(containerRef, isEditing, onToggleEdit);
   const shouldRenderPicker = useDelayedUnmount(isEditing, CLOSE_ANIM_MS);
   useDropdownKeyboardNav(panelRef, isEditing && shouldRenderPicker, onToggleEdit, triggerRef);
+  // スマホ幅の縦積みダイアログ等、トリガーが画面下部にあると選択肢が画面外にはみ出るため、
+  // 下に十分な余白がなければ上に開く。
+  const placement = useDropdownPlacement(triggerRef, isEditing);
   // 選択肢を選んだ後は、選択肢ボタン(アンマウントされる)からトリガーへフォーカスを戻す。
   const handleSelect = (statId: T | undefined) => {
     onSelect(statId);
@@ -80,10 +84,14 @@ function EvoSlotPicker<T extends string | number>({
       </button>
       {shouldRenderPicker && (
         <div
-          className={`equip-evo-picker-anchor dropdown-panel-anim${isEditing ? '' : ' dropdown-panel-anim--closing'}`}
+          className={`equip-evo-picker-anchor dropdown-panel-anim${isEditing ? '' : ' dropdown-panel-anim--closing'}${placement.direction === 'up' ? ' equip-evo-picker-anchor--up' : ''}`}
         >
           <div className="dropdown-panel-anim__inner">
-            <div className="equip-evo-picker" ref={panelRef}>
+            <div
+              className="equip-evo-picker"
+              ref={panelRef}
+              style={{ maxHeight: placement.maxHeight, overflowY: 'auto' }}
+            >
               {unsetLabel !== undefined && (
                 <button
                   type="button"

@@ -3,12 +3,53 @@
 .character-panel {
   width: 380px;
   flex-shrink: 0;
+  position: relative;
   background: #1c1c24;
   border-right: 1px solid #2a2a33;
   padding: 16px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  transition: width 0.18s ease;
+}
+
+/* スマホ幅など、常時380pxを確保できない画面向けの折りたたみ状態。トグルボタン
+   (character-panel__collapse-toggle)だけが残る細いバーになる。PC版でも任意に
+   切り替えられる(狭いウィンドウで他タブを広く見たい場合等)。 */
+.character-panel--collapsed {
+  width: 32px;
+  flex-shrink: 0;
+  padding: 8px 0;
+  overflow: visible;
+}
+
+.character-panel__collapse-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #22222b;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  color: #8a8a96;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.character-panel__collapse-toggle:hover {
+  color: #f4a13a;
+  border-color: #555560;
+}
+
+.character-panel--collapsed .character-panel__collapse-toggle {
+  position: static;
+  margin: 0 auto;
 }
 
 .character-panel__header {
@@ -830,7 +871,10 @@
 }
 
 /* パネル自体のスイッチがOFFの間、行全体を暗く見せる(他の行の無効化表現と統一)。 */
-.buff-effect-dialog__stat-correction-pane:has(.buff-effect-dialog__stat-correction-toggle[aria-checked='false']) .buff-effect-dialog__stat-correction-rows {
+.buff-effect-dialog__stat-correction-pane:has(
+    .buff-effect-dialog__stat-correction-toggle[aria-checked='false']
+  )
+  .buff-effect-dialog__stat-correction-rows {
   opacity: 0.55;
 }
 

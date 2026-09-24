@@ -5,6 +5,11 @@
     "save": "保存",
     "close": "閉じる"
   },
+  "mobileNotice": {
+    "body": "スマートフォンでは一部機能が正しく動作しない場合があります。すべての機能を利用するには、PC版サイトでの閲覧をおすすめします。",
+    "rotateHint": "画面を横向きにすると操作しやすくなります。",
+    "close": "閉じる"
+  },
   "footer": {
     "copyright": "© 2026 alalwww",
     "disclaimer": "本ツールは非公式のファンメイドツールです。ブループロトコル：スターレゾナンスの著作権・商標は各権利元に帰属します。"
@@ -58,6 +63,8 @@
     "empty": "変更履歴がありません"
   },
   "buildPlanner": {
+    "collapsePanel": "キャラクターパネルを折りたたむ",
+    "expandPanel": "キャラクターパネルを展開",
     "resetPlan": "現在のビルドをリセット",
     "buildPlanPlaceholder": "ビルドプラン名",
     "seasonBadge": "Season 3",
@@ -385,6 +392,8 @@
       "tierLabel": "{{n}}点セット"
     },
     "phantom": {
+      "collapsePane": "詳細ペインを折りたたむ",
+      "expandPane": "詳細ペインを展開",
       "level": "潜在レベル",
       "template": "心相投影",
       "templatePlaceholder": "未選択",

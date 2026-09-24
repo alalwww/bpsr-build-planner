@@ -60,6 +60,7 @@
 }
 
 .phantom-body {
+  position: relative;
   flex: 1;
   display: flex;
   overflow: hidden;
@@ -70,7 +71,10 @@
 }
 
 .phantom-tree-wrapper {
-  flex: 0 0 50%;
+  /* 右ペイン(phantom-right)は幅固定(width:50%)のため、ツリー側はflex:1で
+     残りいっぱいに広がるようにする。右ペインを折りたたんだ際もこれで自動的に広がる。 */
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -172,12 +176,94 @@
 .phantom-right {
   width: 50%;
   min-width: 0;
+  min-height: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* hiddenだと、子要素内でのノード選択時のscrollIntoViewがこのコンテナ自身まで
+     プログラム的にスクロールさせてしまい、折りたたみボタンが見えなくなる不具合が
+     あった。clipはスクロール自体を一切許可しないためこの問題が起きない
+     (実際のスクロールは子の.phantom-right__scroll側で行う)。 */
+  overflow: clip;
   /* 背景画像は.phantom-body(左右共通)側で敷いているため、右側だけ半透明グレーを
      重ねて薄く見せる(左のツリー側は画像をそのまま見せる)。 */
   background: rgba(28, 28, 36, 0.7);
+  transition: width 0.18s ease;
+}
+
+/* 絆ポイント・ノード効果は選択中ノードを確認しながら操作したい常時表示の情報のため、
+   折りたたみボタンと同様スクロールさせずに固定表示する。 */
+.phantom-right__fixed {
+  flex-shrink: 0;
+}
+
+/* ノード設定だけをスクロール領域にする。絆ポイント+ノード効果(展開時)の高さ次第では
+   ここに配分される高さが小さくなるが、ノード効果はユーザー側で折りたためる
+   (descOpen)ため、常時表示を優先する。 */
+.phantom-right__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 右ペインの折りたたみ状態。ツリー側(phantom-tree-wrapper、flex:1)を広く使いたい
+   場合向けにPC版でも任意に切り替えられる(スマホ幅では初回既定で折りたたむ)。 */
+.phantom-right--collapsed {
+  width: 32px;
+  flex-shrink: 0;
+  padding: 8px 0;
+}
+
+.phantom-right__collapse-toggle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #22222b;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  color: #8a8a96;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.phantom-right__collapse-toggle:hover {
+  color: #f4a13a;
+  border-color: #555560;
+}
+
+.phantom-right--collapsed .phantom-right__collapse-toggle {
+  position: static;
+  margin: 0 auto;
+}
+
+/* スマホ幅では展開時、ツリーの横に並べる(50%ずつ)のではなく、ツリーの上に
+   重ねるオーバーレイにして横幅をより広く使えるようにする。折りたたみ時は
+   通常のflexアイテム(32px幅の細いバー)のまま変わらない。 */
+@media (max-width: 767px) {
+  .phantom-right {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 85%;
+    z-index: 20;
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.6);
+    /* オーバーレイでツリーに重なる面積が大きくなる分、通常表示(左右50%)より
+       背景を濃くして詳細側のUIを見やすくする。 */
+    background: rgba(20, 20, 26, 0.96);
+  }
+
+  .phantom-right--collapsed {
+    position: static;
+    width: 32px;
+    box-shadow: none;
+  }
 }
 
 /* ---- 絆ポイントセクション ---- */
@@ -376,10 +462,20 @@
 }
 
 /* ---- ノード設定 ---- */
+/* スクロールは親の.phantom-right__scroll(ノード設定専用のスクロール領域)側で
+   行うため、ここでは個別にスクロールコンテナ化しない(以前flex:1で個別スクロール
+   にしていた際、画面が低い場合にここへ配分される高さが不足し、パネル全体から
+   はみ出す不具合があった)。 */
 .phantom-node-config {
-  flex: 1;
-  overflow-y: auto;
   padding: 4px 8px 300px;
+}
+
+/* スマホの狭い高さ(特にオーバーレイ表示)では300pxの余白がコンテンツ表示領域を
+   圧迫しすぎるため縮める。 */
+@media (max-width: 767px) {
+  .phantom-node-config {
+    padding-bottom: 60px;
+  }
 }
 
 .phantom-config-row {

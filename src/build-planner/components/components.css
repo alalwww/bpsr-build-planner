@@ -371,6 +371,12 @@
   line-height: 1.5;
   color: #e8e6e1;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  /* clamp時、枠の高さが画面に収まりきらない場合はFloatingTooltip側でmax-heightを
+     設定する。その場合に中身をスクロール可能にする(通常時はmax-height未指定の
+     ため何もしない)。border-boxにしないとpadding/border分だけmax-heightより
+     実際の描画サイズが大きくなり、わずかに画面をはみ出してしまう。 */
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 /* スキル/アビリティ説明のインラインマークアップ(renderMarkup) */

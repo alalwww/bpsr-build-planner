@@ -24,6 +24,8 @@ import { roundIntStr, truncate2Str } from './statFormat';
 interface CharacterPanelProps {
   onOpenTalentTree?: () => void;
   onOpenStatsDetail?: () => void;
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
 }
 
 function formatStatValue(value: number, isPercent?: boolean): string {
@@ -68,7 +70,12 @@ function getStatDefinitions(profession: Profession): StatDefinition[] {
   ];
 }
 
-function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelProps) {
+function CharacterPanel({
+  onOpenTalentTree,
+  onOpenStatsDetail,
+  collapsed,
+  onToggleCollapsed,
+}: CharacterPanelProps) {
   const { t } = useTranslation();
   const { t: tGame } = useTranslation('game-data');
 
@@ -144,212 +151,238 @@ function CharacterPanel({ onOpenTalentTree, onOpenStatsDetail }: CharacterPanelP
   const roleBg = clsEntry?.talentColor ? `${clsEntry.talentColor}1a` : undefined;
 
   return (
-    <section className="character-panel" ref={panelRef}>
-      {/* プラン管理(名称入力・保存・一覧・各種ダイアログ) */}
-      <PlanManager />
-
-      {/* Summary */}
-      <div className="character-panel__summary">
-        <button
-          type="button"
-          className="character-panel__summary-item character-panel__summary-item--clickable"
-          onClick={() =>
-            isTauri ? void showResidentWindow('ability-score') : setAbilityScoreOpen(true)
-          }
-        >
-          <span className="character-panel__label">{t('buildPlanner.abilityScore')}</span>
-          <span className="character-panel__value">
-            {Math.round(abilityScore.total).toLocaleString()}
-          </span>
-        </button>
-        <button
-          type="button"
-          className="character-panel__summary-item character-panel__summary-item--clickable"
-          onClick={() => setLevelPickerOpen(true)}
-        >
-          <span className="character-panel__label">{t('buildPlanner.adventurerLevel')}</span>
-          <span className="character-panel__value">
-            {adventurerLevel}(+{phantomLevel})
-          </span>
-        </button>
-      </div>
-
-      {/* Class + Type selectors */}
-      <div className="character-panel__selectors">
-        <button
-          type="button"
-          className="character-panel__selector--class"
-          style={roleBg ? { backgroundColor: roleBg } : undefined}
-          onClick={() => setProfessionPickerOpen(true)}
-        >
-          {classIconUrl && (
-            <span
-              className="character-panel__selector-icon-bg"
-              style={{ backgroundImage: `url(${classIconUrl})` }}
-              aria-hidden="true"
-            />
-          )}
-          <span className="character-panel__selector-name">
-            {tGame(`classes.${professionId}.name`, { defaultValue: professionKey })}
-          </span>
-          <span className="character-panel__selector-label">{t('buildPlanner.classLabel')}</span>
-        </button>
-        <button
-          type="button"
-          className="character-panel__selector--type"
-          style={roleBg ? { backgroundColor: roleBg } : undefined}
-          onClick={onOpenTalentTree}
-        >
-          <span className="character-panel__selector-name">
-            {typeStageId
-              ? tGame(`talentStages.${typeStageId}.typeName`, { defaultValue: professionTypeKey })
-              : professionTypeKey}
-          </span>
-          <span className="character-panel__selector-label">{t('buildPlanner.talentLabel')}</span>
-        </button>
-      </div>
-
-      <div className="character-panel__stats">
-        <div className="character-panel__stats-column">
-          {leftStats.map((def) => (
-            <div className="character-panel__stat-row" key={def.id}>
-              <button
-                type="button"
-                className="character-panel__stat-label character-panel__stat-label--clickable"
-                onClick={(e) => openStatPopup(def.id, e)}
-              >
-                {getStatIconUrl(def.id) && (
-                  <img
-                    src={getStatIconUrl(def.id)}
-                    alt=""
-                    className="character-panel__stat-icon"
-                    style={STAT_ICON_SIZE[def.id]}
-                  />
-                )}
-                <span className="character-panel__stat-label-text">
-                  {t(`buildPlanner.stats.${def.id}`)}
-                </span>
-              </button>
-              <span className="character-panel__stat-value">
-                {formatStatValue(stats[def.id], def.isPercent)}
-              </span>
-            </div>
-          ))}
-        </div>
-        <div className="character-panel__stats-column">
-          {rightStats.map((def) => (
-            <div
-              className="character-panel__stat-row"
-              key={def.id}
-              ref={def.id === 'illusionPower' ? illusionPowerRowRef : undefined}
-            >
-              <button
-                type="button"
-                className="character-panel__stat-label character-panel__stat-label--clickable"
-                onClick={(e) => openStatPopup(def.id, e)}
-              >
-                {getStatIconUrl(def.id) && (
-                  <img
-                    src={getStatIconUrl(def.id)}
-                    alt=""
-                    className="character-panel__stat-icon"
-                    style={STAT_ICON_SIZE[def.id]}
-                  />
-                )}
-                <span className="character-panel__stat-label-text">
-                  {t(`buildPlanner.stats.${def.id}`)}
-                </span>
-              </button>
-              <span className="character-panel__stat-value">
-                {formatStatValue(stats[def.id], def.isPercent)}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <button type="button" className="character-panel__detail-button" onClick={onOpenStatsDetail}>
-        {t('buildPlanner.attributes')}
-      </button>
+    <section
+      className={`character-panel${collapsed ? ' character-panel--collapsed' : ''}`}
+      ref={panelRef}
+    >
       <button
         type="button"
-        className="character-panel__detail-button character-panel__detail-button--secondary"
-        onClick={() => setBuffEffectOpen(true)}
+        className="character-panel__collapse-toggle"
+        onClick={onToggleCollapsed}
+        title={t(collapsed ? 'buildPlanner.expandPanel' : 'buildPlanner.collapsePanel')}
+        aria-label={t(collapsed ? 'buildPlanner.expandPanel' : 'buildPlanner.collapsePanel')}
       >
-        {t('buildPlanner.buffDialog.openButton')}
+        {collapsed ? '›' : '‹'}
       </button>
+      {!collapsed && (
+        <>
+          {/* プラン管理(名称入力・保存・一覧・各種ダイアログ) */}
+          <PlanManager />
 
-      {statPopup !== null && (
-        <StatTooltip
-          state={statPopup}
-          rawValue={
-            // ファストは俊敏由来の変換分がrawStatsに含まれない(装備等の生値のみ)ため、
-            // %変換に実際に使われた実数値(derivedStats.hasteReal)を表示する。
-            // 左カラムは行にすでに表示されている最終値(stats)と一致させる(最大HP/攻撃力は
-            // バトルイマジン等の最終%ボーナスがrawStatsには乗っていないため)。
-            statPopup.statId === 'haste'
-              ? derivedStats.hasteReal
-              : LEFT_COLUMN_STAT_IDS.has(statPopup.statId)
-                ? stats[statPopup.statId]
-                : rawStats[statPopup.statId]
-          }
-          currentPercent={stats[statPopup.statId]}
-          professionId={professionId}
-          professionTypeKey={professionTypeKey}
-          derivedStats={derivedStats}
-          breakdown={rawStatsBreakdown}
-          rawStats={rawStats}
-          mainStatId={PROFESSIONS[professionKey].mainStat}
-          onRequestClose={() => setStatPopup(null)}
-        />
-      )}
+          {/* Summary */}
+          <div className="character-panel__summary">
+            <button
+              type="button"
+              className="character-panel__summary-item character-panel__summary-item--clickable"
+              onClick={() =>
+                isTauri ? void showResidentWindow('ability-score') : setAbilityScoreOpen(true)
+              }
+            >
+              <span className="character-panel__label">{t('buildPlanner.abilityScore')}</span>
+              <span className="character-panel__value">
+                {Math.round(abilityScore.total).toLocaleString()}
+              </span>
+            </button>
+            <button
+              type="button"
+              className="character-panel__summary-item character-panel__summary-item--clickable"
+              onClick={() => setLevelPickerOpen(true)}
+            >
+              <span className="character-panel__label">{t('buildPlanner.adventurerLevel')}</span>
+              <span className="character-panel__value">
+                {adventurerLevel}(+{phantomLevel})
+              </span>
+            </button>
+          </div>
 
-      {isProfessionPickerOpen && (
-        <ProfessionPicker
-          professionKey={professionKey}
-          professionTypeKey={professionTypeKey}
-          onSelectProfession={onSelectProfession}
-          onSelectProfessionType={onSelectProfessionType}
-          onClose={() => setProfessionPickerOpen(false)}
-        />
-      )}
+          {/* Class + Type selectors */}
+          <div className="character-panel__selectors">
+            <button
+              type="button"
+              className="character-panel__selector--class"
+              style={roleBg ? { backgroundColor: roleBg } : undefined}
+              onClick={() => setProfessionPickerOpen(true)}
+            >
+              {classIconUrl && (
+                <span
+                  className="character-panel__selector-icon-bg"
+                  style={{ backgroundImage: `url(${classIconUrl})` }}
+                  aria-hidden="true"
+                />
+              )}
+              <span className="character-panel__selector-name">
+                {tGame(`classes.${professionId}.name`, { defaultValue: professionKey })}
+              </span>
+              <span className="character-panel__selector-label">
+                {t('buildPlanner.classLabel')}
+              </span>
+            </button>
+            <button
+              type="button"
+              className="character-panel__selector--type"
+              style={roleBg ? { backgroundColor: roleBg } : undefined}
+              onClick={onOpenTalentTree}
+            >
+              <span className="character-panel__selector-name">
+                {typeStageId
+                  ? tGame(`talentStages.${typeStageId}.typeName`, {
+                      defaultValue: professionTypeKey,
+                    })
+                  : professionTypeKey}
+              </span>
+              <span className="character-panel__selector-label">
+                {t('buildPlanner.talentLabel')}
+              </span>
+            </button>
+          </div>
 
-      {/* 冒険者レベル選択ダイアログ */}
-      {levelPickerOpen && (
-        <DraggableDialog
-          title={t('buildPlanner.adventurerLevel')}
-          onClose={() => setLevelPickerOpen(false)}
-          className="level-picker-dialog"
-        >
-          <Stepper
-            className="stepper-inline"
-            modifierClassName="level-dialog__stepper"
-            layout="inline"
-            value={adventurerLevel}
-            min={1}
-            max={60}
-            onChange={onAdventurerLevelChange}
-          />
-        </DraggableDialog>
-      )}
-      {/* 能力スコア内訳ダイアログ */}
-      {abilityScoreOpen && (
-        <AbilityScoreDialog
-          abilityScore={abilityScore}
-          expandedGroups={expandedGroups}
-          onToggleGroup={toggleGroup}
-          onClose={() => setAbilityScoreOpen(false)}
-        />
-      )}
-      {/* バフ効果ダイアログ */}
-      {buffEffectOpen && (
-        <BuffEffectDialog
-          cookingBuff={cookingBuff}
-          onChange={onCookingBuffChange}
-          profession={PROFESSIONS[professionKey]}
-          onClose={() => setBuffEffectOpen(false)}
-          moduleSlots={moduleSlots}
-        />
+          <div className="character-panel__stats">
+            <div className="character-panel__stats-column">
+              {leftStats.map((def) => (
+                <div className="character-panel__stat-row" key={def.id}>
+                  <button
+                    type="button"
+                    className="character-panel__stat-label character-panel__stat-label--clickable"
+                    onClick={(e) => openStatPopup(def.id, e)}
+                  >
+                    {getStatIconUrl(def.id) && (
+                      <img
+                        src={getStatIconUrl(def.id)}
+                        alt=""
+                        className="character-panel__stat-icon"
+                        style={STAT_ICON_SIZE[def.id]}
+                      />
+                    )}
+                    <span className="character-panel__stat-label-text">
+                      {t(`buildPlanner.stats.${def.id}`)}
+                    </span>
+                  </button>
+                  <span className="character-panel__stat-value">
+                    {formatStatValue(stats[def.id], def.isPercent)}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="character-panel__stats-column">
+              {rightStats.map((def) => (
+                <div
+                  className="character-panel__stat-row"
+                  key={def.id}
+                  ref={def.id === 'illusionPower' ? illusionPowerRowRef : undefined}
+                >
+                  <button
+                    type="button"
+                    className="character-panel__stat-label character-panel__stat-label--clickable"
+                    onClick={(e) => openStatPopup(def.id, e)}
+                  >
+                    {getStatIconUrl(def.id) && (
+                      <img
+                        src={getStatIconUrl(def.id)}
+                        alt=""
+                        className="character-panel__stat-icon"
+                        style={STAT_ICON_SIZE[def.id]}
+                      />
+                    )}
+                    <span className="character-panel__stat-label-text">
+                      {t(`buildPlanner.stats.${def.id}`)}
+                    </span>
+                  </button>
+                  <span className="character-panel__stat-value">
+                    {formatStatValue(stats[def.id], def.isPercent)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="character-panel__detail-button"
+            onClick={onOpenStatsDetail}
+          >
+            {t('buildPlanner.attributes')}
+          </button>
+          <button
+            type="button"
+            className="character-panel__detail-button character-panel__detail-button--secondary"
+            onClick={() => setBuffEffectOpen(true)}
+          >
+            {t('buildPlanner.buffDialog.openButton')}
+          </button>
+
+          {statPopup !== null && (
+            <StatTooltip
+              state={statPopup}
+              rawValue={
+                // ファストは俊敏由来の変換分がrawStatsに含まれない(装備等の生値のみ)ため、
+                // %変換に実際に使われた実数値(derivedStats.hasteReal)を表示する。
+                // 左カラムは行にすでに表示されている最終値(stats)と一致させる(最大HP/攻撃力は
+                // バトルイマジン等の最終%ボーナスがrawStatsには乗っていないため)。
+                statPopup.statId === 'haste'
+                  ? derivedStats.hasteReal
+                  : LEFT_COLUMN_STAT_IDS.has(statPopup.statId)
+                    ? stats[statPopup.statId]
+                    : rawStats[statPopup.statId]
+              }
+              currentPercent={stats[statPopup.statId]}
+              professionId={professionId}
+              professionTypeKey={professionTypeKey}
+              derivedStats={derivedStats}
+              breakdown={rawStatsBreakdown}
+              rawStats={rawStats}
+              mainStatId={PROFESSIONS[professionKey].mainStat}
+              onRequestClose={() => setStatPopup(null)}
+            />
+          )}
+
+          {isProfessionPickerOpen && (
+            <ProfessionPicker
+              professionKey={professionKey}
+              professionTypeKey={professionTypeKey}
+              onSelectProfession={onSelectProfession}
+              onSelectProfessionType={onSelectProfessionType}
+              onClose={() => setProfessionPickerOpen(false)}
+            />
+          )}
+
+          {/* 冒険者レベル選択ダイアログ */}
+          {levelPickerOpen && (
+            <DraggableDialog
+              title={t('buildPlanner.adventurerLevel')}
+              onClose={() => setLevelPickerOpen(false)}
+              className="level-picker-dialog"
+            >
+              <Stepper
+                className="stepper-inline"
+                modifierClassName="level-dialog__stepper"
+                layout="inline"
+                value={adventurerLevel}
+                min={1}
+                max={60}
+                onChange={onAdventurerLevelChange}
+              />
+            </DraggableDialog>
+          )}
+          {/* 能力スコア内訳ダイアログ */}
+          {abilityScoreOpen && (
+            <AbilityScoreDialog
+              abilityScore={abilityScore}
+              expandedGroups={expandedGroups}
+              onToggleGroup={toggleGroup}
+              onClose={() => setAbilityScoreOpen(false)}
+            />
+          )}
+          {/* バフ効果ダイアログ */}
+          {buffEffectOpen && (
+            <BuffEffectDialog
+              cookingBuff={cookingBuff}
+              onChange={onCookingBuffChange}
+              profession={PROFESSIONS[professionKey]}
+              onClose={() => setBuffEffectOpen(false)}
+              moduleSlots={moduleSlots}
+            />
+          )}
+        </>
       )}
     </section>
   );

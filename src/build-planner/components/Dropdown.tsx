@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useDelayedUnmount } from './useDelayedUnmount';
+import { computeDropdownPlacement } from './useDropdownPlacement';
 import { useDropdownKeyboardNav } from './useDropdownKeyboardNav';
 
 const CLOSE_ANIM_MS = 150;
@@ -28,6 +29,8 @@ interface DropdownProps {
    * パネル側で処理する)。
    */
   onTriggerKeyDown?: (e: ReactKeyboardEvent<HTMLButtonElement>) => void;
+  /** パネルの既定の最大高さ(px)。画面の余白がこれより狭い場合はさらに縮められる。既定320。 */
+  maxPanelHeight?: number;
 }
 
 // 「トリガーボタン → document.bodyへportalした固定位置の選択肢パネル」という
@@ -43,9 +46,16 @@ function Dropdown({
   autoFocus,
   panelWidthScale = 1,
   onTriggerKeyDown,
+  maxPanelHeight = 320,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
+  const [pos, setPos] = useState<{
+    left: number;
+    width: number;
+    top?: number;
+    bottom?: number;
+    maxHeight: number;
+  } | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const shouldRender = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
@@ -59,10 +69,21 @@ function Dropdown({
     triggerRef.current?.focus();
   };
 
+  // スマホ等、トリガーが画面下部に近い位置にある場合は選択肢パネルが画面外に
+  // はみ出してしまうため、下に十分な余白がなければ上に開き、その方向で使える
+  // 高さを超える分はパネル側のスクロール(下部の style 指定)に任せる。
   const updatePos = () => {
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
-    setPos({ top: rect.bottom + 2, left: rect.left, width: rect.width * panelWidthScale });
+    const { direction, maxHeight: availableHeight } = computeDropdownPlacement(rect);
+    setPos({
+      left: rect.left,
+      width: rect.width * panelWidthScale,
+      maxHeight: Math.min(availableHeight, maxPanelHeight),
+      ...(direction === 'up'
+        ? { bottom: window.innerHeight - rect.top + 2 }
+        : { top: rect.bottom + 2 }),
+    });
   };
 
   const toggle = () => {
@@ -136,14 +157,19 @@ function Dropdown({
             className={`dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}`}
             style={{
               position: 'fixed',
-              top: pos.top,
               left: pos.left,
               width: pos.width,
               zIndex: 1000,
+              ...(pos.top !== undefined ? { top: pos.top } : { bottom: pos.bottom }),
             }}
           >
             <div className="dropdown-panel-anim__inner">
-              <div className={panelClassName}>{children(closeAfterSelect)}</div>
+              <div
+                className={panelClassName}
+                style={{ maxHeight: pos.maxHeight, overflowY: 'auto' }}
+              >
+                {children(closeAfterSelect)}
+              </div>
             </div>
           </div>,
           document.body,

@@ -37,17 +37,29 @@ function FloatingTooltip({
     if (!clamp) return;
     const el = ref.current;
     if (!el) return;
+    const EDGE = 8;
+    // 前回の計測結果(特にmaxHeight)を引きずらないよう、再計測前にリセットする。
+    el.style.maxHeight = '';
     const width = el.getBoundingClientRect().width;
     const left = align === 'left' ? x - width : x;
     el.style.left = `${left}px`;
     el.style.top = `${y}px`;
     const rect = el.getBoundingClientRect();
-    const overflowY = rect.bottom - (window.innerHeight - 8);
-    const overflowX = rect.right - (window.innerWidth - 8);
-    const underflowX = 8 - rect.left;
-    if (overflowY > 0) el.style.top = `${Math.max(8, y - overflowY)}px`;
-    if (overflowX > 0) el.style.left = `${Math.max(8, left - overflowX)}px`;
+    const overflowY = rect.bottom - (window.innerHeight - EDGE);
+    const overflowX = rect.right - (window.innerWidth - EDGE);
+    const underflowX = EDGE - rect.left;
+    const top = overflowY > 0 ? Math.max(EDGE, y - overflowY) : y;
+    el.style.top = `${top}px`;
+    if (overflowX > 0) el.style.left = `${Math.max(EDGE, left - overflowX)}px`;
     else if (underflowX > 0) el.style.left = `${left + underflowX}px`;
+    // 枠自体が画面高さより大きい場合、topを画面内に収めるだけでは下端が画面外に
+    // はみ出てしまう(スクロールもできず操作不能になる)。使える最大高さで
+    // 頭打ちにし、超える分はツールチップ内スクロール(floating-tooltipのCSS側で
+    // overflow-y: auto)に任せる。
+    const maxAvailableHeight = window.innerHeight - top - EDGE;
+    if (rect.height > maxAvailableHeight) {
+      el.style.maxHeight = `${maxAvailableHeight}px`;
+    }
   }, [x, y, clamp, align]);
 
   useEffect(() => {
