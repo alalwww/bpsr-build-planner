@@ -165,7 +165,7 @@ function CharacterPanel({
         {collapsed ? '›' : '‹'}
       </button>
       {!collapsed && (
-        <>
+        <div className="character-panel__scroll">
           {/* プラン管理(名称入力・保存・一覧・各種ダイアログ) */}
           <PlanManager />
 
@@ -382,7 +382,7 @@ function CharacterPanel({
               moduleSlots={moduleSlots}
             />
           )}
-        </>
+        </div>
       )}
     </section>
   );

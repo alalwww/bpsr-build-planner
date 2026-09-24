@@ -7,10 +7,25 @@
   background: #1c1c24;
   border-right: 1px solid #2a2a33;
   padding: 16px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   transition: width 0.18s ease;
+  /* スクロールはcharacter-panel__scroll側で行う。このコンテナ自身をスクロール
+     コンテナにすると、絶対配置の折りたたみトグル(character-panel__collapse-toggle)
+     もスクロール位置に応じて一緒に動いてしまい、下にスクロールした状態では
+     画面外に押し出されて押せなくなっていた。 */
+  overflow: hidden;
+}
+
+/* 折りたたみトグル以外の全コンテンツ(プラン管理・ステータス・各種ダイアログ等)。
+   トグルボタンは character-panel 直下(このスクロールコンテナの外)に置くことで、
+   スクロールしても常に同じ位置(画面内)に留まる。 */
+.character-panel__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 /* スマホ幅など、常時380pxを確保できない画面向けの折りたたみ状態。トグルボタン
