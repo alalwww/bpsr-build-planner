@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.12.5",
+      "date": "2026-09-25T09:45:28.482Z",
+      "summary": {
+        "ja": "キャラクターパネルまわりのレイアウト調整",
+        "en": "Adjust character panel layout"
+      },
+      "changes": {
+        "ja": [
+          "キャラクターパネルのヘッダー余白を、パネル内の縦スクロールバー表示有無に応じて自動調整",
+          "スマホ表示時、画面下部を専有していたフッターをキャラクターパネル最下部に統合(バージョン・プライバシーポリシー・コピーライト・免責事項を縦に集約して表示)"
+        ],
+        "en": [
+          "Auto-adjust the character panel header's right padding based on whether its vertical scrollbar is visible",
+          "On phone-sized screens, move the footer (version, privacy policy link, copyright, disclaimer) into the bottom of the character panel instead of showing it full-width"
+        ]
+      }
+    },
+    {
       "version": "0.12.4",
       "date": "2026-09-24T18:39:23.446Z",
       "summary": {
