@@ -208,6 +208,8 @@ const selectStatsWithMasteryFinalPctBonus = memoize1(
     professionKey: BuildStore['professionKey'],
     professionTypeKey: BuildStore['professionTypeKey'],
     finalMasteryPercent: number,
+    targetContributionAtk?: number,
+    baseValueAtk?: number,
   ): Record<StatId, number> => {
     const effects = calculateMasteryFinalPctEffects(
       professionKey,
@@ -217,7 +219,12 @@ const selectStatsWithMasteryFinalPctBonus = memoize1(
     if (effects.length === 0) return stats;
     const result = { ...stats };
     for (const { statId, multiplier } of effects) {
-      result[statId] = result[statId] * multiplier;
+      const contribution = statId === 'atk' ? targetContributionAtk : undefined;
+      const baseValue = statId === 'atk' && baseValueAtk !== undefined ? baseValueAtk : result[statId];
+      result[statId] =
+        contribution === undefined
+          ? baseValue * multiplier
+          : baseValue + contribution * (multiplier - 1);
     }
     return result;
   },
@@ -447,6 +454,8 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     state.professionKey,
     state.professionTypeKey,
     stats.mastery,
+    derivedStats.physicalAtkMainStatBonus * finalStatsResult.breakdown.atk.multiplier,
+    derivedStats.physicalAtk * finalStatsResult.breakdown.atk.multiplier,
   );
 
   const abilityScore = selectAbilityScore({

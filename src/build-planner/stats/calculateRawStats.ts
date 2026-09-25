@@ -42,9 +42,11 @@ import {
   EVO_PCT_ATTR_TO_STAT,
   EVO_PCT_FINAL_ATTR_TO_STAT,
   FACTOR_POLARITY_EFFECTS,
+  FACTOR_SINGLE_STAT_FLAT_BONUS,
   FACTOR_SINGLE_STAT_PCT_BONUS,
   FINAL_PCT_STAT_IDS,
   IMAGINE_BUF_FLAT_STAT,
+  IMAGINE_BUF_MAIN_STAT_PCT,
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
@@ -69,6 +71,7 @@ import {
   TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
   TALENT_ATTR_TO_STAT,
   TALENT_BASE_PCT_TO_STAT,
+  TALENT_CONDITIONAL_FINAL_PCT,
   TALENT_EFFECT_TYPE_CONVERSION_RATE,
   TALENT_EFFECT_TYPE_FLAT_STAT,
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
@@ -79,6 +82,8 @@ import {
   TALENT_RAW_FLAT_TO_STAT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
+import { diminishingPercent } from './formulas';
+import { STAT_BASE_PERCENT, STAT_SEASON_CONSTANT } from './seasonConstants';
 import {
   calcModuleEffectLevels,
   enchantEffectsById,
@@ -304,6 +309,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const finalPctAddend: Partial<Record<StatId, number>> = {};
   // アビリティによる「5ステータスのうち最終値最大の1項目」への最終%加算量(例: 二段増幅)。
   let highestStatFinalPctBonus = 0;
+  const conditionalFinalPctBonuses = new Set<number>();
   // アビリティによる攻撃速度への直接加算量(%、例: ディバインアーチャー「迅射」)。
   // atkSpeedPercentはDerivedStats側の値のためderiveStats()に渡す。
   let atkSpeedFinalPctAddend = 0;
@@ -362,10 +368,15 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         }
         const finalStatId = EVO_PCT_FINAL_ATTR_TO_STAT[attrId];
         if (finalStatId !== undefined) {
+          const value = calcStatValue(min, max, pLine);
+          if (FINAL_PCT_STAT_IDS.has(finalStatId)) {
+            phantomFinalPct[finalStatId] = (phantomFinalPct[finalStatId] ?? 0) + value;
+            continue;
+          }
           // 会心/幸運/ファスト/器用さの"%"バリアント: 鼓舞/HP変動と同じく、収益逓減カーブ適用後の
           // 最終%表示値に直接加算する(乗算ではない)。%空間の値のため丸めない。
           finalPctAddend[finalStatId] =
-            (finalPctAddend[finalStatId] ?? 0) + calcStatValue(min, max, pLine);
+            (finalPctAddend[finalStatId] ?? 0) + value;
           continue;
         }
         const statId = isPercent ? EVO_PCT_ATTR_TO_STAT[attrId] : EVO_ATTR_TO_STAT[attrId];
@@ -498,6 +509,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         } else if (eff[0] === TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT) {
           // 型によって効果内容が変わるアビリティ(例: ビートパフォーマー「変奏」)。
           // 対応する型(type1)使用時のみ最終%ボーナスとして反映する。
+          const conditionalBonus = TALENT_CONDITIONAL_FINAL_PCT[eff[1]];
+          if (conditionalBonus) conditionalFinalPctBonuses.add(eff[1]);
           const bonus = TALENT_TYPE1_ONLY_FINAL_PCT[eff[1]];
           if (bonus && professionTypeKey === 'type1') {
             phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
@@ -614,6 +627,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID) {
         // 詠唱速度の%finalバリアント(「集中・詠唱」等)。単位は攻撃速度側と同じ100=1%。
         castSpeedFinalPctAddend += value / 100;
+      } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === 11324) {
+        phantomFinalPct.maxHp = (phantomFinalPct.maxHp ?? 0) + value;
       } else if (effectType === MOD_EFFECT_TYPE_STAT) {
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
@@ -636,6 +651,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     if (linkRow) {
       for (const [effectType, attrId, value] of linkRow[2]) {
         if (effectType !== MOD_EFFECT_TYPE_STAT) continue;
+        if (attrId === 11324) {
+          phantomFinalPct.maxHp = (phantomFinalPct.maxHp ?? 0) + value;
+          continue;
+        }
         const statId = MOD_ATTR_TO_STAT[attrId];
         if (statId !== undefined) addStat(statId, value);
       }
@@ -684,6 +703,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     // BuffId参照のパッシブ(IMAGINE_BUF_FLAT_STAT参照。無条件で常時有効な先頭パラメータのみ対応)。
     for (const eff of ima?.bufPassiveEffects ?? []) {
       const buffId = eff[0] as number;
+      const mainStatPctParamIndex = IMAGINE_BUF_MAIN_STAT_PCT[buffId];
+      if (mainStatPctParamIndex != null) {
+        const rankParams = (eff[rank + 1] ?? eff[1]) as number[];
+        const value = rankParams[mainStatPctParamIndex];
+        if (value != null) addPctBonus(profession.mainStat, value);
+        continue;
+      }
       const bufFlat = IMAGINE_BUF_FLAT_STAT[buffId];
       if (bufFlat == null) continue;
       const rankParams = (eff[rank + 1] ?? eff[1]) as number[];
@@ -705,6 +731,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
     conversionRateBonus.haste ?? 0,
   );
+  type BondComparableStat = 'crit' | 'haste' | 'luck' | 'mastery' | 'versatility';
+  const getBaseDisplayedPercent = (stat: BondComparableStat): number =>
+    diminishingPercent(
+      highestOfBaseStats[stat],
+      STAT_SEASON_CONSTANT[stat],
+      STAT_BASE_PERCENT[stat],
+    );
 
   // 潜在因子効果 (enabled 時のみ)。ツリー(テンプレート)自体が未開放の場合はphantomEnabledが
   // 自動的にfalseになる(store側、setPhantomTemplateId/setPhantomLevel)ため、ここでは
@@ -791,6 +824,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
             const pars = gradeData.buffPars?.[i] ?? [];
             const value = pars[singleStat.paramIndex] ?? 0;
             phantomFinalPct[singleStat.stat] = (phantomFinalPct[singleStat.stat] ?? 0) + value;
+            continue;
+          }
+          const flatStat = FACTOR_SINGLE_STAT_FLAT_BONUS[buffId];
+          if (flatStat) {
+            const pars = gradeData.buffPars?.[i] ?? [];
+            addStat(flatStat.stat, pars[flatStat.paramIndex] ?? 0);
           }
         }
       }
@@ -823,7 +862,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
               // 付与されていた)。
               let maxStat = eff.stats[0];
               for (const s of eff.stats.slice(1)) {
-                if (highestOfBaseStats[s] > highestOfBaseStats[maxStat]) maxStat = s;
+                if (
+                  getBaseDisplayedPercent(s as BondComparableStat) >
+                  getBaseDisplayedPercent(maxStat as BondComparableStat)
+                )
+                  maxStat = s;
               }
               addStat(maxStat, eff.value);
             } else if (eff.type === 'final_pct') {
@@ -927,6 +970,13 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   const statResonanceBonus = calcStatResonanceBonus(cookingBuff);
   if (statResonanceBonus !== 0) {
     total[profession.mainStat] += statResonanceBonus;
+  }
+
+  for (const buffId of conditionalFinalPctBonuses) {
+    const bonus = TALENT_CONDITIONAL_FINAL_PCT[buffId];
+    if (bonus && total[bonus.thresholdStat] >= bonus.threshold) {
+      phantomFinalPct[bonus.stat] = (phantomFinalPct[bonus.stat] ?? 0) + bonus.value;
+    }
   }
 
   // ファストの俊敏変換込み実数値(hasteReal相当)を、極性因子等によるファスト自身への%ボーナスも

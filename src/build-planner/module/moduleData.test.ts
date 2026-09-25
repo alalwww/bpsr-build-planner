@@ -59,6 +59,12 @@ describe('formatEffectDesc', () => {
     ]);
   });
 
+  it('formats attrId 11324 as a maxHp percentage (400 -> 4.00%)', () => {
+    expect(formatEffectDesc([[1, 11324, 400]], [], tgAttrDesc, tgAttr, tStat)).toEqual([
+      '11324 +4.00%',
+    ]);
+  });
+
   it('returns one array entry per config row, for the caller to render with line breaks', () => {
     const result = formatEffectDesc(
       [

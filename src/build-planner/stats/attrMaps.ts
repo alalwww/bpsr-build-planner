@@ -97,6 +97,18 @@ export const TALENT_TYPE1_ONLY_FINAL_PCT: Partial<Record<number, TalentType1Only
   2207340: { stat: 'maxHp', value: 2000 },
 };
 
+export interface TalentConditionalFinalPct {
+  thresholdStat: StatId;
+  threshold: number;
+  stat: StatId;
+  value: number;
+}
+
+// Shield Fighter R1 HP Boost: max HP +12% when strength reaches 500.
+export const TALENT_CONDITIONAL_FINAL_PCT: Partial<Record<number, TalentConditionalFinalPct>> = {
+  2206340: { thresholdStat: 'strength', threshold: 500, stat: 'maxHp', value: 1200 },
+};
+
 // アビリティ type=1 効果のうち、attrIdが「攻撃速度」の%finalバリアント(単位1/10000)のもの。
 // atkSpeedPercentはStatId(rawStats)ではなくDerivedStats側の値のため、TALENT_ATTR_TO_STAT/
 // IMAGINE_PCT_FINALには乗らず、deriveStats()への直接加算として個別に扱う
@@ -317,9 +329,27 @@ export interface FactorSingleStatBonus {
 }
 
 export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleStatBonus>> = {
+  // Heavy Guardian factor: attack + per agility 1% (3055050).
+  // The second parameter is combat-only energy gain and is intentionally ignored.
+  3055050: { stat: 'atk', paramIndex: 0 },
+  // Shield Fighter factor: attack + per agility 1% (3054060).
+  3054060: { stat: 'atk', paramIndex: 0 },
   // ビートパフォーマーX4「第六感」: 魔法攻撃力+p2(pars[1]、無条件)。p1(pars[0])は
   // 「ピースフルロンドが変換する回復量-x%」というスキル固有の副作用のため対象外。
   3057040: { stat: 'matk', paramIndex: 1 },
+};
+
+export interface FactorSingleStatFlatBonus {
+  stat: StatId;
+  paramIndex: number;
+}
+
+// 条件付き効果は、静的なビルド比較では条件を満たした状態として扱う。
+export const FACTOR_SINGLE_STAT_FLAT_BONUS: Partial<
+  Record<number, FactorSingleStatFlatBonus>
+> = {
+  3057100: { stat: 'intellect', paramIndex: 0 }, // HP 80%超: 知力+p1
+  3059050: { stat: 'maxHp', paramIndex: 0 }, // 最大HP+p1
 };
 
 // 潜在レベルアップ AttrId → StatId マッピング
@@ -486,6 +516,7 @@ export const EVO_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
 // 平坦加算していたため、カーブ通過前の実数値段階で強化薬分と合算されてしまい、収益逓減の
 // 影響を余分に受けて過小評価になっていた)。
 export const EVO_PCT_FINAL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11324: 'maxHp',
   11712: 'crit',
   11782: 'luck',
   11932: 'haste',
@@ -598,6 +629,12 @@ export const IMAGINE_BUF_FLAT_STAT: Partial<Record<number, { stat: StatId; param
   {
     3210180: { stat: 'critDamageBonus', paramIndex: 0 },
   };
+
+// 現在のクラス型に対応するメインステータスへの%ボーナス。
+// 3200038: p1が筋力/知力/敏捷+%、p2が回復量+%。
+export const IMAGINE_BUF_MAIN_STAT_PCT: Partial<Record<number, number>> = {
+  3200038: 0,
+};
 
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
 // (このアプリの静的ステータスモデルでは表現不可)だが、一部は単純なステータスボーナスとして

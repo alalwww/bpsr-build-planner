@@ -639,6 +639,40 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
   });
 
+  it('applies Shield Fighter HP Boost only when final strength reaches 500', () => {
+    const talentNodesById = new Map([
+      [
+        1,
+        {
+          id: 1,
+          talentId: 1233,
+          stage: 0,
+          bdType: 0,
+          preNodes: [],
+          nextNodes: [],
+          position: [0, 0] as [number, number],
+        },
+      ],
+    ]);
+    const withStrength = (strength: number) =>
+      calculateRawStats({
+        ...baseInput(),
+        profession: PROFESSIONS.shieldFighter,
+        talentR1EnabledIds: new Set([1]),
+        talentNodesById,
+        equipped: {
+          weapon: makeEquipmentItem({
+            slot: 'weapon',
+            part: 200,
+            baseStats: [[11012, strength, strength, 0, 0]],
+          }),
+        },
+      });
+
+    expect(withStrength(484).phantomFinalPct.maxHp).toBeUndefined();
+    expect(withStrength(485).phantomFinalPct.maxHp).toBe(1200);
+  });
+
   it('routes a type=1 effect with the attack-speed "%final" attrId to atkSpeedFinalPctAddend (divineArcher "迅射", talentId 1135)', () => {
     // src/data/talent-tree.json: nodes["1135"].effects = [[1, 11722, 300]] (stage:0 = R1)
     // attrId 11722 is attack speed's "%final" variant (unit 1/10000) -> +3%, not a flat 11722-mapped stat.
@@ -749,6 +783,31 @@ describe('calculateRawStats', () => {
     expect(result.finalPctAddend.luck).toBe(600);
   });
 
+  it('routes a fixed-evolution maxHp percent to the final multiplier bucket', () => {
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.galeLancer,
+      professionTypeKey: 'type2',
+      equipped: {
+        weapon: makeEquipmentItem({
+          slot: 'weapon',
+          part: 200,
+          quality: 5,
+          baseStats: [[11442, 300, 300, 500, 500]],
+          fixedEvolutionStats: {
+            '108': [[1, 11324, 1500, 1500, true, 300, 300]],
+          },
+        }),
+      },
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.phantomFinalPct.maxHp).toBe(1500);
+    expect(result.finalPctAddend.maxHp).toBeUndefined();
+    expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
+  });
+
   it('excludes a legacy (past-season) phantom factor from stat effects entirely', () => {
     // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3),
     // slotted into template 7's groupId=163 (reachable with no node selections needed).
@@ -853,6 +912,23 @@ describe('calculateRawStats', () => {
     );
   });
 
+  it('applies the adaptive main-stat percent from battle imagine buff 3200038', () => {
+    const withoutImagine = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+    });
+    const withImagine = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      battleImagines: [3971, null],
+      imagineRanks: [5, 5],
+    });
+
+    expect(withImagine.rawStats.intellect).toBe(
+      Math.floor(withoutImagine.rawStats.intellect * 1.15),
+    );
+  });
+
   it('routes the beatPerformer X4 phantom factor to phantomFinalPct.matk, not the raw pctBonus bucket', () => {
     // src/data/phantom-factors.json: byClass["202181"].seasonId=3 (current), professionIds=[13]
     // (beatPerformer). grade1 effects=[[3,3057040,1]], buffPars=[[500,195,8]]. attrDescs.3057040:
@@ -897,10 +973,8 @@ describe('calculateRawStats', () => {
     // across all 8 templates: unlockFraction 2/5/12/20/25 -> buffId 3003610/20/30/40/50.
     // Level 6 (unlockFraction 35) is template-specific and excluded here (bondPoints=25).
     // Per src/locales/*/game-data.json attrDescs: each of 3003610/20/40 grants
-    // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each
-    // (their "highest_of" component lands on rawStats.haste here: crit/luck/mastery/versatility
-    // are tied at 0, but haste's comparison base includes the agility->haste conversion of the
-    // baseline 15 agility (BASE_STATS.agility), floor(15*0.8)=12, so it edges out the others).
+    // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each.
+    // 「最も高い」は画面表示%で比較するため、この初期構成では基礎6%のmasteryが選ばれる。
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       phantomEnabled: true,
@@ -912,7 +986,51 @@ describe('calculateRawStats', () => {
 
     expect(result.rawStats.illusionPower).toBe(BASE_STATS.illusionPower + 100 * 3);
     expect(result.rawStats.endurance).toBe(BASE_STATS.endurance + 750 * 5);
-    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 750 + 1250);
+    expect(result.rawStats.mastery).toBe(BASE_STATS.mastery + 750 + 1250);
+    expect(result.rawStats.crit).toBe(BASE_STATS.crit);
+    expect(result.rawStats.haste).toBe(BASE_STATS.haste);
+  });
+
+  it('applies the conditional intellect factor as active for the static planner snapshot', () => {
+    const withoutFactor = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403, 1405: 1405, 149: 149 },
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      profession: PROFESSIONS.beatPerformer,
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403, 1405: 1405, 149: 149 },
+      phantomFactorSlots: { 147: { classKey: '202187', grade: 7 } },
+    });
+
+    expect(withFactor.rawStats.intellect).toBe(withoutFactor.rawStats.intellect + 277);
+  });
+
+  it('applies the flat max-HP parameter of the endurance phantom factor', () => {
+    const withoutFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403 },
+    });
+    const withFactor = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 90,
+      phantomTemplateId: 5,
+      phantomNodeSelections: { 1403: 1403 },
+      phantomFactorSlots: { 143: { classKey: '202204', grade: 7 } },
+    });
+
+    expect(withFactor.rawStats.maxHp).toBe(withoutFactor.rawStats.maxHp + 1960);
   });
 
   // src/data/season-talents.json: template 1 (イマジンインパクト) node 1003「リビルド」
@@ -997,6 +1115,15 @@ describe('calculateRawStats', () => {
       expect(result.rawStats.critRecoveryBonus).toBe(BASE_STATS.critRecoveryBonus + 1200);
       // maxHp(既存のMOD_ATTR_TO_STATマッピング)も引き続き正しく積まれること。
       expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp + 1800);
+    });
+
+    it('routes magic-resistance maxHp percent to the final multiplier bucket', () => {
+      const input = twoSlotModuleInput(5500303, 1307);
+
+      const result = calculateRawStats(input);
+
+      expect(result.phantomFinalPct.maxHp).toBe(400);
+      expect(result.rawStats.maxHp).toBe(BASE_STATS.maxHp);
     });
 
     // effectId 1408(「集中・攻撃速度」)のlv6 config = [[5,99006,50],[1,11722,600]]。
