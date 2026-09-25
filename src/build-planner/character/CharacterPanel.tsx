@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import './character.css';
 import ProfessionPicker from './ProfessionPicker';
 import PlanManager from './PlanManager';
+import CharacterPanelFooter from './CharacterPanelFooter';
 import AbilityScoreDialog from './AbilityScoreDialog';
 import BuffEffectDialog from './BuffEffectDialog';
 import DraggableDialog from '../components/DraggableDialog';
@@ -336,6 +337,11 @@ function CharacterPanel({
           >
             {t('buildPlanner.buffDialog.openButton')}
           </button>
+
+          {/* スマホ幅限定: 画面全体のフッター(Web版のみ表示)の代わりにここへ表示する
+              (表示のオン/オフ自体はCSSで出し分け)。Tauri版はFooter自体を出さない
+              方針に合わせ、ここも同様にisTauriで除外する。 */}
+          {!isTauri && <CharacterPanelFooter />}
 
           {statPopup !== null && (
             <StatTooltip

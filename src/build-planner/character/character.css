@@ -723,6 +723,76 @@
   cursor: pointer;
 }
 
+/* ---- Mobile footer (character panel bottom) ----
+   スマホ幅では画面全体のフッター(.app-footer)をCSS側で隠す(Footer.css)ため、
+   代わりにキャラクターパネル最下部に同内容を表示する。デスクトップでは常に非表示。 */
+.character-panel__footer {
+  display: none;
+}
+
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .character-panel__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 4px;
+    text-align: center;
+  }
+}
+
+.character-panel__footer-build {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #5e5e65;
+  cursor: pointer;
+}
+
+.character-panel__footer-build:hover {
+  color: #8a8a92;
+}
+
+.character-panel__footer-hr {
+  width: 60%;
+  margin: 0;
+  border: none;
+  border-top: 1px solid #3a3a45;
+}
+
+.character-panel__footer-privacy-link {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #5e5e65;
+  cursor: pointer;
+}
+
+.character-panel__footer-privacy-link:hover {
+  color: #8a8a92;
+}
+
+.character-panel__footer-copyright,
+.character-panel__footer-disclaimer {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #5e5e65;
+}
+
+.character-panel__footer-disclaimer {
+  max-width: 300px;
+}
+
 /* ---- Buff Effect Dialog ---- */
 
 .draggable-dialog.buff-effect-dialog {

@@ -63,3 +63,12 @@
   background: #e5484d;
   vertical-align: middle;
 }
+
+/* スマホ幅では画面全体を専有するフッターの分だけコンテンツ領域が狭まるため、
+   代わりにキャラクターパネル最下部へ同内容を表示する
+   (character.css の .character-panel__footer)。 */
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .app-footer {
+    display: none;
+  }
+}
