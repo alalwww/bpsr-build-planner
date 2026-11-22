@@ -1,3 +1,4 @@
+import type { TFunction } from 'i18next';
 import type { DropdownOption } from './CustomDropdown';
 import {
   formatPercentParam,
@@ -14,8 +15,9 @@ import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from 
 // PhantomPanel から抽出したもので、React state には依存しない。
 
 // game-data 名前空間の翻訳関数(react-i18next の t)。コンポーネント外の純ヘルパーでも
-// 使えるよう、必要最小限のシグネチャで受ける。
-export type GameDataT = (key: string, options?: Record<string, unknown>) => string;
+// 受け取れるよう型エイリアスにしている(i18next 27以降は TFunction のオーバーロードが厳密になり、
+// 独自の最小シグネチャでは代入できないため TFunction をそのまま使う)。
+export type GameDataT = TFunction<'game-data'>;
 
 // 潜在因子 effectType=1 のうち、値が%乗算(単位:1/100=1%)であるAttrId。
 // 11802(被回復力)/11812(バリア強度)もRAW_PERCENT_STAT_IDS(attrMaps.ts)と同じ規約

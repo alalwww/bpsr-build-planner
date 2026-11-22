@@ -60,7 +60,7 @@ export default function PhantomEffectSummaryDialog({
 }: PhantomEffectSummaryDialogProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
-  const se = (key: string, options?: Record<string, unknown>) =>
+  const se = (key: string, options: Record<string, unknown> = {}) =>
     t(`buildPlanner.phantom.effectSummary.${key}`, options);
   const linkTextPopup = useLinkTextPopup();
 

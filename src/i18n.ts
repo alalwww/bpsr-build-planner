@@ -24,6 +24,9 @@ void i18n.use(initReactI18next).init({
   lng: savedLang,
   fallbackLng: 'ja_JP',
   interpolation: { escapeValue: false },
+  // i18next 27で既定がfalseになり、空文字の訳がフォールバック言語→キー文字列に置き換わるように
+  // なった。game-data には意図的な空文字(説明文なし等)が含まれるため、従来どおり空文字を返す。
+  returnEmptyString: true,
 });
 
 export default i18n;
