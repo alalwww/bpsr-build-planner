@@ -25,7 +25,10 @@ describe('renderMarkup', () => {
     expect(result).toHaveLength(3);
     const span = asElement(result[1]);
     expect(span.type).toBe('span');
-    const props = span.props as { className: string; onClick: (e: { stopPropagation: () => void }) => void };
+    const props = span.props as {
+      className: string;
+      onClick: (e: { stopPropagation: () => void }) => void;
+    };
     expect(props.className).toContain('skill-markup--linktext');
 
     props.onClick({ stopPropagation: () => {} });

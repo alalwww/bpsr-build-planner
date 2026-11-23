@@ -109,9 +109,7 @@ function AbilityScoreDialog({
               >
                 <div className="ability-score-dialog__cell ability-score-dialog__cell--group-label">
                   {isExpandable && (
-                    <span className="ability-score-dialog__toggle">
-                      {isExpanded ? '▼' : '▶'}
-                    </span>
+                    <span className="ability-score-dialog__toggle">{isExpanded ? '▼' : '▶'}</span>
                   )}
                   {t(`buildPlanner.abilityScoreBreakdown.${group.key}`)}
                 </div>

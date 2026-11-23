@@ -454,7 +454,11 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
     elemStrengthRow('allAttrStr', undefined, elemName('all', 'strBonus')),
     ...ELEMENTS.slice(1).map((elem) => {
       const e = elem as ElementId;
-      return elemStrengthRow(ELEMENT_ATTR_STR_STAT[e], ELEMENT_BONUS_STAT[e], elemName(e, 'strBonus'));
+      return elemStrengthRow(
+        ELEMENT_ATTR_STR_STAT[e],
+        ELEMENT_BONUS_STAT[e],
+        elemName(e, 'strBonus'),
+      );
     }),
   ].filter((row): row is BuffRow => row !== null);
 

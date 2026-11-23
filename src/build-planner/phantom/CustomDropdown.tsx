@@ -33,7 +33,8 @@ function CustomDropdown({
 
   // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
   // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(選択肢一覧)と一致させる。
-  const selectValues = placeholder !== undefined ? ['', ...options.map((o) => o.value)] : options.map((o) => o.value);
+  const selectValues =
+    placeholder !== undefined ? ['', ...options.map((o) => o.value)] : options.map((o) => o.value);
   const handleTriggerKeyDown = useArrowKeySelect({
     values: selectValues,
     current: value,

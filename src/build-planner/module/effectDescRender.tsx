@@ -8,17 +8,15 @@ const VALUE_PATTERN = /([+-]\d+(?:\.\d+)?%?)/g;
 // et=1の「名前 +値」だけでなく、et=3のテンプレート文中に埋め込まれた値("...+3.10%、...")
 // にも同じ正規表現がそのままヒットするため、呼び出し側で行の種類を区別する必要はない。
 function renderEffectDescLine(line: string): ReactNode {
-  return line
-    .split(VALUE_PATTERN)
-    .map((part, i) =>
-      i % 2 === 1 ? (
-        <span key={i} className="mod-effect-value">
-          {part}
-        </span>
-      ) : (
-        part
-      ),
-    );
+  return line.split(VALUE_PATTERN).map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className="mod-effect-value">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
 }
 
 // formatEffectDesc()の行配列(改行区切り)を、各行の効果値をハイライトしつつ<br>で

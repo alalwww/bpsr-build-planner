@@ -53,7 +53,9 @@ function ModulePresetBar() {
   const renameInputRef = useRef<HTMLInputElement>(null);
 
   const loadedPreset = modulePresets.find((p) => p.id === loadedModulePresetId) ?? null;
-  const hasChangesFromLoaded = loadedPreset ? !moduleSlotsEqual(moduleSlots, loadedPreset.moduleSlots) : true;
+  const hasChangesFromLoaded = loadedPreset
+    ? !moduleSlotsEqual(moduleSlots, loadedPreset.moduleSlots)
+    : true;
   // プリセットをロードしていない場合は常に保存可(初回保存を妨げない)。
   // ロード済みの場合のみ、保存時から変更が無ければ保存ボタンを無効化する。
   const saveDisabled = loadedPreset !== null && !hasChangesFromLoaded;

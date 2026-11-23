@@ -34,7 +34,9 @@ function ModulePresetDropdown({
         <div className="module-preset__list">
           {presets.length === 0 ? (
             <div className="module-preset__empty">
-              {t('buildPlanner.modulePreset.noPresets', { defaultValue: '保存されたプリセットはありません' })}
+              {t('buildPlanner.modulePreset.noPresets', {
+                defaultValue: '保存されたプリセットはありません',
+              })}
             </div>
           ) : (
             presets.map((preset) => (

@@ -124,18 +124,23 @@ function StatTooltip({
       ? mainStatId
       : breakdownConfig?.conversionSourceStatId;
   const conversionValue = breakdownConfig?.conversionValue?.(derivedStats);
-  const conversionSourceValue = conversionSourceStatId ? rawStats[conversionSourceStatId] : undefined;
+  const conversionSourceValue = conversionSourceStatId
+    ? rawStats[conversionSourceStatId]
+    : undefined;
   const conversionSourceLabel = conversionSourceStatId
     ? t(`buildPlanner.stats.${conversionSourceStatId}`)
     : undefined;
   // 変換定数は「変換元の生値 × 変換定数 = conversionValue」となるよう逆算する。能力共鳴等の
   // 変換率ボーナスがconversionValueに乗っていても、この方式なら常に実際の計算と一致する。
   const conversionRate =
-    conversionSourceValue !== undefined && conversionValue !== undefined && conversionSourceValue !== 0
+    conversionSourceValue !== undefined &&
+    conversionValue !== undefined &&
+    conversionSourceValue !== 0
       ? conversionValue / conversionSourceValue
       : undefined;
-  const additionalBuff =
-    breakdownConfig?.hasAdditionalBuff ? (breakdownEntry?.cookingBonus ?? 0) : undefined;
+  const additionalBuff = breakdownConfig?.hasAdditionalBuff
+    ? (breakdownEntry?.cookingBonus ?? 0)
+    : undefined;
   const showBaseValue = breakdownConfig?.showBaseValue ?? true;
 
   return (
@@ -148,9 +153,7 @@ function StatTooltip({
     >
       <div className="stat-tooltip__header">{label}</div>
       <hr className="stat-tooltip__hr" />
-      {desc && (
-        <p className="stat-tooltip__desc">{renderMarkup(desc, linkTextPopup.handlers)}</p>
-      )}
+      {desc && <p className="stat-tooltip__desc">{renderMarkup(desc, linkTextPopup.handlers)}</p>}
       <hr className="stat-tooltip__hr" />
       {basePercent !== undefined && seasonConstant !== undefined ? (
         <>
@@ -210,9 +213,7 @@ function StatTooltip({
           {conversionSourceLabel && (
             <div className="stat-tooltip__value-row">
               <span className="stat-tooltip__value-label">{conversionSourceLabel}</span>
-              <span className="stat-tooltip__value">
-                {roundIntStr(conversionSourceValue ?? 0)}
-              </span>
+              <span className="stat-tooltip__value">{roundIntStr(conversionSourceValue ?? 0)}</span>
             </div>
           )}
           {conversionSourceLabel && (

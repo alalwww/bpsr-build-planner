@@ -33,7 +33,9 @@ function ModuleTotalStats({ moduleSlots, profession, getEffectHandlers }: Module
   const specialEffects = useMemo(() => calcModuleSpecialEffects(moduleSlots), [moduleSlots]);
   const moduleScore = useMemo(() => calculateModuleAbilityScore(moduleSlots), [moduleSlots]);
   const hasAny =
-    STAT_ORDER.some((sid) => stats[sid]) || atkSpeedFinalPctAddend !== 0 || castSpeedFinalPctAddend !== 0;
+    STAT_ORDER.some((sid) => stats[sid]) ||
+    atkSpeedFinalPctAddend !== 0 ||
+    castSpeedFinalPctAddend !== 0;
 
   const tgAttrDesc = (key: string) => tg(`attrDescs.${key}`, { defaultValue: `attrDescs.${key}` });
   const tgAttr = (key: string) => tg(`attributes.${key}`, { defaultValue: key });

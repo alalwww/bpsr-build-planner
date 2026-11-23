@@ -62,8 +62,7 @@ export const createModulePresetSlice: StateCreator<BuildStore, [], [], ModulePre
       persistModulePresets(next);
       set({
         modulePresets: next,
-        loadedModulePresetId:
-          state.loadedModulePresetId === id ? null : state.loadedModulePresetId,
+        loadedModulePresetId: state.loadedModulePresetId === id ? null : state.loadedModulePresetId,
       });
     },
 

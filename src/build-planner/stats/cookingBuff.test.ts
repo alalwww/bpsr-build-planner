@@ -41,7 +41,14 @@ describe('computeCookingAdjustments', () => {
     // haste has the highest *final %* (200), but luck has the highest *raw value* (500). The
     // ability's "highest stat" judgement is based on the pre-diminishing-curve raw value, so it
     // must target luck here, not haste.
-    const finalStats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+    const finalStats = {
+      ...zeroStats(),
+      crit: 10,
+      haste: 200,
+      luck: 90,
+      mastery: 5,
+      versatility: 5,
+    };
     const rawStats = { ...zeroStats(), crit: 8, haste: 40, luck: 500, mastery: 5, versatility: 5 };
 
     const adjustments = computeCookingAdjustments(finalStats, 'atk', 0, 0, 35, 0, 0, rawStats);
@@ -54,7 +61,14 @@ describe('computeCookingAdjustments', () => {
     // has the highest *raw value* (500). HP変動 targets the final % max, so it must land on
     // haste here, unlike 二段増幅 which would target luck (bug report 2026-08-05: HP変動 was
     // incorrectly switched to the raw-value basis alongside 二段増幅's fix).
-    const finalStats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+    const finalStats = {
+      ...zeroStats(),
+      crit: 10,
+      haste: 200,
+      luck: 90,
+      mastery: 5,
+      versatility: 5,
+    };
     const rawStats = { ...zeroStats(), crit: 8, haste: 40, luck: 500, mastery: 5, versatility: 5 };
 
     const adjustments = computeCookingAdjustments(finalStats, 'atk', 0, 0, 0, 15, 0, rawStats);
@@ -65,7 +79,14 @@ describe('computeCookingAdjustments', () => {
   it('applies highestStatFinalPctBonus (raw basis) then hpShift (final % basis) independently, landing on different stats', () => {
     // luck has the highest raw value (500) so highestStatFinalPctBonus lands on luck, pushing its
     // final % from 90 to 125 -- still below haste's 200, so hpShift lands on haste instead.
-    const finalStats = { ...zeroStats(), crit: 10, haste: 200, luck: 90, mastery: 5, versatility: 5 };
+    const finalStats = {
+      ...zeroStats(),
+      crit: 10,
+      haste: 200,
+      luck: 90,
+      mastery: 5,
+      versatility: 5,
+    };
     const rawStats = { ...zeroStats(), crit: 8, haste: 40, luck: 500, mastery: 5, versatility: 5 };
 
     const adjustments = computeCookingAdjustments(finalStats, 'atk', 0, 0, 35, 15, 0, rawStats);

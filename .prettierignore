@@ -9,3 +9,5 @@ public/
 *.tsbuildinfo
 package-lock.json
 src/data/
+# extract-ztable.mjs が生成するロケール別のゲームテキスト(src/data/ と同じく生成物)
+src/locales/*/game-data.json

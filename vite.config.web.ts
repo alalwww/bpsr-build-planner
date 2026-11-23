@@ -14,13 +14,16 @@ function googleAnalyticsPlugin(measurementId: string): Plugin {
       return [
         {
           tag: 'script',
-          attrs: { async: true, src: `https://www.googletagmanager.com/gtag/js?id=${measurementId}` },
+          attrs: {
+            async: true,
+            src: `https://www.googletagmanager.com/gtag/js?id=${measurementId}`,
+          },
           injectTo: 'head',
         },
         {
           tag: 'script',
           children: [
-            "window.dataLayer = window.dataLayer || [];",
+            'window.dataLayer = window.dataLayer || [];',
             'function gtag(){dataLayer.push(arguments);}',
             "gtag('js', new Date());",
             `gtag('config', '${measurementId}');`,
