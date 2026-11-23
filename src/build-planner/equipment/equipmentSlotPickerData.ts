@@ -67,6 +67,10 @@ export interface EnchantItem {
   quality: number;
   icon?: string;
   level?: number;
+  // 刻印が追加されたシーズン(刻印セットの系列 = EnchantId の千の位。2=S2, 3=S3, 4=S4)。
+  // 新しいシーズンのセットには前シーズンの刻印も含まれるため、その刻印を含む最も古い系列にしている
+  // (extract-ztable.mjs)。宝石(EnchantId 1001〜1003)には無い。
+  series?: number;
   cost?: [number, number][];
   // 上級装着コスト: 精/極を狙う場合に必要なコスト。base/refined/perfectで共通(同一トリオ内は
   // ゲームデータ上完全に一致するため、baseの値のみ保持する)。
@@ -140,14 +144,16 @@ export function resolveEnchantGradeView(
   return { grade: 'base', id: enchant.id, effects: enchant.effects };
 }
 
-// EnchantId 3001-3004(Gs220+/Lv190+)の候補には、S3新規追加アイテム(id>=3000000, 302xxxx)と
-// 旧シーズンから引き継がれたS2アイテム(id<3000000, 1024xxx)が混在する。アイテムIDの帯がそのまま
-// シーズンの境界と一致するため、この閾値で判定する(全EnchantIdセットで確認済み: S2以前は max
-// 1024771、S3新規は min 3020001)。
-const ENCHANT_SEASON3_MIN_ITEM_ID = 3000000;
-
-export function isSeason3EnchantItem(item: EnchantItem): boolean {
-  return item.id >= ENCHANT_SEASON3_MIN_ITEM_ID;
+// 刻印候補の並び順: シーズン降順(S4→S3→S2) → レア度降順 → レベル降順 → ID降順。
+// 各装備で選べる刻印は装備の EnchantId のセット(ゲームデータの EnchantItemList)で決まる
+// (例: S4装備のセット 4001〜4004 はS4/S3の刻印のみで、S2の刻印を含まない)。
+export function compareEnchantItems(a: EnchantItem, b: EnchantItem): number {
+  return (
+    (b.series ?? 0) - (a.series ?? 0) ||
+    b.quality - a.quality ||
+    (b.level ?? 0) - (a.level ?? 0) ||
+    b.id - a.id
+  );
 }
 
 // ---- 装備アイコン読み込み (プレビューボックス用) ----

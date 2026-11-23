@@ -652,6 +652,22 @@
       "name": "잠식된 꽃의 잔상의 인장・극",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
+    "1024780": {
+      "name": "환식 홍수정 보석 정수・Lv.4",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. 인장 장착 시 보석 정수를 소모해 충분한 엔그램 에너지를 공급해야 장비와 공명할 수 있습니다."
+    },
+    "1024781": {
+      "name": "환식 청수정 보석 정수・Lv.4",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. 인장 장착 시 보석 정수를 소모해 충분한 엔그램 에너지를 공급해야 장비와 공명할 수 있습니다."
+    },
+    "1024782": {
+      "name": "환식 녹수정 보석 정수・Lv.4",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. 인장 장착 시 보석 정수를 소모해 충분한 엔그램 에너지를 공급해야 장비와 공명할 수 있습니다."
+    },
+    "1024783": {
+      "name": "환식 황수정 보석 정수・Lv.4",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. 인장 장착 시 보석 정수를 소모해 충분한 엔그램 에너지를 공급해야 장비와 공명할 수 있습니다."
+    },
     "2000101": {
       "name": "견습 모험가 태도낫(물리)",
       "description": "스톰 블레이드 클래스의 비교적 정련된 무기입니다.",
@@ -37176,6 +37192,282 @@
     },
     "3020229": {
       "name": "F-모순과 재앙의 기계 잔해・종결 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020231": {
+      "name": "새우버섯 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기, 귀걸이, 목걸이, 반지."
+    },
+    "3020232": {
+      "name": "새우버섯 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020233": {
+      "name": "새우버섯 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020234": {
+      "name": "맹독 새우버섯 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기, 귀걸이, 목걸이, 반지."
+    },
+    "3020235": {
+      "name": "맹독 새우버섯 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020236": {
+      "name": "맹독 새우버섯 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020237": {
+      "name": "마비 새우버섯 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기."
+    },
+    "3020238": {
+      "name": "마비 새우버섯 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020239": {
+      "name": "마비 새우버섯 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020240": {
+      "name": "몽현의 숙주 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기, 귀걸이, 목걸이, 반지."
+    },
+    "3020241": {
+      "name": "몽현의 숙주 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020242": {
+      "name": "몽현의 숙주 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020243": {
+      "name": "계곡 광전사 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020244": {
+      "name": "계곡 광전사 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020245": {
+      "name": "계곡 광전사 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020246": {
+      "name": "계곡 선봉 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020247": {
+      "name": "계곡 선봉 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020248": {
+      "name": "계곡 선봉 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020249": {
+      "name": "계곡 투사 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020250": {
+      "name": "계곡 투사 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020251": {
+      "name": "계곡 투사 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020252": {
+      "name": "계곡 첨병 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020253": {
+      "name": "계곡 첨병 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020254": {
+      "name": "계곡 첨병 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020255": {
+      "name": "하양 깃털 고블린 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020256": {
+      "name": "하양 깃털 고블린 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020257": {
+      "name": "하양 깃털 고블린 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020258": {
+      "name": "어둠 깃털 고블린 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020259": {
+      "name": "어둠 깃털 고블린 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020260": {
+      "name": "어둠 깃털 고블린 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020261": {
+      "name": "고블린 현자 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020262": {
+      "name": "고블린 현자 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020263": {
+      "name": "고블린 현자 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020264": {
+      "name": "조개 줍는 이교도 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020265": {
+      "name": "조개 줍는 이교도 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020266": {
+      "name": "조개 줍는 이교도 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020267": {
+      "name": "계곡 정찰병 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020268": {
+      "name": "계곡 정찰병 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020269": {
+      "name": "계곡 정찰병 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020270": {
+      "name": "계곡 석궁수 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020271": {
+      "name": "계곡 석궁수 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020272": {
+      "name": "계곡 석궁수 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020273": {
+      "name": "계곡 사냥꾼 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020274": {
+      "name": "계곡 사냥꾼 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020275": {
+      "name": "계곡 사냥꾼 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020276": {
+      "name": "떠도는 방랑자 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020277": {
+      "name": "떠도는 방랑자 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020278": {
+      "name": "떠도는 방랑자 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020279": {
+      "name": "깊은 골짜기 리자드맨 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020280": {
+      "name": "깊은 골짜기 리자드맨 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020281": {
+      "name": "깊은 골짜기 리자드맨 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020282": {
+      "name": "강기슭 리자드맨 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020283": {
+      "name": "강기슭 리자드맨 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020284": {
+      "name": "강기슭 리자드맨 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020285": {
+      "name": "어둠 강물 지느러미 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 팔찌(왼쪽), 팔찌(오른쪽), 탈리스만."
+    },
+    "3020286": {
+      "name": "어둠 강물 지느러미 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020287": {
+      "name": "어둠 강물 지느러미 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020288": {
+      "name": "계류의 이형 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 투구, 갑옷, 장갑, 신발."
+    },
+    "3020289": {
+      "name": "계류의 이형 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020290": {
+      "name": "계류의 이형 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020291": {
+      "name": "라프시스의 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기, 귀걸이, 목걸이, 반지."
+    },
+    "3020292": {
+      "name": "라프시스의 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020293": {
+      "name": "라프시스의 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020294": {
+      "name": "라프시스・극주의 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기, 귀걸이, 목걸이, 반지."
+    },
+    "3020295": {
+      "name": "라프시스・극주의 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020296": {
+      "name": "라프시스・극주의 인장・극",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020297": {
+      "name": "라프시스・극야의 인장",
+      "description": "인장을 장비에 장착하면, 장비에게 해당 인장이 지닌 독특한 효과를 부여합니다. <br>인장은 아래 장비에 사용될 수 있습니다: 무기, 귀걸이, 목걸이, 반지."
+    },
+    "3020298": {
+      "name": "라프시스・극야의 인장・정",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020299": {
+      "name": "라프시스・극야의 인장・극",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "8000001": {

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { EquipmentItem } from '../types';
 import {
+  compareEnchantItems,
+  enchantsData,
   getDefaultCandidateGsFilter,
   getItemNameColor,
   isCandidateGsMatch,
@@ -67,5 +69,32 @@ describe('isSeaBreezeSeries', () => {
 
   it('does not match other weapons', () => {
     expect(isSeaBreezeSeries(withIcon('ch_wp_olvera_05_01'))).toBe(false);
+  });
+});
+
+describe('enchant seals by season', () => {
+  const seasonsOf = (enchantId: number) =>
+    [...new Set(enchantsData[String(enchantId)].map((e) => e.series))].sort();
+
+  it('S4 sets (4001-4004) list S4 and S3 seals but no S2 seals', () => {
+    for (const id of [4001, 4002, 4003, 4004]) expect(seasonsOf(id)).toEqual([3, 4]);
+  });
+
+  it('S3 sets (3001-3004) list S3 and S2 seals', () => {
+    for (const id of [3001, 3002, 3003, 3004]) expect(seasonsOf(id)).toEqual([2, 3]);
+  });
+
+  it('sorts S4 -> S3 -> S2, then by quality / level / id descending', () => {
+    const sorted = [...enchantsData['4001']].sort(compareEnchantItems);
+    const series = sorted.map((e) => e.series ?? 0);
+    expect(series).toEqual([...series].sort((a, b) => b - a));
+    expect(sorted[0].series).toBe(4);
+    const mixed = [...enchantsData['3001'], ...enchantsData['4001']].sort(compareEnchantItems);
+    expect(mixed[mixed.length - 1].series).toBe(2);
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i].series === sorted[i - 1].series) {
+        expect(sorted[i - 1].quality).toBeGreaterThanOrEqual(sorted[i].quality);
+      }
+    }
   });
 });

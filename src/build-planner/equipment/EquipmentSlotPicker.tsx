@@ -49,7 +49,7 @@ import {
   getQualityColor,
   getSuitInfo,
   isCandidateGsMatch,
-  isSeason3EnchantItem,
+  compareEnchantItems,
   REFINE_LEVEL_MILESTONES,
   resolveEnchantGradeView,
   resolveEnchantSelection,
@@ -261,13 +261,7 @@ function EquipmentSlotPicker({
   const enchantsList = (
     equippedItem?.enchantId ? (enchantsData[String(equippedItem.enchantId)] ?? []) : []
   ).filter((e) => !/^[FT]-/.test(t(`items.${e.id}.name`, { ns: 'game-data' })));
-  // シーズン降順(S3→S2) → レア度降順 → レベル降順 → ID降順。
-  const sortedEnchants = [...enchantsList].sort((a, b) => {
-    const seasonDiff = Number(isSeason3EnchantItem(b)) - Number(isSeason3EnchantItem(a));
-    if (seasonDiff !== 0) return seasonDiff;
-    if (b.quality !== a.quality) return b.quality - a.quality;
-    return (b.level ?? 0) - (a.level ?? 0) || b.id - a.id;
-  });
+  const sortedEnchants = [...enchantsList].sort(compareEnchantItems);
   // selectedEnchant は基本/精/極いずれかのID。base → refined/perfect を逆引き。
   const {
     base: baseEnchantItem,

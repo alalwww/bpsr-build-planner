@@ -652,6 +652,22 @@
       "name": "Erosion Bloom Afterimage Sigil Lv.3",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
+    "1024780": {
+      "name": "Eclipse Ruby Gemcore Lv.4",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. When embedding a sigil, the Gemcore must be consumed to provide sufficient Engram and trigger resonance."
+    },
+    "1024781": {
+      "name": "Eclipse Sapphire Gemcore Lv.4",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. When embedding a sigil, the Gemcore must be consumed to provide sufficient Engram and trigger resonance."
+    },
+    "1024782": {
+      "name": "Eclipse Emerald Gemcore Lv.4",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. When embedding a sigil, the Gemcore must be consumed to provide sufficient Engram and trigger resonance."
+    },
+    "1024783": {
+      "name": "Eclipse Diamond Gemcore Lv.4",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. When embedding a sigil, the Gemcore must be consumed to provide sufficient Engram and trigger resonance."
+    },
     "2000101": {
       "name": "Novice Scythe Blade",
       "description": "A relatively fine weapon in the Stormblade.",
@@ -37176,6 +37192,282 @@
     },
     "3020229": {
       "name": " ",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020231": {
+      "name": "Shrimpshroom Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
+    },
+    "3020232": {
+      "name": "Epic Shrimpshroom Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020233": {
+      "name": "Legendary Shrimpshroom Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020234": {
+      "name": "Venomous Shrimpshroom Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
+    },
+    "3020235": {
+      "name": "Epic Venomous Shrimpshroom Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020236": {
+      "name": "Legendary Venomous Shrimpshroom Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020237": {
+      "name": "Paralyzing Shrimpshroom Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon"
+    },
+    "3020238": {
+      "name": "Epic Paralyzing Shrimpshroom Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020239": {
+      "name": "Legendary Paralyzing Shrimpshroom Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020240": {
+      "name": "Dream Manifestor Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
+    },
+    "3020241": {
+      "name": "Epic Dream Manifestor Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020242": {
+      "name": "Legendary Dream Manifestor Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020243": {
+      "name": "Valley Warrior Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020244": {
+      "name": "Epic Valley Warrior Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020245": {
+      "name": "Legendary Valley Warrior Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020246": {
+      "name": "Valley Vanguard Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020247": {
+      "name": "Epic Valley Vanguard Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020248": {
+      "name": "Legendary Valley Vanguard Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020249": {
+      "name": "Valley Brawler Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020250": {
+      "name": "Epic Valley Brawler Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020251": {
+      "name": "Legendary Valley Brawler Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020252": {
+      "name": "Valley Skirmisher Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020253": {
+      "name": "Epic Valley Skirmisher Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020254": {
+      "name": "Legendary Valley Skirmisher Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020255": {
+      "name": "Whitefeather Goblin Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020256": {
+      "name": "Epic Whitefeather Goblin Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020257": {
+      "name": "Legendary Whitefeather Goblin Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020258": {
+      "name": "Darkfeather Goblin Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020259": {
+      "name": "Epic Darkfeather Goblin Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020260": {
+      "name": "Legendary Darkfeather Goblin Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020261": {
+      "name": "Goblin Sage Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020262": {
+      "name": "Epic Goblin Sage Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020263": {
+      "name": "Legendary Goblin Sage Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020264": {
+      "name": "Shell-Gathering Cultist Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020265": {
+      "name": "Epic Shell-Gathering Cultist Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020266": {
+      "name": "Legendary Shell-Gathering Cultist Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020267": {
+      "name": "Valley Scout Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020268": {
+      "name": "Epic Valley Scout Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020269": {
+      "name": "Legendary Valley Scout Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020270": {
+      "name": "Valley Crossbowman Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020271": {
+      "name": "Epic Valley Crossbowman Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020272": {
+      "name": "Legendary Valley Crossbowman Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020273": {
+      "name": "Valley Ranger Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020274": {
+      "name": "Epic Valley Ranger Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020275": {
+      "name": "Legendary Valley Ranger Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020276": {
+      "name": "Wandering Traveler Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020277": {
+      "name": "Epic Wandering Traveler Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020278": {
+      "name": "Legendary Wandering Traveler Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020279": {
+      "name": "Valley Merfolk Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020280": {
+      "name": "Epic Valley Merfolk Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020281": {
+      "name": "Legendary Valley Merfolk Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020282": {
+      "name": "Riverbank Merfolk Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020283": {
+      "name": "Epic Riverbank Merfolk Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020284": {
+      "name": "Legendary Riverbank Merfolk Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020285": {
+      "name": "Underriver Fin Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Bracelet (L), Bracelet (R), and Charm"
+    },
+    "3020286": {
+      "name": "Epic Underriver Fin Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020287": {
+      "name": "Legendary Underriver Fin Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020288": {
+      "name": "Ravine Aberration Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Helmet, Armor, Gauntlets, and Boots"
+    },
+    "3020289": {
+      "name": "Epic Ravine Aberration Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020290": {
+      "name": "Legendary Ravine Aberration Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020291": {
+      "name": "Lampsis Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
+    },
+    "3020292": {
+      "name": "Epic Lampsis Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020293": {
+      "name": "Legendary Lampsis Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020294": {
+      "name": "Lampsis: Midnight Sun Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
+    },
+    "3020295": {
+      "name": "Epic Lampsis: Midnight Sun Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020296": {
+      "name": "Legendary Lampsis: Midnight Sun Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020297": {
+      "name": "Lampsis: Polar Night Sigil",
+      "description": "Embedding a sigil into gear grants it the unique effects contained within the sigil. <br>Sigils can be used on: Weapon, Earrings, Necklace, and Ring"
+    },
+    "3020298": {
+      "name": "Epic Lampsis: Polar Night Sigil",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020299": {
+      "name": "Legendary Lampsis: Polar Night Sigil",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "8000001": {

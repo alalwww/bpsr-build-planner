@@ -468,9 +468,12 @@ function fixSwappedSuitTiers(suits) {
 
 // enchants.json: EnchantId → available enchant items with effects.
 //   Gem-based (EnchantId 1001–1003, Gs≤100): flat list from RecommendedGem.
-//   Seal-based (EnchantId 2001–2004 [Gs>100] / 3001–3004 [Gs≥220, Lv190+]):
-//     from EnchantItemList; each base item includes "refined" and "perfect"
-//     variants at baseId+1 / baseId+2.
+//   Seal-based (EnchantId 2001–2004 [Gs>100] / 3001–3004 [S3, Gs220+] / 4001–4004 [S4, Gs320+],
+//     every Type=1 EnchantId from 2001 below 9999): from EnchantItemList; each base item includes
+//     "refined" and "perfect" variants at baseId+1 / baseId+2.
+//   series: the seal's season = the lowest set series (floor(EnchantId / 1000): 2=S2, 3=S3, 4=S4)
+//     whose EnchantItemList contains it. Newer sets also list older seals (S4 sets include S3
+//     seals but no S2 seals), so this is the series the seal was introduced in.
 //   effects: [[attrId, value], ...] from EnchantItemEffect + EnchantItemPar.
 function extractEnchants(langDir) {
   const enchantTable = readTable(langDir, 'EquipEnchantTable');
@@ -523,8 +526,19 @@ function extractEnchants(langDir) {
     enchantSets[enchantId] = items;
   }
 
-  // Seal-based (EnchantId 2001–2004 / 3001–3004): base item + 精 (id+1) + 極 (id+2) variants
-  for (const enchantId of [2001, 2002, 2003, 2004, 3001, 3002, 3003, 3004]) {
+  // Seal-based (EnchantId 2001–): base item + 精 (id+1) + 極 (id+2) variants.
+  // 9999 is a special set (one item per row) not referenced by equipment.
+  const sealEnchantIds = [...enchantByIdType1.keys()]
+    .filter((id) => id >= 2001 && id < 9999)
+    .sort((a, b) => a - b);
+  const sealSeries = new Map();
+  for (const enchantId of sealEnchantIds) {
+    const series = Math.floor(enchantId / 1000);
+    for (const id of enchantByIdType1.get(enchantId).EnchantItemList) {
+      sealSeries.set(id, Math.min(sealSeries.get(id) ?? series, series));
+    }
+  }
+  for (const enchantId of sealEnchantIds) {
     const entry = enchantByIdType1.get(enchantId);
     if (!entry || entry.EnchantItemList.length === 0) continue;
     const items = [];
@@ -545,6 +559,7 @@ function extractEnchants(langDir) {
         quality: item.Quality,
         icon: item.Icon || '',
         level: baseEnchantData?.EnchantItemLevel ?? 0,
+        series: sealSeries.get(baseId),
         cost: baseCost,
         advancedCost,
         effects: getEffects(baseId),

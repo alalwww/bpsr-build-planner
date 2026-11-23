@@ -2447,6 +2447,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula21",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -2520,6 +2521,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula29",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -2621,6 +2623,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula26",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -2722,6 +2725,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula28",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -2823,6 +2827,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula30",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -2896,6 +2901,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula36",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024384,
@@ -2997,6 +3003,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula37",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024388,
@@ -3098,6 +3105,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula38",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024382,
@@ -3201,6 +3209,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula09",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -3274,6 +3283,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula18",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -3347,6 +3357,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula11",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -3420,6 +3431,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula20",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -3493,6 +3505,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula12",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -3614,6 +3627,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula31",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -3687,6 +3701,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula34",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -3760,6 +3775,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula32",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -3833,6 +3849,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula33",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -3906,6 +3923,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula35",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -4029,6 +4047,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula19",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -4130,6 +4149,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula10",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -4231,6 +4251,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula17",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -4332,6 +4353,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula29",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -4433,6 +4455,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula26",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -4534,6 +4557,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula28",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -4635,6 +4659,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula36",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024384,
@@ -4736,6 +4761,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula37",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024388,
@@ -4837,6 +4863,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula38",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024382,
@@ -4940,6 +4967,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula01",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -5025,6 +5053,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula02",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -5126,6 +5155,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula03",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -5227,6 +5257,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula04",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -5328,6 +5359,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula13",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -5429,6 +5461,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula14",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -5514,6 +5547,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula15",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -5615,6 +5649,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula16",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -5716,6 +5751,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula05",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -5817,6 +5853,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula06",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -5918,6 +5955,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula07",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -6003,6 +6041,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula08",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -6104,6 +6143,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula24",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -6177,6 +6217,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula27",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -6250,6 +6291,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula25",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -6323,6 +6365,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula22",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -6396,6 +6439,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula23",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -6519,6 +6563,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula21",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -6592,6 +6637,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula29",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -6693,6 +6739,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula26",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -6794,6 +6841,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula28",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -6895,6 +6943,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula30",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -6968,6 +7017,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula36",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024384,
@@ -7069,6 +7119,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula37",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024388,
@@ -7170,6 +7221,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula38",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024382,
@@ -7271,6 +7323,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula39",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -7348,6 +7401,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula39",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -7425,6 +7479,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula39",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -7502,6 +7557,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula40",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -7579,6 +7635,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula40",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -7656,6 +7713,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula40",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -7733,6 +7791,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula49",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -7822,6 +7881,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula49",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -7911,6 +7971,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula49",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -8000,6 +8061,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula54",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -8077,6 +8139,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula54",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -8154,6 +8217,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula54",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -8231,6 +8295,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula59",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024390,
@@ -8320,6 +8385,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula59",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024390,
@@ -8409,6 +8475,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula59",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024390,
@@ -8498,6 +8565,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula60",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024389,
@@ -8587,6 +8655,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula60",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024389,
@@ -8676,6 +8745,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula60",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024389,
@@ -8765,6 +8835,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula61",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024392,
@@ -8854,6 +8925,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula61",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024392,
@@ -8943,6 +9015,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula61",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024392,
@@ -9034,6 +9107,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula09",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -9107,6 +9181,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula18",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -9180,6 +9255,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula11",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -9253,6 +9329,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula20",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -9326,6 +9403,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula12",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -9447,6 +9525,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula31",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -9520,6 +9599,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula34",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -9593,6 +9673,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula32",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -9666,6 +9747,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula33",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -9739,6 +9821,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula35",
       "level": 7,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -9860,6 +9943,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula44",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -9937,6 +10021,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula44",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -10014,6 +10099,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula44",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -10091,6 +10177,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula45",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -10168,6 +10255,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula45",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -10245,6 +10333,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula45",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -10322,6 +10411,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula46",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -10399,6 +10489,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula46",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -10476,6 +10567,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula46",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -10553,6 +10645,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula47",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -10630,6 +10723,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula47",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -10707,6 +10801,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula47",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -10784,6 +10879,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula48",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -10861,6 +10957,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula48",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -10938,6 +11035,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula48",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -11015,6 +11113,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula55",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -11104,6 +11203,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula55",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -11193,6 +11293,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula55",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -11282,6 +11383,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula56",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -11371,6 +11473,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula56",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -11460,6 +11563,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula56",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -11549,6 +11653,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula57",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -11638,6 +11743,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula57",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -11727,6 +11833,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula57",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -11816,6 +11923,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula58",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -11905,6 +12013,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula58",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -11994,6 +12103,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula58",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -12085,6 +12195,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula19",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -12186,6 +12297,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula10",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -12287,6 +12399,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula17",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -12388,6 +12501,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula29",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -12489,6 +12603,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula26",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -12590,6 +12705,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula28",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -12691,6 +12807,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula36",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024384,
@@ -12792,6 +12909,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula37",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024388,
@@ -12893,6 +13011,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula38",
       "level": 8,
+      "series": 2,
       "cost": [
         [
           1024382,
@@ -12994,6 +13113,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula39",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -13071,6 +13191,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula39",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -13148,6 +13269,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula39",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -13225,6 +13347,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula40",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -13302,6 +13425,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula40",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -13379,6 +13503,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula40",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -13456,6 +13581,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula54",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -13533,6 +13659,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula54",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -13610,6 +13737,7 @@
       "quality": 4,
       "icon": "item_icons_enchantformula54",
       "level": 7,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -13687,6 +13815,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula59",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024390,
@@ -13776,6 +13905,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula59",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024390,
@@ -13865,6 +13995,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula59",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024390,
@@ -13954,6 +14085,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula60",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024389,
@@ -14043,6 +14175,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula60",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024389,
@@ -14132,6 +14265,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula60",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024389,
@@ -14221,6 +14355,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula61",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024392,
@@ -14310,6 +14445,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula61",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024392,
@@ -14399,6 +14535,7 @@
       "quality": 5,
       "icon": "item_icons_enchantformula61",
       "level": 8,
+      "series": 3,
       "cost": [
         [
           1024392,
@@ -14490,6 +14627,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula01",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -14575,6 +14713,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula02",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -14676,6 +14815,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula03",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -14777,6 +14917,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula04",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -14878,6 +15019,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula13",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -14979,6 +15121,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula14",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -15064,6 +15207,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula15",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -15165,6 +15309,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula16",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -15266,6 +15411,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula05",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -15367,6 +15513,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula06",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -15468,6 +15615,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula07",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -15553,6 +15701,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula08",
       "level": 1,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -15654,6 +15803,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula24",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -15727,6 +15877,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula27",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024387,
@@ -15800,6 +15951,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula25",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024381,
@@ -15873,6 +16025,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula22",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024385,
@@ -15946,6 +16099,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula23",
       "level": 3,
+      "series": 2,
       "cost": [
         [
           1024383,
@@ -16067,6 +16221,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula41",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -16156,6 +16311,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula41",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -16245,6 +16401,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula41",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -16334,6 +16491,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula42",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -16423,6 +16581,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula42",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -16512,6 +16671,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula42",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -16601,6 +16761,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula43",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -16690,6 +16851,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula43",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -16779,6 +16941,7 @@
       "quality": 2,
       "icon": "item_icons_enchantformula43",
       "level": 1,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -16868,6 +17031,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula50",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -16957,6 +17121,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula50",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -17046,6 +17211,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula50",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024384,
@@ -17135,6 +17301,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula51",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -17224,6 +17391,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula51",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -17313,6 +17481,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula51",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024388,
@@ -17402,6 +17571,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula52",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -17491,6 +17661,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula52",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -17580,6 +17751,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula52",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024386,
@@ -17669,6 +17841,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula53",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -17758,6 +17931,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula53",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -17847,6 +18021,7 @@
       "quality": 3,
       "icon": "item_icons_enchantformula53",
       "level": 3,
+      "series": 3,
       "cost": [
         [
           1024382,
@@ -17929,6 +18104,4970 @@
           ]
         ],
         "fightValue": 260
+      }
+    }
+  ],
+  "4001": [
+    {
+      "id": 3020001,
+      "quality": 2,
+      "icon": "item_icons_enchantformula39",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          1024390,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11332,
+          38
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020002,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            45
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020003,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            55
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020011,
+      "quality": 2,
+      "icon": "item_icons_enchantformula40",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          1024389,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11342,
+          38
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020012,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            45
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020013,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            55
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020101,
+      "quality": 3,
+      "icon": "item_icons_enchantformula49",
+      "level": 3,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          6
+        ],
+        [
+          1024391,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          235
+        ],
+        [
+          99005,
+          70
+        ]
+      ],
+      "fightValue": 236,
+      "refined": {
+        "id": 3020102,
+        "cost": [
+          [
+            1024386,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            255
+          ],
+          [
+            99005,
+            75
+          ]
+        ],
+        "fightValue": 248
+      },
+      "perfect": {
+        "id": 3020103,
+        "cost": [
+          [
+            1024386,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            275
+          ],
+          [
+            99005,
+            80
+          ]
+        ],
+        "fightValue": 260
+      }
+    },
+    {
+      "id": 3020151,
+      "quality": 4,
+      "icon": "item_icons_enchantformula54",
+      "level": 7,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          9
+        ],
+        [
+          1024391,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          66
+        ]
+      ],
+      "fightValue": 284,
+      "refined": {
+        "id": 3020152,
+        "cost": [
+          [
+            1024386,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            72
+          ]
+        ],
+        "fightValue": 296
+      },
+      "perfect": {
+        "id": 3020153,
+        "cost": [
+          [
+            1024386,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ]
+        ],
+        "fightValue": 308
+      }
+    },
+    {
+      "id": 3020201,
+      "quality": 5,
+      "icon": "item_icons_enchantformula59",
+      "level": 8,
+      "series": 3,
+      "cost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          72
+        ],
+        [
+          11012,
+          95
+        ]
+      ],
+      "fightValue": 296,
+      "refined": {
+        "id": 3020202,
+        "cost": [
+          [
+            1024390,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ],
+          [
+            11012,
+            100
+          ]
+        ],
+        "fightValue": 308
+      },
+      "perfect": {
+        "id": 3020203,
+        "cost": [
+          [
+            1024390,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            88
+          ],
+          [
+            11012,
+            105
+          ]
+        ],
+        "fightValue": 320
+      }
+    },
+    {
+      "id": 3020211,
+      "quality": 5,
+      "icon": "item_icons_enchantformula60",
+      "level": 8,
+      "series": 3,
+      "cost": [
+        [
+          1024389,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          72
+        ],
+        [
+          11022,
+          95
+        ]
+      ],
+      "fightValue": 296,
+      "refined": {
+        "id": 3020212,
+        "cost": [
+          [
+            1024389,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ],
+          [
+            11022,
+            100
+          ]
+        ],
+        "fightValue": 308
+      },
+      "perfect": {
+        "id": 3020213,
+        "cost": [
+          [
+            1024389,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            88
+          ],
+          [
+            11022,
+            105
+          ]
+        ],
+        "fightValue": 320
+      }
+    },
+    {
+      "id": 3020221,
+      "quality": 5,
+      "icon": "item_icons_enchantformula61",
+      "level": 8,
+      "series": 3,
+      "cost": [
+        [
+          1024392,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          72
+        ],
+        [
+          11032,
+          95
+        ]
+      ],
+      "fightValue": 296,
+      "refined": {
+        "id": 3020222,
+        "cost": [
+          [
+            1024392,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ],
+          [
+            11032,
+            100
+          ]
+        ],
+        "fightValue": 308
+      },
+      "perfect": {
+        "id": 3020223,
+        "cost": [
+          [
+            1024392,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            88
+          ],
+          [
+            11032,
+            105
+          ]
+        ],
+        "fightValue": 320
+      }
+    },
+    {
+      "id": 3020231,
+      "quality": 2,
+      "icon": "item_icons_enchantformula62",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          1024780,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11332,
+          53
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020232,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            63
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020233,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            77
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020234,
+      "quality": 2,
+      "icon": "item_icons_enchantformula63",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          1024781,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11342,
+          53
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020235,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            63
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020236,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            77
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020237,
+      "quality": 3,
+      "icon": "item_icons_enchantformula64",
+      "level": 3,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          6
+        ],
+        [
+          1024783,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11042,
+          329
+        ],
+        [
+          99005,
+          98
+        ]
+      ],
+      "fightValue": 330,
+      "refined": {
+        "id": 3020238,
+        "cost": [
+          [
+            1024391,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            357
+          ],
+          [
+            99005,
+            105
+          ]
+        ],
+        "fightValue": 347
+      },
+      "perfect": {
+        "id": 3020239,
+        "cost": [
+          [
+            1024391,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11042,
+            385
+          ],
+          [
+            99005,
+            112
+          ]
+        ],
+        "fightValue": 364
+      }
+    },
+    {
+      "id": 3020240,
+      "quality": 4,
+      "icon": "item_icons_enchantformula65",
+      "level": 7,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          9
+        ],
+        [
+          1024783,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          92
+        ]
+      ],
+      "fightValue": 398,
+      "refined": {
+        "id": 3020241,
+        "cost": [
+          [
+            1024391,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            101
+          ]
+        ],
+        "fightValue": 414
+      },
+      "perfect": {
+        "id": 3020242,
+        "cost": [
+          [
+            1024391,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ]
+        ],
+        "fightValue": 431
+      }
+    },
+    {
+      "id": 3020291,
+      "quality": 5,
+      "icon": "item_icons_enchantformula82",
+      "level": 8,
+      "series": 4,
+      "cost": [
+        [
+          1024781,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024781,
+          12
+        ],
+        [
+          1024782,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          101
+        ],
+        [
+          11012,
+          133
+        ]
+      ],
+      "fightValue": 414,
+      "refined": {
+        "id": 3020292,
+        "cost": [
+          [
+            1024781,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ],
+          [
+            11012,
+            140
+          ]
+        ],
+        "fightValue": 431
+      },
+      "perfect": {
+        "id": 3020293,
+        "cost": [
+          [
+            1024781,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            123
+          ],
+          [
+            11012,
+            147
+          ]
+        ],
+        "fightValue": 448
+      }
+    },
+    {
+      "id": 3020294,
+      "quality": 5,
+      "icon": "item_icons_enchantformula83",
+      "level": 8,
+      "series": 4,
+      "cost": [
+        [
+          1024780,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024780,
+          12
+        ],
+        [
+          1024782,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          101
+        ],
+        [
+          11022,
+          133
+        ]
+      ],
+      "fightValue": 414,
+      "refined": {
+        "id": 3020295,
+        "cost": [
+          [
+            1024780,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ],
+          [
+            11022,
+            140
+          ]
+        ],
+        "fightValue": 431
+      },
+      "perfect": {
+        "id": 3020296,
+        "cost": [
+          [
+            1024780,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            123
+          ],
+          [
+            11022,
+            147
+          ]
+        ],
+        "fightValue": 448
+      }
+    },
+    {
+      "id": 3020297,
+      "quality": 5,
+      "icon": "item_icons_enchantformula84",
+      "level": 8,
+      "series": 4,
+      "cost": [
+        [
+          1024783,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024783,
+          12
+        ],
+        [
+          1024782,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          101
+        ],
+        [
+          11032,
+          133
+        ]
+      ],
+      "fightValue": 414,
+      "refined": {
+        "id": 3020298,
+        "cost": [
+          [
+            1024783,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ],
+          [
+            11032,
+            140
+          ]
+        ],
+        "fightValue": 431
+      },
+      "perfect": {
+        "id": 3020299,
+        "cost": [
+          [
+            1024783,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            123
+          ],
+          [
+            11032,
+            147
+          ]
+        ],
+        "fightValue": 448
+      }
+    }
+  ],
+  "4002": [
+    {
+      "id": 3020051,
+      "quality": 2,
+      "icon": "item_icons_enchantformula44",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          1024390,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          620
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020052,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            685
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020053,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            750
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020061,
+      "quality": 2,
+      "icon": "item_icons_enchantformula45",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024388,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024388,
+          3
+        ],
+        [
+          1024392,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          620
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020062,
+        "cost": [
+          [
+            1024388,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            685
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020063,
+        "cost": [
+          [
+            1024388,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            750
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020071,
+      "quality": 2,
+      "icon": "item_icons_enchantformula46",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          3
+        ],
+        [
+          1024391,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          620
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020072,
+        "cost": [
+          [
+            1024386,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            685
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020073,
+        "cost": [
+          [
+            1024386,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            750
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020081,
+      "quality": 2,
+      "icon": "item_icons_enchantformula47",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          1024389,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          620
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020082,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            685
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020083,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            750
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020091,
+      "quality": 2,
+      "icon": "item_icons_enchantformula48",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          3
+        ],
+        [
+          1024391,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11152,
+          620
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020092,
+        "cost": [
+          [
+            1024386,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            685
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020093,
+        "cost": [
+          [
+            1024386,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            750
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020161,
+      "quality": 4,
+      "icon": "item_icons_enchantformula55",
+      "level": 7,
+      "series": 3,
+      "cost": [
+        [
+          1024384,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024384,
+          9
+        ],
+        [
+          1024390,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          1010
+        ],
+        [
+          11152,
+          880
+        ]
+      ],
+      "fightValue": 284,
+      "refined": {
+        "id": 3020162,
+        "cost": [
+          [
+            1024384,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            1075
+          ],
+          [
+            11152,
+            945
+          ]
+        ],
+        "fightValue": 296
+      },
+      "perfect": {
+        "id": 3020163,
+        "cost": [
+          [
+            1024384,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            1140
+          ],
+          [
+            11152,
+            1010
+          ]
+        ],
+        "fightValue": 308
+      }
+    },
+    {
+      "id": 3020171,
+      "quality": 4,
+      "icon": "item_icons_enchantformula56",
+      "level": 7,
+      "series": 3,
+      "cost": [
+        [
+          1024388,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024388,
+          9
+        ],
+        [
+          1024392,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          1010
+        ],
+        [
+          11152,
+          880
+        ]
+      ],
+      "fightValue": 284,
+      "refined": {
+        "id": 3020172,
+        "cost": [
+          [
+            1024388,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            1075
+          ],
+          [
+            11152,
+            945
+          ]
+        ],
+        "fightValue": 296
+      },
+      "perfect": {
+        "id": 3020173,
+        "cost": [
+          [
+            1024388,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            1140
+          ],
+          [
+            11152,
+            1010
+          ]
+        ],
+        "fightValue": 308
+      }
+    },
+    {
+      "id": 3020181,
+      "quality": 4,
+      "icon": "item_icons_enchantformula57",
+      "level": 7,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          9
+        ],
+        [
+          1024391,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          1010
+        ],
+        [
+          11152,
+          880
+        ]
+      ],
+      "fightValue": 284,
+      "refined": {
+        "id": 3020182,
+        "cost": [
+          [
+            1024386,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            1075
+          ],
+          [
+            11152,
+            945
+          ]
+        ],
+        "fightValue": 296
+      },
+      "perfect": {
+        "id": 3020183,
+        "cost": [
+          [
+            1024386,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            1140
+          ],
+          [
+            11152,
+            1010
+          ]
+        ],
+        "fightValue": 308
+      }
+    },
+    {
+      "id": 3020191,
+      "quality": 4,
+      "icon": "item_icons_enchantformula58",
+      "level": 7,
+      "series": 3,
+      "cost": [
+        [
+          1024382,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024382,
+          9
+        ],
+        [
+          1024389,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          1010
+        ],
+        [
+          11152,
+          880
+        ]
+      ],
+      "fightValue": 284,
+      "refined": {
+        "id": 3020192,
+        "cost": [
+          [
+            1024382,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            1075
+          ],
+          [
+            11152,
+            945
+          ]
+        ],
+        "fightValue": 296
+      },
+      "perfect": {
+        "id": 3020193,
+        "cost": [
+          [
+            1024382,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            1140
+          ],
+          [
+            11152,
+            1010
+          ]
+        ],
+        "fightValue": 308
+      }
+    },
+    {
+      "id": 3020252,
+      "quality": 4,
+      "icon": "item_icons_enchantformula69",
+      "level": 7,
+      "series": 4,
+      "cost": [
+        [
+          1024390,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          9
+        ],
+        [
+          1024780,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          4040
+        ],
+        [
+          11152,
+          3520
+        ]
+      ],
+      "fightValue": 398,
+      "refined": {
+        "id": 3020253,
+        "cost": [
+          [
+            1024390,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            4300
+          ],
+          [
+            11152,
+            3780
+          ]
+        ],
+        "fightValue": 414
+      },
+      "perfect": {
+        "id": 3020254,
+        "cost": [
+          [
+            1024390,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            4560
+          ],
+          [
+            11152,
+            4040
+          ]
+        ],
+        "fightValue": 431
+      }
+    },
+    {
+      "id": 3020258,
+      "quality": 2,
+      "icon": "item_icons_enchantformula71",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          1024780,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          2480
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020259,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            2740
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020260,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            3000
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020264,
+      "quality": 4,
+      "icon": "item_icons_enchantformula73",
+      "level": 7,
+      "series": 4,
+      "cost": [
+        [
+          1024392,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024392,
+          9
+        ],
+        [
+          1024782,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          4040
+        ],
+        [
+          11152,
+          3520
+        ]
+      ],
+      "fightValue": 398,
+      "refined": {
+        "id": 3020265,
+        "cost": [
+          [
+            1024392,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            4300
+          ],
+          [
+            11152,
+            3780
+          ]
+        ],
+        "fightValue": 414
+      },
+      "perfect": {
+        "id": 3020266,
+        "cost": [
+          [
+            1024392,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            4560
+          ],
+          [
+            11152,
+            4040
+          ]
+        ],
+        "fightValue": 431
+      }
+    },
+    {
+      "id": 3020267,
+      "quality": 2,
+      "icon": "item_icons_enchantformula74",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024392,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024392,
+          3
+        ],
+        [
+          1024782,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          2480
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020268,
+        "cost": [
+          [
+            1024392,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            2740
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020269,
+        "cost": [
+          [
+            1024392,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            3000
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020270,
+      "quality": 2,
+      "icon": "item_icons_enchantformula75",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          3
+        ],
+        [
+          1024783,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          2480
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020271,
+        "cost": [
+          [
+            1024391,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            2740
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020272,
+        "cost": [
+          [
+            1024391,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            3000
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020276,
+      "quality": 4,
+      "icon": "item_icons_enchantformula77",
+      "level": 7,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          9
+        ],
+        [
+          1024783,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          4040
+        ],
+        [
+          11152,
+          3520
+        ]
+      ],
+      "fightValue": 398,
+      "refined": {
+        "id": 3020277,
+        "cost": [
+          [
+            1024391,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            4300
+          ],
+          [
+            11152,
+            3780
+          ]
+        ],
+        "fightValue": 414
+      },
+      "perfect": {
+        "id": 3020278,
+        "cost": [
+          [
+            1024391,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            4560
+          ],
+          [
+            11152,
+            4040
+          ]
+        ],
+        "fightValue": 431
+      }
+    },
+    {
+      "id": 3020279,
+      "quality": 2,
+      "icon": "item_icons_enchantformula78",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          1024781,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          2480
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020280,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            2740
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020281,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            3000
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020282,
+      "quality": 2,
+      "icon": "item_icons_enchantformula79",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          3
+        ],
+        [
+          1024783,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11152,
+          2480
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020283,
+        "cost": [
+          [
+            1024391,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            2740
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020284,
+        "cost": [
+          [
+            1024391,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11152,
+            3000
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020288,
+      "quality": 4,
+      "icon": "item_icons_enchantformula81",
+      "level": 7,
+      "series": 4,
+      "cost": [
+        [
+          1024389,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024389,
+          9
+        ],
+        [
+          1024781,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          4040
+        ],
+        [
+          11152,
+          3520
+        ]
+      ],
+      "fightValue": 398,
+      "refined": {
+        "id": 3020289,
+        "cost": [
+          [
+            1024389,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            4300
+          ],
+          [
+            11152,
+            3780
+          ]
+        ],
+        "fightValue": 414
+      },
+      "perfect": {
+        "id": 3020290,
+        "cost": [
+          [
+            1024389,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            4560
+          ],
+          [
+            11152,
+            4040
+          ]
+        ],
+        "fightValue": 431
+      }
+    }
+  ],
+  "4003": [
+    {
+      "id": 3020001,
+      "quality": 2,
+      "icon": "item_icons_enchantformula39",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          1024390,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11332,
+          38
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020002,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            45
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020003,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            55
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020011,
+      "quality": 2,
+      "icon": "item_icons_enchantformula40",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          1024389,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11342,
+          38
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020012,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            45
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020013,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            55
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020151,
+      "quality": 4,
+      "icon": "item_icons_enchantformula54",
+      "level": 7,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          9
+        ],
+        [
+          1024391,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          66
+        ]
+      ],
+      "fightValue": 284,
+      "refined": {
+        "id": 3020152,
+        "cost": [
+          [
+            1024386,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            72
+          ]
+        ],
+        "fightValue": 296
+      },
+      "perfect": {
+        "id": 3020153,
+        "cost": [
+          [
+            1024386,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ]
+        ],
+        "fightValue": 308
+      }
+    },
+    {
+      "id": 3020201,
+      "quality": 5,
+      "icon": "item_icons_enchantformula59",
+      "level": 8,
+      "series": 3,
+      "cost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          72
+        ],
+        [
+          11012,
+          95
+        ]
+      ],
+      "fightValue": 296,
+      "refined": {
+        "id": 3020202,
+        "cost": [
+          [
+            1024390,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ],
+          [
+            11012,
+            100
+          ]
+        ],
+        "fightValue": 308
+      },
+      "perfect": {
+        "id": 3020203,
+        "cost": [
+          [
+            1024390,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            88
+          ],
+          [
+            11012,
+            105
+          ]
+        ],
+        "fightValue": 320
+      }
+    },
+    {
+      "id": 3020211,
+      "quality": 5,
+      "icon": "item_icons_enchantformula60",
+      "level": 8,
+      "series": 3,
+      "cost": [
+        [
+          1024389,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          72
+        ],
+        [
+          11022,
+          95
+        ]
+      ],
+      "fightValue": 296,
+      "refined": {
+        "id": 3020212,
+        "cost": [
+          [
+            1024389,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ],
+          [
+            11022,
+            100
+          ]
+        ],
+        "fightValue": 308
+      },
+      "perfect": {
+        "id": 3020213,
+        "cost": [
+          [
+            1024389,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            88
+          ],
+          [
+            11022,
+            105
+          ]
+        ],
+        "fightValue": 320
+      }
+    },
+    {
+      "id": 3020221,
+      "quality": 5,
+      "icon": "item_icons_enchantformula61",
+      "level": 8,
+      "series": 3,
+      "cost": [
+        [
+          1024392,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          12
+        ],
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          72
+        ],
+        [
+          11032,
+          95
+        ]
+      ],
+      "fightValue": 296,
+      "refined": {
+        "id": 3020222,
+        "cost": [
+          [
+            1024392,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            80
+          ],
+          [
+            11032,
+            100
+          ]
+        ],
+        "fightValue": 308
+      },
+      "perfect": {
+        "id": 3020223,
+        "cost": [
+          [
+            1024392,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            88
+          ],
+          [
+            11032,
+            105
+          ]
+        ],
+        "fightValue": 320
+      }
+    },
+    {
+      "id": 3020231,
+      "quality": 2,
+      "icon": "item_icons_enchantformula62",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          1024780,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11332,
+          53
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020232,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            63
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020233,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11332,
+            77
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020234,
+      "quality": 2,
+      "icon": "item_icons_enchantformula63",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          1024781,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11342,
+          53
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020235,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            63
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020236,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11342,
+            77
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020240,
+      "quality": 4,
+      "icon": "item_icons_enchantformula65",
+      "level": 7,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          9
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          9
+        ],
+        [
+          1024783,
+          5
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          92
+        ]
+      ],
+      "fightValue": 398,
+      "refined": {
+        "id": 3020241,
+        "cost": [
+          [
+            1024391,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            101
+          ]
+        ],
+        "fightValue": 414
+      },
+      "perfect": {
+        "id": 3020242,
+        "cost": [
+          [
+            1024391,
+            9
+          ],
+          [
+            10008,
+            100000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ]
+        ],
+        "fightValue": 431
+      }
+    },
+    {
+      "id": 3020291,
+      "quality": 5,
+      "icon": "item_icons_enchantformula82",
+      "level": 8,
+      "series": 4,
+      "cost": [
+        [
+          1024781,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024781,
+          12
+        ],
+        [
+          1024782,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          101
+        ],
+        [
+          11012,
+          133
+        ]
+      ],
+      "fightValue": 414,
+      "refined": {
+        "id": 3020292,
+        "cost": [
+          [
+            1024781,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ],
+          [
+            11012,
+            140
+          ]
+        ],
+        "fightValue": 431
+      },
+      "perfect": {
+        "id": 3020293,
+        "cost": [
+          [
+            1024781,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            123
+          ],
+          [
+            11012,
+            147
+          ]
+        ],
+        "fightValue": 448
+      }
+    },
+    {
+      "id": 3020294,
+      "quality": 5,
+      "icon": "item_icons_enchantformula83",
+      "level": 8,
+      "series": 4,
+      "cost": [
+        [
+          1024780,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024780,
+          12
+        ],
+        [
+          1024782,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          101
+        ],
+        [
+          11022,
+          133
+        ]
+      ],
+      "fightValue": 414,
+      "refined": {
+        "id": 3020295,
+        "cost": [
+          [
+            1024780,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ],
+          [
+            11022,
+            140
+          ]
+        ],
+        "fightValue": 431
+      },
+      "perfect": {
+        "id": 3020296,
+        "cost": [
+          [
+            1024780,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            123
+          ],
+          [
+            11022,
+            147
+          ]
+        ],
+        "fightValue": 448
+      }
+    },
+    {
+      "id": 3020297,
+      "quality": 5,
+      "icon": "item_icons_enchantformula84",
+      "level": 8,
+      "series": 4,
+      "cost": [
+        [
+          1024783,
+          12
+        ],
+        [
+          10008,
+          120000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024783,
+          12
+        ],
+        [
+          1024782,
+          6
+        ],
+        [
+          10008,
+          150000
+        ]
+      ],
+      "effects": [
+        [
+          11502,
+          101
+        ],
+        [
+          11032,
+          133
+        ]
+      ],
+      "fightValue": 414,
+      "refined": {
+        "id": 3020298,
+        "cost": [
+          [
+            1024783,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            112
+          ],
+          [
+            11032,
+            140
+          ]
+        ],
+        "fightValue": 431
+      },
+      "perfect": {
+        "id": 3020299,
+        "cost": [
+          [
+            1024783,
+            12
+          ],
+          [
+            10008,
+            120000
+          ]
+        ],
+        "effects": [
+          [
+            11502,
+            123
+          ],
+          [
+            11032,
+            147
+          ]
+        ],
+        "fightValue": 448
+      }
+    }
+  ],
+  "4004": [
+    {
+      "id": 3020021,
+      "quality": 2,
+      "icon": "item_icons_enchantformula41",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024384,
+          3
+        ],
+        [
+          1024390,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11012,
+          60
+        ],
+        [
+          11042,
+          195
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020022,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            65
+          ],
+          [
+            11042,
+            215
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020023,
+        "cost": [
+          [
+            1024384,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            70
+          ],
+          [
+            11042,
+            235
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020031,
+      "quality": 2,
+      "icon": "item_icons_enchantformula42",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024382,
+          3
+        ],
+        [
+          1024389,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11022,
+          60
+        ],
+        [
+          11042,
+          195
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020032,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            65
+          ],
+          [
+            11042,
+            215
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020033,
+        "cost": [
+          [
+            1024382,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            70
+          ],
+          [
+            11042,
+            235
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020041,
+      "quality": 2,
+      "icon": "item_icons_enchantformula43",
+      "level": 1,
+      "series": 3,
+      "cost": [
+        [
+          1024388,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024388,
+          3
+        ],
+        [
+          1024392,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11032,
+          60
+        ],
+        [
+          11042,
+          195
+        ]
+      ],
+      "fightValue": 212,
+      "refined": {
+        "id": 3020042,
+        "cost": [
+          [
+            1024388,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            65
+          ],
+          [
+            11042,
+            215
+          ]
+        ],
+        "fightValue": 224
+      },
+      "perfect": {
+        "id": 3020043,
+        "cost": [
+          [
+            1024388,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            70
+          ],
+          [
+            11042,
+            235
+          ]
+        ],
+        "fightValue": 236
+      }
+    },
+    {
+      "id": 3020111,
+      "quality": 3,
+      "icon": "item_icons_enchantformula50",
+      "level": 3,
+      "series": 3,
+      "cost": [
+        [
+          1024384,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024384,
+          6
+        ],
+        [
+          1024390,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          750
+        ],
+        [
+          11152,
+          620
+        ]
+      ],
+      "fightValue": 236,
+      "refined": {
+        "id": 3020112,
+        "cost": [
+          [
+            1024384,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            815
+          ],
+          [
+            11152,
+            685
+          ]
+        ],
+        "fightValue": 248
+      },
+      "perfect": {
+        "id": 3020113,
+        "cost": [
+          [
+            1024384,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            880
+          ],
+          [
+            11152,
+            750
+          ]
+        ],
+        "fightValue": 260
+      }
+    },
+    {
+      "id": 3020121,
+      "quality": 3,
+      "icon": "item_icons_enchantformula51",
+      "level": 3,
+      "series": 3,
+      "cost": [
+        [
+          1024388,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024388,
+          6
+        ],
+        [
+          1024392,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          750
+        ],
+        [
+          11152,
+          620
+        ]
+      ],
+      "fightValue": 236,
+      "refined": {
+        "id": 3020122,
+        "cost": [
+          [
+            1024388,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            815
+          ],
+          [
+            11152,
+            685
+          ]
+        ],
+        "fightValue": 248
+      },
+      "perfect": {
+        "id": 3020123,
+        "cost": [
+          [
+            1024388,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            880
+          ],
+          [
+            11152,
+            750
+          ]
+        ],
+        "fightValue": 260
+      }
+    },
+    {
+      "id": 3020131,
+      "quality": 3,
+      "icon": "item_icons_enchantformula52",
+      "level": 3,
+      "series": 3,
+      "cost": [
+        [
+          1024386,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024386,
+          6
+        ],
+        [
+          1024391,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          750
+        ],
+        [
+          11152,
+          620
+        ]
+      ],
+      "fightValue": 236,
+      "refined": {
+        "id": 3020132,
+        "cost": [
+          [
+            1024386,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            815
+          ],
+          [
+            11152,
+            685
+          ]
+        ],
+        "fightValue": 248
+      },
+      "perfect": {
+        "id": 3020133,
+        "cost": [
+          [
+            1024386,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            880
+          ],
+          [
+            11152,
+            750
+          ]
+        ],
+        "fightValue": 260
+      }
+    },
+    {
+      "id": 3020141,
+      "quality": 3,
+      "icon": "item_icons_enchantformula53",
+      "level": 3,
+      "series": 3,
+      "cost": [
+        [
+          1024382,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024382,
+          6
+        ],
+        [
+          1024389,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          750
+        ],
+        [
+          11152,
+          620
+        ]
+      ],
+      "fightValue": 236,
+      "refined": {
+        "id": 3020142,
+        "cost": [
+          [
+            1024382,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            815
+          ],
+          [
+            11152,
+            685
+          ]
+        ],
+        "fightValue": 248
+      },
+      "perfect": {
+        "id": 3020143,
+        "cost": [
+          [
+            1024382,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            880
+          ],
+          [
+            11152,
+            750
+          ]
+        ],
+        "fightValue": 260
+      }
+    },
+    {
+      "id": 3020246,
+      "quality": 2,
+      "icon": "item_icons_enchantformula67",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024389,
+          3
+        ],
+        [
+          1024781,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11022,
+          84
+        ],
+        [
+          11042,
+          273
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020247,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            91
+          ],
+          [
+            11042,
+            301
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020248,
+        "cost": [
+          [
+            1024389,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11022,
+            98
+          ],
+          [
+            11042,
+            329
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020255,
+      "quality": 2,
+      "icon": "item_icons_enchantformula70",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024392,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024392,
+          3
+        ],
+        [
+          1024782,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11032,
+          84
+        ],
+        [
+          11042,
+          273
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020256,
+        "cost": [
+          [
+            1024392,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            91
+          ],
+          [
+            11042,
+            301
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020257,
+        "cost": [
+          [
+            1024392,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11032,
+            98
+          ],
+          [
+            11042,
+            329
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020249,
+      "quality": 3,
+      "icon": "item_icons_enchantformula68",
+      "level": 3,
+      "series": 4,
+      "cost": [
+        [
+          1024390,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          6
+        ],
+        [
+          1024780,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11112,
+          3000
+        ],
+        [
+          11152,
+          2480
+        ]
+      ],
+      "fightValue": 330,
+      "refined": {
+        "id": 3020250,
+        "cost": [
+          [
+            1024390,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            3260
+          ],
+          [
+            11152,
+            2740
+          ]
+        ],
+        "fightValue": 347
+      },
+      "perfect": {
+        "id": 3020251,
+        "cost": [
+          [
+            1024390,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11112,
+            3520
+          ],
+          [
+            11152,
+            3000
+          ]
+        ],
+        "fightValue": 364
+      }
+    },
+    {
+      "id": 3020261,
+      "quality": 3,
+      "icon": "item_icons_enchantformula72",
+      "level": 3,
+      "series": 4,
+      "cost": [
+        [
+          1024392,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024392,
+          6
+        ],
+        [
+          1024782,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11122,
+          3000
+        ],
+        [
+          11152,
+          2480
+        ]
+      ],
+      "fightValue": 330,
+      "refined": {
+        "id": 3020262,
+        "cost": [
+          [
+            1024392,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            3260
+          ],
+          [
+            11152,
+            2740
+          ]
+        ],
+        "fightValue": 347
+      },
+      "perfect": {
+        "id": 3020263,
+        "cost": [
+          [
+            1024392,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11122,
+            3520
+          ],
+          [
+            11152,
+            3000
+          ]
+        ],
+        "fightValue": 364
+      }
+    },
+    {
+      "id": 3020285,
+      "quality": 3,
+      "icon": "item_icons_enchantformula80",
+      "level": 3,
+      "series": 4,
+      "cost": [
+        [
+          1024389,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024389,
+          6
+        ],
+        [
+          1024781,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11142,
+          3000
+        ],
+        [
+          11152,
+          2480
+        ]
+      ],
+      "fightValue": 330,
+      "refined": {
+        "id": 3020286,
+        "cost": [
+          [
+            1024389,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            3260
+          ],
+          [
+            11152,
+            2740
+          ]
+        ],
+        "fightValue": 347
+      },
+      "perfect": {
+        "id": 3020287,
+        "cost": [
+          [
+            1024389,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11142,
+            3520
+          ],
+          [
+            11152,
+            3000
+          ]
+        ],
+        "fightValue": 364
+      }
+    },
+    {
+      "id": 3020243,
+      "quality": 2,
+      "icon": "item_icons_enchantformula66",
+      "level": 1,
+      "series": 4,
+      "cost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          10008,
+          40000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024390,
+          3
+        ],
+        [
+          1024780,
+          1
+        ],
+        [
+          10008,
+          60000
+        ]
+      ],
+      "effects": [
+        [
+          11012,
+          84
+        ],
+        [
+          11042,
+          273
+        ]
+      ],
+      "fightValue": 297,
+      "refined": {
+        "id": 3020244,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            91
+          ],
+          [
+            11042,
+            301
+          ]
+        ],
+        "fightValue": 314
+      },
+      "perfect": {
+        "id": 3020245,
+        "cost": [
+          [
+            1024390,
+            3
+          ],
+          [
+            10008,
+            40000
+          ]
+        ],
+        "effects": [
+          [
+            11012,
+            98
+          ],
+          [
+            11042,
+            329
+          ]
+        ],
+        "fightValue": 330
+      }
+    },
+    {
+      "id": 3020273,
+      "quality": 3,
+      "icon": "item_icons_enchantformula76",
+      "level": 3,
+      "series": 4,
+      "cost": [
+        [
+          1024391,
+          6
+        ],
+        [
+          10008,
+          80000
+        ]
+      ],
+      "advancedCost": [
+        [
+          1024391,
+          6
+        ],
+        [
+          1024783,
+          3
+        ],
+        [
+          10008,
+          100000
+        ]
+      ],
+      "effects": [
+        [
+          11132,
+          3000
+        ],
+        [
+          11152,
+          2480
+        ]
+      ],
+      "fightValue": 330,
+      "refined": {
+        "id": 3020274,
+        "cost": [
+          [
+            1024391,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            3260
+          ],
+          [
+            11152,
+            2740
+          ]
+        ],
+        "fightValue": 347
+      },
+      "perfect": {
+        "id": 3020275,
+        "cost": [
+          [
+            1024391,
+            6
+          ],
+          [
+            10008,
+            80000
+          ]
+        ],
+        "effects": [
+          [
+            11132,
+            3520
+          ],
+          [
+            11152,
+            3000
+          ]
+        ],
+        "fightValue": 364
       }
     }
   ]

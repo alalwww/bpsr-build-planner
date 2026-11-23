@@ -652,6 +652,22 @@
       "name": "蝕花的殘影的印記·極",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
+    "1024780": {
+      "name": "幻蝕赤晶石髓·4級",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。鑲嵌印記時，需要消耗石髓來提供足夠的星元能量，才能與裝備產生感應。"
+    },
+    "1024781": {
+      "name": "幻蝕藍晶石髓·4級",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。鑲嵌印記時，需要消耗石髓來提供足夠的星元能量，才能與裝備產生感應。"
+    },
+    "1024782": {
+      "name": "幻蝕翠晶石髓·4級",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。鑲嵌印記時，需要消耗石髓來提供足夠的星元能量，才能與裝備產生感應。"
+    },
+    "1024783": {
+      "name": "幻蝕耀晶石髓·4級",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。鑲嵌印記時，需要消耗石髓來提供足夠的星元能量，才能與裝備產生感應。"
+    },
     "2000101": {
       "name": "見習冒險者太刀鐮（物理）",
       "description": "雷影劍士職業裡比較精良的武器。",
@@ -37176,6 +37192,282 @@
     },
     "3020229": {
       "name": "F-悖與災的機骸·終印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020231": {
+      "name": "蝦菇印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器、耳墜、項鍊、戒指"
+    },
+    "3020232": {
+      "name": "蝦菇印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020233": {
+      "name": "蝦菇印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020234": {
+      "name": "劇毒蝦菇印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器、耳墜、項鍊、戒指"
+    },
+    "3020235": {
+      "name": "劇毒蝦菇印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020236": {
+      "name": "劇毒蝦菇印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020237": {
+      "name": "麻痺蝦菇印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器"
+    },
+    "3020238": {
+      "name": "麻痺蝦菇印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020239": {
+      "name": "麻痺蝦菇印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020240": {
+      "name": "夢現宿主印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器、耳墜、項鍊、戒指"
+    },
+    "3020241": {
+      "name": "夢現宿主印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020242": {
+      "name": "夢現宿主印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020243": {
+      "name": "溪谷猛士印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020244": {
+      "name": "溪谷猛士印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020245": {
+      "name": "溪谷猛士印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020246": {
+      "name": "溪谷先鋒印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020247": {
+      "name": "溪谷先鋒印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020248": {
+      "name": "溪谷先鋒印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020249": {
+      "name": "溪谷鬥技者印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020250": {
+      "name": "溪谷鬥技者印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020251": {
+      "name": "溪谷鬥技者印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020252": {
+      "name": "溪谷尖兵印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020253": {
+      "name": "溪谷尖兵印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020254": {
+      "name": "溪谷尖兵印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020255": {
+      "name": "白翎哥布林印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020256": {
+      "name": "白翎哥布林印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020257": {
+      "name": "白翎哥布林印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020258": {
+      "name": "暗翎哥布林印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020259": {
+      "name": "暗翎哥布林印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020260": {
+      "name": "暗翎哥布林印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020261": {
+      "name": "哥布林賢者印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020262": {
+      "name": "哥布林賢者印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020263": {
+      "name": "哥布林賢者印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020264": {
+      "name": "拾貝異教徒印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020265": {
+      "name": "拾貝異教徒印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020266": {
+      "name": "拾貝異教徒印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020267": {
+      "name": "溪谷斥候印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020268": {
+      "name": "溪谷斥候印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020269": {
+      "name": "溪谷斥候印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020270": {
+      "name": "溪谷弩手印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020271": {
+      "name": "溪谷弩手印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020272": {
+      "name": "溪谷弩手印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020273": {
+      "name": "溪谷遊獵者印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020274": {
+      "name": "溪谷遊獵者印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020275": {
+      "name": "溪谷遊獵者印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020276": {
+      "name": "流浪的遊子印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020277": {
+      "name": "流浪的遊子印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020278": {
+      "name": "流浪的遊子印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020279": {
+      "name": "深谷魚人印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020280": {
+      "name": "深谷魚人印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020281": {
+      "name": "深谷魚人印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020282": {
+      "name": "溪岸魚人印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020283": {
+      "name": "溪岸魚人印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020284": {
+      "name": "溪岸魚人印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020285": {
+      "name": "暗河之鰭印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：左手環、右手環、護符"
+    },
+    "3020286": {
+      "name": "暗河之鰭印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020287": {
+      "name": "暗河之鰭印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020288": {
+      "name": "澗流的異影印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：頭盔、護甲、護手、鞋子"
+    },
+    "3020289": {
+      "name": "澗流的異影印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020290": {
+      "name": "澗流的異影印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020291": {
+      "name": "拉普西斯印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器、耳墜、項鍊、戒指"
+    },
+    "3020292": {
+      "name": "拉普西斯印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020293": {
+      "name": "拉普西斯印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020294": {
+      "name": "拉普西斯·極晝印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器、耳墜、項鍊、戒指"
+    },
+    "3020295": {
+      "name": "拉普西斯·極晝印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020296": {
+      "name": "拉普西斯·極晝印記·極",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020297": {
+      "name": "拉普西斯·極夜印記",
+      "description": "將印記鑲嵌在裝備之中，能夠為裝備賦予該印記所蘊含的獨特效果。<br>印記可用於：武器、耳墜、項鍊、戒指"
+    },
+    "3020298": {
+      "name": "拉普西斯·極夜印記·精",
+      "description": "ui/atlas/weap_icon/weap_equip_square_03"
+    },
+    "3020299": {
+      "name": "拉普西斯·極夜印記·極",
       "description": "ui/atlas/weap_icon/weap_equip_square_03"
     },
     "8000001": {
