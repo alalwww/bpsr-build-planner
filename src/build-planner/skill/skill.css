@@ -382,16 +382,14 @@
   overflow-y: auto;
 }
 
-/* 見出し直下のツールバー(左: ランクのラジオボタン、右: 絞り込みトグル+開閉フィルター)。
-   絞り込みを開くと右側だけ縦に伸びるため、align-items: flex-start でランク行を
-   上端に固定する。justify-content は space-between ではなく flex-start + 固定 gap
-   にする(space-betweenだとfilter-blockが右端アンカーになり、開閉でfilter-blockの
-   幅が変わるたびに「絞り込み」トグルの左端位置がずれてしまうため)。 */
+/* 見出し直下のツールバー(上: ランクのラジオボタン、下: 絞り込みトグル+開閉フィルター)。
+   横並びだとダイアログの幅によって絞り込みの選択肢が折り返すため、縦に並べて
+   絞り込みにダイアログの全幅を使わせる。 */
 .skill-picker-dialog__toolbar {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;
-  gap: 24px;
+  gap: 8px;
   padding: 8px 12px 0;
 }
 
@@ -408,8 +406,7 @@
   font-size: 11px;
 }
 
-/* 絞り込みトグル+開閉フィルター本体をひとまとまりにし、ツールバー右側(絞り込み
-   トグルの真下)に配置する。 */
+/* 絞り込みトグル+開閉フィルター本体をひとまとまりにし、ランク行の下に配置する。 */
 .skill-picker-dialog__filter-block {
   display: flex;
   flex-direction: column;
