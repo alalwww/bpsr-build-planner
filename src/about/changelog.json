@@ -1,6 +1,44 @@
 {
   "entries": [
     {
+      "version": "0.13.0",
+      "date": "2026-11-23T16:53:24.647Z",
+      "summary": {
+        "ja": "シーズン4(光跡の祈願)への対応",
+        "en": "Add support for Season 4"
+      },
+      "changes": {
+        "ja": [
+          "潜在心相晶を祈願心相晶に置き換え(ツリーをゲーム内と同じ配置で表示、絆ポイント・絆レベル効果の廃止)",
+          "因子の設定をダイアログ形式に変更し、グレード(G1〜G3)と映痕の設定に対応",
+          "映痕のステータス系の効果のステータス・効果一覧・能力スコアへの反映(クラス映痕は計算対象外、重複不可の映痕は全因子で最大値1つのみ反映)",
+          "滅妄強度から祈り強度への名称変更と、ステータス詳細への祈りダメージアップ・祈り防御力無視・祈りダメージ軽減・汎用ダメージアップの追加",
+          "シーズン4の装備(GS320〜380台)・セット効果・暁光武器・バトルイマジンの追加と、イマジンの絞り込みへのS4の追加",
+          "シーズン4の刻印の追加と、刻印候補のシーズン順(S4→S3→S2)の並び替え",
+          "シーズン4の係数・ステータス変換率・料理/キャンドル/泥灸の既定値・鼓舞の基礎値の更新",
+          "装備のGS帯絞り込みと祈願Lvの初期値の、シーズン4の日程への追従",
+          "前シーズンに保存したプランを読み込んだ際の、心相投影の設定の初期化と通知",
+          "S2/S3の一部セット効果で、2セット効果と4セット効果が入れ替わっていた不具合の修正",
+          "ツインストライカーの耐久力1ptあたりの最大HP上昇量の誤り(6→8.5)の修正",
+          "イマジン選択ダイアログの、ランクと絞り込みの縦並びへの変更"
+        ],
+        "en": [
+          "Replace latent crystals with oath crystals (tree laid out as in game; bond points and bond level effects removed)",
+          "Move factor settings into a dialog with grade (G1–G3) and affix settings",
+          "Apply stat affixes to stats, the effect summary and the ability score (class affixes are not calculated; non-stacking affixes apply only once, using the highest value across all factors)",
+          "Rename illusion power to oath power and add oath damage bonus, oath defense ignore, oath damage reduction and general damage bonus to the stats detail",
+          "Add Season 4 equipment (GS320–380), set effects, dawnlight weapons and battle imagines, and an S4 option to the imagine filter",
+          "Add Season 4 seals and sort seal candidates by season (S4 → S3 → S2)",
+          "Update Season 4 coefficients, stat conversion rates, cooking/candle/mud moxa defaults and the base value of inspire",
+          "Follow the Season 4 schedule for the default equipment GS filter and default oath level",
+          "Reset phantom projection settings, with a notice, when loading plans saved in a previous season",
+          "Fix 2-set and 4-set effects being swapped for some S2/S3 sets",
+          "Fix the Twin Striker's max HP gained per endurance point (6 → 8.5)",
+          "Stack the rank selector above the filters in the imagine selection dialog"
+        ]
+      }
+    },
+    {
       "version": "0.12.5",
       "date": "2026-09-25T09:45:28.482Z",
       "summary": {
@@ -916,7 +954,10 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "ja": [
+          "精錬攻撃・全属性攻撃の計算修正",
+          "フッターのビルド日時のタイムゾーン変換表示"
+        ],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
