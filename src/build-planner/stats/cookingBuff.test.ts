@@ -3,7 +3,9 @@ import { PROFESSIONS } from '../profession';
 import type { StatId } from '../types';
 import { BASE_STATS } from './baseStats';
 import {
+  applyCookingBuff,
   computeCookingAdjustments,
+  DEFAULT_COOKING_BUFF,
   getStatCorrectionTargets,
   INSPIRATION_PERCENT_STAT_IDS,
 } from './cookingBuff';
@@ -140,6 +142,41 @@ describe('computeCookingAdjustments', () => {
       { statId: 'maxHp', addend: 500 },
       { statId: 'haste', addend: -25 },
     ]);
+  });
+});
+
+describe('料理の精鋭ダメージ → 汎用ダメージアップ(damageBonus)', () => {
+  it('料理が有効なときだけ、精鋭ダメージ%を "100=1%" で返す', () => {
+    expect(
+      applyCookingBuff({
+        ...DEFAULT_COOKING_BUFF,
+        cookingEnabled: true,
+        cookingEliteDamagePercent: 5,
+      }).damageBonus,
+    ).toBe(500);
+    expect(
+      applyCookingBuff({
+        ...DEFAULT_COOKING_BUFF,
+        cookingEnabled: false,
+        cookingEliteDamagePercent: 10,
+      }).damageBonus,
+    ).toBe(0);
+  });
+
+  it('computeCookingAdjustments は damageBonus への加算を出す', () => {
+    const adjustments = computeCookingAdjustments(
+      zeroStats(),
+      'atk',
+      0,
+      0,
+      0,
+      0,
+      0,
+      zeroStats(),
+      {},
+      1000,
+    );
+    expect(adjustments).toEqual([{ statId: 'damageBonus', addend: 1000 }]);
   });
 });
 

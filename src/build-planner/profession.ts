@@ -45,7 +45,7 @@ export interface Profession {
   attackType: AttackType;
   // クラス固有の属性(`src/data/classes.json` の `element` フィールド由来。ZTableの
   // ElementalRestraintTable.json のId順=1:火/2:氷/3:雷/4:森/5:風/6:岩/7:光/8:闇と対応)。
-  // 追加バフ効果ダイアログのシロップ/脊椎試薬属性選択の初期値に使用する。
+  // 追加バフ効果ダイアログのキャンドル属性選択の初期値に使用する。
   element: ElementId;
   // メインステータス1ptあたりの攻撃力上昇量(基礎値。R1アビリティ取得時の追加分は含まない)
   atkPerMainStatPoint: number;
@@ -185,10 +185,6 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     staminaRegenPerSecond: 240,
     talentSchoolIds: [119, 120],
   },
-  // TODO(シーズン3): 係数は未確認。近接・物理・筋力ベースの他クラス(galeLancer/
-  // stormBlade)の値を暫定採用している。docs/STATUS_CALCULATION.md 方式でのゲーム内
-  // 確認が取れ次第、正しい値に差し替えること。talentSchoolIds はZTable
-  // (ProfessionSystemTable.ShowTalentStage)由来のため確定値。
   twinStriker: {
     key: 'twinStriker',
     professionId: 3,
@@ -196,7 +192,7 @@ export const PROFESSIONS: Record<ProfessionKey, Profession> = {
     attackType: 'physical',
     element: 'fire',
     atkPerMainStatPoint: 0.6,
-    hpPerEndurancePoint: 6,
+    hpPerEndurancePoint: 8.5,
     atkSpeedPerHastePercent: 0.6,
     castSpeedPerHastePercent: 1,
     staminaRegenPerSecond: 185,

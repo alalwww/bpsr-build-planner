@@ -184,7 +184,10 @@ describe('deriveStats', () => {
     const withBonus = deriveStats(raw, profession, { atk: 0.125, physicalDef: 0.6667, haste: 0.2 });
 
     expect(withBonus.physicalAtk).toBe(withoutBonus.physicalAtk + raw.agility * 0.125);
-    expect(withBonus.physicalDef).toBe(withoutBonus.physicalDef + raw.strength * 0.6667);
+    // 基礎分とボーナス分はそれぞれ端数切り捨て(convertBySeparatelyTruncatedRates)。
+    expect(withBonus.physicalDef).toBe(
+      withoutBonus.physicalDef + Math.floor(raw.strength * 0.6667),
+    );
     // hasteはdiminishingPercent経由なので実数値側で比較する
     const hasteRealWithoutBonus =
       raw.haste + raw.agility * COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint;
@@ -262,14 +265,15 @@ describe('deriveStats', () => {
     );
   });
 
-  it('matches the user-reported damage-enhancement potion example (+640 real -> 5.4983%, k=11000)', () => {
+  // S3時点のユーザー実測例(+640 real -> 5.4983%, k=11000)と同じ式を、S4のK値(18000)で検証する。
+  it('applies the series-C diminishing curve to the damage-enhancement potion (+640 real, S4 k=18000)', () => {
     const profession = PROFESSIONS.stormBlade;
     const raw: Record<StatId, number> = { ...zeroRaw(), physicalEnhance: 640 };
 
     const result = deriveStats(raw, profession);
 
-    expect(SEASON_CONSTANTS.diminishingEnhance).toBe(11000);
-    expect(result.physicalBoostPercent).toBeCloseTo((100 * 640) / (640 + 11000), 4);
+    expect(SEASON_CONSTANTS.diminishingEnhance).toBe(18000);
+    expect(result.physicalBoostPercent).toBeCloseTo((100 * 640) / (640 + 18000), 4);
   });
 
   it('adds finalPctAddend.physicalEnhance/magicalEnhance (e.g. Azure Sea weapon "物理/魔法増強+n%") directly on top of the diminishing-curve result instead of merging into the same curve input as the potion', () => {

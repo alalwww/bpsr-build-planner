@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CollapsibleSection from '../components/CollapsibleSection';
 import DraggableDialog from '../components/DraggableDialog';
-import { renderEffectDesc } from '../components/gameText';
 import LinkTextPopup from '../components/LinkTextPopup';
 import { renderMarkup } from '../components/renderMarkup';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { truncate2Str as fmtDec2 } from '../character/statFormat';
 import { RAW_PERCENT_STAT_IDS } from '../stats/attrMaps';
+import { affixEffectText, getActiveAffixEffects } from './phantomAffixData';
 import { BASE_STATS } from '../stats/baseStats';
 import type { StatId } from '../types';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
@@ -19,11 +19,17 @@ import {
   formatPctDelta,
   type PhantomNodeRow,
 } from './phantomEffectSummary';
-import { factorBaseName, getFactorEffectDesc, getNodeEffectDesc, getNodeIcon } from './phantomView';
+import {
+  factorBaseName,
+  formatType1Effect,
+  getFactorEffectDesc,
+  getNodeEffectDesc,
+  getNodeIcon,
+} from './phantomView';
 import './phantomEffectSummary.css';
 
-// 心相投影ツリーの現在の設定内容(ノード選択+因子装着)を、合計/上級/中級/初級の
-// 4分類でまとめて確認するための読み取り専用ダイアログ。PhantomPanel の「効果一覧」
+// 心相投影ツリーの現在の設定内容(ノード選択+因子装着)を、合計/中級/初級の
+// 3分類でまとめて確認するための読み取り専用ダイアログ(S4で絆レベル効果=上級は廃止)。PhantomPanel の「効果一覧」
 // ボタンから開く。
 
 interface PhantomEffectSummaryDialogProps {
@@ -31,7 +37,6 @@ interface PhantomEffectSummaryDialogProps {
   phantomEnabled: boolean;
   phantomTemplateId: number;
   phantomLevel: number;
-  phantomBondPoints: number;
   phantomNodeSelections: Record<number, number>;
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
   treeSteps: TreeStep[];
@@ -50,7 +55,6 @@ export default function PhantomEffectSummaryDialog({
   phantomEnabled,
   phantomTemplateId,
   phantomLevel,
-  phantomBondPoints,
   phantomNodeSelections,
   phantomFactorSlots,
   treeSteps,
@@ -66,7 +70,6 @@ export default function PhantomEffectSummaryDialog({
 
   const [openSections, setOpenSections] = useState({
     total: false,
-    advanced: false,
     intermediate: false,
     ordinary: false,
   });
@@ -77,13 +80,12 @@ export default function PhantomEffectSummaryDialog({
     () =>
       computePhantomEffectTotals(
         tg,
-        t,
         phantomTemplateId,
         phantomLevel,
         phantomNodeSelections,
         phantomFactorSlots,
         professionId,
-        phantomBondPoints,
+        t('buildPlanner.phantom.affixEffect'),
       ),
     [
       tg,
@@ -93,7 +95,6 @@ export default function PhantomEffectSummaryDialog({
       phantomNodeSelections,
       phantomFactorSlots,
       professionId,
-      phantomBondPoints,
     ],
   );
 
@@ -118,41 +119,7 @@ export default function PhantomEffectSummaryDialog({
         pct: d.pct !== 0 ? `${fmtSigned(formatPctDelta(d.pct))}%` : '',
         finalPct: d.finalPct !== 0 ? `${fmtSigned(formatPctDelta(d.finalPct))}%` : '',
       })),
-    // 絆レベル効果「会心/ファスト/幸運/器用さ/万能のうち最大値へ加算」: 対象ステータスは
-    // 他ソース込みの現在値次第で確定できないため、実数値だけを専用行として表示する。
-    ...(totals.highestOfBonus !== 0
-      ? [
-          {
-            key: 'highestOf',
-            label: se('highestOfLabel'),
-            flat: fmtSigned(totals.highestOfBonus),
-            pct: '',
-            finalPct: '',
-          },
-        ]
-      : []),
   ];
-
-  const bondLevelEffects = useMemo(() => {
-    const tmpl = stData.templates[String(phantomTemplateId)];
-    if (!tmpl) return [];
-    return Object.values(stData.advancedEffects)
-      .filter((ae) => ae.effectId === tmpl.advancedEffectId)
-      .sort((a, b) => a.level - b.level)
-      .map((ae) => {
-        const idx = ae.effects.findIndex((e) => e[0] === 3);
-        const buffId = idx >= 0 ? ae.effects[idx][1] : null;
-        const pars = idx >= 0 ? (ae.buffPars[idx] ?? []) : [];
-        const tmplStr = buffId ? tg(`attrDescs.${buffId}`, { defaultValue: '' }) : '';
-        const desc = tmplStr ? renderEffectDesc(tmplStr, pars) : '';
-        return {
-          level: ae.level,
-          unlockFraction: ae.unlockFraction,
-          desc: desc || `Lv.${ae.level}`,
-          isActive: phantomBondPoints >= ae.unlockFraction,
-        };
-      });
-  }, [phantomTemplateId, phantomBondPoints, tg]);
 
   const ordinaryRows = useMemo(
     () =>
@@ -199,9 +166,7 @@ export default function PhantomEffectSummaryDialog({
         {(type1Lines.length > 0 || effectDesc) && (
           <div className="phantom-effect-node__desc">
             {type1Lines.map((e, i) => (
-              <div key={i}>
-                {tg(`attributes.${e[1]}`)} +{e[2]}
-              </div>
+              <div key={i}>{formatType1Effect(tg, e)}</div>
             ))}
             {effectDesc && <div>{renderMarkup(effectDesc, linkTextPopup.handlers)}</div>}
           </div>
@@ -220,6 +185,8 @@ export default function PhantomEffectSummaryDialog({
     if (status === 'active') {
       const current = phantomFactorSlots[nodeId] ?? null;
       const effectDesc = current ? getFactorEffectDesc(tg, current.classKey, current.grade) : '';
+      // 因子に埋め込んだ映痕の効果(因子単位の表示。同種は合計、重複不可は因子内の最大値)。
+      const affixEffects = getActiveAffixEffects(current);
       return (
         <div key={nodeId} className="phantom-effect-node phantom-effect-node--active">
           <div className="phantom-effect-node__header">
@@ -234,7 +201,14 @@ export default function PhantomEffectSummaryDialog({
           </div>
           <div className="phantom-effect-node__desc">
             {current ? (
-              effectDesc && <div>{effectDesc}</div>
+              <>
+                {effectDesc && <div>{effectDesc}</div>}
+                {affixEffects.map((a) => (
+                  <div key={a.group} className="phantom-effect-node__affix">
+                    {affixEffectText(tg, a)}
+                  </div>
+                ))}
+              </>
             ) : (
               <div>{t('buildPlanner.phantom.factorUnequipped')}</div>
             )}
@@ -337,28 +311,6 @@ export default function PhantomEffectSummaryDialog({
               ))}
             </div>
           )}
-        </CollapsibleSection>
-
-        <CollapsibleSection
-          open={openSections.advanced}
-          onToggle={() => toggle('advanced')}
-          label={se('sections.advanced')}
-          className="phantom-effect-summary__section"
-          toggleClassName="phantom-effect-summary__section-header"
-        >
-          <div className="phantom-effect-summary__bond-list">
-            {bondLevelEffects.map((ae) => (
-              <div
-                key={ae.level}
-                className={`phantom-effect-summary__bond-row${ae.isActive ? ' phantom-effect-summary__bond-row--active' : ''}`}
-              >
-                <span className="phantom-effect-summary__bond-threshold">
-                  {ae.unlockFraction}pt
-                </span>
-                <span className="phantom-effect-summary__bond-desc">{ae.desc}</span>
-              </div>
-            ))}
-          </div>
         </CollapsibleSection>
 
         <CollapsibleSection

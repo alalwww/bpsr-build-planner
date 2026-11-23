@@ -1,71 +1,45 @@
-import { useMemo } from 'react';
-import Stepper from '../components/Stepper';
-import CustomDropdown, { type DropdownOption } from './CustomDropdown';
+import { useTranslation } from 'react-i18next';
 import type { PhantomFactorSlotValue } from './phantomData';
+import { factorBaseName, getFactorIcon } from './phantomView';
 
 export interface FactorSlotProps {
-  groupId: number;
   current: PhantomFactorSlotValue | null;
-  /** 未装着時に表示するグレード。装着時にはこの値が初期グレードとして使われる。 */
+  /** 未装着時に表示するグレード。 */
   pendingGrade: number;
-  onPendingGradeChange: (grade: number) => void;
-  options: DropdownOption[];
-  getDesc: (classKey: string, grade: number) => string;
-  unequippedLabel: string;
-  onSet: (groupId: number, factor: PhantomFactorSlotValue | null) => void;
+  onOpen: () => void;
 }
 
-// FactorSlot: 未装着時のグレードは呼び出し元(親)が保持する制御コンポーネント
-// (因子ランク一括変更が未装着スロットの表示値も上書きできるようにするため)。
-function FactorSlot({
-  groupId,
-  current,
-  pendingGrade,
-  onPendingGradeChange,
-  options,
-  getDesc,
-  unequippedLabel,
-  onSet,
-}: FactorSlotProps) {
-  const grade = current?.grade ?? pendingGrade;
-
-  const optionsWithDesc = useMemo(
-    () => options.map((opt) => ({ ...opt, description: getDesc(opt.value, grade) })),
-    [options, grade, getDesc],
-  );
+// 因子スロットの固定枠(アイコン・因子名・グレード)。クリックで因子設定ダイアログを開く。
+// 埋め込み済みの映痕の数も添える。
+function FactorSlot({ current, pendingGrade, onOpen }: FactorSlotProps) {
+  const { t } = useTranslation();
+  const { t: tg } = useTranslation('game-data');
+  const icon = current ? getFactorIcon(current.classKey) : '';
+  const affixCount = current?.affixes?.filter((a) => a != null).length ?? 0;
 
   return (
-    <div className="phantom-factor-slot">
-      <div className="phantom-factor-controls">
-        <CustomDropdown
-          className="phantom-factor-dropdown"
-          options={optionsWithDesc}
-          value={current?.classKey ?? ''}
-          placeholder={unequippedLabel}
-          onChange={(v) => {
-            if (v === '') {
-              onSet(groupId, null);
-            } else {
-              onSet(groupId, { classKey: v, grade });
-            }
-          }}
-        />
-        <Stepper
-          className="phantom-grade-stepper"
-          value={grade}
-          min={1}
-          max={10}
-          formatValue={(v) => `G${v}`}
-          onChange={(v) => {
-            if (current) {
-              onSet(groupId, { ...current, grade: v });
-            } else {
-              onPendingGradeChange(v);
-            }
-          }}
-        />
-      </div>
-    </div>
+    <button
+      type="button"
+      className={`phantom-factor-frame${current ? '' : ' phantom-factor-frame--empty'}`}
+      onClick={onOpen}
+    >
+      {icon ? (
+        <img src={icon} className="phantom-factor-frame__icon" alt="" />
+      ) : (
+        <span className="phantom-factor-frame__icon phantom-factor-frame__icon--empty" />
+      )}
+      <span className="phantom-factor-frame__name">
+        {current
+          ? factorBaseName(tg, current.classKey)
+          : t('buildPlanner.phantom.factorUnequipped')}
+      </span>
+      {affixCount > 0 && (
+        <span className="phantom-factor-frame__affixes">
+          {t('buildPlanner.phantom.affixCount', { count: affixCount })}
+        </span>
+      )}
+      <span className="phantom-factor-frame__grade">G{current?.grade ?? pendingGrade}</span>
+    </button>
   );
 }
 

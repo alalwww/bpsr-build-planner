@@ -73,6 +73,9 @@ const ATTR_ICON_OVERRIDES: Partial<Record<number, string>> = {
   // 幻夢強度(無効)。S2以前の装備に残る滅妄強度(11442)の旧称/無効化バリアントで、
   // FightAttrTable/BuffTableいずれにも対応行が無い。滅妄強度と同じアイコンを表示する。
   98982: 'common_icon01',
+  // 滅妄強度(無効)。S4でS3装備のシーズン強度(11442)が付け替えられた無効化バリアント。
+  // 98982と同様に対応行が無いため、シーズン強度(S4では祈り強度)と同じアイコンを表示する。
+  98983: 'common_icon01',
 };
 
 function getIconFilenameForAttrId(attrId: number): string | undefined {

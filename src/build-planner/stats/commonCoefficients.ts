@@ -2,7 +2,9 @@
 // docs/STATUS_CALCULATION.md の「攻撃ステータス」「メインステータス」章を参照。
 export const COMMON_STAT_COEFFICIENTS = {
   // 筋力1ptあたりの物理防御力上昇量
-  physicalDefPerStrengthPoint: 0.2,
+  // S4で0.2→0.3に変更(2026-11-23実測: ビートパフォーマー・装備等なしで筋力315→物理防御力94
+  // = floor(315×0.3))。
+  physicalDefPerStrengthPoint: 0.3,
   // 知力1ptあたりの魔法防御力上昇量(2026-08-09不具合報告: 知力6435→Mdef3217,
   // 知力6959→Mdef3475, 知力7465→Mdef3732の3点から傾き0.5/ptを実測で確認。旧値0.2は
   // physicalDefPerStrengthPointとの対称性からの未検証の推測値だった)
@@ -12,5 +14,7 @@ export const COMMON_STAT_COEFFICIENTS = {
   // 複数クラス(ストームブレイド/フロストメイジ/ヴァーダントオラクル/シールドファイター/
   // ビートパフォーマー)で同一値であることを確認済み。クラス差はなく、R1アビリティ等による
   // 追加補正はconversionRateBonusとして別途加算される。
-  hastePerAgilityPoint: 0.8,
+  // S4で0.8→2.3に変更(2026-11-23実測: ビートパフォーマー・装備/アビリティ等なし・Lv60(+27)で
+  // 敏捷315→ファスト実数724 = floor(315×2.3)、0.36%。ZTableに該当項目は無い)。
+  hastePerAgilityPoint: 2.3,
 } as const;

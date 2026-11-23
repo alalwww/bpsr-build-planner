@@ -1,7 +1,6 @@
 import seasonTalentsRaw from '../../data/season-talents.json';
 import phantomFactorsRaw from '../../data/phantom-factors.json';
 import { createAssetMap } from '../assetMap';
-import { getGsScheduleTier } from '../seasonSchedule';
 
 // ---- assets ----
 
@@ -33,7 +32,6 @@ export interface SeasonTreeNode {
 
 export interface SeasonTemplate {
   sortId: number;
-  advancedEffectId: number;
   rootNodeId: number;
   icon: string;
   unlockCondition: number[][];
@@ -46,8 +44,9 @@ export interface IntermediateSlot {
 }
 
 // SeasonTreeNode.unlockCondition / SeasonTemplate.unlockCondition は全件
-// [[93, 3, N]] (潜在Lv N 以上で開放) の形式(全ノード・全テンプレートで確認済み、他の
-// 条件パターンは存在しない)。条件なし(空配列)は常時開放を意味し、必要Lvは0として扱う。
+// [[93, seasonId, N]] (シーズンLv N 以上で開放。S3は[[93, 3, N]]、S4は[[93, 4, N]]) の形式
+// (全ノード・全テンプレートで確認済み、他の条件パターンは存在しない)。条件なし(空配列)は
+// 常時開放を意味し、必要Lvは0として扱う。S4の祈願心相晶テンプレートは全て常時開放。
 export function getUnlockLevel(unlockCondition: number[][]): number {
   return unlockCondition[0]?.[2] ?? 0;
 }
@@ -63,29 +62,15 @@ export interface OrdinaryEffect {
   fightValue: number;
 }
 
-export interface AdvancedEffect {
-  effectId: number;
-  level: number;
-  effects: number[][];
-  buffValueKeys: string[][];
-  buffPars: number[][];
-  icon: string;
-  unlockFraction: number;
-  fightValue: number;
-}
-
-export interface BondSlot {
-  templateId: number;
-  slotIndex: number;
-  unlockCondition: number[][];
-}
-
 export interface PhantomFactorGrade {
   id: number;
   level: number;
   effects: number[][];
   buffPars?: number[][];
   fightValue: number;
+  // S4祈願因子の映痕スロット構成。1要素=1スロットで、値は装着可能な映痕のAffixType
+  // (1=ステータス系, 2=クラス映痕)。映痕の編集・計算は phantomAffixData.ts。
+  embedSlots?: number[][];
 }
 
 export interface PhantomFactorClass {
@@ -100,13 +85,14 @@ export interface PhantomFactorClass {
   icon?: string;
 }
 
+// シーズン4で絆スロット/絆レベル効果(advancedEffects/bondSlots)は廃止され、データから
+// 削除された。templates/treeNodes等は現行シーズン(seasonId)の祈願心相晶のみを含む。
 export const stData = seasonTalentsRaw as unknown as {
+  seasonId: number;
   templates: Record<string, SeasonTemplate>;
   treeNodes: Record<string, SeasonTreeNode>;
   intermediateSlots: Record<string, IntermediateSlot>;
   ordinaryEffects: Record<string, OrdinaryEffect>;
-  advancedEffects: Record<string, AdvancedEffect>;
-  bondSlots: Record<string, BondSlot>;
 };
 
 export const pfData = phantomFactorsRaw as unknown as {
@@ -123,9 +109,22 @@ export const CURRENT_FACTOR_SEASON_ID = Math.max(
   ...Object.values(pfData.byClass).map((fc) => fc.seasonId ?? 0),
 );
 
+// 因子グレード(FactorItemLevel)の上限。S3はG1-G10、S4祈願因子はG1-G3(データから算出)。
+export const MAX_FACTOR_GRADE = Math.max(
+  1,
+  ...Object.values(pfData.byClass).map((fc) => fc.grades.length),
+);
+
+// 因子クラスが無効化された過去シーズンのものか。S4以降、抽出データには現行シーズンの因子しか
+// 含まれないため、データに存在しないclassKey(S2/S3因子)も過去シーズン扱いにする。
 export function isFactorClassLegacy(classKey: string): boolean {
   const fc = pfData.byClass[classKey];
-  return fc != null && fc.seasonId < CURRENT_FACTOR_SEASON_ID;
+  return fc == null || fc.seasonId < CURRENT_FACTOR_SEASON_ID;
+}
+
+// テンプレートIDが現行シーズンのデータに存在しない(=廃止された過去シーズンの心相晶)か。
+export function isTemplateLegacy(templateId: number | null | undefined): boolean {
+  return templateId != null && stData.templates[String(templateId)] == null;
 }
 
 // 指定テンプレートが現在の潜在Lvでまだ開放されていないか。テンプレート未選択(null)は
@@ -328,28 +327,57 @@ export function initPhantomNodeSelections(templateId: number): Record<number, nu
 
 // ---- factor slot state type ----
 
+// 因子に埋め込んだ映痕1つ分。group は phantom-affixes.json の Group(同一効果のまとまり)、
+// quality は品質(2=上級〜5=不朽)、value はその品質の範囲内の効果値(内部値。%系は 100=1%)。
+export interface PhantomAffixValue {
+  group: number;
+  quality: number;
+  value: number;
+}
+
 export interface PhantomFactorSlotValue {
   classKey: string;
-  grade: number; // 1-10
+  grade: number; // 1-MAX_FACTOR_GRADE
+  // 映痕(S4祈願因子)。index はグレード別スロット構成(embedSlots)の位置、null は空きスロット。
+  // 末尾の空きは持たない(phantomAffixData.ts の trimAffixes)。映痕が無ければ省略。
+  affixes?: (PhantomAffixValue | null)[];
 }
 
-// 因子未装着スロットの初期選択グレード。装備GS帯フィルター(equipmentSlotPickerData.ts)と
-// 同じスケジュール(seasonSchedule.ts)を、Lv220台=G4/Lv240台=G7/Lv260台=G10に対応付ける。
-const DEFAULT_FACTOR_GRADE_BY_TIER = { lv220: 4, lv240: 7, lv260: 10 } as const;
+// 因子未装着スロットの初期選択グレード(S4祈願因子はFactorItemLevel 1-3)。現時点では日付に
+// 連動させずG2固定とする(日付連動が必要になったら seasonSchedule.ts の getGsScheduleTier を使う)。
+const DEFAULT_FACTOR_GRADE = 2;
 
-export function getDefaultFactorGrade(now: Date = new Date()): number {
-  return DEFAULT_FACTOR_GRADE_BY_TIER[getGsScheduleTier(now)];
+export function getDefaultFactorGrade(): number {
+  return DEFAULT_FACTOR_GRADE;
 }
 
-// ロード対象のphantomFactorSlots(自動保存/保存プラン/プランコード共通)に、無効化された
-// 過去シーズンの因子が1つでも含まれているか。含まれる場合、呼び出し側(store)は因子の
-// 装着状態・潜在Lv・絆レベルポイント・ノード選択状況をリセットし、ユーザーに通知する
+// ロード対象の心相投影データ(自動保存/保存プラン/プランコード共通)のうち、リセット判定に使う部分。
+export type PhantomSaveState =
+  | {
+      saveSeasonId?: number;
+      phantomTemplateId?: number | null;
+      phantomFactorSlots?: Record<number, PhantomFactorSlotValue | null>;
+    }
+  | null
+  | undefined;
+
+// ロード対象の心相投影データ(自動保存/保存プラン/プランコード共通)が、廃止された過去シーズンの
+// 心相晶テンプレート(S4ではS3潜在心相晶のテンプレート1-8)を選択しているか、無効化された過去
+// シーズンの因子を1つでも装着しているか。該当する場合、呼び出し側(store)は心相投影の状態
+// (有効化/シーズンLv/テンプレート/ノード選択/因子装着)をリセットし、ユーザーに通知する
 // (docs/CHARACTER_DATA_MODEL.md の「心相投影・幻影因子」章を参照)。
-export function hasLegacyPhantomFactor(
-  phantomFactorSlots: Record<number, PhantomFactorSlotValue | null> | undefined,
-): boolean {
-  if (!phantomFactorSlots) return false;
-  return Object.values(phantomFactorSlots).some(
+export function hasLegacyPhantomData(state: PhantomSaveState): boolean {
+  if (!state) return false;
+  if (isTemplateLegacy(state.phantomTemplateId)) return true;
+  if (!state.phantomFactorSlots) return false;
+  return Object.values(state.phantomFactorSlots).some(
     (slot) => slot != null && isFactorClassLegacy(slot.classKey),
   );
+}
+
+// 心相晶テンプレートを選択しているか、因子を1つでも装着しているか(リセット時の通知要否の判定用)。
+export function hasPhantomData(state: PhantomSaveState): boolean {
+  if (!state) return false;
+  if (state.phantomTemplateId != null) return true;
+  return Object.values(state.phantomFactorSlots ?? {}).some((slot) => slot != null);
 }

@@ -1,9 +1,31 @@
 import { useMemo } from 'react';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
 import { buildChildrenMap, getSTAsset, iconPathToFile, pfData, stData } from './phantomData';
+import { computeOathTreeLayout, TREE_UNIT_SCALE } from './phantomTreeLayout';
 
 // 心相投影ツリーのSVG描画(接続線 + ノード)。PhantomPanel から分離したもので、
 // ノードクリックによる選択トグル以外の状態は持たない。
+
+// ノード各部の描画サイズ。祈願心相晶のUIプレハブ(season_talent_4_*)の RectTransform の
+// サイズ(ゲーム内UI単位)を、ノード座標と同じ倍率でSVG座標に換算する。
+// 背景画像は余白込みの画像サイズ(bg2=106、quality*=120、bg1=350x170)で配置する。
+const u = (gameUnits: number) => gameUnits * TREE_UNIT_SCALE;
+const NODE_SIZE = {
+  rootBgW: u(350),
+  rootBgH: u(170),
+  rootIcon: u(106 - 14),
+  // 選択枠はノード枠(ルート106/通常74)に32を足したサイズに伸縮して表示される(画像は同じbg2_select)。
+  rootSelect: u(106 + 32),
+  basicBg: u(106),
+  basicIcon: u(74 - 14),
+  basicSelect: u(74 + 32),
+  factorBg: u(120),
+  factorIcon: u(98 - 20),
+  factorSelect: u(130),
+  lock: u(30),
+  // 複数から1つを選ぶノードの、選ばれなかった側に重ねるアイコン(画像は28x28)。
+  empty: u(28),
+};
 
 // ---- レイアウト定数 (100%ズーム時に基本サイズの2倍) ----
 const ROW_H = 140;
@@ -69,7 +91,12 @@ export default function PhantomTreeSvg({
   // 各ステップに行(row)を割り当てて座標化する。「真実」ノードのような、分岐の共通の親から
   // もう1本生えているだけの単独ノードは合流に参加しないため、専用の行を割かず分岐と同じ行の
   // 中央に配置する(ゲーム内表示と同じレイアウト)。
-  const { nodePositions, rowCount } = useMemo(() => {
+  // 祈願心相晶の形のツリーは放射状レイアウト(phantomTreeLayout.ts)を優先する。
+  const { nodePositions, svgWidth, svgHeight } = useMemo(() => {
+    const oath = computeOathTreeLayout(phantomTemplateId);
+    if (oath) {
+      return { nodePositions: oath.positions, svgWidth: oath.width, svgHeight: oath.height };
+    }
     const map = new Map<number, [number, number]>();
     let row = 0;
     treeSteps.forEach((step, idx) => {
@@ -84,13 +111,19 @@ export default function PhantomTreeSvg({
       });
       row += 1;
     });
-    return { nodePositions: map, rowCount: row };
-  }, [treeSteps]);
+    return { nodePositions: map, svgWidth: SVG_VW, svgHeight: row * ROW_H };
+  }, [treeSteps, phantomTemplateId]);
 
   const childrenMap = useMemo(() => buildChildrenMap(phantomTemplateId), [phantomTemplateId]);
 
-  const svgHeight = rowCount * ROW_H;
+  // 複数の候補から1つを選ぶステップ(分岐の選択・因子タイプ選択・経路で決まる因子)に属するノード。
+  const choiceNodeIds = useMemo(
+    () => new Set(treeSteps.filter((s) => s.nodeIds.length > 1).flatMap((s) => s.nodeIds)),
+    [treeSteps],
+  );
 
+  // 接続線。ゲーム内のプレハブ(line_<from>_<to>: 幅2の直線画像を回転配置)と同じく直線で、
+  // 色もプレハブに合わせる(取得済み: 水色 143,213,255 +発光 / 未取得: 半透明の白)。
   const renderLines = () =>
     treeSteps.flatMap((step) =>
       step.nodeIds.flatMap((nodeId) => {
@@ -109,15 +142,26 @@ export default function PhantomTreeSvg({
               y1={ny}
               x2={nnx}
               y2={nny}
-              stroke={isActivePath ? 'rgb(255 170 238 / 0.71)' : '#323232'}
-              strokeWidth={isActivePath ? 4 : 2}
-              strokeDasharray={isActivePath ? undefined : '5 3'}
+              stroke={isActivePath ? 'rgb(143 213 255)' : 'rgb(255 255 255 / 0.35)'}
+              strokeWidth={isActivePath ? 4 : 2.4}
               filter={isActivePath ? 'url(#phantom-tree-glow)' : undefined}
             />,
           ];
         });
       }),
     );
+
+  // 正方形の画像を中心(cx,cy)・一辺sizeで配置する。
+  const squareImage = (file: string, cx: number, cy: number, size: number, opacity?: number) => (
+    <image
+      href={getSTAsset(file)}
+      x={cx - size / 2}
+      y={cy - size / 2}
+      width={size}
+      height={size}
+      opacity={opacity}
+    />
+  );
 
   const renderNode = (nodeId: number, si: number) => {
     const node = stData.treeNodes[String(nodeId)];
@@ -127,22 +171,21 @@ export default function PhantomTreeSvg({
     const isSelected = selectedNodeId === nodeId;
     const isRoot = si === 0;
     const handleClick = () => onToggleNode(nodeId);
+    // 未取得ノードは背景・アイコンを薄くしてロックアイコンを重ねる(ゲーム内のロック表示と同じ
+    // 透明度。ルートは常に取得済み扱いで薄くしない)。祈願Lvの条件は満たしているが、複数から
+    // 1つを選ぶノードで選ばれなかった側は、ロックの代わりに set_empty アイコンを重ねる。
+    const dimmed = !isActive && !isRoot;
+    const isUnchosen = dimmed && choiceNodeIds.has(nodeId) && levelUnlockedNodeIds.has(nodeId);
+    const lockOverlay =
+      dimmed &&
+      (isUnchosen
+        ? squareImage('set_empty.png', nx, ny, NODE_SIZE.empty)
+        : squareImage('img_season_talent_tree_lock.png', nx, ny, NODE_SIZE.lock));
 
     if (node.nodeType === 1) {
       const oe = stData.ordinaryEffects[String(nodeId)];
       const iconFile = oe ? iconPathToFile(oe.icon) : '';
-      const bgFile = isRoot
-        ? 'img_season_talent_tree_bg1.png'
-        : isActive
-          ? 'img_season_talent_tree_bg2.png'
-          : 'img_season_talent_tree_bg2_lock.png';
-      const r = isRoot ? 44 : 32;
-      const iconR = isRoot ? r * 0.85 : r * 0.68;
-      const bgWidth = isRoot ? r * 6 : r * 2;
-      const bgHeight = isRoot ? r * 2.75 : r * 2;
-      const bgXOffset = isRoot ? r * 3.03 : r;
-      const bgYOffset = isRoot ? r * 1.2 : r;
-      const iconOpacity = isRoot ? 0.8 : undefined;
+      const iconSize = isRoot ? NODE_SIZE.rootIcon : NODE_SIZE.basicIcon;
       return (
         <g
           key={nodeId}
@@ -151,43 +194,40 @@ export default function PhantomTreeSvg({
           style={{ cursor: 'pointer' }}
           data-selected={isSelected || undefined}
         >
-          <image
-            href={getSTAsset(bgFile)}
-            x={nx - bgXOffset}
-            y={ny - bgYOffset}
-            width={bgWidth}
-            height={bgHeight}
-          />
-          {iconFile && (
+          {isRoot ? (
             <image
-              href={getSTAsset(iconFile)}
-              x={nx - iconR}
-              y={ny - iconR}
-              width={iconR * 2}
-              height={iconR * 2}
-              opacity={iconOpacity}
+              href={getSTAsset('img_season_talent_tree_bg1.png')}
+              x={nx - NODE_SIZE.rootBgW / 2}
+              y={ny - NODE_SIZE.rootBgH / 2}
+              width={NODE_SIZE.rootBgW}
+              height={NODE_SIZE.rootBgH}
             />
+          ) : (
+            squareImage(
+              'img_season_talent_tree_bg2.png',
+              nx,
+              ny,
+              NODE_SIZE.basicBg,
+              dimmed ? 0.5 : undefined,
+            )
           )}
-          {!isActive && !isRoot && <circle cx={nx} cy={ny} r={r} fill="rgba(0,0,0,0.5)" />}
-          {isSelected && (
-            <image
-              href={getSTAsset('img_season_talent_tree_bg2_select.png')}
-              x={nx - (r + 8)}
-              y={ny - (r + 8)}
-              width={(r + 8) * 2}
-              height={(r + 8) * 2}
-            />
-          )}
+          {iconFile &&
+            squareImage(iconFile, nx, ny, iconSize, isRoot ? 0.8 : dimmed ? 0.4 : undefined)}
+          {lockOverlay}
+          {isSelected &&
+            squareImage(
+              'img_season_talent_tree_bg2_select.png',
+              nx,
+              ny,
+              isRoot ? NODE_SIZE.rootSelect : NODE_SIZE.basicSelect,
+            )}
         </g>
       );
     } else {
-      const r = 32;
       const slot = stData.intermediateSlots[String(nodeId)];
       const qualityFile = slot ? iconPathToFile(slot.icon) : 'img_season_talent_tree_quality1.png';
       const current = phantomFactorSlots[node.groupId] ?? null;
       const factorIconName = current ? pfData.byClass[current.classKey]?.icon : null;
-      const factorIconSrc = factorIconName ? getSTAsset(factorIconName + '.png') : '';
-      const iconR = r * 0.7;
       return (
         <g
           key={nodeId}
@@ -196,40 +236,13 @@ export default function PhantomTreeSvg({
           style={{ cursor: 'pointer' }}
           data-selected={isSelected || undefined}
         >
-          <image
-            href={getSTAsset(qualityFile)}
-            x={nx - r}
-            y={ny - r}
-            width={r * 2}
-            height={r * 2}
-          />
-          {factorIconSrc && isActive && (
-            <image
-              href={factorIconSrc}
-              x={nx - iconR}
-              y={ny - iconR}
-              width={iconR * 2}
-              height={iconR * 2}
-            />
-          )}
-          {!isActive && (
-            <image
-              href={getSTAsset('img_season_talent_tree_bg2_lock.png')}
-              x={nx - r}
-              y={ny - r}
-              width={r * 2}
-              height={r * 2}
-            />
-          )}
-          {isSelected && (
-            <image
-              href={getSTAsset('img_season_talent_tree_big_bg_select.png')}
-              x={nx - (r + 8)}
-              y={ny - (r + 8)}
-              width={(r + 8) * 2}
-              height={(r + 8) * 2}
-            />
-          )}
+          {squareImage(qualityFile, nx, ny, NODE_SIZE.factorBg, dimmed ? 0.3 : undefined)}
+          {factorIconName &&
+            isActive &&
+            squareImage(factorIconName + '.png', nx, ny, NODE_SIZE.factorIcon)}
+          {lockOverlay}
+          {isSelected &&
+            squareImage('img_season_talent_tree_big_bg_select.png', nx, ny, NODE_SIZE.factorSelect)}
         </g>
       );
     }
@@ -237,8 +250,8 @@ export default function PhantomTreeSvg({
 
   return (
     <svg
-      viewBox={`0 0 ${SVG_VW} ${svgHeight}`}
-      width={SVG_VW * zoom}
+      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      width={svgWidth * zoom}
       height={svgHeight * zoom}
       className="phantom-tree-svg"
     >
@@ -249,7 +262,7 @@ export default function PhantomTreeSvg({
           filterUnits="userSpaceOnUse"
           x={-20}
           y={-20}
-          width={SVG_VW + 40}
+          width={svgWidth + 40}
           height={svgHeight + 40}
         >
           <feGaussianBlur stdDeviation="3" result="blur" />

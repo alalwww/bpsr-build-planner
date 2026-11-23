@@ -197,7 +197,7 @@ export function deriveStats(
   luckyHitDamageRatioBonus = 0,
   // 進化ステータス(蒼海武器等)の物理/魔法増強"%"バリアントによる、収益逓減カーブ適用後の
   // 最終%への直接加算(単位: 100 = 1%)。calculateRawStatsのfinalPctAddendをそのまま渡す。
-  // 強化薬(スターオイル)由来の実数値(raw.physicalEnhance/magicalEnhance)はカーブを経由させ、
+  // 強化薬(泥灸)由来の実数値(raw.physicalEnhance/magicalEnhance)はカーブを経由させ、
   // こちらはカーブ通過後の結果に加算する点に注意(2026-08-12不具合報告)。
   finalPctAddend: Partial<Record<StatId, number>> = {},
   // calculateRawStatsのhasteRealAdjusted(俊敏変換分まで含めてファスト自身への%ボーナスを
@@ -221,12 +221,16 @@ export function deriveStats(
   const physicalAtk = raw.atk + physicalAtkMainStatBonus;
   const magicalAtk = raw.matk + magicalAtkMainStatBonus;
 
-  const physicalDefStrengthBonus =
-    raw.strength *
-    (COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint + (conversionRateBonus.physicalDef ?? 0));
+  // 防御力への変換もゲーム内では端数切り捨て(2026-11-23実測: 筋力315→物防94、知力315→魔防157)。
+  const physicalDefStrengthBonus = convertBySeparatelyTruncatedRates(
+    raw.strength,
+    COMMON_STAT_COEFFICIENTS.physicalDefPerStrengthPoint,
+    conversionRateBonus.physicalDef ?? 0,
+  );
   const physicalDef = raw.physicalDef + physicalDefStrengthBonus;
-  const magicalDefIntellectBonus =
-    raw.intellect * COMMON_STAT_COEFFICIENTS.magicalDefPerIntellectPoint;
+  const magicalDefIntellectBonus = Math.floor(
+    raw.intellect * COMMON_STAT_COEFFICIENTS.magicalDefPerIntellectPoint,
+  );
   const magicalDef = raw.magicalDef + magicalDefIntellectBonus;
 
   const critPercent = diminishingPercent(

@@ -4,7 +4,13 @@ import { renderMarkup } from '../components/renderMarkup';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import type { PhantomFactorSlotValue } from './phantomData';
 import { getSTAsset, getUnlockLevel, iconPathToFile, stData } from './phantomData';
-import { factorBaseName, getFactorEffectDesc, getNodeEffectDesc } from './phantomView';
+import {
+  factorBaseName,
+  formatType1Effect,
+  getFactorEffectDesc,
+  getNodeEffectDesc,
+} from './phantomView';
+import { affixEffectText, getActiveAffixEffects } from './phantomAffixData';
 
 // 選択中ノードの効果詳細表示(固定ノード=ステータス/バフ効果、因子スロット=装着中の因子効果)。
 // PhantomPanel から分離。
@@ -79,14 +85,11 @@ export default function PhantomNodeEffect({
         <div className="phantom-desc-effects">
           {effects
             .filter((e) => e[0] === 1)
-            .map((e, i) => {
-              const attrName = tg(`attributes.${e[1]}`);
-              return (
-                <div key={i} className="phantom-desc-effect">
-                  {attrName} +{e[2]}
-                </div>
-              );
-            })}
+            .map((e, i) => (
+              <div key={i} className="phantom-desc-effect">
+                {formatType1Effect(tg, e)}
+              </div>
+            ))}
           {effectDesc && (
             <div className="phantom-desc-effect phantom-desc-effect--buff">
               {renderMarkup(effectDesc, linkTextPopup.handlers)}
@@ -106,6 +109,8 @@ export default function PhantomNodeEffect({
     const factorEffectDesc = current
       ? getFactorEffectDesc(tg, current.classKey, current.grade)
       : '';
+    // 因子に埋め込んだ映痕の効果(同種は合計、重複不可は最大値)。因子設定ダイアログの「映痕の効果」と同じ。
+    const affixEffects = getActiveAffixEffects(current);
     return (
       <>
         <div className="phantom-desc-header">
@@ -120,6 +125,18 @@ export default function PhantomNodeEffect({
           </div>
         )}
         {factorEffectDesc && <div className="phantom-desc-text">{factorEffectDesc}</div>}
+        {affixEffects.length > 0 && (
+          <div className="phantom-desc-affixes">
+            <div className="phantom-desc-affixes__heading">
+              {t('buildPlanner.phantom.affixEffect')}
+            </div>
+            {affixEffects.map((a) => (
+              <div key={a.group} className="phantom-desc-affixes__effect">
+                {affixEffectText(tg, a)}
+              </div>
+            ))}
+          </div>
+        )}
         {lockedNote}
       </>
     );

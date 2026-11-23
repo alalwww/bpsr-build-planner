@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';
 import { persistAutoSave, persistBuildPlans } from '../plan/buildPlan';
+import { needsPhantomReset } from '../plan/saveSeason';
+import { getAutoSaveOnMount } from './autoSaveOnMount';
 import { createEquipmentSlice } from './equipmentSlice';
 import { createModuleSlice } from './moduleSlice';
 import { createModulePresetSlice } from './modulePresetSlice';
@@ -23,12 +25,13 @@ export const useBuildStore = create<BuildStore>()(
   })),
 );
 
-// マウント時点でS2幻影因子のリセット(createPhantomSlice参照)が行われた場合、補正後の状態を
+// マウント時点で過去シーズンの心相投影データのリセット(createPhantomSlice参照)が行われた場合
+// (過去シーズンに保存された自動保存データは、保存時シーズンの更新も兼ねる)、補正後の状態を
 // 即座に永続化する(loadAutoSave()のv1→v2移行時のpersistAutoSaveと同じパターン)。
 // これをしないと補正はメモリ上のみに留まりlocalStorageには古いデータが残ったままになり、
 // 下の購読も「初期状態からの変化」しか検知しないためこの補正を保存できず、次回起動時に
 // 同じ判定が再び真になって通知が毎回出続けてしまう。
-if (useBuildStore.getState().phantomLegacyFactorResetNotice) {
+if (needsPhantomReset(getAutoSaveOnMount().state)) {
   persistAutoSave(useBuildStore.getState().buildAutoSaveState());
 }
 
@@ -74,7 +77,6 @@ function selectAutoSaveFields(state: BuildStore) {
     state.phantomEnabled,
     state.phantomLevel,
     state.phantomTemplateId,
-    state.phantomBondPoints,
     state.phantomNodeSelections,
     state.phantomFactorSlots,
   ] as const;

@@ -16,7 +16,7 @@
   transform: rotate(180deg);
 }
 
-/* 折り畳みセクション共通(絞り込み/絆レベル効果/ノード効果などで使用、CollapsibleSection)。
+/* 折り畳みセクション共通(絞り込み/ノード効果などで使用、CollapsibleSection)。
    grid-template-rows: 0fr→1frのトリックで、JSでの高さ計測なしに可変長コンテンツを
    アニメーションさせる。__body-inner はoverflow:hiddenでgridの自動最小サイズを0にし、
    閉時に完全につぶれるようにする。 */

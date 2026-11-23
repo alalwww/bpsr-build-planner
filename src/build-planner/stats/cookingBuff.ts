@@ -4,21 +4,23 @@ import type { CookingBuffState, StatCorrectionEntry, StatId } from '../types';
 // イベントバフのメインステータス加算量の既定値(旧・海風の宴の固定効果量を踏襲)。
 export const DEFAULT_EVENT_BUFF_VALUE = 500;
 
+// 既定値はシーズン4の値(料理 攻撃力+280 / キャンドル 属性強度+2500 / 泥灸 ダメージ強化度+1600 /
+// 能力共鳴の基準値 8000)。内部名の syrup*(キャンドル)/starOil*(泥灸)はS3までのアイテム名の名残。
 export const DEFAULT_COOKING_BUFF: CookingBuffState = {
   cookingEnabled: false,
-  cookingAtkValue: 270,
+  cookingAtkValue: 280,
   cookingEliteDamagePercent: 10,
   syrupEnabled: false,
   syrupElement: 'fire',
-  syrupElementStrength: 2000,
+  syrupElementStrength: 2500,
   starOilEnabled: false,
-  starOilValue: 1350,
+  starOilValue: 1600,
   eventBuffEnabled: false,
   eventBuffValue: DEFAULT_EVENT_BUFF_VALUE,
   inspirationEnabled: false,
   inspirationVariant: 'lifebind',
   statResonanceEnabled: false,
-  statResonanceBaseValue: 7800,
+  statResonanceBaseValue: 8000,
   statResonanceMultiplierPercent: 32,
   luckyCritEnabled: false,
   luckyCritVariant: 'self',
@@ -77,15 +79,20 @@ export function calcLuckyCritBonus(
 // talentId 529「防御強化」R1: 物理防御力+400pt、talentId 568「鼓舞強化」森癒R2: 上記4ステータスに
 // さらに+135pt、talentId 557「鼓舞の極意」森癒R2: 鼓舞の効果を全て(物理防御力含む)2倍にする、
 // と実機で確認)。威咲はR1のみ(森癒限定のR2強化を受けられない)ため据え置き、森癒はR2強化込みで
-// (135+135)×2 = 270×2 = 540pt / 1.5%×2 = 3% / 物理防御力は400×2 = 800ptとなる。
+// (135+135)×2 = 270×2 = 540pt / 1.5%×2 = 3% / 物理防御力は400×2 = 800ptとなる(S3)。
+// シーズン4で説明文上の値が「防御強化」400→650pt、「鼓舞強化」+135→+175ptに変更されたため、
+// 森癒は物理防御力650×2 = 1300pt、威咲は物理防御力650ptに更新した。
+// 基礎値もS4パッチノートで「祝福された対象に付与する知力、筋力、敏捷、耐久力の値135pt→175pt」と
+// 告知されたため(説明文上は+100ptのまま)、森癒は(175+175)×2 = 700pt、威咲は175ptとした。
+// 1.5%はS3実測値のまま(パッチノートで変更告知なし)。
 // mainStat=筋力/知力/俊敏/耐久全てへの平坦加算、percent=会心/幸運/ファスト/器用さ/万能の
 // 最終計算結果への直接加算(%)、physDef=物理防御力への平坦加算。
 export const INSPIRATION_VALUES: Record<
   CookingBuffState['inspirationVariant'],
   { mainStat: number; percent: number; physDef: number }
 > = {
-  lifebind: { mainStat: 540, percent: 3, physDef: 800 },
-  smite: { mainStat: 135, percent: 1.5, physDef: 400 },
+  lifebind: { mainStat: 700, percent: 3, physDef: 1300 },
+  smite: { mainStat: 175, percent: 1.5, physDef: 650 },
 };
 
 // 鼓舞のpercent効果(最終計算結果への直接加算)の対象ステータス。
@@ -113,6 +120,8 @@ export function calcStatResonanceBonus(cookingBuff: CookingBuffState): number {
 export interface CookingBuffResult {
   // 料理バフ表示用: 最終atk/matkへの料理攻撃力加算量(料理、0=なし)。
   atkBonus: number;
+  // 料理の精鋭ダメージ(+5%/+10%)による汎用ダメージアップ(damageBonus、"100=1%")。
+  damageBonus: number;
 }
 
 // 料理(cookingAtkValue)による最終atk/matkへの加算量を算出する。装備・アビリティ等の
@@ -120,7 +129,8 @@ export interface CookingBuffResult {
 // 算出後の最終値に対してこの結果を加算する。
 export function applyCookingBuff(cookingBuff: CookingBuffState): CookingBuffResult {
   const atkBonus = cookingBuff.cookingEnabled ? cookingBuff.cookingAtkValue : 0;
-  return { atkBonus };
+  const damageBonus = cookingBuff.cookingEnabled ? cookingBuff.cookingEliteDamagePercent * 100 : 0;
+  return { atkBonus, damageBonus };
 }
 
 // 最終ステータスへの料理バフ系(適応力・料理攻撃力・鼓舞・HP変動)の
@@ -152,9 +162,16 @@ export function computeCookingAdjustments(
   highestOfFiveRawStats: Record<StatId, number>,
   // ステータス補正(仮)の最終値補正(finalValue)分。無効時は呼び出し側で{}を渡す。
   statCorrections: Partial<Record<StatId, StatCorrectionEntry>> = {},
+  // 料理の精鋭ダメージによる汎用ダメージアップ(damageBonus、"100=1%")。
+  cookingDamageBonus = 0,
 ): CookingAdjustment[] {
   const adjustments: CookingAdjustment[] = [];
   const working = { ...finalStats };
+
+  if (cookingDamageBonus !== 0) {
+    working.damageBonus += cookingDamageBonus;
+    adjustments.push({ statId: 'damageBonus', addend: cookingDamageBonus });
+  }
 
   if (agileAtkMultPercent !== 0) {
     const multiplier = 1 + agileAtkMultPercent / 100;

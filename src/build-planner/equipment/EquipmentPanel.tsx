@@ -70,7 +70,7 @@ const uiIcon = createAssetMap(
 );
 
 // アイテムのqualityと種類から背景画像名を決定
-// 00=Lv10相当(q1), 01=Lv20相当(q2), 03=紫(q3), 04=黄土(q4), 05=赤(q5), 07=蒼海武器
+// 00=Lv10相当(q1), 01=Lv20相当(q2), 03=紫(q3), 04=黄土(q4), 05=赤(q5), 07=蒼海・暁光武器
 function getEquipBgUrl(slot: EquipmentSlotId, item?: EquipmentItem): string | undefined {
   let name;
   if (BOTTOM_SLOT_SET.has(slot)) {

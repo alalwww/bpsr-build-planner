@@ -67,7 +67,7 @@
     "expandPanel": "Expand character panel",
     "resetPlan": "Reset current build",
     "buildPlanPlaceholder": "Build Plan Name",
-    "seasonBadge": "Season 3",
+    "seasonBadge": "Season 4",
     "abilityScore": "Ability Score",
     "abilityScoreBreakdown": {
       "source": "Source",
@@ -90,7 +90,7 @@
       "moduleLink": "Link Bonus",
       "moduleCore": "Power Core",
       "phantomGroup": "Phantom Projection",
-      "phantomLevel": "Phantom Level",
+      "phantomLevel": "Oath Psychoscope Level",
       "phantom": "Active Projection",
       "total": "Total"
     },
@@ -104,9 +104,9 @@
       "saveNotice": "These settings are not saved.",
       "cooking": "Cooking",
       "eliteDamage": "Elite Damage",
-      "syrup": "Elemental Strength Potion",
+      "syrup": "Candle",
       "elementStrength": "Elemental Strength",
-      "starOil": "Damage Boost Potion",
+      "starOil": "Poultice",
       "physicalDamageEnhance": "Physical Damage Boost",
       "magicalDamageEnhance": "Magical Damage Boost",
       "eventBuff": "Event Buff",
@@ -148,9 +148,9 @@
     "selectEquipmentTitle": "Select {{slot}}",
     "candidateFilter": {
       "toggle": "Filter",
-      "lv220": "Lv220s",
-      "lv240": "Lv240s",
-      "lv260": "Lv260s"
+      "lv320": "Lv320s",
+      "lv340": "Lv340s",
+      "lv360": "Lv360s"
     },
     "selectProfessionTitle": "Select Class",
     "professionLabel": "Class",
@@ -206,7 +206,7 @@
     "confirmResaveFormatMsg": "Update to the new save format?",
     "planLoadErrorMsg": "Failed to load your saved plans. The data may be corrupted.",
     "autoSaveLoadErrorMsg": "Failed to load your auto-saved data. The data may be corrupted.",
-    "phantomLegacyFactorResetMsg": "Season 2 Phantom Factors have been disabled, so your Phantom Projection settings have been reset.",
+    "phantomLegacyFactorResetMsg": "Season 3 Phantom Psychoscopes have been retired, so your Phantom Projection settings have been reset.",
     "modulePreset": {
       "placeholder": "Select a preset",
       "save": "Save Preset",
@@ -247,6 +247,7 @@
       "s1": "S1",
       "s2": "S2",
       "s3": "S3",
+      "s4": "S4",
       "collab": "Collab",
       "spOrange": "Sp Orange",
       "orange": "Orange",
@@ -275,7 +276,7 @@
       "skill": "Skills",
       "equipment": "Equipment",
       "module": "Module",
-      "phantom": "Phantom"
+      "phantom": "Oath"
     },
     "talentTree": {
       "reset": "Reset",
@@ -311,7 +312,7 @@
       "agility": "Agility",
       "intellect": "Intellect",
       "endurance": "Endurance",
-      "illusionPower": "Illusion Power",
+      "illusionPower": "Oath Strength",
       "crit": "Crit",
       "haste": "Haste",
       "luck": "Luck",
@@ -356,7 +357,11 @@
       "breakEfficiency": "Break Efficiency",
       "bossDamageBonus": "Boss Damage Bonus",
       "bossDamageReduction": "Boss Damage Reduction",
-      "moveSpeed": "Move Speed"
+      "moveSpeed": "Move Speed",
+      "damageBonus": "General DMG Bonus",
+      "oathDamageBonus": "Oath DMG",
+      "oathDefIgnore": "Oath Penetration",
+      "oathDamageReduction": "Oath DMG Reduction"
     },
     "statTooltip": {
       "currentValue": "Current Value",
@@ -389,20 +394,17 @@
       "suit101": "Gen 2 Set",
       "suit102": "Phantom Set",
       "suit103": "Void Corruption Set",
-      "tierLabel": "{{n}}-Piece Set"
+      "tierLabel": "{{n}}-Piece Set",
+      "suit104": "Oath Set"
     },
     "phantom": {
       "collapsePane": "Collapse detail pane",
       "expandPane": "Expand detail pane",
-      "level": "Phantom Level",
+      "level": "Oath Level",
       "template": "Projection",
       "templatePlaceholder": "Not Selected",
       "templateSelectPrompt": "Select a Phantom Projection",
       "templateLockedSuffix": " (Unlocks at Lv.{{level}})",
-      "bondPoints": "Total Bond Points",
-      "bondEffects": "Bond Level Effects",
-      "bondSlotLevel": "Bond Slot {{index}}: Lv.{{level}}",
-      "bondSlotAlways": "Bond Slot {{index}}: Always unlocked",
       "nodeEffect": "Node Effect",
       "nodeEffectPlaceholder": "Click a node to view its effect",
       "factorSlot": "Phantom Factor Slot",
@@ -414,7 +416,7 @@
       "enabledOn": "Enabled",
       "enabledOff": "Disabled",
       "enabledLockedTitle": "Can't enable: the selected tree isn't unlocked yet",
-      "disabledNotice": "Phantom Projection is disabled, so Bond Level effects and node effects aren't applied to your stats",
+      "disabledNotice": "Phantom Projection is disabled, so node effects aren't applied to your stats",
       "resetTooltip": "Click to reset",
       "tabTitleDisabled": "Phantom Projection tree is disabled",
       "tabTitleEnabled": "{{name}} is enabled",
@@ -423,7 +425,6 @@
       "effectSummary": {
         "sections": {
           "total": "Summary",
-          "advanced": "Advanced Node Effects (Bond Level Effects)",
           "intermediate": "Intermediate Node Effects",
           "ordinary": "Basic Node Effects"
         },
@@ -432,10 +433,37 @@
         "flatCol": "Flat",
         "pctCol": "Mult. %",
         "finalPctCol": "Final %",
-        "routeLocked": "Locked",
-        "bondLevelLabel": "Bond Lv.{{level}}",
-        "highestOfLabel": "Added to whichever is highest of Crit/Haste/Luck/Mastery/Versatility"
-      }
+        "routeLocked": "Locked"
+      },
+      "factorDialogTitle": "Factor Settings - {{slot}}",
+      "factorSelect": "Factor",
+      "factorGrade": "Grade",
+      "factorEffect": "Factor Effect",
+      "affixHeading": "Imprints",
+      "affixNeedFactor": "Select a factor to set imprints.",
+      "affixSlot": "Slot {{n}}",
+      "affixSlotType": {
+        "1": "Attribute",
+        "2": "Class"
+      },
+      "affixLocked": "Unlocks at G{{grade}}",
+      "affixNone": "None",
+      "affixValue": "Value",
+      "affixCount": "{{count}} Imprint(s)",
+      "affixQuality": {
+        "2": "Advanced"
+      },
+      "affixLib": {
+        "101": "Secondary Attribute",
+        "102": "Primary Attribute",
+        "103": "Polarity",
+        "104": "Resilience",
+        "105": "Element",
+        "1001": "Class Imprint"
+      },
+      "affixEffect": "Imprint Effects",
+      "affixNonStackingShort": "No stacking",
+      "affixNonStackingWarning": "This effect does not stack. The same imprint is also set in another slot (including other factors); only the one with the highest value is applied."
     },
     "detailStats": {
       "title": "Stat Details",
@@ -516,7 +544,8 @@
         "bossDamageReduction": "Boss Damage Reduction",
         "moveSpeed": "Move Speed",
         "maxStamina": "Max Stamina",
-        "staminaRegen": "Combat Stamina Recovery"
+        "staminaRegen": "Combat Stamina Recovery",
+        "seasonDamageBonus": "{{name}} Bonus"
       }
     }
   }

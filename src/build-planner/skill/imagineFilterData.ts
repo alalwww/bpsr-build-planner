@@ -8,8 +8,8 @@ import type { ImagineData } from '../stats/gameData';
 // SkillAoyiTable.Classification=4(コラボ)は SeasonId が実データ上 S3 を指していても、
 // シーズン/品質どちらの通常フィルターにも一致させず、「コラボ」フィルターでのみ表示する。
 
-export type ImagineSeasonFilter = 's1' | 's2' | 's3' | 'collab';
-export const IMAGINE_SEASON_FILTERS: ImagineSeasonFilter[] = ['s1', 's2', 's3', 'collab'];
+export type ImagineSeasonFilter = 's1' | 's2' | 's3' | 's4' | 'collab';
+export const IMAGINE_SEASON_FILTERS: ImagineSeasonFilter[] = ['s1', 's2', 's3', 's4', 'collab'];
 
 export type ImagineQualityFilter = 'spOrange' | 'orange' | 'purple';
 export const IMAGINE_QUALITY_FILTERS: ImagineQualityFilter[] = ['spOrange', 'orange', 'purple'];

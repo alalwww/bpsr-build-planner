@@ -3,14 +3,16 @@ import { useTranslation } from 'react-i18next';
 import ConfirmDialog from '../components/ConfirmDialog';
 import Stepper from '../components/Stepper';
 import FactorSlot from './FactorSlot';
+import PhantomFactorDialog from './PhantomFactorDialog';
+import { getDuplicatedNonStackingGroups, withFactorGrade } from './phantomAffixData';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
-import { getActivePhantomNodeIds, getDefaultFactorGrade, stData } from './phantomData';
 import {
-  factorBaseName,
-  getFactorBaseOptions,
-  getFactorEffectDesc,
-  getNodeIcon,
-} from './phantomView';
+  getActivePhantomNodeIds,
+  getDefaultFactorGrade,
+  MAX_FACTOR_GRADE,
+  stData,
+} from './phantomData';
+import { factorBaseName, getNodeIcon } from './phantomView';
 
 // ノード設定リスト(ツリーの各ステップに対応する行)。PhantomPanel から分離。
 // 行の種類: 固定ノード / 効果選択 / 因子スロット(単独・タイプ選択・経路依存)。
@@ -47,7 +49,6 @@ export default function PhantomNodeConfig({
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
 
-  const unequippedLabel = t('buildPlanner.phantom.factorUnequipped');
   // 選択/因子装着自体は妨げないため、クリックハンドラは変更せずスタイルのみ不活性化する。
   const isLocked = (nodeId: number) => !levelUnlockedNodeIds.has(nodeId);
 
@@ -83,6 +84,14 @@ export default function PhantomNodeConfig({
   // phantomFactorSlots はツリーをまたいでキー(groupId)を保持するため(store側コメント参照)、
   // 重複判定は現在表示中のツリーに属するgroupIdのみを対象にする(他ツリーの因子装着は無視)。
   const currentTreeGroupIds = new Set(treeSteps.flatMap((step) => step.nodeIds));
+
+  // 重複不可の映痕は全因子を通じて1つしか効果が出ないため、現在のツリーで有効なノードの因子を
+  // まとめて重複を調べ、因子設定ダイアログの該当スロットすべてに警告を出す。
+  const duplicatedNonStackingGroups = getDuplicatedNonStackingGroups(
+    [...currentTreeGroupIds]
+      .filter((gid) => activeNodeIds.has(gid))
+      .map((gid) => phantomFactorSlots[gid]),
+  );
 
   const handleSetFactor = (groupId: number, value: PhantomFactorSlotValue | null) => {
     if (value) {
@@ -140,7 +149,8 @@ export default function PhantomNodeConfig({
     for (const gid of visibleFactorGroupIds) {
       const current = phantomFactorSlots[gid] ?? null;
       if (current) {
-        if (current.grade !== newValue) onPhantomFactorSlot(gid, { ...current, grade: newValue });
+        if (current.grade !== newValue)
+          onPhantomFactorSlot(gid, withFactorGrade(current, newValue));
       } else {
         setPendingGrades((prev) => (prev[gid] === newValue ? prev : { ...prev, [gid]: newValue }));
       }
@@ -153,24 +163,23 @@ export default function PhantomNodeConfig({
         className="phantom-grade-stepper"
         value={bulkGrade}
         min={1}
-        max={10}
+        max={MAX_FACTOR_GRADE}
         formatValue={(v) => `G${v}`}
         onChange={handleBulkGradeChange}
       />
     </div>
   );
 
-  // 因子スロット本体(全factor系行で共通)
+  // 因子設定ダイアログを開いているスロット(groupId)。
+  const [dialogGroupId, setDialogGroupId] = useState<number | null>(null);
+
+  // 因子スロット本体(全factor系行で共通)。クリックで因子設定ダイアログを開く固定枠。
+  // 行のクリック(ノード選択)はバブルさせたままにし、開いたスロットのノードも選択状態にする。
   const renderFactorSlot = (groupId: number) => (
     <FactorSlot
-      groupId={groupId}
       current={phantomFactorSlots[groupId] ?? null}
       pendingGrade={pendingGrades[groupId] ?? getDefaultFactorGrade()}
-      onPendingGradeChange={(grade) => setPendingGrades((prev) => ({ ...prev, [groupId]: grade }))}
-      options={getFactorBaseOptions(tg, groupId, professionId)}
-      getDesc={(classKey, grade) => getFactorEffectDesc(tg, classKey, grade)}
-      unequippedLabel={unequippedLabel}
-      onSet={handleSetFactor}
+      onOpen={() => setDialogGroupId(groupId)}
     />
   );
 
@@ -366,6 +375,20 @@ export default function PhantomNodeConfig({
   return (
     <div className="phantom-node-config">
       {treeSteps.map((step, idx) => renderRow(step, idx))}
+      {dialogGroupId != null && (
+        <PhantomFactorDialog
+          groupId={dialogGroupId}
+          current={phantomFactorSlots[dialogGroupId] ?? null}
+          pendingGrade={pendingGrades[dialogGroupId] ?? getDefaultFactorGrade()}
+          onPendingGradeChange={(grade) =>
+            setPendingGrades((prev) => ({ ...prev, [dialogGroupId]: grade }))
+          }
+          professionId={professionId}
+          duplicatedNonStackingGroups={duplicatedNonStackingGroups}
+          onSet={handleSetFactor}
+          onClose={() => setDialogGroupId(null)}
+        />
+      )}
       {pendingFactorSwap && (
         <ConfirmDialog
           message={t('buildPlanner.phantom.factorDuplicateMsg', {
@@ -376,8 +399,13 @@ export default function PhantomNodeConfig({
           onConfirm={() => {
             const { groupId, value, conflictGroupId, previousValue } = pendingFactorSwap;
             // 真の入れ替え: 操作中スロットには選んだ因子を、重複先には操作中スロットの
-            // 変更前の因子(未装着なら未装着)をそのまま移す。
-            onPhantomFactorSlot(groupId, value);
+            // 変更前の因子(未装着なら未装着)をそのまま移す。選んだ因子は重複先の因子を
+            // 移してくるものとして、重複先に埋め込まれていた映痕を引き継ぐ(グレードは選択時の値)。
+            const conflictValue = phantomFactorSlots[conflictGroupId];
+            onPhantomFactorSlot(
+              groupId,
+              conflictValue ? withFactorGrade(conflictValue, value.grade) : value,
+            );
             onPhantomFactorSlot(conflictGroupId, previousValue);
             setPendingFactorSwap(null);
           }}

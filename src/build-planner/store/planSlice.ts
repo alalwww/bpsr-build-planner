@@ -12,7 +12,13 @@ import {
   normalizeRoleSkillRanks,
   STATIC_AUTOSAVE_DEFAULTS,
 } from '../plan/planDefaults';
-import { hasLegacyPhantomFactor, initPhantomNodeSelections } from '../phantom/phantomData';
+import { initPhantomNodeSelections } from '../phantom/phantomData';
+import {
+  CURRENT_SAVE_SEASON_ID,
+  needsPhantomReset,
+  shouldNotifyPhantomReset,
+} from '../plan/saveSeason';
+import { getDefaultPhantomLevel } from '../seasonSchedule';
 import { setSessionValue } from '../components/useSessionState';
 import type { CookingBuffState, EquipmentSlotId, EquippedItems } from '../types';
 import { getAutoSaveOnMount } from './autoSaveOnMount';
@@ -96,9 +102,7 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
     autoSaveLegacySource: autoSaveOnMount.legacySource,
     planLoadError: buildPlansOnMount.loadError,
     autoSaveLoadError: autoSaveOnMount.loadError,
-    phantomLegacyFactorResetNotice: hasLegacyPhantomFactor(
-      autoSaveOnMount.state?.phantomFactorSlots,
-    ),
+    phantomLegacyFactorResetNotice: shouldNotifyPhantomReset(autoSaveOnMount.state),
 
     setCookingBuff: (patch) =>
       set((state) => ({ cookingBuff: { ...state.cookingBuff, ...patch } })),
@@ -161,9 +165,9 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
         phantomEnabled: state.phantomEnabled,
         phantomLevel: state.phantomLevel,
         phantomTemplateId: state.phantomTemplateId,
-        phantomBondPoints: state.phantomBondPoints,
         phantomNodeSelections: { ...state.phantomNodeSelections },
         phantomFactorSlots: { ...state.phantomFactorSlots },
+        saveSeasonId: CURRENT_SAVE_SEASON_ID,
       };
     },
 
@@ -207,26 +211,22 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setSlotEnchants(plan.slotEnchants ?? STATIC_AUTOSAVE_DEFAULTS.slotEnchants);
       state.setModuleSlotsState(plan.moduleSlots ?? STATIC_AUTOSAVE_DEFAULTS.moduleSlots);
       set({ adventurerLevel: plan.adventurerLevel ?? STATIC_AUTOSAVE_DEFAULTS.adventurerLevel });
+      // 過去シーズンに保存されたデータ(S4ではS3潜在心相晶のデータ)や、廃止された心相晶
+      // テンプレート/因子が残っているデータは、心相投影の状態(有効化/シーズンLv/テンプレート/
+      // ノード選択/因子装着)を初期状態にリセットし、何か失われた場合はユーザーに通知する。
+      if (needsPhantomReset(plan)) {
+        state.setPhantomEnabled(STATIC_AUTOSAVE_DEFAULTS.phantomEnabled);
+        state.setPhantomTemplateIdState(STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId);
+        state.setPhantomLevel(getDefaultPhantomLevel());
+        state.setPhantomNodeSelectionsState(STATIC_AUTOSAVE_DEFAULTS.phantomNodeSelections);
+        state.setPhantomFactorSlotsState(STATIC_AUTOSAVE_DEFAULTS.phantomFactorSlots);
+        if (shouldNotifyPhantomReset(plan)) set({ phantomLegacyFactorResetNotice: true });
+        return;
+      }
       state.setPhantomEnabled(plan.phantomEnabled ?? STATIC_AUTOSAVE_DEFAULTS.phantomEnabled);
       const newTid = plan.phantomTemplateId ?? STATIC_AUTOSAVE_DEFAULTS.phantomTemplateId;
       state.setPhantomTemplateIdState(newTid);
-      // 過去シーズン(S2)の幻影因子が装着されたままのデータは、潜在Lv/絆レベルポイント/
-      // 因子装着/ノード選択状況をリセットし、ユーザーに通知する
-      // (テンプレート自体は維持し、ノード選択のみそのテンプレートの初期状態に戻す)。
-      if (hasLegacyPhantomFactor(plan.phantomFactorSlots)) {
-        state.setPhantomLevel(1);
-        state.setPhantomBondPoints(0);
-        state.setPhantomNodeSelectionsState(
-          newTid != null ? initPhantomNodeSelections(newTid) : {},
-        );
-        state.setPhantomFactorSlotsState({});
-        set({ phantomLegacyFactorResetNotice: true });
-        return;
-      }
-      state.setPhantomLevel(plan.phantomLevel ?? STATIC_AUTOSAVE_DEFAULTS.phantomLevel);
-      state.setPhantomBondPoints(
-        plan.phantomBondPoints ?? STATIC_AUTOSAVE_DEFAULTS.phantomBondPoints,
-      );
+      state.setPhantomLevel(plan.phantomLevel ?? getDefaultPhantomLevel());
       state.setPhantomNodeSelectionsState(
         plan.phantomNodeSelections ??
           (newTid != null
@@ -318,7 +318,6 @@ export const createPlanSlice: StateCreator<BuildStore, [], [], PlanSlice> = (set
       state.setPhantomEnabled(defaults.phantomEnabled);
       state.setPhantomLevel(defaults.phantomLevel);
       state.setPhantomTemplateIdState(defaults.phantomTemplateId);
-      state.setPhantomBondPoints(defaults.phantomBondPoints);
       state.setPhantomNodeSelectionsState(defaults.phantomNodeSelections);
       state.setPhantomFactorSlotsState(defaults.phantomFactorSlots);
     },

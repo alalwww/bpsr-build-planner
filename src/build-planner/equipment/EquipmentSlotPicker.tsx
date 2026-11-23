@@ -220,12 +220,12 @@ function EquipmentSlotPicker({
       )
     : { total: 0, baseStats: 0, evolution: 0, enchant: 0, refine: 0 };
 
-  // プレビューボックス用アイコン URL
+  // プレビューボックス用アイコン URL。サフィックスなしの画像を優先する(武器の _t 付き・
+  // 防具/アクセサリの _l 付きは装備パネル用)。無い場合のみサフィックス付きにフォールバック。
   const bgUrl = getEquipBgUrlFrom(equippedItem);
   const iconUrl = equippedItem
-    ? slot === 'weapon'
-      ? (getPickerEquipUrl(equippedItem.icon + '_t') ?? getPickerEquipUrl(equippedItem.icon))
-      : (getPickerEquipUrl(equippedItem.icon + '_l') ?? getPickerEquipUrl(equippedItem.icon))
+    ? (getPickerEquipUrl(equippedItem.icon) ??
+      getPickerEquipUrl(equippedItem.icon + (slot === 'weapon' ? '_t' : '_l')))
     : undefined;
 
   // 装着効果データ (enchantId がある場合のみ)

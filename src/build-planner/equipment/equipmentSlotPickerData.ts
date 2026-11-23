@@ -195,9 +195,11 @@ const itemBg = createAssetMap(
   import.meta.glob<{ default: string }>('../../assets/ui/item_quality_*.png', { eager: true }),
 );
 
-// 蒼海シリーズ(WeaponSkinId末尾06)判定。背景画像・名前色の特例分岐で共通利用。
+// 蒼海シリーズ(WeaponSkinId 06)・暁光シリーズ(同 14、S4)判定。どちらも蒼海と同じ扱いで、
+// 背景画像・名前色の特例分岐で共通利用。
+const SEA_BREEZE_LIKE_ICON = /_(?:06|14)_/;
 export function isSeaBreezeSeries(item: EquipmentItem): boolean {
-  return item.icon.includes('_06_');
+  return SEA_BREEZE_LIKE_ICON.test(item.icon);
 }
 
 // quality(1-5)→アセット名末尾の数値。index=2に相当する画像は存在しないため、
@@ -226,8 +228,11 @@ export function getQualityColor(quality: number): string {
   return '#c8c4bc';
 }
 
+// 蒼海・暁光シリーズの名前色。映痕の品質「上級」(ゲームデータに色が無い)の色にも流用している(phantomAffixData.ts)。
+export const SEA_BREEZE_NAME_COLOR = '#5599dd';
+
 export function getItemNameColor(item: EquipmentItem): string {
-  if (isSeaBreezeSeries(item)) return '#5599dd'; // 蒼海シリーズ（WeaponSkinId末尾06）
+  if (isSeaBreezeSeries(item)) return SEA_BREEZE_NAME_COLOR; // 蒼海・暁光シリーズ
   return getQualityColor(item.quality);
 }
 
@@ -266,24 +271,25 @@ export { calcStatValue, truncate1Str } from '../stats/statValue';
 // 「S3装備」(GS>190)はGS降順ソートと結果が完全に一致する(GS>190の候補は元々先頭に
 // 来るため)ため、実質的な意味を持たず削除済み。「全て」ボタンも、選択中のボタンを
 // 再クリックすると解除(未選択=絞り込みなし)できるため削除済み(null で表現する)。
-export type CandidateGsFilter = 'lv220' | 'lv240' | 'lv260';
+// シーズン4でS4装備(GS320台/340台/360台、最上位380)向けに切り替えた(S3は220/240/260台)。
+export type CandidateGsFilter = 'lv320' | 'lv340' | 'lv360';
 
-export const CANDIDATE_GS_FILTERS: CandidateGsFilter[] = ['lv220', 'lv240', 'lv260'];
+export const CANDIDATE_GS_FILTERS: CandidateGsFilter[] = ['lv320', 'lv340', 'lv360'];
 
 export function isCandidateGsMatch(item: EquipmentItem, filter: CandidateGsFilter): boolean {
   switch (filter) {
-    case 'lv220':
-      return item.equipGs >= 220 && item.equipGs < 240;
-    case 'lv240':
-      return item.equipGs >= 240 && item.equipGs < 260;
-    case 'lv260':
-      return item.equipGs >= 260;
+    case 'lv320':
+      return item.equipGs >= 320 && item.equipGs < 340;
+    case 'lv340':
+      return item.equipGs >= 340 && item.equipGs < 360;
+    case 'lv360':
+      return item.equipGs >= 360;
   }
 }
 
 // EquipmentPanelのGS帯フィルター初期値。クライアントの現在日時に応じて、その時点で
 // 実質的に一番「旬」なGS帯を既定選択にする(ユーザーが毎回手動で切り替えずに済むように)。
-// CandidateGsFilterはGsScheduleTierと同じ3値('lv220'/'lv240'/'lv260')のため、
+// CandidateGsFilterはGsScheduleTierと同じ3値('lv320'/'lv340'/'lv360')のため、
 // スケジュール判定(seasonSchedule.ts)をそのまま利用できる。
 export function getDefaultCandidateGsFilter(now: Date = new Date()): CandidateGsFilter {
   return getGsScheduleTier(now);

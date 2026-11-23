@@ -57,7 +57,6 @@ function baseInput(): CalculateAbilityScoreInput {
     phantomTemplateId: null,
     phantomNodeSelections: {},
     phantomFactorSlots: {},
-    phantomBondPoints: 0,
   };
 }
 
@@ -95,26 +94,25 @@ describe('calculateAbilityScore', () => {
   });
 });
 
-describe('calculateAbilityScore phantom (潜在) tree', () => {
+describe('calculateAbilityScore phantom (祈願心相晶) tree', () => {
   it('excludes fightValue from an active fixed-ordinary node whose unlock level exceeds phantomLevel', () => {
-    // src/data/season-talents.json template 8 (無限思考): node 1710 (groupId 1710, fixed-ordinary,
-    // unlockCondition=[[93,3,60]]) is reachable via selections {1709:1708} but requires 潜在Lv60.
-    // With phantomLevel=47, calculateRawStats already skips its stat effect (unlockLevel gate);
-    // calculateAbilityScore must skip its fightValue (260) the same way instead of always counting it.
+    // src/data/season-talents.json template 9 (幻滅の崩界), default selections
+    // (initPhantomNodeSelections(9)): active fixed/choice ordinary nodes are
+    // 1801(Lv0, fv620) / 1802(Lv10, 275) / 1806(Lv20, 275) / 1815(Lv30, 275) / 1809(Lv45, 275) /
+    // 1812(Lv55, 275) / 1814(Lv60, 370). At phantomLevel=47, calculateRawStats skips 1812/1814
+    // (unlockLevel gate); calculateAbilityScore must skip their fightValue the same way.
     const input: CalculateAbilityScoreInput = {
       ...baseInput(),
       phantomEnabled: true,
       phantomLevel: 47,
-      phantomTemplateId: 8,
-      phantomNodeSelections: { 179: 179, 1703: 1702, 1705: 1704, 1707: 1706, 1709: 1708 },
+      phantomTemplateId: 9,
+      phantomNodeSelections: { 1802: 1802, 1806: 1806, 1809: 1809, 1812: 1812, 253: 253 },
     };
 
     const result = calculateAbilityScore(input);
 
-    // アクティブな全16ノードのnodeType=1(fixed-ordinary)合計fightValueは1950だが、うち
-    // node 1708(need Lv55, fv=260)とnode 1710(need Lv60, fv=260)は潜在Lv47では未開放のため
-    // 1950-520=1430が正しい(修正前は開放Lvを無視して1950を計上していた)。
-    expect(result.phantom).toBe(1430);
+    // 全7ノード合計2365のうち、未開放の1812(275)と1814(370)を除いた1720が正しい。
+    expect(result.phantom).toBe(1720);
   });
 });
 

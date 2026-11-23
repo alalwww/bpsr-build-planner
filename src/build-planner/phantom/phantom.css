@@ -198,7 +198,7 @@
   transition: width 0.18s ease;
 }
 
-/* 絆ポイント・ノード効果は選択中ノードを確認しながら操作したい常時表示の情報のため、
+/* ノード効果は選択中ノードを確認しながら操作したい常時表示の情報のため、
    折りたたみボタンと同様スクロールさせずに固定表示する。
    折りたたみトグル(.phantom-right__collapse-toggle、left:8px、width:24px)が左上に
    絶対配置されているため、左に余白を確保しないと「合計」ラベル等がボタンの背面に
@@ -209,7 +209,7 @@
   padding-left: 30px;
 }
 
-/* ノード設定だけをスクロール領域にする。絆ポイント+ノード効果(展開時)の高さ次第では
+/* ノード設定だけをスクロール領域にする。ノード効果(展開時)の高さ次第では
    ここに配分される高さが小さくなるが、ノード効果はユーザー側で折りたためる
    (descOpen)ため、常時表示を優先する。 */
 .phantom-right__scroll {
@@ -278,106 +278,6 @@
   }
 }
 
-/* ---- 絆ポイントセクション ---- */
-.phantom-bond-section {
-  flex-shrink: 0;
-  border-bottom: 1px solid #2a2a33;
-  padding: 6px 10px;
-}
-
-.phantom-bond-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.phantom-bond-label {
-  font-size: 12px;
-  color: #9090a8;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.phantom-bond-effects {
-  margin-top: 4px;
-}
-
-.phantom-bond-effects-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: transparent;
-  border: none;
-  color: #909090;
-  font-size: 11px;
-  padding: 2px 0;
-  cursor: pointer;
-  text-align: left;
-}
-
-.phantom-bond-effects-toggle:hover {
-  color: #9090a8;
-}
-
-.phantom-bond-effects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 4px 0 2px;
-}
-
-.phantom-bond-effect {
-  display: flex;
-  gap: 6px;
-  align-items: baseline;
-  opacity: 0.45;
-  font-size: 11px;
-}
-
-.phantom-bond-effect--active {
-  opacity: 1;
-}
-
-.phantom-bond-effect-threshold {
-  color: #6a6a8a;
-  min-width: 30px;
-  flex-shrink: 0;
-  font-size: 10px;
-}
-
-.phantom-bond-effect--active .phantom-bond-effect-threshold {
-  color: #9090c0;
-}
-
-.phantom-bond-effect-desc {
-  color: #a0c8e0;
-  line-height: 1.4;
-  font-size: 11px;
-}
-
-/* 絆スロット1〜5の開放Lv一覧(絆レベル効果の折り畳み末尾に表示) */
-.phantom-bond-slots-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin: 4px 0 0;
-  padding: 4px 0 2px;
-  border-top: 1px dashed #2a2a38;
-  list-style: none;
-}
-
-.phantom-bond-slot {
-  color: #6a6a8a;
-  opacity: 0.45;
-  font-size: 11px;
-}
-
-.phantom-bond-slot--active {
-  color: #9090c0;
-  opacity: 1;
-}
-
 /* ---- ノード効果エリア ---- */
 .phantom-desc-area {
   border-bottom: 1px solid #2a2a33;
@@ -411,7 +311,7 @@
   min-height: 150px;
 }
 
-/* スマホ横画面はビューポート自体が低く、絆ポイント+ノード効果(固定表示)だけで
+/* スマホ横画面はビューポート自体が低く、ノード効果(固定表示)だけで
    高さの大半を占めると、下のノード設定側に配分される高さが不足してスクロール
    領域が実質0になってしまう。ノード効果側の最小高さを縮めて余地を残す。 */
 @media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
@@ -472,6 +372,25 @@
   font-size: 17px;
   margin-top: 5px;
   line-height: 1.5;
+}
+
+/* 因子スロットノードの映痕の効果 */
+.phantom-desc-affixes {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.phantom-desc-affixes__heading {
+  font-size: 14px;
+  color: #8a8a96;
+}
+
+.phantom-desc-affixes__effect {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #7fd1a0;
 }
 
 /* 未開放ノードの説明末尾に付く「（Lv.Nで開放）」 */
@@ -664,14 +583,299 @@
   gap: 4px;
 }
 
-.phantom-factor-slot {
-  flex: 1;
+/* 因子スロットの固定枠(アイコン 因子名 Gn)。クリックで因子設定ダイアログを開く。 */
+.phantom-factor-frame {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 4px 10px 4px 6px;
+  background: #23232d;
+  border: 1px solid #3a3a4a;
+  border-radius: 3px;
+  color: #e8e6e1;
+  font: inherit;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
 }
 
-.phantom-factor-controls {
+.phantom-factor-frame:hover {
+  border-color: #666;
+}
+
+.phantom-factor-frame__icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.phantom-factor-frame__icon--empty {
+  border: 1px dashed #3a3a4a;
+  border-radius: 3px;
+}
+
+.phantom-factor-frame__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.phantom-factor-frame--empty .phantom-factor-frame__name {
+  color: #555;
+}
+
+.phantom-factor-frame__affixes {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #8a8a96;
+}
+
+.phantom-factor-frame__grade {
+  flex-shrink: 0;
+  font-size: 15px;
+  color: #7ab4f4;
+}
+
+/* ---- 因子設定ダイアログ ---- */
+.draggable-dialog.phantom-factor-dialog {
+  min-width: min(880px, 100%);
+  max-width: min(960px, 100%);
+  min-height: 60vh;
+  max-height: 92vh;
+  overflow: hidden;
+}
+
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .draggable-dialog.phantom-factor-dialog {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+    border-radius: 0;
+  }
+}
+
+.phantom-factor-dialog .equipment-dialog__col-left {
+  flex: 0 0 320px;
+}
+
+.phantom-factor-dialog .equipment-dialog__col-center {
+  border-right: none;
+  gap: 12px;
+}
+
+@media (max-width: 767px), (orientation: landscape) and (max-height: 500px) {
+  .phantom-factor-dialog .equipment-dialog__col-left {
+    flex: none;
+  }
+}
+
+.phantom-factor-dialog__preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #3a3a45;
+  border-radius: 4px;
+  background: #1a1a22;
+}
+
+.phantom-factor-dialog__slot-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.phantom-factor-dialog__factor-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.phantom-factor-dialog__preview-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.phantom-factor-dialog__slot-name {
+  font-size: 12px;
+  color: #7ab4f4;
+}
+
+.phantom-factor-dialog__factor-name {
+  font-size: 16px;
+  color: #e8e6e1;
+}
+
+.phantom-factor-dialog__grades {
+  display: flex;
+  gap: 4px;
+}
+
+.phantom-factor-dialog__grade {
+  flex: 1;
+  padding: 6px 0;
+  background: #23232d;
+  border: 1px solid #3a3a4a;
+  border-radius: 3px;
+  color: #9090a8;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.phantom-factor-dialog__grade--active {
+  border-color: #7ab4f4;
+  color: #e8e6e1;
+  background: #2a3346;
+}
+
+.phantom-factor-dialog__desc,
+.phantom-factor-dialog__placeholder {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #c8c6c1;
+  white-space: pre-wrap;
+}
+
+.phantom-factor-dialog__placeholder {
+  color: #6a6a76;
+}
+
+.phantom-factor-dialog .phantom-factor-dropdown {
+  width: 100%;
+}
+
+/* 映痕スロット */
+.phantom-affix-slot {
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #2a2a33;
+  border-radius: 4px;
+}
+
+.phantom-affix-slot--locked {
+  opacity: 0.5;
+}
+
+.phantom-affix-slot__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.phantom-affix-slot__num {
+  color: #e8e6e1;
+}
+
+.phantom-affix-slot__type {
+  color: #8a8a96;
+}
+
+.phantom-affix-slot__warning {
+  margin-left: auto;
+  color: #e0a040;
+  cursor: help;
+}
+
+/* 映痕名(クラス映痕は説明文)の長さで幅が変わらないよう固定幅にする。長い名前は省略表示。 */
+.phantom-affix-dropdown {
+  width: 460px;
+  max-width: 100%;
+}
+
+.phantom-affix-dropdown .phantom-dropdown__trigger,
+.phantom-affix-dropdown .phantom-dropdown__label,
+.phantom-dropdown__list.phantom-affix-dropdown .phantom-dropdown__item {
+  font-size: 14px;
+}
+
+.phantom-affix-dropdown .phantom-dropdown__trigger {
+  height: 34px;
+}
+
+.phantom-affix-slot__value-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.phantom-affix-slot__quality {
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  border-radius: 3px;
+  color: #e8e6e1;
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.phantom-affix-slot__value {
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 13px;
+}
+
+.phantom-affix-slot__input {
+  width: 90px;
+  background: #1c1c24;
+  border: 1px solid #3a3a45;
+  border-radius: 3px;
+  color: #e8e6e1;
+  padding: 4px 6px;
+  font-size: 13px;
+  text-align: right;
+}
+
+.phantom-affix-slot__input[readonly] {
+  color: #8a8a96;
+  background: #18181f;
+}
+
+.phantom-affix-slot__unit {
+  color: #c8c6c1;
+}
+
+.phantom-affix-slot__range {
+  margin-left: 4px;
+  font-size: 11px;
+  color: #6a6a76;
+}
+
+.phantom-factor-dialog__affix-effects {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #7fd1a0;
+}
+
+.phantom-dropdown__group {
+  padding: 6px 12px 3px;
+  font-size: 12px;
+  color: #7ab4f4;
+  border-top: 1px solid #2a2a33;
+  position: sticky;
+  top: 0;
+  background: #1e1e2a;
 }
 
 /* ---- Custom Dropdown ---- */
@@ -686,15 +890,8 @@
   max-width: 450px;
 }
 
-/* max-widthを設けず flex:1 のみで幅を決める。ランク変更のStepper側は flex-shrink:0
-   (行のもう片方の要素)のため、ドロップダウンは「行の残り幅」を超えて広がらず、
-   Stepperが画面外にはみ出すことはない。実像因子等の長い名前でも文字欠けしにくいよう、
-   文字サイズも他のドロップダウン(テンプレート選択)より少し小さくする。 */
-.phantom-factor-dropdown {
-  flex: 1;
-  min-width: 0;
-}
-
+/* 因子選択ドロップダウン(因子設定ダイアログ内)。長い因子名でも文字欠けしにくいよう、
+   文字サイズを他のドロップダウン(テンプレート選択)より少し小さくする。 */
 .phantom-factor-dropdown .phantom-dropdown__trigger,
 .phantom-factor-dropdown .phantom-dropdown__label,
 .phantom-dropdown__list.phantom-factor-dropdown .phantom-dropdown__item {

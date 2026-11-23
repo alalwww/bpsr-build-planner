@@ -1,5 +1,8 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { CURRENT_SAVE_SEASON_ID } from '../plan/saveSeason';
+import { getDefaultPhantomLevel } from '../seasonSchedule';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { useBuildStore } from './useBuildStore';
+import { stData } from '../phantom/phantomData';
 import { PROFESSIONS } from '../profession';
 import { DEFAULT_LOADOUT, getItemsBySlot } from '../equipment/equipmentData';
 
@@ -166,12 +169,29 @@ describe('moduleSlice', () => {
   });
 });
 
+// S4祈願心相晶のテンプレート(9-16)は全て常時開放のため、未開放テンプレートの自動OFFロジックは
+// テスト用の仮テンプレート(開放Lv17、ルートはテンプレート9のものを流用)を注入して検証する。
+const LOCKED_TID = 90017;
+// 常時開放の実テンプレート(src/data/season-talents.json: template 9「幻滅の崩界」)。
+const OPEN_TID = 9;
+
+beforeAll(() => {
+  stData.templates[String(LOCKED_TID)] = {
+    sortId: 99,
+    rootNodeId: stData.templates[String(OPEN_TID)].rootNodeId,
+    icon: '',
+    unlockCondition: [[93, 4, 17]],
+  };
+});
+afterAll(() => {
+  delete stData.templates[String(LOCKED_TID)];
+});
+
 describe('phantomSlice', () => {
-  it('initial state (no autosave data): 潜在Lv1・絆レベルポイント0・テンプレート未選択・OFF', () => {
+  it('initial state (no autosave data): 日付連動の既定祈願Lv・テンプレート未選択・OFF', () => {
     expect(initialState.phantomEnabled).toBe(false);
-    expect(initialState.phantomLevel).toBe(1);
+    expect(initialState.phantomLevel).toBe(getDefaultPhantomLevel());
     expect(initialState.phantomTemplateId).toBeNull();
-    expect(initialState.phantomBondPoints).toBe(0);
   });
 
   it('setPhantomTemplateId: テンプレート変更してもnode/factor選択は保持される(ツリーごとにgroupId/sameGroupIdが重複しないため)', () => {
@@ -197,20 +217,20 @@ describe('phantomSlice', () => {
   });
 
   it('setPhantomTemplateId: 未開放のツリー(テンプレート)を選択するとONがOFFに自動で切り替わる', () => {
-    // src/data/season-talents.json: template 1(イマジンインパクト)はphantomLevel>=17が必要。
+    // LOCKED_TID はphantomLevel>=17が必要。
     useBuildStore.getState().setPhantomLevel(10);
     useBuildStore.getState().setPhantomEnabled(true);
 
-    useBuildStore.getState().setPhantomTemplateId(1);
+    useBuildStore.getState().setPhantomTemplateId(LOCKED_TID);
 
     const state = useBuildStore.getState();
-    expect(state.phantomTemplateId).toBe(1);
+    expect(state.phantomTemplateId).toBe(LOCKED_TID);
     expect(state.phantomEnabled).toBe(false);
   });
 
   it('setPhantomEnabled: 未開放のツリーを選択中は手動でONにする操作を無視する', () => {
     useBuildStore.getState().setPhantomLevel(10);
-    useBuildStore.getState().setPhantomTemplateId(1); // Lv17必要、自動でOFFになる
+    useBuildStore.getState().setPhantomTemplateId(LOCKED_TID); // Lv17必要、自動でOFFになる
 
     useBuildStore.getState().setPhantomEnabled(true);
 
@@ -219,7 +239,7 @@ describe('phantomSlice', () => {
 
   it('setPhantomEnabled: 開放済みのツリーならONにできる', () => {
     useBuildStore.getState().setPhantomLevel(1);
-    useBuildStore.getState().setPhantomTemplateId(5); // 夢幻の力、常時開放
+    useBuildStore.getState().setPhantomTemplateId(OPEN_TID); // 常時開放
 
     useBuildStore.getState().setPhantomEnabled(true);
 
@@ -228,10 +248,10 @@ describe('phantomSlice', () => {
 
   it('setPhantomEnabled: 未開放のツリーを選択中でもOFFにする操作は常に通す', () => {
     useBuildStore.getState().setPhantomLevel(1);
-    useBuildStore.getState().setPhantomTemplateId(5);
+    useBuildStore.getState().setPhantomTemplateId(OPEN_TID);
     useBuildStore.getState().setPhantomEnabled(true);
     useBuildStore.getState().setPhantomLevel(10);
-    useBuildStore.getState().setPhantomTemplateId(1); // 未開放へ切替、自動OFF済み
+    useBuildStore.getState().setPhantomTemplateId(LOCKED_TID); // 未開放へ切替、自動OFF済み
 
     useBuildStore.getState().setPhantomEnabled(false);
 
@@ -239,32 +259,32 @@ describe('phantomSlice', () => {
   });
 
   it('setPhantomTemplateId: 開放済みのツリーを選択してもONのままにする', () => {
-    // template 5(夢幻の力)はunlockConditionが空(常時開放)。
+    // OPEN_TIDはunlockConditionが空(常時開放)。
     useBuildStore.getState().setPhantomLevel(1);
     useBuildStore.getState().setPhantomEnabled(true);
 
-    useBuildStore.getState().setPhantomTemplateId(5);
+    useBuildStore.getState().setPhantomTemplateId(OPEN_TID);
 
     const state = useBuildStore.getState();
-    expect(state.phantomTemplateId).toBe(5);
+    expect(state.phantomTemplateId).toBe(OPEN_TID);
     expect(state.phantomEnabled).toBe(true);
   });
 
   it('setPhantomLevel: 選択中のツリーが未開放になった場合もONがOFFに自動で切り替わる', () => {
     useBuildStore.getState().setPhantomLevel(20);
-    useBuildStore.getState().setPhantomTemplateId(1); // Lv17必要、20は満たすので選択できる
+    useBuildStore.getState().setPhantomTemplateId(LOCKED_TID); // Lv17必要、20は満たすので選択できる
     useBuildStore.getState().setPhantomEnabled(true);
 
     useBuildStore.getState().setPhantomLevel(10); // 17を下回る
 
     const state = useBuildStore.getState();
-    expect(state.phantomTemplateId).toBe(1);
+    expect(state.phantomTemplateId).toBe(LOCKED_TID);
     expect(state.phantomEnabled).toBe(false);
   });
 
   it('setPhantomLevel: 選択中のツリーが開放範囲内のままなら自動でOFFにしない', () => {
     useBuildStore.getState().setPhantomLevel(20);
-    useBuildStore.getState().setPhantomTemplateId(1);
+    useBuildStore.getState().setPhantomTemplateId(LOCKED_TID);
     useBuildStore.getState().setPhantomEnabled(true);
 
     useBuildStore.getState().setPhantomLevel(25);
@@ -330,73 +350,114 @@ describe('planSlice', () => {
     expect(useBuildStore.getState().planName).toBe('テストプラン');
   });
 
-  it('savePlan → loadPlan: 過去シーズン(S2)の幻影因子が装着されたプランは、読込時に潜在Lv1/絆Pt0/因子全解除/ノード選択初期化にリセットされ、通知フラグが立つ', () => {
-    // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3)。
-    useBuildStore.getState().setPhantomTemplateIdState(1);
+  it('savePlan → loadPlan: 過去シーズン(S3)の因子が装着されたプランは、読込時に心相投影全体が初期状態にリセットされ、通知フラグが立つ', () => {
+    // '202201'はS3の因子クラス。S4のデータ(phantom-factors.json)には存在しない。
+    useBuildStore.getState().setPhantomEnabled(true);
+    useBuildStore.getState().setPhantomTemplateIdState(OPEN_TID);
     useBuildStore.getState().setPhantomLevel(50);
-    useBuildStore.getState().setPhantomBondPoints(25);
     useBuildStore.getState().setPhantomNodeSelection(1, 12345);
-    useBuildStore.getState().setPhantomFactorSlot(163, { classKey: '201001', grade: 1 });
-    useBuildStore.getState().savePlan('S2因子プラン');
+    useBuildStore.getState().setPhantomFactorSlot(250, { classKey: '202201', grade: 1 });
+    useBuildStore.getState().savePlan('S3因子プラン');
     const saved = useBuildStore.getState().buildPlans[0];
 
     // 保存後、編集中の状態だけを変えてから読込む(保存済みプラン一覧はそのまま)。
     useBuildStore.getState().setPhantomTemplateIdState(null);
     useBuildStore.getState().setPhantomLevel(1);
-    useBuildStore.getState().setPhantomBondPoints(35);
     expect(useBuildStore.getState().phantomLegacyFactorResetNotice).toBe(false);
 
     useBuildStore.getState().loadPlan(saved.id);
 
     const state = useBuildStore.getState();
-    expect(state.phantomTemplateId).toBe(1); // テンプレート自体は維持する
-    expect(state.phantomLevel).toBe(1);
-    expect(state.phantomBondPoints).toBe(0);
+    expect(state.phantomEnabled).toBe(false);
+    expect(state.phantomTemplateId).toBeNull();
+    expect(state.phantomLevel).toBe(getDefaultPhantomLevel());
     expect(state.phantomFactorSlots).toEqual({});
-    expect(state.phantomNodeSelections[1]).not.toBe(12345); // テンプレートの初期選択に戻る
+    expect(state.phantomNodeSelections).toEqual({});
     expect(state.phantomLegacyFactorResetNotice).toBe(true);
 
     useBuildStore.getState().dismissPhantomLegacyFactorResetNotice();
     expect(useBuildStore.getState().phantomLegacyFactorResetNotice).toBe(false);
   });
 
-  it('savePlan → loadPlan: 現行シーズンの幻影因子が装着されたプランはリセットされない', () => {
-    // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current)。
+  it('savePlan → loadPlan: 廃止された過去シーズン(S3)の心相晶テンプレートを選択したプランはリセットされる', () => {
+    // template 1(イマジンインパクト)はS3潜在心相晶で、S4のデータには存在しない。
     useBuildStore.getState().setPhantomTemplateIdState(1);
     useBuildStore.getState().setPhantomLevel(50);
-    useBuildStore.getState().setPhantomBondPoints(25);
-    useBuildStore.getState().setPhantomFactorSlot(163, { classKey: '202201', grade: 1 });
-    useBuildStore.getState().savePlan('S3因子プラン');
+    useBuildStore.getState().savePlan('S3テンプレートプラン');
     const saved = useBuildStore.getState().buildPlans[0];
 
-    useBuildStore.getState().setPhantomLevel(1);
-    useBuildStore.getState().setPhantomBondPoints(0);
-    useBuildStore.getState().setPhantomFactorSlot(163, null);
+    useBuildStore.getState().setPhantomTemplateIdState(null);
 
     useBuildStore.getState().loadPlan(saved.id);
 
     const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBeNull();
+    expect(state.phantomLevel).toBe(getDefaultPhantomLevel());
+    expect(state.phantomLegacyFactorResetNotice).toBe(true);
+  });
+
+  it('savePlan → loadPlan: 現行シーズンの因子が装着されたプランはリセットされない', () => {
+    // src/data/phantom-factors.json: byClass["4001"].seasonId=4 (current)。
+    useBuildStore.getState().setPhantomTemplateIdState(OPEN_TID);
+    useBuildStore.getState().setPhantomLevel(50);
+    useBuildStore.getState().setPhantomFactorSlot(250, { classKey: '4001', grade: 1 });
+    useBuildStore.getState().savePlan('S4因子プラン');
+    const saved = useBuildStore.getState().buildPlans[0];
+
+    useBuildStore.getState().setPhantomLevel(1);
+    useBuildStore.getState().setPhantomFactorSlot(250, null);
+
+    useBuildStore.getState().loadPlan(saved.id);
+
+    const state = useBuildStore.getState();
+    expect(state.phantomTemplateId).toBe(OPEN_TID);
     expect(state.phantomLevel).toBe(50);
-    expect(state.phantomBondPoints).toBe(25);
-    expect(state.phantomFactorSlots).toEqual({ 163: { classKey: '202201', grade: 1 } });
+    expect(state.phantomFactorSlots).toEqual({ 250: { classKey: '4001', grade: 1 } });
     expect(state.phantomLegacyFactorResetNotice).toBe(false);
   });
 
+  it('applyPlanState: 過去シーズン(saveSeasonId=3)に保存されたプランは、現行シーズンのテンプレート/因子でも心相投影を初期化する(心相投影以外は維持)', () => {
+    useBuildStore.getState().setPhantomEnabled(true);
+    useBuildStore.getState().setPhantomTemplateIdState(OPEN_TID);
+    useBuildStore.getState().setPhantomLevel(50);
+    useBuildStore.getState().setPhantomFactorSlot(250, { classKey: '4001', grade: 1 });
+    useBuildStore.getState().setAdventurerLevel(42);
+    const plan = { ...useBuildStore.getState().buildAutoSaveState('S3プラン'), saveSeasonId: 3 };
+
+    useBuildStore.getState().applyPlanState(plan);
+
+    const state = useBuildStore.getState();
+    expect(state.phantomEnabled).toBe(false);
+    expect(state.phantomTemplateId).toBeNull();
+    expect(state.phantomLevel).toBe(getDefaultPhantomLevel());
+    expect(state.phantomFactorSlots).toEqual({});
+    expect(state.adventurerLevel).toBe(42);
+    expect(state.phantomLegacyFactorResetNotice).toBe(true);
+    // 再保存すると現行シーズンのデータになる。
+    expect(state.buildAutoSaveState().saveSeasonId).toBe(CURRENT_SAVE_SEASON_ID);
+  });
+
+  it('applyPlanState: 過去シーズンのプランでも心相投影が未使用なら通知しない', () => {
+    const plan = { ...useBuildStore.getState().buildAutoSaveState('S3未使用'), saveSeasonId: 3 };
+    useBuildStore.getState().applyPlanState(plan);
+    expect(useBuildStore.getState().phantomLegacyFactorResetNotice).toBe(false);
+  });
+
   it('applyPlanState: 未開放のツリーがON状態のまま保存されていた(旧バージョン由来等の)プランは、読込時にOFFへ矯正する', () => {
-    // template 1(イマジンインパクト)はphantomLevel>=17が必要。setPhantomLevel/setPhantomTemplateId
+    // LOCKED_TIDはphantomLevel>=17が必要。setPhantomLevel/setPhantomTemplateId
     // 経由では作れない不整合(enabled=true×未開放テンプレート)を手動で再現する。
     const plan = useBuildStore.getState().buildAutoSaveState('不整合プラン');
     useBuildStore.getState().applyPlanState({
       ...plan,
       phantomEnabled: true,
       phantomLevel: 10,
-      phantomTemplateId: 1,
+      phantomTemplateId: LOCKED_TID,
       phantomNodeSelections: {},
       phantomFactorSlots: {},
     });
 
     const state = useBuildStore.getState();
-    expect(state.phantomTemplateId).toBe(1);
+    expect(state.phantomTemplateId).toBe(LOCKED_TID);
     expect(state.phantomLevel).toBe(10);
     expect(state.phantomEnabled).toBe(false);
   });
@@ -470,9 +531,11 @@ describe('planSlice', () => {
   it('applyPlanState: 旧データでroleSkillRanksに0が残っていてもLv.1へ補正され、以後の自動保存も1のまま書き戻される', () => {
     const plan = useBuildStore.getState().buildAutoSaveState('旧Lv0データ再現');
     // Lv表示欄が無かった旧UI時代の保存データを再現する(固定ロールスキルは常に0のまま保存されていた)。
-    useBuildStore
-      .getState()
-      .applyPlanState({ ...plan, roleSkillSlots: [3011, 3012, 3013, 3014], roleSkillRanks: [0, 0, 0, 0] });
+    useBuildStore.getState().applyPlanState({
+      ...plan,
+      roleSkillSlots: [3011, 3012, 3013, 3014],
+      roleSkillRanks: [0, 0, 0, 0],
+    });
 
     const state = useBuildStore.getState();
     expect(state.roleSkillRanks).toEqual([1, 1, 1, 1]);
@@ -494,22 +557,20 @@ describe('planSlice', () => {
     expect(state.equipped).toEqual(DEFAULT_LOADOUT);
   });
 
-  it('resetPlan: 心相投影(潜在Lv/絆レベルポイント/テンプレート/ノード選択/因子装着)も初期値へ戻す', () => {
+  it('resetPlan: 心相投影(シーズンLv/テンプレート/ノード選択/因子装着)も初期値へ戻す', () => {
     useBuildStore.getState().setPhantomEnabled(true);
-    useBuildStore.getState().setPhantomTemplateIdState(1);
+    useBuildStore.getState().setPhantomTemplateIdState(OPEN_TID);
     useBuildStore.getState().setPhantomLevel(50);
-    useBuildStore.getState().setPhantomBondPoints(25);
     useBuildStore.getState().setPhantomNodeSelection(1, 12345);
-    // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current)。
-    useBuildStore.getState().setPhantomFactorSlot(163, { classKey: '202201', grade: 1 });
+    // src/data/phantom-factors.json: byClass["4001"].seasonId=4 (current)。
+    useBuildStore.getState().setPhantomFactorSlot(250, { classKey: '4001', grade: 1 });
 
     useBuildStore.getState().resetPlan();
 
     const state = useBuildStore.getState();
     expect(state.phantomEnabled).toBe(false);
     expect(state.phantomTemplateId).toBeNull();
-    expect(state.phantomLevel).toBe(1);
-    expect(state.phantomBondPoints).toBe(0);
+    expect(state.phantomLevel).toBe(getDefaultPhantomLevel());
     expect(state.phantomNodeSelections).toEqual({});
     expect(state.phantomFactorSlots).toEqual({});
   });

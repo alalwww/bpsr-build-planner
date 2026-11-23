@@ -67,7 +67,7 @@
     "expandPanel": "캐릭터 패널 펼치기",
     "resetPlan": "현재 빌드 초기화",
     "buildPlanPlaceholder": "빌드 플랜 이름",
-    "seasonBadge": "Season 3",
+    "seasonBadge": "Season 4",
     "abilityScore": "능력 점수",
     "abilityScoreBreakdown": {
       "source": "출처",
@@ -90,7 +90,7 @@
       "moduleLink": "링크 효과",
       "moduleCore": "파워 코어 효과",
       "phantomGroup": "심상 투영",
-      "phantomLevel": "잠재 심상정 레벨",
+      "phantomLevel": "기원 심상의 레벨",
       "phantom": "활성화된 심상 투영",
       "total": "합계"
     },
@@ -104,9 +104,9 @@
       "saveNotice": "이 설정은 저장되지 않습니다.",
       "cooking": "요리",
       "eliteDamage": "정예 데미지",
-      "syrup": "속성 강도 물약",
+      "syrup": "양초",
       "elementStrength": "속성 강도",
-      "starOil": "데미지 강화 물약",
+      "starOil": "연고",
       "physicalDamageEnhance": "물리 데미지 강화도",
       "magicalDamageEnhance": "마법 데미지 강화도",
       "eventBuff": "이벤트 버프",
@@ -148,9 +148,9 @@
     "selectEquipmentTitle": "{{slot}} 선택",
     "candidateFilter": {
       "toggle": "필터",
-      "lv220": "Lv220대",
-      "lv240": "Lv240대",
-      "lv260": "Lv260대"
+      "lv320": "Lv320대",
+      "lv340": "Lv340대",
+      "lv360": "Lv360대"
     },
     "selectProfessionTitle": "클래스 선택",
     "professionLabel": "클래스",
@@ -206,7 +206,7 @@
     "confirmResaveFormatMsg": "새 저장 형식으로 업데이트하시겠습니까?",
     "planLoadErrorMsg": "저장된 플랜을 불러오지 못했습니다. 데이터가 손상되었을 수 있습니다.",
     "autoSaveLoadErrorMsg": "자동 저장 데이터를 불러오지 못했습니다. 데이터가 손상되었을 수 있습니다.",
-    "phantomLegacyFactorResetMsg": "시즌 2 잠재 심상정은 비활성화되어 초기화됩니다.",
+    "phantomLegacyFactorResetMsg": "시즌 3 잠재 심상정은 폐지되어 심상 투영 설정이 초기화됩니다.",
     "modulePreset": {
       "placeholder": "프리셋 선택",
       "save": "프리셋 저장",
@@ -247,6 +247,7 @@
       "s1": "S1",
       "s2": "S2",
       "s3": "S3",
+      "s4": "S4",
       "collab": "콜라보",
       "spOrange": "특수 금",
       "orange": "주황",
@@ -275,7 +276,7 @@
       "skill": "스킬",
       "equipment": "장비",
       "module": "모듈",
-      "phantom": "잠재"
+      "phantom": "기원"
     },
     "talentTree": {
       "reset": "초기화",
@@ -311,7 +312,7 @@
       "agility": "민첩",
       "intellect": "지력",
       "endurance": "내구력",
-      "illusionPower": "환멸 강도",
+      "illusionPower": "기원 강도",
       "crit": "치명타",
       "haste": "속공",
       "luck": "행운",
@@ -356,7 +357,11 @@
       "breakEfficiency": "브레이크 효율",
       "bossDamageBonus": "보스 데미지 보너스",
       "bossDamageReduction": "보스 데미지 경감",
-      "moveSpeed": "이동 속도"
+      "moveSpeed": "이동 속도",
+      "damageBonus": "범용 데미지 증가",
+      "oathDamageBonus": "기원 대미지",
+      "oathDefIgnore": "기원 방어 무시",
+      "oathDamageReduction": "기원 대미지 감면"
     },
     "statTooltip": {
       "currentValue": "현재 수치",
@@ -389,20 +394,17 @@
       "suit101": "2세대 세트",
       "suit102": "환몽 세트",
       "suit103": "허식 세트",
-      "tierLabel": "{{n}}세트"
+      "tierLabel": "{{n}}세트",
+      "suit104": "기원 세트"
     },
     "phantom": {
       "collapsePane": "상세 패널 접기",
       "expandPane": "상세 패널 펼치기",
-      "level": "잠재 레벨",
+      "level": "기원 레벨",
       "template": "심상 투영",
       "templatePlaceholder": "미선택",
       "templateSelectPrompt": "심상 투영을 선택해 주세요",
       "templateLockedSuffix": "（Lv.{{level}}에서 해금）",
-      "bondPoints": "총 유대 포인트",
-      "bondEffects": "유대 레벨 효과",
-      "bondSlotLevel": "유대 슬롯{{index}}: Lv.{{level}}",
-      "bondSlotAlways": "유대 슬롯{{index}}: 상시 해금",
       "nodeEffect": "노드 효과",
       "nodeEffectPlaceholder": "노드를 클릭하면 노드 효과가 표시됩니다",
       "factorSlot": "환영 인자 슬롯",
@@ -414,7 +416,7 @@
       "enabledOn": "활성화",
       "enabledOff": "비활성화",
       "enabledLockedTitle": "선택한 트리가 아직 해금되지 않아 ON으로 할 수 없습니다",
-      "disabledNotice": "심상 투영이 비활성화되어 있어 유대 레벨 효과 및 각 노드 효과가 스탯에 반영되지 않습니다",
+      "disabledNotice": "심상 투영이 비활성화되어 있어 각 노드 효과가 스탯에 반영되지 않습니다",
       "resetTooltip": "클릭하면 초기화됩니다",
       "tabTitleDisabled": "심상 투영 트리가 비활성화되어 있습니다",
       "tabTitleEnabled": "{{name}}이(가) 활성화되어 있습니다",
@@ -423,7 +425,6 @@
       "effectSummary": {
         "sections": {
           "total": "요약",
-          "advanced": "상급 노드 효과(유대 레벨 효과)",
           "intermediate": "중급 노드 효과",
           "ordinary": "초급 노드 효과"
         },
@@ -432,10 +433,37 @@
         "flatCol": "가산",
         "pctCol": "승산%",
         "finalPctCol": "최종%",
-        "routeLocked": "미해금",
-        "bondLevelLabel": "인연 Lv.{{level}}",
-        "highestOfLabel": "치명타/속공/행운/숙련도/만능 중 최댓값에 가산"
-      }
+        "routeLocked": "미해금"
+      },
+      "factorDialogTitle": "인자 설정 - {{slot}}",
+      "factorSelect": "인자",
+      "factorGrade": "등급",
+      "factorEffect": "인자 효과",
+      "affixHeading": "영흔",
+      "affixNeedFactor": "인자를 선택하면 영흔을 설정할 수 있습니다.",
+      "affixSlot": "슬롯 {{n}}",
+      "affixSlotType": {
+        "1": "능력치",
+        "2": "클래스"
+      },
+      "affixLocked": "G{{grade}}에서 개방",
+      "affixNone": "없음",
+      "affixValue": "효과 수치",
+      "affixCount": "영흔 {{count}}",
+      "affixQuality": {
+        "2": "고급"
+      },
+      "affixLib": {
+        "101": "능력치・서브",
+        "102": "능력치・메인",
+        "103": "능력치・극성",
+        "104": "능력치・인내",
+        "105": "능력치・원소",
+        "1001": "클래스의 영흔"
+      },
+      "affixEffect": "영흔 효과",
+      "affixNonStackingShort": "중복 불가",
+      "affixNonStackingWarning": "효과는 중복되지 않습니다. 같은 영흔이 다른 슬롯(다른 인자 포함)에도 있으며, 수치가 가장 큰 하나만 적용됩니다."
     },
     "detailStats": {
       "title": "스탯 상세",
@@ -516,7 +544,8 @@
         "bossDamageReduction": "보스 데미지 경감",
         "moveSpeed": "이동 속도",
         "maxStamina": "최대 스태미나",
-        "staminaRegen": "전투 시 스태미나 회복률"
+        "staminaRegen": "전투 시 스태미나 회복률",
+        "seasonDamageBonus": "{{name}} 증가"
       }
     }
   }

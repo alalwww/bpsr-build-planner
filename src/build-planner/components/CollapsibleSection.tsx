@@ -28,7 +28,7 @@ interface CollapsibleSectionProps {
 }
 
 // 折り畳みトグル(ラベル+Chevron)と本体を1セットにまとめた共通部品
-// (絞り込み/絆レベル効果/ノード効果などの折り畳みUIで共通利用)。
+// (絞り込み/ノード効果などの折り畳みUIで共通利用)。
 export default function CollapsibleSection({
   open,
   onToggle,

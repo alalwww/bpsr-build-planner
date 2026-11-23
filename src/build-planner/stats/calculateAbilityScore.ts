@@ -15,11 +15,11 @@ import type {
   SlotRefineLevels,
 } from '../types';
 import type {
-  AdvancedEffect,
   OrdinaryEffect,
   PhantomFactorGrade,
   PhantomFactorSlotValue,
 } from '../phantom/phantomData';
+import { affixFightValue, getActiveAffixes } from '../phantom/phantomAffixData';
 import {
   CURRENT_FACTOR_SEASON_ID,
   getActivePhantomNodeIds,
@@ -75,7 +75,6 @@ export interface CalculateAbilityScoreInput {
   phantomTemplateId: number | null;
   phantomNodeSelections: Record<number, number>;
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
-  phantomBondPoints: number;
 }
 
 export interface EquipmentSlotAbilityScoreBreakdown {
@@ -244,7 +243,6 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
     phantomTemplateId,
     phantomNodeSelections,
     phantomFactorSlots,
-    phantomBondPoints,
   } = input;
 
   // 内訳カテゴリ別のアキュムレータ。total は最後に全カテゴリの合算で導出する。
@@ -376,19 +374,12 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
           if (slot && factorClass && factorClass.seasonId >= CURRENT_FACTOR_SEASON_ID) {
             const grade = factorClass.grades[slot.grade - 1] as PhantomFactorGrade | undefined;
             if (grade) fv.phantom += grade.fightValue;
+            // 映痕(S4): ステータス系・クラス映痕とも、埋め込んだ映痕の能力スコアを計上する
+            // (能力スコアは効果の有無と無関係にゲーム側で加算されるため、重複不可の重なりも各々数える)。
+            for (const affix of getActiveAffixes(slot)) fv.phantom += affixFightValue(affix);
           }
         }
       }
-      // 上位効果: fightValueはZTable上で累積値のため、解放済み最高レベルの値を使用
-      const maxAdvEff = (Object.values(seasonTalentData.advancedEffects) as AdvancedEffect[])
-        .filter(
-          (ae) => ae.effectId === tmpl.advancedEffectId && phantomBondPoints >= ae.unlockFraction,
-        )
-        .reduce<AdvancedEffect | null>(
-          (best, ae) => (ae.level > (best?.level ?? 0) ? ae : best),
-          null,
-        );
-      if (maxAdvEff) fv.phantom += maxAdvEff.fightValue;
     }
   }
 

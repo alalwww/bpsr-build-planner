@@ -1,3 +1,4 @@
+import { REFINE_STAT_FLOOR } from './seasonConstants';
 import type { Profession, ProfessionTypeKey } from '../profession';
 import {
   classifyEvoDisplay,
@@ -18,6 +19,8 @@ import type {
   StatId,
 } from '../types';
 import type { PhantomFactorSlotValue } from '../phantom/phantomData';
+import { getActiveAffixes } from '../phantom/phantomAffixData';
+import { AffixStatCollector } from './affixEffects';
 import {
   CURRENT_FACTOR_SEASON_ID,
   getActivePhantomNodeIds,
@@ -34,17 +37,17 @@ import {
 } from './cookingBuff';
 import {
   AFFIX_STAT_EFFECTS,
-  BOND_BUFF_STAT_EFFECTS,
   ELEMENT_ATTR_STR_STAT,
   ENCHANT_ATTR_TO_STAT,
   EQUIP_ATTR_TO_STAT,
   EVO_ATTR_TO_STAT,
   EVO_PCT_ATTR_TO_STAT,
   EVO_PCT_FINAL_ATTR_TO_STAT,
-  FACTOR_POLARITY_EFFECTS,
   FACTOR_SINGLE_STAT_PCT_BONUS,
   FINAL_PCT_STAT_IDS,
   IMAGINE_BUF_FLAT_STAT,
+  IMAGINE_BUF_RATING_PER_RATING,
+  IMAGINE_BUF_SPEED,
   IMAGINE_FLAT_STAT,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
@@ -59,9 +62,10 @@ import {
   MOD_EFFECT_TYPE_STAT,
   ORDINARY_EFFECT_BONUS,
   PHANTOM_ATTR_TO_STAT,
-  PHANTOM_EFFECT_TYPE_POLARITY,
+  PHANTOM_EFFECT_TYPE_BUFF,
   PHANTOM_EFFECT_TYPE_STAT,
   PHANTOM_LEVEL_ATTR_TO_STAT,
+  PHANTOM_ORDINARY_PCT_ATTR_TO_STAT,
   REFINE_ATK_ATTR_ID,
   REFINE_DEF_ATTR_ID,
   REFINE_ENDURANCE_ATTR_ID,
@@ -181,7 +185,6 @@ export interface CalculateRawStatsInput {
   phantomEnabled: boolean;
   phantomLevel: number;
   phantomTemplateId: number | null;
-  phantomBondPoints: number;
   phantomNodeSelections: Record<number, number>;
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>;
   cookingBuff: CookingBuffState;
@@ -243,7 +246,7 @@ export interface CalculateRawStatsResult {
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
-// 潜在因子・絆レベルの各効果を積算し、rawStats(実数値ステータス)を算出する。
+// 祈願心相晶(ツリーのノード・因子・映痕)の各効果を積算し、rawStats(実数値ステータス)を算出する。
 // UIやReact stateには依存しない純粋関数。
 export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawStatsResult {
   const {
@@ -267,7 +270,6 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     phantomEnabled,
     phantomLevel,
     phantomTemplateId,
-    phantomBondPoints,
     phantomNodeSelections,
     phantomFactorSlots,
     cookingBuff,
@@ -443,15 +445,18 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // 「精錬防御力」の通り、精錬攻撃力/精錬防御力はいずれも物理/魔法攻撃力・物理/魔法防御力とは
   // 別枠(精錬防御力は被ダメージ計算で防御力の軽減とは別に乗算される2段階目の軽減)のため、
   // physicalDef/magicalDef本体には加算しない(refinePhysAtk/refineMagAtk/refineDefのみに積む)。
+  // 精錬物攻/魔攻/防御力は部位ごとの加算を合計し、下限値(REFINE_STAT_FLOOR)に満たない分は
+  // 初期値として補う。
   const profId = profession.professionId;
+  const refineSums = { refinePhysAtk: 0, refineMagAtk: 0, refineDef: 0 };
   const applyRefineEffects = (effects: [number, number][]) => {
     for (const [attrId, value] of effects) {
       if (attrId === REFINE_ATK_ATTR_ID) {
-        addStat('refinePhysAtk', value);
+        refineSums.refinePhysAtk += value;
       } else if (attrId === REFINE_MATK_ATTR_ID) {
-        addStat('refineMagAtk', value);
+        refineSums.refineMagAtk += value;
       } else if (attrId === REFINE_DEF_ATTR_ID) {
-        addStat('refineDef', value);
+        refineSums.refineDef += value;
       } else if (attrId === REFINE_ENDURANCE_ATTR_ID) {
         addStat('endurance', value);
       }
@@ -471,6 +476,12 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     for (const [msLevel, msEffects] of Object.entries(refineGroup.milestones ?? {})) {
       if (Number(msLevel) <= level) applyRefineEffects(msEffects);
     }
+  }
+  for (const statId of Object.keys(refineSums) as (keyof typeof refineSums)[]) {
+    const sum = refineSums[statId];
+    if (sum !== 0) addStat(statId, sum);
+    const shortfall = REFINE_STAT_FLOOR[statId] - sum;
+    if (shortfall > 0) addLevelStat(statId, shortfall);
   }
 
   // アビリティ効果の適用。R1/R2で効果種別の解釈は同一のため単一の実装を共用する。
@@ -608,10 +619,16 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
       if (effectType === MOD_EFFECT_TYPE_STAT && attrId === 11502) {
         // 全属性攻撃力(enchant側と同じ扱い。精錬攻撃力とは別枠のためallAttrAtkにのみ積む)。
         addStat('allAttrAtk', value);
-      } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID) {
+      } else if (
+        effectType === MOD_EFFECT_TYPE_STAT &&
+        attrId === TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID
+      ) {
         // 攻撃速度の%finalバリアント(「集中・攻撃速度」等)。単位はタレント側と同じ100=1%。
         atkSpeedFinalPctAddend += value / 100;
-      } else if (effectType === MOD_EFFECT_TYPE_STAT && attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID) {
+      } else if (
+        effectType === MOD_EFFECT_TYPE_STAT &&
+        attrId === MOD_CAST_SPEED_FINAL_PCT_ATTR_ID
+      ) {
         // 詠唱速度の%finalバリアント(「集中・詠唱」等)。単位は攻撃速度側と同じ100=1%。
         castSpeedFinalPctAddend += value / 100;
       } else if (effectType === MOD_EFFECT_TYPE_STAT) {
@@ -658,6 +675,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     }
   }
 
+  // 「<ステータス> N pt につき追加で+M(最大X)」型のイマジンパッシブ(IMAGINE_BUF_RATING_PER_RATING)。
+  // 実数値の確定後(このあとの%ボーナス適用・俊敏変換の後)に加算するため、ここでは集めるだけ。
+  const ratingPerRatingBonuses: { stat: StatId; per: number; step: number; cap: number }[] = [];
+
   // バトルイマジン パッシブ: 基礎ステータスへの%ボーナス (rawStats に乗算)
   // 装備・アビリティ・モジュール・冒険者レベル・潜在レベルの平坦加算がすべて終わった後の
   // 基礎ステータス全体に対して掛けるため、この位置で適用する。
@@ -684,33 +705,37 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     // BuffId参照のパッシブ(IMAGINE_BUF_FLAT_STAT参照。無条件で常時有効な先頭パラメータのみ対応)。
     for (const eff of ima?.bufPassiveEffects ?? []) {
       const buffId = eff[0] as number;
-      const bufFlat = IMAGINE_BUF_FLAT_STAT[buffId];
-      if (bufFlat == null) continue;
       const rankParams = (eff[rank + 1] ?? eff[1]) as number[];
-      const value = rankParams[bufFlat.paramIndex];
-      if (value != null) addStat(bufFlat.stat, value);
+      const bufFlat = IMAGINE_BUF_FLAT_STAT[buffId];
+      if (bufFlat != null) {
+        const value = rankParams[bufFlat.paramIndex];
+        if (value != null) addStat(bufFlat.stat, value);
+        continue;
+      }
+      const bufSpeed = IMAGINE_BUF_SPEED[buffId];
+      if (bufSpeed != null) {
+        const cast = bufSpeed.castParamIndex != null ? rankParams[bufSpeed.castParamIndex] : null;
+        const atk = bufSpeed.atkParamIndex != null ? rankParams[bufSpeed.atkParamIndex] : null;
+        if (cast != null) castSpeedFinalPctAddend += cast / 100;
+        if (atk != null) atkSpeedFinalPctAddend += atk / 100;
+        continue;
+      }
+      const perRatingStat = IMAGINE_BUF_RATING_PER_RATING[buffId];
+      if (perRatingStat != null) {
+        const [per, step, cap] = rankParams;
+        if (per > 0) ratingPerRatingBonuses.push({ stat: perRatingStat, per, step, cap });
+      }
     }
   }
 
-  // 絆レベル「5ステータス中最大の1項目」判定用のベース値スナップショット。装備・アビリティ・
-  // バトルイマジン・冒険者レベル・潜在レベル(常時反映分)までの値のみを使い、これから適用する
-  // 潜在因子効果(極性因子の%ボーナス含む)・絆レベル効果自身による変動は含めない
-  // (2026-09-02不具合報告: 判定基準に極性因子の%ボーナスが混ざると、心相投影のON/OFFで
-  // 判定結果自体が変わってしまい、ファストの方が高いはずの状況で幸運に絆レベル効果が誤って
-  // 付与されていた。ファストはこのスナップショット時点では俊敏からの変換分〈hasteReal相当〉が
-  // 未加算のため、その分だけ個別に加算して補正する)。
-  const highestOfBaseStats: Record<StatId, number> = { ...total };
-  highestOfBaseStats.haste += convertBySeparatelyTruncatedRates(
-    total.agility,
-    COMMON_STAT_COEFFICIENTS.hastePerAgilityPoint,
-    conversionRateBonus.haste ?? 0,
-  );
-
-  // 潜在因子効果 (enabled 時のみ)。ツリー(テンプレート)自体が未開放の場合はphantomEnabledが
+  // 祈願心相晶(S4。S3以前は潜在心相晶)のノード・因子効果 (enabled 時のみ)。ツリー(テンプレート)自体が未開放の場合はphantomEnabledが
   // 自動的にfalseになる(store側、setPhantomTemplateId/setPhantomLevel)ため、ここでは
   // テンプレート自体の開放Lvは見ずノード個別の開放Lvのみ判定すればよい。
   if (phantomEnabled && phantomTemplateId != null) {
     const tmpl = seasonTalentData.templates[String(phantomTemplateId)];
+    // 映痕はツリー走査中に集め、走査後にまとめて反映する(重複不可の極性の映痕は全因子を通じて
+    // 最大値の1つだけ反映するため)。振り分けは affixEffects.ts。
+    const affixCollector = new AffixStatCollector();
     if (tmpl) {
       const activeIds = getActivePhantomNodeIds(
         tmpl.rootNodeId,
@@ -725,11 +750,17 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         if (phantomLevel < getUnlockLevel(node.unlockCondition)) continue;
         if (node.nodeType === 1) {
           // 固定ノード(ordinaryEffect): 大半はスキル固有/条件付き効果のため対象外。
-          // ORDINARY_EFFECT_BONUS に対応付けがある単純なステータスボーナスのみ反映する。
+          // ORDINARY_EFFECT_BONUS / PHANTOM_ORDINARY_PCT_ATTR_TO_STAT に対応付けがある
+          // 単純なステータスボーナスのみ反映する。
           const oe = seasonTalentData.ordinaryEffects[String(nodeId)];
           if (!oe) continue;
           for (const eff of oe.effects) {
-            if (eff[0] !== 3) continue;
+            if (eff[0] === PHANTOM_EFFECT_TYPE_STAT) {
+              const pctStat = PHANTOM_ORDINARY_PCT_ATTR_TO_STAT[eff[1]];
+              if (pctStat) addPctBonus(pctStat, eff[2]);
+              continue;
+            }
+            if (eff[0] !== PHANTOM_EFFECT_TYPE_BUFF) continue;
             const bonus = ORDINARY_EFFECT_BONUS[eff[1]];
             if (!bonus) continue;
             if (bonus.kind === 'flat') {
@@ -773,19 +804,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           const statId = PHANTOM_ATTR_TO_STAT[attrId];
           if (statId !== undefined) addStat(statId, value);
         }
-        // effectType=3 極性バフ: 第2パスで適用するために収集
+        // effectType=3(BuffId参照): 無条件の単独ステータス%ボーナスのみ反映(他はスキル固有効果)。
         for (let i = 0; i < gradeData.effects.length; i++) {
           const [effectType, buffId] = gradeData.effects[i];
-          if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
-          const polarity = FACTOR_POLARITY_EFFECTS[buffId];
-          if (polarity) {
-            const pars = gradeData.buffPars?.[i] ?? [];
-            const boostPct = pars[polarity.boostIdx] ?? 0;
-            const penaltyPct = pars[polarity.penaltyIdx] ?? 0;
-            addPctBonus(polarity.boostStat, boostPct);
-            addPctBonus(polarity.penaltyStat, -penaltyPct);
-            continue;
-          }
+          if (effectType !== PHANTOM_EFFECT_TYPE_BUFF) continue;
           const singleStat = FACTOR_SINGLE_STAT_PCT_BONUS[buffId];
           if (singleStat) {
             const pars = gradeData.buffPars?.[i] ?? [];
@@ -793,60 +815,33 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
             phantomFinalPct[singleStat.stat] = (phantomFinalPct[singleStat.stat] ?? 0) + value;
           }
         }
+        // 映痕(S4): 因子の効果が反映される場合のみ、開放済みスロットの映痕を集める。
+        affixCollector.add(getActiveAffixes(slot));
       }
     }
+    affixCollector.apply({
+      flat: addStat,
+      pct: addPctBonus,
+      finalPct: (statId, value) => {
+        phantomFinalPct[statId] = (phantomFinalPct[statId] ?? 0) + value;
+      },
+      atkSpeed: (percent) => {
+        atkSpeedFinalPctAddend += percent;
+      },
+      castSpeed: (percent) => {
+        castSpeedFinalPctAddend += percent;
+      },
+    });
   }
 
-  // 絆レベル効果 (enabled 時のみ)
-  // 「最も高い1項目に加算」は highestOfBaseStats (潜在因子効果・絆レベル効果自身より前の
-  // スナップショット、上記コメント参照) を参照して決定する。
-  if (phantomEnabled && phantomTemplateId != null) {
-    const tmpl = seasonTalentData.templates[String(phantomTemplateId)];
-    if (tmpl) {
-      const activeAdvEffects = Object.values(seasonTalentData.advancedEffects).filter(
-        (ae) => ae.effectId === tmpl.advancedEffectId && phantomBondPoints >= ae.unlockFraction,
-      );
-      for (const ae of activeAdvEffects) {
-        for (const [effectType, buffId] of ae.effects) {
-          if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
-          const statEffects = BOND_BUFF_STAT_EFFECTS[buffId];
-          if (!statEffects) continue;
-          for (const eff of statEffects) {
-            if (eff.type === 'static') {
-              addStat(eff.stat, eff.value);
-            } else if (eff.type === 'highest_of') {
-              // highestOfBaseStats(潜在因子効果より前のスナップショット)から最大値の stat に
-              // 加算する。totalそのものを比較に使うと、潜在因子の極性バフ(%ボーナス)や絆レベル
-              // 効果自身の加算(同種の他レベル分)が判定に混ざってしまい、心相投影のON/OFFで
-              // 判定結果自体が変わってしまう(2026-09-02不具合報告: ファストの方が高いはずの
-              // 状況で、極性因子の%ボーナスが幸運側に乗ることで幸運に誤って絆レベル効果が
-              // 付与されていた)。
-              let maxStat = eff.stats[0];
-              for (const s of eff.stats.slice(1)) {
-                if (highestOfBaseStats[s] > highestOfBaseStats[maxStat]) maxStat = s;
-              }
-              addStat(maxStat, eff.value);
-            } else if (eff.type === 'final_pct') {
-              finalPctAddend[eff.stat] = (finalPctAddend[eff.stat] ?? 0) + eff.value;
-            } else if (eff.type === 'main_stat') {
-              addStat(profession.mainStat, eff.value);
-            } else if (eff.type === 'ratio_of') {
-              addStat(eff.targetStat, total[eff.sourceStat] * eff.ratio);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // スターオイル: 物理/魔法ダメージ強化度(クラスの攻撃タイプに応じてphysicalEnhance/magicalEnhanceへ加算)
+  // 泥灸(S3まではスターオイル): 物理/魔法ダメージ強化度(クラスの攻撃タイプに応じてphysicalEnhance/magicalEnhanceへ加算)
   if (cookingBuff.starOilEnabled && cookingBuff.starOilValue !== 0) {
     const statId: StatId =
       profession.attackType === 'physical' ? 'physicalEnhance' : 'magicalEnhance';
     addStat(statId, cookingBuff.starOilValue);
   }
 
-  // シロップ/脊椎試薬: 選択中の属性の属性強度へ加算する(属性ボーナス%算出に使用)。
+  // キャンドル(S3まではシロップ/脊椎試薬): 選択中の属性の属性強度へ加算する(属性ボーナス%算出に使用)。
   if (cookingBuff.syrupEnabled && cookingBuff.syrupElementStrength !== 0) {
     addStat(ELEMENT_ATTR_STR_STAT[cookingBuff.syrupElement], cookingBuff.syrupElementStrength);
   }
@@ -944,11 +939,24 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   );
   const hasteRawValue = pctBonus.haste ?? 0;
   const hasteFactor = roundClean(1 + hasteRawValue / PERCENT_BASIS_POINTS);
-  const hasteRealAdjusted = roundToInt(roundClean((total.haste + hasteAgilityBonus) * hasteFactor));
+  let hasteRealAdjusted = roundToInt(roundClean((total.haste + hasteAgilityBonus) * hasteFactor));
   // rawStats.haste自体は従来通り、俊敏変換分を含まない値として返す(表示側は
   // derivedStats.hasteReal/hasteRealAdjustedを参照する。CharacterPanel.tsx参照)。
   if (hasteRawValue !== 0) {
     total.haste = roundToInt(roundClean(total.haste * hasteFactor));
+  }
+
+  // 「ファスト/器用さ N pt につき追加で+M(最大X)」(幻花の残骸/蝕花の残影): 実数値が確定した
+  // ここで、その時点の最終実数値(ファストは俊敏変換込みのhasteRealAdjusted)から加算量を求める。
+  // 加算分自体は判定の基準に含めない(ゲーム内説明文どおり、元の実数値 N pt ごとの加算とみなす)。
+  for (const b of ratingPerRatingBonuses) {
+    const current = b.stat === 'haste' ? hasteRealAdjusted : total[b.stat];
+    const bonus = Math.min(b.cap, Math.floor(current / b.per) * b.step);
+    if (bonus <= 0) continue;
+    if (b.stat === 'haste') hasteRealAdjusted += bonus;
+    total[b.stat] += bonus;
+    // 内訳表示では加算列に含める(%ボーナス適用後の加算だが、表示上は加算元の一つとして扱う)。
+    additive[b.stat] = (additive[b.stat] ?? 0) + bonus;
   }
 
   const breakdown = {} as Record<StatId, StatBreakdownEntry>;
@@ -1055,7 +1063,8 @@ export function applyFinalStatModifiers(
     haste: derived.hastePercent * ipct('haste') + (finalPctAddend.haste ?? 0) / 100,
     luck: derived.luckPercent + (finalPctAddend.luck ?? 0) / 100,
     mastery: derived.masteryPercent * ipct('mastery') + (finalPctAddend.mastery ?? 0) / 100,
-    versatility: derived.versatilityPercent * ipct('versatility') + (finalPctAddend.versatility ?? 0) / 100,
+    versatility:
+      derived.versatilityPercent * ipct('versatility') + (finalPctAddend.versatility ?? 0) / 100,
     resist: derived.resistPercent,
   };
 

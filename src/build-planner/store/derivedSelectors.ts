@@ -335,7 +335,6 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     phantomEnabled: state.phantomEnabled,
     phantomLevel: state.phantomLevel,
     phantomTemplateId: state.phantomTemplateId,
-    phantomBondPoints: state.phantomBondPoints,
     phantomNodeSelections: state.phantomNodeSelections,
     phantomFactorSlots: state.phantomFactorSlots,
     cookingBuff: state.cookingBuff,
@@ -386,6 +385,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     state.cookingBuff.statCorrectionEnabled
       ? state.cookingBuff.statCorrections
       : EMPTY_STAT_CORRECTIONS,
+    cookingResult.damageBonus,
   );
 
   const stats = selectStatsWithCooking(finalStatsResult.stats, cookingAdjustments);
@@ -478,7 +478,6 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
     phantomTemplateId: state.phantomTemplateId,
     phantomNodeSelections: state.phantomNodeSelections,
     phantomFactorSlots: state.phantomFactorSlots,
-    phantomBondPoints: state.phantomBondPoints,
   });
 
   return {

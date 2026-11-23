@@ -161,11 +161,21 @@ describe('loadAutoSave / persistAutoSave', () => {
     expect(state?.battleImagines).toEqual([1, 2]);
     expect(state?.imagineRanks).toEqual([3, 4]);
 
-    // 自動でv2形式として書き戻されている
+    // 自動で現行のプランコード形式として書き戻されている。v1はS3以前のデータ扱いのため、
+    // シーズン固有要素(心相投影)の中身は書き出されず、それ以外はそのまま引き継ぐ。
     expect(localStorage.getItem('bpsr-autosave-v2')).not.toBeNull();
     const second = loadAutoSave();
     expect(second.legacySource).toBeNull();
-    expect(second.state).toEqual(state);
+    expect(second.state?.saveSeasonId).toBe(3);
+    expect(second.state).toMatchObject({
+      battleImagines: [1, 2],
+      imagineRanks: [3, 4],
+      professionKey: state?.professionKey,
+      equipped: state?.equipped,
+      talentR1EnabledIds: state?.talentR1EnabledIds,
+      phantomTemplateId: null,
+      phantomFactorSlots: {},
+    });
   });
 
   it('壊れたv2自動保存データはクラッシュせず、読み込み失敗を報告する', () => {

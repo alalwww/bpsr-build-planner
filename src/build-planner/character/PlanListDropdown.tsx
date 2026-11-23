@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { PROFESSIONS } from '../profession';
 import type { BuildPlanData } from '../plan/buildPlan';
+import { isPreviousSeasonSave } from '../plan/saveSeason';
 import { getClassIconUrl } from './classIcons';
 import renameIconUrl from '../../assets/ui/camera_icon_function_29.png';
 import deleteIconUrl from '../../assets/ui/com_btn_delete.png';
@@ -77,6 +78,12 @@ function PlanListDropdown({
                         className="character-panel__plan-load"
                         onClick={() => onLoadPlan(plan.id)}
                       >
+                        {/* 過去シーズンに保存したプラン(読込時に心相投影は初期化される)。 */}
+                        {isPreviousSeasonSave(plan) && (
+                          <span className="character-panel__plan-season">
+                            (S{plan.saveSeasonId})
+                          </span>
+                        )}
                         {plan.name || t('buildPlanner.buildPlanPlaceholder')}
                       </button>
                       <button

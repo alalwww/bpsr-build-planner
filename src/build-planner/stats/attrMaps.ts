@@ -13,9 +13,9 @@ export const TALENT_EFFECT_TYPE_SKILL_REPLACEMENT = 6; // スキル置き換え(
 export const MOD_EFFECT_TYPE_STAT = 1; // 通常のステータス加算
 export const MOD_EFFECT_TYPE_ADAPTIVE = 5; // 適応ステータス・攻撃力(モジュール専用)
 
-// 潜在因子/絆レベル(phantom-factors.json, season-talents.json)の effects[n][0] (EffectType)。
+// 祈願因子/心相ツリー固定ノード(phantom-factors.json, season-talents.json)の effects[n][0] (EffectType)。
 export const PHANTOM_EFFECT_TYPE_STAT = 1; // 平坦ステータス加算・%乗算値
-export const PHANTOM_EFFECT_TYPE_POLARITY = 3; // 極性バフ/絆レベルのBuffId参照(boost/penalty)
+export const PHANTOM_EFFECT_TYPE_BUFF = 3; // BuffId参照(値は buffPars。映痕の極性、第六感等)
 
 // 属性(「全」を除く8属性)ごとの属性攻撃力/属性強度 AttrId → StatId マッピング。
 // クラスアビリティの小ノード(weaponGroup:0の共通ノード、例: talentId 20〜27)等で使われる。
@@ -29,7 +29,7 @@ export const ELEMENT_ATK_STAT: Record<ElementId, StatId> = {
   light: 'lightAtk',
   dark: 'darkAtk',
 };
-// 属性別の属性強度は現状ゲームデータ上に個別AttrIdの使用例がなく、シロップ/脊椎試薬
+// 属性別の属性強度は現状ゲームデータ上に個別AttrIdの使用例がなく、キャンドル
 // (料理バフ)による加算のみが実際のソース。属性ボーナス%算出時にallAttrStrと合算する。
 export const ELEMENT_ATTR_STR_STAT: Record<ElementId, StatId> = {
   fire: 'fireAttrStr',
@@ -165,13 +165,14 @@ export const TALENT_FLAT_PCT_TO_STAT: Partial<Record<number, { stat: StatId; val
 // ステータスへの平坦加算(TALENT_ATTR_TO_STATのtype=1加算と同じ単位・同じaddStat経路。
 // 会心/ファスト等は収益逓減カーブの対象になる)。TALENT_FLAT_PCT_TO_STATとは異なり、
 // 対象は「%そのものの最終値」ではなく「カーブ適用前の実数値レーティング」である点に注意。
-// フロストメイジR2アビリティ「高速詠唱」: ファスト+2500(パーマフロスト中の詠唱速度+15%は
+// 値はシーズン4で4倍に変更された(S3: 2500/6250、収益逓減カーブ係数のK値4倍化に連動)。
+// フロストメイジR2アビリティ「高速詠唱」: ファスト+10000(パーマフロスト中の詠唱速度+15%は
 // 状態依存の条件付き効果のため対象外)。
-// ヘヴィガーディアンR2アビリティ「剛岩精通」: 器用さ+6250(勇壮砦壁の有効中の器用さ+8%は
+// ヘヴィガーディアンR2アビリティ「剛岩精通」: 器用さ+25000(勇壮砦壁の有効中の器用さ+8%は
 // 状態依存の条件付き効果のため対象外)。
 export const TALENT_RAW_FLAT_TO_STAT: Partial<Record<number, { stat: StatId; value: number }>> = {
-  2204640: { stat: 'haste', value: 2500 },
-  2201720: { stat: 'mastery', value: 6250 },
+  2204640: { stat: 'haste', value: 10000 },
+  2201720: { stat: 'mastery', value: 25000 },
 };
 
 // アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、会心/ファスト/幸運/
@@ -204,69 +205,6 @@ export const LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11042: 'endurance',
 };
 
-// 絆レベル effectType=3 BuffId → ステータス効果マッピング
-export type BondBuffStatEffect =
-  | { type: 'static'; stat: StatId; value: number }
-  | { type: 'highest_of'; stats: StatId[]; value: number }
-  // 最終%ボーナスへの直接加算(finalPctAddendと同じ単位: 100 = 1%)
-  | { type: 'final_pct'; stat: StatId; value: number }
-  // クラスのメインステータス(筋力/知力/敏捷)への平坦加算
-  | { type: 'main_stat'; value: number }
-  // 現時点のtotal[sourceStat]にratioを乗じてtargetStatへ加算
-  | { type: 'ratio_of'; sourceStat: StatId; targetStat: StatId; ratio: number };
-
-// レベル1〜5(unlockFraction 2/5/12/20/25)は全8テンプレート共通の絆報酬(累積加算される)。
-// レベル6(unlockFraction 35)のみテンプレートごとに異なる固有報酬(buffId 3003660〜3003730、
-// テンプレート1体につき1種類)。値は`src/locales/*/game-data.json`の`attrDescs.{buffId}`
-// (ゲーム内説明文、静的テキストでbuffPars非依存)から直接確認済み。
-export const BOND_BUFF_STAT_EFFECTS: Partial<Record<number, BondBuffStatEffect[]>> = {
-  // Lv1(2pt)/Lv2(5pt)/Lv4(20pt) 共通: 滅妄強度+100。耐久力+750
-  3003610: [
-    { type: 'static', stat: 'illusionPower', value: 100 },
-    { type: 'static', stat: 'endurance', value: 750 },
-  ],
-  3003620: [
-    { type: 'static', stat: 'illusionPower', value: 100 },
-    { type: 'static', stat: 'endurance', value: 750 },
-  ],
-  3003640: [
-    { type: 'static', stat: 'illusionPower', value: 100 },
-    { type: 'static', stat: 'endurance', value: 750 },
-  ],
-  // Lv3(12pt): 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+750。耐久力+750
-  3003630: [
-    {
-      type: 'highest_of',
-      stats: ['crit', 'haste', 'luck', 'mastery', 'versatility'],
-      value: 750,
-    },
-    { type: 'static', stat: 'endurance', value: 750 },
-  ],
-  // Lv5(25pt): 会心、ファスト、幸運、器用さ、万能のうち最も高い1項目+1250。耐久力+750
-  3003650: [
-    {
-      type: 'highest_of',
-      stats: ['crit', 'haste', 'luck', 'mastery', 'versatility'],
-      value: 1250,
-    },
-    { type: 'static', stat: 'endurance', value: 750 },
-  ],
-  // Lv6(35pt)固有報酬。テンプレート1「幸運+1%」
-  3003660: [{ type: 'final_pct', stat: 'luck', value: 100 }],
-  // テンプレート2「会心+1%」
-  3003670: [{ type: 'final_pct', stat: 'crit', value: 100 }],
-  // テンプレート3「マスタリースキルの虚妄ダメージ+6%」はスキル固有効果のため対象外
-  // (静的ステータスモデルでは表現不可)。
-  // テンプレート4「滅妄ダメージ+4%」・テンプレート5「滅妄ダメージ+2%」も対応するStatIdが
-  // 存在しないため対象外(illusionPowerは実数値の"滅妄強度"であり、ダメージ%とは別軸)。
-  // テンプレート6「寂滅の夢の影響を受けている対象を攻撃すると、会心確率、幸運確率+2%」は
-  // 対象の状態異常に依存する条件付き効果のため対象外。
-  // テンプレート7「物理防御力75ptにつき、攻撃力+1pt」
-  3003720: [{ type: 'ratio_of', sourceStat: 'physicalDef', targetStat: 'atk', ratio: 1 / 75 }],
-  // テンプレート8「現在のメインステータス+150」
-  3003730: [{ type: 'main_stat', value: 150 }],
-};
-
 // 潜在因子 effectType=1 AttrId → StatId マッピング（平坦加算値。末尾が2のIDは加算、4のIDは%乗算のため別扱い）
 export const PHANTOM_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11012: 'strength',
@@ -282,25 +220,7 @@ export const PHANTOM_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   11812: 'barrierStrength',
 };
 
-// 潜在因子 effectType=3 極性バフ (BuffId → boost/penalty stat, pars index)
-// pars 単位: 100 = 1% (renderEffectDesc の pAsPercent と同様)
-// 効果: boost_stat *= (1 + pars[boostIdx] / 10000), penalty_stat *= (1 - pars[penaltyIdx] / 10000)
-export interface PolarityEffect {
-  boostStat: StatId;
-  boostIdx: number;
-  penaltyStat: StatId;
-  penaltyIdx: number;
-}
-
-export const FACTOR_POLARITY_EFFECTS: Partial<Record<number, PolarityEffect>> = {
-  3058050: { boostStat: 'crit', boostIdx: 1, penaltyStat: 'mastery', penaltyIdx: 0 }, // 会心+, 器用さ(mastery)-
-  3058060: { boostStat: 'luck', boostIdx: 1, penaltyStat: 'haste', penaltyIdx: 0 }, // 幸運+, ファスト-
-  3058070: { boostStat: 'mastery', boostIdx: 1, penaltyStat: 'luck', penaltyIdx: 0 }, // 器用さ(mastery)+, 幸運-
-  3058080: { boostStat: 'haste', boostIdx: 1, penaltyStat: 'crit', penaltyIdx: 0 }, // ファスト+, 会心-
-};
-
-// 潜在因子 effectType=3(第六感、クラス固有)のうち、FACTOR_POLARITY_EFFECTSのような
-// 「対になる2ステータスへのboost/penalty」ではなく、無条件で常時有効な単独ステータスへの
+// 因子 effectType=3(BuffId参照。第六感等のクラス固有効果)のうち、無条件で常時有効な単独ステータスへの
 // %ボーナスを持つもの。buffPars内の対象インデックス(paramIndex)のみを対象にする
 // (残りのパラメータはスキル固有の副作用のため、他のスキル固有効果と同様にこのアプリの
 // 静的ステータスモデルでは対象外)。
@@ -316,11 +236,11 @@ export interface FactorSingleStatBonus {
   paramIndex: number;
 }
 
-export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleStatBonus>> = {
-  // ビートパフォーマーX4「第六感」: 魔法攻撃力+p2(pars[1]、無条件)。p1(pars[0])は
-  // 「ピースフルロンドが変換する回復量-x%」というスキル固有の副作用のため対象外。
-  3057040: { stat: 'matk', paramIndex: 1 },
-};
+// S3のビートパフォーマーX4「第六感」(3057040: 魔法攻撃力+p2)が該当していたが、S4の祈願因子では
+// データから消えたため削除した。S4の祈願因子で対応付けできるものは現時点では無い
+// (S3までの極性因子 3058050〜080 は、S4では映痕の効果になった。AFFIX_POLARITY_EFFECTS)。
+// 例: 3057040: { stat: 'matk', paramIndex: 1 }
+export const FACTOR_SINGLE_STAT_PCT_BONUS: Partial<Record<number, FactorSingleStatBonus>> = {};
 
 // 潜在レベルアップ AttrId → StatId マッピング
 export const PHANTOM_LEVEL_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
@@ -361,6 +281,56 @@ export const MOD_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
   12722: 'luckyHitRecoveryBonus',
   // 物理防御力無視(「筋力強化」等)。
   11392: 'physicalDefIgnoreBonus',
+};
+
+// シーズン固有の「祈り」系ステータスと、対応する FightAttrTable の属性ID(S4時点では映痕
+// (phantom-affixes.json)のみが使う)。表示名は game-data の attributes[属性ID] から取る
+// (シーズンごとに名称が変わる想定のため、UI文言として固定しない)。
+// 祈りダメージ(12692)・祈りダメージ軽減(12702)は AttrNumType=1 で "100=1%"、祈り防御力無視(11472)は実数値。
+export const OATH_STAT_ATTR_ID: Partial<Record<StatId, number>> = {
+  oathDamageBonus: 12692,
+  oathDefIgnore: 11472,
+  oathDamageReduction: 12702,
+};
+
+// 映痕(S4祈願因子に埋め込むステータス系の映痕、phantom-affixes.json の AffixType=1)のうち、
+// 値をそのまま rawStats へ加算するもの(実数値、祈り系は "100=1%" の raw% のまま)。
+// %系(筋力/知力/敏捷% → IMAGINE_PCT_BASE、最大HP/攻撃力% → IMAGINE_PCT_FINAL、精錬% →
+// PHANTOM_ORDINARY_PCT_ATTR_TO_STAT、攻撃速度/詠唱速度 → 最終%直接加算)の振り分けは stats/affixEffects.ts。
+export const AFFIX_FLAT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11112: 'crit',
+  11122: 'haste',
+  11132: 'luck',
+  11142: 'mastery',
+  11152: 'versatility',
+  11352: 'physicalDef',
+  11362: 'magicalDef',
+  11512: ELEMENT_ATK_STAT.fire,
+  11522: ELEMENT_ATK_STAT.ice,
+  11532: ELEMENT_ATK_STAT.forest,
+  11542: ELEMENT_ATK_STAT.thunder,
+  11552: ELEMENT_ATK_STAT.wind,
+  11562: ELEMENT_ATK_STAT.rock,
+  11572: ELEMENT_ATK_STAT.light,
+  11582: ELEMENT_ATK_STAT.dark,
+  13202: 'allAttrResist',
+  12692: 'oathDamageBonus',
+  11472: 'oathDefIgnore',
+  12702: 'oathDamageReduction',
+};
+
+// 極性の映痕(BuffId 3058050〜080)「任意の方法で獲得した会心値+{p1}、任意の方法で獲得した器用さ-6%」。
+// S3までの極性因子と同じBuffIdだが、S4の映痕は buffPars が [増加量] の
+// 1要素だけで、減少側は説明文に -6% 固定で書かれている(2026-11-23 ゲームデータ確認)。
+// 効果は重複不可で、全因子を通じて同じ効果は最大値の1つだけが反映される(2026-11-23 ユーザー確認)。
+export const AFFIX_POLARITY_PENALTY = 600; // -6%(単位 1/10000)
+export const AFFIX_POLARITY_EFFECTS: Partial<
+  Record<number, { boostStat: StatId; penaltyStat: StatId }>
+> = {
+  3058050: { boostStat: 'crit', penaltyStat: 'mastery' },
+  3058060: { boostStat: 'luck', penaltyStat: 'haste' },
+  3058070: { boostStat: 'mastery', penaltyStat: 'luck' },
+  3058080: { boostStat: 'haste', penaltyStat: 'crit' },
 };
 
 // モジュール専用の「適応」効果 (EffectType=5)。クラスのメインステータス/攻撃タイプに
@@ -442,6 +412,9 @@ export const RAW_PERCENT_STAT_IDS = new Set<StatId>([
   'physicalReductionBonus',
   'magicalReductionBonus',
   'physicalDefIgnoreBonus',
+  'damageBonus',
+  'oathDamageBonus',
+  'oathDamageReduction',
   'fireBonus',
   'iceBonus',
   'forestBonus',
@@ -599,19 +572,43 @@ export const IMAGINE_BUF_FLAT_STAT: Partial<Record<number, { stat: StatId; param
     3210180: { stat: 'critDamageBonus', paramIndex: 0 },
   };
 
+// バトルイマジン パッシブ(BuffId参照)のうち、攻撃速度/詠唱速度への無条件の直接加算。
+// 攻撃速度/詠唱速度%はDerivedStats側の値(StatIdに存在しない)のため、IMAGINE_BUF_FLAT_STATでは
+// 表現できず、atkSpeedFinalPctAddend/castSpeedFinalPctAddendへ個別に集計する(単位はモジュール
+// 「集中・攻撃速度」等と同じ 100 = 1%)。
+// 3210340(ゴブリンセージ, id 3899): 「詠唱速度+{p1} 攻撃速度+{p2}」(S4追加、無条件)。
+export const IMAGINE_BUF_SPEED: Partial<
+  Record<number, { castParamIndex?: number; atkParamIndex?: number }>
+> = {
+  3210340: { castParamIndex: 0, atkParamIndex: 1 },
+};
+
+// バトルイマジン パッシブ(BuffId参照)のうち、「<ステータス> {p1}pt につき追加で+{p2}、
+// 最大{p3}まで」型の実数値ボーナス(パラメータは [p1, p2, p3])。現在の実数値(%ボーナス・俊敏
+// 変換まで適用済みの最終実数値)に依存するため、calculateRawStatsの最後で実数値確定後に加算する。
+// 3210270(幻花の残骸, id 3990): ファスト / 3210280(蝕花の残影, id 3991): 器用さ(S4追加)。
+export const IMAGINE_BUF_RATING_PER_RATING: Partial<Record<number, StatId>> = {
+  3210270: 'haste',
+  3210280: 'mastery',
+};
+
 // 心相ツリーの固定ノード(nodeType=1, ordinaryEffect)は大半がスキル固有/条件付き効果
 // (このアプリの静的ステータスモデルでは表現不可)だが、一部は単純なステータスボーナスとして
 // 表現できる。BuffId(effectType=3の第2要素)ごとに手動で対応付ける。
 export type OrdinaryEffectBonus =
   { kind: 'flat'; stat: StatId; value: number } | { kind: 'finalPct'; stat: StatId; value: number };
 
-export const ORDINARY_EFFECT_BONUS: Partial<Record<number, OrdinaryEffectBonus>> = {
-  // 瞬間ブレス: 戦闘中のスタミナ回復+35pt/秒(移動速度+10%は対応するStatIdが無いため対象外)
-  3002090: { kind: 'flat', stat: 'staminaRegen', value: 35 },
-  // 物理防御力+15%(無条件の固定ノード)
-  3003280: { kind: 'finalPct', stat: 'physicalDef', value: 1500 },
-  // イマジンインパクト(心相ツリー)固定ノード「リビルド」: 「幸運の一撃倍率+10%」。
-  // 表記は「ダメージ」を明示しないが、回復には影響しないダメージ専用の効果(2026-08-09
-  // 不具合報告でユーザー確認)。
-  3002030: { kind: 'flat', stat: 'luckyHitDamageBonus', value: 1000 },
+// シーズン3(潜在心相晶)の対応エントリ(瞬間ブレス/物理防御力+15%/リビルド)は、S4で潜在心相晶が
+// 廃止されデータから消えたため削除した。S4祈願心相晶の固定ノードのBuffId参照効果は全て
+// 条件付き/スキル固有効果で、現時点で対応付けできるものは無い。
+export const ORDINARY_EFFECT_BONUS: Partial<Record<number, OrdinaryEffectBonus>> = {};
+
+// 心相ツリーの固定ノード(nodeType=1)のeffectType=1(attrId直接参照)のうち、%乗算として
+// 反映するもの(単位1/10000、addPctBonus経路)。S4祈願心相晶の各ツリーにある「〇〇・精錬」ノード
+// (精錬物攻/精錬魔攻/精錬防御力 +1500)が該当する。末尾4のattrIdは他テーブル(IMAGINE_PCT_BASE等)
+// と同じく%乗算値の規約のため+15%として扱う(2026-11-23 ゲーム内で+15%を確認済み)。
+export const PHANTOM_ORDINARY_PCT_ATTR_TO_STAT: Partial<Record<number, StatId>> = {
+  11414: 'refinePhysAtk',
+  11434: 'refineMagAtk',
+  11424: 'refineDef',
 };

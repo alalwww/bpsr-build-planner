@@ -1,39 +1,42 @@
 import type { StatId } from '../types';
 import { substituteEffectDescParams } from '../components/gameText';
-import { PROFESSIONS } from '../profession';
 import {
-  BOND_BUFF_STAT_EFFECTS,
-  FACTOR_POLARITY_EFFECTS,
   FACTOR_SINGLE_STAT_PCT_BONUS,
   IMAGINE_PCT_BASE,
   IMAGINE_PCT_FINAL,
+  MOD_CAST_SPEED_FINAL_PCT_ATTR_ID,
   ORDINARY_EFFECT_BONUS,
   PHANTOM_ATTR_TO_STAT,
-  PHANTOM_EFFECT_TYPE_POLARITY,
+  PHANTOM_ORDINARY_PCT_ATTR_TO_STAT,
+  PHANTOM_EFFECT_TYPE_BUFF,
   PHANTOM_EFFECT_TYPE_STAT,
+  TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
   type ImagineFinalStatId,
 } from '../stats/attrMaps';
 import type { PhantomFactorSlotValue, TreeStep, TreeStepKind } from './phantomData';
 import {
   getActivePhantomNodeIds,
-  getSTAsset,
   getUnlockLevel,
-  iconPathToFile,
   isFactorClassLegacy,
   pfData,
   stData,
 } from './phantomData';
-import { factorBaseName, getNodeIcon, type GameDataT } from './phantomView';
+import { factorBaseName, formatType1Effect, getNodeIcon, type GameDataT } from './phantomView';
+import {
+  affixEffectText,
+  aggregateAffixEffects,
+  getActiveAffixes,
+  getAffixGroup,
+} from './phantomAffixData';
+import { AFFIX_TYPE_STAT, AffixStatCollector } from '../stats/affixEffects';
+
+// 映痕の攻撃速度/詠唱速度(合計に載らない分)の表示順。中級(因子)の後ろに並べる。
+const AFFIX_SORT_ORDER = 100;
 
 // 効果一覧ダイアログ(合計セクション)専用の集計ロジック。calculateRawStats.ts の
-// 潜在因子効果/絆レベル効果ブロックと同じ対応表(attrMaps.ts)を参照して独立に再集計する。
+// 祈願心相晶のノード・因子効果ブロックと同じ対応表(attrMaps.ts)を参照して独立に再集計する。
 // 表示専用のため、他ソース(装備/アビリティ等)と混ざった合算値は扱わず、心相投影ツリー
-// (固定ノード+因子スロット+絆レベル)由来の変化量のみを対象にする。絆レベル効果は
-// BondBuffStatEffectの要素単位(1つのbuffIdが複数要素を持つ場合もそれぞれ独立)で振り分ける:
-// static/final_pct/main_statはそのまま集計、highest_ofは対象ステータス未確定のため専用の
-// highestOfBonusへ合算(表側で「5ステータス最大値へ加算」の1行として表示)、ratio_ofのみ
-// (他ソース込みの現在のステータス値が必要で計算不能)実際のゲーム内説明文をそのまま
-// 個別効果として表示する。
+// (固定ノード+因子スロット)由来の変化量のみを対象にする(S4で絆レベル効果は廃止)。
 
 // pctBonus/finalPctと同じ単位規約(calculateRawStats.ts PERCENT_BASIS_POINTS): 10000 = 100%。
 const PERCENT_BASIS_POINTS = 10000;
@@ -57,16 +60,13 @@ export interface PhantomIndividualEffect {
   /** ノード種別に応じたアイコンURL(getNodeIcon相当)。 */
   icon: string;
   /** 表示順ソートキー。初級(ordinary)は常に-1、中級(factor)は装着因子のtypeId
-   * (1=極性/2=恒常性/3=第六感/4=クラス恒常性/5=クラス狂想/6=真実)。 */
+   * (S4: 2=恒常性/3=想像(旧第六感)/4=クラス恒常性/7=特異点)。 */
   sortOrder: number;
 }
 
 export interface PhantomEffectTotals {
   statDeltas: PhantomStatDelta[];
   individualEffects: PhantomIndividualEffect[];
-  /** 絆レベル効果の「会心/ファスト/幸運/器用さ/万能のうち最大値へ加算」の合計値(実数)。
-   * 対象ステータスは他ソース込みの現在値次第で確定できないため、専用行として別に返す。 */
-  highestOfBonus: number;
 }
 
 // 潜在Lv・現在の選択/因子装着状況から、心相投影ツリー由来のステータス変化を集計する。
@@ -74,18 +74,16 @@ export interface PhantomEffectTotals {
 // 確認するためのダイアログのため、無効化中でも「有効にした場合の効果」を表示する)。
 export function computePhantomEffectTotals(
   tg: GameDataT,
-  // bpsr-bp-ui名前空間の翻訳関数。絆レベル効果の個別効果名(game-data側に該当キーが無いラベル)
-  // でのみ使う。
-  tUi: GameDataT,
   phantomTemplateId: number,
   phantomLevel: number,
   phantomNodeSelections: Record<number, number>,
   phantomFactorSlots: Record<number, PhantomFactorSlotValue | null>,
   professionId: number,
-  phantomBondPoints: number,
+  /** 映痕の攻撃速度/詠唱速度(因子をまたいで合算した個別効果)の見出し(UI文言「映痕の効果」)。 */
+  affixEffectName: string,
 ): PhantomEffectTotals {
   const tmpl = stData.templates[String(phantomTemplateId)];
-  if (!tmpl) return { statDeltas: [], individualEffects: [], highestOfBonus: 0 };
+  if (!tmpl) return { statDeltas: [], individualEffects: [] };
 
   const deltaMap = new Map<StatId, PhantomStatDelta>();
   const getDelta = (statId: StatId): PhantomStatDelta => {
@@ -110,6 +108,10 @@ export function computePhantomEffectTotals(
   };
 
   const individualEffects: PhantomIndividualEffect[] = [];
+  // 映痕(S4): ステータス系は calculateRawStats と同じ振り分け(重複不可は全因子で最大値1つ)で集計する。
+  const affixCollector = new AffixStatCollector();
+  let affixAtkSpeed = 0;
+  let affixCastSpeed = 0;
 
   const activeIds = getActivePhantomNodeIds(
     tmpl.rootNodeId,
@@ -126,15 +128,19 @@ export function computePhantomEffectTotals(
       if (!oe) continue;
       const name = tg(`seasonTalents.ordinaryEffects.${nodeId}`);
       const icon = getNodeIcon(nodeId, 1);
-      // type=1: calculateRawStats.ts では常に対象外(条件付き/スキル固有効果のため)。
-      // 表示用にそのまま個別効果として列挙する。
+      // type=1: PHANTOM_ORDINARY_PCT_ATTR_TO_STAT対応(S4「〇〇・精錬」ノード)は%乗算として
+      // 集計し、それ以外は表示用にそのまま個別効果として列挙する。
       for (const e of oe.effects) {
         if (e[0] !== 1) continue;
-        const attrName = tg(`attributes.${e[1]}`, { defaultValue: String(e[1]) });
+        const pctStat = PHANTOM_ORDINARY_PCT_ATTR_TO_STAT[e[1]];
+        if (pctStat) {
+          addPct(pctStat, e[2]);
+          continue;
+        }
         individualEffects.push({
           key: `ordinary-${nodeId}-attr-${e[1]}`,
           name,
-          desc: `${attrName} +${e[2]}`,
+          desc: formatType1Effect(tg, e),
           icon,
           sortOrder: -1,
         });
@@ -213,14 +219,8 @@ export function computePhantomEffectTotals(
 
     for (let i = 0; i < gradeData.effects.length; i++) {
       const [effectType, buffId] = gradeData.effects[i];
-      if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
-      const polarity = FACTOR_POLARITY_EFFECTS[buffId];
+      if (effectType !== PHANTOM_EFFECT_TYPE_BUFF) continue;
       const pars = gradeData.buffPars?.[i] ?? [];
-      if (polarity) {
-        addPct(polarity.boostStat, pars[polarity.boostIdx] ?? 0);
-        addPct(polarity.penaltyStat, -(pars[polarity.penaltyIdx] ?? 0));
-        continue;
-      }
       const singleStat = FACTOR_SINGLE_STAT_PCT_BONUS[buffId];
       if (singleStat) {
         addFinalPct(singleStat.stat, pars[singleStat.paramIndex] ?? 0);
@@ -237,56 +237,53 @@ export function computePhantomEffectTotals(
         });
       }
     }
-  }
 
-  // 絆レベル効果(上級ノード効果): レベル1〜5は全テンプレート共通・累積加算、レベル6のみ
-  // テンプレート固有。calculateRawStats.tsの絆レベル効果ブロックと同じBOND_BUFF_STAT_EFFECTS
-  // を、1つのbuffIdが持つ複数要素も独立に振り分ける(同じbuffId内でstatic+highest_ofが
-  // 混在するケースがあり、staticだけを理由に丸ごと個別効果へフォールバックすると集計できる
-  // 分まで説明文任せになってしまうため)。ratio_ofのみ(他ソース込みの現在のステータス値が
-  // 必要で計算不能)、そのbuffId全体を実際のゲーム内説明文のまま個別効果として表示する。
-  const mainStatId = Object.values(PROFESSIONS).find(
-    (p) => p.professionId === professionId,
-  )?.mainStat;
-  let highestOfBonus = 0;
-  const activeAdvEffects = Object.values(stData.advancedEffects).filter(
-    (ae) => ae.effectId === tmpl.advancedEffectId && phantomBondPoints >= ae.unlockFraction,
-  );
-  for (const ae of activeAdvEffects) {
-    const icon = getSTAsset(iconPathToFile(ae.icon));
-    for (let i = 0; i < ae.effects.length; i++) {
-      const [effectType, buffId] = ae.effects[i];
-      if (effectType !== PHANTOM_EFFECT_TYPE_POLARITY) continue;
-      const statEffects = BOND_BUFF_STAT_EFFECTS[buffId];
-      const hasRatioOf = statEffects?.some((e) => e.type === 'ratio_of');
-      if (statEffects && !hasRatioOf) {
-        for (const eff of statEffects) {
-          if (eff.type === 'static') addFlat(eff.stat, eff.value);
-          else if (eff.type === 'final_pct') addFinalPct(eff.stat, eff.value);
-          else if (eff.type === 'main_stat' && mainStatId) addFlat(mainStatId, eff.value);
-          else if (eff.type === 'highest_of') highestOfBonus += eff.value;
-        }
-        continue;
-      }
-      const pars = ae.buffPars[i] ?? [];
-      const tmplStr = tg(`attrDescs.${buffId}`, { defaultValue: '' });
-      if (tmplStr) {
-        individualEffects.push({
-          key: `bond-${ae.level}-${buffId}`,
-          name: tUi('buildPlanner.phantom.effectSummary.bondLevelLabel', { level: ae.level }),
-          desc: substituteEffectDescParams(tmplStr, pars),
-          icon,
-          sortOrder: -2,
-        });
-      }
+    // 映痕: ステータス系は合計へ。クラス映痕(計算対象外)は因子ごとの個別効果として表示する。
+    const affixes = getActiveAffixes(slot);
+    affixCollector.add(affixes);
+    for (const affix of aggregateAffixEffects(affixes)) {
+      if (getAffixGroup(affix.group)?.affixType === AFFIX_TYPE_STAT) continue;
+      individualEffects.push({
+        key: `factor-${node.groupId}-affix-${affix.group}`,
+        name,
+        desc: affixEffectText(tg, affix),
+        icon,
+        sortOrder: factorSortOrder,
+      });
     }
   }
 
-  // 上級(sortOrder=-2)→初級(sortOrder=-1)→中級(typeId昇順: 極性→恒常性→第六感→クラス恒常性→クラス狂想→真実)の順に整列。
+  affixCollector.apply({
+    flat: addFlat,
+    pct: addPct,
+    finalPct: addFinalPct,
+    atkSpeed: (percent) => {
+      affixAtkSpeed += percent;
+    },
+    castSpeed: (percent) => {
+      affixCastSpeed += percent;
+    },
+  });
+  // 攻撃速度/詠唱速度は StatId を持たない(最終%直接加算)ため、個別効果として表示する。
+  for (const [attrId, percent] of [
+    [TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID, affixAtkSpeed],
+    [MOD_CAST_SPEED_FINAL_PCT_ATTR_ID, affixCastSpeed],
+  ] as const) {
+    if (percent === 0) continue;
+    individualEffects.push({
+      key: `affix-speed-${attrId}`,
+      name: affixEffectName,
+      desc: formatType1Effect(tg, [1, attrId, Math.round(percent * 100)]),
+      icon: '',
+      sortOrder: AFFIX_SORT_ORDER,
+    });
+  }
+
+  // 初級(sortOrder=-1)→中級(装着因子のtypeId昇順)の順に整列。
   // Array.sortは安定ソートのため、同じsortOrder内の元の並び順(ノード出現順)は保たれる。
   individualEffects.sort((a, b) => a.sortOrder - b.sortOrder);
 
-  return { statDeltas: [...deltaMap.values()], individualEffects, highestOfBonus };
+  return { statDeltas: [...deltaMap.values()], individualEffects };
 }
 
 export function formatPctDelta(rawValue: number): number {

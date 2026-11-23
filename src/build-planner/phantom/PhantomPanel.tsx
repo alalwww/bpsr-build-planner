@@ -23,7 +23,6 @@ import ZoomControls from '../components/ZoomControls';
 import { useCtrlWheelZoom } from '../components/useCtrlWheelZoom';
 import { useDragScroll } from '../components/useDragScroll';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
-import PhantomBondSection from './PhantomBondSection';
 import PhantomEffectSummaryDialog from './PhantomEffectSummaryDialog';
 import PhantomNodeConfig from './PhantomNodeConfig';
 import PhantomNodeEffect from './PhantomNodeEffect';
@@ -31,10 +30,8 @@ import PhantomTreeSvg from './PhantomTreeSvg';
 
 // 心相投影パネル。ヘッダー(レベル/テンプレート/有効化)とレイアウト、
 // テンプレート選択に応じたツリー構造・アクティブノード集合の算出を担い、
-// 各領域の描画は PhantomTreeSvg / PhantomBondSection / PhantomNodeEffect /
-// PhantomNodeConfig に委譲する。
+// 各領域の描画は PhantomTreeSvg / PhantomNodeEffect / PhantomNodeConfig に委譲する。
 
-const EXCLUDED_TEMPLATES = new Set([20001, 20002, 20003, 20004]);
 const ZOOM_STEP = 0.1;
 const ZOOM_MIN = 0.5;
 const ZOOM_MAX = 2.5;
@@ -51,7 +48,6 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
     phantomEnabled,
     phantomLevel,
     phantomTemplateId,
-    phantomBondPoints,
     phantomNodeSelections,
     phantomFactorSlots,
   } = useBuildStore(
@@ -59,7 +55,6 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       phantomEnabled: s.phantomEnabled,
       phantomLevel: s.phantomLevel,
       phantomTemplateId: s.phantomTemplateId,
-      phantomBondPoints: s.phantomBondPoints,
       phantomNodeSelections: s.phantomNodeSelections,
       phantomFactorSlots: s.phantomFactorSlots,
     })),
@@ -69,7 +64,6 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
   const onPhantomEnabledChange = useBuildStore((s) => s.setPhantomEnabled);
   const onPhantomLevelChange = useBuildStore((s) => s.setPhantomLevel);
   const onPhantomTemplateIdChange = useBuildStore((s) => s.setPhantomTemplateId);
-  const onPhantomBondPointsChange = useBuildStore((s) => s.setPhantomBondPoints);
   const onPhantomNodeSelection = useBuildStore((s) => s.setPhantomNodeSelection);
   const onPhantomFactorSlot = useBuildStore((s) => s.setPhantomFactorSlot);
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
@@ -141,7 +135,6 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
     () =>
       Object.entries(stData.templates)
         .map(([id, tmpl]) => ({ id: parseInt(id), ...tmpl }))
-        .filter((t) => !EXCLUDED_TEMPLATES.has(t.id))
         .sort((a, b) => a.sortId - b.sortId),
     [],
   );
@@ -273,7 +266,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
       ) : (
         <div
           className="phantom-body"
-          style={{ backgroundImage: `url(${getSTAsset('virtual_scene_bg_24.png')})` }}
+          style={{ backgroundImage: `url(${getSTAsset('virtual_scene_bg_28.png')})` }}
         >
           {/* 左: ツリー描画 */}
           <div className="phantom-tree-wrapper">
@@ -310,7 +303,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             </div>
           </div>
 
-          {/* 右: 絆ポイント + ノード効果 + 設定 */}
+          {/* 右: ノード効果 + 設定 */}
           <div className={`phantom-right${rightPaneCollapsed ? ' phantom-right--collapsed' : ''}`}>
             <button
               type="button"
@@ -331,17 +324,9 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
             </button>
             {!rightPaneCollapsed && (
               <>
-                {/* 絆ポイント・ノード効果は常時表示したい情報のため、下のノード設定側だけを
+                {/* ノード効果は常時表示したい情報のため、下のノード設定側だけを
                     スクロールさせ、ここは固定表示のままにする。 */}
                 <div className="phantom-right__fixed">
-                  {/* 合計絆ポイント（最上部） */}
-                  <PhantomBondSection
-                    phantomTemplateId={phantomTemplateId}
-                    phantomBondPoints={phantomBondPoints}
-                    onBondPointsChange={onPhantomBondPointsChange}
-                    phantomLevel={phantomLevel}
-                  />
-
                   {/* ノード効果（折り畳み可能） */}
                   <CollapsibleSection
                     className="phantom-desc-area"
@@ -387,7 +372,6 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
           phantomEnabled={phantomEnabled}
           phantomTemplateId={phantomTemplateId}
           phantomLevel={phantomLevel}
-          phantomBondPoints={phantomBondPoints}
           phantomNodeSelections={phantomNodeSelections}
           phantomFactorSlots={phantomFactorSlots}
           treeSteps={treeSteps}

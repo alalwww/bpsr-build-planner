@@ -157,42 +157,6 @@
   line-height: 1.5;
 }
 
-/* 上級ノード効果(絆レベル効果) */
-.phantom-effect-summary__bond-list {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 4px 12px 10px 0;
-}
-
-.phantom-effect-summary__bond-row {
-  display: flex;
-  gap: 6px;
-  align-items: baseline;
-  opacity: 0.45;
-  font-size: 12px;
-}
-
-.phantom-effect-summary__bond-row--active {
-  opacity: 1;
-}
-
-.phantom-effect-summary__bond-threshold {
-  color: #6a6a8a;
-  min-width: 32px;
-  flex-shrink: 0;
-  font-size: 11px;
-}
-
-.phantom-effect-summary__bond-row--active .phantom-effect-summary__bond-threshold {
-  color: #9090c0;
-}
-
-.phantom-effect-summary__bond-desc {
-  color: #a0c8e0;
-  line-height: 1.4;
-}
-
 /* 中級/初級ノード一覧 */
 .phantom-effect-summary__node-list {
   display: flex;
@@ -235,6 +199,11 @@
 .phantom-effect-node__factor {
   color: #9090a8;
   font-size: 11px;
+}
+
+/* 因子に埋め込んだ映痕の効果(因子の効果説明の下に並べる)。 */
+.phantom-effect-node__affix {
+  color: #7fd1a0;
 }
 
 /* ノード番号(18px)+アイコン(18px)+gap(6px)の右端に説明の字下げ位置を揃える。 */

@@ -63,6 +63,16 @@ export const FIXED_BASE_PERCENT = {
   critRecovery: 50,
 } as const;
 
+// 精錬ステータスの下限値(S4)。装備部位の精錬による加算の合計がこれに満たない場合は、この値になる
+// (2026-11-23実測: ビートパフォーマー・全部位精錬Lv30で、装備なし〜3部位は精錬防御力1920のまま変化せず、
+// 4部位で精錬分の合計2240が下限を超えて反映された。精錬物攻/魔攻は装備なしで290)。
+// ZTableに該当項目は無い。%補正(祈願の「精錬」ノード等)はこの下限適用後の値に掛かる扱い。
+export const REFINE_STAT_FLOOR = {
+  refinePhysAtk: 290,
+  refineMagAtk: 290,
+  refineDef: 1920,
+} as const;
+
 // %や実数値ステータスとしては持たない、固定の基礎実数値。
 export const FIXED_BASE_VALUE = {
   // 最大スタミナの基礎値(クラス共通)

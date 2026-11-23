@@ -265,6 +265,12 @@
   color: #f4f0e8;
 }
 
+/* 過去シーズンに保存したプランの「(S3)」表記。名前より暗く控えめに表示する。 */
+.character-panel__plan-season {
+  margin-right: 4px;
+  color: #7d7a86;
+}
+
 .character-panel__plan-rename,
 .character-panel__plan-delete {
   flex-shrink: 0;

@@ -1112,7 +1112,7 @@
       "buffPars": [
         [
           10,
-          22,
+          28,
           10000
         ]
       ],
@@ -7389,8 +7389,8 @@
       ],
       "buffPars": [
         [
-          65,
-          650,
+          80,
+          800,
           30000
         ]
       ],
@@ -9691,6 +9691,11 @@
           6,
           1509,
           1527
+        ],
+        [
+          3,
+          2202390,
+          1
         ]
       ],
       "buffValueKeys": [
@@ -10780,6 +10785,36 @@
         ]
       ]
     },
+    "572": {
+      "weaponGroup": 5,
+      "icon": "ui/atlas/talent_passive_5/talent_passive_icon_general_sup_killhealring",
+      "type": 4,
+      "effects": [
+        [
+          3,
+          2202030,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "cost": 1,
+      "fightValue": 26,
+      "unlockConsume": [
+        [
+          1020055,
+          2
+        ]
+      ]
+    },
     "900": {
       "weaponGroup": 9,
       "icon": "ui/atlas/talent_passive_9/talent_passive_icon_general_tank_angerinhibit",
@@ -10812,13 +10847,13 @@
         [
           1,
           11352,
-          7000
+          9000
         ],
         [
           4,
           0,
           11352,
-          12000
+          15000
         ]
       ],
       "buffValueKeys": [
@@ -12832,7 +12867,7 @@
           4,
           2,
           11122,
-          7000
+          21000
         ]
       ],
       "buffValueKeys": [
@@ -13425,7 +13460,7 @@
       ],
       "buffPars": [
         [
-          50,
+          40,
           2
         ]
       ],
@@ -14941,13 +14976,13 @@
         [
           1,
           11352,
-          7000
+          9000
         ],
         [
           4,
           0,
           11352,
-          12000
+          15000
         ]
       ],
       "buffValueKeys": [
@@ -16764,6 +16799,36 @@
         [
           3,
           2206680,
+          1
+        ]
+      ],
+      "buffValueKeys": [
+        [
+          "a"
+        ]
+      ],
+      "buffPars": [
+        [
+          0
+        ]
+      ],
+      "cost": 1,
+      "fightValue": 26,
+      "unlockConsume": [
+        [
+          1020056,
+          1
+        ]
+      ]
+    },
+    "1268": {
+      "weaponGroup": 12,
+      "icon": "ui/atlas/talent_passive_12/jiandun1217",
+      "type": 4,
+      "effects": [
+        [
+          3,
+          2206690,
           1
         ]
       ],
@@ -32660,7 +32725,7 @@
       },
       {
         "id": 551001,
-        "talentId": 526,
+        "talentId": 572,
         "stage": 1,
         "bdType": 0,
         "preNodes": [
@@ -39642,7 +39707,7 @@
       },
       {
         "id": 1217014,
-        "talentId": 1217,
+        "talentId": 1268,
         "stage": 1,
         "bdType": 1,
         "preNodes": [
@@ -40091,7 +40156,7 @@
       },
       {
         "id": 1241001,
-        "talentId": 1248,
+        "talentId": 1243,
         "stage": 1,
         "bdType": 0,
         "preNodes": [
@@ -40124,7 +40189,7 @@
       },
       {
         "id": 1243001,
-        "talentId": 1243,
+        "talentId": 1248,
         "stage": 1,
         "bdType": 0,
         "preNodes": [

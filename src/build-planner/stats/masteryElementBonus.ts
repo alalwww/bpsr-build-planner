@@ -20,7 +20,7 @@ export interface MasteryStatEffectCoefficient {
 }
 
 // クラス×型ごとの「器用さ→ステータス」固有効果。ZTable ProfessionSystemTable.MasteryDes
-// (S3、2026-07実測)のテキストから、既存StatId(属性ボーナス/バリア強度/回復力)で表現できる
+// (S3、2026-07実測。S4で2026-11に再確認・追従済み)のテキストから、既存StatId(属性ボーナス/バリア強度/回復力)で表現できる
 // 部分のみを抜粋したもの。MasteryDesはクラスごとに全く異なる効果(レジストダメージ軽減/
 // 全属性耐性/特定スキルのダメージ%・リソース獲得効率等)を記述する自由記述文で、ZTable上に
 // 構造化された係数テーブルは存在しないため、この対応表は手動で書き起こしている
@@ -28,7 +28,7 @@ export interface MasteryStatEffectCoefficient {
 // (例: 威咲型は森属性ボーナスとバリア強度の両方を持つ)。
 //
 // フロストメイジ霜天型で確認した通り、シーズン間でMasteryDesの数値が変わることがある
-// (S2: 氷属性ボーナス+0.4%固定 → S3: +0.2%+器用さ強化+3%/pt に変更)。
+// (S2: 氷属性ボーナス+0.4%固定 → S3: +0.2%+器用さ強化+3%/pt → S4: 器用さ強化+3.5%/pt に変更)。
 // `npm run extract:ztable`後にProfessionSystemTable.MasteryDesを再確認し、変更があれば
 // この表も追従させること。
 export const MASTERY_STAT_EFFECTS: Partial<
@@ -38,14 +38,14 @@ export const MASTERY_STAT_EFFECTS: Partial<
     // MasteryDes[0](氷牙型): "器用さ1%につき氷属性ボーナス+0.65%"
     type1: [{ statId: elementBonusStat('ice'), baseRatePerPoint: 0.65 }],
     // MasteryDes[1](霜天型): "器用さ1%につき凍源の取得効率+1%、氷属性ボーナス+0.2%
-    //   器用さ強化：器用さ1%につき氷属性ボーナス変換率+3%"
+    //   器用さ強化：器用さ1%につき氷属性ボーナス変換率+3.5%"(S3は+3%)
     // (凍源の取得効率はゲーム内リソース機構でStatId未対応のため未実装)
-    type2: [{ statId: elementBonusStat('ice'), baseRatePerPoint: 0.2, rateBoostPerPoint: 3 }],
+    type2: [{ statId: elementBonusStat('ice'), baseRatePerPoint: 0.2, rateBoostPerPoint: 3.5 }],
   },
   galeLancer: {
     // MasteryDes[0](烈風型): "器用さ1%につき風属性ボーナス+0.35%
-    //   器用さ強化：器用さ1%につき風属性ボーナス変換率+3%"
-    type1: [{ statId: elementBonusStat('wind'), baseRatePerPoint: 0.35, rateBoostPerPoint: 3 }],
+    //   器用さ強化：器用さ1%につき風属性ボーナスへの変換率+2.55%"(S3は+3%)
+    type1: [{ statId: elementBonusStat('wind'), baseRatePerPoint: 0.35, rateBoostPerPoint: 2.55 }],
     // MasteryDes[1](乱風型): "器用さ1%につき風属性ボーナス+0.65%"
     type2: [{ statId: elementBonusStat('wind'), baseRatePerPoint: 0.65 }],
   },
@@ -76,6 +76,12 @@ export const MASTERY_STAT_EFFECTS: Partial<
     // MasteryDes[1](剛守型): "器用さ1%につきレジストダメージ軽減と幸運レジストダメージ軽減+0.2%"
     // (resistDamageReductionは現状base30%固定で実数値からの加算経路が未実装のため対象外、
     // docs/STATUS_CALCULATION.md 4章「レジストダメージ軽減」参照)
+  },
+  beatPerformer: {
+    // MasteryDes[0](狂音型): "器用さ1%につき火属性ボーナス+0.4%"(S4新設。S3は「ピースフルロンドの
+    //   ボーナス変換効果+1%」でStatId対象外だった)
+    type1: [{ statId: elementBonusStat('fire'), baseRatePerPoint: 0.4 }],
+    // MasteryDes[1](響奏型): "器用さ1%につきヒーリングメロディーの減衰速度-0.35%"(対応StatIdなし、対象外)
   },
   shieldFighter: {
     // MasteryDes[0](光砕型): "器用さ1%につき光明の盾の取得効率+2.5%、全属性耐性+0.2%"

@@ -67,7 +67,7 @@
     "expandPanel": "キャラクターパネルを展開",
     "resetPlan": "現在のビルドをリセット",
     "buildPlanPlaceholder": "ビルドプラン名",
-    "seasonBadge": "Season 3",
+    "seasonBadge": "Season 4",
     "abilityScore": "能力スコア",
     "abilityScoreBreakdown": {
       "source": "ソース",
@@ -90,7 +90,7 @@
       "moduleLink": "リンク効果",
       "moduleCore": "パワーコア効果",
       "phantomGroup": "心相投影",
-      "phantomLevel": "潜在心相晶レベル",
+      "phantomLevel": "祈願心相晶レベル",
       "phantom": "有効化中の心相投影",
       "total": "合計"
     },
@@ -104,9 +104,9 @@
       "saveNotice": "この設定は保存対象外です。",
       "cooking": "料理",
       "eliteDamage": "精鋭ダメージ",
-      "syrup": "属性強度薬",
+      "syrup": "キャンドル",
       "elementStrength": "属性強度",
-      "starOil": "ダメージ強化薬",
+      "starOil": "泥灸",
       "physicalDamageEnhance": "物理ダメージ強化度",
       "magicalDamageEnhance": "魔法ダメージ強化度",
       "eventBuff": "イベントバフ",
@@ -148,9 +148,9 @@
     "selectEquipmentTitle": "{{slot}}を選択",
     "candidateFilter": {
       "toggle": "絞り込み",
-      "lv220": "Lv220台",
-      "lv240": "Lv240台",
-      "lv260": "Lv260台"
+      "lv320": "Lv320台",
+      "lv340": "Lv340台",
+      "lv360": "Lv360台"
     },
     "selectProfessionTitle": "クラス選択",
     "professionLabel": "クラス",
@@ -206,7 +206,7 @@
     "confirmResaveFormatMsg": "新しい保存形式で更新してよいですか？",
     "planLoadErrorMsg": "保存プランの読み込みに失敗しました。データが破損している可能性があります。",
     "autoSaveLoadErrorMsg": "自動保存データの読み込みに失敗しました。データが破損している可能性があります。",
-    "phantomLegacyFactorResetMsg": "シーズン２の潜在心相晶は無効化されたため、リセットします。",
+    "phantomLegacyFactorResetMsg": "シーズン３の潜在心相晶は廃止されたため、心相投影の設定をリセットします。",
     "modulePreset": {
       "placeholder": "プリセットを選択",
       "save": "プリセットを保存",
@@ -247,6 +247,7 @@
       "s1": "S1",
       "s2": "S2",
       "s3": "S3",
+      "s4": "S4",
       "collab": "コラボ",
       "spOrange": "特殊金",
       "orange": "橙",
@@ -275,7 +276,7 @@
       "skill": "スキル",
       "equipment": "装備",
       "module": "モジュール",
-      "phantom": "潜在"
+      "phantom": "祈願"
     },
     "talentTree": {
       "reset": "リセット",
@@ -311,7 +312,7 @@
       "agility": "俊敏",
       "intellect": "知力",
       "endurance": "耐久力",
-      "illusionPower": "滅妄強度",
+      "illusionPower": "祈り強度",
       "crit": "会心",
       "haste": "ファスト",
       "luck": "幸運",
@@ -356,7 +357,11 @@
       "breakEfficiency": "ブレイク効率",
       "bossDamageBonus": "対ボスダメージボーナス",
       "bossDamageReduction": "対ボスダメージ軽減",
-      "moveSpeed": "移動速度"
+      "moveSpeed": "移動速度",
+      "damageBonus": "汎用ダメージアップ",
+      "oathDamageBonus": "祈りダメージ",
+      "oathDefIgnore": "祈り防御力無視",
+      "oathDamageReduction": "祈りダメージ軽減"
     },
     "statTooltip": {
       "currentValue": "現在値",
@@ -389,20 +394,17 @@
       "suit101": "第二世代セット",
       "suit102": "幻夢セット",
       "suit103": "虚蝕セット",
-      "tierLabel": "{{n}}点セット"
+      "tierLabel": "{{n}}点セット",
+      "suit104": "祈願セット"
     },
     "phantom": {
       "collapsePane": "詳細ペインを折りたたむ",
       "expandPane": "詳細ペインを展開",
-      "level": "潜在レベル",
+      "level": "祈願レベル",
       "template": "心相投影",
       "templatePlaceholder": "未選択",
       "templateSelectPrompt": "心相投影を選択してください",
       "templateLockedSuffix": "（Lv.{{level}}で開放）",
-      "bondPoints": "合計絆ポイント",
-      "bondEffects": "絆レベル効果",
-      "bondSlotLevel": "絆スロット{{index}}: Lv.{{level}}",
-      "bondSlotAlways": "絆スロット{{index}}: 常時開放",
       "nodeEffect": "ノード効果",
       "nodeEffectPlaceholder": "ノードをクリックするとノード効果が表示されます",
       "factorSlot": "幻影因子スロット",
@@ -414,7 +416,7 @@
       "enabledOn": "有効",
       "enabledOff": "無効",
       "enabledLockedTitle": "選択中のツリーが未開放のためONにできません",
-      "disabledNotice": "心相投影が無効なため、絆レベル効果及び各ノード効果はステータスへ反映されません",
+      "disabledNotice": "心相投影が無効なため、各ノード効果はステータスへ反映されません",
       "resetTooltip": "クリックでリセット",
       "tabTitleDisabled": "心相投影ツリーが無効です",
       "tabTitleEnabled": "{{name}}が有効です",
@@ -423,7 +425,6 @@
       "effectSummary": {
         "sections": {
           "total": "サマリ",
-          "advanced": "上級ノード効果（絆レベル効果）",
           "intermediate": "中級ノード効果",
           "ordinary": "初級ノード効果"
         },
@@ -432,10 +433,37 @@
         "flatCol": "加算",
         "pctCol": "乗算%",
         "finalPctCol": "最終%",
-        "routeLocked": "未開放",
-        "bondLevelLabel": "絆Lv.{{level}}",
-        "highestOfLabel": "会心/ファスト/幸運/器用さ/万能のうち最大値へ加算"
-      }
+        "routeLocked": "未開放"
+      },
+      "factorDialogTitle": "因子の設定 - {{slot}}",
+      "factorSelect": "因子",
+      "factorGrade": "グレード",
+      "factorEffect": "因子の効果",
+      "affixHeading": "映痕",
+      "affixNeedFactor": "因子を選択すると映痕を設定できます。",
+      "affixSlot": "スロット{{n}}",
+      "affixSlotType": {
+        "1": "ステータス",
+        "2": "クラス"
+      },
+      "affixLocked": "G{{grade}}で開放",
+      "affixNone": "なし",
+      "affixValue": "効果値",
+      "affixCount": "映痕{{count}}",
+      "affixQuality": {
+        "2": "上級"
+      },
+      "affixLib": {
+        "101": "ステータス・副",
+        "102": "ステータス・主",
+        "103": "ステータス・極性",
+        "104": "ステータス・耐久力",
+        "105": "ステータス・元素",
+        "1001": "クラスの映痕"
+      },
+      "affixEffect": "映痕の効果",
+      "affixNonStackingShort": "重複不可",
+      "affixNonStackingWarning": "効果は重複不可です。同じ映痕が他のスロット(他の因子を含む)にもあり、値が最も大きい1つだけが反映されます。"
     },
     "detailStats": {
       "title": "ステータス詳細",
@@ -516,7 +544,8 @@
         "bossDamageReduction": "対ボスダメージ軽減",
         "moveSpeed": "移動速度",
         "maxStamina": "最大スタミナ",
-        "staminaRegen": "戦闘時のスタミナ回復率"
+        "staminaRegen": "戦闘時のスタミナ回復率",
+        "seasonDamageBonus": "{{name}}アップ"
       }
     }
   }

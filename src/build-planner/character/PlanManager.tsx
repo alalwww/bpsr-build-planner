@@ -433,12 +433,13 @@ function PlanManager() {
         />
       )}
 
-      {/* ロードしたデータに無効化されたS2幻影因子が含まれていたため心相投影をリセットした通知
+      {/* ロードしたデータに廃止された過去シーズンの心相晶/因子が含まれていたため心相投影をリセットした通知
           (確認不要・単一ボタン) */}
       {phantomLegacyFactorResetNotice && (
         <ConfirmDialog
           message={t('buildPlanner.phantomLegacyFactorResetMsg', {
-            defaultValue: 'シーズン２の潜在心相晶は無効化されたため、リセットします。',
+            defaultValue:
+              'シーズン３の潜在心相晶は廃止されたため、心相投影の設定をリセットします。',
           })}
           confirmLabel={t('buildPlanner.confirmOk', { defaultValue: 'OK' })}
           onConfirm={onDismissPhantomLegacyFactorResetNotice}

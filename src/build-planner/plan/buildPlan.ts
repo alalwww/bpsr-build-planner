@@ -13,6 +13,7 @@ import type {
 import type { PhantomFactorSlotValue } from '../phantom/phantomData';
 import { decodePlanCode, encodePlanCode } from './planCode';
 import { getDefaultAutoSaveState } from './planDefaults';
+import { LEGACY_SAVE_SEASON_ID } from './saveSeason';
 
 export interface BuildPlanData {
   id: string;
@@ -51,9 +52,12 @@ export interface BuildPlanData {
   phantomEnabled?: boolean;
   phantomLevel?: number;
   phantomTemplateId?: number | null;
-  phantomBondPoints?: number;
   phantomNodeSelections?: Record<number, number>;
   phantomFactorSlots?: Record<number, PhantomFactorSlotValue | null>;
+  // 保存時のシーズン(saveSeason.ts)。プランコード v3 のシーズン固有要素の先頭に記録し、v2以前の
+  // コードは LEGACY_SAVE_SEASON_ID(S3)として読む。現行シーズンより古いデータは、読込時に
+  // 心相投影の状態を初期化し、保存プラン一覧に「(S3)」等と表示する。上書き保存すると現行シーズンになる。
+  saveSeasonId?: number;
 }
 
 // 現在の編集状態（自動保存用）。id は不要だが名前欄も保存対象
@@ -111,7 +115,12 @@ function migrateLegacyAutoSaveState(raw: Record<string, unknown>): AutoSaveState
   const defaults = getDefaultAutoSaveState(professionKey);
   const { id: _id, ...normalized } = migrateLegacyImagineFieldNames(raw);
   void _id;
-  return { ...defaults, ...normalized, professionKey } as AutoSaveState;
+  return {
+    ...defaults,
+    ...normalized,
+    professionKey,
+    saveSeasonId: LEGACY_SAVE_SEASON_ID,
+  } as AutoSaveState;
 }
 
 function migrateLegacyPlan(raw: Record<string, unknown>): BuildPlanData {

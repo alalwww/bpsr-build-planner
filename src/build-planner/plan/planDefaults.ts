@@ -4,6 +4,8 @@ import { PROFESSIONS } from '../profession';
 import { getClassData, initTalentR1Ids, initTalentR2Ids } from '../stats/gameData';
 import type { AutoSaveState } from './buildPlan';
 import type { SlotRefineLevels } from '../types';
+import { getDefaultPhantomLevel } from '../seasonSchedule';
+import { CURRENT_SAVE_SEASON_ID } from './saveSeason';
 
 // ビルドプランの各フィールドのデフォルト値をここに一元化する。
 // useBuildState.ts の useState初期値・resetPlan・applyPlanState のフォールバックが
@@ -51,11 +53,10 @@ export const STATIC_AUTOSAVE_DEFAULTS = {
   imagineRanks: [5, 5],
   moduleSlots: [null, null, null, null, null],
   adventurerLevel: 60,
-  // 心相投影(潜在)は何のデータもない初期状態では未選択・OFFとする(潜在Lv1・絆レベルポイント0)。
+  // 心相投影(祈願心相晶)は何のデータもない初期状態では未選択・OFFとする。祈願Lv(phantomLevel)の
+  // 既定値は日時で変わるため、ここではなく getDefaultPhantomLevel()(seasonSchedule.ts)で求める。
   phantomEnabled: false,
-  phantomLevel: 1,
   phantomTemplateId: null,
-  phantomBondPoints: 0,
   phantomNodeSelections: {},
   phantomFactorSlots: {},
 } satisfies Partial<AutoSaveState>;
@@ -108,6 +109,8 @@ export function getDefaultAutoSaveState(professionKey: ProfessionKey): Required<
     name: '',
     equipped: DEFAULT_LOADOUT,
     ...STATIC_AUTOSAVE_DEFAULTS,
+    phantomLevel: getDefaultPhantomLevel(),
+    saveSeasonId: CURRENT_SAVE_SEASON_ID,
     ...getDefaultProfessionState(professionKey),
   };
 }

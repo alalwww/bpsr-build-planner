@@ -49,6 +49,13 @@ export type StatId =
   | 'magicalReductionBonus'
   | 'luckyHitRecoveryBonus'
   | 'physicalDefIgnoreBonus'
+  // 汎用ダメージアップ(料理の精鋭ダメージ等)。"100=1%"。
+  | 'damageBonus'
+  // シーズン固有の「祈り」系ステータス(S4: 祈りダメージ/祈り防御力無視/祈りダメージ軽減)。
+  // 表示名はシーズンごとに変わるため、game-data の属性名(OATH_STAT_ATTR_ID)から取る。
+  | 'oathDamageBonus'
+  | 'oathDefIgnore'
+  | 'oathDamageReduction'
   | 'healingPower'
   | 'breakEfficiency'
   | 'bossDamageBonus'
@@ -201,7 +208,7 @@ export type EquippedItems = Partial<Record<EquipmentSlotId, EquipmentItem>>;
 export type SlotEnchants = Partial<Record<EquipmentSlotId, number | undefined>>;
 
 // 属性ID一覧(「全」を除く8属性)。ステータス詳細の属性セクション・料理バフダイアログの
-// シロップ/脊椎試薬プルダウン等で共通利用する。
+// キャンドルのプルダウン等で共通利用する。
 export const ELEMENT_IDS = [
   'fire',
   'ice',
@@ -214,10 +221,10 @@ export const ELEMENT_IDS = [
 ] as const;
 export type ElementId = (typeof ELEMENT_IDS)[number];
 
-// 料理・シロップ/脊椎試薬・スターオイル・海風の宴・鼓舞・能力共鳴・モジュールパワーコア系
+// 料理・キャンドル・泥灸・海風の宴・鼓舞・能力共鳴・モジュールパワーコア系
 // (幸運会心/HP変動/ダメージ増強/適応力)によるバフ効果の選択状態。
 // 料理は加算・乗算計算後の最終ステータスに加算される(詳細はstats/cookingBuff.tsを参照)。
-// シロップとスターオイルは同時装備不可。
+// キャンドルと泥灸は同時装備不可(内部名は syrup*/starOil*)。
 export interface CookingBuffState {
   cookingEnabled: boolean;
   // 料理: 物理/魔法攻撃力(クラスの攻撃タイプに応じて選択中の値がatk/matkへ加算される)
@@ -226,10 +233,10 @@ export interface CookingBuffState {
   cookingEliteDamagePercent: number;
   syrupEnabled: boolean;
   syrupElement: ElementId;
-  // シロップ/脊椎試薬: 選択属性の属性強度への加算値
+  // キャンドル: 選択属性の属性強度への加算値
   syrupElementStrength: number;
   starOilEnabled: boolean;
-  // スターオイル: 物理/魔法ダメージ強化度(physicalEnhance/magicalEnhanceへの加算値)
+  // 泥灸(旧スターオイル): 物理/魔法ダメージ強化度(physicalEnhance/magicalEnhanceへの加算値)
   starOilValue: number;
   // イベントバフ: 期間限定イベント等で付与される、クラスのメインステータス(筋力/知力/俊敏)への
   // 加算バフの汎用枠(他の加算源と同様に%ボーナス適用前に加算)。元は「海風の宴」専用の固定+500

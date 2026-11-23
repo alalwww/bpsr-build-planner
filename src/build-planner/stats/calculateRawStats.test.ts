@@ -6,6 +6,7 @@ import type { CalculateRawStatsInput, StatBreakdownEntry } from './calculateRawS
 import { applyFinalStatModifiers, calculateRawStats } from './calculateRawStats';
 import { DEFAULT_COOKING_BUFF } from './cookingBuff';
 import type { DerivedStats } from './deriveStats';
+import { REFINE_STAT_FLOOR } from './seasonConstants';
 
 const ALL_SLOTS: EquipmentSlotId[] = [
   'weapon',
@@ -48,7 +49,6 @@ function baseInput(): CalculateRawStatsInput {
     phantomEnabled: false,
     phantomLevel: 0,
     phantomTemplateId: null,
-    phantomBondPoints: 0,
     phantomNodeSelections: {},
     phantomFactorSlots: {},
     cookingBuff: DEFAULT_COOKING_BUFF,
@@ -76,16 +76,20 @@ function makeEquipmentItem(
 }
 
 describe('calculateRawStats', () => {
-  it('returns BASE_STATS unchanged when nothing is equipped/enabled', () => {
+  it('returns BASE_STATS (plus the refine stat floors) when nothing is equipped/enabled', () => {
     const result = calculateRawStats(baseInput());
+    const expected: Record<StatId, number> = { ...BASE_STATS, ...REFINE_STAT_FLOOR };
 
-    expect(result.rawStats).toEqual(BASE_STATS);
+    expect(result.rawStats).toEqual(expected);
     expect(result.phantomFinalPct).toEqual({});
     for (const statId of Object.keys(BASE_STATS) as StatId[]) {
+      const floor = (REFINE_STAT_FLOOR as Partial<Record<StatId, number>>)[statId];
       expect(result.breakdown[statId]).toEqual({
         base: BASE_STATS[statId],
         additive: 0,
         multiplier: 1,
+        // 精錬ステータスの下限値は初期値(levelBonus)列に入る。
+        ...(floor ? { levelBonus: floor } : {}),
       });
     }
   });
@@ -208,7 +212,30 @@ describe('calculateRawStats', () => {
     const result = calculateRawStats(input);
 
     expect(result.rawStats.atk).toBe(0);
-    expect(result.rawStats.refinePhysAtk).toBe(32);
+    // 精錬分32は加算列に入り、下限(290)に満たない分は初期値として補われる。
+    expect(result.breakdown.refinePhysAtk.additive).toBe(32);
+    expect(result.rawStats.refinePhysAtk).toBe(REFINE_STAT_FLOOR.refinePhysAtk);
+  });
+
+  it('精錬防御力は部位の合計が下限(1920)に満たない間は下限値、超えたら合計値(2026-11-23実測)', () => {
+    // ビートパフォーマー・精錬Lv30: 頭/胴/腕/脚(part 201-204)は各560。3部位=1680<1920、4部位=2240。
+    const armor = (slots: EquipmentSlotId[], parts: number[]) =>
+      Object.fromEntries(
+        slots.map((slot, i) => [slot, makeEquipmentItem({ slot, part: parts[i], quality: 1 })]),
+      );
+    const run = (count: number) =>
+      calculateRawStats({
+        ...baseInput(),
+        profession: PROFESSIONS.beatPerformer,
+        equipped: armor(
+          (['head', 'chest', 'arms', 'legs'] as EquipmentSlotId[]).slice(0, count),
+          [201, 202, 203, 204],
+        ),
+        refineLevels: uniformSlotRecord(30),
+      }).rawStats.refineDef;
+    expect(run(0)).toBe(1920);
+    expect(run(3)).toBe(1920);
+    expect(run(4)).toBe(2240);
   });
 
   it('routes the 全属性攻撃力 (attrId 11502) enchant effect to allAttrAtk, not atk/matk/refinePhysAtk/refineMagAtk', () => {
@@ -225,8 +252,8 @@ describe('calculateRawStats', () => {
 
     expect(result.rawStats.atk).toBe(0);
     expect(result.rawStats.matk).toBe(0);
-    expect(result.rawStats.refinePhysAtk).toBe(0);
-    expect(result.rawStats.refineMagAtk).toBe(0);
+    expect(result.rawStats.refinePhysAtk).toBe(REFINE_STAT_FLOOR.refinePhysAtk);
+    expect(result.rawStats.refineMagAtk).toBe(REFINE_STAT_FLOOR.refineMagAtk);
     expect(result.rawStats.allAttrAtk).toBe(40);
     expect(result.rawStats.intellect).toBe(BASE_STATS.intellect + 50);
   });
@@ -424,9 +451,9 @@ describe('calculateRawStats', () => {
     expect(result.highestStatFinalPctBonus).toBe(3.5);
   });
 
-  it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+2500)', () => {
+  it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+10000)', () => {
     // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
-    // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 2500 }
+    // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 10000 }
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       profession: PROFESSIONS.frostMage,
@@ -434,14 +461,36 @@ describe('calculateRawStats', () => {
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 267, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 267,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
     const result = calculateRawStats(input);
 
-    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 2500);
+    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 10000);
   });
 
   it('adds a type=3 flat-pct stat bonus to critDamageBonus (stormBlade R2 "爆裂", talentId 152: 会心ダメージ+10%)', () => {
@@ -453,8 +502,30 @@ describe('calculateRawStats', () => {
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 152, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 152,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
@@ -465,23 +536,45 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 1000);
   });
 
-  it('adds a type=3 raw flat stat bonus to mastery (heavyGuardian R2 "剛岩精通", talentId 970: 器用さ+6250)', () => {
+  it('adds a type=3 raw flat stat bonus to mastery (heavyGuardian R2 "剛岩精通", talentId 970: 器用さ+25000)', () => {
     // src/data/talent-tree.json: nodes["970"].effects = [[3, 2201720, 1]] (stage:1 = R2)
-    // TALENT_RAW_FLAT_TO_STAT[2201720] = { stat: 'mastery', value: 6250 }
+    // TALENT_RAW_FLAT_TO_STAT[2201720] = { stat: 'mastery', value: 25000 }
     const input: CalculateRawStatsInput = {
       ...baseInput(),
       talentR2EnabledIds: new Set([1]),
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 970, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 970,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
     const result = calculateRawStats(input);
 
-    expect(result.rawStats.mastery).toBe(BASE_STATS.mastery + 6250);
+    expect(result.rawStats.mastery).toBe(BASE_STATS.mastery + 25000);
   });
 
   it('adds a type=3 final-%-addend stat bonus to mastery (stormBlade R2 talentId 154: 器用さ+6%)', () => {
@@ -493,8 +586,30 @@ describe('calculateRawStats', () => {
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 154, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 154,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
@@ -512,8 +627,30 @@ describe('calculateRawStats', () => {
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 969, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 969,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
@@ -532,8 +669,30 @@ describe('calculateRawStats', () => {
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 271, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 271,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
@@ -556,7 +715,18 @@ describe('calculateRawStats', () => {
       ...baseInput(),
       talentR1EnabledIds: new Set([1]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 47, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 47,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
@@ -573,8 +743,30 @@ describe('calculateRawStats', () => {
       r1NodeCount: 1,
       talentR1EnabledIds: new Set([2]),
       talentNodesById: new Map([
-        [1, { id: 1, talentId: 924, stage: 1, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
-        [2, { id: 2, talentId: 1, stage: 0, bdType: 0, preNodes: [], nextNodes: [], position: [0, 0] }],
+        [
+          1,
+          {
+            id: 1,
+            talentId: 924,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
       ]),
     };
 
@@ -750,215 +942,170 @@ describe('calculateRawStats', () => {
   });
 
   it('excludes a legacy (past-season) phantom factor from stat effects entirely', () => {
-    // src/data/phantom-factors.json: byClass["201001"].seasonId=2 (< current max seasonId=3),
-    // slotted into template 7's groupId=163 (reachable with no node selections needed).
-    // src/data/season-talents.json: treeNodes["163"].unlockCondition=[[93,3,10]] -> needs
-    // phantomLevel>=10; set to 10 here so the level gate isn't what's excluding the effect.
-    // Game design says past-season factors are inert; the effect being an unmapped type=3
-    // buffId already yields 0 today, but this asserts the explicit seasonId guard so a future
-    // FACTOR_POLARITY_EFFECTS/PHANTOM_ATTR_TO_STAT addition can't silently reactivate it.
+    // '202201' is an S3 factor class (endurance +168/+1% at G1). S4 data (phantom-factors.json)
+    // only contains current-season (S4) factors, so it must contribute nothing even if a stale
+    // save still has it slotted. Slot 250 is template 9's first factor node
+    // (unlockCondition=[[93,4,5]], reachable with no selections).
     // Compared against a same-phantomLevel baseline (not BASE_STATS.endurance directly) since
     // phantomLevel>0 alone already adds endurance via playerLevelSeasonData (separate mechanism).
     const withoutFactor = calculateRawStats({
       ...baseInput(),
       phantomEnabled: true,
       phantomLevel: 10,
-      phantomTemplateId: 7,
+      phantomTemplateId: 9,
       phantomNodeSelections: {},
     });
     const withLegacyFactor = calculateRawStats({
       ...baseInput(),
       phantomEnabled: true,
       phantomLevel: 10,
-      phantomTemplateId: 7,
+      phantomTemplateId: 9,
       phantomNodeSelections: {},
-      phantomFactorSlots: { 163: { classKey: '201001', grade: 1 } },
+      phantomFactorSlots: { 250: { classKey: '202201', grade: 1 } },
     });
 
     expect(withLegacyFactor.rawStats.endurance).toBe(withoutFactor.rawStats.endurance);
   });
 
-  it("applies a current-season phantom factor slotted into the same groupId, once phantomLevel reaches the node's unlock level", () => {
-    // src/data/phantom-factors.json: byClass["202201"].seasonId=3 (current), grade 1
-    // effects=[[1,11042,168],[1,11044,100]] -> endurance +168 flat, +100(=1%) pct bonus.
-    // treeNodes["163"].unlockCondition=[[93,3,10]] -> needs phantomLevel>=10.
-    const withoutFactor = calculateRawStats({
+  // src/data/season-talents.json: template 9 (幻滅の崩界) node 1815「幻滅・精錬」
+  // (fixed-ordinary on the main path 1801 -> 250 -> 251 -> 1815, unlockCondition=[[93,4,30]])
+  // has effects=[[1,11414,1500],[1,11434,1500],[1,11424,1500]] -> 精錬物攻/魔攻/防御力 +15%
+  // via PHANTOM_ORDINARY_PCT_ATTR_TO_STAT (addPctBonus bucket, unit 1/10000).
+  it('applies the S4 「〇〇・精錬」 ordinary node as a +15% multiplier on refine atk/matk/def once its unlock level is reached', () => {
+    const result = calculateRawStats({
       ...baseInput(),
       phantomEnabled: true,
-      phantomLevel: 10,
-      phantomTemplateId: 7,
+      phantomLevel: 30,
+      phantomTemplateId: 9,
       phantomNodeSelections: {},
-    });
-    const withFactor = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 10,
-      phantomTemplateId: 7,
-      phantomNodeSelections: {},
-      phantomFactorSlots: { 163: { classKey: '202201', grade: 1 } },
     });
 
-    expect(withFactor.rawStats.endurance).toBeCloseTo(
-      (withoutFactor.rawStats.endurance + 168) * 1.01,
+    expect(result.breakdown.refinePhysAtk.multiplier).toBeCloseTo(1.15);
+    expect(result.breakdown.refineMagAtk.multiplier).toBeCloseTo(1.15);
+    expect(result.breakdown.refineDef.multiplier).toBeCloseTo(1.15);
+  });
+
+  it("suppresses a node's effect while phantomLevel is below that node's own unlock level, even though tree selection itself isn't restricted", () => {
+    // Same setup as above, but phantomLevel=29 is 1 below node 1815's required 30.
+    const result = calculateRawStats({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel: 29,
+      phantomTemplateId: 9,
+      phantomNodeSelections: {},
+    });
+
+    expect(result.breakdown.refinePhysAtk.multiplier).toBe(1);
+  });
+
+  describe('映痕(S4祈願因子の映痕)', () => {
+    // template 9: 因子ノード 250(lv5、因子 4001 = ストームブレイド専用)と 251(lv15、因子 4127)は
+    // ノード選択なしで有効。phantomLevel 20 は精錬ノード 1815(lv30)の手前。
+    // 因子 4001/4127 の G1/G3 の効果自体は BuffId 参照のスキル効果で、ステータスには影響しない。
+    const phantomInput = (
+      slots: CalculateRawStatsInput['phantomFactorSlots'],
+      phantomLevel = 20,
+    ): CalculateRawStatsInput => ({
+      ...baseInput(),
+      phantomEnabled: true,
+      phantomLevel,
+      phantomTemplateId: 9,
+      phantomNodeSelections: {},
+      phantomFactorSlots: slots,
+    });
+    const baseline = calculateRawStats(
+      phantomInput({
+        250: { classKey: '4001', grade: 3 },
+        251: { classKey: '4127', grade: 1 },
+      }),
     );
-  });
 
-  it("suppresses a node's effect (fixed or factor) while phantomLevel is below that node's own unlock level, even though tree selection itself isn't restricted", () => {
-    // Same setup as above (current-season factor, would normally add endurance+168/+1%),
-    // but phantomLevel=9 is 1 below treeNodes["163"].unlockCondition's required 10.
-    const withoutFactor = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 9,
-      phantomTemplateId: 7,
-      phantomNodeSelections: {},
-    });
-    const withFactor = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 9,
-      phantomTemplateId: 7,
-      phantomNodeSelections: {},
-      phantomFactorSlots: { 163: { classKey: '202201', grade: 1 } },
-    });
-
-    expect(withFactor.rawStats.endurance).toBe(withoutFactor.rawStats.endurance);
-  });
-
-  it("applies a node's effect once its own unlock level is satisfied, even if the template's own unlock level is still unmet (that combination is now prevented at the store level by auto-disabling phantomEnabled, not here)", () => {
-    // src/data/season-talents.json: template 1 (イマジンインパクト) requires phantomLevel>=17,
-    // but its node 100 (groupId=100, solo-factor, reachable via selecting choice-group 1002)
-    // individually only requires phantomLevel>=5. classKey 202190 is a current-season (S3)
-    // factor: grade1 effects=[[1,11012,42],[1,11014,60]] -> strength +42 flat, +60(=0.6%) pct.
-    const withoutFactor = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 10,
-      phantomTemplateId: 1,
-      phantomNodeSelections: { 1002: 1002 },
-    });
-    const withFactor = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 10,
-      phantomTemplateId: 1,
-      phantomNodeSelections: { 1002: 1002 },
-      phantomFactorSlots: { 100: { classKey: '202190', grade: 1 } },
+    it('ステータス系の映痕を実数/%/祈り系へ加算し、クラス映痕は対象外', () => {
+      const result = calculateRawStats(
+        phantomInput({
+          250: {
+            classKey: '4001',
+            grade: 3,
+            affixes: [
+              { group: 1, quality: 2, value: 567 }, // 会心 +567
+              { group: 12, quality: 2, value: 43 }, // 敏捷 +0.43%
+              { group: 101, quality: 2, value: 139 }, // クラス映痕(対象外)
+            ],
+          },
+          251: {
+            classKey: '4127',
+            grade: 1,
+            affixes: [{ group: 22, quality: 2, value: 227 }], // 魔法防御力 +227
+          },
+        }),
+      );
+      expect(result.rawStats.crit - baseline.rawStats.crit).toBe(567);
+      expect(result.breakdown.agility.multiplier).toBeCloseTo(
+        baseline.breakdown.agility.multiplier + 0.0043,
+      );
+      expect(result.rawStats.magicalDef - baseline.rawStats.magicalDef).toBe(227);
     });
 
-    // strengthはINTEGER_TRUNCATED_STAT_IDS対象のため、%適用後に整数へ切り捨てる
-    // (2026-08-06不具合報告): (15+42)*1.006=57.342 → floor→57。
-    expect(withFactor.rawStats.strength).toBe(
-      Math.floor((withoutFactor.rawStats.strength + 42) * 1.006),
-    );
-  });
-
-  it('routes the beatPerformer X4 phantom factor to phantomFinalPct.matk, not the raw pctBonus bucket', () => {
-    // src/data/phantom-factors.json: byClass["202181"].seasonId=3 (current), professionIds=[13]
-    // (beatPerformer). grade1 effects=[[3,3057040,1]], buffPars=[[500,195,8]]. attrDescs.3057040:
-    // 「魔法攻撃力+{p2}だが、ピースフルロンドが変換する回復量-{p1}。...」-> the matk bonus itself
-    // is unconditional, so pars[1]=195(=1.95%) should apply via
-    // FACTOR_SINGLE_STAT_PCT_BONUS[3057040]={stat:'matk',paramIndex:1}. pars[0]=500 is a
-    // skill-specific penalty (ピースフルロンドの回復量変換) with no corresponding StatId, left
-    // unmodeled by design (same treatment as other skill-specific factor effects).
-    //
-    // This must land in phantomFinalPct (applied to derived.magicalAtk, i.e. after the
-    // intellect->matk mainStat conversion in deriveStats.ts), not rawStats.matk's pctBonus
-    // (applied to rawStats.matk before that conversion) -- see the applyFinalStatModifiers
-    // test below for why (2026-09-17 bug report: G7's +6.64% only moved matk 4532->4548
-    // instead of the expected ->4832, because the fix's first pass used addPctBonus, which
-    // skips the intellect-derived portion of magicalAtk entirely).
-    const withoutFactor = calculateRawStats({
-      ...baseInput(),
-      profession: PROFESSIONS.beatPerformer,
-      phantomEnabled: true,
-      phantomLevel: 10,
-      phantomTemplateId: 7,
-      phantomNodeSelections: {},
-    });
-    const withFactor = calculateRawStats({
-      ...baseInput(),
-      profession: PROFESSIONS.beatPerformer,
-      phantomEnabled: true,
-      phantomLevel: 10,
-      phantomTemplateId: 7,
-      phantomNodeSelections: {},
-      phantomFactorSlots: { 163: { classKey: '202181', grade: 1 } },
+    it('祈りダメージ/祈り防御力無視/祈りダメージ軽減は新しいステータスへ加算する', () => {
+      const result = calculateRawStats(
+        phantomInput({
+          250: {
+            classKey: '4001',
+            grade: 3,
+            affixes: [
+              { group: 15, quality: 2, value: 85 }, // 祈りダメージ +0.85%
+              { group: 16, quality: 2, value: 28 }, // 祈り防御力無視 +28
+            ],
+          },
+          251: {
+            classKey: '4127',
+            grade: 1,
+            affixes: [{ group: 24, quality: 2, value: 57 }], // 祈りダメージ軽減 +0.57%
+          },
+        }),
+      );
+      expect(result.rawStats.oathDamageBonus).toBe(85);
+      expect(result.rawStats.oathDefIgnore).toBe(28);
+      expect(result.rawStats.oathDamageReduction).toBe(57);
     });
 
-    expect(withoutFactor.phantomFinalPct.matk).toBeUndefined();
-    expect(withoutFactor.breakdown.matk.multiplier).toBe(1);
-    expect(withFactor.phantomFinalPct.matk).toBe(195);
-    expect(withFactor.breakdown.matk.multiplier).toBe(1); // raw pctBonus bucket untouched
-  });
-
-  it('stacks the 5 shared bond-level tiers (illusionPower/endurance) up to the given bond points', () => {
-    // src/data/season-talents.json: template 1 (advancedEffectId=100), levels 1-5 are shared
-    // across all 8 templates: unlockFraction 2/5/12/20/25 -> buffId 3003610/20/30/40/50.
-    // Level 6 (unlockFraction 35) is template-specific and excluded here (bondPoints=25).
-    // Per src/locales/*/game-data.json attrDescs: each of 3003610/20/40 grants
-    // illusionPower+100/endurance+750; 3003630/50 additionally grant endurance+750 each
-    // (their "highest_of" component lands on rawStats.haste here: crit/luck/mastery/versatility
-    // are tied at 0, but haste's comparison base includes the agility->haste conversion of the
-    // baseline 15 agility (BASE_STATS.agility), floor(15*0.8)=12, so it edges out the others).
-    const input: CalculateRawStatsInput = {
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomTemplateId: 1,
-      phantomBondPoints: 25,
-    };
-
-    const result = calculateRawStats(input);
-
-    expect(result.rawStats.illusionPower).toBe(BASE_STATS.illusionPower + 100 * 3);
-    expect(result.rawStats.endurance).toBe(BASE_STATS.endurance + 750 * 5);
-    expect(result.rawStats.haste).toBe(BASE_STATS.haste + 750 + 1250);
-  });
-
-  // src/data/season-talents.json: template 1 (イマジンインパクト) node 1003「リビルド」
-  // (groupId=1003, sameGroupId=1002, choice-group 1002) has effects=[[3,3002030,1]] ->
-  // buffId 3002030 "幸運の一撃倍率+10%". Despite the name not saying "damage", it's
-  // damage-only and doesn't affect the recovery multiplier (2026-08-09 user confirmation).
-  // unlockCondition=[] so no phantomLevel gate beyond what phantomEnabled requires.
-  it('routes the イマジンインパクト "リビルド" ordinary node to rawStats.luckyHitDamageBonus only', () => {
-    const withoutNode = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 17,
-      phantomTemplateId: 1,
-      phantomNodeSelections: { 1002: 1002 },
-    });
-    const withNode = calculateRawStats({
-      ...baseInput(),
-      phantomEnabled: true,
-      phantomLevel: 17,
-      phantomTemplateId: 1,
-      phantomNodeSelections: { 1002: 1003 },
+    it('重複不可の極性の映痕は、全因子を通じて最大値の1つだけ(減少側 -6% も1回だけ)反映する', () => {
+      const result = calculateRawStats(
+        phantomInput({
+          250: { classKey: '4001', grade: 3, affixes: [{ group: 6, quality: 2, value: 283 }] },
+          251: { classKey: '4127', grade: 1, affixes: [{ group: 6, quality: 3, value: 467 }] },
+        }),
+      );
+      // 3058050: 会心値 +p1%、器用さ -6%
+      expect(result.breakdown.crit.multiplier).toBeCloseTo(
+        baseline.breakdown.crit.multiplier + 0.0467,
+      );
+      expect(result.breakdown.mastery.multiplier).toBeCloseTo(
+        baseline.breakdown.mastery.multiplier - 0.06,
+      );
     });
 
-    expect(withNode.rawStats.luckyHitDamageBonus).toBe(
-      withoutNode.rawStats.luckyHitDamageBonus + 1000,
-    );
-    expect(withNode.rawStats.luckyHitRecoveryBonus).toBe(
-      withoutNode.rawStats.luckyHitRecoveryBonus,
-    );
-  });
-
-  it("applies template 8's unique level-6 bond reward (main stat +150) once bondPoints reaches 35", () => {
-    // src/data/season-talents.json: template 8 (advancedEffectId=107), level 6 -> buffId
-    // 3003730 "現在のメインステータス+150". stormBlade's mainStat is 'agility'.
-    const input: CalculateRawStatsInput = {
-      ...baseInput(),
-      profession: PROFESSIONS.stormBlade,
-      phantomEnabled: true,
-      phantomTemplateId: 8,
-      phantomBondPoints: 35,
-    };
-
-    const result = calculateRawStats(input);
-
-    // +750*5 (shared tiers) 分の endurance と同様、mainStat(agility) には +150 のみ乗る。
-    expect(result.rawStats.agility).toBe(BASE_STATS.agility + 150);
+    it('グレードで開放されていないスロットの映痕や、開放Lv未満のノードの映痕は反映しない', () => {
+      const lockedSlot = calculateRawStats(
+        phantomInput({
+          // G1 は2スロットのため、3番目の会心は反映しない
+          250: {
+            classKey: '4001',
+            grade: 1,
+            affixes: [null, null, { group: 1, quality: 2, value: 567 }],
+          },
+        }),
+      );
+      expect(lockedSlot.rawStats.crit).toBe(baseline.rawStats.crit);
+      const lowLevel = calculateRawStats(
+        phantomInput(
+          { 251: { classKey: '4127', grade: 1, affixes: [{ group: 1, quality: 2, value: 567 }] } },
+          10,
+        ),
+      );
+      const lowLevelBaseline = calculateRawStats(phantomInput({}, 10));
+      expect(lowLevel.rawStats.crit).toBe(lowLevelBaseline.rawStats.crit);
+    });
   });
 
   describe('モジュール効果(「集中」系パワーコア効果)', () => {
@@ -1110,9 +1257,7 @@ describe('calculateRawStats', () => {
     it('routes 物理軽減 (attrId 12562, no ZTable display name) to rawStats.physicalReductionBonus', () => {
       const result = calculateRawStats(twoSlotModuleInput(5500303, 1308));
 
-      expect(result.rawStats.physicalReductionBonus).toBe(
-        BASE_STATS.physicalReductionBonus + 600,
-      );
+      expect(result.rawStats.physicalReductionBonus).toBe(BASE_STATS.physicalReductionBonus + 600);
     });
 
     // effectId 1307(「魔法耐性」)のlv6 config includes [1,12582,600]: 魔法軽減(単位100=1%)。
@@ -1127,9 +1272,7 @@ describe('calculateRawStats', () => {
     it('routes 物理防御力無視 (attrId 11392) to rawStats.physicalDefIgnoreBonus', () => {
       const result = calculateRawStats(twoSlotModuleInput(5500103, 1110));
 
-      expect(result.rawStats.physicalDefIgnoreBonus).toBe(
-        BASE_STATS.physicalDefIgnoreBonus + 1880,
-      );
+      expect(result.rawStats.physicalDefIgnoreBonus).toBe(BASE_STATS.physicalDefIgnoreBonus + 1880);
     });
   });
 
@@ -1241,6 +1384,76 @@ describe('calculateRawStats', () => {
       const result = calculateRawStats(input);
 
       expect(result.rawStats.fireBonus).toBe(BASE_STATS.fireBonus + 750);
+    });
+
+    // イマジン「ゴブリンセージ」(id 3899)のbufPassiveEffects: [[3210340, [200,400],[260,520],...]]。
+    // 「詠唱速度+{p1} 攻撃速度+{p2}」は無条件。rank1 → [260,520] = 詠唱速度+2.6% / 攻撃速度+5.2%。
+    it('adds ゴブリンセージ (buffId 3210340) to cast/attack speed addends', () => {
+      const input: CalculateRawStatsInput = {
+        ...baseInput(),
+        battleImagines: [3899, null],
+        imagineRanks: [1, 5],
+      };
+
+      const result = calculateRawStats(input);
+
+      expect(result.castSpeedFinalPctAddend).toBeCloseTo(2.6);
+      expect(result.atkSpeedFinalPctAddend).toBeCloseTo(5.2);
+    });
+
+    // イマジン「幻花の残骸」(id 3990)/「蝕花の残影」(id 3991)のbufPassiveEffects:
+    // [[3210270/3210280, [10000,40,600],[10000,52,780],...]]。「ファスト/器用さ{p1}ptにつき
+    // 追加で+{p2}、最大{p3}」。実数値確定後の値から加算量を求める。
+    describe('「N ptにつき追加で+M(最大X)」型(幻花の残骸/蝕花の残影)', () => {
+      const withCorrections = (
+        corrections: Partial<
+          Record<StatId, { add: number; multPercent: number; finalValue: number }>
+        >,
+      ): CalculateRawStatsInput => ({
+        ...baseInput(),
+        cookingBuff: {
+          ...DEFAULT_COOKING_BUFF,
+          statCorrectionEnabled: true,
+          statCorrections: corrections,
+        },
+      });
+
+      it('adds +40 haste per 10000 haste (rank0), based on the final haste rating', () => {
+        const base = withCorrections({ haste: { add: 35000, multPercent: 0, finalValue: 0 } });
+        const without = calculateRawStats(base);
+        const withImagine = calculateRawStats({
+          ...base,
+          battleImagines: [3990, null],
+          imagineRanks: [0, 5],
+        });
+
+        const expected = Math.min(600, Math.floor(without.hasteRealAdjusted / 10000) * 40);
+        expect(expected).toBeGreaterThan(0);
+        expect(withImagine.hasteRealAdjusted).toBe(without.hasteRealAdjusted + expected);
+        expect(withImagine.rawStats.haste).toBe(without.rawStats.haste + expected);
+      });
+
+      it('caps the mastery bonus at p3 (rank0: 600)', () => {
+        const base = withCorrections({ mastery: { add: 500000, multPercent: 0, finalValue: 0 } });
+        const without = calculateRawStats(base);
+        const withImagine = calculateRawStats({
+          ...base,
+          battleImagines: [3991, null],
+          imagineRanks: [0, 5],
+        });
+
+        expect(withImagine.rawStats.mastery).toBe(without.rawStats.mastery + 600);
+      });
+
+      it('adds nothing below p1 pt', () => {
+        const withImagine = calculateRawStats({
+          ...baseInput(),
+          battleImagines: [3991, null],
+          imagineRanks: [5, 5],
+        });
+
+        expect(withImagine.rawStats.mastery).toBe(calculateRawStats(baseInput()).rawStats.mastery);
+      });
     });
   });
 

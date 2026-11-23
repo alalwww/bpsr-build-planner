@@ -7,8 +7,8 @@ import {
 } from '../components/gameText';
 import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from './phantomData';
 
-// 過去シーズン(S2)の因子はゲーム内で無効化されているため、選択肢からは常に除外する
-// (無効なままロードされたデータはstore側(hasLegacyPhantomFactor)で装着解除・リセットされる
+// 過去シーズンの因子はゲーム内で無効化されているため、選択肢からは常に除外する
+// (無効なままロードされたデータはstore側(hasLegacyPhantomData)で心相投影ごとリセットされる
 // ため、UI側で「(無効)」表記を出す必要はない)。
 
 // 心相投影パネル各所(ツリーSVG/ノード設定/効果表示)で共用する表示用ヘルパー。
@@ -23,9 +23,31 @@ export type GameDataT = TFunction<'game-data'>;
 // 11802(被回復力)/11812(バリア強度)もRAW_PERCENT_STAT_IDS(attrMaps.ts)と同じ規約
 // (2026-08-11不具合報告で発覚。因子「恒常性X9」等のG1〜G10説明文が+260のような生の実数値
 // のまま表示されていた)。
-const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([
-  11014, 11024, 11034, 11044, 11324, 11354, 11802, 11812,
+// 11414/11434/11424(精錬物攻/魔攻/防御力の%乗算値)はS4祈願心相晶の「〇〇・精錬」固定ノードで使われる。
+// 11334/11344(物理/魔法攻撃力%)と AttrNumType=1 の 12692(祈りダメージ)/11722(攻撃速度)/
+// 11732(詠唱速度)/12702(祈りダメージ軽減)はS4の映痕で使われる(2026-11-23 ユーザー確認)。
+export const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([
+  11014, 11024, 11034, 11044, 11324, 11354, 11802, 11812, 11414, 11434, 11424, 11334, 11344, 12692,
+  11722, 11732, 12702,
 ]);
+
+// effectType=1(attrId直接参照)効果1件の表示(例: 「精錬物攻 +15%」)。%乗算のattrIdは
+// 生の値(1500等)ではなく%表記にする。
+export function formatType1Effect(tg: GameDataT, effect: number[]): string {
+  const label = tg(`attributes.${effect[1]}`, { defaultValue: String(effect[1]) });
+  if (PHANTOM_FACTOR_PCT_ATTR_IDS.has(effect[1])) {
+    return `${label} +${formatPercentParam(effect[2], 2)}`;
+  }
+  return `${label} +${effect[2]}`;
+}
+
+// effectType=1効果の列挙表示(例: 「精錬物攻 +15%, 精錬魔攻 +15%」)。
+function formatType1Effects(tg: GameDataT, effects: number[][]): string {
+  return effects
+    .filter((e) => e[0] === 1)
+    .map((e) => formatType1Effect(tg, e))
+    .join(', ');
+}
 
 // 因子クラスの表示名(G1アイテム名から「・G1」を除いた基底名)
 export function factorBaseName(tg: GameDataT, classKey: string): string {
@@ -60,6 +82,12 @@ export function getFactorsForSlot(
   return result;
 }
 
+// 因子のアイコン画像URL(phantom-factors.json の icon は拡張子なしのファイル名)。未解決なら ''。
+export function getFactorIcon(classKey: string): string {
+  const iconName = pfData.byClass[classKey]?.icon;
+  return iconName ? getSTAsset(iconName + '.png') : '';
+}
+
 // スロット(groupId)の因子選択ドロップダウン用オプション。
 export function getFactorBaseOptions(
   tg: GameDataT,
@@ -67,16 +95,18 @@ export function getFactorBaseOptions(
   professionId: number,
 ): DropdownOption[] {
   return getFactorsForSlot(groupId, professionId).map((f) => {
-    const name = factorBaseName(tg, f.classKey);
-    const iconName = pfData.byClass[f.classKey]?.icon;
-    const icon = iconName ? getSTAsset(iconName + '.png') : '';
-    return { value: f.classKey, label: name, icon };
+    return {
+      value: f.classKey,
+      label: factorBaseName(tg, f.classKey),
+      icon: getFactorIcon(f.classKey),
+    };
   });
 }
 
 // 固定ノード(ordinaryEffect)の type=3 バフ効果説明。<br>/<linktext>等のタグは残したまま
 // 返すため、呼び出し側は renderMarkup で描画すること(<linktext>のクリック対応のため、
 // ここではタグを剥がす renderEffectDesc ではなく substituteEffectDescParams を使う)。
+// type=1効果(S4「〇〇・精錬」等)は呼び出し側で formatType1Effect により個別に表示する。
 export function getNodeEffectDesc(tg: GameDataT, nodeId: number): string {
   const oe = stData.ordinaryEffects[String(nodeId)];
   if (!oe) return '';
@@ -107,19 +137,7 @@ export function getFactorEffectDesc(tg: GameDataT, classKey: string, grade: numb
     if (tmpl) return renderEffectDesc(tmpl, pars, true, 2);
   }
   // type 1: stat boost（極性・恒常性など）
-  const type1 = gradeData.effects.filter((e) => e[0] === 1);
-  if (type1.length > 0) {
-    return type1
-      .map((e) => {
-        const label = tg(`attributes.${e[1]}`, { defaultValue: String(e[1]) });
-        if (PHANTOM_FACTOR_PCT_ATTR_IDS.has(e[1])) {
-          return `${label} +${formatPercentParam(e[2], 2)}`;
-        }
-        return `${label} +${e[2]}`;
-      })
-      .join(', ');
-  }
-  return '';
+  return formatType1Effects(tg, gradeData.effects);
 }
 
 // ノード種別に応じたアイコンURL(固定ノード=効果アイコン / 因子スロット=品質アイコン)

@@ -67,7 +67,7 @@
     "expandPanel": "展开角色面板",
     "resetPlan": "重置当前构筑",
     "buildPlanPlaceholder": "构筑方案名称",
-    "seasonBadge": "Season 3",
+    "seasonBadge": "Season 4",
     "abilityScore": "能力评分",
     "abilityScoreBreakdown": {
       "source": "来源",
@@ -90,7 +90,7 @@
       "moduleLink": "链接效果",
       "moduleCore": "核心效果",
       "phantomGroup": "心相投影",
-      "phantomLevel": "潜能心相晶等级",
+      "phantomLevel": "祈愿心相仪等级",
       "phantom": "已启用的心相投影",
       "total": "合计"
     },
@@ -104,9 +104,9 @@
       "saveNotice": "此设置不会被保存。",
       "cooking": "料理",
       "eliteDamage": "精英伤害",
-      "syrup": "元素强度药剂",
+      "syrup": "蜡烛",
       "elementStrength": "元素强度",
-      "starOil": "伤害强化药剂",
+      "starOil": "敷贴药泥",
       "physicalDamageEnhance": "物理伤害强化度",
       "magicalDamageEnhance": "法术伤害强化度",
       "eventBuff": "活动增益",
@@ -148,9 +148,9 @@
     "selectEquipmentTitle": "选择{{slot}}",
     "candidateFilter": {
       "toggle": "筛选",
-      "lv220": "Lv220档",
-      "lv240": "Lv240档",
-      "lv260": "Lv260档"
+      "lv320": "Lv320档",
+      "lv340": "Lv340档",
+      "lv360": "Lv360档"
     },
     "selectProfessionTitle": "选择职业",
     "professionLabel": "职业",
@@ -206,7 +206,7 @@
     "confirmResaveFormatMsg": "是否更新为新的保存格式？",
     "planLoadErrorMsg": "读取已保存的方案失败，数据可能已损坏。",
     "autoSaveLoadErrorMsg": "读取自动保存数据失败，数据可能已损坏。",
-    "phantomLegacyFactorResetMsg": "第二赛季的潜能心相晶已停用，因此将被重置。",
+    "phantomLegacyFactorResetMsg": "第三赛季的潜能心相晶已废止，因此将重置心相投影的设置。",
     "modulePreset": {
       "placeholder": "选择预设",
       "save": "保存预设",
@@ -247,6 +247,7 @@
       "s1": "S1",
       "s2": "S2",
       "s3": "S3",
+      "s4": "S4",
       "collab": "联动",
       "spOrange": "特殊金",
       "orange": "橙",
@@ -275,7 +276,7 @@
       "skill": "技能",
       "equipment": "装备",
       "module": "模组",
-      "phantom": "潜能"
+      "phantom": "祈愿"
     },
     "talentTree": {
       "reset": "重置",
@@ -311,7 +312,7 @@
       "agility": "敏捷",
       "intellect": "智力",
       "endurance": "耐力",
-      "illusionPower": "灭妄强度",
+      "illusionPower": "祈愿强度",
       "crit": "暴击",
       "haste": "急速",
       "luck": "幸运",
@@ -356,7 +357,11 @@
       "breakEfficiency": "破韧效率",
       "bossDamageBonus": "对首领伤害加成",
       "bossDamageReduction": "对首领伤害减免",
-      "moveSpeed": "移动速度"
+      "moveSpeed": "移动速度",
+      "damageBonus": "通用伤害提升",
+      "oathDamageBonus": "祈愿伤害",
+      "oathDefIgnore": "忽视祈愿防御",
+      "oathDamageReduction": "祈愿伤害减免"
     },
     "statTooltip": {
       "currentValue": "当前数值",
@@ -389,20 +394,17 @@
       "suit101": "第二世代套装",
       "suit102": "幻梦套装",
       "suit103": "虚蚀套装",
-      "tierLabel": "{{n}}件套"
+      "tierLabel": "{{n}}件套",
+      "suit104": "祈愿套装"
     },
     "phantom": {
       "collapsePane": "收起详情面板",
       "expandPane": "展开详情面板",
-      "level": "潜能等级",
+      "level": "祈愿等级",
       "template": "心相投影",
       "templatePlaceholder": "未选择",
       "templateSelectPrompt": "请选择心相投影",
       "templateLockedSuffix": "（Lv.{{level}}解锁）",
-      "bondPoints": "总羁绊点数",
-      "bondEffects": "羁绊等级效果",
-      "bondSlotLevel": "羁绊槽{{index}}: Lv.{{level}}",
-      "bondSlotAlways": "羁绊槽{{index}}: 常驻解锁",
       "nodeEffect": "节点效果",
       "nodeEffectPlaceholder": "点击节点即可显示节点效果",
       "factorSlot": "幻影因子槽",
@@ -414,7 +416,7 @@
       "enabledOn": "启用",
       "enabledOff": "禁用",
       "enabledLockedTitle": "所选树尚未解锁，无法开启",
-      "disabledNotice": "心相投影已禁用，羁绊等级效果及各节点效果不会反映到属性中",
+      "disabledNotice": "心相投影已禁用，各节点效果不会反映到属性中",
       "resetTooltip": "点击重置",
       "tabTitleDisabled": "心相投影树已禁用",
       "tabTitleEnabled": "{{name}}已启用",
@@ -423,7 +425,6 @@
       "effectSummary": {
         "sections": {
           "total": "摘要",
-          "advanced": "高级节点效果（羁绊等级效果）",
           "intermediate": "中级节点效果",
           "ordinary": "初级节点效果"
         },
@@ -432,10 +433,37 @@
         "flatCol": "加算",
         "pctCol": "乘算%",
         "finalPctCol": "最终%",
-        "routeLocked": "未解锁",
-        "bondLevelLabel": "羁绊Lv.{{level}}",
-        "highestOfLabel": "加算到暴击/急速/幸运/精巧/万能中数值最高的一项"
-      }
+        "routeLocked": "未解锁"
+      },
+      "factorDialogTitle": "因子设置 - {{slot}}",
+      "factorSelect": "因子",
+      "factorGrade": "等级",
+      "factorEffect": "因子效果",
+      "affixHeading": "映痕",
+      "affixNeedFactor": "选择因子后即可设置映痕。",
+      "affixSlot": "槽位{{n}}",
+      "affixSlotType": {
+        "1": "属性",
+        "2": "职业"
+      },
+      "affixLocked": "G{{grade}}开放",
+      "affixNone": "无",
+      "affixValue": "效果值",
+      "affixCount": "映痕{{count}}",
+      "affixQuality": {
+        "2": "高级"
+      },
+      "affixLib": {
+        "101": "属性·次要",
+        "102": "属性·主要",
+        "103": "属性·极性",
+        "104": "属性·韧性",
+        "105": "属性·元素",
+        "1001": "职业的映痕"
+      },
+      "affixEffect": "映痕效果",
+      "affixNonStackingShort": "不可叠加",
+      "affixNonStackingWarning": "该效果不可叠加。其他槽位（包括其他因子）也有相同的映痕，仅生效数值最大的一个。"
     },
     "detailStats": {
       "title": "属性详情",
@@ -516,7 +544,8 @@
         "bossDamageReduction": "对首领伤害减免",
         "moveSpeed": "移动速度",
         "maxStamina": "最大体力",
-        "staminaRegen": "战斗时体力回复率"
+        "staminaRegen": "战斗时体力回复率",
+        "seasonDamageBonus": "{{name}}提升"
       }
     }
   }
