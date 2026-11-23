@@ -238,6 +238,32 @@ const FLAT_STAT_DISPLAY_ATTR_IDS = {
   11152: null,
 };
 
+// SeasonTalentReforgeItemTable(映痕の発現に使う素材)の TypeEnum=2「次の発現で<color=#…>卓越</color>品質以上の
+// 映痕が…」から、映痕の品質名を取り出す(Param[0] がその品質)。品質を示す色タグは「必ず」の強調色(#CFA803)
+// 以外の最初の <color> 。最低品質(2=上級)を指す素材は無いため、上級の名称はUI文言側で持つ。
+const AFFIX_QUALITY_EMPHASIS_COLOR = '#CFA803';
+export function parseAffixQualityTags(langDir) {
+  let table;
+  try {
+    table = readTable(langDir, 'SeasonTalentReforgeItemTable');
+  } catch {
+    return [];
+  }
+  const result = [];
+  for (const e of Object.values(table)) {
+    if (e.TypeEnum !== 2 || !Array.isArray(e.Param) || e.Param.length === 0) continue;
+    const tag = [...(e.Desc ?? '').matchAll(/<color=(#[0-9A-Fa-f]{6})>([^<]+)<\/color>/g)].find(
+      (m) => m[1].toUpperCase() !== AFFIX_QUALITY_EMPHASIS_COLOR,
+    );
+    if (tag) result.push({ quality: e.Param[0], color: tag[1].toUpperCase(), name: tag[2] });
+  }
+  return result;
+}
+
+function extractAffixQualityNames(langDir) {
+  return Object.fromEntries(parseAffixQualityTags(langDir).map((q) => [q.quality, q.name]));
+}
+
 export function extractLocaleText(
   langDir,
   {
@@ -644,7 +670,11 @@ export function extractLocaleText(
     // 器用さステータスがこのクラス/型で具体的にどう作用するかの説明文。
     const masteryDes = Array.isArray(entry.MasteryDes)
       ? entry.MasteryDes.map((pair) =>
-          Array.isArray(pair) && pair[1] ? String(pair[1]).replace(/<br>\s*$/, '').trim() : '',
+          Array.isArray(pair) && pair[1]
+            ? String(pair[1])
+                .replace(/<br>\s*$/, '')
+                .trim()
+            : '',
         )
       : [];
     classText[id] = {
@@ -876,14 +906,12 @@ export function extractLocaleText(
   // seasonTalents: SeasonTalentTemplateTable と SeasonTalentEffectOrdinaryTable の名前。
   //   templates[id]: 心相晶の名称
   //   ordinaryEffects[groupId]: 通常ノードの名称
-  //   advancedEffects[id]: 高級ノードの名称
-  //   intermediateSlots[id]: 幻影スロットの表示名 (共通攻撃/クラス攻撃等)
-  //   bondSlots[id]: 絆スロット名 (絆スロット1/2/...)
+  //   intermediateSlots[id]: 幻影スロットの表示名 (第六感/恒常性/特異点等)
+  //   affixQualities[quality]: 映痕の品質名 (卓越/エピック/不朽。extractAffixQualityNames 参照)
+  // シーズン4で絆スロット/絆レベル効果(高級ノード)は廃止されたため、その名称は抽出しない。
   const stTemplateTable = readTable(langDir, 'SeasonTalentTemplateTable');
   const stOrdinaryTable = readTable(langDir, 'SeasonTalentEffectOrdinaryTable');
-  const stAdvancedTable = readTable(langDir, 'SeasonTalentEffectAdvancedTable');
   const stIntermediateTable = readTable(langDir, 'SeasonTalentEffectIntermediateTable');
-  const stHoleTable = readTable(langDir, 'SeasonTalentAdvancedHoleTable');
   const seasonTalents = {
     templates: Object.fromEntries(
       Object.values(stTemplateTable).map((e) => [e.Id, e.TemplateName]),
@@ -891,11 +919,10 @@ export function extractLocaleText(
     ordinaryEffects: Object.fromEntries(
       Object.values(stOrdinaryTable).map((e) => [e.GroupId, e.Name]),
     ),
-    advancedEffects: Object.fromEntries(Object.values(stAdvancedTable).map((e) => [e.Id, e.Name])),
     intermediateSlots: Object.fromEntries(
       Object.values(stIntermediateTable).map((e) => [e.Id, e.Name]),
     ),
-    bondSlots: Object.fromEntries(Object.values(stHoleTable).map((e) => [e.Id, e.Name])),
+    affixQualities: extractAffixQualityNames(langDir),
   };
 
   // battleImagines: SkillAoyiTable の名称・台詞 と SkillTable[aoyiId] のアクティブ効果説明。

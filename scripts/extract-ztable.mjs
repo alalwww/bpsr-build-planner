@@ -21,7 +21,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { writeJson } from './lib/json-file.mjs';
 import { readTable } from './lib/read-table.mjs';
-import { extractLocaleText } from './lib/extractLocaleText.mjs';
+import { extractLocaleText, parseAffixQualityTags } from './lib/extractLocaleText.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -439,7 +439,31 @@ function extractSuits(langDir) {
       });
     result[suitId] = { tiers };
   }
+  fixSwappedSuitTiers(result);
   return result;
+}
+
+// ZTable上で2set/4setの効果が逆に設定されているセット×スクール。ゲーム内の装備表示では
+// S2(suit 101)と同じ並びになっていることを確認済み(2026-11-23、ゲイルランサー乱風型
+// [夢紡ぎ]天啓の戦神竜鎧 / ディバインアーチャー鷹弓型 [夢紡ぎ]無間なる匿影の衣)。
+// 参照セット(refSuitId)と比べて逆になっている場合のみ入れ替える(データ側が修正されたら何もしない)。
+const SWAPPED_SUIT_TIERS = [{ suitId: '102', refSuitId: '101', schoolIds: ['108', '117'] }];
+
+function fixSwappedSuitTiers(suits) {
+  for (const { suitId, refSuitId, schoolIds } of SWAPPED_SUIT_TIERS) {
+    const tiers = suits[suitId]?.tiers;
+    const refTiers = suits[refSuitId]?.tiers;
+    if (tiers?.length !== 2 || refTiers?.length !== 2) continue;
+    for (const schoolId of schoolIds) {
+      const [lo, hi] = tiers.map((t) => t.effects[schoolId]);
+      const [refLo, refHi] = refTiers.map((t) => t.effects[schoolId]);
+      if (!lo || !hi || !refLo || !refHi) continue;
+      if (lo.buffId === refHi.buffId && hi.buffId === refLo.buffId) {
+        tiers[0].effects[schoolId] = hi;
+        tiers[1].effects[schoolId] = lo;
+      }
+    }
+  }
 }
 
 // enchants.json: EnchantId → available enchant items with effects.
@@ -1118,8 +1142,14 @@ function extractTalentTree(langDir) {
   return { nodes, stagesByWeaponType, treeNodesByWeaponType, usedTalentAttrIds };
 }
 
-// season-talents.json: 潜在心相晶ノードの構造データと効果。
-//   templates[id]: { sortId, advancedEffectId, rootNodeId, icon, unlockCondition }
+// season-talents.json: 心相晶(シーズン4: 祈願心相晶)ノードの構造データと効果。
+//   シーズン4で旧「潜在心相晶」(S3テンプレート1-8)は廃止され、祈願心相晶(テンプレート9-16、
+//   BelongSeasonId=4)に置き換わった。現行シーズン(BelongSeasonIdの最大値)のテンプレートのみ
+//   抽出する。絆スロット/絆レベル効果(SeasonTalentAdvancedHoleTable/
+//   SeasonTalentEffectAdvancedTable)もS4で廃止されたため抽出しない(S4テンプレートは
+//   AdvancedEffectId=0)。
+//   seasonId: 抽出した心相晶のシーズン番号(BelongSeasonId)
+//   templates[id]: { sortId, rootNodeId, icon, unlockCondition }
 //   treeNodes[id]: { templateId, nodeType, groupId, preNodes, nextNodes, unlockCondition, sameGroupId }
 //     NodeType 1 = 通常ノード (groupId → ordinaryEffects)
 //     NodeType 2 = 幻影因子スロット (groupId → intermediateSlots)
@@ -1127,29 +1157,28 @@ function extractTalentTree(langDir) {
 //   intermediateSlots[id]: 幻影因子スロット定義 (SeasonTalentEffectIntermediateTable)
 //     factorTypes: 装着可能な FactorItemTypeId リスト (空=制限なし)
 //     professionIds: 特定クラス限定スロット (空=全クラス)
-//   advancedEffects[id]: 高級ノード効果 (SeasonTalentEffectAdvancedTable)
-//     effectId は SeasonTalentTemplateTable.AdvancedEffectId と対応
-//   bondSlots[id]: 絆スロット定義 (SeasonTalentAdvancedHoleTable)
+//   unlockCondition は [[93, seasonId, N]] (シーズンLv N 以上で開放) の形式。
 function extractSeasonTalents(langDir) {
   const templateTable = readTable(langDir, 'SeasonTalentTemplateTable');
   const treeTable = readTable(langDir, 'SeasonTalentTreeTable');
   const ordinaryTable = readTable(langDir, 'SeasonTalentEffectOrdinaryTable');
   const intermediateTable = readTable(langDir, 'SeasonTalentEffectIntermediateTable');
-  const advancedTable = readTable(langDir, 'SeasonTalentEffectAdvancedTable');
-  const holeTable = readTable(langDir, 'SeasonTalentAdvancedHoleTable');
 
   // BelongFunction: 800522="潜在心相晶"(FunctionTable.Note: 赛季养成线：赛季通用 = シーズン
   // 共通、プレイヤーが選択する通常の心相投影, 800523="滅妄心相晶"(Note: 大秘境专用 = 「大秘境」
   // という別ゲームモード専用の別UI)。後者(20001-20006, シーズン3新規)はビルドプランナーの
   // 通常フローでは選択対象外のため、抽出時点で除外する。
   const SEASON_TALENT_SELECTABLE_FUNCTION_ID = 800522;
+  const selectableTemplates = Object.values(templateTable).filter(
+    (e) => e.BelongFunction === SEASON_TALENT_SELECTABLE_FUNCTION_ID,
+  );
+  const currentSeasonId = Math.max(0, ...selectableTemplates.map((e) => e.BelongSeasonId ?? 0));
 
   const templates = {};
-  for (const entry of Object.values(templateTable)) {
-    if (entry.BelongFunction !== SEASON_TALENT_SELECTABLE_FUNCTION_ID) continue;
+  for (const entry of selectableTemplates) {
+    if ((entry.BelongSeasonId ?? 0) !== currentSeasonId) continue;
     templates[entry.Id] = {
       sortId: entry.SortId,
-      advancedEffectId: entry.AdvancedEffectId,
       rootNodeId: entry.NoteRootId,
       icon: entry.BigIconNormal,
       unlockCondition: entry.UnlockCondition,
@@ -1170,9 +1199,12 @@ function extractSeasonTalents(langDir) {
     };
   }
 
+  const usedGroupIds = new Set(Object.values(treeNodes).map((n) => n.groupId));
+
   // ordinaryEffects は groupId をキーとする (SeasonTalentTreeTable.GroupId で参照)
   const ordinaryEffects = {};
   for (const entry of Object.values(ordinaryTable)) {
+    if (!usedGroupIds.has(entry.GroupId)) continue;
     ordinaryEffects[entry.GroupId] = {
       id: entry.Id,
       level: entry.Level,
@@ -1188,6 +1220,7 @@ function extractSeasonTalents(langDir) {
   // intermediateSlots は Id をキーとする (SeasonTalentTreeTable.GroupId = この Id)
   const intermediateSlots = {};
   for (const entry of Object.values(intermediateTable)) {
+    if (!usedGroupIds.has(entry.Id)) continue;
     intermediateSlots[entry.Id] = {
       factorTypes: entry.FactorType,
       professionIds: entry.ProfessionId,
@@ -1195,33 +1228,16 @@ function extractSeasonTalents(langDir) {
     };
   }
 
-  const advancedEffects = {};
-  for (const entry of Object.values(advancedTable)) {
-    advancedEffects[entry.Id] = {
-      effectId: entry.EffectId,
-      level: entry.Level,
-      effects: entry.Effect,
-      buffValueKeys: entry.BuffValueKey,
-      buffPars: entry.BuffPar,
-      icon: entry.Icon,
-      unlockFraction: entry.UnlockFraction,
-      fightValue: entry.FightValue ?? 0,
-    };
-  }
-
-  const bondSlots = {};
-  for (const entry of Object.values(holeTable)) {
-    bondSlots[entry.Id] = {
-      templateId: entry.TempId,
-      slotIndex: entry.HoleId,
-      unlockCondition: entry.UnlockCondition,
-    };
-  }
-
-  return { templates, treeNodes, ordinaryEffects, intermediateSlots, advancedEffects, bondSlots };
+  return { seasonId: currentSeasonId, templates, treeNodes, ordinaryEffects, intermediateSlots };
 }
 
-// phantom-factors.json: 潜在心相晶に装着する幻影因子データ。
+// phantom-factors.json: 心相晶(S4では祈願心相晶)の因子スロットに装着する因子データ。
+//   シーズン4(祈願心相晶)では現行シーズンの因子(SeasonId に現行シーズンを含むもの)のみ抽出する
+//   (S2/S3因子は廃止)。S4の因子は FactorItemLevel 1-3 で、レベルごとに映痕を装着できる
+//   スロット構成(Embed)を持つ:
+//     embedSlots: [[affixType, ...], ...] 1要素=1スロット。値は装着可能な映痕の AffixType
+//       (SeasonTalentFactorAttrLibTable.AffixType。1=ステータス系、2=クラス映痕)。
+//       例: Lv1=[[1],[2]], Lv2=[[1],[2],[1,2]], Lv3=[[1],[1],[2],[2]]
 //   factorTypes[typeId]: タイプ名 (シーズン3: 1=極性, 2=恒常性, 3=第六感, 4=クラス恒常性,
 //     5=クラス狂想, 6=真実。旧シーズンの typeId 1-5 は「共通攻撃/共通防御/クラス攻撃/
 //     クラス防御/クラス狂想」を指していたが、番号を維持したまま意味が変わった)
@@ -1244,6 +1260,10 @@ function extractPhantomFactors(langDir) {
   const typeTable = readTable(langDir, 'SeasonTalentFactorTypeTable');
   const factorTable = readTable(langDir, 'SeasonTalentFactorItemTable');
   const itemTable = readTable(langDir, 'ItemTable');
+  const currentSeasonId = Math.max(
+    0,
+    ...Object.values(factorTable).flatMap((e) => e.SeasonId ?? []),
+  );
 
   const factorTypes = {};
   for (const entry of Object.values(typeTable)) {
@@ -1260,6 +1280,7 @@ function extractPhantomFactors(langDir) {
   const usedPhantomFactorItemIds = new Set();
   const usedPhantomFactorAttrIds = new Set();
   for (const entry of Object.values(factorTable)) {
+    if (!(entry.SeasonId ?? []).includes(currentSeasonId)) continue;
     const cls = entry.FactorItemClass;
     if (!byClass[cls]) {
       byClass[cls] = {
@@ -1279,6 +1300,7 @@ function extractPhantomFactors(langDir) {
       effects: entry.FactorItemEffect,
       ...(entry.FactorItemPar.length > 0 ? { buffPars: entry.FactorItemPar } : {}),
       fightValue: entry.FightValue ?? 0,
+      ...(entry.Embed?.length > 0 ? { embedSlots: entry.Embed } : {}),
     });
   }
   for (const cls of Object.values(byClass)) {
@@ -1291,6 +1313,45 @@ function extractPhantomFactors(langDir) {
   return { factorTypes, byClass, usedPhantomFactorItemIds, usedPhantomFactorAttrIds };
 }
 
+// phantom-affixes.json: 祈願因子のスロットに装着する「映痕」(シーズン4新規、
+// SeasonTalentFactorAttrLibTable)。編集UI・計算は src/build-planner/phantom/phantomAffixData.ts。
+//   affixes[id]: { libId, affixType, quality, group, extremum, profession, effects, buffPars?, fightValue }
+//     libId: 映痕の系統。101=ステータス・副(会心/ファスト等+旧極性バフ), 102=ステータス・主
+//       (筋力/知力/敏捷%・攻撃力%), 103=ステータス・極性(祈りダメージ/攻撃速度/精錬攻撃等),
+//       104=ステータス・耐久力(防御力/HP%等), 105=ステータス・元素(属性攻撃力等),
+//       1001=クラス映痕(profession別、BuffId参照のスキル固有効果)。
+//       系統名は SeasonTalentReforgeItemTable の説明文(「ステータス・主」等)から推定。
+//     affixType: 1=ステータス系, 2=クラス映痕 (因子の embedSlots と対応)
+//     quality: 2-5 (2=上級, 3=卓越, 4=エピック, 5=不朽。2の名称はデータに無いためUI文言)
+//     group: 同一効果のグループ(同じgroupは品質違いで値の範囲が変わる)
+//     extremum: ExtremumTag (1=その品質の最小値, 2=最大値, 0=中間値)
+//     effects: [[effectType, attrId/buffId, value]] effectType=1はattrId直接、3はBuffId参照
+//       (BuffId参照時のvalueは段階番号で、実際の数値は buffPars 側)
+//   qualityColors[quality]: 品質の表示色(SeasonTalentReforgeItemTable の説明文の色タグ。卓越/エピック/不朽のみ、
+//     名称はロケール側の seasonTalents.affixQualities)
+function extractPhantomAffixes(langDir) {
+  const libTable = readTable(langDir, 'SeasonTalentFactorAttrLibTable');
+  const affixes = {};
+  const usedAffixAttrIds = new Set();
+  for (const e of Object.values(libTable)) {
+    for (const eff of e.AttrEffect ?? []) {
+      if (eff[0] === 1 && typeof eff[1] === 'number') usedAffixAttrIds.add(eff[1]);
+    }
+    affixes[e.Id] = {
+      libId: e.AttrLibId,
+      affixType: e.AffixType,
+      quality: e.AffixQuality,
+      group: e.Group,
+      extremum: e.ExtremumTag,
+      profession: e.Profession,
+      effects: e.AttrEffect,
+      ...(e.BuffPar?.length > 0 ? { buffPars: e.BuffPar } : {}),
+      fightValue: e.FightValue ?? 0,
+    };
+  }
+  return { affixes, usedAffixAttrIds };
+}
+
 // player-levels.json: 冒険者レベル / シーズンレベル データ
 //   levels[]: { level, exp, levelUpAttr[[attrId,val],...], fightValue, nacsStandard[[catId,val],...] }
 //     levelUpAttr: そのレベルで加算されるステータス (11012=筋力, 11022=知力, 11032=俊敏, 11042=耐久力)
@@ -1301,7 +1362,7 @@ function extractPhantomFactors(langDir) {
 //   skillUnlocks[]: { buffId, buffName, activeLevel }
 //     レベルで解放されるアクション/スキル
 // season-constants.json: 実数値→%変換に使う「収益減少曲線」の係数(K値)。
-// FightAttrTranTable.json は Id=1/2/3 がそれぞれシーズン1/2/3に対応する(SeasonIdフィールド
+// FightAttrTran は Id=1/2/3/4 がそれぞれシーズン1/2/3/4に対応する(SeasonIdフィールド
 // 自体は無いため、Idをそのままシーズン番号とみなす)。現在の最大Id = 現行シーズンとして、
 // そのエントリから系列A/B/Cの係数を取り出す。docs/STATUS_CALCULATION.md「実数値→%変換の
 // 共通モデル」参照。base%(会心5%等)やFIXED_BASE_*系はこのテーブルには存在しない
@@ -1507,8 +1568,11 @@ function main() {
     factorTypes,
     byClass: phantomFactorsByClass,
     usedPhantomFactorItemIds: phantomFactorItemIds,
-    usedPhantomFactorAttrIds: phantomFactorAttrIds,
+    usedPhantomFactorAttrIds: factorOnlyAttrIds,
   } = extractPhantomFactors(structuralDir);
+  const { affixes: phantomAffixes, usedAffixAttrIds } = extractPhantomAffixes(structuralDir);
+  // 映痕のattrIdも因子と同じ名前解決ロジック(extractLocaleTextのphantomFactorAttrIds)に乗せる。
+  const phantomFactorAttrIds = new Set([...factorOnlyAttrIds, ...usedAffixAttrIds]);
 
   const modulesData = extractModules(structuralDir);
   const modulesPath = writeJson(dataOut, 'modules.json', modulesData);
@@ -1615,6 +1679,16 @@ function main() {
   });
   console.log(
     `[extract-ztable] wrote phantom-factors.json (${Object.keys(factorTypes).length} types, ${phantomClassCount} classes, ${phantomTotalItems} grade entries) to ${phantomFactorsPath}`,
+  );
+
+  const phantomAffixesPath = writeJson(dataOut, 'phantom-affixes.json', {
+    affixes: phantomAffixes,
+    qualityColors: Object.fromEntries(
+      parseAffixQualityTags(structuralDir).map((q) => [q.quality, q.color]),
+    ),
+  });
+  console.log(
+    `[extract-ztable] wrote phantom-affixes.json (${Object.keys(phantomAffixes).length} affixes) to ${phantomAffixesPath}`,
   );
 
   for (const [dirName, localeDir] of Object.entries(LOCALES)) {
