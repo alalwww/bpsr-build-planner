@@ -26,17 +26,18 @@ ZTable(`../../BPSRData/ZTable/`)の実データ調査を踏まえた、キャラ
 
 クラスごとに以下のスキル関連フィールドを持つ(`ProfessionSystemTable`):
 
-| フィールド          | 内容                                                      |
-| ------------------- | --------------------------------------------------------- |
-| `NormalAttackSkill` | 通常攻撃スキル(固定)                                      |
-| `SpecialSkill`      | 特殊スキル(固定)                                          |
-| `UltimateSkill`     | アルティメットスキル(固定)                                |
-| `NormalSkill`       | スキル選択候補プール。この中から**任意4個**を選択して使用 |
-| `TalentSkill`       | アビリティ(talent)選択候補プール。**任意に複数選択可能**  |
+| フィールド                   | 内容                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| `NormalAttackSkill`          | 通常攻撃スキル(固定)                                                      |
+| `SpecialSkill`               | 特殊スキル(固定)                                                          |
+| `UltimateSkill`              | アルティメットスキル(固定)                                                |
+| `NormalSkill`                | スキル選択候補プール。この中から**任意4個**を選択して使用                 |
+| `TalentSkill`                | アビリティ(talent)選択候補プール。**任意に複数選択可能**                  |
 | `roleSkill`(シーズン3で追加) | ロールスキル選択候補プール(下記参照)。この中から**任意4個**を選択して使用 |
 
 固定スキル3種 + 選択スキル4種(NormalSkillより) + 任意選択のアビリティ(TalentSkillより)
-+ 選択ロールスキル4種(roleSkillより)、という構成。
+
+- 選択ロールスキル4種(roleSkillより)、という構成。
 
 #### ロールスキル(RoleSkill、シーズン3で追加)
 
@@ -170,12 +171,37 @@ UIのスロット配置と一致する連番ID(`EquipPartTable.json`、`extract-
 - `templates`: ツリーのルート/アンロック条件
 - `treeNodes`: ノード(`nodeType`1=通常効果ノード/2=因子ノード、`groupId`/`sameGroupId`で
   選択分岐を表現)
-- `ordinaryEffects` / `advancedEffects`: 通常ノード/上級ノードの効果データ
+- `seasonId`: 抽出対象の心相晶シーズン(現行シーズンのテンプレートのみ抽出)
+- `ordinaryEffects`: 通常ノードの効果データ
 - `intermediateSlots`: 因子ノードの中間スロット(装着可能な因子タイプ・対応クラスを制約)
-- `bondSlots`: 絆(バインド)スロット
 
-UIは `PhantomTreeSvg.tsx`(ツリー描画)・`PhantomNodeConfig.tsx` / `PhantomNodeEffect.tsx`
-(ノード選択・効果表示)・`PhantomBondSection.tsx`(絆スロット)。
+ノード座標はZTableに無く、UIプレハブ(`ui/prefabs/season_talent/season_talent_<シーズン>_<テンプレートID>`)
+内の `season_talent_<ノードID>` の RectTransform から `scripts/extract-season-talent-layout.mjs` で
+`src/data/season-talent-layout.json` に抽出している(入力はAssetStudioの GameObject / RectTransform
+のDumpテキスト。RectTransformのDumpには自身のPathIDが無いため、バンドル内のPathID昇順=Dump番号順
+の対応で復元し、親子参照の一致で検証する)。
+
+UIは `PhantomTreeSvg.tsx`(ツリー描画、配置は `phantomTreeLayout.ts`)・`PhantomNodeConfig.tsx` / `PhantomNodeEffect.tsx`
+(ノード選択・効果表示)。
+
+> **シーズン4での変更**: 潜在心相晶(S3テンプレート1-8)は廃止され、祈願心相晶(テンプレート9-16、
+> `BelongSeasonId=4`、全テンプレート常時開放)に置き換わった。絆ポイント/絆レベル効果
+> (旧`advancedEffects`/`bondSlots`)も廃止されたため、データ・UI・計算から削除した
+> セーブデータ(自動保存/保存プラン/プランコード)はS4でプランコード v3 に移行した
+> (`src/build-planner/plan/planCode.ts` の「v3 の構造」)。変更されにくい順(冒険者Lv/クラス/型/
+> アビリティツリー/クラススキル/マスタリースキル/イマジン/ロールスキル/精錬Lv/部位毎の装備/
+> モジュール)に並べ、最後にシーズン固有要素(心相投影)を、先頭にシーズン番号を持つ1要素として
+> 置く。現行シーズン以外のシーズン固有要素は読まない。v2(S3まで)のコードは装備・スキル等を
+> そのまま読み、絆ポイントは捨て、S3のデータとして扱う(`src/build-planner/plan/saveSeason.ts`)。
+> 過去シーズンのデータ、および廃止テンプレート/無効因子を含むデータは、読み込み時に心相投影全体を
+> 初期化する(`needsPhantomReset`。テンプレート/因子が実際に失われる場合のみ通知)。自動保存は
+> 起動時に現行シーズンとして書き戻し、保存プランは上書き保存するまで一覧に「(S3)」と表示する。
+> モジュールプリセットは別キーで保存しており対象外。S4の因子はG1〜G3で、各グレードが映痕スロット構成(`embedSlots`)を
+> 持つ。映痕自体のデータは `src/data/phantom-affixes.json`(`SeasonTalentFactorAttrLibTable`由来)
+> に抽出済み。因子に埋め込んだ映痕は `PhantomFactorSlotValue.affixes`(スロット位置ごとの
+> `{ group, quality, value }`)で持ち、プランコードでは因子エントリの4番目に
+> `[[スロット位置, group, quality, value], ...]` として保存する。ステータスへの反映は
+> ステータス系の映痕のみ(`src/build-planner/stats/affixEffects.ts`)。
 
 ### 幻影因子(`src/data/phantom-factors.json`)
 
@@ -189,19 +215,25 @@ UIは `PhantomTreeSvg.tsx`(ツリー描画)・`PhantomNodeConfig.tsx` / `Phantom
 | 4      | クラス恒常性   |
 | 5      | クラス狂想     |
 | 6      | 真実           |
+| 7      | 特異点(S4新規) |
+
+> **シーズン4**: 抽出対象は現行シーズン(S4)の因子のみ(S2/S3因子は廃止され、データに含めない)。
+> S4で使われるtypeIdは 2(恒常性・共通)/3(アイテム名は「想像因子」、型名テーブル上は第六感のまま)/
+> 4(クラス恒常性)/7(特異点)のみで、極性(1)・クラス狂想(5)・真実(6)の因子は存在しない。
+> S4因子のコア効果は全てスキル固有/条件付き効果(BuffId参照)で、静的ステータスへの反映対象はない。
 
 - `byClass`: クラス(`professionIds`)×因子タイプごとのグレード別効果(`grades`、G1〜G10相当)
 - 各因子は `seasonId`(`SeasonTalentFactorItemTable.SeasonId[0]`)を持ち、過去シーズンの因子は
   現シーズンでは無効(ゲーム内説明文で明記)。旧セーブデータ互換のためデータ自体は保持しつつ、
   UI側は現行シーズンの最大 `seasonId` との比較で無効表記・並び替えを行う
   (`CURRENT_FACTOR_SEASON_ID`, `phantomView.ts`)。
-- typeId=3(第六感、クラス固有)の効果(`effectType=3`、`FACTOR_POLARITY_EFFECTS`
-  で扱う極性の対boost/penaltyとは別枠)はクラスごとにX1〜X11相当の11種あり、大半は
-  条件付き/スキル固有効果(対応するStatIdが存在せず対象外)だが、ビートパフォーマーX4
-  (`buffId 3057040`)のように「無条件の単独ステータス%ボーナス+スキル固有の副作用」が
+- typeId=3(第六感、クラス固有)の効果(`effectType=3`)は、大半が条件付き/スキル固有効果
+  (対応するStatIdが存在せず対象外)。S3では、ビートパフォーマーX4(`buffId 3057040`)のように「無条件の単独ステータス%ボーナス+スキル固有の副作用」が
   混在するものは`attrMaps.ts`の`FACTOR_SINGLE_STAT_PCT_BONUS`(`buffPars`内の対象
-  `paramIndex`のみ反映)で個別対応する(2026-09-16不具合報告: 魔法攻撃力+p2が未反映だった。
-  p1側の「ピースフルロンドの回復量変換-x%」はスキル固有のため対象外のまま)。
+  `paramIndex`のみ反映)で個別対応していた(2026-09-16不具合報告: 魔法攻撃力+p2が未反映だった。
+  p1側の「ピースフルロンドの回復量変換-x%」はスキル固有のため対象外)。S4の祈願因子には
+  該当するものが無いため、現在このマップは空。S3までの極性因子(3058050〜080)はS4では
+  映痕の効果になった(`AFFIX_POLARITY_EFFECTS`)。
   この`stat`はatk/matk/maxHp/physicalDefの4種(`IMAGINE_PCT_FINAL`と同じ値域、型は
   `FinalPctStatId`)に限定している。atk/matkはメインステータス変換(知力→魔法攻撃力等、
   `deriveStats.ts`)を経由する"derived"な値のため、rawStats側の%ボーナス(`addPctBonus`、
@@ -249,6 +281,8 @@ UIは `PhantomTreeSvg.tsx`(ツリー描画)・`PhantomNodeConfig.tsx` / `Phantom
     `src/build-planner/module/moduleData.ts` を参照)
   - `suits.json`: セット効果(`suitId`ごとのtier別効果)
   - `season-talents.json`: 心相投影(シーズンタレント)。`season-constants.json`とは無関係の別データ
+  - `season-talent-layout.json`: 心相投影ツリーのノード座標(UIプレハブ由来、
+    `scripts/extract-season-talent-layout.mjs`で抽出)
   - `phantom-factors.json`: 幻影因子
   - `season-constants.json`: `docs/STATUS_CALCULATION.md`のシーズン定数(K値、現行シーズンの
     ものを自動抽出)
