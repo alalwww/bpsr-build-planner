@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.13.1",
+      "date": "2026-11-24T17:34:52.752Z",
+      "summary": {
+        "ja": "祈願心相晶の不具合修正",
+        "en": "Fix oath crystal issues"
+      },
+      "changes": {
+        "ja": [
+          "祈願Lv31以降の祈り強度の上昇量の誤り(+20→+10/Lv)の修正",
+          "因子選択ダイアログで、選択肢の説明ツールチップがドロップダウンの背面に表示される不具合の修正"
+        ],
+        "en": [
+          "Fix the oath power gained per oath level from Lv31 onward (+20 → +10 per level)",
+          "Fix option tooltips appearing behind the dropdown list in the factor selection dialog"
+        ]
+      }
+    },
+    {
       "version": "0.13.0",
       "date": "2026-11-23T16:53:24.647Z",
       "summary": {
@@ -954,7 +972,10 @@
         "en": "Fix stat calculation and build-time display"
       },
       "changes": {
-        "ja": ["精錬攻撃・全属性攻撃の計算修正", "フッターのビルド日時のタイムゾーン変換表示"],
+        "ja": [
+          "精錬攻撃・全属性攻撃の計算修正",
+          "フッターのビルド日時のタイムゾーン変換表示"
+        ],
         "en": [
           "Fix refine/all-attribute attack calculation",
           "Convert footer build-time display to the viewer's timezone"
