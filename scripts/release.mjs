@@ -34,6 +34,10 @@ const TARGET_FILES_FOR_GIT = [
   'src/about/changelog.json',
 ];
 
+// Run Prettier through node directly (spawnSync can't run the .cmd shim on Windows without a shell).
+const PRETTIER_BIN = join(ROOT, 'node_modules/prettier/bin/prettier.cjs');
+const PRETTIER_FILES = [PACKAGE_JSON, CHANGELOG_JSON];
+
 function parseArgs(argv) {
   const args = { bump: undefined, notesJson: undefined, dryRun: false };
   for (let i = 0; i < argv.length; i++) {
@@ -207,6 +211,12 @@ function main() {
     changes: notes.changes,
   });
   writeJson(CHANGELOG_JSON, changelog);
+
+  // JSON.stringify(…, null, 2) doesn't match Prettier's output (e.g. short arrays are
+  // kept on one line by Prettier), so format the written files before committing.
+  // Otherwise `npm run format:check` fails and a follow-up format-only commit is needed.
+  // (src-tauri/ is in .prettierignore, so tauri.conf.json is left as is.)
+  runOrThrow(process.execPath, [PRETTIER_BIN, '--write', '--log-level', 'warn', ...PRETTIER_FILES]);
 
   if (args.dryRun) {
     console.log('--dry-run: files updated on disk, no commit/tag/push/release created.');
