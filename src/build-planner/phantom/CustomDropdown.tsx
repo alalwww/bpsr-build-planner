@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Chevron from '../components/Chevron';
 import Dropdown from '../components/Dropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
@@ -128,18 +129,24 @@ function CustomDropdown({
           </>
         )}
       </Dropdown>
-      {tooltip && tooltip.opt.description && (
-        <FloatingTooltip
-          x={tooltip.x}
-          y={tooltip.y}
-          clamp
-          align="left"
-          className="phantom-dropdown__tooltip"
-        >
-          <div className="phantom-dropdown__tooltip-name">{tooltip.opt.label}</div>
-          <div className="phantom-dropdown__tooltip-desc">{tooltip.opt.description}</div>
-        </FloatingTooltip>
-      )}
+      {/* 選択肢パネルはbody直下にportalされる(z-index 1000)ため、ダイアログ内(オーバーレイの
+          スタッキングコンテキスト内)に描画するとパネルの背面に回ってしまう。ツールチップも
+          bodyへportalし、floating-tooltip既定のz-indexでパネルより前面に出す。 */}
+      {tooltip &&
+        tooltip.opt.description &&
+        createPortal(
+          <FloatingTooltip
+            x={tooltip.x}
+            y={tooltip.y}
+            clamp
+            align="left"
+            className="phantom-dropdown__tooltip"
+          >
+            <div className="phantom-dropdown__tooltip-name">{tooltip.opt.label}</div>
+            <div className="phantom-dropdown__tooltip-desc">{tooltip.opt.description}</div>
+          </FloatingTooltip>,
+          document.body,
+        )}
     </div>
   );
 }

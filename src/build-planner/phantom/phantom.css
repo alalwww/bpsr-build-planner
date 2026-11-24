@@ -997,7 +997,6 @@
 }
 
 .phantom-dropdown__tooltip {
-  z-index: 500;
   background: #1a1a2a;
   border: 1px solid #4a4a6a;
   border-radius: 4px;
