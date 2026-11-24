@@ -1485,6 +1485,15 @@ describe('calculateRawStats', () => {
         zeroLevel.breakdown.illusionPower.additive ?? 0,
       );
     });
+
+    // SeasonLevelTable(S4): 祈り強度はLv1〜30が+20/Lv、Lv31以降は+10/Lv(耐久力は全帯+100/Lv)。
+    it('applies the per-level illusionPower step change after phantom level 30', () => {
+      const bonus = (phantomLevel: number) =>
+        calculateRawStats({ ...baseInput(), phantomLevel }).breakdown.illusionPower.levelBonus ?? 0;
+      expect(bonus(30)).toBe(600);
+      expect(bonus(31)).toBe(610);
+      expect(bonus(100)).toBe(1300);
+    });
   });
 
   describe('幸運の一撃ダメージ倍率の変換率ボーナス(luckyHitDamageRatioBonus)', () => {

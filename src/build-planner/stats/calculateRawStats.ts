@@ -90,7 +90,7 @@ import {
   imagineDataById,
   levelCumulativeData,
   modulesData,
-  playerLevelSeasonData,
+  getSeasonLevelCumulative,
   refineData,
   talentTree,
   type TalentTreeNode,
@@ -668,10 +668,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   }
 
   // 潜在レベルによるステータス加算（enabled に関わらず常時反映）
-  if (phantomLevel > 0 && playerLevelSeasonData.levelUpAttr.length > 0) {
-    for (const [attrId, perLevel] of playerLevelSeasonData.levelUpAttr) {
-      const statId = PHANTOM_LEVEL_ATTR_TO_STAT[attrId];
-      if (statId !== undefined) addLevelStat(statId, phantomLevel * perLevel);
+  // レベル帯で増加量が変わる(S4: 祈り強度 Lv30まで+20/Lv、以降+10/Lv)ため累積値を使う。
+  if (phantomLevel > 0) {
+    for (const [attrId, total] of Object.entries(getSeasonLevelCumulative(phantomLevel).attrs)) {
+      const statId = PHANTOM_LEVEL_ATTR_TO_STAT[Number(attrId)];
+      if (statId !== undefined) addLevelStat(statId, total);
     }
   }
 

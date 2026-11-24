@@ -2943,18 +2943,1408 @@
   ],
   "season": {
     "count": 100,
-    "levelUpAttr": [
-      [
-        11442,
-        20
-      ],
-      [
-        11042,
-        100
-      ]
-    ],
-    "fightValue": 6,
-    "expNum": 1200000
+    "levels": [
+      {
+        "level": 1,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 2,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 3,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 4,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 5,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 6,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 7,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 8,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 9,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 10,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 11,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 12,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 13,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 14,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 15,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 16,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 17,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 18,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 19,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 20,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 21,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 22,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 23,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 24,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 25,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 26,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 27,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 28,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 29,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 30,
+        "levelUpAttr": [
+          [
+            11442,
+            20
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 31,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 32,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 33,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 34,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 35,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 36,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 37,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 38,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 39,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 40,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 41,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 42,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 43,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 44,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 45,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 46,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 47,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 48,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 49,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 50,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 51,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 52,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 53,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 54,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 55,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 56,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 57,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 58,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 59,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 60,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 61,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 62,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 63,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 64,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 65,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 66,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 67,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 68,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 69,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 70,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 71,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 72,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 73,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 74,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 75,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 76,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 77,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 78,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 79,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 80,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 81,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 82,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 83,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 84,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 85,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 86,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 87,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 88,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 89,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 90,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 91,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 92,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 93,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 94,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 95,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 96,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 97,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 98,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 99,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      },
+      {
+        "level": 100,
+        "levelUpAttr": [
+          [
+            11442,
+            10
+          ],
+          [
+            11042,
+            100
+          ]
+        ],
+        "fightValue": 6
+      }
+    ]
   },
   "skillUnlocks": [
     {

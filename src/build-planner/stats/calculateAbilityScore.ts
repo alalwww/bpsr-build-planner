@@ -34,7 +34,7 @@ import {
   imagineDataById,
   levelCumulativeData,
   modulesData,
-  playerLevelSeasonData,
+  getSeasonLevelCumulative,
   refineData,
   skillFightValues,
   skillRankFightValues,
@@ -270,7 +270,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
 
   // --- 潜在レベル (enabled に関わらず常時反映) ---
   if (phantomLevel > 0) {
-    fv.phantomLevel = phantomLevel * playerLevelSeasonData.fightValue;
+    fv.phantomLevel = getSeasonLevelCumulative(phantomLevel).fightValue;
   }
 
   // --- 装備・精錬・装着効果 ---

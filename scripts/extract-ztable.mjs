@@ -1372,8 +1372,9 @@ function extractPhantomAffixes(langDir) {
 //     levelUpAttr: そのレベルで加算されるステータス (11012=筋力, 11022=知力, 11032=俊敏, 11042=耐久力)
 //     fightValue:  そのレベルで加算される能力スコア
 //     nacsStandard: 能力スコア計算のカテゴリ別基準値 (AssessModuleTable IDをキーに各カテゴリの標準値)
-//   season: { count, levelUpAttr, fightValue, expNum }
-//     全シーズンレベルで共通の値 (uniformなため1エントリのみ保持)
+//   season: { count, levels[] }
+//     levels[]: { level, levelUpAttr[[attrId,val],...], fightValue } そのシーズンレベルで加算される値
+//     (レベル帯で増加量が変わる。例: S4の祈り強度はLv1〜30が+20/Lv、Lv31以降が+10/Lv)
 //   skillUnlocks[]: { buffId, buffName, activeLevel }
 //     レベルで解放されるアクション/スキル
 // season-constants.json: 実数値→%変換に使う「収益減少曲線」の係数(K値)。
@@ -1416,18 +1417,20 @@ function extractPlayerLevels(langDir) {
 
   // SeasonLevelTable は過去シーズン分のエントリも SeasonId 別に残ったまま(例:
   // シーズン2=SeasonFightValue 4, シーズン3=6)なので、現行シーズン(最大SeasonId)の
-  // エントリのみを対象にする。同一シーズン内はレベルによらず同一値のため代表値でよい。
+  // エントリのみを対象にする。同一シーズン内でもレベル帯によって加算値が変わる
+  // (S4: 祈り強度 Lv1〜30 +20 → Lv31以降 +10)ため、レベル別に保持する。
   const seasonLevelEntries = Object.values(seasonLevelTable);
   const currentFactorSeasonId = Math.max(0, ...seasonLevelEntries.map((e) => e.SeasonId ?? 0));
-  const currentSeasonEntries = seasonLevelEntries.filter(
-    (e) => (e.SeasonId ?? 0) === currentFactorSeasonId,
-  );
-  const seasonSample = currentSeasonEntries[0] ?? {};
+  const currentSeasonEntries = seasonLevelEntries
+    .filter((e) => (e.SeasonId ?? 0) === currentFactorSeasonId)
+    .sort((a, b) => a.SeasonLevel - b.SeasonLevel);
   const season = {
     count: currentSeasonEntries.length,
-    levelUpAttr: seasonSample.SeasonLevelUpAttr ?? [],
-    fightValue: seasonSample.SeasonFightValue ?? 0,
-    expNum: seasonSample.SeasonExpNum ?? 0,
+    levels: currentSeasonEntries.map((e) => ({
+      level: e.SeasonLevel,
+      levelUpAttr: e.SeasonLevelUpAttr ?? [],
+      fightValue: e.SeasonFightValue ?? 0,
+    })),
   };
 
   const skillUnlocks = Object.values(playerLevelSkillTable)

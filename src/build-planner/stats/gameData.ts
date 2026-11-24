@@ -101,13 +101,38 @@ export const levelCumulativeData: Array<{
   }
 }
 
-// player-levels.json の season セクション
-export const playerLevelSeasonData = (
-  playerLevelsDataRaw as unknown as {
-    levels: PlayerLevelEntry[];
-    season: { count: number; levelUpAttr: [number, number][]; fightValue: number };
+// player-levels.json の season セクション(シーズンレベル=祈願レベル)。
+// レベル帯によって加算値が変わる(S4: 祈り強度 Lv1〜30 +20/Lv → Lv31以降 +10/Lv)ため、
+// 冒険者レベルと同様にレベル別の累積値を持つ。
+const playerLevelSeasonLevels = (
+  playerLevelsDataRaw as unknown as { season: { levels: PlayerLevelEntry[] } }
+).season.levels;
+
+// seasonLevelCumulativeData[N] = シーズンレベルNまでの累積 levelUpAttr(attrId→値) と能力スコア
+// (index 0 = Lv0 = 加算なし)。attrIdのままにしてあるのはStatIdへの対応表
+// (PHANTOM_LEVEL_ATTR_TO_STAT)を計算側で引くため。
+export const seasonLevelCumulativeData: Array<{
+  attrs: Record<number, number>;
+  fightValue: number;
+}> = [];
+{
+  const cumAttrs: Record<number, number> = {};
+  let cumFV = 0;
+  seasonLevelCumulativeData.push({ attrs: {}, fightValue: 0 });
+  for (const entry of [...playerLevelSeasonLevels].sort((a, b) => a.level - b.level)) {
+    for (const [attrId, val] of entry.levelUpAttr) {
+      cumAttrs[attrId] = (cumAttrs[attrId] ?? 0) + val;
+    }
+    cumFV += entry.fightValue;
+    seasonLevelCumulativeData.push({ attrs: { ...cumAttrs }, fightValue: cumFV });
   }
-).season;
+}
+
+/** シーズンレベル(祈願レベル)Nまでの累積値。範囲外は最大レベルの値に丸める。 */
+export function getSeasonLevelCumulative(level: number) {
+  const idx = Math.max(0, Math.min(Math.floor(level), seasonLevelCumulativeData.length - 1));
+  return seasonLevelCumulativeData[idx];
+}
 
 // ---- module data ----
 // modulesData(生JSONのパース結果)自体は module/moduleData.ts を単一の定義元とし、ここでは
