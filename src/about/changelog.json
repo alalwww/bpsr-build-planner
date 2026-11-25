@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.13.2",
+      "date": "2026-11-25T07:24:19.996Z",
+      "summary": {
+        "ja": "バトルイマジン「幻花の残骸」「蝕花の残影」のパッシブ効果が、ファスト/器用さの%ではなく実数値に加算されていた不具合の修正",
+        "en": "Fix the passive effects of the battle imagines \"Withered Bloomshard\" and \"Erosion Bloom Afterimage\" adding to the Haste/Mastery rating instead of the percentage"
+      },
+      "changes": {
+        "ja": [],
+        "en": []
+      }
+    },
+    {
       "version": "0.13.1",
       "date": "2026-11-24T17:34:52.752Z",
       "summary": {
