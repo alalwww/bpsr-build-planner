@@ -584,10 +584,12 @@ export const IMAGINE_BUF_SPEED: Partial<
 };
 
 // バトルイマジン パッシブ(BuffId参照)のうち、「<ステータス> {p1}pt につき追加で+{p2}、
-// 最大{p3}まで」型の実数値ボーナス(パラメータは [p1, p2, p3])。現在の実数値(%ボーナス・俊敏
-// 変換まで適用済みの最終実数値)に依存するため、calculateRawStatsの最後で実数値確定後に加算する。
+// 最大{p3}まで」型のボーナス(パラメータは [p1, p2, p3])。p2/p3 は実数値ではなく最終%表示値への
+// 直接加算(finalPctAddendと同じ単位: 100 = 1%。例 rank5 [10000,100,1500] = 1万ptごとに+1%、
+// 最大+15%)。判定に使う現在の実数値(%ボーナス・俊敏変換まで適用済みの最終実数値)に依存するため、
+// calculateRawStatsの最後で実数値確定後に加算する。
 // 3210270(幻花の残骸, id 3990): ファスト / 3210280(蝕花の残影, id 3991): 器用さ(S4追加)。
-export const IMAGINE_BUF_RATING_PER_RATING: Partial<Record<number, StatId>> = {
+export const IMAGINE_BUF_PCT_PER_RATING: Partial<Record<number, StatId>> = {
   3210270: 'haste',
   3210280: 'mastery',
 };
