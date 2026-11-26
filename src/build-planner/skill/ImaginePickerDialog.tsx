@@ -109,7 +109,7 @@ function ImaginePickerDialog({
             ))}
           </div>
           <CollapsibleSection
-            className="skill-picker-dialog__filter-block"
+            className="skill-picker-dialog__filter-block filter-panel"
             open={filterExpanded}
             onToggle={() => setFilterExpanded((v) => !v)}
             label={tUi('buildPlanner.imagineFilter.toggle')}

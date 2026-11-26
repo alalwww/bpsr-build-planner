@@ -20,6 +20,20 @@
    grid-template-rows: 0fr→1frのトリックで、JSでの高さ計測なしに可変長コンテンツを
    アニメーションさせる。__body-inner はoverflow:hiddenでgridの自動最小サイズを0にし、
    閉時に完全につぶれるようにする。 */
+/* 絞り込み(装備選択/イマジン選択ダイアログのCollapsibleSection)を、枠+薄い影で少し浮いた
+   パネルとして表示し、候補一覧と見分けやすくする(心相晶のノード効果パネルと同じ方向性)。 */
+.filter-panel {
+  align-self: stretch;
+  box-sizing: border-box;
+  padding: 4px 6px 8px;
+  border: 1px solid #34344a;
+  border-radius: 6px;
+  background: rgba(28, 28, 38, 0.9);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 .collapsible-section__body {
   display: grid;
   grid-template-rows: 0fr;

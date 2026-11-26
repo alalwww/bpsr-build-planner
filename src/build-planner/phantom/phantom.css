@@ -202,11 +202,11 @@
    折りたたみボタンと同様スクロールさせずに固定表示する。
    折りたたみトグル(.phantom-right__collapse-toggle、left:8px、width:24px)が左上に
    絶対配置されているため、左に余白を確保しないと「合計」ラベル等がボタンの背面に
-   隠れてしまう。子要素側のpadding(6px〜10px程度)と合わせてボタンの右端(32px)を
-   避けられるよう、ここでまとめて余白を追加する。 */
+   隠れてしまう。ノード効果は枠線+ドロップシャドウ付きの浮いた枠(.phantom-desc-area)のため、
+   ボタンの右端(32px)から8px空けた位置から枠を始める。 */
 .phantom-right__fixed {
   flex-shrink: 0;
-  padding-left: 30px;
+  padding-left: 40px;
 }
 
 /* ノード設定だけをスクロール領域にする。ノード効果(展開時)の高さ次第では
@@ -237,18 +237,29 @@
   width: 24px;
   height: 24px;
   background: #22222b;
-  border: 1px solid #3a3a45;
+  border: 1px solid #4a4a58;
   border-radius: 4px;
-  color: #8a8a96;
+  color: #a8a8b6;
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
   z-index: 5;
+  /* パネルの開閉ボタンだとわかるよう、薄い影で少し浮かせて強調する */
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .phantom-right__collapse-toggle:hover {
   color: #f4a13a;
-  border-color: #555560;
+  border-color: #5a5a68;
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.6),
+    0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .phantom-right--collapsed .phantom-right__collapse-toggle {
@@ -279,9 +290,20 @@
 }
 
 /* ---- ノード効果エリア ---- */
+/* ノード効果(開閉可能)。下のノード設定(スクロール領域)との区切りがわかるよう、枠+ドロップ
+   シャドウで少し浮いた表示にする(z-indexでスクロールするノード設定より手前に描く)。 */
 .phantom-desc-area {
-  border-bottom: 1px solid #2a2a33;
+  position: relative;
+  z-index: 1;
   flex-shrink: 0;
+  margin: 4px 6px 10px 0;
+  border: 1px solid #34344a;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(24, 24, 32, 0.96);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.55),
+    0 2px 4px rgba(0, 0, 0, 0.35);
   font-size: 13px;
 }
 

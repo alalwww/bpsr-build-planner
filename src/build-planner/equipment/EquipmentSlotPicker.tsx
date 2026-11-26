@@ -567,6 +567,7 @@ function EquipmentSlotPicker({
 
             <div className="equip-details-section">
               <CollapsibleSection
+                className="filter-panel"
                 open={candidateFilterExpanded}
                 onToggle={() => setCandidateFilterExpanded((v) => !v)}
                 label={t('buildPlanner.candidateFilter.toggle')}
