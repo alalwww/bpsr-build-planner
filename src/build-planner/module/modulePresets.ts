@@ -1,46 +1,17 @@
+import type { NamedPreset } from '../components/preset/presetStorage';
 import type { ModuleConfig, ModuleHole, ModuleSlots } from '../types';
 
 // モジュールプリセット: ビルドプラン/自動保存/共有コードとは独立したローカル専用の保存機能。
 // buildAutoSaveState()/applyPlanState()/planCode.ts のいずれにも含めないこと。
 
-export interface ModulePreset {
-  id: string;
-  name: string;
+export interface ModulePreset extends NamedPreset {
   moduleSlots: ModuleSlots;
 }
 
 export const MAX_MODULE_PRESETS = 20;
 export const MAX_MODULE_PRESET_NAME_LENGTH = 100;
 
-const STORAGE_KEY = 'bpsr-module-presets-v1';
-
-// localStorage自体が使えない環境(プライベートブラウジング等)をキー不在と同様に扱う。
-function safeGetItem(key: string): string | null {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-export function loadModulePresets(): ModulePreset[] {
-  const raw = safeGetItem(STORAGE_KEY);
-  if (raw == null) return [];
-  try {
-    const parsed = JSON.parse(raw) as ModulePreset[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-export function persistModulePresets(presets: ModulePreset[]): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(presets));
-  } catch {
-    // quota exceeded or storage unavailable
-  }
-}
+export const MODULE_PRESETS_STORAGE_KEY = 'bpsr-module-presets-v1';
 
 function moduleHoleEqual(a: ModuleHole, b: ModuleHole): boolean {
   return a.effectId === b.effectId && a.linkCount === b.linkCount;

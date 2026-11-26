@@ -217,6 +217,16 @@
       "confirmSwitchMsg": "「{{name}}」に切り替えます。現在の変更は失われます。",
       "nameDuplicate": "同名のプリセットが既に存在します"
     },
+    "affixPreset": {
+      "placeholder": "映痕プリセットを選択",
+      "save": "映痕プリセットを保存",
+      "saveTitle": "映痕プリセットを保存",
+      "defaultName": "映痕プリセット {{n}}",
+      "noPresets": "保存された映痕プリセットはありません",
+      "capReachedMsg": "保存上限({{max}}件)に達しています。不要なプリセットを削除してから保存してください。",
+      "confirmSwitchMsg": "「{{name}}」を適用します。現在の因子レベルと映痕の設定は失われます。",
+      "nameDuplicate": "同名のプリセットが既に存在します"
+    },
     "baseStats": "基礎ステータス",
     "evolutionStats": "進化ステータス",
     "rareStats": "レアステータス",

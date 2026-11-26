@@ -1068,3 +1068,22 @@
   color: #383848;
   cursor: default;
 }
+
+/* 映痕プリセット(因子設定ダイアログのヘッダー右上。共通部分は components/preset/preset.css) */
+.phantom-affix-preset-bar {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.phantom-affix-preset-bar .preset-bar__trigger {
+  min-width: 220px;
+  max-width: 320px;
+}
+
+.phantom-affix-preset-bar__level {
+  display: inline-block;
+  min-width: 2em;
+  margin-right: 8px;
+  color: #4a9af4;
+  font-weight: 600;
+}

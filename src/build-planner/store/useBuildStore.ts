@@ -7,6 +7,7 @@ import { getAutoSaveOnMount } from './autoSaveOnMount';
 import { createEquipmentSlice } from './equipmentSlice';
 import { createModuleSlice } from './moduleSlice';
 import { createModulePresetSlice } from './modulePresetSlice';
+import { createAffixPresetSlice } from './affixPresetSlice';
 import { createPhantomSlice } from './phantomSlice';
 import { createPlanSlice } from './planSlice';
 import { createSkillSlice } from './skillSlice';
@@ -21,6 +22,7 @@ export const useBuildStore = create<BuildStore>()(
     ...createModuleSlice(...a),
     ...createModulePresetSlice(...a),
     ...createPhantomSlice(...a),
+    ...createAffixPresetSlice(...a),
     ...createPlanSlice(...a),
   })),
 );

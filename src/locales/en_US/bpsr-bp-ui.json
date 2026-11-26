@@ -217,6 +217,16 @@
       "confirmSwitchMsg": "Switch to \"{{name}}\"? Your current changes will be lost.",
       "nameDuplicate": "A preset with this name already exists"
     },
+    "affixPreset": {
+      "placeholder": "Select an imprint preset",
+      "save": "Save Imprint Preset",
+      "saveTitle": "Save Imprint Preset",
+      "defaultName": "Imprint Preset {{n}}",
+      "noPresets": "No saved imprint presets",
+      "capReachedMsg": "Reached the save limit ({{max}}). Delete a preset before saving a new one.",
+      "confirmSwitchMsg": "Apply \"{{name}}\"? Your current factor level and imprint settings will be lost.",
+      "nameDuplicate": "A preset with this name already exists"
+    },
     "baseStats": "Base Stats",
     "evolutionStats": "Advanced Attributes",
     "rareStats": "Rare Attributes",

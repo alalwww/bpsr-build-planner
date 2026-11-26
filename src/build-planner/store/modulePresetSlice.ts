@@ -1,9 +1,13 @@
 import type { StateCreator } from 'zustand';
 import {
-  loadModulePresets,
-  persistModulePresets,
-  type ModulePreset,
-} from '../module/modulePresets';
+  addPreset,
+  deletePreset,
+  loadPresets,
+  overwritePreset,
+  persistPresets,
+  renamePreset,
+} from '../components/preset/presetStorage';
+import { MODULE_PRESETS_STORAGE_KEY, type ModulePreset } from '../module/modulePresets';
 import type { BuildStore } from './types';
 
 export interface ModulePresetSlice {
@@ -24,44 +28,37 @@ export const createModulePresetSlice: StateCreator<BuildStore, [], [], ModulePre
   set,
   get,
 ) => {
+  const update = (presets: ModulePreset[], patch: Partial<ModulePresetSlice> = {}) => {
+    persistPresets(MODULE_PRESETS_STORAGE_KEY, presets);
+    set({ modulePresets: presets, ...patch });
+  };
+
   return {
-    modulePresets: loadModulePresets(),
+    modulePresets: loadPresets<ModulePreset>(MODULE_PRESETS_STORAGE_KEY),
     loadedModulePresetId: null,
 
     saveModulePreset: (name) => {
       const state = get();
-      const preset: ModulePreset = {
-        id: crypto.randomUUID(),
-        name,
+      const { presets, added } = addPreset(state.modulePresets, name, {
         moduleSlots: state.moduleSlots,
-      };
-      const next = [preset, ...state.modulePresets];
-      persistModulePresets(next);
-      set({ modulePresets: next, loadedModulePresetId: preset.id });
+      });
+      update(presets, { loadedModulePresetId: added.id });
     },
 
     overwriteModulePreset: (id, name) => {
       const state = get();
-      const next = state.modulePresets.map((p) =>
-        p.id === id ? { ...p, name, moduleSlots: state.moduleSlots } : p,
-      );
-      persistModulePresets(next);
-      set({ modulePresets: next, loadedModulePresetId: id });
+      update(overwritePreset(state.modulePresets, id, name, { moduleSlots: state.moduleSlots }), {
+        loadedModulePresetId: id,
+      });
     },
 
     renameModulePreset: (id, newName) => {
-      const state = get();
-      const next = state.modulePresets.map((p) => (p.id === id ? { ...p, name: newName } : p));
-      persistModulePresets(next);
-      set({ modulePresets: next });
+      update(renamePreset(get().modulePresets, id, newName));
     },
 
     deleteModulePreset: (id) => {
       const state = get();
-      const next = state.modulePresets.filter((p) => p.id !== id);
-      persistModulePresets(next);
-      set({
-        modulePresets: next,
+      update(deletePreset(state.modulePresets, id), {
         loadedModulePresetId: state.loadedModulePresetId === id ? null : state.loadedModulePresetId,
       });
     },

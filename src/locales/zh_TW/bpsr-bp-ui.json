@@ -217,6 +217,16 @@
       "confirmSwitchMsg": "將切換到「{{name}}」，目前的變更將遺失。",
       "nameDuplicate": "已存在同名的預設"
     },
+    "affixPreset": {
+      "placeholder": "選擇映痕預設",
+      "save": "保存映痕預設",
+      "saveTitle": "保存映痕預設",
+      "defaultName": "映痕預設 {{n}}",
+      "noPresets": "尚無已保存的映痕預設",
+      "capReachedMsg": "已達到保存上限({{max}}個)。請先刪除不需要的預設後再保存。",
+      "confirmSwitchMsg": "將套用「{{name}}」，目前的因子等級與映痕設定將遺失。",
+      "nameDuplicate": "已存在同名的預設"
+    },
     "baseStats": "基礎屬性",
     "evolutionStats": "進化屬性",
     "rareStats": "稀有屬性",

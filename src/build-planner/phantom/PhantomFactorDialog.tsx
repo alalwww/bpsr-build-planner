@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import DraggableDialog from '../components/DraggableDialog';
+import AffixPresetBar from './AffixPresetBar';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import type { PhantomAffixValue, PhantomFactorSlotValue } from './phantomData';
 import { MAX_FACTOR_LEVEL } from './phantomData';
@@ -120,6 +121,9 @@ export default function PhantomFactorDialog({
         title={t('buildPlanner.phantom.factorDialogTitle', { slot: slotName })}
         onClose={onClose}
         className="phantom-factor-dialog"
+        headerExtra={
+          <AffixPresetBar current={current} onApply={(factor) => onSet(groupId, factor)} />
+        }
       >
         <div className="equipment-dialog__columns">
           <div className="equipment-dialog__col-left">

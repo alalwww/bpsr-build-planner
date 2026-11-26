@@ -1,3 +1,4 @@
+import type { AffixPresetSlice } from './affixPresetSlice';
 import type { EquipmentSlice } from './equipmentSlice';
 import type { ModuleSlice } from './moduleSlice';
 import type { ModulePresetSlice } from './modulePresetSlice';
@@ -12,4 +13,5 @@ export type BuildStore = EquipmentSlice &
   ModuleSlice &
   ModulePresetSlice &
   PhantomSlice &
+  AffixPresetSlice &
   PlanSlice;
