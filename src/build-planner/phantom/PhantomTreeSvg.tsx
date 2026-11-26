@@ -27,6 +27,10 @@ const NODE_SIZE = {
   empty: u(28),
 };
 
+// ズーム100%時の表示倍率。以前の100%表示は大きく操作しづらかったため、以前の80%の見た目を
+// 新しい100%とする(ズーム値とは独立に掛けるため、ズームの範囲・刻みはそのまま)。
+const TREE_BASE_DISPLAY_SCALE = 0.8;
+
 // ---- レイアウト定数 (100%ズーム時に基本サイズの2倍) ----
 const ROW_H = 140;
 const SVG_VW = 480;
@@ -251,8 +255,8 @@ export default function PhantomTreeSvg({
   return (
     <svg
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      width={svgWidth * zoom}
-      height={svgHeight * zoom}
+      width={svgWidth * zoom * TREE_BASE_DISPLAY_SCALE}
+      height={svgHeight * zoom * TREE_BASE_DISPLAY_SCALE}
       className="phantom-tree-svg"
     >
       <defs>
