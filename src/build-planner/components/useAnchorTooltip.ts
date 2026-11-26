@@ -21,7 +21,20 @@ const CLOSE_DELAY = 120;
 // 呼ぶこと。表示待ち(pending)中にopenが呼ばれると、都度cancelOpenでタイマーを破棄して
 // 最新位置で再スケジュールするため、動き続けている間は表示されない。既に表示中(isSame)
 // なら遅延なく位置が更新される。
-export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) => boolean) {
+export interface AnchorTooltipOptions {
+  /** ホバー解除から閉じるまでの猶予(ms)。既定は CLOSE_DELAY。 */
+  closeDelay?: number;
+  /** true にすると、hover intent で別の対象へ切り替わる際、新しい対象の表示待ちの間も
+   * 表示中のツールチップを消さずに残す(ツールチップへ向かう途中で他の対象の上を
+   * 横切っても消えないようにする。ツールチップに入ったら hold で切り替え待ちを破棄する)。 */
+  keepWhileSwitching?: boolean;
+}
+
+export function useAnchorTooltip<T>(
+  hoverDelay = 0,
+  isSameState?: (a: T, b: T) => boolean,
+  { closeDelay = CLOSE_DELAY, keepWhileSwitching = false }: AnchorTooltipOptions = {},
+) {
   const [tooltip, setTooltip] = useState<T | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -45,7 +58,7 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
     cancelOpen();
     const isSame = tooltip !== null && (isSameState?.(tooltip, state) ?? false);
     if (hoverDelay > 0 && !isSame) {
-      if (tooltip !== null) setTooltip(null);
+      if (tooltip !== null && !keepWhileSwitching) setTooltip(null);
       openTimerRef.current = setTimeout(() => {
         openTimerRef.current = null;
         setTooltip(state);
@@ -66,7 +79,14 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
   const scheduleClose = () => {
     cancelOpen();
     cancelClose();
-    closeTimerRef.current = setTimeout(() => setTooltip(null), CLOSE_DELAY);
+    closeTimerRef.current = setTimeout(() => setTooltip(null), closeDelay);
+  };
+
+  // ツールチップ本体にマウスが入ったときに使う: 閉じる予約と、別の対象への切り替え待ちの
+  // 両方を破棄して、表示中のツールチップをそのまま保つ。
+  const hold = () => {
+    cancelClose();
+    cancelOpen();
   };
 
   const close = () => {
@@ -75,5 +95,5 @@ export function useAnchorTooltip<T>(hoverDelay = 0, isSameState?: (a: T, b: T) =
     setTooltip(null);
   };
 
-  return { tooltip, open, openImmediate, cancelClose, scheduleClose, close };
+  return { tooltip, open, openImmediate, cancelClose, hold, scheduleClose, close };
 }

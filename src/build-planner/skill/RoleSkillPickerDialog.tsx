@@ -34,11 +34,14 @@ function RoleSkillPickerDialog({
   const {
     tooltip: hoverTooltip,
     open: openHover,
-    cancelClose: cancelHoverClose,
+    hold: holdHover,
     scheduleClose: hideHover,
   } = useAnchorTooltip<{ skillId: number; x: number; y: number; align: 'right' | 'left' }>(
     500,
     (a, b) => a.skillId === b.skillId,
+    // ツールチップ内のランク/Lv切り替えを操作しやすいよう、閉じるまでの猶予を長めにし、
+    // ツールチップへ向かう途中で他の候補の上を横切っても表示中のツールチップを消さない。
+    { closeDelay: 400, keepWhileSwitching: true },
   ); // 別スキルへの切り替えは一旦閉じて0.5秒待たせるhover intent
 
   const showHover = (id: number, e: React.MouseEvent) => {
@@ -130,7 +133,7 @@ function RoleSkillPickerDialog({
               align: hoverTooltip.align,
               pinned: false,
             }}
-            onMouseEnter={cancelHoverClose}
+            onMouseEnter={holdHover}
             onMouseLeave={hideHover}
             // ロールイマジンはツールチップ内でもLvを切り替えられ、ダイアログのLvと連動する
             // (Lvを持たない基本スキルでは切り替えを表示しない)。
