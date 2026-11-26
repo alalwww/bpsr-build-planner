@@ -6,6 +6,7 @@ import {
   getUnlockLevel,
   hasLegacyPhantomData,
   isTemplateLegacy,
+  sortTreeStepsByUnlockLevel,
   stData,
 } from './phantomData';
 
@@ -97,5 +98,29 @@ describe('hasLegacyPhantomData / isTemplateLegacy', () => {
 describe('getDefaultFactorLevel', () => {
   it('is fixed at G2 (not linked to the season schedule)', () => {
     expect(getDefaultFactorLevel()).toBe(2);
+  });
+});
+
+describe('sortTreeStepsByUnlockLevel', () => {
+  const stepLevel = (nodeIds: number[]) =>
+    Math.min(...nodeIds.map((id) => getUnlockLevel(stData.treeNodes[String(id)].unlockCondition)));
+
+  it('orders every template by unlock level while keeping all steps', () => {
+    for (const [tid, tmpl] of Object.entries(stData.templates)) {
+      const steps = buildTreeSteps(tmpl.rootNodeId, Number(tid));
+      const sorted = sortTreeStepsByUnlockLevel(steps);
+      expect(sorted).toHaveLength(steps.length);
+      expect(new Set(sorted)).toEqual(new Set(steps));
+      const levels = sorted.map((s) => stepLevel(s.nodeIds));
+      expect(levels).toEqual([...levels].sort((a, b) => a - b));
+      expect(sorted[0]).toBe(steps[0]); // ルートは先頭のまま
+    }
+  });
+
+  it('puts the Lv35 choice factor before the Lv40 solo factor (template 9)', () => {
+    const tmpl = stData.templates['9'];
+    const sorted = sortTreeStepsByUnlockLevel(buildTreeSteps(tmpl.rootNodeId, 9));
+    const idx = (id: number) => sorted.findIndex((s) => s.nodeIds.includes(id));
+    expect(idx(253)).toBeLessThan(idx(252));
   });
 });

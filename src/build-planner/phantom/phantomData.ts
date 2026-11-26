@@ -261,6 +261,25 @@ export function buildTreeSteps(rootId: number, templateId: number): TreeStep[] {
   return steps;
 }
 
+// buildTreeSteps の行を開放Lv(行内ノードの最小値)の昇順に並べ替える(同Lvは元の順を保つ)。
+// buildTreeSteps はツリーを親→子の深さ順にたどるため、同じ親の兄弟の順はゲームデータの記述順に
+// なり、開放Lvの順と一致しないことがある(例: Lv40の単独因子がLv35の選択式因子より先)。
+// ノード設定一覧・効果一覧等の表示順とノード番号はこの順にする。保存データはノードIDで
+// 持つため行の順に依存しない。ツリー図の座標がテンプレートから取れない場合の簡易レイアウト
+// (PhantomTreeSvg)は親子の並びを前提にするため、元の buildTreeSteps の順を使う。
+export function sortTreeStepsByUnlockLevel(steps: TreeStep[]): TreeStep[] {
+  const stepLevel = (step: TreeStep) =>
+    Math.min(
+      ...step.nodeIds.map((id) =>
+        getUnlockLevel(stData.treeNodes[String(id)]?.unlockCondition ?? []),
+      ),
+    );
+  return steps
+    .map((step, i) => ({ step, i, level: stepLevel(step) }))
+    .sort((a, b) => a.level - b.level || a.i - b.i)
+    .map(({ step }) => step);
+}
+
 // ---- compute active node ids ----
 
 export function getActivePhantomNodeIds(

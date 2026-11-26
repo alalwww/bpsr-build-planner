@@ -5,6 +5,7 @@ import './phantom.css';
 import type { TreeStep } from './phantomData';
 import {
   buildTreeSteps,
+  sortTreeStepsByUnlockLevel,
   getActivePhantomNodeIds,
   getSTAsset,
   getUnlockLevel,
@@ -165,6 +166,8 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
     if (!tmpl) return [];
     return buildTreeSteps(tmpl.rootNodeId, phantomTemplateId);
   }, [phantomTemplateId]);
+  // 表示用(ノード設定一覧・効果一覧)の行順。開放Lv順に並べ、ノード番号もこの順で振る。
+  const displayTreeSteps = useMemo(() => sortTreeStepsByUnlockLevel(treeSteps), [treeSteps]);
 
   const activeNodeIds = useMemo(() => {
     if (phantomTemplateId == null) return new Set<number>();
@@ -348,7 +351,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
                 <div className="phantom-right__scroll">
                   {/* ノード設定 */}
                   <PhantomNodeConfig
-                    treeSteps={treeSteps}
+                    treeSteps={displayTreeSteps}
                     activeNodeIds={activeNodeIds}
                     levelUnlockedNodeIds={levelUnlockedNodeIds}
                     selectedNodeId={selectedNodeId}
@@ -374,7 +377,7 @@ export default function PhantomPanel({ professionKey }: PhantomPanelProps) {
           phantomLevel={phantomLevel}
           phantomNodeSelections={phantomNodeSelections}
           phantomFactorSlots={phantomFactorSlots}
-          treeSteps={treeSteps}
+          treeSteps={displayTreeSteps}
           activeNodeIds={activeNodeIds}
           levelUnlockedNodeIds={levelUnlockedNodeIds}
           professionId={professionId}
