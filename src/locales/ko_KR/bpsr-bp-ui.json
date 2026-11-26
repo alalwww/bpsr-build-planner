@@ -438,6 +438,8 @@
       "factorDialogTitle": "인자 설정 - {{slot}}",
       "factorSelect": "인자",
       "factorLevel": "인자 레벨",
+      "affixLossOnLevelDownMsg": "인자 레벨을 G{{level}}(으)로 낮추면 영흔 {{count}}개가 해제됩니다. 변경하시겠습니까?",
+      "affixLossOnLevelDownConfirm": "변경",
       "factorEffect": "인자 효과",
       "affixHeading": "영흔",
       "affixNeedFactor": "인자를 선택하면 영흔을 설정할 수 있습니다.",

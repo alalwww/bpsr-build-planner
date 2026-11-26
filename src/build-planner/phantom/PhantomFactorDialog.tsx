@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { renderMarkup } from '../components/renderMarkup';
+import ConfirmDialog from '../components/ConfirmDialog';
 import DraggableDialog from '../components/DraggableDialog';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import type { PhantomAffixValue, PhantomFactorSlotValue } from './phantomData';
@@ -14,6 +15,7 @@ import {
   affixValueToInput,
   affixWithQuality,
   clampAffixValue,
+  countAffixesLostByLevelChange,
   defaultAffixValue,
   formatAffixValue,
   getActiveAffixEffects,
@@ -83,9 +85,20 @@ export default function PhantomFactorDialog({
   const slotIcon = getNodeIcon(groupId, 2);
   const factorIcon = current ? getFactorIcon(current.classKey) : '';
 
+  // レベルを下げて映痕が外れる場合は確認ダイアログを挟む(確認待ちのレベルと外れる数)。
+  const [pendingLevelDown, setPendingLevelDown] = useState<{ level: number; lost: number } | null>(
+    null,
+  );
+
   const setLevel = (g: number) => {
-    if (current) onSet(groupId, withFactorLevel(current, g));
-    else onPendingLevelChange(g);
+    if (!current) {
+      onPendingLevelChange(g);
+      return;
+    }
+    if (g === current.grade) return;
+    const lost = countAffixesLostByLevelChange(current, g);
+    if (lost > 0) setPendingLevelDown({ level: g, lost });
+    else onSet(groupId, withFactorLevel(current, g));
   };
 
   const setAffix = (index: number, affix: PhantomAffixValue | null) => {
@@ -102,122 +115,143 @@ export default function PhantomFactorDialog({
   const affixEffects = getActiveAffixEffects(current);
 
   return (
-    <DraggableDialog
-      title={t('buildPlanner.phantom.factorDialogTitle', { slot: slotName })}
-      onClose={onClose}
-      className="phantom-factor-dialog"
-    >
-      <div className="equipment-dialog__columns">
-        <div className="equipment-dialog__col-left">
-          <div className="phantom-factor-dialog__preview">
-            {slotIcon && <img className="phantom-factor-dialog__slot-icon" src={slotIcon} alt="" />}
-            {factorIcon && (
-              <img className="phantom-factor-dialog__factor-icon" src={factorIcon} alt="" />
-            )}
-            <div className="phantom-factor-dialog__preview-text">
-              <span className="phantom-factor-dialog__slot-name">{slotName}</span>
-              <span className="phantom-factor-dialog__factor-name">
-                {current
-                  ? `${factorBaseName(tg, current.classKey)} G${current.grade}`
-                  : t('buildPlanner.phantom.factorUnequipped')}
-              </span>
+    <>
+      <DraggableDialog
+        title={t('buildPlanner.phantom.factorDialogTitle', { slot: slotName })}
+        onClose={onClose}
+        className="phantom-factor-dialog"
+      >
+        <div className="equipment-dialog__columns">
+          <div className="equipment-dialog__col-left">
+            <div className="phantom-factor-dialog__preview">
+              {slotIcon && (
+                <img className="phantom-factor-dialog__slot-icon" src={slotIcon} alt="" />
+              )}
+              {factorIcon && (
+                <img className="phantom-factor-dialog__factor-icon" src={factorIcon} alt="" />
+              )}
+              <div className="phantom-factor-dialog__preview-text">
+                <span className="phantom-factor-dialog__slot-name">{slotName}</span>
+                <span className="phantom-factor-dialog__factor-name">
+                  {current
+                    ? `${factorBaseName(tg, current.classKey)} G${current.grade}`
+                    : t('buildPlanner.phantom.factorUnequipped')}
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div className="equip-details-section">
-            <label className="equipment-dialog__label">
-              {t('buildPlanner.phantom.factorSelect')}
-            </label>
-            <CustomDropdown
-              className="phantom-factor-dropdown"
-              options={factorOptions}
-              value={current?.classKey ?? ''}
-              placeholder={t('buildPlanner.phantom.factorUnequipped')}
-              onChange={(v) => onSet(groupId, v === '' ? null : withFactorClass(current, v, level))}
-            />
-          </div>
-
-          <div className="equip-details-section">
-            <label className="equipment-dialog__label">
-              {t('buildPlanner.phantom.factorLevel')}
-            </label>
-            <div className="phantom-factor-dialog__levels" role="radiogroup">
-              {Array.from({ length: MAX_FACTOR_LEVEL }, (_, i) => i + 1).map((g) => (
-                <button
-                  key={g}
-                  type="button"
-                  role="radio"
-                  aria-checked={g === level}
-                  className={`phantom-factor-dialog__level${g === level ? ' phantom-factor-dialog__level--active' : ''}`}
-                  onClick={() => setLevel(g)}
-                >
-                  G{g}
-                </button>
-              ))}
+            <div className="equip-details-section">
+              <label className="equipment-dialog__label">
+                {t('buildPlanner.phantom.factorSelect')}
+              </label>
+              <CustomDropdown
+                className="phantom-factor-dropdown"
+                options={factorOptions}
+                value={current?.classKey ?? ''}
+                placeholder={t('buildPlanner.phantom.factorUnequipped')}
+                onChange={(v) =>
+                  onSet(groupId, v === '' ? null : withFactorClass(current, v, level))
+                }
+              />
             </div>
-          </div>
 
-          <section className="equip-details-section">
-            <h3 className="equip-details-section__heading">
-              {t('buildPlanner.phantom.factorEffect')}
-            </h3>
-            <p className="phantom-factor-dialog__desc">
-              {current
-                ? renderMarkup(getFactorEffectMarkup(tg, current.classKey, current.grade))
-                : '---'}
-            </p>
-          </section>
-
-          <section className="equip-details-section">
-            <h3 className="equip-details-section__heading">
-              {t('buildPlanner.phantom.affixEffect')}
-            </h3>
-            {affixEffects.length > 0 ? (
-              <ul className="phantom-factor-dialog__affix-effects">
-                {affixEffects.map((a) => (
-                  <li key={a.group}>{renderMarkup(affixEffectMarkup(tg, a))}</li>
+            <div className="equip-details-section">
+              <label className="equipment-dialog__label">
+                {t('buildPlanner.phantom.factorLevel')}
+              </label>
+              <div className="phantom-factor-dialog__levels" role="radiogroup">
+                {Array.from({ length: MAX_FACTOR_LEVEL }, (_, i) => i + 1).map((g) => (
+                  <button
+                    key={g}
+                    type="button"
+                    role="radio"
+                    aria-checked={g === level}
+                    className={`phantom-factor-dialog__level${g === level ? ' phantom-factor-dialog__level--active' : ''}`}
+                    onClick={() => setLevel(g)}
+                  >
+                    G{g}
+                  </button>
                 ))}
-              </ul>
-            ) : (
-              <p className="phantom-factor-dialog__placeholder">---</p>
-            )}
-          </section>
-        </div>
+              </div>
+            </div>
 
-        <div className="equipment-dialog__col-center">
-          <section className="equip-details-section">
-            <h3 className="equip-details-section__heading">
-              {t('buildPlanner.phantom.affixHeading')}
-            </h3>
-            {!current && (
-              <p className="phantom-factor-dialog__placeholder">
-                {t('buildPlanner.phantom.affixNeedFactor')}
+            <section className="equip-details-section">
+              <h3 className="equip-details-section__heading">
+                {t('buildPlanner.phantom.factorEffect')}
+              </h3>
+              <p className="phantom-factor-dialog__desc">
+                {current
+                  ? renderMarkup(getFactorEffectMarkup(tg, current.classKey, current.grade))
+                  : '---'}
               </p>
-            )}
-          </section>
-          {current &&
-            Array.from({ length: maxSlotCount }, (_, i) => {
-              // 未開放のスロットに残っている映痕は表示しない(レベル変更時に詰め直し済み)。
-              const affix = i < embedSlots.length ? (current.affixes?.[i] ?? null) : null;
-              return (
-                <AffixSlotEditor
-                  key={`${current.classKey}-${current.grade}-${i}`}
-                  tg={tg}
-                  index={i}
-                  slotTypes={embedSlots[i]}
-                  unlockLevel={getSlotUnlockLevel(current.classKey, i)}
-                  nonStackingDuplicate={
-                    affix != null && duplicatedNonStackingGroups.has(affix.group)
-                  }
-                  affix={affix}
-                  professionId={professionId}
-                  onChange={(next) => setAffix(i, next)}
-                />
-              );
-            })}
+            </section>
+
+            <section className="equip-details-section">
+              <h3 className="equip-details-section__heading">
+                {t('buildPlanner.phantom.affixEffect')}
+              </h3>
+              {affixEffects.length > 0 ? (
+                <ul className="phantom-factor-dialog__affix-effects">
+                  {affixEffects.map((a) => (
+                    <li key={a.group}>{renderMarkup(affixEffectMarkup(tg, a))}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="phantom-factor-dialog__placeholder">---</p>
+              )}
+            </section>
+          </div>
+
+          <div className="equipment-dialog__col-center">
+            <section className="equip-details-section">
+              <h3 className="equip-details-section__heading">
+                {t('buildPlanner.phantom.affixHeading')}
+              </h3>
+              {!current && (
+                <p className="phantom-factor-dialog__placeholder">
+                  {t('buildPlanner.phantom.affixNeedFactor')}
+                </p>
+              )}
+            </section>
+            {current &&
+              Array.from({ length: maxSlotCount }, (_, i) => {
+                // 未開放のスロットに残っている映痕は表示しない(レベル変更時に詰め直し済み)。
+                const affix = i < embedSlots.length ? (current.affixes?.[i] ?? null) : null;
+                return (
+                  <AffixSlotEditor
+                    key={`${current.classKey}-${current.grade}-${i}`}
+                    tg={tg}
+                    index={i}
+                    slotTypes={embedSlots[i]}
+                    unlockLevel={getSlotUnlockLevel(current.classKey, i)}
+                    nonStackingDuplicate={
+                      affix != null && duplicatedNonStackingGroups.has(affix.group)
+                    }
+                    affix={affix}
+                    professionId={professionId}
+                    onChange={(next) => setAffix(i, next)}
+                  />
+                );
+              })}
+          </div>
         </div>
-      </div>
-    </DraggableDialog>
+      </DraggableDialog>
+      {pendingLevelDown && current && (
+        <ConfirmDialog
+          message={t('buildPlanner.phantom.affixLossOnLevelDownMsg', {
+            level: pendingLevelDown.level,
+            count: pendingLevelDown.lost,
+          })}
+          confirmLabel={t('buildPlanner.phantom.affixLossOnLevelDownConfirm')}
+          onConfirm={() => {
+            onSet(groupId, withFactorLevel(current, pendingLevelDown.level));
+            setPendingLevelDown(null);
+          }}
+          cancelLabel={t('buildPlanner.confirmCancel')}
+          onCancel={() => setPendingLevelDown(null)}
+        />
+      )}
+    </>
   );
 }
 

@@ -375,12 +375,48 @@ export function factorWithAffixes(
   return trimmed ? { classKey, grade, affixes: trimmed } : { classKey, grade };
 }
 
-// 因子のレベルを変更する(映痕をスロット構成に合わせて詰め直す)。
+// 映痕をスロット番号の若い順に、移行先で「空いている、種類の合う」最も若いスロットへ順番に入れる。
+// 収まらない映痕は外れる。レベルを下げる際に使う(fitAffixesToSlots は元の位置に合うものを
+// 優先して残すため、G3→G2 で若いスロットの映痕が後ろの映痕に押し出されることがある)。
+export function packAffixesInOrder(
+  affixes: readonly (PhantomAffixValue | null)[] | undefined,
+  slots: number[][],
+): (PhantomAffixValue | null)[] {
+  const result: (PhantomAffixValue | null)[] = slots.map(() => null);
+  for (const affix of affixes ?? []) {
+    if (!affix) continue;
+    const type = getAffixGroup(affix.group)?.affixType;
+    if (type == null) continue;
+    const i = result.findIndex((v, idx) => v == null && slots[idx].includes(type));
+    if (i >= 0) result[i] = affix;
+  }
+  return result;
+}
+
+// 因子のレベルを変更する(映痕をスロット構成に合わせて詰め直す)。レベルを下げる場合は
+// スロット番号の若い映痕から順に、移行先の若いスロットへ詰める(packAffixesInOrder)。
 export function withFactorLevel(
   factor: PhantomFactorSlotValue,
   grade: number,
 ): PhantomFactorSlotValue {
+  if (grade < factor.grade) {
+    const active = getActiveAffixes(factor);
+    return factorWithAffixes(
+      factor.classKey,
+      grade,
+      packAffixesInOrder(active, getEmbedSlots(factor.classKey, grade)),
+    );
+  }
   return withFactorClass(factor, factor.classKey, grade);
+}
+
+// 因子のレベルを変更したときに外れる映痕の数(確認ダイアログ用)。
+export function countAffixesLostByLevelChange(
+  factor: PhantomFactorSlotValue | null | undefined,
+  grade: number,
+): number {
+  if (!factor) return 0;
+  return getActiveAffixes(factor).length - getActiveAffixes(withFactorLevel(factor, grade)).length;
 }
 
 // 因子の種類を変更する(映痕はできるだけ引き継ぐ)。

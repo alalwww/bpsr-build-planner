@@ -4,7 +4,11 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import Stepper from '../components/Stepper';
 import FactorSlot from './FactorSlot';
 import PhantomFactorDialog from './PhantomFactorDialog';
-import { getDuplicatedNonStackingGroups, withFactorLevel } from './phantomAffixData';
+import {
+  countAffixesLostByLevelChange,
+  getDuplicatedNonStackingGroups,
+  withFactorLevel,
+} from './phantomAffixData';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
 import {
   getActivePhantomNodeIds,
@@ -144,7 +148,22 @@ export default function PhantomNodeConfig({
   // 一括変更時は、画面に見えている因子スロットすべてを個々の現在値を無視してこの値に
   // 統一する(装着済みは store 経由、未装着は pendingLevels 経由)。相対的な差分ではなく
   // 絶対値での統一である点に注意。
+  // 一括でレベルを下げて映痕が外れる因子がある場合は確認ダイアログを挟む(確認待ちのレベルと外れる数の合計)。
+  const [pendingBulkLevelDown, setPendingBulkLevelDown] = useState<{
+    level: number;
+    lost: number;
+  } | null>(null);
+
   const handleBulkLevelChange = (newValue: number) => {
+    const lost = visibleFactorGroupIds.reduce(
+      (sum, gid) => sum + countAffixesLostByLevelChange(phantomFactorSlots[gid], newValue),
+      0,
+    );
+    if (lost > 0) setPendingBulkLevelDown({ level: newValue, lost });
+    else applyBulkLevel(newValue);
+  };
+
+  const applyBulkLevel = (newValue: number) => {
     setBulkLevel(newValue);
     for (const gid of visibleFactorGroupIds) {
       const current = phantomFactorSlots[gid] ?? null;
@@ -411,6 +430,21 @@ export default function PhantomNodeConfig({
           }}
           cancelLabel={t('buildPlanner.confirmCancel', { defaultValue: 'キャンセル' })}
           onCancel={() => setPendingFactorSwap(null)}
+        />
+      )}
+      {pendingBulkLevelDown && (
+        <ConfirmDialog
+          message={t('buildPlanner.phantom.affixLossOnLevelDownMsg', {
+            level: pendingBulkLevelDown.level,
+            count: pendingBulkLevelDown.lost,
+          })}
+          confirmLabel={t('buildPlanner.phantom.affixLossOnLevelDownConfirm')}
+          onConfirm={() => {
+            applyBulkLevel(pendingBulkLevelDown.level);
+            setPendingBulkLevelDown(null);
+          }}
+          cancelLabel={t('buildPlanner.confirmCancel')}
+          onCancel={() => setPendingBulkLevelDown(null)}
         />
       )}
     </div>

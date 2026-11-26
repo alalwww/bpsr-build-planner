@@ -438,6 +438,8 @@
       "factorDialogTitle": "因子の設定 - {{slot}}",
       "factorSelect": "因子",
       "factorLevel": "因子レベル",
+      "affixLossOnLevelDownMsg": "因子レベルをG{{level}}に下げると、映痕が{{count}}個外れます。変更しますか？",
+      "affixLossOnLevelDownConfirm": "変更する",
       "factorEffect": "因子の効果",
       "affixHeading": "映痕",
       "affixNeedFactor": "因子を選択すると映痕を設定できます。",

@@ -438,6 +438,8 @@
       "factorDialogTitle": "Factor Settings - {{slot}}",
       "factorSelect": "Factor",
       "factorLevel": "Factor Level",
+      "affixLossOnLevelDownMsg": "Lowering the factor level to G{{level}} will remove {{count}} imprint(s). Change the level?",
+      "affixLossOnLevelDownConfirm": "Change",
       "factorEffect": "Factor Effect",
       "affixHeading": "Imprints",
       "affixNeedFactor": "Select a factor to set imprints.",

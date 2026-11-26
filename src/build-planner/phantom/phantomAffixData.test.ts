@@ -10,6 +10,7 @@ import {
   affixEffectText,
   aggregateAffixEffects,
   clampAffixValue,
+  countAffixesLostByLevelChange,
   defaultAffixValue,
   fitAffixesToSlots,
   FLAT_CLASS_AFFIX_BUFF_IDS,
@@ -104,6 +105,43 @@ describe('レベル変更時の映痕の詰め直し', () => {
       1,
     );
     expect(next).toEqual({ classKey: '4001', grade: 1, affixes: [CRIT, SB_CLASS] });
+  });
+
+  it('G3→G2: スロット番号の若い映痕から順に、移行先の若いスロットへ詰める', () => {
+    const CRIT2 = { ...CRIT, value: 300 };
+    const SB_CLASS2 = { ...SB_CLASS, value: 200 };
+    const next = withFactorLevel(
+      { classKey: '4001', grade: 3, affixes: [CRIT, CRIT2, SB_CLASS, SB_CLASS2] },
+      2,
+    );
+    // G2: [ステータス, クラス, ステータス/クラス]。スロット2(ステータス)はスロット3(兼用)へ移り、
+    // スロット4(クラス)が外れる。
+    expect(next).toEqual({ classKey: '4001', grade: 2, affixes: [CRIT, SB_CLASS, CRIT2] });
+    expect(
+      countAffixesLostByLevelChange(
+        { classKey: '4001', grade: 3, affixes: [CRIT, CRIT2, SB_CLASS, SB_CLASS2] },
+        2,
+      ),
+    ).toBe(1);
+  });
+
+  it('G3→G2: 若いスロットが空なら後ろのスロットの映痕を繰り上げる', () => {
+    expect(
+      withFactorLevel({ classKey: '4001', grade: 3, affixes: [null, CRIT, null, SB_CLASS] }, 2),
+    ).toEqual({ classKey: '4001', grade: 2, affixes: [CRIT, SB_CLASS] });
+  });
+
+  it('G2→G1: 兼用スロットの映痕は空いている合うスロットへ移る', () => {
+    expect(
+      withFactorLevel({ classKey: '4001', grade: 2, affixes: [null, SB_CLASS, CRIT] }, 1),
+    ).toEqual({ classKey: '4001', grade: 1, affixes: [CRIT, SB_CLASS] });
+  });
+
+  it('レベルを上げる場合や収まる場合は外れる映痕の数は0', () => {
+    const factor = { classKey: '4001', grade: 2, affixes: [CRIT, SB_CLASS] };
+    expect(countAffixesLostByLevelChange(factor, 3)).toBe(0);
+    expect(countAffixesLostByLevelChange(factor, 1)).toBe(0);
+    expect(countAffixesLostByLevelChange(null, 1)).toBe(0);
   });
 
   it('映痕が無くなった場合は affixes を持たない', () => {
