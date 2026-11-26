@@ -176,15 +176,6 @@ const IMAGINE_EFFECT_VALUE_MAP = {
   3980: { 1: ['attr', 'percent'] },
 };
 
-// 英語版の SkillAttrDes は一部イマジンで行構成が日本語版と異なる(変身持続時間などの
-// 行が追加されている)ため、該当イマジンのみ行indexを英語版に合わせて差し替える。
-// 未確認: 英語版のみ存在する「Transformation Duration」行(ルーシィ/ナツ)は
-// 値の出所となるデータが見つかっておらず、空値=非表示のまま(日本語版には行自体なし)。
-const IMAGINE_EFFECT_VALUE_MAP_EN_OVERRIDES = {
-  3982: { 8: ['attrA', 'percent'], 9: ['attrB', 'percent'], 10: ['attrC', 'percent'] },
-  3983: { 0: ['attr', 'percent'], 11: ['attrA', 'percent'], 12: ['attrB', 'percent'] },
-};
-
 // AttrDescription.json のテキストから表示名を抽出する。
 // "幸運の一撃のダメージ+{*Decision.unmarkpercent(1)*}" → "幸運の一撃のダメージ"
 // "ダメージ系のマスタリースキルが魔法増強を{*...*}上昇させる" → "ダメージ系のマスタリースキルが魔法増強を上昇させる"
@@ -521,7 +512,7 @@ export function extractLocaleText(
     };
 
     const tokenRe =
-      /\{\*skillpara\.damageMerge\(\{([^}]+)},\{([^}]+)},"([^"]+)","([^"]+)"\)\*}|\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*}/g;
+      /\{\*skillpara\.damageMerge\(\{([^}]+)},\s*\{([^}]+)},\s*"([^"]+)",\s*"([^"]+)"\)\*}|\{\*skillpara\.effect\("([^"]+)",\s*"([^"]+)"\)\*}/g;
     let last = 0;
     let m;
     while ((m = tokenRe.exec(formula)) !== null) {
@@ -992,7 +983,7 @@ export function extractLocaleText(
     // counts は ids と同順のヒット数で、合計値 = Σ value(id_i) × count_i
     // (フロストオーガ 10ヒット+1ヒット等でゲーム内表示と一致することを確認済み)。
     result = result.replace(
-      /\{\*skillpara\.damageMerge\(\{([^}]+)},\{([^}]+)},"([^"]+)","([^"]+)"\)\*}/g,
+      /\{\*skillpara\.damageMerge\(\{([^}]+)},\s*\{([^}]+)},\s*"([^"]+)",\s*"([^"]+)"\)\*}/g,
       (_, idsStr, countsStr, fieldName, format) => {
         const ids = idsStr.split(',').map((s) => s.trim());
         const counts = countsStr.split(',').map((s) => Number(s.trim()));
@@ -1017,7 +1008,7 @@ export function extractLocaleText(
     // value = SkillFightLevelTable[effectId].FloatParameter["key"]
     //       + SkillAoyiStarTable[aoyiId][rank].FloatParameter["key"]  (rank>0 のみ)
     result = result.replace(
-      /\{\*skillpara\.effect\("([^"]+)","([^"]+)"\)\*}/g,
+      /\{\*skillpara\.effect\("([^"]+)",\s*"([^"]+)"\)\*}/g,
       (_, key, format) => {
         const base = fightLvlFloatPar[String(effectId)]?.[key] ?? 0;
         const increment = rank > 0 ? (aoyiRankFloatPar[aoyiId]?.[rank]?.[key] ?? 0) : 0;
@@ -1101,12 +1092,7 @@ export function extractLocaleText(
     const activeEffectParams = [];
     if (effectEntry?.SkillAttrDes) {
       const secSuffix = SECONDS_SUFFIX[basename(langDir)] ?? '秒';
-      const valueMap =
-        (basename(langDir) === 'english'
-          ? IMAGINE_EFFECT_VALUE_MAP_EN_OVERRIDES[entry.Id]
-          : undefined) ??
-        IMAGINE_EFFECT_VALUE_MAP[entry.Id] ??
-        {};
+      const valueMap = IMAGINE_EFFECT_VALUE_MAP[entry.Id] ?? {};
       effectEntry.SkillAttrDes.forEach(([label, formula], rowIdx) => {
         if (!label) return;
         const vals = [];

@@ -60635,12 +60635,12 @@
         [
           "DMG per hit",
           [
-            "{*skillpara.damageMerge({110022410104},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({110022410104},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({110022410104},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({110022410104},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({110022410104},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({110022410104},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({110022410104},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({110022410104},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({110022410104},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({110022410104},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({110022410104},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({110022410104},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({110022410104},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({110022410104},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({110022410104},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({110022410104},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({110022410104},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({110022410104},{1}, \"PVEStunnedDamage\",\"un\")*})"
+            "88% ATK/MATK+8 (Resilience Break:16)",
+            "101.2% ATK/MATK+8 (Resilience Break:16)",
+            "114.4% ATK/MATK+8 (Resilience Break:16)",
+            "127.6% ATK/MATK+8 (Resilience Break:16)",
+            "140.8% ATK/MATK+8 (Resilience Break:16)",
+            "154% ATK/MATK+8 (Resilience Break:16)"
           ]
         ],
         [
@@ -60681,12 +60681,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({111230410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111230410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:100)",
-            "{*skillpara.damageMerge({111230410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111230410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:100)",
-            "{*skillpara.damageMerge({111230410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111230410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:100)",
-            "{*skillpara.damageMerge({111230410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111230410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:100)",
-            "{*skillpara.damageMerge({111230410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111230410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:100)",
-            "{*skillpara.damageMerge({111230410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111230410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:100)"
+            "525% ATK/MATK+52 (Resilience Break:100)",
+            "564.37% ATK/MATK+52 (Resilience Break:100)",
+            "603.74% ATK/MATK+52 (Resilience Break:100)",
+            "721.87% ATK/MATK+52 (Resilience Break:100)",
+            "761.25% ATK/MATK+52 (Resilience Break:100)",
+            "800.62% ATK/MATK+52 (Resilience Break:100)"
           ]
         ],
         [
@@ -65762,12 +65762,12 @@
         [
           "Celestial Spirit Guard ATK Reduction",
           [
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "3%",
+            "3.6%",
+            "4.2%",
+            "4.8%",
+            "5.4%",
+            "6%"
           ]
         ],
         [
@@ -65953,23 +65953,23 @@
         [
           "Fire Dragon's Roar CD Reduction",
           [
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          ]
-        ],
-        [
-          "Fire Dragon's Roar Element Bonus",
-          [
             "25%",
             "25%",
             "25%",
             "32.5%",
             "32.5%",
             "40%"
+          ]
+        ],
+        [
+          "Fire Dragon's Roar Element Bonus",
+          [
+            "56.2%",
+            "56.2%",
+            "56.2%",
+            "73%",
+            "73%",
+            "89.9%"
           ]
         ],
         [
@@ -66008,12 +66008,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({1102701410102},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+150 (Resilience Break:100)",
-            "{*skillpara.damageMerge({1102701410102},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+150 (Resilience Break:100)",
-            "{*skillpara.damageMerge({1102701410102},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+150 (Resilience Break:100)",
-            "{*skillpara.damageMerge({1102701410102},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+150 (Resilience Break:100)",
-            "{*skillpara.damageMerge({1102701410102},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+150 (Resilience Break:100)",
-            "{*skillpara.damageMerge({1102701410102},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+150 (Resilience Break:100)"
+            "1500% ATK/MATK+150 (Resilience Break:100)",
+            "1725% ATK/MATK+150 (Resilience Break:100)",
+            "1950% ATK/MATK+150 (Resilience Break:100)",
+            "2175% ATK/MATK+150 (Resilience Break:100)",
+            "2400% ATK/MATK+150 (Resilience Break:100)",
+            "2625% ATK/MATK+150 (Resilience Break:100)"
           ]
         ],
         [
@@ -66077,12 +66077,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({1102800410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1102800410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1102800410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1102800410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1102800410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1102800410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1102800410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1102800410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1102800410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1102800410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1102800410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1102800410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1102800410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1102800410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1102800410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1102800410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1102800410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1102800410101},{2}, \"PVEStunnedDamage\",\"un\")*})"
+            "1500% ATK/MATK+150 (Resilience Break:100)",
+            "1725% ATK/MATK+150 (Resilience Break:100)",
+            "1950% ATK/MATK+150 (Resilience Break:100)",
+            "2175% ATK/MATK+150 (Resilience Break:100)",
+            "2400% ATK/MATK+150 (Resilience Break:100)",
+            "2625% ATK/MATK+150 (Resilience Break:100)"
           ]
         ],
         [
@@ -66248,12 +66248,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({1103001410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1103001410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1103001410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1103001410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1103001410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1103001410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1103001410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1103001410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1103001410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1103001410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1103001410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1103001410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1103001410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1103001410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1103001410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({1103001410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({1103001410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({1103001410101},{1}, \"PVEStunnedDamage\",\"un\")*})"
+            "1500% ATK/MATK+150 (Resilience Break:100)",
+            "1725% ATK/MATK+150 (Resilience Break:100)",
+            "1950% ATK/MATK+150 (Resilience Break:100)",
+            "2175% ATK/MATK+150 (Resilience Break:100)",
+            "2400% ATK/MATK+150 (Resilience Break:100)",
+            "2625% ATK/MATK+150 (Resilience Break:100)"
           ]
         ],
         [
@@ -66387,12 +66387,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({111227410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111227410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111227410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111227410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111227410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111227410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111227410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111227410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111227410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111227410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111227410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111227410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111227410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111227410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111227410101},{2}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111227410101},{2}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111227410101},{2}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111227410101},{2}, \"PVEStunnedDamage\",\"un\")*})"
+            "1500% ATK/MATK+150 (Resilience Break:100)",
+            "1725% ATK/MATK+150 (Resilience Break:100)",
+            "1950% ATK/MATK+150 (Resilience Break:100)",
+            "2175% ATK/MATK+150 (Resilience Break:100)",
+            "2400% ATK/MATK+150 (Resilience Break:100)",
+            "2625% ATK/MATK+150 (Resilience Break:100)"
           ]
         ],
         [
@@ -66457,12 +66457,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({111235410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111235410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111235410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111235410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111235410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111235410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111235410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111235410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111235410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111235410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111235410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111235410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111235410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111235410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111235410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111235410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111235410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111235410101},{1}, \"PVEStunnedDamage\",\"un\")*})"
+            "1050% ATK/MATK+105 (Resilience Break:100)",
+            "1207.4% ATK/MATK+105 (Resilience Break:100)",
+            "1365% ATK/MATK+105 (Resilience Break:100)",
+            "1522.5% ATK/MATK+105 (Resilience Break:100)",
+            "1680% ATK/MATK+105 (Resilience Break:100)",
+            "1837.5% ATK/MATK+105 (Resilience Break:100)"
           ]
         ],
         [
@@ -66562,12 +66562,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({111223410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111223410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111223410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111223410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111223410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111223410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111223410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111223410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111223410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111223410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111223410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111223410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111223410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111223410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111223410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111223410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111223410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111223410101},{1}, \"PVEStunnedDamage\",\"un\")*})"
+            "1500% ATK/MATK+150 (Resilience Break:100)",
+            "1725% ATK/MATK+150 (Resilience Break:100)",
+            "1950% ATK/MATK+150 (Resilience Break:100)",
+            "2175% ATK/MATK+150 (Resilience Break:100)",
+            "2400% ATK/MATK+150 (Resilience Break:100)",
+            "2625% ATK/MATK+150 (Resilience Break:100)"
           ]
         ],
         [
@@ -66699,12 +66699,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({111238410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111238410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111238410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111238410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111238410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111238410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111238410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111238410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111238410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111238410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111238410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111238410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111238410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111238410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111238410101},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({111238410101},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({111238410101},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({111238410101},{1}, \"PVEStunnedDamage\",\"un\")*})"
+            "750% ATK/MATK+75 (Resilience Break:100)",
+            "862.5% ATK/MATK+75 (Resilience Break:100)",
+            "975% ATK/MATK+75 (Resilience Break:100)",
+            "1087.5% ATK/MATK+75 (Resilience Break:100)",
+            "1200% ATK/MATK+75 (Resilience Break:100)",
+            "1312.5% ATK/MATK+75 (Resilience Break:100)"
           ]
         ],
         [
@@ -66745,12 +66745,12 @@
         [
           "Total DMG",
           [
-            "{*skillpara.damageMerge({3112344100},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({3112344100},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({3112344100},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({3112344100},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({3112344100},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({3112344100},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({3112344100},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({3112344100},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({3112344100},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({3112344100},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({3112344100},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({3112344100},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({3112344100},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({3112344100},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({3112344100},{1}, \"PVEStunnedDamage\",\"un\")*})",
-            "{*skillpara.damageMerge({3112344100},{1}, \"PVEDamageRadio\",\"up\")*} ATK/MATK+{*skillpara.damageMerge({3112344100},{1}, \"PVEFixedParameter\",\"un\")*} (Resilience Break:{*skillpara.damageMerge({3112344100},{1}, \"PVEStunnedDamage\",\"un\")*})"
+            "5000% ATK/MATK+500 (Resilience Break:100)",
+            "5750% ATK/MATK+500 (Resilience Break:100)",
+            "6500% ATK/MATK+500 (Resilience Break:100)",
+            "7250% ATK/MATK+500 (Resilience Break:100)",
+            "8000% ATK/MATK+500 (Resilience Break:100)",
+            "8750% ATK/MATK+500 (Resilience Break:100)"
           ]
         ]
       ],
