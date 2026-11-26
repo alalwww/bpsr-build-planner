@@ -7,7 +7,8 @@ import { renderMarkup } from '../components/renderMarkup';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { truncate2Str as fmtDec2 } from '../character/statFormat';
 import { RAW_PERCENT_STAT_IDS } from '../stats/attrMaps';
-import { affixEffectMarkup, getActiveAffixEffects } from './phantomAffixData';
+import { AFFIX_TYPE_STAT } from '../stats/affixEffects';
+import { affixEffectMarkup, getActiveAffixEffects, getAffixGroup } from './phantomAffixData';
 import { BASE_STATS } from '../stats/baseStats';
 import type { StatId } from '../types';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
@@ -29,7 +30,7 @@ import {
 import './phantomEffectSummary.css';
 
 // 心相投影ツリーの現在の設定内容(ノード選択+因子装着)を、合計/中級/初級の
-// 3分類でまとめて確認するための読み取り専用ダイアログ(S4で絆レベル効果=上級は廃止)。PhantomPanel の「効果一覧」
+// 3分類+映痕効果(全因子をまたいで同種をまとめた一覧)でまとめて確認するための読み取り専用ダイアログ(S4で絆レベル効果=上級は廃止)。PhantomPanel の「効果一覧」
 // ボタンから開く。
 
 interface PhantomEffectSummaryDialogProps {
@@ -44,6 +45,13 @@ interface PhantomEffectSummaryDialogProps {
   levelUnlockedNodeIds: ReadonlySet<number>;
   professionId: number;
 }
+
+// 映痕効果セクションの小見出し(buildPlanner.phantom.affixSlotType の 1=ステータス / 2=クラス)。
+const isStatAffix = (group: number) => getAffixGroup(group)?.affixType === AFFIX_TYPE_STAT;
+const AFFIX_SECTION_TYPES = [
+  { type: 1, isMatch: isStatAffix },
+  { type: 2, isMatch: (group: number) => !isStatAffix(group) },
+] as const;
 
 function fmtSigned(v: number): string {
   const sign = v > 0 ? '+' : v < 0 ? '-' : '';
@@ -70,6 +78,7 @@ export default function PhantomEffectSummaryDialog({
 
   const [openSections, setOpenSections] = useState({
     total: false,
+    affix: false,
     intermediate: false,
     ordinary: false,
   });
@@ -310,6 +319,48 @@ export default function PhantomEffectSummaryDialog({
                 </div>
               ))}
             </div>
+          )}
+        </CollapsibleSection>
+
+        <CollapsibleSection
+          open={openSections.affix}
+          onToggle={() => toggle('affix')}
+          label={se('sections.affix')}
+          className="phantom-effect-summary__section"
+          toggleClassName="phantom-effect-summary__section-header"
+        >
+          {totals.affixEffects.length > 0 ? (
+            AFFIX_SECTION_TYPES.map(({ type, isMatch }) => {
+              const items = totals.affixEffects.filter((a) => isMatch(a.affix.group));
+              if (items.length === 0) return null;
+              return (
+                <div key={type} className="phantom-effect-summary__affix-group">
+                  <div className="phantom-effect-summary__individual-label">
+                    {t(`buildPlanner.phantom.affixSlotType.${type}`)}
+                  </div>
+                  {items.map(({ affix, sources, duplicated }) => (
+                    <div key={affix.group} className="phantom-effect-summary__affix-item">
+                      <div className="phantom-effect-summary__affix-desc">
+                        {renderMarkup(affixEffectMarkup(tg, affix), linkTextPopup.handlers)}
+                      </div>
+                      <div className="phantom-effect-summary__affix-meta">
+                        <span>{sources.join(' / ')}</span>
+                        {duplicated && (
+                          <span
+                            className="phantom-effect-summary__affix-badge"
+                            title={t('buildPlanner.phantom.affixNonStackingWarning')}
+                          >
+                            {t('buildPlanner.phantom.affixNonStackingShort')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })
+          ) : (
+            <p className="phantom-effect-summary__empty">{se('affixEmpty')}</p>
           )}
         </CollapsibleSection>
 

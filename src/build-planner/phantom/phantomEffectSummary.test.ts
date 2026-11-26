@@ -38,6 +38,24 @@ describe('効果一覧の映痕', () => {
     const keys = result.individualEffects.map((e) => e.key);
     expect(keys).toContain('factor-250-affix-101');
     expect(keys.some((k) => k.startsWith('affix-speed-'))).toBe(false);
+
+    // 映痕効果セクション: 全因子をまたいで同種をまとめ、ステータス → クラスの順。
+    expect(
+      result.affixEffects.map((a) => [
+        a.affix.group,
+        a.affix.value,
+        a.sources.length,
+        a.duplicated,
+      ]),
+    ).toEqual([
+      [1, 567, 1, false],
+      [6, 467, 2, true],
+      [101, 139, 1, false],
+    ]);
+  });
+
+  it('映痕が無ければ映痕効果は空', () => {
+    expect(totals({ 250: { classKey: '4001', grade: 3 } }).affixEffects).toEqual([]);
   });
 
   it('攻撃速度の映痕は個別効果として表示する', () => {

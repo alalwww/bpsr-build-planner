@@ -452,10 +452,12 @@
       "effectSummary": {
         "sections": {
           "total": "摘要",
+          "affix": "映痕效果",
           "intermediate": "中級節點效果",
           "ordinary": "初級節點效果"
         },
         "statEmpty": "沒有發生變化的屬性",
+        "affixEmpty": "沒有鑲嵌的映痕",
         "individualLabel": "單項效果",
         "flatCol": "加算",
         "pctCol": "乘算%",

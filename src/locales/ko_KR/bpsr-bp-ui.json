@@ -452,10 +452,12 @@
       "effectSummary": {
         "sections": {
           "total": "요약",
+          "affix": "영흔 효과",
           "intermediate": "중급 노드 효과",
           "ordinary": "초급 노드 효과"
         },
         "statEmpty": "변화된 스탯이 없습니다",
+        "affixEmpty": "장착된 영흔이 없습니다",
         "individualLabel": "개별 효과",
         "flatCol": "가산",
         "pctCol": "승산%",

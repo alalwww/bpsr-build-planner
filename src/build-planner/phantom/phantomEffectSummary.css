@@ -157,6 +157,38 @@
   line-height: 1.5;
 }
 
+/* 映痕効果(全因子をまたいで同種をまとめた一覧)。ステータス/クラスの小見出しごとに並べる。 */
+.phantom-effect-summary__affix-group {
+  padding: 4px 12px 8px 0;
+}
+
+.phantom-effect-summary__affix-group + .phantom-effect-summary__affix-group {
+  border-top: 1px dashed #2a2a38;
+}
+
+.phantom-effect-summary__affix-item {
+  padding: 4px 0 4px 16px;
+  font-size: 12px;
+}
+
+.phantom-effect-summary__affix-desc {
+  color: #a0c8e0;
+  line-height: 1.5;
+}
+
+.phantom-effect-summary__affix-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  color: #7a7a8a;
+  font-size: 11px;
+}
+
+.phantom-effect-summary__affix-badge {
+  color: #e0a15e;
+}
+
 /* 中級/初級ノード一覧 */
 .phantom-effect-summary__node-list {
   display: flex;

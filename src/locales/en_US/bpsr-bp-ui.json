@@ -452,10 +452,12 @@
       "effectSummary": {
         "sections": {
           "total": "Summary",
+          "affix": "Imprint Effects",
           "intermediate": "Intermediate Node Effects",
           "ordinary": "Basic Node Effects"
         },
         "statEmpty": "No stats are affected",
+        "affixEmpty": "No imprints are embedded",
         "individualLabel": "Individual Effects",
         "flatCol": "Flat",
         "pctCol": "Mult. %",

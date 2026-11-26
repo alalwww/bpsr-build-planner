@@ -452,10 +452,12 @@
       "effectSummary": {
         "sections": {
           "total": "サマリ",
+          "affix": "映痕効果",
           "intermediate": "中級ノード効果",
           "ordinary": "初級ノード効果"
         },
         "statEmpty": "変化のあるステータスはありません",
+        "affixEmpty": "埋め込まれている映痕はありません",
         "individualLabel": "個別効果",
         "flatCol": "加算",
         "pctCol": "乗算%",

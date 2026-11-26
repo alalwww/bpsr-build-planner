@@ -13,7 +13,12 @@ import {
   TALENT_ATK_SPEED_FINAL_PCT_ATTR_ID,
   type ImagineFinalStatId,
 } from '../stats/attrMaps';
-import type { PhantomFactorSlotValue, TreeStep, TreeStepKind } from './phantomData';
+import type {
+  PhantomAffixValue,
+  PhantomFactorSlotValue,
+  TreeStep,
+  TreeStepKind,
+} from './phantomData';
 import {
   getActivePhantomNodeIds,
   getUnlockLevel,
@@ -27,6 +32,7 @@ import {
   aggregateAffixEffects,
   getActiveAffixes,
   getAffixGroup,
+  getDuplicatedNonStackingGroups,
 } from './phantomAffixData';
 import { AFFIX_TYPE_STAT, AffixStatCollector } from '../stats/affixEffects';
 
@@ -64,9 +70,20 @@ export interface PhantomIndividualEffect {
   sortOrder: number;
 }
 
+export interface PhantomAffixSummary {
+  /** 全因子を通じて同種(group)をまとめた効果(通常は合計、重複不可は最大値)。 */
+  affix: PhantomAffixValue;
+  /** この映痕を埋め込んでいる因子の表示名(出現順、重複なし)。 */
+  sources: string[];
+  /** 重複不可の映痕が2つ以上選ばれている(値が最大の1つだけ反映される)。 */
+  duplicated: boolean;
+}
+
 export interface PhantomEffectTotals {
   statDeltas: PhantomStatDelta[];
   individualEffects: PhantomIndividualEffect[];
+  /** 映痕効果セクション用。ステータス映痕 → クラス映痕の順(各内は出現順)。 */
+  affixEffects: PhantomAffixSummary[];
 }
 
 // 潜在Lv・現在の選択/因子装着状況から、心相投影ツリー由来のステータス変化を集計する。
@@ -83,7 +100,7 @@ export function computePhantomEffectTotals(
   affixEffectName: string,
 ): PhantomEffectTotals {
   const tmpl = stData.templates[String(phantomTemplateId)];
-  if (!tmpl) return { statDeltas: [], individualEffects: [] };
+  if (!tmpl) return { statDeltas: [], individualEffects: [], affixEffects: [] };
 
   const deltaMap = new Map<StatId, PhantomStatDelta>();
   const getDelta = (statId: StatId): PhantomStatDelta => {
@@ -112,6 +129,10 @@ export function computePhantomEffectTotals(
   const affixCollector = new AffixStatCollector();
   let affixAtkSpeed = 0;
   let affixCastSpeed = 0;
+  // 映痕効果セクション用: 有効な因子の映痕(全因子分)と、group ごとの埋め込み元の因子名。
+  const allAffixes: PhantomAffixValue[] = [];
+  const activeFactors: PhantomFactorSlotValue[] = [];
+  const affixSources = new Map<number, string[]>();
 
   const activeIds = getActivePhantomNodeIds(
     tmpl.rootNodeId,
@@ -241,6 +262,14 @@ export function computePhantomEffectTotals(
     // 映痕: ステータス系は合計へ。クラス映痕(計算対象外)は因子ごとの個別効果として表示する。
     const affixes = getActiveAffixes(slot);
     affixCollector.add(affixes);
+    allAffixes.push(...affixes);
+    activeFactors.push(slot);
+    const sourceName = `${factorShortName(tg, slot.classKey)} G${slot.grade}`;
+    for (const affix of affixes) {
+      const list = affixSources.get(affix.group);
+      if (!list) affixSources.set(affix.group, [sourceName]);
+      else if (!list.includes(sourceName)) list.push(sourceName);
+    }
     for (const affix of aggregateAffixEffects(affixes)) {
       if (getAffixGroup(affix.group)?.affixType === AFFIX_TYPE_STAT) continue;
       individualEffects.push({
@@ -283,7 +312,19 @@ export function computePhantomEffectTotals(
   // Array.sortは安定ソートのため、同じsortOrder内の元の並び順(ノード出現順)は保たれる。
   individualEffects.sort((a, b) => a.sortOrder - b.sortOrder);
 
-  return { statDeltas: [...deltaMap.values()], individualEffects };
+  // 映痕効果: 全因子をまたいで同種をまとめる(重複不可は全因子で最大値1つ = AffixStatCollector と同じ規則)。
+  const duplicatedGroups = getDuplicatedNonStackingGroups(activeFactors);
+  const affixTypeOrder = (group: number) =>
+    getAffixGroup(group)?.affixType === AFFIX_TYPE_STAT ? 0 : 1;
+  const affixEffects = aggregateAffixEffects(allAffixes)
+    .sort((a, b) => affixTypeOrder(a.group) - affixTypeOrder(b.group))
+    .map((affix) => ({
+      affix,
+      sources: affixSources.get(affix.group) ?? [],
+      duplicated: duplicatedGroups.has(affix.group),
+    }));
+
+  return { statDeltas: [...deltaMap.values()], individualEffects, affixEffects };
 }
 
 export function formatPctDelta(rawValue: number): number {
