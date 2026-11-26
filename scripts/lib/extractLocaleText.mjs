@@ -164,8 +164,16 @@ const IMAGINE_EFFECT_VALUE_MAP = {
   3983: { 0: ['attr', 'percent'], 10: ['attrA', 'percent'], 11: ['attrB', 'percent'] },
   // --- シーズン3: 新規バトルイマジン(3968-3981)。FloatParameterキー名がラベルと
   // 直訳一致する高確度の類推だが、ゲーム内表示との突き合わせは未実施(要確認)。
-  // 3968/3969 はキー4件に対しラベル3件で1対1対応が確定できないため未登録のまま
-  // (空欄表示。調査が必要な残項目は sample/season3-imagine-effect-todo.txt 参照)。
+  // 3968: hp(134000)はDesc記載の「最大HP 134000ptごと」の閾値のため行に対応しない。
+  // 3969: キー4件(attrPer/attrAdd/attr/attrMax)にラベル3件。クラススキルの
+  //   attrPer+attrAdd 複合(「%+実数」)と同じ命名のため「会心アップ」を複合表記とし、
+  //   attr=変換割合、attrMax=上限 と類推(要ゲーム内確認)。
+  3968: { 1: ['attr', 'percent'], 2: ['attrElse', 'percent'], 3: ['attrMax', 'percent'] },
+  3969: {
+    1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']],
+    2: ['attr', 'percent'],
+    3: ['attrMax', 'percent'],
+  },
   3970: { 3: ['attr', 'percent'], 6: ['subAoyiCdPct', 'percent'] },
   3971: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'] },
   3972: { 1: ['attrElse', 'percent'], 2: ['attrMax', 'percent'] },
@@ -174,6 +182,18 @@ const IMAGINE_EFFECT_VALUE_MAP = {
   3978: { 1: ['time', 'percent'] },
   3979: { 1: ['attr', 'percent'] },
   3980: { 1: ['attr', 'percent'] },
+  // --- シーズン4: 新規バトルイマジン(3988-3996)。キーとラベルが行順に1対1で並ぶ
+  // 類推(会心/幸運アップは既存の3966ファストアップ等と同じく%表記)。ゲーム内表示との
+  // 突き合わせは未実施(要確認)。
+  3988: { 1: ['attr', 'percent'] },
+  3989: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'], 3: ['attrSub', 'percent'] },
+  3990: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'] },
+  3991: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'] },
+  3992: { 1: ['attr', 'percent'] },
+  3993: { 1: ['attr', 'percent'], 2: ['attrElse', 'percent'] },
+  3994: { 1: ['attr', 'percent'] },
+  3995: { 0: ['attr', 'percent'] },
+  3996: { 3: ['attr', 'percent'] },
 };
 
 // AttrDescription.json のテキストから表示名を抽出する。
@@ -1044,7 +1064,18 @@ export function extractLocaleText(
   }
 
   // IMAGINE_EFFECT_VALUE_MAP に基づく formula 空欄行(バフ効果行)のランク別値。
+  // mapping は [キー, 単位] / [null, 'fixed', 文字列] のほか、[キー, 単位] と区切り文字列を
+  // 並べた複合テンプレート(例: [['attrPer','percent'], '+', ['attrAdd','flat']])も受け付ける。
   function resolveMappedEffectValue(mapping, rank, aoyiId, effectId, secSuffix) {
+    if (Array.isArray(mapping[0])) {
+      return mapping
+        .map((item) =>
+          typeof item === 'string'
+            ? item
+            : resolveMappedEffectValue(item, rank, aoyiId, effectId, secSuffix),
+        )
+        .join('');
+    }
     const [key, unit, fixedText] = mapping;
     if (unit === 'fixed') return fixedText;
     const base = fightLvlFloatPar[String(effectId)]?.[key] ?? 0;

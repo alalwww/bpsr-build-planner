@@ -105,7 +105,10 @@ function SkillTooltip({
         defaultValue: [],
       }) as [string, string[]][])
     : [];
-  const activeEffectParams = allActiveEffectParams.filter(([, vals]) => vals[rank] !== '');
+  // returnObjects + defaultValue: [] では、ネストした空文字の値が defaultValue の [] に
+  // 置き換わって返る(i18next の挙動)。値が空の行を非表示にするため、空でない文字列だけを残す。
+  const isNonEmptyText = (v: unknown): v is string => typeof v === 'string' && v !== '';
+  const activeEffectParams = allActiveEffectParams.filter(([, vals]) => isNonEmptyText(vals[rank]));
   // クラススキルの性能値: 選択中のランク(G0-G6)とレベル(1-30)で値を組み立てる
   const skillEffectParams = !isImagine
     ? (t(`skills.${skillId}.activeEffectParams`, {
@@ -233,7 +236,7 @@ function SkillTooltip({
           })}
           {passiveBufDescs.map((rankTexts, i) => {
             const text = Array.isArray(rankTexts) ? (rankTexts[rank] ?? rankTexts[0]) : '';
-            return text ? (
+            return isNonEmptyText(text) ? (
               <div key={`buf${i}`} className="skill-tooltip__passive-buf">
                 {renderMarkup(text, linkTextPopup.handlers)}
               </div>
