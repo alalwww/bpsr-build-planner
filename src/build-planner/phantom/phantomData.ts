@@ -81,6 +81,8 @@ export interface PhantomFactorClass {
   // CURRENT_FACTOR_SEASON_ID との比較で、表示側(phantomView.ts)は選択肢からの除外を、
   // ステータス計算側(calculateRawStats.ts)は効果の除外を行う。
   seasonId: number;
+  // 型の所属(特異点因子のみ。クラスの型の TalentSchoolId と同じ値)。型が一致しないと効果が出ない。
+  talentSchoolId?: number;
   grades: PhantomFactorLevel[];
   icon?: string;
 }

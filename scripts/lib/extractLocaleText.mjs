@@ -908,10 +908,12 @@ export function extractLocaleText(
   //   ordinaryEffects[groupId]: 通常ノードの名称
   //   intermediateSlots[id]: 幻影スロットの表示名 (第六感/恒常性/特異点等)
   //   affixQualities[quality]: 映痕の品質名 (卓越/エピック/不朽。extractAffixQualityNames 参照)
+  //   factorTypes[typeId]: 因子タイプ名 (SeasonTalentFactorTypeTable。第六感/恒常性/特異点等)
   // シーズン4で絆スロット/絆レベル効果(高級ノード)は廃止されたため、その名称は抽出しない。
   const stTemplateTable = readTable(langDir, 'SeasonTalentTemplateTable');
   const stOrdinaryTable = readTable(langDir, 'SeasonTalentEffectOrdinaryTable');
   const stIntermediateTable = readTable(langDir, 'SeasonTalentEffectIntermediateTable');
+  const stFactorTypeTable = readTable(langDir, 'SeasonTalentFactorTypeTable');
   const seasonTalents = {
     templates: Object.fromEntries(
       Object.values(stTemplateTable).map((e) => [e.Id, e.TemplateName]),
@@ -923,6 +925,7 @@ export function extractLocaleText(
       Object.values(stIntermediateTable).map((e) => [e.Id, e.Name]),
     ),
     affixQualities: extractAffixQualityNames(langDir),
+    factorTypes: Object.fromEntries(Object.values(stFactorTypeTable).map((e) => [e.Id, e.Name])),
   };
 
   // battleImagines: SkillAoyiTable の名称・台詞 と SkillTable[aoyiId] のアクティブ効果説明。

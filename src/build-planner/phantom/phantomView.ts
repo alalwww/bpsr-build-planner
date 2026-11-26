@@ -60,6 +60,22 @@ function formatType1EffectsMarkup(tg: GameDataT, effects: number[][]): string {
     .join(', ');
 }
 
+// 因子タイプ名(第六感/恒常性/クラス恒常性/特異点等。game-data の seasonTalents.factorTypes)。
+export function factorTypeName(tg: GameDataT, classKey: string): string {
+  const typeId = pfData.byClass[classKey]?.typeId;
+  return typeId != null ? tg(`seasonTalents.factorTypes.${typeId}`, { defaultValue: '' }) : '';
+}
+
+// 因子の型の所属(特異点因子のみ)。型の TalentSchoolId と表示名。型を問わない因子は null。
+export function factorTalentSchool(
+  tg: GameDataT,
+  classKey: string,
+): { id: number; name: string } | null {
+  const id = pfData.byClass[classKey]?.talentSchoolId;
+  if (id == null) return null;
+  return { id, name: tg(`talentStages.${id}.typeName`, { defaultValue: String(id) }) };
+}
+
 // 因子クラスの表示名(G1アイテム名から「・G1」を除いた基底名)
 export function factorBaseName(tg: GameDataT, classKey: string): string {
   const g1Id = pfData.byClass[classKey]?.grades[0]?.id;

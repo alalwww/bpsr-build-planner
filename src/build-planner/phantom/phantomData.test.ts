@@ -6,6 +6,7 @@ import {
   getUnlockLevel,
   hasLegacyPhantomData,
   isTemplateLegacy,
+  pfData,
   sortTreeStepsByUnlockLevel,
   stData,
 } from './phantomData';
@@ -122,5 +123,16 @@ describe('sortTreeStepsByUnlockLevel', () => {
     const sorted = sortTreeStepsByUnlockLevel(buildTreeSteps(tmpl.rootNodeId, 9));
     const idx = (id: number) => sorted.findIndex((s) => s.nodeIds.includes(id));
     expect(idx(253)).toBeLessThan(idx(252));
+  });
+});
+
+describe('特異点因子の型の所属', () => {
+  it('links each singularity factor to one of its class types (X1/X2: type1, X3/X4: type2)', () => {
+    // ビートパフォーマー(ShowTalentStage [119, 120])の特異因子X1〜X4
+    expect(['4121', '4122', '4123', '4124'].map((k) => pfData.byClass[k].talentSchoolId)).toEqual([
+      119, 119, 120, 120,
+    ]);
+    // 第六感等の他タイプの因子は型を問わない
+    expect(pfData.byClass['4001'].talentSchoolId).toBeUndefined();
   });
 });

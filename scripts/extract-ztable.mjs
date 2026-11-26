@@ -1272,6 +1272,8 @@ function extractSeasonTalents(langDir) {
 //     typeId: FactorItemTypeId (旧シーズンとtypeId番号が重複するため、単独でクラスの
 //       「種別」を判別する用途には使えない。seasonId と併せて判定すること)
 //     professionIds: 対象クラス [] (空=全クラス共通)
+//     talentSchoolId: 型の所属(特異点因子のみ。SeasonTalentFactorItemTable.Build で、
+//       ProfessionSystemTable.ShowTalentStage の型1/型2のIDと一致する。型が違うと効果が出ない)
 //     seasonId: SeasonTalentFactorItemTable.SeasonId[0]。過去シーズンの因子
 //       (例: SeasonId=2)は現シーズンでは無効(AttrDescription側で「この因子は現シーズン
 //       では無効です」と明記されている)だが、過去のセーブデータ互換のためデータからは
@@ -1314,6 +1316,8 @@ function extractPhantomFactors(langDir) {
         typeId: entry.FactorItemTypeId,
         professionIds: entry.ProfessionId,
         seasonId: entry.SeasonId?.[0] ?? 0,
+        // 型の所属(特異点因子のみ。Build=TalentSchoolId、クラスの型と同じ値。0は型を問わない)
+        ...(entry.Build ? { talentSchoolId: entry.Build } : {}),
         grades: [],
       };
     }

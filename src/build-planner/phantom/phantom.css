@@ -1156,3 +1156,22 @@
   font-size: 12px;
   color: #8a8a96;
 }
+
+/* 因子設定ダイアログ左上の枠: 因子名の下の因子タイプ・型の所属 */
+.phantom-factor-dialog__factor-meta {
+  font-size: 12px;
+  color: #9a9aae;
+}
+
+/* 「因子」ラベル行(右端に特異点因子の型不一致の警告) */
+.phantom-factor-dialog__factor-label-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.phantom-factor-dialog__school-warning {
+  font-size: 11px;
+  color: #e0a040;
+  cursor: help;
+}

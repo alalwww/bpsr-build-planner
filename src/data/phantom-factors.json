@@ -775,6 +775,7 @@
         1
       ],
       "seasonId": 4,
+      "talentSchoolId": 101,
       "grades": [
         {
           "id": 20030081,
@@ -870,6 +871,7 @@
         1
       ],
       "seasonId": 4,
+      "talentSchoolId": 101,
       "grades": [
         {
           "id": 20030091,
@@ -965,6 +967,7 @@
         1
       ],
       "seasonId": 4,
+      "talentSchoolId": 102,
       "grades": [
         {
           "id": 20030101,
@@ -1060,6 +1063,7 @@
         1
       ],
       "seasonId": 4,
+      "talentSchoolId": 102,
       "grades": [
         {
           "id": 20030111,
@@ -2105,6 +2109,7 @@
         2
       ],
       "seasonId": 4,
+      "talentSchoolId": 104,
       "grades": [
         {
           "id": 20030221,
@@ -2200,6 +2205,7 @@
         2
       ],
       "seasonId": 4,
+      "talentSchoolId": 104,
       "grades": [
         {
           "id": 20030231,
@@ -2295,6 +2301,7 @@
         2
       ],
       "seasonId": 4,
+      "talentSchoolId": 105,
       "grades": [
         {
           "id": 20030241,
@@ -2390,6 +2397,7 @@
         2
       ],
       "seasonId": 4,
+      "talentSchoolId": 105,
       "grades": [
         {
           "id": 20030251,
@@ -3435,6 +3443,7 @@
         3
       ],
       "seasonId": 4,
+      "talentSchoolId": 128,
       "grades": [
         {
           "id": 20030361,
@@ -3530,6 +3539,7 @@
         3
       ],
       "seasonId": 4,
+      "talentSchoolId": 128,
       "grades": [
         {
           "id": 20030371,
@@ -3625,6 +3635,7 @@
         3
       ],
       "seasonId": 4,
+      "talentSchoolId": 129,
       "grades": [
         {
           "id": 20030381,
@@ -3720,6 +3731,7 @@
         3
       ],
       "seasonId": 4,
+      "talentSchoolId": 129,
       "grades": [
         {
           "id": 20030391,
@@ -4765,6 +4777,7 @@
         4
       ],
       "seasonId": 4,
+      "talentSchoolId": 107,
       "grades": [
         {
           "id": 20030501,
@@ -4860,6 +4873,7 @@
         4
       ],
       "seasonId": 4,
+      "talentSchoolId": 107,
       "grades": [
         {
           "id": 20030511,
@@ -4955,6 +4969,7 @@
         4
       ],
       "seasonId": 4,
+      "talentSchoolId": 108,
       "grades": [
         {
           "id": 20030521,
@@ -5050,6 +5065,7 @@
         4
       ],
       "seasonId": 4,
+      "talentSchoolId": 108,
       "grades": [
         {
           "id": 20030531,
@@ -6095,6 +6111,7 @@
         5
       ],
       "seasonId": 4,
+      "talentSchoolId": 110,
       "grades": [
         {
           "id": 20030641,
@@ -6190,6 +6207,7 @@
         5
       ],
       "seasonId": 4,
+      "talentSchoolId": 110,
       "grades": [
         {
           "id": 20030651,
@@ -6285,6 +6303,7 @@
         5
       ],
       "seasonId": 4,
+      "talentSchoolId": 111,
       "grades": [
         {
           "id": 20030661,
@@ -6380,6 +6399,7 @@
         5
       ],
       "seasonId": 4,
+      "talentSchoolId": 111,
       "grades": [
         {
           "id": 20030671,
@@ -7425,6 +7445,7 @@
         9
       ],
       "seasonId": 4,
+      "talentSchoolId": 113,
       "grades": [
         {
           "id": 20030781,
@@ -7520,6 +7541,7 @@
         9
       ],
       "seasonId": 4,
+      "talentSchoolId": 113,
       "grades": [
         {
           "id": 20030791,
@@ -7615,6 +7637,7 @@
         9
       ],
       "seasonId": 4,
+      "talentSchoolId": 114,
       "grades": [
         {
           "id": 20030801,
@@ -7710,6 +7733,7 @@
         9
       ],
       "seasonId": 4,
+      "talentSchoolId": 114,
       "grades": [
         {
           "id": 20030811,
@@ -8755,6 +8779,7 @@
         11
       ],
       "seasonId": 4,
+      "talentSchoolId": 116,
       "grades": [
         {
           "id": 20030921,
@@ -8850,6 +8875,7 @@
         11
       ],
       "seasonId": 4,
+      "talentSchoolId": 116,
       "grades": [
         {
           "id": 20030931,
@@ -8945,6 +8971,7 @@
         11
       ],
       "seasonId": 4,
+      "talentSchoolId": 117,
       "grades": [
         {
           "id": 20030941,
@@ -9040,6 +9067,7 @@
         11
       ],
       "seasonId": 4,
+      "talentSchoolId": 117,
       "grades": [
         {
           "id": 20030951,
@@ -10085,6 +10113,7 @@
         12
       ],
       "seasonId": 4,
+      "talentSchoolId": 122,
       "grades": [
         {
           "id": 20031061,
@@ -10180,6 +10209,7 @@
         12
       ],
       "seasonId": 4,
+      "talentSchoolId": 122,
       "grades": [
         {
           "id": 20031071,
@@ -10275,6 +10305,7 @@
         12
       ],
       "seasonId": 4,
+      "talentSchoolId": 123,
       "grades": [
         {
           "id": 20031081,
@@ -10370,6 +10401,7 @@
         12
       ],
       "seasonId": 4,
+      "talentSchoolId": 123,
       "grades": [
         {
           "id": 20031091,
@@ -11415,6 +11447,7 @@
         13
       ],
       "seasonId": 4,
+      "talentSchoolId": 119,
       "grades": [
         {
           "id": 20031201,
@@ -11510,6 +11543,7 @@
         13
       ],
       "seasonId": 4,
+      "talentSchoolId": 119,
       "grades": [
         {
           "id": 20031211,
@@ -11605,6 +11639,7 @@
         13
       ],
       "seasonId": 4,
+      "talentSchoolId": 120,
       "grades": [
         {
           "id": 20031221,
@@ -11700,6 +11735,7 @@
         13
       ],
       "seasonId": 4,
+      "talentSchoolId": 120,
       "grades": [
         {
           "id": 20031231,

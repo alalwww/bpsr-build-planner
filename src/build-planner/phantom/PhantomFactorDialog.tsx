@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import DraggableDialog from '../components/DraggableDialog';
+import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
 import AffixPresetBar from './AffixPresetBar';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
@@ -37,6 +38,8 @@ import {
 } from './phantomAffixData';
 import {
   factorBaseName,
+  factorTalentSchool,
+  factorTypeName,
   getFactorBaseOptions,
   getFactorEffectDesc,
   getFactorEffectMarkup,
@@ -101,6 +104,14 @@ export default function PhantomFactorDialog({
   const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
   const slotIcon = getNodeIcon(groupId, 2);
   const factorIcon = current ? getFactorIcon(current.classKey) : '';
+  // 特異点因子の型の所属と、キャラクターの現在の型(TalentSchoolId)との不一致。
+  const factorSchool = current ? factorTalentSchool(tg, current.classKey) : null;
+  const professionTypeKey = useBuildStore((s) => s.professionTypeKey);
+  const currentProfession = Object.values(PROFESSIONS).find((p) => p.professionId === professionId);
+  const currentSchoolId = currentProfession
+    ? currentProfession.talentSchoolIds[professionTypeKey === 'type1' ? 0 : 1]
+    : undefined;
+  const schoolMismatch = factorSchool != null && factorSchool.id !== currentSchoolId;
 
   // レベルを下げて映痕が外れる場合は確認ダイアログを挟む(確認待ちのレベルと外れる数)。
   const [pendingLevelDown, setPendingLevelDown] = useState<{ level: number; lost: number } | null>(
@@ -189,27 +200,54 @@ export default function PhantomFactorDialog({
       >
         <div className="equipment-dialog__columns">
           <div className="equipment-dialog__col-left">
+            {/* 因子の装着中はノードのアイコン・スロット名(ノードの因子タイプ)の代わりに、
+                因子名の下へ因子タイプと(特異点因子なら)型の所属を表示する。 */}
             <div className="phantom-factor-dialog__preview">
-              {slotIcon && (
+              {!current && slotIcon && (
                 <img className="phantom-factor-dialog__slot-icon" src={slotIcon} alt="" />
               )}
               {factorIcon && (
                 <img className="phantom-factor-dialog__factor-icon" src={factorIcon} alt="" />
               )}
               <div className="phantom-factor-dialog__preview-text">
-                <span className="phantom-factor-dialog__slot-name">{slotName}</span>
+                {!current && <span className="phantom-factor-dialog__slot-name">{slotName}</span>}
                 <span className="phantom-factor-dialog__factor-name">
                   {current
                     ? `${factorBaseName(tg, current.classKey)} G${current.grade}`
                     : t('buildPlanner.phantom.factorUnequipped')}
                 </span>
+                {current && (
+                  <span className="phantom-factor-dialog__factor-meta">
+                    {t('buildPlanner.phantom.factorTypeLabel', {
+                      type: factorTypeName(tg, current.classKey),
+                    })}
+                  </span>
+                )}
+                {factorSchool && (
+                  <span className="phantom-factor-dialog__factor-meta">
+                    {t('buildPlanner.phantom.factorSchoolLabel', { type: factorSchool.name })}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="equip-details-section">
-              <label className="equipment-dialog__label">
-                {t('buildPlanner.phantom.factorSelect')}
-              </label>
+              <div className="phantom-factor-dialog__factor-label-row">
+                <label className="equipment-dialog__label">
+                  {t('buildPlanner.phantom.factorSelect')}
+                </label>
+                {/* 特異点因子は型の所属がキャラクターの型と一致しないと効果が出ない */}
+                {schoolMismatch && factorSchool && (
+                  <span
+                    className="phantom-factor-dialog__school-warning"
+                    title={t('buildPlanner.phantom.factorSchoolMismatch', {
+                      type: factorSchool.name,
+                    })}
+                  >
+                    ⚠ {t('buildPlanner.phantom.factorSchoolMismatchShort')}
+                  </span>
+                )}
+              </div>
               <CustomDropdown
                 className="phantom-factor-dropdown"
                 options={factorOptions}

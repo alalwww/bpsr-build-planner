@@ -60614,6 +60614,15 @@
       "3": "Excellent",
       "4": "Epic",
       "5": "Immortal"
+    },
+    "factorTypes": {
+      "1": "Polarity",
+      "2": "Stasis",
+      "3": "Inspiration",
+      "4": "Class Stasis",
+      "5": "Class Rhapsody",
+      "6": "Reality",
+      "7": "Singularity"
     }
   },
   "battleImagines": {
