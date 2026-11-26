@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.14.2",
+      "date": "2026-11-26T14:54:45.940Z",
+      "summary": {
+        "ja": "スキル・イマジンのツールチップで欠けていた効果値の修正",
+        "en": "Fix missing effect values in skill and imagine tooltips"
+      },
+      "changes": {
+        "ja": [
+          "シーズン3・4のバトルイマジン(トナティウ・イゴレウス・デンヴェル等)のツールチップで、アクティブ効果の値が表示されていなかった不具合の修正",
+          "英語表示で、一部のバトルイマジンのダメージ値が計算式のまま表示されていた不具合と、ルーシィ/ナツの効果値が別の行にずれて表示されていた不具合の修正",
+          "深緑の牙の「毎回リキャストを短縮」が秒ではなく%で表示されていた不具合の修正",
+          "ツインストライカーのバーニングギア・イグニッションのツールチップで、バフ効果の値が表示されていなかった不具合の修正"
+        ],
+        "en": [
+          "Fix active effect values not shown in the tooltips of season 3 and 4 battle imagines (Tonatiuh, Igoreus, Denvel, etc.)",
+          "Fix some battle imagine damage values shown as raw formulas in English, and Lucy/Natsu effect values shown on the wrong rows",
+          "Fix Verdant Fang's \"CD Decrease Per Cast\" shown as a percentage instead of seconds",
+          "Fix buff values not shown in the tooltips of Twin Striker's Burning Gear and Ignition"
+        ]
+      }
+    },
+    {
       "version": "0.14.1",
       "date": "2026-11-26T08:13:09.152Z",
       "summary": {
