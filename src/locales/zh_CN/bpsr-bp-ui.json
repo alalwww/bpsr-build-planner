@@ -466,6 +466,8 @@
       "factorSelect": "因子",
       "factorLevel": "因子等级",
       "factorTypeLabel": "因子类型: {{type}}",
+      "factorClassLabel": "职业: {{class}}",
+      "factorClassUnrestricted": "无限制",
       "factorSchoolLabel": "所属类型: {{type}}",
       "factorSchoolMismatchShort": "类型不符，无效果",
       "factorSchoolMismatch": "该奇点因子属于「{{type}}」。与当前角色的类型不同，因此效果不会生效。",

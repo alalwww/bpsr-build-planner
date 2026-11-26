@@ -16,7 +16,7 @@ import {
   MAX_FACTOR_LEVEL,
   stData,
 } from './phantomData';
-import { factorBaseName, getNodeIcon } from './phantomView';
+import { factorShortName, getNodeIcon } from './phantomView';
 
 // ノード設定リスト(ツリーの各ステップに対応する行)。PhantomPanel から分離。
 // 行の種類: 固定ノード / 効果選択 / 因子スロット(単独・タイプ選択・経路依存)。
@@ -417,7 +417,7 @@ export default function PhantomNodeConfig({
       {pendingFactorSwap && (
         <ConfirmDialog
           message={t('buildPlanner.phantom.factorDuplicateMsg', {
-            factor: factorBaseName(tg, pendingFactorSwap.value.classKey),
+            factor: factorShortName(tg, pendingFactorSwap.value.classKey),
             slot: numberedSlotName(pendingFactorSwap.conflictGroupId),
           })}
           confirmLabel={t('buildPlanner.phantom.factorDuplicateConfirm')}

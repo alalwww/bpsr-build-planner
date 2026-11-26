@@ -466,6 +466,8 @@
       "factorSelect": "Factor",
       "factorLevel": "Factor Level",
       "factorTypeLabel": "Factor type: {{type}}",
+      "factorClassLabel": "Class: {{class}}",
+      "factorClassUnrestricted": "Unrestricted",
       "factorSchoolLabel": "Type: {{type}}",
       "factorSchoolMismatchShort": "No effect (type mismatch)",
       "factorSchoolMismatch": "This singularity factor belongs to \"{{type}}\". It has no effect because it does not match your character's current type.",

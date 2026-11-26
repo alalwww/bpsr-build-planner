@@ -20,7 +20,7 @@ import {
   type PhantomNodeRow,
 } from './phantomEffectSummary';
 import {
-  factorBaseName,
+  factorShortName,
   formatType1Effect,
   getFactorEffectMarkup,
   getNodeEffectDesc,
@@ -195,7 +195,7 @@ export default function PhantomEffectSummaryDialog({
             <span className="phantom-effect-node__name">{slotName}</span>
             {current && (
               <span className="phantom-effect-node__factor">
-                {factorBaseName(tg, current.classKey)} G{current.grade}
+                {factorShortName(tg, current.classKey)} G{current.grade}
               </span>
             )}
           </div>

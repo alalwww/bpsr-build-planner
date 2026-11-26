@@ -466,6 +466,8 @@
       "factorSelect": "因子",
       "factorLevel": "因子レベル",
       "factorTypeLabel": "因子タイプ: {{type}}",
+      "factorClassLabel": "クラス: {{class}}",
+      "factorClassUnrestricted": "無制限",
       "factorSchoolLabel": "型の所属: {{type}}",
       "factorSchoolMismatchShort": "型が異なるため効果なし",
       "factorSchoolMismatch": "この特異点因子は「{{type}}」の因子です。現在のキャラクターの型と異なるため、効果が発動しません。",

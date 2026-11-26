@@ -37,9 +37,9 @@ import {
   withFactorLevel,
 } from './phantomAffixData';
 import {
-  factorBaseName,
+  factorDetailLines,
+  factorShortName,
   factorTalentSchool,
-  factorTypeName,
   getFactorBaseOptions,
   getFactorEffectDesc,
   getFactorEffectMarkup,
@@ -94,11 +94,16 @@ export default function PhantomFactorDialog({
 
   const factorOptions = useMemo(
     () =>
-      getFactorBaseOptions(tg, groupId, professionId).map((opt) => ({
+      getFactorBaseOptions(
+        tg,
+        groupId,
+        professionId,
+        t('buildPlanner.phantom.factorClassUnrestricted'),
+      ).map((opt) => ({
         ...opt,
         description: getFactorEffectDesc(tg, opt.value, level),
       })),
-    [tg, groupId, professionId, level],
+    [tg, t, groupId, professionId, level],
   );
 
   const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
@@ -213,21 +218,16 @@ export default function PhantomFactorDialog({
                 {!current && <span className="phantom-factor-dialog__slot-name">{slotName}</span>}
                 <span className="phantom-factor-dialog__factor-name">
                   {current
-                    ? `${factorBaseName(tg, current.classKey)} G${current.grade}`
+                    ? `${factorShortName(tg, current.classKey)} G${current.grade}`
                     : t('buildPlanner.phantom.factorUnequipped')}
                 </span>
-                {current && (
-                  <span className="phantom-factor-dialog__factor-meta">
-                    {t('buildPlanner.phantom.factorTypeLabel', {
-                      type: factorTypeName(tg, current.classKey),
-                    })}
-                  </span>
-                )}
-                {factorSchool && (
-                  <span className="phantom-factor-dialog__factor-meta">
-                    {t('buildPlanner.phantom.factorSchoolLabel', { type: factorSchool.name })}
-                  </span>
-                )}
+                {/* 因子タイプ / 省いたクラス名 / 特異点因子なら型の所属 */}
+                {current &&
+                  factorDetailLines(t, tg, current.classKey).map((line) => (
+                    <span key={line} className="phantom-factor-dialog__factor-meta">
+                      {line}
+                    </span>
+                  ))}
               </div>
             </div>
 

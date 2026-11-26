@@ -21,7 +21,7 @@ import {
   pfData,
   stData,
 } from './phantomData';
-import { factorBaseName, formatType1Effect, getNodeIcon, type GameDataT } from './phantomView';
+import { factorShortName, formatType1Effect, getNodeIcon, type GameDataT } from './phantomView';
 import {
   affixEffectText,
   aggregateAffixEffects,
@@ -182,7 +182,7 @@ export function computePhantomEffectTotals(
     if (!gradeData) continue;
 
     const slotName = tg(`seasonTalents.intermediateSlots.${node.groupId}`);
-    const name = `${slotName}: ${factorBaseName(tg, slot.classKey)} G${slot.grade}`;
+    const name = `${slotName}: ${factorShortName(tg, slot.classKey)} G${slot.grade}`;
     const icon = getNodeIcon(node.groupId, 2);
     // 極性(1)→恒常性(2)→第六感(3)→クラス恒常性(4)→クラス狂想(5)→真実(6)の順で
     // ソートするためのキー。装着中の因子クラス自身のtypeIdを使う(スロットの

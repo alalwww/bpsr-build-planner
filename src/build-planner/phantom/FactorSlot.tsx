@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { PhantomFactorSlotValue } from './phantomData';
-import { factorBaseName, getFactorIcon } from './phantomView';
+import { factorShortName, getFactorIcon } from './phantomView';
 
 export interface FactorSlotProps {
   current: PhantomFactorSlotValue | null;
@@ -30,7 +30,7 @@ function FactorSlot({ current, pendingLevel, onOpen }: FactorSlotProps) {
       )}
       <span className="phantom-factor-frame__name">
         {current
-          ? factorBaseName(tg, current.classKey)
+          ? factorShortName(tg, current.classKey)
           : t('buildPlanner.phantom.factorUnequipped')}
       </span>
       {affixCount > 0 && (

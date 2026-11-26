@@ -76,15 +76,45 @@ export function factorTalentSchool(
   return { id, name: tg(`talentStages.${id}.typeName`, { defaultValue: String(id) }) };
 }
 
-// 因子クラスの表示名(G1アイテム名から「・G1」を除いた基底名)
-export function factorBaseName(tg: GameDataT, classKey: string): string {
-  const g1Id = pfData.byClass[classKey]?.grades[0]?.id;
+// 因子名の末尾のレベル表記(「・G1」「 - G1」「·G1」等、言語により区切りが異なる)。
+const FACTOR_LEVEL_SUFFIX = /[\s・·-]*G\d+$/;
+
+// クラス専用因子の名前の先頭に付くクラス名部分(「ストームブレイド・」「Stormblade 」「雷影」等)。
+// 言語ごとに表記・区切りが異なり、クラスの正式名とも一致しない(中国語は略称)ため、そのクラスの
+// 全因子名に共通する先頭部分をクラス名部分とみなす(因子タイプ名は互いに異なる語で始まる)。
+function factorClassPrefix(tg: GameDataT, professionId: number): string {
+  const names = Object.values(pfData.byClass)
+    .filter((fc) => fc.professionIds[0] === professionId && fc.grades[0])
+    .map((fc) => tg(`items.${fc.grades[0].id}.name`).replace(FACTOR_LEVEL_SUFFIX, ''));
+  if (names.length < 2) return '';
+  let prefix = names[0];
+  for (const name of names) {
+    while (prefix && !name.startsWith(prefix)) prefix = prefix.slice(0, -1);
+  }
+  return prefix;
+}
+
+// 因子の短縮名(クラス名部分とレベル表記を除いた名前。例: 「想像因子X1」)。共通因子は基底名のまま。
+export function factorShortName(tg: GameDataT, classKey: string): string {
+  const fc = pfData.byClass[classKey];
+  const g1Id = fc?.grades[0]?.id;
   if (!g1Id) return classKey;
-  return tg(`items.${g1Id}.name`).replace(/・G\d+$/, '');
+  const name = tg(`items.${g1Id}.name`).replace(FACTOR_LEVEL_SUFFIX, '');
+  const professionId = fc.professionIds[0];
+  if (professionId == null) return name;
+  const prefix = factorClassPrefix(tg, professionId);
+  return prefix && name.startsWith(prefix) ? name.slice(prefix.length) || name : name;
+}
+
+// クラス専用因子のクラス名(game-data の classes)。共通因子は null。
+export function factorClassName(tg: GameDataT, classKey: string): string | null {
+  const professionId = pfData.byClass[classKey]?.professionIds[0];
+  if (professionId == null) return null;
+  return tg(`classes.${professionId}.name`, { defaultValue: String(professionId) });
 }
 
 // スロット(groupId)に装着可能な因子クラスの一覧。過去シーズン(S2)の因子は除外する。
-// 現在のクラス専用 → 共通 → 他クラスの順に並べる。
+// 現在のクラス専用 → 共通 → 他クラス(クラスID順)の順に並べ、同じクラス内は因子タイプ順。
 export function getFactorsForSlot(
   groupId: number,
   professionId: number,
@@ -102,8 +132,9 @@ export function getFactorsForSlot(
     const aM = a.profId === professionId ? 0 : a.profId === 0 ? 1 : 2;
     const bM = b.profId === professionId ? 0 : b.profId === 0 ? 1 : 2;
     if (aM !== bM) return aM - bM;
-    if (a.typeId !== b.typeId) return a.typeId - b.typeId;
+    // 他クラスはクラス単位でまとめる(ドロップダウンのクラス見出しで区切るため)
     if (a.profId !== b.profId) return a.profId - b.profId;
+    if (a.typeId !== b.typeId) return a.typeId - b.typeId;
     return a.classKey.localeCompare(b.classKey);
   });
   return result;
@@ -120,14 +151,32 @@ export function getFactorBaseOptions(
   tg: GameDataT,
   groupId: number,
   professionId: number,
+  unrestrictedLabel: string,
 ): DropdownOption[] {
-  return getFactorsForSlot(groupId, professionId).map((f) => {
-    return {
-      value: f.classKey,
-      label: factorBaseName(tg, f.classKey),
-      icon: getFactorIcon(f.classKey),
-    };
-  });
+  // クラス専用因子はクラス名部分を除いた短縮名で表示し、クラスごとの見出しで区切る
+  // (getFactorsForSlot の並びはクラス単位でまとまっている)。クラスを問わない因子は
+  // unrestrictedLabel(「無制限」)の見出し。特異点因子は名前の右に型の所属を添える。
+  return getFactorsForSlot(groupId, professionId).map((f) => ({
+    value: f.classKey,
+    label: factorShortName(tg, f.classKey),
+    sublabel: factorTalentSchool(tg, f.classKey)?.name,
+    icon: getFactorIcon(f.classKey),
+    group: factorClassName(tg, f.classKey) ?? unrestrictedLabel,
+  }));
+}
+
+// 因子の詳細表示用の情報行(因子タイプ / クラス / 特異点因子なら型の所属)。因子名はクラス名を
+// 省いた短縮名で表示するため、省いたクラス名(クラスを問わない因子は「無制限」)をここで補う。
+export function factorDetailLines(t: TFunction, tg: GameDataT, classKey: string): string[] {
+  const lines = [
+    t('buildPlanner.phantom.factorTypeLabel', { type: factorTypeName(tg, classKey) }),
+    t('buildPlanner.phantom.factorClassLabel', {
+      class: factorClassName(tg, classKey) ?? t('buildPlanner.phantom.factorClassUnrestricted'),
+    }),
+  ];
+  const school = factorTalentSchool(tg, classKey);
+  if (school) lines.push(t('buildPlanner.phantom.factorSchoolLabel', { type: school.name }));
+  return lines;
 }
 
 // 固定ノード(ordinaryEffect)の type=3 バフ効果説明。<br>/<linktext>等のタグは残したまま

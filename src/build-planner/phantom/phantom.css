@@ -367,6 +367,12 @@
   margin-top: 3px;
 }
 
+/* 因子名の下の因子タイプ/クラス/型の所属 */
+.phantom-desc-factor-meta {
+  color: #8a8aa6;
+  font-size: 14px;
+}
+
 .phantom-desc-text {
   color: #7a7a9a;
   font-size: 17px;

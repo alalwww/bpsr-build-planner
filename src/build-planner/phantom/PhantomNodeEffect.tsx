@@ -5,7 +5,8 @@ import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import type { PhantomFactorSlotValue } from './phantomData';
 import { getSTAsset, getUnlockLevel, iconPathToFile, stData } from './phantomData';
 import {
-  factorBaseName,
+  factorDetailLines,
+  factorShortName,
   formatType1Effect,
   getFactorEffectMarkup,
   getNodeEffectDesc,
@@ -120,9 +121,17 @@ export default function PhantomNodeEffect({
           </span>
         </div>
         {current && (
-          <div className="phantom-desc-factor">
-            {factorBaseName(tg, current.classKey)} G{current.grade}
-          </div>
+          <>
+            <div className="phantom-desc-factor">
+              {factorShortName(tg, current.classKey)} G{current.grade}
+            </div>
+            {/* 因子名はクラス名を省いた短縮名のため、因子タイプ/クラス/型の所属を補う */}
+            {factorDetailLines(t, tg, current.classKey).map((line) => (
+              <div key={line} className="phantom-desc-factor-meta">
+                {line}
+              </div>
+            ))}
+          </>
         )}
         {factorEffectDesc && (
           <div className="phantom-desc-text">
