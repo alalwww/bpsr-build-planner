@@ -18,6 +18,8 @@ import type { BuildStore } from './types';
 // 映痕を選んだときの既定の品質(レアリティ)。因子設定ダイアログのレアリティ一括変更で選んだ値を
 // 全因子共通で覚えておく(ビルドプラン等とは独立したローカル設定)。
 const AFFIX_DEFAULT_QUALITY_STORAGE_KEY = 'bpsr-affix-default-quality-v1';
+// 保存された値が無いときの既定の品質(エピック)。
+const AFFIX_INITIAL_DEFAULT_QUALITY = 4;
 
 function loadAffixDefaultQuality(): number {
   try {
@@ -26,7 +28,9 @@ function loadAffixDefaultQuality(): number {
   } catch {
     // storage unavailable
   }
-  return AFFIX_QUALITIES[0];
+  return AFFIX_QUALITIES.includes(AFFIX_INITIAL_DEFAULT_QUALITY)
+    ? AFFIX_INITIAL_DEFAULT_QUALITY
+    : AFFIX_QUALITIES[0];
 }
 
 // 映痕プリセットと映痕の既定の品質(因子設定ダイアログ)。ビルドプラン/自動保存/共有コードには含めない。
