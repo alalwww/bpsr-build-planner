@@ -847,6 +847,10 @@
   white-space: nowrap;
 }
 
+.select-dropdown__label--muted {
+  color: #6a6a76;
+}
+
 .select-dropdown__sublabel {
   color: #8a8a9a;
   font-weight: 400;
@@ -865,6 +869,7 @@
 }
 
 .select-dropdown__list {
+  font-size: 12px;
   background: #1e1e28;
   border: 1px solid #3a3a50;
   border-radius: 4px;
@@ -872,10 +877,15 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
 }
 
+/* 見出しはスクロールしても上端に残す(長い一覧でどのグループを見ているかわかるように) */
 .select-dropdown__group {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   padding: 6px 10px 3px;
-  font-size: 11px;
+  font-size: 0.9em;
   color: #7ab4f4;
+  background: #1e1e28;
   border-top: 1px solid #2a2a33;
 }
 
@@ -893,7 +903,7 @@
   border: none;
   color: #e8e6e1;
   font-family: inherit;
-  font-size: 12px;
+  font-size: inherit;
   text-align: left;
   padding: 6px 10px;
   cursor: pointer;
@@ -912,4 +922,28 @@
 .select-dropdown__option:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* 選択肢の説明ツールチップ(SelectOption.description) */
+.select-dropdown__tooltip {
+  background: #1a1a2a;
+  border: 1px solid #4a4a6a;
+  border-radius: 4px;
+  padding: 8px 12px;
+  max-width: 280px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.select-dropdown__tooltip-name {
+  font-size: 15px;
+  color: #e8e6e1;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.select-dropdown__tooltip-desc {
+  font-size: 14px;
+  color: #8888aa;
+  line-height: 1.5;
 }

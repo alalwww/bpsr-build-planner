@@ -825,13 +825,12 @@
   max-width: 100%;
 }
 
-.phantom-affix-dropdown .phantom-dropdown__trigger,
-.phantom-affix-dropdown .phantom-dropdown__label,
-.phantom-dropdown__list.phantom-affix-dropdown .phantom-dropdown__item {
+.phantom-affix-dropdown .select-dropdown,
+.select-dropdown__list.phantom-affix-dropdown {
   font-size: 14px;
 }
 
-.phantom-affix-dropdown .phantom-dropdown__trigger {
+.phantom-affix-dropdown .select-dropdown {
   height: 34px;
 }
 
@@ -896,17 +895,9 @@
   color: #c8c6c1;
 }
 
-.phantom-dropdown__group {
-  padding: 6px 12px 3px;
-  font-size: 12px;
-  color: #7ab4f4;
-  border-top: 1px solid #2a2a33;
-  position: sticky;
-  top: 0;
-  background: #1e1e2a;
-}
-
-/* ---- Custom Dropdown ---- */
+/* ---- 心相晶のドロップダウン(CustomDropdown) ----
+   見た目・操作は共通の SelectDropdown(components.css の select-dropdown)に揃え、
+   ここでは心相晶向けの大きめのサイズだけを指定する。 */
 .phantom-dropdown {
   position: relative;
   display: inline-flex;
@@ -918,133 +909,36 @@
   max-width: 450px;
 }
 
-/* 因子選択ドロップダウン(因子設定ダイアログ内)。長い因子名でも文字欠けしにくいよう、
-   文字サイズを他のドロップダウン(テンプレート選択)より少し小さくする。 */
-.phantom-factor-dropdown .phantom-dropdown__trigger,
-.phantom-factor-dropdown .phantom-dropdown__label,
-.phantom-dropdown__list.phantom-factor-dropdown .phantom-dropdown__item {
-  font-size: 15px;
-}
-
-.phantom-dropdown__trigger {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: #23232d;
-  border: 1px solid #3a3a4a;
-  color: #e8e6e1;
-  border-radius: 3px;
+.phantom-dropdown .select-dropdown {
+  width: 100%;
   height: 38px;
   padding: 0 8px;
+  border-radius: 3px;
+  background: #23232d;
   font-size: 17px;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
+}
+
+.select-dropdown__list.phantom-dropdown__list {
+  font-size: 17px;
+}
+
+.phantom-dropdown__list .select-dropdown__option {
+  gap: 8px;
+  padding: 7px 12px;
   white-space: nowrap;
-  overflow: hidden;
 }
 
-.phantom-dropdown__trigger:hover {
-  border-color: #666;
-}
-
-.phantom-dropdown__placeholder {
-  color: #555;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.phantom-dropdown__label {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 17px;
-}
-
-.phantom-dropdown__arrow {
-  color: #666;
-  margin-left: auto;
-}
-
-.phantom-dropdown__icon {
+.phantom-dropdown .select-dropdown__icon,
+.phantom-dropdown__list .select-dropdown__icon {
   width: 26px;
   height: 26px;
-  object-fit: contain;
-  flex-shrink: 0;
 }
 
-.phantom-dropdown__list {
-  max-height: 300px;
-  overflow-y: auto;
-  background: #1e1e2a;
-  border: 1px solid #4a4a5a;
-  border-radius: 3px;
-  z-index: 200;
-  margin-top: 2px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-.phantom-dropdown__item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 7px 12px;
-  background: transparent;
-  border: none;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  font-size: 17px;
-  color: #9090a8;
-  white-space: nowrap;
-}
-
-.phantom-dropdown__item:hover {
-  background: #2a2a38;
-  color: #ccc;
-}
-
-.phantom-dropdown__item--active {
-  background: #2e2315;
-  color: #f4a13a;
-}
-
-.phantom-dropdown__item-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* 未開放テンプレートの「（Lv.Nで開放）」等、ラベル末尾の補足テキスト */
-.phantom-dropdown__sublabel {
-  font-size: 13px;
-  font-weight: 400;
-  color: #8a8a9a;
-  margin-left: 2px;
-}
-
-.phantom-dropdown__tooltip {
-  background: #1a1a2a;
-  border: 1px solid #4a4a6a;
-  border-radius: 4px;
-  padding: 8px 12px;
-  max-width: 280px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  pointer-events: none;
-}
-
-.phantom-dropdown__tooltip-name {
-  font-size: 16px;
-  color: #e8e6e1;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.phantom-dropdown__tooltip-desc {
+/* 因子選択ドロップダウン(因子設定ダイアログ内)。長い因子名でも文字欠けしにくいよう、
+   文字サイズをテンプレート選択より少し小さくする。 */
+.phantom-factor-dropdown .select-dropdown,
+.select-dropdown__list.phantom-factor-dropdown {
   font-size: 15px;
-  color: #8888aa;
-  line-height: 1.5;
 }
 
 /* ---- Level Stepper ---- */
