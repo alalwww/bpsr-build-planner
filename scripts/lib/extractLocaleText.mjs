@@ -162,12 +162,11 @@ const IMAGINE_EFFECT_VALUE_MAP = {
   3966: { 1: ['attrPer', 'percent'] },
   3982: { 7: ['attrA', 'percent'], 8: ['attrB', 'percent'], 9: ['attrC', 'percent'] },
   3983: { 0: ['attr', 'percent'], 10: ['attrA', 'percent'], 11: ['attrB', 'percent'] },
-  // --- シーズン3: 新規バトルイマジン(3968-3981)。FloatParameterキー名がラベルと
-  // 直訳一致する高確度の類推だが、ゲーム内表示との突き合わせは未実施(要確認)。
+  // --- シーズン3/4 の新規バトルイマジン(3968-3980, 3988-3996)。ゲーム内表示との
+  // 突き合わせで全行確認済み(2026-11-26)。
   // 3968: hp(134000)はDesc記載の「最大HP 134000ptごと」の閾値のため行に対応しない。
-  // 3969: キー4件(attrPer/attrAdd/attr/attrMax)にラベル3件。クラススキルの
-  //   attrPer+attrAdd 複合(「%+実数」)と同じ命名のため「会心アップ」を複合表記とし、
-  //   attr=変換割合、attrMax=上限 と類推(要ゲーム内確認)。
+  // 3969: 「会心アップ」は attrPer(%) + attrAdd(実数) の複合表記。
+  // 3978: キー名は time だがミリ秒の短縮秒数(0.5秒〜1秒)。
   3968: { 1: ['attr', 'percent'], 2: ['attrElse', 'percent'], 3: ['attrMax', 'percent'] },
   3969: {
     1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']],
@@ -179,12 +178,9 @@ const IMAGINE_EFFECT_VALUE_MAP = {
   3972: { 1: ['attrElse', 'percent'], 2: ['attrMax', 'percent'] },
   3974: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'], 3: ['attrC', 'percent'] },
   3975: { 1: ['attrDef', 'percent'], 2: ['attrHp', 'percent'] },
-  3978: { 1: ['time', 'percent'] },
+  3978: { 1: ['time', 'seconds'] },
   3979: { 1: ['attr', 'percent'] },
   3980: { 1: ['attr', 'percent'] },
-  // --- シーズン4: 新規バトルイマジン(3988-3996)。キーとラベルが行順に1対1で並ぶ
-  // 類推(会心/幸運アップは既存の3966ファストアップ等と同じく%表記)。ゲーム内表示との
-  // 突き合わせは未実施(要確認)。
   3988: { 1: ['attr', 'percent'] },
   3989: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'], 3: ['attrSub', 'percent'] },
   3990: { 1: ['attrA', 'percent'], 2: ['attrB', 'percent'] },
