@@ -40,6 +40,10 @@ interface DropdownProps {
   triggerTitle?: string;
   /** トリガーのアクセシブルネーム(aria-label)。 */
   triggerAriaLabel?: string;
+  /** 開閉状態を呼び出し側で管理する場合の開閉状態(onOpenChange と併せて指定する)。 */
+  open?: boolean;
+  /** 開閉状態の変更要求(open 指定時)。 */
+  onOpenChange?: (open: boolean) => void;
 }
 
 // 「トリガーボタン → document.bodyへportalした固定位置の選択肢パネル」という
@@ -60,8 +64,22 @@ function Dropdown({
   disabled = false,
   triggerTitle,
   triggerAriaLabel,
+  open,
+  onOpenChange,
 }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  // 開閉状態は既定では内部で持ち、open 指定時は呼び出し側の状態に従う(同時に1つだけ開く等の
+  // 制御を呼び出し側で行いたい場合)。
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = open ?? internalOpen;
+  // イベントハンドラ(effect内で登録したもの含む)から常に最新の状態・コールバックを参照する。
+  const latestRef = useRef({ isOpen, open, onOpenChange });
+  latestRef.current = { isOpen, open, onOpenChange };
+  const setIsOpen = (next: boolean | ((prev: boolean) => boolean)) => {
+    const latest = latestRef.current;
+    const value = typeof next === 'function' ? next(latest.isOpen) : next;
+    if (latest.open === undefined) setInternalOpen(value);
+    if (value !== latest.isOpen) latest.onOpenChange?.(value);
+  };
   const [pos, setPos] = useState<{
     left: number;
     width: number;
@@ -109,6 +127,12 @@ function Dropdown({
     setIsOpen((v) => !v);
   };
 
+  // 呼び出し側の状態で開かれた場合(open 指定時)も位置を計算する。
+  useLayoutEffect(() => {
+    if (isOpen && !sheet) updatePos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, sheet]);
+
   // 無効化されたら閉じる
   useEffect(() => {
     if (disabled) setIsOpen(false);
@@ -127,6 +151,7 @@ function Dropdown({
     };
     document.addEventListener('pointerdown', handler);
     return () => document.removeEventListener('pointerdown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // 開いている間、外側UIのスクロール/リサイズでトリガーの位置が変わったらパネルを追従させる。

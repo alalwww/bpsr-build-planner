@@ -1,5 +1,3 @@
-import { type RefObject, useLayoutEffect, useState } from 'react';
-
 export interface DropdownPlacement {
   direction: 'down' | 'up';
   /** 使用可能な最大高さ(px)。これを超える分はパネル側のCSS(overflow-y: auto)でスクロールさせる。 */
@@ -20,26 +18,4 @@ export function computeDropdownPlacement(rect: DOMRect): DropdownPlacement {
     return { direction: 'up', maxHeight: Math.max(spaceAbove, 80) };
   }
   return { direction: 'down', maxHeight: Math.max(spaceBelow, 80) };
-}
-
-// 開いた瞬間のトリガー位置から配置を計算するフック。position:absoluteでスクロール
-// コンテナに追従させる形式のドロップダウン(EvoSlotPicker/LegendaryAffixPicker等)向け。
-// fixed+portal形式のDropdown.tsxはスクロール/リサイズにも追従させる必要があるため、
-// こちらの関数を updatePos 内で直接呼んで独自に管理している。
-export function useDropdownPlacement(
-  triggerRef: RefObject<HTMLElement | null>,
-  isOpen: boolean,
-): DropdownPlacement {
-  const [placement, setPlacement] = useState<DropdownPlacement>({
-    direction: 'down',
-    maxHeight: 320,
-  });
-
-  useLayoutEffect(() => {
-    if (!isOpen || !triggerRef.current) return;
-    setPlacement(computeDropdownPlacement(triggerRef.current.getBoundingClientRect()));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
-
-  return placement;
 }

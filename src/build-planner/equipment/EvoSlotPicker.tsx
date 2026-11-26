@@ -1,12 +1,6 @@
-import { useRef } from 'react';
 import Chevron from '../components/Chevron';
+import Dropdown from '../components/Dropdown';
 import { useArrowKeySelect } from '../components/useArrowKeySelect';
-import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
-import { useDelayedUnmount } from '../components/useDelayedUnmount';
-import { useDropdownKeyboardNav } from '../components/useDropdownKeyboardNav';
-import { useDropdownPlacement } from '../components/useDropdownPlacement';
-
-const CLOSE_ANIM_MS = 150;
 
 interface EvoSlotPickerProps<T extends string | number> {
   /** ボタン先頭に表示するタグ(改鋳スロット等)。省略時は非表示。 */
@@ -27,6 +21,9 @@ interface EvoSlotPickerProps<T extends string | number> {
 
 // 進化ステータス選択スロット。改鋳スロット・同一attrId選択スロット・通常スロット・
 // 進化ステータス組み合わせ違い装備の切り替えスロットで共通利用する。
+// トリガーはタグ・値付きの独自の見た目のまま、選択肢リストは共通の Dropdown(位置計算・
+// キーボード操作・スマホのボトムシート表示)と SelectDropdown と同じ見た目を使う。
+// 開閉状態は呼び出し側(同時に1スロットだけ編集)が管理する。
 function EvoSlotPicker<T extends string | number>({
   tag,
   valueLabel,
@@ -39,20 +36,6 @@ function EvoSlotPicker<T extends string | number>({
   onToggleEdit,
   onSelect,
 }: EvoSlotPickerProps<T>) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  useCloseOnOutsideClick(containerRef, isEditing, onToggleEdit);
-  const shouldRenderPicker = useDelayedUnmount(isEditing, CLOSE_ANIM_MS);
-  useDropdownKeyboardNav(panelRef, isEditing && shouldRenderPicker, onToggleEdit, triggerRef);
-  // スマホ幅の縦積みダイアログ等、トリガーが画面下部にあると選択肢が画面外にはみ出るため、
-  // 下に十分な余白がなければ上に開く。
-  const placement = useDropdownPlacement(triggerRef, isEditing);
-  // 選択肢を選んだ後は、選択肢ボタン(アンマウントされる)からトリガーへフォーカスを戻す。
-  const handleSelect = (statId: T | undefined) => {
-    onSelect(statId);
-    triggerRef.current?.focus();
-  };
   // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
   // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(選択肢一覧)と一致させる。
   const options: (T | undefined)[] =
@@ -60,65 +43,66 @@ function EvoSlotPicker<T extends string | number>({
   const handleTriggerKeyDown = useArrowKeySelect({
     values: options,
     current: selectedStat,
-    onChange: handleSelect,
-    disabled: isEditing,
+    onChange: onSelect,
   });
+  const selectedIcon = selectedStat != null ? getIcon?.(selectedStat) : undefined;
+
   return (
-    <div className="equip-evo-slot" ref={containerRef}>
-      <button
-        ref={triggerRef}
-        type="button"
-        className={`equip-evo-slot__btn${selectedStat != null ? ' equip-evo-slot__btn--set' : ''}`}
-        onClick={onToggleEdit}
-        onKeyDown={handleTriggerKeyDown}
+    <div className="equip-evo-slot">
+      <Dropdown
+        open={isEditing}
+        onOpenChange={(open) => {
+          if (open !== isEditing) onToggleEdit();
+        }}
+        triggerClassName={`equip-evo-slot__btn${selectedStat != null ? ' equip-evo-slot__btn--set' : ''}`}
+        panelClassName="select-dropdown__list"
+        panelFitContent
+        onTriggerKeyDown={handleTriggerKeyDown}
+        triggerAriaLabel={tag}
+        renderTrigger={(isOpen) => (
+          <>
+            {tag && <span className="equip-evo-slot__tag">{tag}</span>}
+            <span className="equip-evo-slot__stat">
+              {selectedIcon && <img src={selectedIcon} alt="" className="equip-evo-slot__icon" />}
+              {selectedStat != null ? getLabel(selectedStat) : unsetLabel}
+            </span>
+            {valueLabel !== undefined && (
+              <span className="equip-evo-slot__value">{valueLabel}</span>
+            )}
+            <Chevron open={isOpen} className="equip-evo-slot__arrow" />
+          </>
+        )}
       >
-        {tag && <span className="equip-evo-slot__tag">{tag}</span>}
-        <span className="equip-evo-slot__stat">
-          {selectedStat != null && getIcon?.(selectedStat) && (
-            <img src={getIcon(selectedStat)} alt="" className="equip-evo-slot__icon" />
-          )}
-          {selectedStat != null ? getLabel(selectedStat) : unsetLabel}
-        </span>
-        {valueLabel !== undefined && <span className="equip-evo-slot__value">{valueLabel}</span>}
-        <Chevron open={isEditing} className="equip-evo-slot__arrow" />
-      </button>
-      {shouldRenderPicker && (
-        <div
-          className={`equip-evo-picker-anchor dropdown-panel-anim${isEditing ? '' : ' dropdown-panel-anim--closing'}${placement.direction === 'up' ? ' equip-evo-picker-anchor--up' : ''}`}
-        >
-          <div className="dropdown-panel-anim__inner">
-            <div
-              className="equip-evo-picker"
-              ref={panelRef}
-              style={{ maxHeight: placement.maxHeight, overflowY: 'auto' }}
-            >
-              {unsetLabel !== undefined && (
+        {(close) => (
+          <div role="listbox">
+            {options.map((statId) => {
+              const isSelected = statId === selectedStat;
+              const iconUrl = statId != null ? getIcon?.(statId) : undefined;
+              return (
                 <button
                   type="button"
-                  className={`equip-evo-option${selectedStat == null ? ' equip-evo-option--selected' : ''}`}
-                  onClick={() => handleSelect(undefined)}
+                  role="option"
+                  key={statId ?? '__unset'}
+                  aria-selected={isSelected}
+                  data-selected={isSelected}
+                  className={`select-dropdown__option${isSelected ? ' select-dropdown__option--selected' : ''}`}
+                  onClick={() => {
+                    onSelect(statId);
+                    close();
+                  }}
                 >
-                  {unsetLabel}
-                </button>
-              )}
-              {availableStats.map((statId) => {
-                const iconUrl = getIcon?.(statId);
-                return (
-                  <button
-                    type="button"
-                    key={statId}
-                    className={`equip-evo-option${selectedStat === statId ? ' equip-evo-option--selected' : ''}`}
-                    onClick={() => handleSelect(statId)}
+                  {iconUrl && <img src={iconUrl} alt="" className="select-dropdown__icon" />}
+                  <span
+                    className={`select-dropdown__label${statId == null ? ' select-dropdown__label--muted' : ''}`}
                   >
-                    {iconUrl && <img src={iconUrl} alt="" className="equip-evo-slot__icon" />}
-                    {getLabel(statId)}
-                  </button>
-                );
-              })}
-            </div>
+                    {statId != null ? getLabel(statId) : unsetLabel}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        </div>
-      )}
+        )}
+      </Dropdown>
     </div>
   );
 }

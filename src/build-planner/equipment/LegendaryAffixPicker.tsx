@@ -1,15 +1,9 @@
-import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import Chevron from '../components/Chevron';
+import Dropdown from '../components/Dropdown';
 import { useArrowKeySelect } from '../components/useArrowKeySelect';
-import { useCloseOnOutsideClick } from '../components/useCloseOnOutsideClick';
-import { useDelayedUnmount } from '../components/useDelayedUnmount';
-import { useDropdownKeyboardNav } from '../components/useDropdownKeyboardNav';
-import { useDropdownPlacement } from '../components/useDropdownPlacement';
 import { getStatIconUrlForAttrId } from '../stats/statIcons';
 import type { LegendaryAffixEntry, LegendaryAffixSelection } from '../types';
-
-const CLOSE_ANIM_MS = 150;
 
 interface LegendaryAffixPickerProps {
   legendaryAffixList: LegendaryAffixEntry[];
@@ -23,6 +17,14 @@ function formatAffixValue(isPercent: boolean, value: number): string {
   return isPercent ? `+${value / 100}%` : `+${value}`;
 }
 
+const isSameAffix = (
+  a: LegendaryAffixSelection | undefined,
+  b: LegendaryAffixSelection | undefined,
+) => a?.attrId === b?.attrId && a?.value === b?.value;
+
+// レアステータス(伝説刻印)の選択スロット。トリガーは進化ステータスのスロットと同じ見た目、
+// 選択肢リストは共通の Dropdown(位置計算・キーボード操作・スマホのボトムシート表示)と
+// SelectDropdown と同じ見た目を使う。開閉状態は呼び出し側が管理する。
 function LegendaryAffixPicker({
   legendaryAffixList,
   selectedLegendaryAffix,
@@ -31,15 +33,6 @@ function LegendaryAffixPicker({
   onSet,
 }: LegendaryAffixPickerProps) {
   const { t } = useTranslation();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  useCloseOnOutsideClick(containerRef, isOpen, onToggleOpen);
-  const shouldRenderPicker = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
-  useDropdownKeyboardNav(panelRef, isOpen && shouldRenderPicker, onToggleOpen, triggerRef);
-  // スマホ幅の縦積みダイアログ等、トリガーが画面下部にあると選択肢が画面外にはみ出るため、
-  // 下に十分な余白がなければ上に開く。
-  const placement = useDropdownPlacement(triggerRef, isOpen);
   const selectedAffixEntry = legendaryAffixList.find(
     (e) => e.attrId === selectedLegendaryAffix?.attrId,
   );
@@ -47,12 +40,6 @@ function LegendaryAffixPicker({
     selectedAffixEntry && selectedLegendaryAffix
       ? formatAffixValue(selectedAffixEntry.isPercent, selectedLegendaryAffix.value)
       : null;
-
-  // 選択肢を選んだ後は、選択肢ボタン(アンマウントされる)からトリガーへフォーカスを戻す。
-  const handleSet = (selection: LegendaryAffixSelection | undefined) => {
-    onSet(selection);
-    triggerRef.current?.focus();
-  };
 
   // トリガーにフォーカスがある間、パネルを開かずに上下矢印キーで選択を直接変更できるように
   // する(ネイティブselect/Stepperのコンボと同じ操作感)。表示順(選択肢一覧)と一致させる。
@@ -66,88 +53,80 @@ function LegendaryAffixPicker({
   const handleTriggerKeyDown = useArrowKeySelect({
     values: affixOptions,
     current: selectedLegendaryAffix,
-    onChange: handleSet,
-    disabled: isOpen,
-    isEqual: (a, b) => a?.attrId === b?.attrId && a?.value === b?.value,
+    onChange: onSet,
+    isEqual: isSameAffix,
   });
+  const selectedIcon =
+    selectedLegendaryAffix != null
+      ? getStatIconUrlForAttrId(selectedLegendaryAffix.attrId)
+      : undefined;
 
   return (
-    <div className="equip-evo-slot equip-affix-slot" ref={containerRef}>
-      <button
-        ref={triggerRef}
-        type="button"
-        className={`equip-evo-slot__btn${selectedLegendaryAffix != null ? ' equip-evo-slot__btn--set' : ''}`}
-        onClick={onToggleOpen}
-        onKeyDown={handleTriggerKeyDown}
-      >
-        <span className="equip-evo-slot__stat equip-affix-slot__stat">
-          {selectedLegendaryAffix != null &&
-            getStatIconUrlForAttrId(selectedLegendaryAffix.attrId) && (
-              <img
-                src={getStatIconUrlForAttrId(selectedLegendaryAffix.attrId)}
-                alt=""
-                className="equip-evo-slot__icon"
-              />
+    <div className="equip-evo-slot equip-affix-slot">
+      <Dropdown
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (open !== isOpen) onToggleOpen();
+        }}
+        triggerClassName={`equip-evo-slot__btn${selectedLegendaryAffix != null ? ' equip-evo-slot__btn--set' : ''}`}
+        panelClassName="select-dropdown__list"
+        panelFitContent
+        onTriggerKeyDown={handleTriggerKeyDown}
+        renderTrigger={(open) => (
+          <>
+            <span className="equip-evo-slot__stat equip-affix-slot__stat">
+              {selectedIcon && <img src={selectedIcon} alt="" className="equip-evo-slot__icon" />}
+              {selectedLegendaryAffix != null
+                ? t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })
+                : t('buildPlanner.evolutionStatUnset')}
+            </span>
+            {selectedAffixDisplayValue && (
+              <span className="equip-evo-slot__value">{selectedAffixDisplayValue}</span>
             )}
-          {selectedLegendaryAffix != null
-            ? t(`attributes.${selectedLegendaryAffix.attrId}`, { ns: 'game-data' })
-            : t('buildPlanner.evolutionStatUnset')}
-        </span>
-        {selectedAffixDisplayValue && (
-          <span className="equip-evo-slot__value">{selectedAffixDisplayValue}</span>
+            <Chevron open={open} className="equip-evo-slot__arrow" />
+          </>
         )}
-        <Chevron open={isOpen} className="equip-evo-slot__arrow" />
-      </button>
-      {shouldRenderPicker && (
-        <div
-          className={`equip-evo-picker-anchor dropdown-panel-anim${isOpen ? '' : ' dropdown-panel-anim--closing'}${placement.direction === 'up' ? ' equip-evo-picker-anchor--up' : ''}`}
-        >
-          <div className="dropdown-panel-anim__inner">
-            <div
-              className="equip-evo-picker equip-affix-picker"
-              ref={panelRef}
-              style={{ maxHeight: placement.maxHeight, overflowY: 'auto' }}
-            >
-              <button
-                type="button"
-                className={`equip-evo-option equip-affix-unset${selectedLegendaryAffix == null ? ' equip-evo-option--selected' : ''}`}
-                onClick={() => handleSet(undefined)}
-              >
-                {t('buildPlanner.evolutionStatUnset')}
-              </button>
-              {legendaryAffixList.flatMap(({ attrId, isPercent, values }) =>
-                values.map((value) => {
-                  const isSelected =
-                    selectedLegendaryAffix?.attrId === attrId &&
-                    selectedLegendaryAffix?.value === value;
-                  return (
-                    <button
-                      key={`${attrId}-${value}`}
-                      type="button"
-                      className={`equip-evo-option equip-affix-option${isSelected ? ' equip-evo-option--selected' : ''}`}
-                      onClick={() => handleSet({ attrId, value })}
-                    >
-                      <span className="equip-affix-option__name">
-                        {getStatIconUrlForAttrId(attrId) && (
-                          <img
-                            src={getStatIconUrlForAttrId(attrId)}
-                            alt=""
-                            className="equip-evo-slot__icon"
-                          />
-                        )}
-                        {t(`attributes.${attrId}`, { ns: 'game-data' })}
-                      </span>
-                      <span className="equip-affix-option__value">
-                        {formatAffixValue(isPercent, value)}
-                      </span>
-                    </button>
-                  );
-                }),
-              )}
-            </div>
+      >
+        {(close) => (
+          <div role="listbox">
+            {affixOptions.map((option) => {
+              const isSelected = isSameAffix(option, selectedLegendaryAffix);
+              const entry = option
+                ? legendaryAffixList.find((e) => e.attrId === option.attrId)
+                : undefined;
+              const iconUrl = option ? getStatIconUrlForAttrId(option.attrId) : undefined;
+              return (
+                <button
+                  key={option ? `${option.attrId}-${option.value}` : '__unset'}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  data-selected={isSelected}
+                  className={`select-dropdown__option equip-affix-option${isSelected ? ' select-dropdown__option--selected' : ''}`}
+                  onClick={() => {
+                    onSet(option);
+                    close();
+                  }}
+                >
+                  {iconUrl && <img src={iconUrl} alt="" className="select-dropdown__icon" />}
+                  <span
+                    className={`select-dropdown__label${option ? '' : ' select-dropdown__label--muted'}`}
+                  >
+                    {option
+                      ? t(`attributes.${option.attrId}`, { ns: 'game-data' })
+                      : t('buildPlanner.evolutionStatUnset')}
+                  </span>
+                  {option && entry && (
+                    <span className="equip-affix-option__value">
+                      {formatAffixValue(entry.isPercent, option.value)}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
-        </div>
-      )}
+        )}
+      </Dropdown>
     </div>
   );
 }

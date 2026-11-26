@@ -1053,72 +1053,7 @@
   color: #8a8a9a;
 }
 
-/* 開閉アニメーション(dropdown-panel-anim)の位置決めラッパー。実際の見た目
-   (背景/枠線/リスト方向)は入れ子の.equip-evo-picker側が担う。 */
-.equip-evo-picker-anchor {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 10;
-}
-
-/* トリガーの下に十分な余白がない場合、上に開く(useDropdownPlacement判定)。 */
-.equip-evo-picker-anchor--up {
-  top: auto;
-  bottom: 100%;
-}
-
-.equip-evo-picker {
-  background: #1e1e27;
-  border: 1px solid #3a3a45;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-}
-
-.equip-evo-picker-anchor--up .equip-evo-picker {
-  border-top: 1px solid #3a3a45;
-  border-bottom: none;
-  border-radius: 4px 4px 0 0;
-  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.4);
-}
-
-.equip-evo-option {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: transparent;
-  border: none;
-  border-top: 1px solid #25252e;
-  padding: 6px 10px;
-  font-size: 12px;
-  color: #c8c6d1;
-  text-align: left;
-  cursor: pointer;
-}
-
-.equip-evo-option:first-child {
-  border-top: none;
-}
-
-.equip-evo-option:hover {
-  background: #2a2a35;
-  color: #e8e6e1;
-}
-
-.equip-evo-option--selected {
-  color: #f4a13a;
-  background: #27271f;
-}
-
 /* 伝説刻印ピッカー */
-.equip-affix-unset {
-  color: #c084fc;
-}
-
 .equip-affix-slot {
   margin-bottom: 4px;
 }
@@ -1135,10 +1070,6 @@
   color: #c084fc;
 }
 
-.equip-affix-picker {
-  padding: 4px 0;
-}
-
 /* 蒼海武器の4枠選択式レアステータス: 既存の伝説刻印ピッカーを縦に並べる。 */
 .equip-affix-group-list {
   display: flex;
@@ -1150,31 +1081,15 @@
   margin-bottom: 0;
 }
 
-/* 伝説刻印(レアステータス)の選択肢: ラベル+効果値を1行に並べたフラットな行。
-   トリガーボタンと同様、テキストは常に紫(#c084fc)で表示する。 */
-.equip-affix-slot .equip-affix-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.equip-affix-slot .equip-affix-option,
-.equip-affix-slot .equip-affix-option:hover {
+/* 伝説刻印(レアステータス)の選択肢(SelectDropdown と同じリスト)。トリガーボタンと同様、
+   テキストは常に紫(#c084fc)で表示し、効果値は行の右端に寄せる。 */
+.select-dropdown__option.equip-affix-option {
   color: #c084fc;
 }
 
-.equip-affix-slot .equip-affix-option.equip-evo-option--selected {
-  background: #3a2a4a;
-}
-
-.equip-affix-option__name {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 .equip-affix-option__value {
+  margin-left: auto;
+  padding-left: 12px;
   font-size: 11px;
   flex-shrink: 0;
 }
@@ -1302,6 +1217,7 @@
   background: #1e1e27;
   border: 1px solid #3a3a45;
   border-radius: 4px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
   max-height: 220px;
   overflow-y: auto;
   display: flex;
