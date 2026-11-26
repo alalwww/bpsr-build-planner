@@ -947,3 +947,136 @@
   color: #8888aa;
   line-height: 1.5;
 }
+
+/* ---- ドロップダウンのボトムシート表示(スマホ相当の画面。Dropdown.tsx) ----
+   トリガー直下の小さなパネルの代わりに、画面下から出る大きめのシートで選択肢を表示する。 */
+@keyframes dropdown-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-sheet-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes dropdown-sheet-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dropdown-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.dropdown-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  animation: dropdown-sheet-backdrop-in 0.15s ease-out;
+}
+
+.dropdown-sheet__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  background: #1e1e28;
+  border-top: 1px solid #3a3a50;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.6);
+  padding-bottom: env(safe-area-inset-bottom);
+  animation: dropdown-sheet-in 0.18s ease-out;
+}
+
+.dropdown-sheet--closing {
+  pointer-events: none;
+}
+
+.dropdown-sheet--closing .dropdown-sheet__panel {
+  animation: dropdown-sheet-out 0.14s ease-in forwards;
+}
+
+.dropdown-sheet--closing .dropdown-sheet__backdrop {
+  opacity: 0;
+  transition: opacity 0.14s;
+}
+
+.dropdown-sheet__title {
+  flex-shrink: 0;
+  padding: 12px 16px 8px;
+  font-size: 13px;
+  color: #9a9aae;
+  border-bottom: 1px solid #2a2a33;
+}
+
+/* シート内の選択肢リスト。パネル用の枠・影・最大高さはシート側が持つため打ち消す。 */
+.dropdown-sheet .dropdown-sheet__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* シート表示・タッチ操作では選択肢のタップ領域を広げる(指で押しやすい高さ)。 */
+.dropdown-sheet .dropdown-sheet__list .select-dropdown__option {
+  min-height: 44px;
+  padding: 8px 16px;
+}
+
+.dropdown-sheet .dropdown-sheet__list .select-dropdown__group {
+  padding: 8px 16px 4px;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .select-dropdown__option {
+    min-height: 44px;
+  }
+
+  .select-dropdown {
+    min-height: 36px;
+  }
+}
+
+/* タッチ操作で説明ツールチップの代わりに選択肢内へ表示する説明 */
+.select-dropdown__option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.select-dropdown__option-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.select-dropdown__option-desc {
+  font-size: 0.8em;
+  color: #8888aa;
+  line-height: 1.4;
+  white-space: normal;
+}

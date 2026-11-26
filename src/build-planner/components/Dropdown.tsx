@@ -8,6 +8,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useDelayedUnmount } from './useDelayedUnmount';
+import { useIsMobile } from './useMediaQuery';
 import { computeDropdownPlacement } from './useDropdownPlacement';
 import { useDropdownKeyboardNav } from './useDropdownKeyboardNav';
 
@@ -71,6 +72,10 @@ function Dropdown({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const shouldRender = useDelayedUnmount(isOpen, CLOSE_ANIM_MS);
+  // スマホ相当の画面(狭い画面・横向きで高さが低い画面)では、トリガー直下に開く小さなパネルの
+  // 代わりに、画面下から出る大きめのシート(ボトムシート)で選択肢を表示する(タップしやすく、
+  // 画面端でパネルが潰れない)。背景のタップでも閉じられる。
+  const sheet = useIsMobile();
 
   const close = () => setIsOpen(false);
   // 選択肢を選んだ後の close は、外側クリックでの close と異なりトリガーへフォーカスを
@@ -111,7 +116,8 @@ function Dropdown({
 
   useEffect(() => {
     if (!isOpen) return;
-    const handler = (e: MouseEvent) => {
+    // マウス・タッチ・ペンのいずれでも外側の操作で閉じられるよう pointerdown で判定する。
+    const handler = (e: PointerEvent) => {
       if (
         !triggerRef.current?.contains(e.target as Node) &&
         !panelRef.current?.contains(e.target as Node)
@@ -119,15 +125,15 @@ function Dropdown({
         close();
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener('pointerdown', handler);
+    return () => document.removeEventListener('pointerdown', handler);
   }, [isOpen]);
 
   // 開いている間、外側UIのスクロール/リサイズでトリガーの位置が変わったらパネルを追従させる。
   // scrollイベントはバブリングしないため、任意の祖先スクロールコンテナを検知できるよう
   // キャプチャフェーズで監視する。
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || sheet) return;
     window.addEventListener('scroll', updatePos, true);
     window.addEventListener('resize', updatePos);
     return () => {
@@ -135,7 +141,7 @@ function Dropdown({
       window.removeEventListener('resize', updatePos);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, sheet]);
 
   // 開いた瞬間、選択中の選択肢(data-selected="true")が見えていなければそこまでスクロールする。
   // ペイント前に反映するため useLayoutEffect を使う(一瞬先頭が見えてから飛ぶ、を防ぐ)。
@@ -173,6 +179,26 @@ function Dropdown({
         {renderTrigger(isOpen)}
       </button>
       {shouldRender &&
+        sheet &&
+        createPortal(
+          <div className={`dropdown-sheet${isOpen ? '' : ' dropdown-sheet--closing'}`}>
+            <div className="dropdown-sheet__backdrop" />
+            <div
+              ref={panelRef}
+              className="dropdown-sheet__panel"
+              role="dialog"
+              aria-label={triggerAriaLabel ?? triggerTitle}
+            >
+              {triggerTitle && <div className="dropdown-sheet__title">{triggerTitle}</div>}
+              <div className={`dropdown-sheet__list ${panelClassName}`}>
+                {children(closeAfterSelect)}
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
+      {shouldRender &&
+        !sheet &&
         pos &&
         createPortal(
           <div

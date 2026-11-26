@@ -4,6 +4,7 @@ import Chevron from './Chevron';
 import Dropdown from './Dropdown';
 import FloatingTooltip from './FloatingTooltip';
 import { useArrowKeySelect } from './useArrowKeySelect';
+import { useMediaQuery } from './useMediaQuery';
 
 export interface SelectOption<T> {
   value: T;
@@ -75,6 +76,8 @@ function SelectDropdown<T>({
   const labelClass = (opt: SelectOption<T> | undefined) =>
     `select-dropdown__label${!opt || opt.muted ? ' select-dropdown__label--muted' : ''}`;
   const triggerTextColor = triggerColor ?? selected?.color;
+  // マウスを乗せる操作ができないタッチ端末では、説明をツールチップではなく選択肢の中に表示する。
+  const touch = useMediaQuery('(hover: none) and (pointer: coarse)');
 
   return (
     <>
@@ -130,7 +133,7 @@ function SelectDropdown<T>({
                       close();
                     }}
                     onMouseEnter={(e) => {
-                      if (opt.description == null) return;
+                      if (opt.description == null || touch) return;
                       const rect = e.currentTarget.getBoundingClientRect();
                       // リストの右側(画面右端に近く潰れやすい)ではなく左側に表示する。
                       setTooltip({ opt, x: rect.left - 6, y: rect.top });
@@ -138,9 +141,23 @@ function SelectDropdown<T>({
                     onMouseLeave={() => setTooltip(null)}
                   >
                     {opt.icon && <img className="select-dropdown__icon" src={opt.icon} alt="" />}
-                    <span className={labelClass(opt)}>{opt.label}</span>
-                    {opt.sublabel && (
-                      <span className="select-dropdown__sublabel">{opt.sublabel}</span>
+                    {touch && opt.description != null ? (
+                      <span className="select-dropdown__option-text">
+                        <span className="select-dropdown__option-main">
+                          <span className={labelClass(opt)}>{opt.label}</span>
+                          {opt.sublabel && (
+                            <span className="select-dropdown__sublabel">{opt.sublabel}</span>
+                          )}
+                        </span>
+                        <span className="select-dropdown__option-desc">{opt.description}</span>
+                      </span>
+                    ) : (
+                      <>
+                        <span className={labelClass(opt)}>{opt.label}</span>
+                        {opt.sublabel && (
+                          <span className="select-dropdown__sublabel">{opt.sublabel}</span>
+                        )}
+                      </>
                     )}
                   </button>
                 </Fragment>
