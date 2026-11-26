@@ -164,6 +164,9 @@ export interface EquipmentItem {
   // 「極」(kiwami、ドロップ品)/「匠」(takumi、クラフト品)の種別。どちらでもなければ未設定。
   // 抽出時に日本語の装備名の接頭辞「[極]」「[匠]」で判定している(extract-ztable.mjs)。
   variantTag?: EquipmentVariantTag;
+  // 欠番になった装備(日本語名に「【廃棄】」を含む。入手経路のデータが無い)。候補一覧には出さないが、
+  // 保存済みプランで選ばれていた場合に読み込めるよう、データ自体は残している。
+  discarded?: boolean;
 }
 
 export type EquipmentVariantTag = 'kiwami' | 'takumi';

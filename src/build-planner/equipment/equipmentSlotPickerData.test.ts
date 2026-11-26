@@ -58,11 +58,12 @@ describe('isCandidateGsMatch', () => {
 });
 
 describe('isCandidateKindMatch', () => {
-  it('legendary matches red (quality 5) items and the 蒼海/暁光 series', () => {
+  it('legendary matches red (quality 5) items, the 蒼海/暁光 series and raid (set) armor', () => {
     expect(isCandidateKindMatch({ ...itemWithGs(370), quality: 5 }, 'legendary')).toBe(true);
     expect(
       isCandidateKindMatch({ ...itemWithGs(360), icon: 'ch_wp_olvera_14_01' }, 'legendary'),
     ).toBe(true);
+    expect(isCandidateKindMatch({ ...itemWithGs(370), suitId: 8 }, 'legendary')).toBe(true);
     expect(isCandidateKindMatch(itemWithGs(360), 'legendary')).toBe(false);
   });
 
@@ -89,6 +90,12 @@ describe('filterCandidates', () => {
     expect(filterCandidates(all, null, 'takumi', undefined)).toEqual([b]);
     expect(filterCandidates(all, 'lv320', 'takumi', undefined)).toEqual([]);
     expect(filterCandidates(all, 'lv320', 'kiwami', 3)).toEqual([a, c]);
+  });
+
+  it('hides discarded items unless selected', () => {
+    const d: EquipmentItem = { ...itemWithGs(360), id: 4, discarded: true };
+    expect(filterCandidates([a, d], null, null, undefined)).toEqual([a]);
+    expect(filterCandidates([a, d], null, null, 4)).toEqual([a, d]);
   });
 });
 

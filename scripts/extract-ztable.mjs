@@ -613,6 +613,7 @@ function extractEnchants(langDir) {
 // 改鋳進化ステータスは RecastingAttrLibId → EquipAttrLibTable から抽出する。
 // reforgeEvoFvMin/Max は改鋳スロットの FightValue 範囲 (perfectline 0/100 時)。
 // variantTag は「極」(kiwami)/「匠」(takumi)の種別(該当しなければ省略)。
+// discarded は欠番になった装備(名前に「【廃棄】」。該当しなければ省略)。
 // Reforgeなしは全て 0。
 
 function extractEquipment(langDir) {
@@ -968,6 +969,9 @@ function extractEquipment(langDir) {
       ...(equip.EnchantId ? { enchantId: equip.EnchantId } : {}),
       ...(equip.SuitId ? { suitId: equip.SuitId } : {}),
       ...(variantTag ? { variantTag } : {}),
+      // 欠番になった装備(名前に「【廃棄】」。IDと名前以外は通常の装備と同一で、専用のフラグや
+      // 入手経路のデータが無いため名前で判定する)。装備選択の候補一覧から除外する。
+      ...(itemEntry.Name?.includes('【廃棄】') ? { discarded: true } : {}),
       // BreakThrough グループ: BT を持つ装備は btGroupId=自身ID, btTime=0 を付与する。
       ...(btByEquipId.has(id) ? { btGroupId: id, btTime: 0 } : {}),
     };

@@ -295,8 +295,13 @@ export function isCandidateGsMatch(item: EquipmentItem, filter: CandidateGsFilte
   }
 }
 
-// 種別の絞り込み。伝説=暁光・蒼海シリーズ武器と各種レイド武器(名前が赤字=quality 5)、
-// 極/匠=装備名の接頭辞「[極]」「[匠]」の装備(EquipmentItem.variantTag)。
+// 種別の絞り込み。
+//   伝説: 武器は暁光・蒼海シリーズと各種レイド武器(名前が赤字=quality 5)。防具・アクセサリは
+//         レイド防具(接頭辞「[虚妄]」「[滅妄]」「[追光]」「[輝願]」「[夢紡ぎ]」「[夢入り]」
+//         「[ルーン]」「[虚空]」等)で、データ上はセット装備(suitId あり)と一致する
+//         (セット装備はレイド防具のみで、武器・極・匠にはない)。アクセサリ(耳飾り/首飾り/指輪/
+//         護符)には該当が無い。
+//   極/匠: 装備名の接頭辞「[極]」「[匠]」の装備(EquipmentItem.variantTag)。
 export type CandidateKindFilter = 'legendary' | 'kiwami' | 'takumi';
 
 export const CANDIDATE_KIND_FILTERS: CandidateKindFilter[] = ['legendary', 'kiwami', 'takumi'];
@@ -304,7 +309,7 @@ export const CANDIDATE_KIND_FILTERS: CandidateKindFilter[] = ['legendary', 'kiwa
 export function isCandidateKindMatch(item: EquipmentItem, filter: CandidateKindFilter): boolean {
   switch (filter) {
     case 'legendary':
-      return item.quality === 5 || isSeaBreezeSeries(item);
+      return item.quality === 5 || isSeaBreezeSeries(item) || item.suitId != null;
     case 'kiwami':
     case 'takumi':
       return item.variantTag === filter;
@@ -312,6 +317,7 @@ export function isCandidateKindMatch(item: EquipmentItem, filter: CandidateKindF
 }
 
 // 候補一覧に表示する候補(絞り込みに一致するもの+現在の選択値)。並びは呼び出し側で決める。
+// 欠番になった装備(名前に【廃棄】を含む。EquipmentItem.discarded)は、選択中でない限り表示しない。
 export function filterCandidates(
   candidates: readonly EquipmentItem[],
   gsFilter: CandidateGsFilter | null,
@@ -321,7 +327,8 @@ export function filterCandidates(
   return candidates.filter(
     (c) =>
       c.id === selectedId ||
-      ((!gsFilter || isCandidateGsMatch(c, gsFilter)) &&
+      (!c.discarded &&
+        (!gsFilter || isCandidateGsMatch(c, gsFilter)) &&
         (!kindFilter || isCandidateKindMatch(c, kindFilter))),
   );
 }
