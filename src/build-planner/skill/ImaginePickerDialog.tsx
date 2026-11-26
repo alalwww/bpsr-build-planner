@@ -44,14 +44,21 @@ function ImaginePickerDialog({
     open: openHover,
     cancelClose: cancelHoverClose,
     scheduleClose: hideHover,
-  } = useAnchorTooltip<{ skillId: number; x: number; y: number }>(
+  } = useAnchorTooltip<{ skillId: number; x: number; y: number; align: 'right' | 'left' }>(
     500,
     (a, b) => a.skillId === b.skillId,
   ); // 別イマジンへの切り替えは一旦閉じて0.5秒待たせるhover intent
 
   const showHover = (id: number, e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    openHover({ skillId: id, x: rect.right + 10, y: rect.top });
+    // 画面の右半分にあるイマジンは、ツールチップが画面外へはみ出したりダイアログの他の
+    // イマジンを覆ったりしないよう、イマジンの左側に表示する。
+    const onRightSide = rect.left + rect.width / 2 > window.innerWidth / 2;
+    openHover(
+      onRightSide
+        ? { skillId: id, x: rect.left - 10, y: rect.top, align: 'left' }
+        : { skillId: id, x: rect.right + 10, y: rect.top, align: 'right' },
+    );
   };
 
   // コラボは品質(特殊金/橙/紫)を持たない排他カテゴリのため、コラボ⇔品質フィルターは
@@ -164,6 +171,7 @@ function ImaginePickerDialog({
               rank,
               x: hoverTooltip.x,
               y: hoverTooltip.y,
+              align: hoverTooltip.align,
               pinned: false,
             }}
             onMouseEnter={cancelHoverClose}
