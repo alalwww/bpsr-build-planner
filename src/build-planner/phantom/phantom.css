@@ -1069,7 +1069,7 @@
   cursor: default;
 }
 
-/* 映痕プリセット(因子設定ダイアログのヘッダー直下の行の右端。共通部分は components/preset/preset.css) */
+/* 映痕プリセット(因子設定ダイアログの映痕列の上端・右寄せ。共通部分は components/preset/preset.css) */
 .phantom-affix-preset-bar .preset-bar__trigger {
   min-width: 220px;
   max-width: 320px;
@@ -1142,9 +1142,8 @@
   opacity: 1;
 }
 
-/* ヘッダー直下の行(右寄せ。映痕プリセット) */
+/* 映痕列の上端の行(右寄せ。映痕プリセット) */
 .phantom-factor-dialog__toolbar {
   display: flex;
   justify-content: flex-end;
-  padding: 0 0 8px;
 }

@@ -170,14 +170,6 @@ export default function PhantomFactorDialog({
           </div>
         }
       >
-        <div className="phantom-factor-dialog__toolbar">
-          {/* 因子スロットを切り替えたらロード中表示等をリセットする */}
-          <AffixPresetBar
-            key={groupId}
-            current={current}
-            onApply={(factor) => onSet(groupId, factor)}
-          />
-        </div>
         <div className="equipment-dialog__columns">
           <div className="equipment-dialog__col-left">
             <div className="phantom-factor-dialog__preview">
@@ -260,6 +252,15 @@ export default function PhantomFactorDialog({
           </div>
 
           <div className="equipment-dialog__col-center">
+            {/* 映痕プリセット(映痕列の上端・右寄せ。左列の因子の選択と上端を揃える) */}
+            <div className="phantom-factor-dialog__toolbar">
+              {/* 因子スロットを切り替えたらロード中表示等をリセットする */}
+              <AffixPresetBar
+                key={groupId}
+                current={current}
+                onApply={(factor) => onSet(groupId, factor)}
+              />
+            </div>
             <section className="equip-details-section">
               <h3 className="equip-details-section__heading">
                 {t('buildPlanner.phantom.affixHeading')}
