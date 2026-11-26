@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import DraggableDialog from '../components/DraggableDialog';
+import SelectDropdown from '../components/SelectDropdown';
 import Stepper from '../components/Stepper';
 import ToggleButtonGroup from '../components/ToggleButtonGroup';
 import ToggleSwitch from '../components/ToggleSwitch';
@@ -135,19 +136,17 @@ function BuffEffectDialog({
                 onChange({ cookingAtkValue: v }),
               )}
             />
-            <select
+            <SelectDropdown
               className="buff-effect-dialog__select"
               disabled={!cookingBuff.cookingEnabled}
               title={t('buildPlanner.buffDialog.eliteDamage')}
               value={cookingBuff.cookingEliteDamagePercent}
-              onChange={(e) => onChange({ cookingEliteDamagePercent: Number(e.target.value) })}
-            >
-              {ELITE_DAMAGE_OPTIONS.map((pct) => (
-                <option key={pct} value={pct}>
-                  {pct === 0 ? '0%' : `+${pct}%`}
-                </option>
-              ))}
-            </select>
+              options={ELITE_DAMAGE_OPTIONS.map((pct) => ({
+                value: pct,
+                label: pct === 0 ? '0%' : `+${pct}%`,
+              }))}
+              onChange={(v) => onChange({ cookingEliteDamagePercent: v })}
+            />
           </div>
 
           {/* シロップ/脊椎試薬 */}
@@ -160,20 +159,16 @@ function BuffEffectDialog({
               />
               <span>{t('buildPlanner.buffDialog.syrup')}</span>
             </label>
-            <select
+            <SelectDropdown<CookingBuffState['syrupElement']>
               className="buff-effect-dialog__select buff-effect-dialog__select--narrow"
               disabled={!cookingBuff.syrupEnabled}
               value={cookingBuff.syrupElement}
-              onChange={(e) =>
-                onChange({ syrupElement: e.target.value as CookingBuffState['syrupElement'] })
-              }
-            >
-              {ELEMENT_IDS.map((elem) => (
-                <option key={elem} value={elem}>
-                  {t(`buildPlanner.detailStats.elem.${elem}`)}
-                </option>
-              ))}
-            </select>
+              options={ELEMENT_IDS.map((elem) => ({
+                value: elem,
+                label: t(`buildPlanner.detailStats.elem.${elem}`),
+              }))}
+              onChange={(v) => onChange({ syrupElement: v })}
+            />
             <input
               type="number"
               inputMode="numeric"
@@ -284,21 +279,17 @@ function BuffEffectDialog({
                 )}
               />{' '}
               x
-              <select
+              <SelectDropdown
                 className="buff-effect-dialog__select"
                 disabled={!cookingBuff.statResonanceEnabled}
                 title={t('buildPlanner.buffDialog.statResonanceMultiplier')}
                 value={cookingBuff.statResonanceMultiplierPercent}
-                onChange={(e) =>
-                  onChange({ statResonanceMultiplierPercent: Number(e.target.value) })
-                }
-              >
-                {STAT_RESONANCE_MULTIPLIER_OPTIONS.map((pct) => (
-                  <option key={pct} value={pct}>
-                    {pct}%
-                  </option>
-                ))}
-              </select>
+                options={STAT_RESONANCE_MULTIPLIER_OPTIONS.map((pct) => ({
+                  value: pct,
+                  label: `${pct}%`,
+                }))}
+                onChange={(v) => onChange({ statResonanceMultiplierPercent: v })}
+              />
               <span className="buff-effect-dialog__hint">
                 {t('buildPlanner.buffDialog.statResonanceResult', {
                   stat: mainStatLabel,

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import DraggableDialog from '../components/DraggableDialog';
+import SelectDropdown from '../components/SelectDropdown';
 import { PROFESSIONS } from '../profession';
 import { useBuildStore } from '../store/useBuildStore';
 import AffixPresetBar from './AffixPresetBar';
@@ -323,18 +324,16 @@ export default function PhantomFactorDialog({
                 </h3>
                 <label className="phantom-factor-dialog__bulk-quality">
                   <span>{t('buildPlanner.phantom.affixBulkQuality')}</span>
-                  <select
+                  <SelectDropdown
                     className="phantom-affix-slot__quality"
-                    style={{ color: getAffixQualityColor(affixDefaultQuality) }}
                     value={affixDefaultQuality}
-                    onChange={(e) => handleBulkQualityChange(Number(e.target.value))}
-                  >
-                    {AFFIX_QUALITIES.map((q) => (
-                      <option key={q} value={q} style={{ color: getAffixQualityColor(q) }}>
-                        {affixQualityName(t, tg, q)}
-                      </option>
-                    ))}
-                  </select>
+                    options={AFFIX_QUALITIES.map((q) => ({
+                      value: q,
+                      label: affixQualityName(t, tg, q),
+                      color: getAffixQualityColor(q),
+                    }))}
+                    onChange={handleBulkQualityChange}
+                  />
                 </label>
               </div>
               {!current && (
@@ -496,22 +495,16 @@ function AffixSlotEditor({
           />
           {affix && group && (
             <div className="phantom-affix-slot__value-row">
-              <select
+              <SelectDropdown
                 className="phantom-affix-slot__quality"
-                style={{ color: getAffixQualityColor(affix.quality) }}
                 value={affix.quality}
-                onChange={(e) => onChange(affixWithQuality(affix, Number(e.target.value)))}
-              >
-                {group.qualities.map((q) => (
-                  <option
-                    key={q.quality}
-                    value={q.quality}
-                    style={{ color: getAffixQualityColor(q.quality) }}
-                  >
-                    {affixQualityName(t, tg, q.quality)}
-                  </option>
-                ))}
-              </select>
+                options={group.qualities.map((q) => ({
+                  value: q.quality,
+                  label: affixQualityName(t, tg, q.quality),
+                  color: getAffixQualityColor(q.quality),
+                }))}
+                onChange={(quality) => onChange(affixWithQuality(affix, quality))}
+              />
               <AffixValueInput affix={affix} onChange={onChange} />
             </div>
           )}

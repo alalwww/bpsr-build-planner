@@ -10,6 +10,7 @@ import { useAnchorTooltip } from '../components/useAnchorTooltip';
 import { useSessionState } from '../components/useSessionState';
 import DraggableDialog from '../components/DraggableDialog';
 import Dropdown from '../components/Dropdown';
+import SelectDropdown from '../components/SelectDropdown';
 import FloatingTooltip from '../components/FloatingTooltip';
 import { useArrowKeySelect } from '../components/useArrowKeySelect';
 import StatRow from '../components/StatRow';
@@ -755,20 +756,18 @@ function EquipmentSlotPicker({
                     <span className="equip-bt-selector__label">
                       {t('buildPlanner.breakthrough')}
                     </span>
-                    <select
+                    <SelectDropdown
                       className="equip-bt-selector__select"
-                      value={String(equippedId)}
-                      onChange={(e) => {
-                        const selected = candidates.find((c) => String(c.id) === e.target.value);
+                      value={equippedId}
+                      options={btGroup!.map((item) => ({
+                        value: item.id,
+                        label: `Lv.${item.equipGs}`,
+                      }))}
+                      onChange={(id) => {
+                        const selected = candidates.find((c) => c.id === id);
                         if (selected) onSelect(selected);
                       }}
-                    >
-                      {btGroup!.map((item) => (
-                        <option key={item.id} value={String(item.id)}>
-                          Lv.{item.equipGs}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
                 )}
               </div>
@@ -1001,21 +1000,21 @@ function EquipmentSlotPicker({
                     未装備時は選択しても意味がないため表示しない。 */}
                 {equippedItem && (
                   <div className="equip-bt-selector">
-                    <select
+                    <SelectDropdown<EnchantGrade>
                       className="equip-bt-selector__select"
                       value={enchantGradePreference}
-                      onChange={(e) => {
-                        const grade = e.target.value as EnchantGrade;
+                      options={[
+                        { value: 'base', label: t('buildPlanner.enchantGradeBase') },
+                        { value: 'refined', label: t('buildPlanner.enchantGradeRefined') },
+                        { value: 'perfect', label: t('buildPlanner.enchantGradePerfect') },
+                      ]}
+                      onChange={(grade) => {
                         setEnchantGradePreference(grade);
                         if (baseEnchantItem) {
                           onSetEnchant(resolveEnchantGradeView(baseEnchantItem, grade).id);
                         }
                       }}
-                    >
-                      <option value="base">{t('buildPlanner.enchantGradeBase')}</option>
-                      <option value="refined">{t('buildPlanner.enchantGradeRefined')}</option>
-                      <option value="perfect">{t('buildPlanner.enchantGradePerfect')}</option>
-                    </select>
+                    />
                   </div>
                 )}
               </div>

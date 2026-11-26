@@ -31,6 +31,14 @@ interface DropdownProps {
   onTriggerKeyDown?: (e: ReactKeyboardEvent<HTMLButtonElement>) => void;
   /** パネルの既定の最大高さ(px)。画面の余白がこれより狭い場合はさらに縮められる。既定320。 */
   maxPanelHeight?: number;
+  /** true の場合、パネル幅をトリガー幅以上・内容の幅(max-content)に合わせる(幅の狭いトリガー用)。 */
+  panelFitContent?: boolean;
+  /** true の間はトリガーを無効化し、開いていれば閉じる。 */
+  disabled?: boolean;
+  /** トリガーのツールチップ(title)。 */
+  triggerTitle?: string;
+  /** トリガーのアクセシブルネーム(aria-label)。 */
+  triggerAriaLabel?: string;
 }
 
 // 「トリガーボタン → document.bodyへportalした固定位置の選択肢パネル」という
@@ -47,6 +55,10 @@ function Dropdown({
   panelWidthScale = 1,
   onTriggerKeyDown,
   maxPanelHeight = 320,
+  panelFitContent = false,
+  disabled = false,
+  triggerTitle,
+  triggerAriaLabel,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [pos, setPos] = useState<{
@@ -87,9 +99,15 @@ function Dropdown({
   };
 
   const toggle = () => {
+    if (disabled) return;
     if (!isOpen) updatePos();
     setIsOpen((v) => !v);
   };
+
+  // 無効化されたら閉じる
+  useEffect(() => {
+    if (disabled) setIsOpen(false);
+  }, [disabled]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -144,8 +162,13 @@ function Dropdown({
         type="button"
         className={resolvedTriggerClassName}
         onClick={toggle}
-        onKeyDown={onTriggerKeyDown && !isOpen ? onTriggerKeyDown : undefined}
+        onKeyDown={onTriggerKeyDown && !isOpen && !disabled ? onTriggerKeyDown : undefined}
         autoFocus={autoFocus}
+        disabled={disabled}
+        title={triggerTitle}
+        aria-label={triggerAriaLabel}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
       >
         {renderTrigger(isOpen)}
       </button>
@@ -158,7 +181,9 @@ function Dropdown({
             style={{
               position: 'fixed',
               left: pos.left,
-              width: pos.width,
+              ...(panelFitContent
+                ? { minWidth: pos.width, width: 'max-content' }
+                : { width: pos.width }),
               zIndex: 1000,
               ...(pos.top !== undefined ? { top: pos.top } : { bottom: pos.bottom }),
             }}
