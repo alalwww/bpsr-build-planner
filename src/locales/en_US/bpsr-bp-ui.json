@@ -263,6 +263,8 @@
       "levelFormat": "Lv{{v}}",
       "selectImagine": "Select Imagine",
       "selectRoleSkill": "Select Role Skill",
+      "roleBasicSkills": "Basic Skills",
+      "roleImagines": "Role Imagines",
       "equip": "Equip"
     },
     "imagineFilter": {

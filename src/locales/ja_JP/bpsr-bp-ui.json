@@ -263,6 +263,8 @@
       "levelFormat": "Lv{{v}}",
       "selectImagine": "イマジン選択",
       "selectRoleSkill": "ロールスキルを選択",
+      "roleBasicSkills": "基本スキル",
+      "roleImagines": "ロールイマジン",
       "equip": "装着"
     },
     "imagineFilter": {

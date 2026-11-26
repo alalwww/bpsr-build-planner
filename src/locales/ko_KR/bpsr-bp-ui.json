@@ -263,6 +263,8 @@
       "levelFormat": "Lv{{v}}",
       "selectImagine": "이마진 선택",
       "selectRoleSkill": "롤 스킬 선택",
+      "roleBasicSkills": "기본 스킬",
+      "roleImagines": "포지션 이매진",
       "equip": "장착"
     },
     "imagineFilter": {

@@ -643,3 +643,21 @@
   gap: 4px;
   margin: 4px 0 6px;
 }
+
+/* ロールスキル選択ダイアログの区切り見出し(基本スキル/ロールイマジン)。グリッドの1行全体を使う。
+   ロールイマジン側の見出しには選択時のLvのラジオボタンを並べる。 */
+.skill-picker-dialog__section-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid #2a2a33;
+  color: #8a8a96;
+  font-size: 12px;
+}
+
+.skill-picker-dialog__section-heading:not(:first-child) {
+  margin-top: 8px;
+}

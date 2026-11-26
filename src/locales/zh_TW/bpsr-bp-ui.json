@@ -263,6 +263,8 @@
       "levelFormat": "Lv{{v}}",
       "selectImagine": "選擇幻想",
       "selectRoleSkill": "選擇職責技能",
+      "roleBasicSkills": "基礎技能",
+      "roleImagines": "職責幻想",
       "equip": "裝載"
     },
     "imagineFilter": {
