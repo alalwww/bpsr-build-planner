@@ -17,7 +17,7 @@ interface AffixPresetBarProps {
   onApply: (factor: PhantomFactorSlotValue) => void;
 }
 
-// 映痕プリセットの保存・切り替えUI(因子設定ダイアログの右上)。UI本体は共通の PresetBar。
+// 映痕プリセットの保存・切り替えUI(因子設定ダイアログのヘッダー直下の右端)。UI本体は共通の PresetBar。
 function AffixPresetBar({ current, onApply }: AffixPresetBarProps) {
   const presets = useBuildStore((s) => s.affixPresets);
   const savePreset = useBuildStore((s) => s.saveAffixPreset);

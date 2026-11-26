@@ -1069,12 +1069,7 @@
   cursor: default;
 }
 
-/* 映痕プリセット(因子設定ダイアログのヘッダー右上。共通部分は components/preset/preset.css) */
-.phantom-affix-preset-bar {
-  margin-left: auto;
-  margin-right: 8px;
-}
-
+/* 映痕プリセット(因子設定ダイアログのヘッダー直下の行の右端。共通部分は components/preset/preset.css) */
 .phantom-affix-preset-bar .preset-bar__trigger {
   min-width: 220px;
   max-width: 320px;
@@ -1086,4 +1081,70 @@
   margin-right: 8px;
   color: #4a9af4;
   font-weight: 600;
+}
+
+/* 因子設定ダイアログのヘッダーの因子スロット切り替え(装備選択ダイアログの部位切り替えと同じ見た目)。
+   アイコンはツリーのノードと同じく、スロットの背景(品質)に装着中の因子のアイコンを重ねる。 */
+.phantom-factor-dialog__slot-switch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.phantom-factor-dialog__slot-switch-btn {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: #2a2a34;
+  border: 1px solid #3a3a45;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.phantom-factor-dialog__slot-switch-btn img {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.phantom-factor-dialog__slot-switch-bg {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ツリーのノードと同じ比率(背景120に対して因子アイコン78) */
+.phantom-factor-dialog__slot-switch-factor {
+  inset: 17.5%;
+  width: 65%;
+  height: 65%;
+}
+
+.phantom-factor-dialog__slot-switch-btn:hover {
+  background: #3a3a48;
+  border-color: #55555f;
+}
+
+.phantom-factor-dialog__slot-switch-btn--active {
+  background: #454558;
+  border-color: #8a8aa0;
+}
+
+.phantom-factor-dialog__slot-switch-btn--active img {
+  opacity: 1;
+}
+
+/* ヘッダー直下の行(右寄せ。映痕プリセット) */
+.phantom-factor-dialog__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0 8px;
 }

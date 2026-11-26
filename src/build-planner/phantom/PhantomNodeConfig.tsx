@@ -406,6 +406,12 @@ export default function PhantomNodeConfig({
           duplicatedNonStackingGroups={duplicatedNonStackingGroups}
           onSet={handleSetFactor}
           onClose={() => setDialogGroupId(null)}
+          switchSlots={visibleFactorGroupIds.map((gid) => ({
+            groupId: gid,
+            title: numberedSlotName(gid),
+            factor: phantomFactorSlots[gid] ?? null,
+          }))}
+          onSwitch={setDialogGroupId}
         />
       )}
       {pendingFactorSwap && (

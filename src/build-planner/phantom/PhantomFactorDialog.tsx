@@ -58,6 +58,16 @@ interface PhantomFactorDialogProps {
   duplicatedNonStackingGroups: ReadonlySet<number>;
   onSet: (groupId: number, factor: PhantomFactorSlotValue | null) => void;
   onClose: () => void;
+  /** ヘッダーの切り替えボタンで直接移動できる因子スロット(ツリーに表示中のもの、ツリー順)。 */
+  switchSlots: FactorSwitchSlot[];
+  onSwitch: (groupId: number) => void;
+}
+
+export interface FactorSwitchSlot {
+  groupId: number;
+  /** ボタンのツールチップ(ノード番号+スロット名)。 */
+  title: string;
+  factor: PhantomFactorSlotValue | null;
 }
 
 export default function PhantomFactorDialog({
@@ -69,6 +79,8 @@ export default function PhantomFactorDialog({
   duplicatedNonStackingGroups,
   onSet,
   onClose,
+  switchSlots,
+  onSwitch,
 }: PhantomFactorDialogProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
@@ -126,9 +138,46 @@ export default function PhantomFactorDialog({
         onClose={onClose}
         className="phantom-factor-dialog"
         headerExtra={
-          <AffixPresetBar current={current} onApply={(factor) => onSet(groupId, factor)} />
+          // 装備選択ダイアログの部位切り替えと同様、ダイアログを閉じずに別の因子スロットへ移る。
+          // アイコンはツリーのノードと同じく、スロットの背景に装着中の因子のアイコンを重ねる。
+          <div className="phantom-factor-dialog__slot-switch">
+            {switchSlots.map((slot) => {
+              const factorIconUrl = slot.factor ? getFactorIcon(slot.factor.classKey) : '';
+              return (
+                <button
+                  key={slot.groupId}
+                  type="button"
+                  className={`phantom-factor-dialog__slot-switch-btn${slot.groupId === groupId ? ' phantom-factor-dialog__slot-switch-btn--active' : ''}`}
+                  title={slot.title}
+                  aria-label={slot.title}
+                  onClick={() => onSwitch(slot.groupId)}
+                >
+                  <img
+                    className="phantom-factor-dialog__slot-switch-bg"
+                    src={getNodeIcon(slot.groupId, 2)}
+                    alt=""
+                  />
+                  {factorIconUrl && (
+                    <img
+                      className="phantom-factor-dialog__slot-switch-factor"
+                      src={factorIconUrl}
+                      alt=""
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         }
       >
+        <div className="phantom-factor-dialog__toolbar">
+          {/* 因子スロットを切り替えたらロード中表示等をリセットする */}
+          <AffixPresetBar
+            key={groupId}
+            current={current}
+            onApply={(factor) => onSet(groupId, factor)}
+          />
+        </div>
         <div className="equipment-dialog__columns">
           <div className="equipment-dialog__col-left">
             <div className="phantom-factor-dialog__preview">
