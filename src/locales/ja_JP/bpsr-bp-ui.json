@@ -240,6 +240,7 @@
     "equippedEffects": "装着効果",
     "enchantCost": "コスト",
     "enchantAdvancedCost": "上級装着コスト",
+    "enchantSeason": "シーズン{{n}}",
     "enchantGradeBase": "通常",
     "enchantGradeRefined": "精",
     "enchantGradePerfect": "極",

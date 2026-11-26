@@ -240,6 +240,7 @@
     "equippedEffects": "장착 효과",
     "enchantCost": "비용",
     "enchantAdvancedCost": "상급 장착 비용",
+    "enchantSeason": "시즌 {{n}}",
     "enchantGradeBase": "일반",
     "enchantGradeRefined": "정",
     "enchantGradePerfect": "극",

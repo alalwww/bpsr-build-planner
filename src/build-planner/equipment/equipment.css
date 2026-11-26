@@ -1274,6 +1274,14 @@
   flex-direction: column;
 }
 
+/* 装着効果の候補一覧のシーズン見出し(刻印はシーズン降順で並ぶ) */
+.equip-enchant-season {
+  padding: 6px 8px 3px;
+  font-size: 11px;
+  color: #7ab4f4;
+  border-top: 1px solid #2a2a33;
+}
+
 .equip-enchant-option {
   display: flex;
   align-items: center;

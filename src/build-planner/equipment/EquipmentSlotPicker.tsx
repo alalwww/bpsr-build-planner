@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
@@ -1063,33 +1063,44 @@ function EquipmentSlotPicker({
                         >
                           {t('buildPlanner.evolutionStatUnset')}
                         </button>
-                        {sortedEnchants.map((enchant) => {
+                        {sortedEnchants.map((enchant, i) => {
                           const enchantIcon = enchant.icon
                             ? getEnchantIconUrl(enchant.icon)
                             : undefined;
                           // 希望グレード(通常/精/極)を適用した表示名・選択先ID。
                           const view = resolveEnchantGradeView(enchant, enchantGradePreference);
+                          // 刻印はシーズン降順で並んでいるため、シーズンが変わる位置に見出しを入れる
+                          // (シーズンを持たない宝石のセットでは出さない)。
+                          const seasonHeading =
+                            enchant.series !== undefined &&
+                            enchant.series !== sortedEnchants[i - 1]?.series ? (
+                              <div className="equip-enchant-season">
+                                {t('buildPlanner.enchantSeason', { n: enchant.series })}
+                              </div>
+                            ) : null;
                           return (
-                            <button
-                              key={enchant.id}
-                              type="button"
-                              className={`equip-enchant-option${selectedEnchant === view.id ? ' equip-enchant-option--selected' : ''}`}
-                              data-selected={selectedEnchant === view.id}
-                              onClick={() => {
-                                onSetEnchant(view.id);
-                                closeEnchantTooltip();
-                                close();
-                              }}
-                              onMouseEnter={(e) => showEnchantTooltip(enchant, e)}
-                              onMouseLeave={hideEnchantTooltip}
-                            >
-                              {enchantIcon && (
-                                <img className="equip-enchant-icon" src={enchantIcon} alt="" />
-                              )}
-                              <span style={{ color: getQualityColor(enchant.quality) }}>
-                                {t(`items.${view.id}.name`, { ns: 'game-data' })}
-                              </span>
-                            </button>
+                            <Fragment key={enchant.id}>
+                              {seasonHeading}
+                              <button
+                                type="button"
+                                className={`equip-enchant-option${selectedEnchant === view.id ? ' equip-enchant-option--selected' : ''}`}
+                                data-selected={selectedEnchant === view.id}
+                                onClick={() => {
+                                  onSetEnchant(view.id);
+                                  closeEnchantTooltip();
+                                  close();
+                                }}
+                                onMouseEnter={(e) => showEnchantTooltip(enchant, e)}
+                                onMouseLeave={hideEnchantTooltip}
+                              >
+                                {enchantIcon && (
+                                  <img className="equip-enchant-icon" src={enchantIcon} alt="" />
+                                )}
+                                <span style={{ color: getQualityColor(enchant.quality) }}>
+                                  {t(`items.${view.id}.name`, { ns: 'game-data' })}
+                                </span>
+                              </button>
+                            </Fragment>
                           );
                         })}
                       </>

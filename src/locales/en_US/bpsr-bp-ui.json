@@ -240,6 +240,7 @@
     "equippedEffects": "Equipped Effects",
     "enchantCost": "Cost",
     "enchantAdvancedCost": "Advanced Attach Cost",
+    "enchantSeason": "Season {{n}}",
     "enchantGradeBase": "Normal",
     "enchantGradeRefined": "Refined",
     "enchantGradePerfect": "Perfect",

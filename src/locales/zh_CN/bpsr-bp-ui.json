@@ -240,6 +240,7 @@
     "equippedEffects": "装着效果",
     "enchantCost": "消耗",
     "enchantAdvancedCost": "高级装着消耗",
+    "enchantSeason": "赛季{{n}}",
     "enchantGradeBase": "普通",
     "enchantGradeRefined": "精",
     "enchantGradePerfect": "极",
