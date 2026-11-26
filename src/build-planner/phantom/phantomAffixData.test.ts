@@ -17,7 +17,7 @@ import {
   getAffixGroupsForSlot,
   getAffixQualityColor,
   getDuplicatedNonStackingGroups,
-  withFactorGrade,
+  withFactorLevel,
 } from './phantomAffixData';
 
 const attrDescs = (gameDataJa as unknown as { attrDescs: Record<string, string> }).attrDescs;
@@ -85,7 +85,7 @@ describe('映痕データ', () => {
   });
 });
 
-describe('グレード変更時の映痕の詰め直し', () => {
+describe('レベル変更時の映痕の詰め直し', () => {
   // 因子 4001: G1 [[1],[2]] / G2 [[1],[2],[1,2]] / G3 [[1],[1],[2],[2]]
   it('G2→G3: 種類が合わない位置の映痕は、空いている合うスロットへ移す', () => {
     expect(fitAffixesToSlots([CRIT, SB_CLASS, CRIT], [[1], [1], [2], [2]])).toEqual([
@@ -97,7 +97,7 @@ describe('グレード変更時の映痕の詰め直し', () => {
   });
 
   it('G3→G1: 収まらない映痕は外れる', () => {
-    const next = withFactorGrade(
+    const next = withFactorLevel(
       { classKey: '4001', grade: 3, affixes: [CRIT, CRIT, SB_CLASS, SB_CLASS] },
       1,
     );
@@ -105,7 +105,7 @@ describe('グレード変更時の映痕の詰め直し', () => {
   });
 
   it('映痕が無くなった場合は affixes を持たない', () => {
-    expect(withFactorGrade({ classKey: '4001', grade: 2, affixes: [null, null] }, 3)).toEqual({
+    expect(withFactorLevel({ classKey: '4001', grade: 2, affixes: [null, null] }, 3)).toEqual({
       classKey: '4001',
       grade: 3,
     });

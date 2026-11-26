@@ -484,7 +484,7 @@
 }
 
 /* ルートノード行右端の「因子ランク一括変更」。特別な操作だと分かるよう軽く強調する。 */
-.phantom-bulk-grade {
+.phantom-bulk-level {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -495,7 +495,7 @@
   background: rgba(74, 200, 223, 0.08);
 }
 
-.phantom-bulk-grade__label {
+.phantom-bulk-level__label {
   font-size: 13px;
   color: #6ad0e0;
   white-space: nowrap;
@@ -635,7 +635,7 @@
   color: #8a8a96;
 }
 
-.phantom-factor-frame__grade {
+.phantom-factor-frame__level {
   flex-shrink: 0;
   font-size: 15px;
   color: #7ab4f4;
@@ -718,12 +718,12 @@
   color: #e8e6e1;
 }
 
-.phantom-factor-dialog__grades {
+.phantom-factor-dialog__levels {
   display: flex;
   gap: 4px;
 }
 
-.phantom-factor-dialog__grade {
+.phantom-factor-dialog__level {
   flex: 1;
   padding: 6px 0;
   background: #23232d;
@@ -735,7 +735,7 @@
   cursor: pointer;
 }
 
-.phantom-factor-dialog__grade--active {
+.phantom-factor-dialog__level--active {
   border-color: #7ab4f4;
   color: #e8e6e1;
   background: #2a3346;
@@ -1019,15 +1019,15 @@
   line-height: 1.5;
 }
 
-/* ---- Grade Stepper ---- */
-.phantom-grade-stepper {
+/* ---- Level Stepper ---- */
+.phantom-level-stepper {
   display: flex;
   align-items: center;
   gap: 2px;
   flex-shrink: 0;
 }
 
-.phantom-grade-stepper__value {
+.phantom-level-stepper__value {
   font-size: 17px;
   color: #4a9af4;
   min-width: 38px;
@@ -1036,13 +1036,13 @@
   font-variant-numeric: tabular-nums;
 }
 
-.phantom-grade-stepper__btns {
+.phantom-level-stepper__btns {
   display: flex;
   flex-direction: column;
   gap: 1px;
 }
 
-.phantom-grade-stepper__btn {
+.phantom-level-stepper__btn {
   background: #252530;
   border: 1px solid #38384a;
   border-radius: 2px;
@@ -1059,12 +1059,12 @@
   transition: background 0.1s;
 }
 
-.phantom-grade-stepper__btn:hover:not(:disabled) {
+.phantom-level-stepper__btn:hover:not(:disabled) {
   background: #383848;
   color: #e8e6e1;
 }
 
-.phantom-grade-stepper__btn:disabled {
+.phantom-level-stepper__btn:disabled {
   color: #383848;
   cursor: default;
 }

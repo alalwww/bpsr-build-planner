@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import DraggableDialog from '../components/DraggableDialog';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import type { PhantomAffixValue, PhantomFactorSlotValue } from './phantomData';
-import { MAX_FACTOR_GRADE } from './phantomData';
+import { MAX_FACTOR_LEVEL } from './phantomData';
 import {
   AFFIX_FIXED_QUALITY,
   affixEffectText,
@@ -22,10 +22,10 @@ import {
   getAffixQualityRange,
   getEmbedSlots,
   getMaxEmbedSlotCount,
-  getSlotUnlockGrade,
+  getSlotUnlockLevel,
   factorWithAffixes,
   withFactorClass,
-  withFactorGrade,
+  withFactorLevel,
 } from './phantomAffixData';
 import {
   factorBaseName,
@@ -38,15 +38,15 @@ import {
 import '../equipment/equipment.css';
 
 // 因子スロット(ノード)に装着する因子と、その因子に埋め込む映痕を設定するダイアログ。
-// 構成は装備選択ダイアログに合わせ、左列に因子(プレビュー/選択/グレード/効果)、
-// 中央列に映痕スロット(グレードに応じて開放、2〜4個)を並べる。
+// 構成は装備選択ダイアログに合わせ、左列に因子(プレビュー/選択/レベル/効果)、
+// 中央列に映痕スロット(レベルに応じて開放、2〜4個)を並べる。
 
 interface PhantomFactorDialogProps {
   groupId: number;
   current: PhantomFactorSlotValue | null;
-  /** 因子未装着時のグレード(装着時の初期グレード)。 */
-  pendingGrade: number;
-  onPendingGradeChange: (grade: number) => void;
+  /** 因子未装着時のレベル(装着時の初期レベル)。 */
+  pendingLevel: number;
+  onPendingLevelChange: (level: number) => void;
   professionId: number;
   /** ツリー全体(全因子)で2つ以上選ばれている重複不可の映痕の group。該当スロットに警告を出す。 */
   duplicatedNonStackingGroups: ReadonlySet<number>;
@@ -57,8 +57,8 @@ interface PhantomFactorDialogProps {
 export default function PhantomFactorDialog({
   groupId,
   current,
-  pendingGrade,
-  onPendingGradeChange,
+  pendingLevel,
+  onPendingLevelChange,
   professionId,
   duplicatedNonStackingGroups,
   onSet,
@@ -66,24 +66,24 @@ export default function PhantomFactorDialog({
 }: PhantomFactorDialogProps) {
   const { t } = useTranslation();
   const { t: tg } = useTranslation('game-data');
-  const grade = current?.grade ?? pendingGrade;
+  const level = current?.grade ?? pendingLevel;
 
   const factorOptions = useMemo(
     () =>
       getFactorBaseOptions(tg, groupId, professionId).map((opt) => ({
         ...opt,
-        description: getFactorEffectDesc(tg, opt.value, grade),
+        description: getFactorEffectDesc(tg, opt.value, level),
       })),
-    [tg, groupId, professionId, grade],
+    [tg, groupId, professionId, level],
   );
 
   const slotName = tg(`seasonTalents.intermediateSlots.${groupId}`);
   const slotIcon = getNodeIcon(groupId, 2);
   const factorIcon = current ? getFactorIcon(current.classKey) : '';
 
-  const setGrade = (g: number) => {
-    if (current) onSet(groupId, withFactorGrade(current, g));
-    else onPendingGradeChange(g);
+  const setLevel = (g: number) => {
+    if (current) onSet(groupId, withFactorLevel(current, g));
+    else onPendingLevelChange(g);
   };
 
   const setAffix = (index: number, affix: PhantomAffixValue | null) => {
@@ -96,7 +96,7 @@ export default function PhantomFactorDialog({
 
   const embedSlots = current ? getEmbedSlots(current.classKey, current.grade) : [];
   const maxSlotCount = current ? getMaxEmbedSlotCount(current.classKey) : 0;
-  // 映痕の効果(同種は合計、重複不可は最大値)。現在のグレードで開放されているスロットの分のみ。
+  // 映痕の効果(同種は合計、重複不可は最大値)。現在のレベルで開放されているスロットの分のみ。
   const affixEffects = getActiveAffixEffects(current);
 
   return (
@@ -131,23 +131,23 @@ export default function PhantomFactorDialog({
               options={factorOptions}
               value={current?.classKey ?? ''}
               placeholder={t('buildPlanner.phantom.factorUnequipped')}
-              onChange={(v) => onSet(groupId, v === '' ? null : withFactorClass(current, v, grade))}
+              onChange={(v) => onSet(groupId, v === '' ? null : withFactorClass(current, v, level))}
             />
           </div>
 
           <div className="equip-details-section">
             <label className="equipment-dialog__label">
-              {t('buildPlanner.phantom.factorGrade')}
+              {t('buildPlanner.phantom.factorLevel')}
             </label>
-            <div className="phantom-factor-dialog__grades" role="radiogroup">
-              {Array.from({ length: MAX_FACTOR_GRADE }, (_, i) => i + 1).map((g) => (
+            <div className="phantom-factor-dialog__levels" role="radiogroup">
+              {Array.from({ length: MAX_FACTOR_LEVEL }, (_, i) => i + 1).map((g) => (
                 <button
                   key={g}
                   type="button"
                   role="radio"
-                  aria-checked={g === grade}
-                  className={`phantom-factor-dialog__grade${g === grade ? ' phantom-factor-dialog__grade--active' : ''}`}
-                  onClick={() => setGrade(g)}
+                  aria-checked={g === level}
+                  className={`phantom-factor-dialog__level${g === level ? ' phantom-factor-dialog__level--active' : ''}`}
+                  onClick={() => setLevel(g)}
                 >
                   G{g}
                 </button>
@@ -193,7 +193,7 @@ export default function PhantomFactorDialog({
           </section>
           {current &&
             Array.from({ length: maxSlotCount }, (_, i) => {
-              // 未開放のスロットに残っている映痕は表示しない(グレード変更時に詰め直し済み)。
+              // 未開放のスロットに残っている映痕は表示しない(レベル変更時に詰め直し済み)。
               const affix = i < embedSlots.length ? (current.affixes?.[i] ?? null) : null;
               return (
                 <AffixSlotEditor
@@ -201,7 +201,7 @@ export default function PhantomFactorDialog({
                   tg={tg}
                   index={i}
                   slotTypes={embedSlots[i]}
-                  unlockGrade={getSlotUnlockGrade(current.classKey, i)}
+                  unlockLevel={getSlotUnlockLevel(current.classKey, i)}
                   nonStackingDuplicate={
                     affix != null && duplicatedNonStackingGroups.has(affix.group)
                   }
@@ -220,9 +220,9 @@ export default function PhantomFactorDialog({
 interface AffixSlotEditorProps {
   tg: GameDataT;
   index: number;
-  /** 埋め込める AffixType。undefined は現在のグレードでは未開放のスロット。 */
+  /** 埋め込める AffixType。undefined は現在のレベルでは未開放のスロット。 */
   slotTypes: number[] | undefined;
-  unlockGrade: number | null;
+  unlockLevel: number | null;
   /** 重複不可の映痕が、このツリーの他のスロット(他の因子を含む)と重なっている。 */
   nonStackingDuplicate: boolean;
   affix: PhantomAffixValue | null;
@@ -235,7 +235,7 @@ function AffixSlotEditor({
   tg,
   index,
   slotTypes,
-  unlockGrade,
+  unlockLevel,
   nonStackingDuplicate,
   affix,
   professionId,
@@ -245,7 +245,7 @@ function AffixSlotEditor({
   const locked = slotTypes === undefined;
 
   const typeLabel = locked
-    ? t('buildPlanner.phantom.affixLocked', { grade: unlockGrade ?? '?' })
+    ? t('buildPlanner.phantom.affixLocked', { level: unlockLevel ?? '?' })
     : slotTypes.map((type) => t(`buildPlanner.phantom.affixSlotType.${type}`)).join(' / ');
 
   const options: DropdownOption[] = useMemo(

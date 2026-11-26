@@ -62,7 +62,7 @@ export interface OrdinaryEffect {
   fightValue: number;
 }
 
-export interface PhantomFactorGrade {
+export interface PhantomFactorLevel {
   id: number;
   level: number;
   effects: number[][];
@@ -81,7 +81,7 @@ export interface PhantomFactorClass {
   // CURRENT_FACTOR_SEASON_ID との比較で、表示側(phantomView.ts)は選択肢からの除外を、
   // ステータス計算側(calculateRawStats.ts)は効果の除外を行う。
   seasonId: number;
-  grades: PhantomFactorGrade[];
+  grades: PhantomFactorLevel[];
   icon?: string;
 }
 
@@ -109,8 +109,8 @@ export const CURRENT_FACTOR_SEASON_ID = Math.max(
   ...Object.values(pfData.byClass).map((fc) => fc.seasonId ?? 0),
 );
 
-// 因子グレード(FactorItemLevel)の上限。S3はG1-G10、S4祈願因子はG1-G3(データから算出)。
-export const MAX_FACTOR_GRADE = Math.max(
+// 因子レベル(FactorItemLevel)の上限。S3はG1-G10、S4祈願因子はG1-G3(データから算出)。
+export const MAX_FACTOR_LEVEL = Math.max(
   1,
   ...Object.values(pfData.byClass).map((fc) => fc.grades.length),
 );
@@ -337,18 +337,18 @@ export interface PhantomAffixValue {
 
 export interface PhantomFactorSlotValue {
   classKey: string;
-  grade: number; // 1-MAX_FACTOR_GRADE
-  // 映痕(S4祈願因子)。index はグレード別スロット構成(embedSlots)の位置、null は空きスロット。
+  grade: number; // 1-MAX_FACTOR_LEVEL
+  // 映痕(S4祈願因子)。index はレベル別スロット構成(embedSlots)の位置、null は空きスロット。
   // 末尾の空きは持たない(phantomAffixData.ts の trimAffixes)。映痕が無ければ省略。
   affixes?: (PhantomAffixValue | null)[];
 }
 
-// 因子未装着スロットの初期選択グレード(S4祈願因子はFactorItemLevel 1-3)。現時点では日付に
+// 因子未装着スロットの初期選択レベル(S4祈願因子はFactorItemLevel 1-3)。現時点では日付に
 // 連動させずG2固定とする(日付連動が必要になったら seasonSchedule.ts の getGsScheduleTier を使う)。
-const DEFAULT_FACTOR_GRADE = 2;
+const DEFAULT_FACTOR_LEVEL = 2;
 
-export function getDefaultFactorGrade(): number {
-  return DEFAULT_FACTOR_GRADE;
+export function getDefaultFactorLevel(): number {
+  return DEFAULT_FACTOR_LEVEL;
 }
 
 // ロード対象の心相投影データ(自動保存/保存プラン/プランコード共通)のうち、リセット判定に使う部分。

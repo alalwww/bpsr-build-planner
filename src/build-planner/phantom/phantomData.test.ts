@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildTreeSteps,
   getActivePhantomNodeIds,
-  getDefaultFactorGrade,
+  getDefaultFactorLevel,
   getUnlockLevel,
   hasLegacyPhantomData,
   isTemplateLegacy,
@@ -94,8 +94,8 @@ describe('hasLegacyPhantomData / isTemplateLegacy', () => {
   });
 });
 
-describe('getDefaultFactorGrade', () => {
+describe('getDefaultFactorLevel', () => {
   it('is fixed at G2 (not linked to the season schedule)', () => {
-    expect(getDefaultFactorGrade()).toBe(2);
+    expect(getDefaultFactorLevel()).toBe(2);
   });
 });

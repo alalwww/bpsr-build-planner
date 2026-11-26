@@ -119,7 +119,7 @@ export function getNodeEffectDesc(tg: GameDataT, nodeId: number): string {
   return substituteEffectDescParams(tmpl, pars);
 }
 
-// 因子のグレード別効果説明(type=3 バフ、なければ type=1 ステータス加算の列挙)
+// 因子のレベル別効果説明(type=3 バフ、なければ type=1 ステータス加算の列挙)
 export function getFactorEffectDesc(tg: GameDataT, classKey: string, grade: number): string {
   const fc = pfData.byClass[classKey];
   if (!fc) return '';

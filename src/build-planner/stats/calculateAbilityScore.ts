@@ -16,7 +16,7 @@ import type {
 } from '../types';
 import type {
   OrdinaryEffect,
-  PhantomFactorGrade,
+  PhantomFactorLevel,
   PhantomFactorSlotValue,
 } from '../phantom/phantomData';
 import { affixFightValue, getActiveAffixes } from '../phantom/phantomAffixData';
@@ -372,7 +372,7 @@ export function calculateAbilityScore(input: CalculateAbilityScoreInput): Abilit
           // 過去シーズンの因子(seasonId < 現行シーズン)はゲーム内で無効化されているため、
           // 戦力スコアにも計上しない(calculateRawStatsの同名ガードと同じ判定基準)。
           if (slot && factorClass && factorClass.seasonId >= CURRENT_FACTOR_SEASON_ID) {
-            const grade = factorClass.grades[slot.grade - 1] as PhantomFactorGrade | undefined;
+            const grade = factorClass.grades[slot.grade - 1] as PhantomFactorLevel | undefined;
             if (grade) fv.phantom += grade.fightValue;
             // 映痕(S4): ステータス系・クラス映痕とも、埋め込んだ映痕の能力スコアを計上する
             // (能力スコアは効果の有無と無関係にゲーム側で加算されるため、重複不可の重なりも各々数える)。

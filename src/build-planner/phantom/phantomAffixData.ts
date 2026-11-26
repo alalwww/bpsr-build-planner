@@ -219,25 +219,25 @@ export function clampAffixValue(affix: PhantomAffixValue, value: number): Phanto
   return { ...affix, value: Math.min(range.max, Math.max(range.min, value)) };
 }
 
-// 因子のグレード別スロット構成(1要素=1スロット、値=埋め込める AffixType)。
+// 因子のレベル別スロット構成(1要素=1スロット、値=埋め込める AffixType)。
 export function getEmbedSlots(classKey: string, grade: number): number[][] {
   return pfData.byClass[classKey]?.grades[grade - 1]?.embedSlots ?? [];
 }
 
-// 因子クラスの最大スロット数(全グレード中の最大)。
+// 因子クラスの最大スロット数(全レベル中の最大)。
 export function getMaxEmbedSlotCount(classKey: string): number {
   const fc = pfData.byClass[classKey];
   return Math.max(0, ...(fc?.grades.map((g) => g.embedSlots?.length ?? 0) ?? []));
 }
 
-// スロット index が開放される最小グレード(どのグレードでも開放されないなら null)。
-export function getSlotUnlockGrade(classKey: string, index: number): number | null {
+// スロット index が開放される最小レベル(どのレベルでも開放されないなら null)。
+export function getSlotUnlockLevel(classKey: string, index: number): number | null {
   const fc = pfData.byClass[classKey];
   const g = fc?.grades.find((gr) => (gr.embedSlots?.length ?? 0) > index);
   return g ? g.level : null;
 }
 
-// 映痕をスロット構成に合わせて並べ直す。グレード変更でスロットの種類・数が変わる
+// 映痕をスロット構成に合わせて並べ直す。レベル変更でスロットの種類・数が変わる
 // (例: G2の2番目はクラス用、G3の2番目はステータス用)ため、既存の映痕を先頭から順に
 // 「空いている、種類の合うスロット」へ詰め直す。収まらない映痕は外れる。
 export function fitAffixesToSlots(
@@ -295,7 +295,7 @@ export function aggregateAffixEffects(
   return [...byGroup.values()];
 }
 
-// 因子の映痕のうち、現在のグレードで開放されているスロットに埋め込まれているもの(空きは除く)。
+// 因子の映痕のうち、現在のレベルで開放されているスロットに埋め込まれているもの(空きは除く)。
 export function getActiveAffixes(
   factor: PhantomFactorSlotValue | null | undefined,
 ): PhantomAffixValue[] {
@@ -326,7 +326,7 @@ export function affixFightValue(affix: PhantomAffixValue): number {
   return steps[steps.length - 1][1];
 }
 
-// 因子の映痕のうち、現在のグレードで開放されているスロットの分の効果(同種は合計、重複不可は最大値)。
+// 因子の映痕のうち、現在のレベルで開放されているスロットの分の効果(同種は合計、重複不可は最大値)。
 export function getActiveAffixEffects(
   factor: PhantomFactorSlotValue | null | undefined,
 ): PhantomAffixValue[] {
@@ -335,7 +335,7 @@ export function getActiveAffixEffects(
 
 // 重複不可の映痕の効果は、全因子を通じて1つ(値が最大のもの)しか反映されない(2026-11-23 ユーザー確認)。
 // 複数の因子・スロットにまたがって2つ以上選ばれている重複不可の映痕の group を返す(警告表示用。
-// 重なっているスロットすべてに警告を出す)。各因子は現在のグレードで開放されているスロットのみ数える。
+// 重なっているスロットすべてに警告を出す)。各因子は現在のレベルで開放されているスロットのみ数える。
 export function getDuplicatedNonStackingGroups(
   factors: Iterable<PhantomFactorSlotValue | null | undefined>,
 ): Set<number> {
@@ -369,8 +369,8 @@ export function factorWithAffixes(
   return trimmed ? { classKey, grade, affixes: trimmed } : { classKey, grade };
 }
 
-// 因子のグレードを変更する(映痕をスロット構成に合わせて詰め直す)。
-export function withFactorGrade(
+// 因子のレベルを変更する(映痕をスロット構成に合わせて詰め直す)。
+export function withFactorLevel(
   factor: PhantomFactorSlotValue,
   grade: number,
 ): PhantomFactorSlotValue {
