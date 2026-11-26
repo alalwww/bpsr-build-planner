@@ -260,6 +260,7 @@
       "masterySkills": "精通技能",
       "rank": "阶级",
       "rankFormat": "{{v}}阶",
+      "levelFormat": "Lv{{v}}",
       "selectImagine": "选择幻想",
       "selectRoleSkill": "选择职责技能",
       "equip": "装载"

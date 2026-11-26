@@ -635,3 +635,11 @@
   color: #f4a13a;
   font-weight: 700;
 }
+
+/* 固定表示中のイマジン詳細のランク切り替え(説明の確認用。選択中のランクは変更しない) */
+.skill-tooltip__rank-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0 6px;
+}

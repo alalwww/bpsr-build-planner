@@ -168,6 +168,8 @@ function ImaginePickerDialog({
             }}
             onMouseEnter={cancelHoverClose}
             onMouseLeave={hideHover}
+            // ツールチップ内でランクを切り替えると、ダイアログで選択中のランクも連動して変わる。
+            onRankChange={setRank}
           />,
           document.body,
         )}

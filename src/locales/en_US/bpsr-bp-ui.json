@@ -260,6 +260,7 @@
       "masterySkills": "Mastery Skills",
       "rank": "Rank",
       "rankFormat": "Tier {{v}}",
+      "levelFormat": "Lv{{v}}",
       "selectImagine": "Select Imagine",
       "selectRoleSkill": "Select Role Skill",
       "equip": "Equip"

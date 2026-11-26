@@ -23,6 +23,7 @@ import { useCursorTooltip } from '../components/useCursorTooltip';
 interface SkillTooltipKey {
   skillId: number;
   isImagine: boolean;
+  isRoleSkill?: boolean;
   rank: number;
   level?: number;
   score?: number;
@@ -102,7 +103,9 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
     score?: number,
     align: 'right' | 'left' = 'right',
     level?: number,
-  ): CircleHandlers => makeHandlers({ skillId, isImagine, rank, level, score, align }, align);
+    isRoleSkill = false,
+  ): CircleHandlers =>
+    makeHandlers({ skillId, isImagine, isRoleSkill, rank, level, score, align }, align);
 
   const normalSkillLabel = tUi('buildPlanner.skill.masterySkills', {
     defaultValue: 'マスタリースキル',
@@ -253,7 +256,7 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
                 onClear={() => onSetRoleSkillSlot(i, null)}
                 circleHandlers={
                   skillId != null
-                    ? makeCircleHandlers(skillId, false, rank, undefined, align)
+                    ? makeCircleHandlers(skillId, false, rank, undefined, align, undefined, true)
                     : undefined
                 }
               />

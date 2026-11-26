@@ -260,6 +260,7 @@
       "masterySkills": "마스터리 스킬",
       "rank": "랭크",
       "rankFormat": "{{v}}등급",
+      "levelFormat": "Lv{{v}}",
       "selectImagine": "이마진 선택",
       "selectRoleSkill": "롤 스킬 선택",
       "equip": "장착"
