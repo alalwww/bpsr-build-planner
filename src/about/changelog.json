@@ -1,6 +1,36 @@
 {
   "entries": [
     {
+      "version": "0.14.1",
+      "date": "2026-11-26T08:13:09.152Z",
+      "summary": {
+        "ja": "祈願(因子設定・効果一覧)まわりの機能追加と、ドロップダウンのスマホ対応",
+        "en": "Add features around the oath crystal (factor settings and effect summary) and make dropdowns phone-friendly"
+      },
+      "changes": {
+        "ja": [
+          "心相投影の効果一覧への「映痕効果」セクションの追加(全因子の映痕を種類ごとに合算して表示)",
+          "因子設定ダイアログへの映痕レアリティ一括変更の追加(選んだレアリティを新しく選ぶ映痕の既定値としても記憶、未選択時の既定はエピック)",
+          "因子名からクラス名部分を省いた短い名前での表示と、因子選択リストのクラス別グループ化",
+          "因子設定ダイアログ・ノード効果欄への因子タイプ・クラス・(特異点因子の)型の表示と、キャラクターの型と異なる特異点因子の警告の追加",
+          "スマホでのドロップダウンの下部シート表示と、タッチ操作向けのタップ領域拡大・説明表示",
+          "ブラウザ標準の選択欄を共通デザインのドロップダウンに統一",
+          "祈願ツリーの既定表示倍率の縮小と、ノード効果欄・折りたたみボタン・絞り込み欄の見た目の改善",
+          "装備選択の「伝説」絞り込みで防具が表示されなかった不具合の修正(レイド防具を伝説として扱い、欠番になったと思われる装備を一覧から除外)"
+        ],
+        "en": [
+          "Add an \"Imprint Effects\" section to the oath crystal effect summary (imprints from all factors merged per type)",
+          "Add a bulk imprint rarity selector to the factor dialog (also remembered as the default rarity for newly selected imprints; Epic until one is chosen)",
+          "Show factors with short names without the class name part, and group the factor list by class",
+          "Show the factor type, class and (for singularity factors) class type in the factor dialog and node effect panel, and warn when a singularity factor does not match the character's class type",
+          "Show dropdowns as a bottom sheet on phones, with larger tap targets and inline descriptions for touch devices",
+          "Replace the browser's native select boxes with dropdowns in the shared style",
+          "Make the default oath tree zoom smaller and improve the look of the node effect panel, collapse toggles and filters",
+          "Fix armor not appearing under the \"Legendary\" equipment filter (raid armor now counts as legendary, and items that appear to have been retired are hidden from the list)"
+        ]
+      }
+    },
+    {
       "version": "0.14.0",
       "date": "2026-11-26T05:08:22.488Z",
       "summary": {
