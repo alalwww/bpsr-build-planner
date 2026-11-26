@@ -3,7 +3,7 @@ import { useShallow } from 'zustand/react/shallow';
 import './skill.css';
 import type { ProfessionKey, ProfessionTypeKey } from '../profession';
 import { PROFESSIONS } from '../profession';
-import { classesData } from './skillData';
+import { classesData, getSkillData } from './skillData';
 import { calculateSkillAbilityScore } from '../stats/calculateAbilityScore';
 import {
   selectRoleSkills,
@@ -142,9 +142,13 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
     if (isRoleSkill) {
       const i = roleSkillSlots.indexOf(skillId);
       if (i < 0) return null;
+      const level = roleSkillRanks[i] ?? 1;
+      // ロールイマジン(Lvを持つロールスキル)は能力スコアも表示する。全体の能力スコアと同じく
+      // スロットのLvで算出する(calculateAbilityScore の skillRole と同じ式)。
+      const isRoleImagine = (getSkillData(skillId)?.maxRank ?? 0) > 0;
       return {
-        rank: roleSkillRanks[i] ?? 1,
-        score: undefined,
+        rank: level,
+        score: isRoleImagine ? calculateSkillAbilityScore(skillId, level, 0, false) : undefined,
         onRankChange: (v: number) => onSetRoleSkillRank(i, v),
       };
     }
