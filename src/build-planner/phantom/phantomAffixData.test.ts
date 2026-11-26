@@ -19,9 +19,11 @@ import {
   getActiveAffixes,
   getAffixGroupsForSlot,
   getAffixQualityColor,
+  getFactorProfessionId,
   getDuplicatedNonStackingGroups,
   withFactorLevel,
 } from './phantomAffixData';
+import { pfData } from './phantomData';
 
 const attrDescs = (gameDataJa as unknown as { attrDescs: Record<string, string> }).attrDescs;
 const affixes = (
@@ -61,14 +63,33 @@ describe('映痕データ', () => {
     expect(flat).toEqual(FLAT_CLASS_AFFIX_BUFF_IDS);
   });
 
-  it('スロットの候補はスロットの AffixType と現在のクラスで絞り込む', () => {
+  it('スロットの候補はスロットの AffixType で絞り込み、クラス映痕は優先クラスを先頭に全クラス分並べる', () => {
     const stat = getAffixGroupsForSlot([1], 1);
     expect(stat.every((g) => g.affixType === 1)).toBe(true);
     // ステータス・主(102)が先頭
     expect(stat[0].libId).toBe(102);
-    const cls = getAffixGroupsForSlot([2], 1);
-    expect(cls.length).toBeGreaterThan(0);
-    expect(cls.every((g) => g.affixType === 2 && g.profession === 1)).toBe(true);
+
+    const cls = getAffixGroupsForSlot([2], 4);
+    expect(cls.every((g) => g.affixType === 2)).toBe(true);
+    const professions = [...new Set(cls.map((g) => g.profession))];
+    // 優先クラス(4)が先頭、残りはクラスID順
+    expect(professions[0]).toBe(4);
+    expect(professions.slice(1)).toEqual([...professions.slice(1)].sort((a, b) => a - b));
+    expect(professions.length).toBeGreaterThan(1);
+
+    // 兼用スロットでもステータス映痕が先、クラス映痕が後
+    const both = getAffixGroupsForSlot([1, 2], 1);
+    const firstClass = both.findIndex((g) => g.affixType === 2);
+    expect(both.slice(firstClass).every((g) => g.affixType === 2)).toBe(true);
+  });
+
+  it('因子のクラスはクラス専用因子ならそのクラス、共通因子なら null', () => {
+    expect(getFactorProfessionId('4001')).toBe(1);
+    const common = Object.entries(pfData.byClass).find(
+      ([, fc]) => fc.seasonId === 4 && fc.professionIds.length === 0,
+    );
+    expect(common).toBeDefined();
+    expect(getFactorProfessionId(common![0])).toBeNull();
   });
 
   it('初期値・品質変更は品質の最大値、効果値は品質の範囲に丸める', () => {

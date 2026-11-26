@@ -131,19 +131,33 @@ export function getAffixGroup(group: number): AffixGroup | undefined {
   return AFFIX_GROUPS.get(group);
 }
 
-// スロットに埋め込める映痕の一覧(系統の表示順 → group順)。クラス映痕は現在のクラスのもののみ。
+// スロットに埋め込める映痕の一覧(系統の表示順 → クラス映痕はクラス順 → group順)。
+// ゲーム内では因子と異なるクラスの映痕も埋め込めるため、クラス映痕は全クラス分を返す。
+// preferredProfessionId(因子のクラス)のクラス映痕を先頭に、残りはクラスID順に並べる。
 export function getAffixGroupsForSlot(
   affixTypes: readonly number[],
-  professionId: number,
+  preferredProfessionId: number,
 ): AffixGroup[] {
-  const order = (lib: number) => {
+  const libOrder = (lib: number) => {
     const i = (AFFIX_LIB_ORDER as readonly number[]).indexOf(lib);
     return i < 0 ? AFFIX_LIB_ORDER.length : i;
   };
+  // クラス共通(0)と優先クラスは同順位(先頭)、他クラスはクラスID順。
+  const professionOrder = (profession: number) =>
+    profession === 0 || profession === preferredProfessionId ? -1 : profession;
   return [...AFFIX_GROUPS.values()]
     .filter((g) => affixTypes.includes(g.affixType))
-    .filter((g) => g.profession === 0 || g.profession === professionId)
-    .sort((a, b) => order(a.libId) - order(b.libId) || a.group - b.group);
+    .sort(
+      (a, b) =>
+        libOrder(a.libId) - libOrder(b.libId) ||
+        professionOrder(a.profession) - professionOrder(b.profession) ||
+        a.group - b.group,
+    );
+}
+
+// 因子のクラス(クラス専用因子ならそのクラス、共通因子なら null)。
+export function getFactorProfessionId(classKey: string): number | null {
+  return pfData.byClass[classKey]?.professionIds[0] ?? null;
 }
 
 export function getAffixQualityRange(

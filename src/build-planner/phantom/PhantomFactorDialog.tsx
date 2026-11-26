@@ -24,6 +24,7 @@ import {
   getAffixGroupsForSlot,
   getAffixQualityColor,
   getAffixQualityRange,
+  getFactorProfessionId,
   getEmbedSlots,
   getMaxEmbedSlotCount,
   getSlotUnlockLevel,
@@ -111,6 +112,9 @@ export default function PhantomFactorDialog({
   };
 
   const embedSlots = current ? getEmbedSlots(current.classKey, current.grade) : [];
+  // クラス映痕の候補で優先する(先頭に並べる)クラス。クラス専用因子ならそのクラス、
+  // 共通因子なら現在のクラス。
+  const affixProfessionId = (current && getFactorProfessionId(current.classKey)) ?? professionId;
   const maxSlotCount = current ? getMaxEmbedSlotCount(current.classKey) : 0;
   // 映痕の効果(同種は合計、重複不可は最大値)。現在のレベルで開放されているスロットの分のみ。
   const affixEffects = getActiveAffixEffects(current);
@@ -232,7 +236,7 @@ export default function PhantomFactorDialog({
                       affix != null && duplicatedNonStackingGroups.has(affix.group)
                     }
                     affix={affix}
-                    professionId={professionId}
+                    preferredProfessionId={affixProfessionId}
                     onChange={(next) => setAffix(i, next)}
                   />
                 );
@@ -268,7 +272,8 @@ interface AffixSlotEditorProps {
   /** 重複不可の映痕が、このツリーの他のスロット(他の因子を含む)と重なっている。 */
   nonStackingDuplicate: boolean;
   affix: PhantomAffixValue | null;
-  professionId: number;
+  /** クラス映痕の候補で先頭に並べるクラス(他クラスの映痕も選べる)。 */
+  preferredProfessionId: number;
   onChange: (affix: PhantomAffixValue | null) => void;
 }
 
@@ -280,7 +285,7 @@ function AffixSlotEditor({
   unlockLevel,
   nonStackingDuplicate,
   affix,
-  professionId,
+  preferredProfessionId,
   onChange,
 }: AffixSlotEditorProps) {
   const { t } = useTranslation();
@@ -294,16 +299,24 @@ function AffixSlotEditor({
     () =>
       locked
         ? []
-        : getAffixGroupsForSlot(slotTypes, professionId).map((g) => ({
+        : getAffixGroupsForSlot(slotTypes, preferredProfessionId).map((g) => ({
             value: String(g.group),
             label: affixLabel(tg, g.group),
-            group: t(`buildPlanner.phantom.affixLib.${g.libId}`),
+            // クラス映痕はクラスごとに見出しを分ける(因子と異なるクラスの映痕も選べるため)。
+            group:
+              g.profession === 0
+                ? t(`buildPlanner.phantom.affixLib.${g.libId}`)
+                : t('buildPlanner.phantom.affixLibClass', {
+                    class: tg(`classes.${g.profession}.name`, {
+                      defaultValue: String(g.profession),
+                    }),
+                  }),
           })),
-    [locked, slotTypes, professionId, tg, t],
+    [locked, slotTypes, preferredProfessionId, tg, t],
   );
 
   const group = affix ? getAffixGroup(affix.group) : undefined;
-  // 現在のクラス以外のクラス映痕(クラス変更前に設定したもの)も、選択中の表示が消えないよう候補に残す。
+  // 候補に無い映痕(手で編集されたプランコード等でスロットの種類に合わないもの)も、選択中の表示が消えないよう候補に残す。
   const shownOptions =
     affix && !options.some((o) => o.value === String(affix.group))
       ? [...options, { value: String(affix.group), label: affixLabel(tg, affix.group) }]

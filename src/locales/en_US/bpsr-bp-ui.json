@@ -473,6 +473,7 @@
         "105": "Element",
         "1001": "Class Imprint"
       },
+      "affixLibClass": "Class Imprint ({{class}})",
       "affixEffect": "Imprint Effects",
       "affixNonStackingShort": "No stacking",
       "affixNonStackingWarning": "This effect does not stack. The same imprint is also set in another slot (including other factors); only the one with the highest value is applied."

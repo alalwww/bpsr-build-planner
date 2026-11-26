@@ -473,6 +473,7 @@
         "105": "ステータス・元素",
         "1001": "クラスの映痕"
       },
+      "affixLibClass": "クラスの映痕({{class}})",
       "affixEffect": "映痕の効果",
       "affixNonStackingShort": "重複不可",
       "affixNonStackingWarning": "効果は重複不可です。同じ映痕が他のスロット(他の因子を含む)にもあり、値が最も大きい1つだけが反映されます。"

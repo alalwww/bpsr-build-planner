@@ -473,6 +473,7 @@
         "105": "属性·元素",
         "1001": "职业的映痕"
       },
+      "affixLibClass": "职业的映痕({{class}})",
       "affixEffect": "映痕效果",
       "affixNonStackingShort": "不可叠加",
       "affixNonStackingWarning": "该效果不可叠加。其他槽位（包括其他因子）也有相同的映痕，仅生效数值最大的一个。"
