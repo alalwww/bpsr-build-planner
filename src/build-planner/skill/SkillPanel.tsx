@@ -123,6 +123,34 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
   const masteryIds = cls?.normalSkill ?? [];
   const equippedCount = masteryEquipped.filter(Boolean).length;
 
+  // バトルイマジン/ロールスキルのツールチップは、表示した時点の値ではなくスロットの現在の
+  // ランク/Lv(と能力スコア)を表示し、固定表示中はツールチップ内の切り替えでスロットの
+  // ランク/Lvを変更する(スロット側の操作とツールチップの表示を常に一致させる)。
+  const liveSlotTooltip = (() => {
+    if (!tooltip) return null;
+    const { skillId, isImagine, isRoleSkill } = tooltip.key;
+    if (isImagine) {
+      const i = battleImagines.indexOf(skillId);
+      if (i < 0) return null;
+      const rank = imagineRanks[i] ?? 5;
+      return {
+        rank,
+        score: calculateSkillAbilityScore(skillId, undefined, rank, true),
+        onRankChange: (v: number) => onSetImagineRank(i, v),
+      };
+    }
+    if (isRoleSkill) {
+      const i = roleSkillSlots.indexOf(skillId);
+      if (i < 0) return null;
+      return {
+        rank: roleSkillRanks[i] ?? 1,
+        score: undefined,
+        onRankChange: (v: number) => onSetRoleSkillRank(i, v),
+      };
+    }
+    return null;
+  })();
+
   // 固定スキルの能力スコアはグループ内の全skillId(突破後の代替IDを含む場合がある)を
   // 同じLv/Rankで合算する。合計能力スコアの算出ロジックと一致させる。
   const fixedGroups = [
@@ -267,10 +295,19 @@ export default function SkillPanel({ professionKey }: SkillPanelProps) {
 
       {tooltip && (
         <SkillTooltip
-          state={{ ...tooltip.key, x: tooltip.x, y: tooltip.y, pinned: tooltip.pinned }}
+          state={{
+            ...tooltip.key,
+            ...(liveSlotTooltip
+              ? { rank: liveSlotTooltip.rank, score: liveSlotTooltip.score }
+              : {}),
+            x: tooltip.x,
+            y: tooltip.y,
+            pinned: tooltip.pinned,
+          }}
           onMouseEnter={cancelClose}
           onMouseLeave={scheduleClose}
           onRequestClose={close}
+          onRankChange={tooltip.pinned ? liveSlotTooltip?.onRankChange : undefined}
         />
       )}
     </div>

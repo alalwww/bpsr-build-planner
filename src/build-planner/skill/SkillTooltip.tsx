@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FloatingTooltip from '../components/FloatingTooltip';
 import LinkTextPopup from '../components/LinkTextPopup';
@@ -6,7 +5,6 @@ import { renderMarkup } from '../components/renderMarkup';
 import ToggleChip from '../components/ToggleChip';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { IMAGINE_FLAT_STAT, RAW_PERCENT_STAT_IDS } from '../stats/attrMaps';
-import { calculateSkillAbilityScore } from '../stats/calculateAbilityScore';
 import {
   type BattleImagineData,
   getBattleImagineData,
@@ -19,7 +17,7 @@ import {
 export interface SkillTooltipState {
   skillId: number;
   isImagine?: boolean;
-  /** ロールスキル(rank をLvとして扱い、固定表示中はLvを切り替えて説明を確認できる)。 */
+  /** ロールスキル(rank をLvとして扱う)。 */
   isRoleSkill?: boolean;
   rank?: number;
   /** クラススキルのスキルレベル(1-30)。省略時は30。イマジンでは未使用。 */
@@ -58,54 +56,23 @@ function SkillTooltip({
   onMouseEnter: () => void;
   onMouseLeave: () => void;
   onRequestClose?: () => void;
-  /** 指定するとランク切り替えを常に表示し、切り替えをこのコールバックで呼び出し側へ伝える
-   * (イマジン選択ダイアログ: ダイアログで選択中のランクと連動させる)。 */
+  /** 指定するとランク(イマジン: G0〜)/Lv(ロールスキル: Lv1〜)の切り替えを表示し、切り替えを
+   * このコールバックで呼び出し側へ伝える。表示する値は呼び出し側が state.rank で渡す
+   * (スキルパネル: スロットの選択状態、選択ダイアログ: ダイアログで選択中の値と連動させる)。 */
   onRankChange?: (rank: number) => void;
 }) {
   const { t } = useTranslation('game-data');
   const { t: tUi } = useTranslation();
   const linkTextPopup = useLinkTextPopup();
-  const {
-    skillId,
-    isImagine,
-    isRoleSkill,
-    rank: selectedRank = 0,
-    level = 30,
-    score: selectedScore,
-  } = state;
+  const { skillId, isImagine, isRoleSkill, rank = 0, level = 30, score } = state;
   const sd = isImagine ? getBattleImagineData(skillId) : getSkillData(skillId);
-  // ランク(イマジン: G0〜)/Lv(ロールスキル: Lv1〜)を切り替えて説明を確認できるようにする。
-  // onRankChange が無い場合(スキルパネルで固定表示中)はスロットで選択中の値を変更しない表示専用の
-  // 切り替えとし、対象や選択中の値が変わったら選択中の値の表示へ戻す。
-  const [rankPreview, setRankPreview] = useState<{
-    skillId: number;
-    baseRank: number;
-    rank: number;
-  } | null>(null);
-  const rank =
-    !onRankChange &&
-    rankPreview &&
-    rankPreview.skillId === skillId &&
-    rankPreview.baseRank === selectedRank
-      ? rankPreview.rank
-      : selectedRank;
   const rankMin = isImagine ? 0 : 1;
   const rankMax = isImagine
     ? ((sd as BattleImagineData | undefined)?.maxRank ?? 5)
     : isRoleSkill
       ? ((sd as SkillData | undefined)?.maxRank ?? 0)
       : 0;
-  const showRankSelector =
-    (isImagine || isRoleSkill) && rankMax > rankMin && (!!onRankChange || state.pinned);
-  const selectRank = (r: number) => {
-    if (onRankChange) onRankChange(r);
-    else setRankPreview({ skillId, baseRank: selectedRank, rank: r });
-  };
-  // 能力スコアも表示中のランクの値にする(イマジンのみ。ロールスキル等は算出不可で未指定)。
-  const score =
-    selectedScore !== undefined && isImagine && rank !== selectedRank
-      ? calculateSkillAbilityScore(skillId, undefined, rank, true)
-      : selectedScore;
+  const showRankSelector = (isImagine || isRoleSkill) && rankMax > rankMin && !!onRankChange;
   const ns = isImagine ? 'battleImagines' : 'skills';
   const name = t(`${ns}.${skillId}.name`, { defaultValue: String(skillId) });
   const desc = t(`${ns}.${skillId}.description`, { defaultValue: '' });
@@ -198,7 +165,7 @@ function SkillTooltip({
                   ? tUi('buildPlanner.skill.rankFormat', { v: r })
                   : tUi('buildPlanner.skill.levelFormat', { v: r })
               }
-              onClick={() => selectRank(r)}
+              onClick={() => onRankChange?.(r)}
             />
           ))}
         </div>
