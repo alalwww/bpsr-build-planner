@@ -1,6 +1,50 @@
 {
   "entries": [
     {
+      "version": "0.14.0",
+      "date": "2026-11-26T05:08:22.488Z",
+      "summary": {
+        "ja": "因子設定・装備選択・スキル選択まわりの機能追加と使い勝手の改善",
+        "en": "Add features and improve usability in factor settings, equipment selection and skill selection"
+      },
+      "changes": {
+        "ja": [
+          "因子設定ダイアログへの映痕プリセット(因子レベルと映痕の保存・読み込み)の追加",
+          "因子設定ダイアログへの、別の因子スロットに直接移動できる切り替えボタンの追加",
+          "因子選択ダイアログの「グレード」の名称を「因子レベル」に変更",
+          "因子と映痕の効果説明で、効果値のみを色付けして表示",
+          "因子レベルを下げた際、映痕をスロット番号の若い順に移すよう変更し、外れる映痕がある場合の確認ダイアログを追加",
+          "因子と異なるクラスのクラス映痕を選択できなかった不具合の修正",
+          "祈願心相晶のノード番号・一覧の並びが開放Lv順になっていなかった不具合の修正",
+          "装備選択の絞り込みに「Lv300未満」と「伝説/極/匠」を追加し、一覧を絞り込み結果と選択中の装備のみの表示に変更",
+          "装備選択ダイアログの装着効果一覧へのシーズン区切りの追加",
+          "装備パネルへの精錬Lv一括変更ダイアログの追加",
+          "バトルイマジン/ロールイマジンのツールチップでのランク・Lv切り替えの追加(スキルパネルではスロットの選択と連動、選択ダイアログではダイアログのランク・Lvと連動)",
+          "ロールイマジンのツールチップへの能力スコア表示の追加",
+          "ロールスキル選択ダイアログを基本スキルとロールイマジンに分け、ロールイマジンのLvを選択できるよう変更",
+          "イマジン/ロールスキル選択ダイアログで、画面右側の候補のツールチップを左側に表示し、ツールチップへマウスを移しやすく改善",
+          "追加バフ効果の加算補正の入力上限の引き上げ(最大HPは1,000,000、会心等はシーズンの係数に合わせて自動で追従)"
+        ],
+        "en": [
+          "Add imprint presets to the factor dialog (save and load the factor level and imprints)",
+          "Add buttons to the factor dialog to switch directly to another factor slot",
+          "Rename \"Grade\" to \"Factor Level\" in the factor dialog",
+          "Highlight only the effect values in factor and imprint effect descriptions",
+          "Move imprints in slot order when lowering the factor level, and confirm before removing imprints that no longer fit",
+          "Fix class imprints of a class other than the factor's not being selectable",
+          "Fix oath crystal node numbers and rows not following the unlock level order",
+          "Add \"<Lv300\" and Legendary/Superior/Crafted filters to equipment selection, and list only matching items plus the selected one",
+          "Add season headings to the enchant list in the equipment dialog",
+          "Add a bulk refine level dialog to the equipment panel",
+          "Add rank/Lv switching to battle imagine and role imagine tooltips (linked to the slot in the skill panel, and to the dialog's rank/Lv in the selection dialogs)",
+          "Show the ability score in role imagine tooltips",
+          "Split the role skill selection dialog into basic skills and role imagines, with a selectable role imagine level",
+          "Show tooltips on the left for candidates on the right side of the imagine/role skill selection dialogs, and make the tooltips easier to reach with the mouse",
+          "Raise the input limits of additive stat corrections in additional buff effects (max HP up to 1,000,000; crit etc. follow the season coefficients)"
+        ]
+      }
+    },
+    {
       "version": "0.13.2",
       "date": "2026-11-25T07:24:19.996Z",
       "summary": {
