@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import type { EquipmentItem, LegendaryAffixEntry } from '../types';
-import { getEvoVariantFamily, getLegendaryAffixGroupPoolKey } from './equipmentData';
+import { PROFESSIONS } from '../profession';
+import {
+  ALL_EQUIPMENT_SLOTS,
+  getEvoVariantFamily,
+  getLegendaryAffixGroupPoolKey,
+  isDefenseRefineSlot,
+} from './equipmentData';
 
 function makeEquipmentItem(overrides: Partial<EquipmentItem> = {}): EquipmentItem {
   return {
@@ -143,5 +149,14 @@ describe('getLegendaryAffixGroupPoolKey', () => {
     expect(getLegendaryAffixGroupPoolKey(upperPool)).not.toBe(
       getLegendaryAffixGroupPoolKey(lowerPool),
     );
+  });
+});
+
+describe('isDefenseRefineSlot', () => {
+  it('treats armor and bracelets as defensive and the rest as offensive for every class', () => {
+    for (const profession of Object.values(PROFESSIONS)) {
+      const defense = ALL_EQUIPMENT_SLOTS.filter((s) => isDefenseRefineSlot(s, profession));
+      expect(defense).toEqual(['head', 'chest', 'arms', 'legs', 'ringLeft', 'ringRight']);
+    }
   });
 });

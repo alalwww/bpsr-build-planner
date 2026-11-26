@@ -143,6 +143,15 @@
     "equipLevel": "장비 Lv.{{level}}",
     "perfectline": "완성도",
     "refineLevel": "정련 레벨",
+    "refineBulk": {
+      "openButton": "정련 Lv 일괄 변경",
+      "title": "정련 Lv 일괄 변경",
+      "bulkHeading": "일괄 변경",
+      "all": "전체 부위",
+      "attack": "공격용 부위",
+      "defense": "방어용 부위",
+      "apply": "적용"
+    },
     "emptySlot": "비어 있음",
     "unequip": "해제",
     "selectEquipmentTitle": "{{slot}} 선택",

@@ -23,6 +23,13 @@ export const EQUIPMENT_BOTTOM_SLOTS: EquipmentSlotId[] = [
   'belt',
 ];
 
+// 全部位の一覧(表示順: 武器 → 右上段 → 右下段)。
+export const ALL_EQUIPMENT_SLOTS: EquipmentSlotId[] = [
+  'weapon',
+  ...EQUIPMENT_TOP_SLOTS,
+  ...EQUIPMENT_BOTTOM_SLOTS,
+];
+
 export const DEFAULT_LOADOUT: EquippedItems = {};
 
 export interface RefineTypeData {
@@ -137,6 +144,23 @@ export function getRefineForSlot(
   const refineId = partMap[String(profession.professionId)];
   if (refineId === undefined) return null;
   return rawRefineData.refineById[String(refineId)] ?? null;
+}
+
+// 精錬レベルの上限。
+export const MAX_REFINE_LEVEL = 30;
+
+// 精錬防御力(AttrId 11422)。防御用部位の精錬効果に含まれる。
+const REFINE_DEF_ATTR_ID = 11422;
+
+// 防御用部位(精錬で精錬防御力が上がる部位)か。それ以外(精錬物攻/魔攻が上がる部位)は攻撃用部位。
+// 精錬データ(RefineTypeData)から判定する(現状は頭部/胴部/腕部/脚部/腕輪・左右が防御用)。
+export function isDefenseRefineSlot(slot: EquipmentSlotId, profession: Profession): boolean {
+  const refine = getRefineForSlot(slot, profession);
+  return (
+    refine?.cumulative.some((effects) =>
+      effects.some(([attrId]) => attrId === REFINE_DEF_ATTR_ID),
+    ) ?? false
+  );
 }
 
 export function getItemsBySlot(slot: EquipmentSlotId): EquipmentItem[] {

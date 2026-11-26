@@ -143,6 +143,15 @@
     "equipLevel": "Equip Lv.{{level}}",
     "perfectline": "Perfection",
     "refineLevel": "Refine Lv",
+    "refineBulk": {
+      "openButton": "Bulk Refine Lv",
+      "title": "Bulk Refine Lv",
+      "bulkHeading": "Bulk Change",
+      "all": "All Slots",
+      "attack": "Offensive Slots",
+      "defense": "Defensive Slots",
+      "apply": "Apply"
+    },
     "emptySlot": "Empty",
     "unequip": "Unequip",
     "selectEquipmentTitle": "Select {{slot}}",

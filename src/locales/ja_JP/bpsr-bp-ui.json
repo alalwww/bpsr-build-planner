@@ -143,6 +143,15 @@
     "equipLevel": "装備Lv.{{level}}",
     "perfectline": "完成度",
     "refineLevel": "精錬レベル",
+    "refineBulk": {
+      "openButton": "精錬Lv一括変更",
+      "title": "精錬Lv一括変更",
+      "bulkHeading": "一括変更",
+      "all": "全部位",
+      "attack": "攻撃用部位",
+      "defense": "防御用部位",
+      "apply": "反映"
+    },
     "emptySlot": "空き",
     "unequip": "外す",
     "selectEquipmentTitle": "{{slot}}を選択",

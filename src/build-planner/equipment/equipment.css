@@ -176,12 +176,46 @@
   min-height: 0;
   position: relative;
   display: flex;
-  gap: 16px;
-  align-items: stretch;
+  flex-direction: column;
+  gap: 12px;
   background: #1c1c24;
   border: 1px solid #2a2a33;
   border-radius: 8px;
   padding: 16px;
+}
+
+/* パネル最上部の操作行(右寄せ。精錬Lv一括変更ボタン) */
+.equipment-panel__toolbar {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.equipment-panel__toolbar-btn {
+  background: #22222b;
+  border: 1px solid #3a3a45;
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: #c8c6d1;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.equipment-panel__toolbar-btn:hover {
+  background: #2a2a35;
+  border-color: #55555f;
+}
+
+/* 武器スロット + 部位グリッド */
+.equipment-panel__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
 }
 
 /* スマホ幅では武器スロット(250px固定)+装備グリッドを縮めきれないため、本来の
@@ -1342,4 +1376,74 @@
 /* 上級装着コスト(精/極を狙う場合): 通常コストと区別できるよう色味を変える。 */
 .equip-enchant-cost--advanced {
   color: #c9a227;
+}
+
+/* ---- 精錬Lv一括変更ダイアログ(RefineBulkDialog) ---- */
+.draggable-dialog.refine-bulk-dialog {
+  width: min(560px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.refine-bulk-dialog .equip-details-section {
+  margin-bottom: 12px;
+}
+
+.refine-bulk-dialog__bulk-row,
+.refine-bulk-dialog__slot-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.refine-bulk-dialog__bulk-label {
+  flex: 1;
+  font-size: 13px;
+  color: #c8c6d1;
+}
+
+.refine-bulk-dialog__stepper {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.refine-bulk-dialog__apply {
+  flex-shrink: 0;
+  background: #3a2e1c;
+  border: 1px solid #f4a13a;
+  border-radius: 4px;
+  padding: 5px 14px;
+  color: #f4a13a;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.refine-bulk-dialog__apply:hover {
+  background: #4a3a22;
+}
+
+.refine-bulk-dialog__columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.refine-bulk-dialog__slot-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.refine-bulk-dialog__slot-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.refine-bulk-dialog__slot-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  color: #c8c6d1;
 }

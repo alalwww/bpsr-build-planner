@@ -143,6 +143,15 @@
     "equipLevel": "裝備Lv.{{level}}",
     "perfectline": "完成度",
     "refineLevel": "精煉等級",
+    "refineBulk": {
+      "openButton": "精煉等級批量修改",
+      "title": "精煉等級批量修改",
+      "bulkHeading": "批量修改",
+      "all": "全部位",
+      "attack": "攻擊部位",
+      "defense": "防禦部位",
+      "apply": "套用"
+    },
     "emptySlot": "空",
     "unequip": "卸下",
     "selectEquipmentTitle": "選擇{{slot}}",
