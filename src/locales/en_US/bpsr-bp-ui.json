@@ -469,6 +469,9 @@
       "affixLossOnLevelDownConfirm": "Change",
       "factorEffect": "Factor Effect",
       "affixHeading": "Imprints",
+      "affixBulkQuality": "Set all rarities",
+      "affixBulkQualityConfirmMsg": "Change the rarity of {{count}} imprint(s) to \"{{quality}}\"? Their effect values will be reset.",
+      "affixBulkQualityConfirm": "Change",
       "affixNeedFactor": "Select a factor to set imprints.",
       "affixSlot": "Slot {{n}}",
       "affixSlotType": {

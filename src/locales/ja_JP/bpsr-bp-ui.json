@@ -469,6 +469,9 @@
       "affixLossOnLevelDownConfirm": "変更する",
       "factorEffect": "因子の効果",
       "affixHeading": "映痕",
+      "affixBulkQuality": "レアリティ一括変更",
+      "affixBulkQualityConfirmMsg": "{{count}}個の映痕のレアリティを「{{quality}}」に変更します。変更した映痕の効果値はリセットされます。よろしいですか？",
+      "affixBulkQualityConfirm": "変更する",
       "affixNeedFactor": "因子を選択すると映痕を設定できます。",
       "affixSlot": "スロット{{n}}",
       "affixSlotType": {

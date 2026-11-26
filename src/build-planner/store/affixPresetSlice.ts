@@ -12,9 +12,24 @@ import {
   type AffixPreset,
   type AffixPresetContent,
 } from '../phantom/affixPresets';
+import { AFFIX_QUALITIES } from '../phantom/phantomAffixData';
 import type { BuildStore } from './types';
 
-// 映痕プリセット(因子設定ダイアログ)。ビルドプラン/自動保存/共有コードには含めない。
+// 映痕を選んだときの既定の品質(レアリティ)。因子設定ダイアログのレアリティ一括変更で選んだ値を
+// 全因子共通で覚えておく(ビルドプラン等とは独立したローカル設定)。
+const AFFIX_DEFAULT_QUALITY_STORAGE_KEY = 'bpsr-affix-default-quality-v1';
+
+function loadAffixDefaultQuality(): number {
+  try {
+    const raw = Number(localStorage.getItem(AFFIX_DEFAULT_QUALITY_STORAGE_KEY));
+    if (AFFIX_QUALITIES.includes(raw)) return raw;
+  } catch {
+    // storage unavailable
+  }
+  return AFFIX_QUALITIES[0];
+}
+
+// 映痕プリセットと映痕の既定の品質(因子設定ダイアログ)。ビルドプラン/自動保存/共有コードには含めない。
 // どのプリセットをロード中かは因子スロットごと・ダイアログを開いている間だけの表示状態のため、
 // ダイアログ側のローカル state で持つ(モジュールプリセットの loadedModulePresetId とは異なる)。
 export interface AffixPresetSlice {
@@ -24,6 +39,9 @@ export interface AffixPresetSlice {
   overwriteAffixPreset: (id: string, name: string, content: AffixPresetContent) => void;
   renameAffixPreset: (id: string, newName: string) => void;
   deleteAffixPreset: (id: string) => void;
+  /** 映痕を選んだときの既定の品質(レアリティ一括変更で選んだ値)。 */
+  affixDefaultQuality: number;
+  setAffixDefaultQuality: (quality: number) => void;
 }
 
 export const createAffixPresetSlice: StateCreator<BuildStore, [], [], AffixPresetSlice> = (
@@ -54,6 +72,16 @@ export const createAffixPresetSlice: StateCreator<BuildStore, [], [], AffixPrese
 
     deleteAffixPreset: (id) => {
       update(deletePreset(get().affixPresets, id));
+    },
+
+    affixDefaultQuality: loadAffixDefaultQuality(),
+    setAffixDefaultQuality: (quality) => {
+      try {
+        localStorage.setItem(AFFIX_DEFAULT_QUALITY_STORAGE_KEY, String(quality));
+      } catch {
+        // quota exceeded or storage unavailable
+      }
+      set({ affixDefaultQuality: quality });
     },
   };
 };

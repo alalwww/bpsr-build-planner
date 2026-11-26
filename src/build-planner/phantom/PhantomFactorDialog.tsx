@@ -3,12 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { renderMarkup } from '../components/renderMarkup';
 import ConfirmDialog from '../components/ConfirmDialog';
 import DraggableDialog from '../components/DraggableDialog';
+import { useBuildStore } from '../store/useBuildStore';
 import AffixPresetBar from './AffixPresetBar';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import type { PhantomAffixValue, PhantomFactorSlotValue } from './phantomData';
 import { MAX_FACTOR_LEVEL } from './phantomData';
 import {
   AFFIX_FIXED_QUALITY,
+  AFFIX_QUALITIES,
   affixEffectMarkup,
   affixInputToValue,
   affixLabel,
@@ -30,6 +32,7 @@ import {
   getSlotUnlockLevel,
   factorWithAffixes,
   withFactorClass,
+  withAffixQualities,
   withFactorLevel,
 } from './phantomAffixData';
 import {
@@ -103,6 +106,20 @@ export default function PhantomFactorDialog({
   const [pendingLevelDown, setPendingLevelDown] = useState<{ level: number; lost: number } | null>(
     null,
   );
+
+  // 映痕のレアリティ(品質)一括変更。選んだ値は全因子共通の「映痕を選んだときの既定の品質」として
+  // 覚えておく(store)。品質が変わる映痕がある場合は、効果値がリセットされる旨を確認してから反映する。
+  const affixDefaultQuality = useBuildStore((s) => s.affixDefaultQuality);
+  const setAffixDefaultQuality = useBuildStore((s) => s.setAffixDefaultQuality);
+  const [pendingBulkQuality, setPendingBulkQuality] = useState<{
+    quality: number;
+    changed: number;
+  } | null>(null);
+  const handleBulkQualityChange = (quality: number) => {
+    const changed = current ? withAffixQualities(current, quality).changed : 0;
+    if (changed > 0) setPendingBulkQuality({ quality, changed });
+    else setAffixDefaultQuality(quality);
+  };
 
   const setLevel = (g: number) => {
     if (!current) {
@@ -262,9 +279,26 @@ export default function PhantomFactorDialog({
               />
             </div>
             <section className="equip-details-section">
-              <h3 className="equip-details-section__heading">
-                {t('buildPlanner.phantom.affixHeading')}
-              </h3>
+              <div className="equip-details-section__heading-row">
+                <h3 className="equip-details-section__heading">
+                  {t('buildPlanner.phantom.affixHeading')}
+                </h3>
+                <label className="phantom-factor-dialog__bulk-quality">
+                  <span>{t('buildPlanner.phantom.affixBulkQuality')}</span>
+                  <select
+                    className="phantom-affix-slot__quality"
+                    style={{ color: getAffixQualityColor(affixDefaultQuality) }}
+                    value={affixDefaultQuality}
+                    onChange={(e) => handleBulkQualityChange(Number(e.target.value))}
+                  >
+                    {AFFIX_QUALITIES.map((q) => (
+                      <option key={q} value={q} style={{ color: getAffixQualityColor(q) }}>
+                        {affixQualityName(t, tg, q)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
               {!current && (
                 <p className="phantom-factor-dialog__placeholder">
                   {t('buildPlanner.phantom.affixNeedFactor')}
@@ -287,6 +321,7 @@ export default function PhantomFactorDialog({
                     }
                     affix={affix}
                     preferredProfessionId={affixProfessionId}
+                    defaultQuality={affixDefaultQuality}
                     onChange={(next) => setAffix(i, next)}
                   />
                 );
@@ -309,6 +344,22 @@ export default function PhantomFactorDialog({
           onCancel={() => setPendingLevelDown(null)}
         />
       )}
+      {pendingBulkQuality && current && (
+        <ConfirmDialog
+          message={t('buildPlanner.phantom.affixBulkQualityConfirmMsg', {
+            count: pendingBulkQuality.changed,
+            quality: affixQualityName(t, tg, pendingBulkQuality.quality),
+          })}
+          confirmLabel={t('buildPlanner.phantom.affixBulkQualityConfirm')}
+          onConfirm={() => {
+            onSet(groupId, withAffixQualities(current, pendingBulkQuality.quality).factor);
+            setAffixDefaultQuality(pendingBulkQuality.quality);
+            setPendingBulkQuality(null);
+          }}
+          cancelLabel={t('buildPlanner.confirmCancel')}
+          onCancel={() => setPendingBulkQuality(null)}
+        />
+      )}
     </>
   );
 }
@@ -324,6 +375,8 @@ interface AffixSlotEditorProps {
   affix: PhantomAffixValue | null;
   /** クラス映痕の候補で先頭に並べるクラス(他クラスの映痕も選べる)。 */
   preferredProfessionId: number;
+  /** 映痕を新たに選んだときの既定の品質(レアリティ一括変更で選んだ値)。 */
+  defaultQuality: number;
   onChange: (affix: PhantomAffixValue | null) => void;
 }
 
@@ -336,6 +389,7 @@ function AffixSlotEditor({
   nonStackingDuplicate,
   affix,
   preferredProfessionId,
+  defaultQuality,
   onChange,
 }: AffixSlotEditorProps) {
   const { t } = useTranslation();
@@ -398,7 +452,9 @@ function AffixSlotEditor({
             value={affix ? String(affix.group) : ''}
             placeholder={t('buildPlanner.phantom.affixNone')}
             selectedColor={affix ? getAffixQualityColor(affix.quality) : undefined}
-            onChange={(v) => onChange(v === '' ? null : defaultAffixValue(Number(v)))}
+            onChange={(v) =>
+              onChange(v === '' ? null : defaultAffixValue(Number(v), defaultQuality))
+            }
           />
           {affix && group && (
             <div className="phantom-affix-slot__value-row">

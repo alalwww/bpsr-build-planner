@@ -469,6 +469,9 @@
       "affixLossOnLevelDownConfirm": "變更",
       "factorEffect": "因子效果",
       "affixHeading": "映痕",
+      "affixBulkQuality": "稀有度批量修改",
+      "affixBulkQualityConfirmMsg": "將{{count}}個映痕的稀有度改為「{{quality}}」。修改後的映痕效果值將被重置。是否繼續？",
+      "affixBulkQualityConfirm": "修改",
       "affixNeedFactor": "選擇因子後即可設定映痕。",
       "affixSlot": "槽位{{n}}",
       "affixSlotType": {

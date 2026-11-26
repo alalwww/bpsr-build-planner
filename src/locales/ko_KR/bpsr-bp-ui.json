@@ -469,6 +469,9 @@
       "affixLossOnLevelDownConfirm": "변경",
       "factorEffect": "인자 효과",
       "affixHeading": "영흔",
+      "affixBulkQuality": "희귀도 일괄 변경",
+      "affixBulkQualityConfirmMsg": "영흔 {{count}}개의 희귀도를 「{{quality}}」(으)로 변경합니다. 변경된 영흔의 효과 수치는 초기화됩니다. 계속하시겠습니까?",
+      "affixBulkQualityConfirm": "변경",
       "affixNeedFactor": "인자를 선택하면 영흔을 설정할 수 있습니다.",
       "affixSlot": "슬롯 {{n}}",
       "affixSlotType": {

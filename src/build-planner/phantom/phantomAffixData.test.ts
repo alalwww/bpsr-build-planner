@@ -9,6 +9,7 @@ import {
   affixEffectMarkup,
   affixEffectText,
   aggregateAffixEffects,
+  withAffixQualities,
   clampAffixValue,
   countAffixesLostByLevelChange,
   defaultAffixValue,
@@ -261,5 +262,25 @@ describe('映痕の効果説明のハイライト', () => {
     const markup = affixEffectMarkup(tg, { group: 101, quality: 2, value: 267 });
     expect(markup).toContain('<style="accent-gn">+2.67%</style>');
     expect(affixEffectText(tg, { group: 101, quality: 2, value: 267 })).not.toContain('<');
+  });
+});
+
+describe('映痕のレアリティ一括変更', () => {
+  it('uses the preferred quality for a newly selected imprint', () => {
+    expect(defaultAffixValue(1, 3)).toEqual({ group: 1, quality: 3, value: 1067 });
+    expect(defaultAffixValue(1)).toEqual({ group: 1, quality: 2, value: 567 });
+  });
+
+  it('changes the quality of embedded imprints and resets their values', () => {
+    const factor = {
+      classKey: '4001',
+      grade: 2,
+      affixes: [CRIT, { ...SB_CLASS, quality: 3, value: 200 }],
+    };
+    const { factor: next, changed } = withAffixQualities(factor, 3);
+    expect(changed).toBe(1);
+    expect(next.affixes?.[0]).toEqual({ group: 1, quality: 3, value: 1067 });
+    expect(next.affixes?.[1]).toEqual(factor.affixes[1]);
+    expect(withAffixQualities(next, 3).changed).toBe(0);
   });
 });

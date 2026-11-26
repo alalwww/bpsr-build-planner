@@ -218,12 +218,42 @@ export function affixEffectMarkup(tg: GameDataT, affix: PhantomAffixValue): stri
   return substituteEffectDescParams(desc, [affix.value], g.unit === 'percent', 2);
 }
 
-// 映痕を新たに選んだときの初期値(最低品質・その品質の最大値)。
-export function defaultAffixValue(group: number): PhantomAffixValue | null {
+// 映痕の品質(レアリティ)の一覧(低い順)。全映痕で共通(上級/卓越/エピック/不朽)。
+export const AFFIX_QUALITIES: number[] = [
+  ...new Set([...AFFIX_GROUPS.values()].flatMap((g) => g.qualities.map((q) => q.quality))),
+].sort((x, y) => x - y);
+
+// 映痕を新たに選んだときの初期値(既定の品質・その品質の最大値)。preferredQuality はユーザーが
+// 選んだ既定の品質(因子設定ダイアログのレアリティ一括変更)。映痕がその品質を持たなければ最低品質。
+export function defaultAffixValue(
+  group: number,
+  preferredQuality?: number,
+): PhantomAffixValue | null {
   const g = getAffixGroup(group);
-  const q = g?.qualities[0];
+  const q = g?.qualities.find((r) => r.quality === preferredQuality) ?? g?.qualities[0];
   if (!q) return null;
   return { group, quality: q.quality, value: q.max };
+}
+
+// 因子に埋め込んだ映痕(現在のレベルで開放されているスロットの分)の品質をまとめて変更する。
+// 品質が変わる映痕の効果値は新しい品質の最大値にリセットする(affixWithQuality)。
+// 戻り値の changed は品質が変わる映痕の数(確認ダイアログ用。その品質を持たない映痕は変えない)。
+export function withAffixQualities(
+  factor: PhantomFactorSlotValue,
+  quality: number,
+): { factor: PhantomFactorSlotValue; changed: number } {
+  const slotCount = getEmbedSlots(factor.classKey, factor.grade).length;
+  let changed = 0;
+  const affixes = (factor.affixes ?? []).map((affix, i) => {
+    if (!affix || i >= slotCount || affix.quality === quality) return affix;
+    if (!getAffixQualityRange(affix.group, quality)) return affix;
+    changed++;
+    return affixWithQuality(affix, quality);
+  });
+  return {
+    factor: changed > 0 ? factorWithAffixes(factor.classKey, factor.grade, affixes) : factor,
+    changed,
+  };
 }
 
 // 品質を変更したときの値(新しい品質の最大値)。
