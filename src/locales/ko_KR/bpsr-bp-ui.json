@@ -148,9 +148,13 @@
     "selectEquipmentTitle": "{{slot}} 선택",
     "candidateFilter": {
       "toggle": "필터",
+      "below300": "<Lv300",
       "lv320": "Lv320대",
       "lv340": "Lv340대",
-      "lv360": "Lv360대"
+      "lv360": "Lv360대",
+      "legendary": "전설",
+      "kiwami": "극",
+      "takumi": "장"
     },
     "selectProfessionTitle": "클래스 선택",
     "professionLabel": "클래스",

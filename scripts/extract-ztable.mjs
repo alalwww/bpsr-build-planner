@@ -612,6 +612,7 @@ function extractEnchants(langDir) {
 //   tableType 2 → EquipAttrSchoolLibTable  (Lv70+ シリーズ装備)
 // 改鋳進化ステータスは RecastingAttrLibId → EquipAttrLibTable から抽出する。
 // reforgeEvoFvMin/Max は改鋳スロットの FightValue 範囲 (perfectline 0/100 時)。
+// variantTag は「極」(kiwami)/「匠」(takumi)の種別(該当しなければ省略)。
 // Reforgeなしは全て 0。
 
 function extractEquipment(langDir) {
@@ -936,6 +937,16 @@ function extractEquipment(langDir) {
       }
     }
 
+    // 「極」(ドロップ品)/「匠」(クラフト品)の種別。ZTable に専用の項目が無く、進化ステータスの
+    // 構成等からも古い装備まで含めて正確には判別できないため、構造データの言語(日本語)の
+    // ItemTable.Name の接頭辞「[極]」「[匠]」で判定する(英語名には接頭辞が無い)。
+    // 装備選択ダイアログの絞り込みに使う。
+    const variantTag = itemEntry.Name?.startsWith('[極]')
+      ? 'kiwami'
+      : itemEntry.Name?.startsWith('[匠]')
+        ? 'takumi'
+        : undefined;
+
     const part = (byPart[equip.EquipPart] ??= {});
     part[id] = {
       id,
@@ -956,6 +967,7 @@ function extractEquipment(langDir) {
       ...(legendaryAffixGroups ? { legendaryAffixGroups } : {}),
       ...(equip.EnchantId ? { enchantId: equip.EnchantId } : {}),
       ...(equip.SuitId ? { suitId: equip.SuitId } : {}),
+      ...(variantTag ? { variantTag } : {}),
       // BreakThrough グループ: BT を持つ装備は btGroupId=自身ID, btTime=0 を付与する。
       ...(btByEquipId.has(id) ? { btGroupId: id, btTime: 0 } : {}),
     };

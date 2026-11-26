@@ -3,9 +3,11 @@ import type { EquipmentItem } from '../types';
 import {
   compareEnchantItems,
   enchantsData,
+  filterCandidates,
   getDefaultCandidateGsFilter,
   getItemNameColor,
   isCandidateGsMatch,
+  isCandidateKindMatch,
   isSeaBreezeSeries,
 } from './equipmentSlotPickerData';
 
@@ -29,6 +31,11 @@ function itemWithGs(equipGs: number): EquipmentItem {
 }
 
 describe('isCandidateGsMatch', () => {
+  it("'below300' matches [0, 300)", () => {
+    expect(isCandidateGsMatch(itemWithGs(299), 'below300')).toBe(true);
+    expect(isCandidateGsMatch(itemWithGs(300), 'below300')).toBe(false);
+  });
+
   it("'lv320' matches [320, 340)", () => {
     expect(isCandidateGsMatch(itemWithGs(319), 'lv320')).toBe(false);
     expect(isCandidateGsMatch(itemWithGs(320), 'lv320')).toBe(true);
@@ -47,6 +54,41 @@ describe('isCandidateGsMatch', () => {
     expect(isCandidateGsMatch(itemWithGs(359), 'lv360')).toBe(false);
     expect(isCandidateGsMatch(itemWithGs(360), 'lv360')).toBe(true);
     expect(isCandidateGsMatch(itemWithGs(380), 'lv360')).toBe(true);
+  });
+});
+
+describe('isCandidateKindMatch', () => {
+  it('legendary matches red (quality 5) items and the 蒼海/暁光 series', () => {
+    expect(isCandidateKindMatch({ ...itemWithGs(370), quality: 5 }, 'legendary')).toBe(true);
+    expect(
+      isCandidateKindMatch({ ...itemWithGs(360), icon: 'ch_wp_olvera_14_01' }, 'legendary'),
+    ).toBe(true);
+    expect(isCandidateKindMatch(itemWithGs(360), 'legendary')).toBe(false);
+  });
+
+  it('kiwami/takumi match the variant tag', () => {
+    const kiwami: EquipmentItem = { ...itemWithGs(360), variantTag: 'kiwami' };
+    expect(isCandidateKindMatch(kiwami, 'kiwami')).toBe(true);
+    expect(isCandidateKindMatch(kiwami, 'takumi')).toBe(false);
+    expect(isCandidateKindMatch(itemWithGs(360), 'takumi')).toBe(false);
+  });
+});
+
+describe('filterCandidates', () => {
+  const a: EquipmentItem = { ...itemWithGs(320), id: 1, variantTag: 'kiwami' };
+  const b: EquipmentItem = { ...itemWithGs(340), id: 2, variantTag: 'takumi' };
+  const c: EquipmentItem = { ...itemWithGs(200), id: 3 };
+  const all = [a, b, c];
+
+  it('shows everything when no filter is active', () => {
+    expect(filterCandidates(all, null, null, undefined)).toEqual(all);
+  });
+
+  it('requires both filters to match, but always keeps the selected item', () => {
+    expect(filterCandidates(all, 'lv320', null, undefined)).toEqual([a]);
+    expect(filterCandidates(all, null, 'takumi', undefined)).toEqual([b]);
+    expect(filterCandidates(all, 'lv320', 'takumi', undefined)).toEqual([]);
+    expect(filterCandidates(all, 'lv320', 'kiwami', 3)).toEqual([a, c]);
   });
 });
 

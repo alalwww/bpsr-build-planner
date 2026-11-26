@@ -783,10 +783,11 @@
   background: #2a3040;
 }
 
-/* GS帯フィルター適用中、一致グループとそれ以外の境界を隙間+区切り線で明示する。 */
-.equipment-dialog__select-divider {
-  margin: 6px 0;
-  border-top: 1px solid #4a4a58;
+/* 装備選択候補の絞り込み(GS帯・種別の2つのトグルグループを縦に並べる) */
+.equipment-dialog__candidate-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .equipment-dialog__slider-value {

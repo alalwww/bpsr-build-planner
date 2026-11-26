@@ -148,9 +148,13 @@
     "selectEquipmentTitle": "选择{{slot}}",
     "candidateFilter": {
       "toggle": "筛选",
+      "below300": "<Lv300",
       "lv320": "Lv320档",
       "lv340": "Lv340档",
-      "lv360": "Lv360档"
+      "lv360": "Lv360档",
+      "legendary": "传说",
+      "kiwami": "极",
+      "takumi": "匠"
     },
     "selectProfessionTitle": "选择职业",
     "professionLabel": "职业",

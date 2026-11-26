@@ -14,7 +14,7 @@ import { useBuildStore } from '../store/useBuildStore';
 import EquipmentSlotPicker from './EquipmentSlotPicker';
 import EquipmentSlotButton from './EquipmentSlotButton';
 import EquipmentItemPopup from './EquipmentItemPopup';
-import type { CandidateGsFilter } from './equipmentSlotPickerData';
+import type { CandidateGsFilter, CandidateKindFilter } from './equipmentSlotPickerData';
 import {
   getDefaultCandidateGsFilter,
   isSeaBreezeSeries,
@@ -161,6 +161,8 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
   const [candidateGsFilter, setCandidateGsFilter] = useState<CandidateGsFilter | null>(() =>
     getDefaultCandidateGsFilter(),
   );
+  // 装備選択候補の種別(伝説/極/匠)フィルター。GS帯フィルターと同様にこのパネル側で保持する。
+  const [candidateKindFilter, setCandidateKindFilter] = useState<CandidateKindFilter | null>(null);
   // スキルパネル等と揃え、0.5秒とどまってから表示するhover intent。カーソルが動き続けている
   // 間はopenが呼ばれるたびリセットされる(EquipmentSlotButtonのonHoverMoveはmousemoveの
   // たびに呼ばれるため、入室直後の1回目も含めてenter/move兼用で機能する)。
@@ -249,6 +251,8 @@ function EquipmentPanel({ profession, professionTypeKey }: EquipmentPanelProps) 
           selectedEnchant={slotEnchants[openSlot] ?? undefined}
           candidateGsFilter={candidateGsFilter}
           onSetCandidateGsFilter={setCandidateGsFilter}
+          candidateKindFilter={candidateKindFilter}
+          onSetCandidateKindFilter={setCandidateKindFilter}
           onSelect={(selected) => onEquip(openSlot, selected)}
           onUnequip={() => onUnequip(openSlot)}
           onRefineLevel={(level) => onRefineLevel(openSlot, level)}

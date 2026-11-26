@@ -148,9 +148,13 @@
     "selectEquipmentTitle": "{{slot}}を選択",
     "candidateFilter": {
       "toggle": "絞り込み",
+      "below300": "Lv300未満",
       "lv320": "Lv320台",
       "lv340": "Lv340台",
-      "lv360": "Lv360台"
+      "lv360": "Lv360台",
+      "legendary": "伝説",
+      "kiwami": "極",
+      "takumi": "匠"
     },
     "selectProfessionTitle": "クラス選択",
     "professionLabel": "クラス",

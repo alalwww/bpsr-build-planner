@@ -271,19 +271,21 @@ export function getPlaceholderStatIds(slot: EquipmentSlotId, profession: Profess
 // stats/statValue.ts と同一実装が重複していたため、そちらを単一の定義元として再エクスポートする。
 export { calcStatValue, truncate1Str } from '../stats/statValue';
 
-// ---- 装備選択候補の絞り込み(GS帯フィルター) ----
-// 除外ではなく「優先表示」のためのフィルター: isCandidateGsMatch が真の候補を先頭側に
-// ソートするだけで、非該当の候補も一覧には残す(現在の選択値との紐付けを維持するため)。
-// 「S3装備」(GS>190)はGS降順ソートと結果が完全に一致する(GS>190の候補は元々先頭に
-// 来るため)ため、実質的な意味を持たず削除済み。「全て」ボタンも、選択中のボタンを
-// 再クリックすると解除(未選択=絞り込みなし)できるため削除済み(null で表現する)。
+// ---- 装備選択候補の絞り込み ----
+// 候補一覧(ドロップダウン)には、絞り込みに一致する候補と現在の選択値のみを表示する
+// (filterCandidates)。GS帯と種別(伝説/極/匠)は別々のトグルグループで、それぞれ単一選択・
+// 選択中のボタンの再クリックで解除(null=絞り込みなし)。両方指定時は両方に一致するもの。
+// どちらも未指定なら全候補を表示する(並びは装備レベル降順)。
 // シーズン4でS4装備(GS320台/340台/360台、最上位380)向けに切り替えた(S3は220/240/260台)。
-export type CandidateGsFilter = 'lv320' | 'lv340' | 'lv360';
+// 「Lv300未満」は過去シーズン以前の装備をまとめて見るための帯。
+export type CandidateGsFilter = 'below300' | 'lv320' | 'lv340' | 'lv360';
 
-export const CANDIDATE_GS_FILTERS: CandidateGsFilter[] = ['lv320', 'lv340', 'lv360'];
+export const CANDIDATE_GS_FILTERS: CandidateGsFilter[] = ['below300', 'lv320', 'lv340', 'lv360'];
 
 export function isCandidateGsMatch(item: EquipmentItem, filter: CandidateGsFilter): boolean {
   switch (filter) {
+    case 'below300':
+      return item.equipGs < 300;
     case 'lv320':
       return item.equipGs >= 320 && item.equipGs < 340;
     case 'lv340':
@@ -293,9 +295,40 @@ export function isCandidateGsMatch(item: EquipmentItem, filter: CandidateGsFilte
   }
 }
 
+// 種別の絞り込み。伝説=暁光・蒼海シリーズ武器と各種レイド武器(名前が赤字=quality 5)、
+// 極/匠=装備名の接頭辞「[極]」「[匠]」の装備(EquipmentItem.variantTag)。
+export type CandidateKindFilter = 'legendary' | 'kiwami' | 'takumi';
+
+export const CANDIDATE_KIND_FILTERS: CandidateKindFilter[] = ['legendary', 'kiwami', 'takumi'];
+
+export function isCandidateKindMatch(item: EquipmentItem, filter: CandidateKindFilter): boolean {
+  switch (filter) {
+    case 'legendary':
+      return item.quality === 5 || isSeaBreezeSeries(item);
+    case 'kiwami':
+    case 'takumi':
+      return item.variantTag === filter;
+  }
+}
+
+// 候補一覧に表示する候補(絞り込みに一致するもの+現在の選択値)。並びは呼び出し側で決める。
+export function filterCandidates(
+  candidates: readonly EquipmentItem[],
+  gsFilter: CandidateGsFilter | null,
+  kindFilter: CandidateKindFilter | null,
+  selectedId: number | undefined,
+): EquipmentItem[] {
+  return candidates.filter(
+    (c) =>
+      c.id === selectedId ||
+      ((!gsFilter || isCandidateGsMatch(c, gsFilter)) &&
+        (!kindFilter || isCandidateKindMatch(c, kindFilter))),
+  );
+}
+
 // EquipmentPanelのGS帯フィルター初期値。クライアントの現在日時に応じて、その時点で
 // 実質的に一番「旬」なGS帯を既定選択にする(ユーザーが毎回手動で切り替えずに済むように)。
-// CandidateGsFilterはGsScheduleTierと同じ3値('lv320'/'lv340'/'lv360')のため、
+// GsScheduleTier('lv320'/'lv340'/'lv360')はCandidateGsFilterの部分集合のため、
 // スケジュール判定(seasonSchedule.ts)をそのまま利用できる。
 export function getDefaultCandidateGsFilter(now: Date = new Date()): CandidateGsFilter {
   return getGsScheduleTier(now);
