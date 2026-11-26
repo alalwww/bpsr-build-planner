@@ -1,5 +1,7 @@
 import type { Profession } from '../profession';
 import type { CookingBuffState, StatCorrectionEntry, StatId } from '../types';
+import { STAT_CORRECTION_ADD_LIMIT, STAT_CORRECTION_ADD_LIMIT_MAX_HP } from '../types';
+import { STAT_SEASON_CONSTANT } from './seasonConstants';
 
 // イベントバフのメインステータス加算量の既定値(旧・海風の宴の固定効果量を踏襲)。
 export const DEFAULT_EVENT_BUFF_VALUE = 500;
@@ -219,6 +221,16 @@ export function computeCookingAdjustments(
 export interface StatCorrectionTarget {
   id: StatId;
   isPercent: boolean;
+}
+
+// ステータス補正(仮)の加算(add)入力の上限(絶対値)。収穫逓減カーブのシーズン係数が分かっている
+// %系ステータス(会心/ファスト/幸運/器用さ/万能/レジスト)は係数と同じ値にし、シーズン更新で
+// 係数が上がれば自動で追従させる。最大HPは桁が大きいため専用の上限。それ以外は固定の既定値。
+export function getStatCorrectionAddLimit(statId: StatId): number {
+  if (statId === 'maxHp') return STAT_CORRECTION_ADD_LIMIT_MAX_HP;
+  return statId in STAT_SEASON_CONSTANT
+    ? STAT_SEASON_CONSTANT[statId as keyof typeof STAT_SEASON_CONSTANT]
+    : STAT_CORRECTION_ADD_LIMIT;
 }
 
 export function getStatCorrectionTargets(profession: Profession): StatCorrectionTarget[] {

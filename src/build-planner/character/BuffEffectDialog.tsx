@@ -12,6 +12,7 @@ import {
   calcStatResonanceBonus,
   DMG_STACK_PER_STACK,
   ELITE_DAMAGE_OPTIONS,
+  getStatCorrectionAddLimit,
   getStatCorrectionTargets,
   INSPIRATION_VALUES,
   LIFE_WAVE_VALUES,
@@ -43,17 +44,15 @@ function toNumberInputProps(value: number, onChange: (v: number) => void) {
   };
 }
 
-// ステータス補正(仮)用の共通ヘルパー: 負数を許可し、±STAT_CORRECTION_LIMITにクランプする。
-function toSignedNumberInputProps(value: number, onChange: (v: number) => void) {
+// ステータス補正(仮)用の共通ヘルパー: 負数を許可し、±limitにクランプする。
+function toSignedNumberInputProps(value: number, limit: number, onChange: (v: number) => void) {
   return {
-    min: -STAT_CORRECTION_LIMIT,
-    max: STAT_CORRECTION_LIMIT,
+    min: -limit,
+    max: limit,
     value: value === 0 ? '' : value,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       const parsed = Number(e.target.value);
-      const clamped = Number.isNaN(parsed)
-        ? 0
-        : Math.min(STAT_CORRECTION_LIMIT, Math.max(-STAT_CORRECTION_LIMIT, parsed));
+      const clamped = Number.isNaN(parsed) ? 0 : Math.min(limit, Math.max(-limit, parsed));
       onChange(clamped);
     },
   };
@@ -441,7 +440,7 @@ function BuffEffectDialog({
                         ? 'buildPlanner.buffDialog.statCorrectionRawAdd'
                         : 'buildPlanner.buffDialog.statCorrectionAdd',
                     )}
-                    {...toSignedNumberInputProps(entry.add, (v) =>
+                    {...toSignedNumberInputProps(entry.add, getStatCorrectionAddLimit(id), (v) =>
                       updateStatCorrection(id, { add: v }),
                     )}
                   />
@@ -455,7 +454,7 @@ function BuffEffectDialog({
                         ? 'buildPlanner.buffDialog.statCorrectionRawMult'
                         : 'buildPlanner.buffDialog.statCorrectionMult',
                     )}
-                    {...toSignedNumberInputProps(entry.multPercent, (v) =>
+                    {...toSignedNumberInputProps(entry.multPercent, STAT_CORRECTION_LIMIT, (v) =>
                       updateStatCorrection(id, { multPercent: v }),
                     )}
                   />
@@ -470,7 +469,7 @@ function BuffEffectDialog({
                         ? t('buildPlanner.buffDialog.statCorrectionRateAdd', { stat: statLabel })
                         : t('buildPlanner.buffDialog.statCorrectionFinal')
                     }
-                    {...toSignedNumberInputProps(entry.finalValue, (v) =>
+                    {...toSignedNumberInputProps(entry.finalValue, STAT_CORRECTION_LIMIT, (v) =>
                       updateStatCorrection(id, { finalValue: v }),
                     )}
                   />

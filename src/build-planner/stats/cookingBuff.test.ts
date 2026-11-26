@@ -1,14 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { PROFESSIONS } from '../profession';
 import type { StatId } from '../types';
+import { STAT_CORRECTION_ADD_LIMIT, STAT_CORRECTION_ADD_LIMIT_MAX_HP } from '../types';
 import { BASE_STATS } from './baseStats';
 import {
   applyCookingBuff,
   computeCookingAdjustments,
   DEFAULT_COOKING_BUFF,
+  getStatCorrectionAddLimit,
   getStatCorrectionTargets,
   INSPIRATION_PERCENT_STAT_IDS,
 } from './cookingBuff';
+import { SEASON_CONSTANTS } from './seasonConstants';
 
 function zeroStats(): Record<StatId, number> {
   return Object.fromEntries(
@@ -198,5 +201,17 @@ describe('getStatCorrectionTargets', () => {
       { id: 'versatility', isPercent: true },
       { id: 'resist', isPercent: true },
     ]);
+  });
+});
+
+describe('getStatCorrectionAddLimit', () => {
+  it('uses the season diminishing constant for percent stats a dedicated limit for maxHp, and the default for others', () => {
+    expect(getStatCorrectionAddLimit('crit')).toBe(SEASON_CONSTANTS.diminishingA);
+    expect(getStatCorrectionAddLimit('haste')).toBe(SEASON_CONSTANTS.diminishingA);
+    expect(getStatCorrectionAddLimit('luck')).toBe(SEASON_CONSTANTS.diminishingA);
+    expect(getStatCorrectionAddLimit('mastery')).toBe(SEASON_CONSTANTS.diminishingA);
+    expect(getStatCorrectionAddLimit('versatility')).toBe(SEASON_CONSTANTS.diminishingVersatility);
+    expect(getStatCorrectionAddLimit('atk')).toBe(STAT_CORRECTION_ADD_LIMIT);
+    expect(getStatCorrectionAddLimit('maxHp')).toBe(STAT_CORRECTION_ADD_LIMIT_MAX_HP);
   });
 });

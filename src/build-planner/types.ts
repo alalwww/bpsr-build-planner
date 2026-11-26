@@ -280,8 +280,14 @@ export interface StatCorrectionEntry {
   finalValue: number;
 }
 
-// ステータス補正(仮)の各入力値の許容範囲(絶対値)。
+// ステータス補正(仮)の乗算(multPercent)/最終値補正(finalValue)入力の許容範囲(絶対値)。
 export const STAT_CORRECTION_LIMIT = 50000;
+
+// ステータス補正(仮)の加算(add)入力の許容範囲(絶対値)の既定値。シーズン係数が分かっている
+// %系ステータスは係数側の値を使う(getStatCorrectionAddLimit参照)。
+export const STAT_CORRECTION_ADD_LIMIT = 200000;
+// 最大HPの加算(add)入力の許容範囲(絶対値)。
+export const STAT_CORRECTION_ADD_LIMIT_MAX_HP = 1000000;
 
 // モジュールホール: 1 ホールの設定。linkCount=1-10 はリンクスタック数。
 export interface ModuleHole {
