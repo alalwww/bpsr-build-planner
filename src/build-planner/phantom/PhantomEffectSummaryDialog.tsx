@@ -7,7 +7,7 @@ import { renderMarkup } from '../components/renderMarkup';
 import { useLinkTextPopup } from '../components/useLinkTextPopup';
 import { truncate2Str as fmtDec2 } from '../character/statFormat';
 import { RAW_PERCENT_STAT_IDS } from '../stats/attrMaps';
-import { affixEffectText, getActiveAffixEffects } from './phantomAffixData';
+import { affixEffectMarkup, getActiveAffixEffects } from './phantomAffixData';
 import { BASE_STATS } from '../stats/baseStats';
 import type { StatId } from '../types';
 import type { PhantomFactorSlotValue, TreeStep } from './phantomData';
@@ -22,7 +22,7 @@ import {
 import {
   factorBaseName,
   formatType1Effect,
-  getFactorEffectDesc,
+  getFactorEffectMarkup,
   getNodeEffectDesc,
   getNodeIcon,
 } from './phantomView';
@@ -184,7 +184,7 @@ export default function PhantomEffectSummaryDialog({
 
     if (status === 'active') {
       const current = phantomFactorSlots[nodeId] ?? null;
-      const effectDesc = current ? getFactorEffectDesc(tg, current.classKey, current.grade) : '';
+      const effectDesc = current ? getFactorEffectMarkup(tg, current.classKey, current.grade) : '';
       // 因子に埋め込んだ映痕の効果(因子単位の表示。同種は合計、重複不可は因子内の最大値)。
       const affixEffects = getActiveAffixEffects(current);
       return (
@@ -202,10 +202,10 @@ export default function PhantomEffectSummaryDialog({
           <div className="phantom-effect-node__desc">
             {current ? (
               <>
-                {effectDesc && <div>{effectDesc}</div>}
+                {effectDesc && <div>{renderMarkup(effectDesc, linkTextPopup.handlers)}</div>}
                 {affixEffects.map((a) => (
                   <div key={a.group} className="phantom-effect-node__affix">
-                    {affixEffectText(tg, a)}
+                    {renderMarkup(affixEffectMarkup(tg, a), linkTextPopup.handlers)}
                   </div>
                 ))}
               </>

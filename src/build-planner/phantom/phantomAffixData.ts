@@ -1,11 +1,11 @@
 import type { TFunction } from 'i18next';
 import phantomAffixesRaw from '../../data/phantom-affixes.json';
-import { renderEffectDesc } from '../components/gameText';
+import { stripMarkup, substituteEffectDescParams } from '../components/gameText';
 import { SEA_BREEZE_NAME_COLOR } from '../equipment/equipmentSlotPickerData';
 import { PHANTOM_EFFECT_TYPE_BUFF } from '../stats/attrMaps';
 import type { PhantomAffixValue, PhantomFactorSlotValue } from './phantomData';
 import { pfData } from './phantomData';
-import { PHANTOM_FACTOR_PCT_ATTR_IDS, type GameDataT } from './phantomView';
+import { highlightValueMarkup, PHANTOM_FACTOR_PCT_ATTR_IDS, type GameDataT } from './phantomView';
 
 // 祈願因子のスロットに埋め込む「映痕」(シーズン4新規、phantom-affixes.json)の表示/編集用ヘルパー。
 // 映痕は group(同一効果のまとまり)ごとに、品質(quality)別の離散段階(上級4/卓越3/エピック3/不朽1、
@@ -188,14 +188,20 @@ export function affixLabel(tg: GameDataT, group: number): string {
 
 // 映痕の効果説明(値込み)。例: 「会心 +267」「「刃影」の祈りダメージ+2.67%。」
 export function affixEffectText(tg: GameDataT, affix: PhantomAffixValue): string {
+  return stripMarkup(affixEffectMarkup(tg, affix));
+}
+
+// affixEffectText の装飾タグ付き版(効果値が <style="accent-gn"> で囲まれている)。
+// renderMarkup で描画する。
+export function affixEffectMarkup(tg: GameDataT, affix: PhantomAffixValue): string {
   const g = getAffixGroup(affix.group);
   if (!g) return '';
   if (g.effectType === 1) {
     const label = tg(`attributes.${g.effectId}`, { defaultValue: String(g.effectId) });
-    return `${label} +${formatAffixValue(g.unit, affix.value)}`;
+    return highlightValueMarkup(label, `+${formatAffixValue(g.unit, affix.value)}`);
   }
   const desc = tg(`attrDescs.${g.effectId}`, { defaultValue: '' });
-  return renderEffectDesc(desc, [affix.value], g.unit === 'percent', 2);
+  return substituteEffectDescParams(desc, [affix.value], g.unit === 'percent', 2);
 }
 
 // 映痕を新たに選んだときの初期値(最低品質・その品質の最大値)。

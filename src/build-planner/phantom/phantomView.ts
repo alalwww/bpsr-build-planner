@@ -2,7 +2,7 @@ import type { TFunction } from 'i18next';
 import type { DropdownOption } from './CustomDropdown';
 import {
   formatPercentParam,
-  renderEffectDesc,
+  stripMarkup,
   substituteEffectDescParams,
 } from '../components/gameText';
 import { getSTAsset, iconPathToFile, isFactorClassLegacy, pfData, stData } from './phantomData';
@@ -34,18 +34,29 @@ export const PHANTOM_FACTOR_PCT_ATTR_IDS = new Set([
 // effectType=1(attrId直接参照)効果1件の表示(例: 「精錬物攻 +15%」)。%乗算のattrIdは
 // 生の値(1500等)ではなく%表記にする。
 export function formatType1Effect(tg: GameDataT, effect: number[]): string {
-  const label = tg(`attributes.${effect[1]}`, { defaultValue: String(effect[1]) });
-  if (PHANTOM_FACTOR_PCT_ATTR_IDS.has(effect[1])) {
-    return `${label} +${formatPercentParam(effect[2], 2)}`;
-  }
-  return `${label} +${effect[2]}`;
+  return stripMarkup(formatType1EffectMarkup(tg, effect));
 }
 
-// effectType=1効果の列挙表示(例: 「精錬物攻 +15%, 精錬魔攻 +15%」)。
-function formatType1Effects(tg: GameDataT, effects: number[][]): string {
+// formatType1Effect の装飾タグ付き版。効果値部分をゲームの説明文と同じ <style="accent-gn"> で
+// 囲む(renderMarkup で描画すると、type=3 の説明文中の値と同じ色でハイライトされる)。
+export function formatType1EffectMarkup(tg: GameDataT, effect: number[]): string {
+  const label = tg(`attributes.${effect[1]}`, { defaultValue: String(effect[1]) });
+  const value = PHANTOM_FACTOR_PCT_ATTR_IDS.has(effect[1])
+    ? formatPercentParam(effect[2], 2)
+    : String(effect[2]);
+  return highlightValueMarkup(label, `+${value}`);
+}
+
+// 「ラベル 値」の値部分だけを <style="accent-gn"> で囲んだ装飾タグ付き文字列。
+export function highlightValueMarkup(label: string, value: string): string {
+  return `${label} <style="accent-gn">${value}</style>`;
+}
+
+// effectType=1効果の列挙表示(例: 「精錬物攻 +15%, 精錬魔攻 +15%」)。装飾タグ付き。
+function formatType1EffectsMarkup(tg: GameDataT, effects: number[][]): string {
   return effects
     .filter((e) => e[0] === 1)
-    .map((e) => formatType1Effect(tg, e))
+    .map((e) => formatType1EffectMarkup(tg, e))
     .join(', ');
 }
 
@@ -119,8 +130,14 @@ export function getNodeEffectDesc(tg: GameDataT, nodeId: number): string {
   return substituteEffectDescParams(tmpl, pars);
 }
 
-// 因子のレベル別効果説明(type=3 バフ、なければ type=1 ステータス加算の列挙)
+// 因子のレベル別効果説明(type=3 バフ、なければ type=1 ステータス加算の列挙)。プレーン文字列。
 export function getFactorEffectDesc(tg: GameDataT, classKey: string, grade: number): string {
+  return stripMarkup(getFactorEffectMarkup(tg, classKey, grade));
+}
+
+// getFactorEffectDesc の装飾タグ付き版(効果値が <style="accent-gn"> で囲まれている)。
+// renderMarkup で描画する。
+export function getFactorEffectMarkup(tg: GameDataT, classKey: string, grade: number): string {
   const fc = pfData.byClass[classKey];
   if (!fc) return '';
   const gradeData = fc.grades[grade - 1];
@@ -134,10 +151,10 @@ export function getFactorEffectDesc(tg: GameDataT, classKey: string, grade: numb
     // 因子の極性バフ(例: 極性X6「幸運+7.83%」)はparsが1/100単位(百分の一%まで表現可能)の
     // 精度を持つため、下のtype1分岐(器用さ等)と同じく小数第2位まで表示する
     // (2026-09-03不具合報告: 既定の1桁だと7.83%が7.8%に丸まっていた)。
-    if (tmpl) return renderEffectDesc(tmpl, pars, true, 2);
+    if (tmpl) return substituteEffectDescParams(tmpl, pars, true, 2);
   }
   // type 1: stat boost（極性・恒常性など）
-  return formatType1Effects(tg, gradeData.effects);
+  return formatType1EffectsMarkup(tg, gradeData.effects);
 }
 
 // ノード種別に応じたアイコンURL(固定ノード=効果アイコン / 因子スロット=品質アイコン)

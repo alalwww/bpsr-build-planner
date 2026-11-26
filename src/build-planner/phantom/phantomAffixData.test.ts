@@ -6,6 +6,8 @@ import {
   affixFightValue,
   affixValueToInput,
   affixWithQuality,
+  affixEffectMarkup,
+  affixEffectText,
   aggregateAffixEffects,
   clampAffixValue,
   defaultAffixValue,
@@ -181,5 +183,24 @@ describe('品質の色', () => {
       '#EED335',
       '#EF8E60',
     ]);
+  });
+});
+
+describe('映痕の効果説明のハイライト', () => {
+  const tg = ((key: string, opts?: { defaultValue?: string }) => {
+    const [ns, id] = key.split('.');
+    if (ns === 'attrDescs') return attrDescs[id] ?? opts?.defaultValue ?? '';
+    return ns === 'attributes' && id ? '会心' : (opts?.defaultValue ?? key);
+  }) as unknown as Parameters<typeof affixEffectMarkup>[0];
+
+  it('wraps only the value of a stat affix in the accent markup', () => {
+    expect(affixEffectMarkup(tg, CRIT)).toBe('会心 <style="accent-gn">+567</style>');
+    expect(affixEffectText(tg, CRIT)).toBe('会心 +567');
+  });
+
+  it('keeps the game accent markup of a buff affix description', () => {
+    const markup = affixEffectMarkup(tg, { group: 101, quality: 2, value: 267 });
+    expect(markup).toContain('<style="accent-gn">+2.67%</style>');
+    expect(affixEffectText(tg, { group: 101, quality: 2, value: 267 })).not.toContain('<');
   });
 });

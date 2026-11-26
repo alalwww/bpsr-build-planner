@@ -57,7 +57,12 @@ export function renderEffectDesc(
   pAsPercent = false,
   percentFractionDigits = 1,
 ): string {
-  return substituteEffectDescParams(template, pars, pAsPercent, percentFractionDigits)
+  return stripMarkup(substituteEffectDescParams(template, pars, pAsPercent, percentFractionDigits));
+}
+
+// 装飾タグ(<style>/<linktext>/<br>等)を除去し、表示テキストのみ残したプレーン文字列を返す。
+export function stripMarkup(text: string): string {
+  return text
     .replace(/<style[^>]*>([^<]*)<\/style>/g, '$1')
     .replace(/<linktext=[^>]*>([^<]*)<\/linktext>/g, '$1')
     .replace(/<[^>]+>/g, '')

@@ -390,7 +390,7 @@
 .phantom-desc-affixes__effect {
   font-size: 16px;
   line-height: 1.5;
-  color: #7fd1a0;
+  color: #7a7a9a;
 }
 
 /* 未開放ノードの説明末尾に付く「（Lv.Nで開放）」 */
@@ -865,7 +865,7 @@
   gap: 3px;
   font-size: 13px;
   line-height: 1.5;
-  color: #7fd1a0;
+  color: #c8c6c1;
 }
 
 .phantom-dropdown__group {

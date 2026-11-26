@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { renderMarkup } from '../components/renderMarkup';
 import DraggableDialog from '../components/DraggableDialog';
 import CustomDropdown, { type DropdownOption } from './CustomDropdown';
 import type { PhantomAffixValue, PhantomFactorSlotValue } from './phantomData';
 import { MAX_FACTOR_LEVEL } from './phantomData';
 import {
   AFFIX_FIXED_QUALITY,
-  affixEffectText,
+  affixEffectMarkup,
   affixInputToValue,
   affixLabel,
   affixQualityName,
@@ -31,6 +32,7 @@ import {
   factorBaseName,
   getFactorBaseOptions,
   getFactorEffectDesc,
+  getFactorEffectMarkup,
   getFactorIcon,
   getNodeIcon,
   type GameDataT,
@@ -160,7 +162,9 @@ export default function PhantomFactorDialog({
               {t('buildPlanner.phantom.factorEffect')}
             </h3>
             <p className="phantom-factor-dialog__desc">
-              {current ? getFactorEffectDesc(tg, current.classKey, current.grade) : '---'}
+              {current
+                ? renderMarkup(getFactorEffectMarkup(tg, current.classKey, current.grade))
+                : '---'}
             </p>
           </section>
 
@@ -171,7 +175,7 @@ export default function PhantomFactorDialog({
             {affixEffects.length > 0 ? (
               <ul className="phantom-factor-dialog__affix-effects">
                 {affixEffects.map((a) => (
-                  <li key={a.group}>{affixEffectText(tg, a)}</li>
+                  <li key={a.group}>{renderMarkup(affixEffectMarkup(tg, a))}</li>
                 ))}
               </ul>
             ) : (
