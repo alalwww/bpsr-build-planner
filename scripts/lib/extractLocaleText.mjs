@@ -49,20 +49,28 @@ const CHARGE_TIME_ATTR_LABELS = new Set([
 ]);
 
 // クラススキルの SkillAttrDes formula 空欄行(バフ効果行)の値解決マッピング。
-// ゲーム内表示との突き合わせ(sample/skill-effect-survey.txt)で確定したもの、
-// および確定パターンからの類推(コメント参照)を登録する。未登録の行は空値=非表示。
+// 登録済みの行はすべてゲーム内表示との突き合わせで確認済み(sample/skill-effect-survey.txt、
+// 1420/1615/1617/3022-3028 は 2026-11-26 確認)。未登録の行は空値=非表示。
 // skillId -> SkillAttrDes 行index -> テンプレート配列
 //   要素: 固定文字列 | [FloatParameterキー, 単位]
 //   単位: percent(raw/100の%) | flat(実数) | seconds(ミリ秒→秒)
 //   値 = SkillFightLevelTable のレベル別基礎値 + WeaponStarTable のランク別増分
+// attrPer + attrAdd の組は「%+実数」の複合表記になる(1615 のように attr を別に持つ場合、
+// attr は別行の値)。
 const SKILL_EFFECT_VALUE_MAP = {
-  // --- ゲーム内確認済み ---
   1243: {
     0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']],
     1: [['time', 'seconds']],
   },
+  1420: { 1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] }, // 筋力アップ
   1524: { 0: [['attr', 'percent']], 1: [['mAtk', 'flat']], 2: [['time', 'seconds']] },
   1528: { 0: [['attr', 'percent'], '+', ['attrAdd', 'flat']], 1: [['subCd', 'seconds']] },
+  // バーニングギア: リキャスト加速 / ファストアップ
+  1615: {
+    0: [['attr', 'percent']],
+    1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']],
+  },
+  1617: { 0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] }, // イグニッション: 会心アップ
   1730: { 0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
   1936: { 0: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
   1938: { 0: [['attr', 'percent']], 1: [['time', 'seconds']] },
@@ -75,12 +83,8 @@ const SKILL_EFFECT_VALUE_MAP = {
   2405: { 1: [['attrPer', 'percent']] },
   2408: { 1: [['attrPer', 'percent']] },
   2415: { 0: [['attrAdd', 'flat']], 1: [['attrPer', 'percent']] },
-  // --- 確定パターンからの類推(要ゲーム内確認) ---
-  // 「%+実数」複合はスポットライト(2316)と同族
-  1420: { 1: [['attrPer', 'percent'], '+', ['attrAdd', 'flat']] },
-  // --- シーズン3: 全ロール共通スキル(UNIVERSAL_ROLE_SKILLS)。FloatParameterキー名が
-  // ラベルと直訳一致するため高確度の類推だが、ゲーム内表示との突き合わせは未実施。
-  // (time=持続時間、num=人数、shield=バリア、attr/attrPer=%効果値)
+  // --- 全ロール共通スキル(UNIVERSAL_ROLE_SKILLS)。値は幻想図鑑Lv(1-4)で変わる。
+  // (time=持続時間、num=人数、attr/attrPer=%効果値)
   3022: { 1: [['attr', 'percent']], 2: [['time', 'seconds']] }, // 追加ダメージ軽減/持続時間
   3024: { 1: [['attr', 'percent']], 2: [['time', 'seconds']] }, // 重傷/持続時間
   3025: { 1: [['time', 'seconds']] }, // 持続時間 (バリア自体は skillpara.effect("shield") で解決済み)
