@@ -509,7 +509,7 @@ describe('calculateRawStats', () => {
 
   describe('threshold-gated final-% addend (verdantOracle R1 "万能の息吹", talentId 539: 知力500pt以上で万能+4%)', () => {
     // src/data/talent-tree.json: nodes["539"].effects = [[3, 2202430, 1]] (stage:0 = R1)
-    // TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT[2202430] = 知力>=500 → versatility +400
+    // TALENT_THRESHOLD_BONUS[2202430] = 知力>=500 → versatility +400
     const inputWithIntellectAdd = (eventBuffValue: number): CalculateRawStatsInput => ({
       ...baseInput(),
       profession: PROFESSIONS.verdantOracle,
@@ -543,6 +543,48 @@ describe('calculateRawStats', () => {
       const result = calculateRawStats(inputWithIntellectAdd(499 - BASE_STATS.intellect));
       expect(result.rawStats.intellect).toBe(499);
       expect(result.finalPctAddend.versatility).toBeUndefined();
+    });
+  });
+
+  describe('threshold-gated flat bonus (stormBlade R1 "迅雷", talentId 137: 敏捷500pt以上で会心ダメージ・幸運ダメージ+5%)', () => {
+    // src/data/talent-tree.json: nodes["137"].effects = [[3, 2200390, 1]] (stage:0 = R1)
+    // TALENT_THRESHOLD_BONUS[2200390] = 敏捷>=500 → critDamageBonus/luckyHitDamageBonus +500
+    const inputWithAgilityAdd = (eventBuffValue: number): CalculateRawStatsInput => ({
+      ...baseInput(),
+      profession: PROFESSIONS.stormBlade,
+      talentR1EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 137,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+      // イベントバフはクラスのメインステータス(ストームブレイドは敏捷)への平坦加算。
+      cookingBuff: { ...DEFAULT_COOKING_BUFF, eventBuffEnabled: true, eventBuffValue },
+    });
+
+    it('adds crit damage and lucky hit damage +5% when final agility reaches 500', () => {
+      const result = calculateRawStats(inputWithAgilityAdd(500 - BASE_STATS.agility));
+      expect(result.rawStats.agility).toBe(500);
+      expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus + 500);
+      expect(result.rawStats.luckyHitDamageBonus).toBe(BASE_STATS.luckyHitDamageBonus + 500);
+      expect(result.breakdown.critDamageBonus.additive).toBe(500);
+    });
+
+    it('does not add them when final agility is below 500', () => {
+      const result = calculateRawStats(inputWithAgilityAdd(499 - BASE_STATS.agility));
+      expect(result.rawStats.agility).toBe(499);
+      expect(result.rawStats.critDamageBonus).toBe(BASE_STATS.critDamageBonus);
+      expect(result.rawStats.luckyHitDamageBonus).toBe(BASE_STATS.luckyHitDamageBonus);
     });
   });
 

@@ -190,14 +190,39 @@ export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<
 };
 
 // アビリティ type=3 効果(BuffId参照)のうち、基礎ステータス(筋力/知力/敏捷等)の最終実数値が
-// 閾値以上の場合に、会心/ファスト/幸運/器用さ/万能いずれか1つの最終%表示値へ直接加算するもの
-// (finalPctAddendと同じ単位: 100 = 1%。TALENT_FINAL_PCT_ADDEND_TO_STATの条件付き版)。
-// 判定に使う実数値は%ボーナス・能力共鳴まで適用済みの最終値(キャラクターパネルの表示値)。
+// 閾値以上の場合のみ有効になる効果(「〇〇がN ptに達すると、…」)。判定に使う実数値は
+// %ボーナス・能力共鳴まで適用済みの最終値(キャラクターパネルの表示値)。効果の反映先(kind):
+// - finalPctAddend: 会心/ファスト/幸運/器用さ/万能の最終%表示値への直接加算(finalPctAddendと
+//   同じ単位: 100 = 1%。TALENT_FINAL_PCT_ADDEND_TO_STATの条件付き版)。
+// - flat: rawStatsへの平坦加算(addStatと同じ経路・単位。会心ダメージ等の%系は100 = 1%。
+//   TALENT_FLAT_PCT_TO_STATの条件付き版)。
+export type TalentThresholdEffect =
+  | { kind: 'finalPctAddend'; stat: StatId; value: number }
+  | { kind: 'flat'; stat: StatId; value: number };
+
+export interface TalentThresholdBonus {
+  conditionStat: StatId;
+  threshold: number;
+  effects: TalentThresholdEffect[];
+}
+
 // ヴァーダントオラクルR1アビリティ「万能の息吹」(talentId 539): 知力500pt以上で万能+4%。
-export const TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT: Partial<
-  Record<number, { conditionStat: StatId; threshold: number; stat: StatId; value: number }>
-> = {
-  2202430: { conditionStat: 'intellect', threshold: 500, stat: 'versatility', value: 400 },
+// ストームブレイドR1アビリティ「迅雷」(talentId 137): 敏捷500pt以上で会心ダメージ・幸運ダメージ
+// (幸運の一撃ダメージ倍率)+5%。
+export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus>> = {
+  2202430: {
+    conditionStat: 'intellect',
+    threshold: 500,
+    effects: [{ kind: 'finalPctAddend', stat: 'versatility', value: 400 }],
+  },
+  2200390: {
+    conditionStat: 'agility',
+    threshold: 500,
+    effects: [
+      { kind: 'flat', stat: 'critDamageBonus', value: 500 },
+      { kind: 'flat', stat: 'luckyHitDamageBonus', value: 500 },
+    ],
+  },
 };
 
 // アビリティ type=3 効果(BuffId参照)のうち、会心/幸運等の最終%表示値(HP変動・鼓舞・

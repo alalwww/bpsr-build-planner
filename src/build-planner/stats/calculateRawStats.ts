@@ -78,13 +78,14 @@ import {
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
   TALENT_FINAL_PCT_ADDEND_TO_STAT,
   TALENT_FINAL_PCT_MULTIPLIER_TO_STAT,
-  TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT,
+  TALENT_THRESHOLD_BONUS,
   TALENT_FLAT_PCT_TO_STAT,
   TALENT_HIGHEST_OF_FINAL_PCT,
   TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS,
   TALENT_RAW_FLAT_TO_STAT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
+import type { TalentThresholdBonus } from './attrMaps';
 import {
   calcModuleEffectLevels,
   enchantEffectsById,
@@ -331,11 +332,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   let luckyHitDamageRatioBonus = 0;
   // 最終%表示値への乗算係数(例: 「追撃の風・右刃」)。computeCookingAdjustmentsで最後に乗算する。
   const finalPctMultiplierBonus: Partial<Record<StatId, number>> = {};
-  // 基礎ステータスの最終実数値が閾値以上の場合のみ有効な最終%加算(例: 「万能の息吹」)。
+  // 基礎ステータスの最終実数値が閾値以上の場合のみ有効な効果(例: 「万能の息吹」)。
   // 実数値確定後(pctPerRatingBonusesと同じタイミング)に判定する。
-  const thresholdFinalPctAddends: NonNullable<
-    (typeof TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT)[number]
-  >[] = [];
+  const thresholdBonuses: TalentThresholdBonus[] = [];
 
   // 装備ステータス
   // 装備1つぶんの実数値(基礎/進化/改鋳)は、ここで四捨五入してから合算する(合算後に丸めるのでは
@@ -549,10 +548,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           for (const { stat, value } of TALENT_FINAL_PCT_MULTIPLIER_TO_STAT[eff[1]] ?? []) {
             finalPctMultiplierBonus[stat] = (finalPctMultiplierBonus[stat] ?? 0) + value;
           }
-          // 型に関わらず常時有効な、基礎ステータスの閾値条件付き最終%加算(例: ヴァーダント
+          // 型に関わらず常時有効な、基礎ステータスの閾値条件付き効果(例: ヴァーダント
           // オラクル「万能の息吹」知力500pt以上で万能+4%)。判定は実数値確定後に行う。
-          const thresholdBonus = TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT[eff[1]];
-          if (thresholdBonus) thresholdFinalPctAddends.push(thresholdBonus);
+          const thresholdBonus = TALENT_THRESHOLD_BONUS[eff[1]];
+          if (thresholdBonus) thresholdBonuses.push(thresholdBonus);
           const finalPctAddendBonus = TALENT_FINAL_PCT_ADDEND_TO_STAT[eff[1]];
           if (finalPctAddendBonus) {
             finalPctAddend[finalPctAddendBonus.stat] =
@@ -985,11 +984,21 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     finalPctAddend[b.stat] = (finalPctAddend[b.stat] ?? 0) + bonus;
   }
 
-  // 閾値条件付きの最終%加算(例: 「万能の息吹」知力500pt以上で万能+4%)。判定に使う実数値は
-  // %ボーナス・能力共鳴まで適用済みの最終値。
-  for (const b of thresholdFinalPctAddends) {
+  // 閾値条件付きの効果(例: 「万能の息吹」知力500pt以上で万能+4%)。判定に使う実数値は
+  // %ボーナス・能力共鳴まで適用済みの最終値。条件判定より後に加算するため、ここでの加算は
+  // 他の閾値判定の対象(基礎ステータス)には影響しない。
+  for (const b of thresholdBonuses) {
     if (total[b.conditionStat] < b.threshold) continue;
-    finalPctAddend[b.stat] = (finalPctAddend[b.stat] ?? 0) + b.value;
+    for (const e of b.effects) {
+      switch (e.kind) {
+        case 'finalPctAddend':
+          finalPctAddend[e.stat] = (finalPctAddend[e.stat] ?? 0) + e.value;
+          break;
+        case 'flat':
+          addStat(e.stat, e.value);
+          break;
+      }
+    }
   }
 
   const breakdown = {} as Record<StatId, StatBreakdownEntry>;
