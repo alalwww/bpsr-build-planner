@@ -209,6 +209,8 @@ export interface TalentThresholdBonus {
 // ヴァーダントオラクルR1アビリティ「万能の息吹」(talentId 539): 知力500pt以上で万能+4%。
 // ストームブレイドR1アビリティ「迅雷」(talentId 137): 敏捷500pt以上で会心ダメージ・幸運ダメージ
 // (幸運の一撃ダメージ倍率)+5%。
+// フロストメイジR1アビリティ「氷恵」(talentId 239): 知力500pt以上で氷属性ボーナス+5%
+// (ELEMENT_BONUS_STATと同じ属性ボーナス%への直接加算、単位100 = 1%)。
 export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus>> = {
   2202430: {
     conditionStat: 'intellect',
@@ -222,6 +224,11 @@ export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus
       { kind: 'flat', stat: 'critDamageBonus', value: 500 },
       { kind: 'flat', stat: 'luckyHitDamageBonus', value: 500 },
     ],
+  },
+  2204360: {
+    conditionStat: 'intellect',
+    threshold: 500,
+    effects: [{ kind: 'flat', stat: 'iceBonus', value: 500 }],
   },
 };
 
