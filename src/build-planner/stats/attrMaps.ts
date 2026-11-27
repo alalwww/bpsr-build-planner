@@ -198,10 +198,13 @@ export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<
 //   TALENT_FLAT_PCT_TO_STATの条件付き版)。
 // - atkSpeed: 攻撃速度への直接加算(%そのままの数値。atkSpeedPercentはrawStats/StatIdに
 //   存在しないため、TALENT_ATK_SPEED_FINAL_PCT_ATTR_IDのtype=1効果と同じatkSpeedFinalPctAddendに積む)。
+// - finalPct: 最大HP/攻撃力等の最終値への%乗算(IMAGINE_PCT_FINALと同じphantomFinalPctバケツ、
+//   単位1/10000。メインステータス変換後の値に一度だけ乗算される)。
 export type TalentThresholdEffect =
   | { kind: 'finalPctAddend'; stat: StatId; value: number }
   | { kind: 'flat'; stat: StatId; value: number }
-  | { kind: 'atkSpeed'; value: number };
+  | { kind: 'atkSpeed'; value: number }
+  | { kind: 'finalPct'; stat: FinalPctStatId; value: number };
 
 export interface TalentThresholdBonus {
   conditionStat: StatId;
@@ -215,6 +218,8 @@ export interface TalentThresholdBonus {
 // フロストメイジR1アビリティ「氷恵」(talentId 239): 知力500pt以上で氷属性ボーナス+5%
 // (ELEMENT_BONUS_STATと同じ属性ボーナス%への直接加算、単位100 = 1%)。
 // ディバインアーチャーR1アビリティ「機敏」(talentId 1134): 敏捷500pt以上で攻撃速度+5%。
+// シールドファイターR1アビリティ「HP強化」(talentId 1233): 筋力500pt以上で最大HP+12%
+// (ヘヴィガーディアン「癒しの砂」の最大HP+10%と同じ最終値乗算)。
 export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus>> = {
   2202430: {
     conditionStat: 'intellect',
@@ -238,6 +243,11 @@ export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus
     conditionStat: 'agility',
     threshold: 500,
     effects: [{ kind: 'atkSpeed', value: 5 }],
+  },
+  2206340: {
+    conditionStat: 'strength',
+    threshold: 500,
+    effects: [{ kind: 'finalPct', stat: 'maxHp', value: 1200 }],
   },
 };
 

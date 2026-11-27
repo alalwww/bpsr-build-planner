@@ -662,6 +662,43 @@ describe('calculateRawStats', () => {
     });
   });
 
+  describe('threshold-gated final max HP bonus (shieldFighter R1 "HP強化", talentId 1233: 筋力500pt以上で最大HP+12%)', () => {
+    // src/data/talent-tree.json: nodes["1233"].effects = [[3, 2206340, 1]] (stage:0 = R1)
+    // TALENT_THRESHOLD_BONUS[2206340] = 筋力>=500 → phantomFinalPct.maxHp +1200
+    const inputWithStrengthAdd = (eventBuffValue: number): CalculateRawStatsInput => ({
+      ...baseInput(),
+      profession: PROFESSIONS.shieldFighter,
+      talentR1EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 1233,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+      cookingBuff: { ...DEFAULT_COOKING_BUFF, eventBuffEnabled: true, eventBuffValue },
+    });
+
+    it('adds max HP +12% (final multiplier) when final strength reaches 500', () => {
+      const result = calculateRawStats(inputWithStrengthAdd(500 - BASE_STATS.strength));
+      expect(result.rawStats.strength).toBe(500);
+      expect(result.phantomFinalPct.maxHp).toBe(1200);
+    });
+
+    it('does not add it when final strength is below 500', () => {
+      const result = calculateRawStats(inputWithStrengthAdd(499 - BASE_STATS.strength));
+      expect(result.phantomFinalPct.maxHp).toBeUndefined();
+    });
+  });
+
   it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+10000)', () => {
     // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
     // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 10000 }

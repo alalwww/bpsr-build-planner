@@ -1000,6 +1000,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         case 'atkSpeed':
           atkSpeedFinalPctAddend += e.value;
           break;
+        case 'finalPct':
+          phantomFinalPct[e.stat] = (phantomFinalPct[e.stat] ?? 0) + e.value;
+          break;
       }
     }
   }
