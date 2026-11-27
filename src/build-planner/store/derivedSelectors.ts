@@ -230,9 +230,12 @@ const selectStatsWithCooking = memoize1(
   ) => {
     if (cookingAdjustments.length === 0) return finalStats;
     const result = { ...finalStats };
-    for (const { statId, multiplier, addend } of cookingAdjustments) {
+    for (const { statId, multiplier, addend, finalMultiplierAddend } of cookingAdjustments) {
       if (multiplier !== undefined) result[statId] = result[statId] * multiplier;
       if (addend !== undefined) result[statId] = result[statId] + addend;
+      if (finalMultiplierAddend !== undefined) {
+        result[statId] = result[statId] + finalMultiplierAddend;
+      }
     }
     return result;
   },
@@ -245,12 +248,17 @@ const selectBreakdownWithCooking = memoize1(
   ) => {
     if (cookingAdjustments.length === 0) return finalBreakdown;
     const merged = { ...finalBreakdown };
-    for (const { statId, multiplier, addend } of cookingAdjustments) {
+    for (const { statId, multiplier, addend, finalMultiplierAddend } of cookingAdjustments) {
       const entry = merged[statId];
       merged[statId] = {
         ...entry,
         ...(multiplier !== undefined ? { multiplier: entry.multiplier * multiplier } : {}),
         ...(addend !== undefined ? { cookingBonus: (entry.cookingBonus ?? 0) + addend } : {}),
+        ...(finalMultiplierAddend !== undefined
+          ? {
+              finalMultiplierBonus: (entry.finalMultiplierBonus ?? 0) + finalMultiplierAddend,
+            }
+          : {}),
       };
     }
     return merged;
@@ -386,6 +394,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
       ? state.cookingBuff.statCorrections
       : EMPTY_STAT_CORRECTIONS,
     cookingResult.damageBonus,
+    rawStatsResult.finalPctMultiplierBonus,
   );
 
   const stats = selectStatsWithCooking(finalStatsResult.stats, cookingAdjustments);

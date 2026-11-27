@@ -1155,6 +1155,10 @@
   width: 28%;
 }
 
+.stats-detail__value--nowrap {
+  white-space: nowrap;
+}
+
 .stats-detail__table--buff thead .stats-detail__value {
   color: #7a7a8a;
   font-weight: 600;

@@ -146,6 +146,31 @@ describe('computeCookingAdjustments', () => {
       { statId: 'haste', addend: -25 },
     ]);
   });
+  it('multiplies the final % (after hpShift and statCorrections) by the summed finalPctMultiplierBonus (追撃の風・右刃/左刃)', () => {
+    // 2026-11-28実機計測: 会心17.2%(HP変動込み) → 片方19.26% → 両方21.32%、幸運5% → 4.5% → 4%。
+    const finalStats = { ...zeroStats(), crit: 7.2, luck: 5 };
+    const adjustments = computeCookingAdjustments(
+      finalStats,
+      'atk',
+      0,
+      0,
+      0,
+      10,
+      0,
+      zeroStats(),
+      {},
+      0,
+      { crit: 2400, luck: -2000 },
+    );
+
+    // 乗算の結果は加算値に換算して返す(最終値 × (係数 - 1))。HP変動の+10が先に乗った17.2に対して×1.24。
+    expect(adjustments.map((a) => a.statId)).toEqual(['crit', 'crit', 'luck']);
+    expect(adjustments[0]).toEqual({ statId: 'crit', addend: 10 });
+    expect(adjustments[1].finalMultiplierAddend).toBeCloseTo(17.2 * 0.24, 10);
+    expect(adjustments[2].finalMultiplierAddend).toBeCloseTo(-1, 10);
+    expect(17.2 + (adjustments[1].finalMultiplierAddend ?? 0)).toBeCloseTo(21.328, 10);
+    expect(5 + (adjustments[2].finalMultiplierAddend ?? 0)).toBeCloseTo(4, 10);
+  });
 });
 
 describe('料理の精鋭ダメージ → 汎用ダメージアップ(damageBonus)', () => {

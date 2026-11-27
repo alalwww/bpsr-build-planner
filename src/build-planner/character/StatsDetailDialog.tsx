@@ -274,6 +274,7 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
       entry.additive !== 0 ||
       entry.multiplier !== 1 ||
       !!entry.cookingBonus ||
+      !!entry.finalMultiplierBonus ||
       !!entry.levelBonus ||
       conversionBonusFor(statId) !== 0 ||
       luckyConversionFor(statId) !== 0
@@ -336,13 +337,18 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
         ? `${fmtSigned((entry.additive + luckyConversionFor(statId)) / 100)}%`
         : fmtSigned(entry.additive),
       multiplier: entry.multiplier === 1 ? '' : `${fmtSigned((entry.multiplier - 1) * 100)}%`,
-      cookingBuff: entry.cookingBonus
-        ? FINAL_PCT_ADDEND_STAT_IDS.has(statId)
-          ? `${fmtSigned(entry.cookingBonus)}%`
-          : isRawPercent
-            ? `${fmtSigned(entry.cookingBonus / 100)}%`
-            : fmtSigned(entry.cookingBonus)
-        : '',
+      // 追加バフ列: 料理/HP変動等の加算(cookingBonus)と、最終値への乗算の結果(finalMultiplierBonus、
+      // 例: 「追撃の風・右刃」会心×1.12)を別々の値として横に並べる(例: "+10% +2.06%")。
+      cookingBuff: [entry.cookingBonus, entry.finalMultiplierBonus]
+        .filter((v): v is number => !!v)
+        .map((v) =>
+          FINAL_PCT_ADDEND_STAT_IDS.has(statId)
+            ? `${fmtSigned(v)}%`
+            : isRawPercent
+              ? `${fmtSigned(v / 100)}%`
+              : fmtSigned(v),
+        )
+        .join(' '),
       total: totalFor(statId),
     };
   };
@@ -717,7 +723,9 @@ export default function StatsDetailDialog({ onClose, windowed = false }: StatsDe
                         <td className="stats-detail__value">{row.initialValue}</td>
                         <td className="stats-detail__value">{row.additive}</td>
                         <td className="stats-detail__value">{row.multiplier}</td>
-                        <td className="stats-detail__value">{row.cookingBuff}</td>
+                        <td className="stats-detail__value stats-detail__value--nowrap">
+                          {row.cookingBuff}
+                        </td>
                         <td className="stats-detail__value">{row.total}</td>
                       </tr>
                     );

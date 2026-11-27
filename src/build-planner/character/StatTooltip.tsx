@@ -139,7 +139,7 @@ function StatTooltip({
       ? conversionValue / conversionSourceValue
       : undefined;
   const additionalBuff = breakdownConfig?.hasAdditionalBuff
-    ? (breakdownEntry?.cookingBonus ?? 0)
+    ? (breakdownEntry?.cookingBonus ?? 0) + (breakdownEntry?.finalMultiplierBonus ?? 0)
     : undefined;
   const showBaseValue = breakdownConfig?.showBaseValue ?? true;
 

@@ -189,6 +189,27 @@ export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<
   2201710: { stat: 'luck', value: 500 },
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、会心/幸運等の最終%表示値(HP変動・鼓舞・
+// ステ補正等すべての調整が終わった後の値)への乗算ボーナス(単位: 1/10000、1200 → ×1.12)。
+// 同じステータスへの複数効果は係数を加算してから1回だけ乗算する(×(1 + Σvalue/10000)。
+// 2つ取得で×1.24であり×1.12×1.12ではない。2026-11-28実機計測: 会心7.2%→8.06%→8.92%、
+// 17.2%→19.26%→21.32%、幸運5%→4.5%→4%)。
+// ストームブレイドR2アビリティ「追撃の風・右刃」(talentId 106)/「追撃の風・左刃」(144):
+// 会心+12%・幸運-10%。BuffParは[1200, 1000]で、幸運の減少の符号はデータに無く説明文由来。
+// 日本語説明文の「一定確率で」は中国語原文「几率(=率)」の誤訳で、実際は常時効果。
+export const TALENT_FINAL_PCT_MULTIPLIER_TO_STAT: Partial<
+  Record<number, { stat: StatId; value: number }[]>
+> = {
+  2200080: [
+    { stat: 'crit', value: 1200 },
+    { stat: 'luck', value: -1000 },
+  ],
+  2200460: [
+    { stat: 'crit', value: 1200 },
+    { stat: 'luck', value: -1000 },
+  ],
+};
+
 // アビリティ type=3 効果(BuffId参照)のうち、型に関わらず常に適用される、基礎ステータス
 // (筋力/知力/敏捷等)への%乗算ボーナス(IMAGINE_PCT_BASEと同じaddPctBonus経路・同じ単位:
 // 1/10000)。TALENT_FINAL_PCT_ADDEND_TO_STATとは異なり、対象は収益逓減カーブを経由しない

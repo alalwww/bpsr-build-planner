@@ -77,6 +77,7 @@ import {
   TALENT_EFFECT_TYPE_FLAT_STAT,
   TALENT_EFFECT_TYPE_TYPE1_FINAL_PCT,
   TALENT_FINAL_PCT_ADDEND_TO_STAT,
+  TALENT_FINAL_PCT_MULTIPLIER_TO_STAT,
   TALENT_FLAT_PCT_TO_STAT,
   TALENT_HIGHEST_OF_FINAL_PCT,
   TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS,
@@ -193,11 +194,15 @@ export interface CalculateRawStatsInput {
 // ステータス1件分の「素の値からの変化」内訳。additive=平坦加算の合計、multiplier=%ボーナスの累積倍率、
 // cookingBonus=料理バフ(料理・海風の宴)による最終加算(あれば)、levelBonus=冒険者レベル/潜在
 // レベルによる加算(あれば。ステータス詳細では初期値/ステ変換値列側に表示するためadditiveとは分ける)。
+// finalMultiplierBonus=最終%表示値への乗算(例: 「追撃の風・右刃」会心×1.12)の結果を加算値に
+// 換算したもの(単位はcookingBonusと同じ)。multiplierは実数値に対する乗算の枠のため混ぜず、
+// ステータス詳細では追加バフ列にcookingBonusと並べて別表示する。
 export interface StatBreakdownEntry {
   base: number;
   additive: number;
   multiplier: number;
   cookingBonus?: number;
+  finalMultiplierBonus?: number;
   levelBonus?: number;
 }
 
@@ -243,6 +248,11 @@ export interface CalculateRawStatsResult {
   // (rawStats.hasteは従来通り俊敏変換分を含まないため、これと単純加算するとその分の
   // %ボーナスが抜け落ちる。上記hasteRealAdjustedのコメント参照)。deriveStats()に渡す。
   hasteRealAdjusted: number;
+  // アビリティ(例: ストームブレイド「追撃の風・右刃/左刃」)による、会心/幸運等の最終%表示値への
+  // 乗算係数の合計(単位: 1/10000、ステータスごとに加算済み。1200 → ×1.12)。HP変動/ステ補正等
+  // すべての最終調整が終わった後の値に乗算するため、highestStatFinalPctBonusと同様に
+  // rawStats自体には含めず呼び出し側(computeCookingAdjustments)に返す。
+  finalPctMultiplierBonus: Partial<Record<StatId, number>>;
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -318,6 +328,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   // 幸運%1ptあたりの幸運の一撃ダメージ倍率への変換率ボーナス(例: ビートパフォーマー
   // 「幸運相乗」)。deriveStats側の基礎係数0.25に加算する。
   let luckyHitDamageRatioBonus = 0;
+  // 最終%表示値への乗算係数(例: 「追撃の風・右刃」)。computeCookingAdjustmentsで最後に乗算する。
+  const finalPctMultiplierBonus: Partial<Record<StatId, number>> = {};
 
   // 装備ステータス
   // 装備1つぶんの実数値(基礎/進化/改鋳)は、ここで四捨五入してから合算する(合算後に丸めるのでは
@@ -526,6 +538,11 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           if (rawFlatBonus) addStat(rawFlatBonus.stat, rawFlatBonus.value);
           // 型に関わらず常時有効な、特定1ステータスの最終%表示値への直接加算
           // (例: ストームブレイド「烈風」器用さ+6%)。
+          // 型に関わらず常時有効な、会心/幸運等の最終%表示値への乗算(例: ストームブレイド
+          // 「追撃の風・右刃/左刃」会心×1.12・幸運×0.90)。複数取得時は係数を加算する。
+          for (const { stat, value } of TALENT_FINAL_PCT_MULTIPLIER_TO_STAT[eff[1]] ?? []) {
+            finalPctMultiplierBonus[stat] = (finalPctMultiplierBonus[stat] ?? 0) + value;
+          }
           const finalPctAddendBonus = TALENT_FINAL_PCT_ADDEND_TO_STAT[eff[1]];
           if (finalPctAddendBonus) {
             finalPctAddend[finalPctAddendBonus.stat] =
@@ -983,6 +1000,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     castSpeedFinalPctAddend,
     luckyHitDamageRatioBonus,
     hasteRealAdjusted,
+    finalPctMultiplierBonus,
   };
 }
 

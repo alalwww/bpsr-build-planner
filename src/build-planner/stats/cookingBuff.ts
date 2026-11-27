@@ -141,6 +141,9 @@ export interface CookingAdjustment {
   statId: StatId;
   multiplier?: number;
   addend?: number;
+  // 最終%表示値への乗算の結果を加算値に換算したもの(最終値 × (乗算係数 - 1))。最終値への
+  // 適用はaddendと同じ加算だが、内訳ではcookingBonusとは別枠(finalMultiplierBonus)に積む。
+  finalMultiplierAddend?: number;
 }
 
 // 適応力(乗算)→料理攻撃力(加算)→鼓舞(複数statへの加算)→アビリティ(二段増幅、実数値が
@@ -149,7 +152,8 @@ export interface CookingAdjustment {
 // 判定基準が異なる点に注意(2026-08-05不具合報告で判明): 二段増幅はゲーム内が収益逓減曲線
 // 適用前の実数値(highestOfFiveRawStats、%変換前の装備等由来の実数値。ファストはagility変換
 // 込みのhasteReal)で判定するのに対し、HP変動(パワーコア)はfinalStatsのスクラッチコピー
-// (working、それ以前の調整が適用済みの最終%表示値)で判定する。呼び出し側はこのリストを
+// (working、それ以前の調整が適用済みの最終%表示値)で判定する。ステ補正の後、最後に
+// アビリティの最終%乗算(例: 「追撃の風・右刃」会心×1.12)を適用する。呼び出し側はこのリストを
 // 自身の出力形(実数値 / StatBreakdownEntryの multiplier・cookingBonus)に適用するだけでよい。
 export function computeCookingAdjustments(
   finalStats: Record<StatId, number>,
@@ -166,6 +170,9 @@ export function computeCookingAdjustments(
   statCorrections: Partial<Record<StatId, StatCorrectionEntry>> = {},
   // 料理の精鋭ダメージによる汎用ダメージアップ(damageBonus、"100=1%")。
   cookingDamageBonus = 0,
+  // アビリティによる最終%表示値への乗算係数(単位: 1/10000、ステータスごとに加算済み)。
+  // HP変動・ステ補正まですべて適用済みの最終値に×(1 + value/10000)する(2026-11-28実測)。
+  finalPctMultiplierBonus: Partial<Record<StatId, number>> = {},
 ): CookingAdjustment[] {
   const adjustments: CookingAdjustment[] = [];
   const working = { ...finalStats };
@@ -211,6 +218,13 @@ export function computeCookingAdjustments(
     if (entry.finalValue === 0) continue;
     working[statId] += entry.finalValue;
     adjustments.push({ statId, addend: entry.finalValue });
+  }
+
+  for (const [statId, value] of Object.entries(finalPctMultiplierBonus) as [StatId, number][]) {
+    if (value === 0) continue;
+    const finalMultiplierAddend = working[statId] * (value / 10000);
+    working[statId] += finalMultiplierAddend;
+    adjustments.push({ statId, finalMultiplierAddend });
   }
 
   return adjustments;

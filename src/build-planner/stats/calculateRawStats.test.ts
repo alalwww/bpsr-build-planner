@@ -451,6 +451,62 @@ describe('calculateRawStats', () => {
     expect(result.highestStatFinalPctBonus).toBe(3.5);
   });
 
+  it('sums type=3 final-% multiplier bonuses per stat (stormBlade R2 "追撃の風・右刃/左刃", talentId 106/144)', () => {
+    // src/data/talent-tree.json: nodes["106"].effects = [[3, 2200080, 1]], nodes["144"].effects =
+    // [[3, 2200460, 1]] (both stage:1 = R2). TALENT_FINAL_PCT_MULTIPLIER_TO_STAT: crit +1200, luck -1000.
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      talentR2EnabledIds: new Set([1, 2]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([3]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 106,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 144,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          3,
+          {
+            id: 3,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.finalPctMultiplierBonus).toEqual({ crit: 2400, luck: -2000 });
+    // 乗算は最終調整の段階(computeCookingAdjustments)で行うため、rawStatsには影響しない。
+    expect(result.rawStats.crit).toBe(BASE_STATS.crit);
+    expect(result.rawStats.luck).toBe(BASE_STATS.luck);
+  });
+
   it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+10000)', () => {
     // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
     // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 10000 }
