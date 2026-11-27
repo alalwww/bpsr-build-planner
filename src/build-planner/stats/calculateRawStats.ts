@@ -997,6 +997,9 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
         case 'flat':
           addStat(e.stat, e.value);
           break;
+        case 'atkSpeed':
+          atkSpeedFinalPctAddend += e.value;
+          break;
       }
     }
   }

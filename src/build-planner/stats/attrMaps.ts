@@ -196,9 +196,12 @@ export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<
 //   同じ単位: 100 = 1%。TALENT_FINAL_PCT_ADDEND_TO_STATの条件付き版)。
 // - flat: rawStatsへの平坦加算(addStatと同じ経路・単位。会心ダメージ等の%系は100 = 1%。
 //   TALENT_FLAT_PCT_TO_STATの条件付き版)。
+// - atkSpeed: 攻撃速度への直接加算(%そのままの数値。atkSpeedPercentはrawStats/StatIdに
+//   存在しないため、TALENT_ATK_SPEED_FINAL_PCT_ATTR_IDのtype=1効果と同じatkSpeedFinalPctAddendに積む)。
 export type TalentThresholdEffect =
   | { kind: 'finalPctAddend'; stat: StatId; value: number }
-  | { kind: 'flat'; stat: StatId; value: number };
+  | { kind: 'flat'; stat: StatId; value: number }
+  | { kind: 'atkSpeed'; value: number };
 
 export interface TalentThresholdBonus {
   conditionStat: StatId;
@@ -211,6 +214,7 @@ export interface TalentThresholdBonus {
 // (幸運の一撃ダメージ倍率)+5%。
 // フロストメイジR1アビリティ「氷恵」(talentId 239): 知力500pt以上で氷属性ボーナス+5%
 // (ELEMENT_BONUS_STATと同じ属性ボーナス%への直接加算、単位100 = 1%)。
+// ディバインアーチャーR1アビリティ「機敏」(talentId 1134): 敏捷500pt以上で攻撃速度+5%。
 export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus>> = {
   2202430: {
     conditionStat: 'intellect',
@@ -229,6 +233,11 @@ export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus
     conditionStat: 'intellect',
     threshold: 500,
     effects: [{ kind: 'flat', stat: 'iceBonus', value: 500 }],
+  },
+  2203340: {
+    conditionStat: 'agility',
+    threshold: 500,
+    effects: [{ kind: 'atkSpeed', value: 5 }],
   },
 };
 

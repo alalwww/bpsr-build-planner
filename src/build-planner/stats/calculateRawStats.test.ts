@@ -625,6 +625,43 @@ describe('calculateRawStats', () => {
     });
   });
 
+  describe('threshold-gated attack speed bonus (divineArcher R1 "機敏", talentId 1134: 敏捷500pt以上で攻撃速度+5%)', () => {
+    // src/data/talent-tree.json: nodes["1134"].effects = [[3, 2203340, 1]] (stage:0 = R1)
+    // TALENT_THRESHOLD_BONUS[2203340] = 敏捷>=500 → atkSpeedFinalPctAddend +5
+    const inputWithAgilityAdd = (eventBuffValue: number): CalculateRawStatsInput => ({
+      ...baseInput(),
+      profession: PROFESSIONS.divineArcher,
+      talentR1EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 1134,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+      cookingBuff: { ...DEFAULT_COOKING_BUFF, eventBuffEnabled: true, eventBuffValue },
+    });
+
+    it('adds attack speed +5% when final agility reaches 500', () => {
+      const result = calculateRawStats(inputWithAgilityAdd(500 - BASE_STATS.agility));
+      expect(result.rawStats.agility).toBe(500);
+      expect(result.atkSpeedFinalPctAddend).toBe(5);
+    });
+
+    it('does not add it when final agility is below 500', () => {
+      const result = calculateRawStats(inputWithAgilityAdd(499 - BASE_STATS.agility));
+      expect(result.atkSpeedFinalPctAddend).toBe(0);
+    });
+  });
+
   it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+10000)', () => {
     // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
     // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 10000 }
