@@ -395,6 +395,7 @@ export function computeStatsBundle(state: BuildStore): StatsBundle {
       : EMPTY_STAT_CORRECTIONS,
     cookingResult.damageBonus,
     rawStatsResult.finalPctMultiplierBonus,
+    rawStatsResult.hasteExcessAtkBonuses,
   );
 
   const stats = selectStatsWithCooking(finalStatsResult.stats, cookingAdjustments);

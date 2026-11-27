@@ -251,6 +251,21 @@ export const TALENT_THRESHOLD_BONUS: Partial<Record<number, TalentThresholdBonus
   },
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、最終ファスト%が閾値(%)を超えた分1%につき、
+// 攻撃力の一定%を攻撃力最終値へ加算するもの(料理の攻撃力加算と同じく、適応力等の攻撃力アップ系
+// バフが乗らない最終値への加算。2026-11-28ユーザー確認)。判定に使うファスト%はHP変動・
+// ステ補正まで適用済みの最終値、加算量の基準は料理系の調整(適応力/料理加算)を含まない最終攻撃力で、
+// 整数に切り捨てる(いずれも2026-11-28ユーザー確認済み)。
+// ディバインアーチャーR2アビリティ「臣狼の爪」(talentId 1106): ファスト35%超過分1%につき
+// 攻撃力+0.2%。前半の「臣狼の会心でファスト+2%(5スタック)」は戦闘状態依存のため対象外。
+export interface TalentHasteExcessAtkBonus {
+  thresholdPercent: number;
+  atkPercentPerHastePercent: number;
+}
+export const TALENT_HASTE_EXCESS_ATK_BONUS: Partial<Record<number, TalentHasteExcessAtkBonus>> = {
+  2203070: { thresholdPercent: 35, atkPercentPerHastePercent: 0.2 },
+};
+
 // アビリティ type=3 効果(BuffId参照)のうち、会心/幸運等の最終%表示値(HP変動・鼓舞・
 // ステ補正等すべての調整が終わった後の値)への乗算ボーナス(単位: 1/10000、1200 → ×1.12)。
 // 同じステータスへの複数効果は係数を加算してから1回だけ乗算する(×(1 + Σvalue/10000)。

@@ -2,6 +2,7 @@ import type { Profession } from '../profession';
 import type { CookingBuffState, StatCorrectionEntry, StatId } from '../types';
 import { STAT_CORRECTION_ADD_LIMIT, STAT_CORRECTION_ADD_LIMIT_MAX_HP } from '../types';
 import { STAT_SEASON_CONSTANT } from './seasonConstants';
+import type { TalentHasteExcessAtkBonus } from './attrMaps';
 
 // イベントバフのメインステータス加算量の既定値(旧・海風の宴の固定効果量を踏襲)。
 export const DEFAULT_EVENT_BUFF_VALUE = 500;
@@ -173,6 +174,8 @@ export function computeCookingAdjustments(
   // アビリティによる最終%表示値への乗算係数(単位: 1/10000、ステータスごとに加算済み)。
   // HP変動・ステ補正まですべて適用済みの最終値に×(1 + value/10000)する(2026-11-28実測)。
   finalPctMultiplierBonus: Partial<Record<StatId, number>> = {},
+  // アビリティによる、最終ファスト%の閾値超過分に応じた攻撃力最終値への加算(例: 「臣狼の爪」)。
+  hasteExcessAtkBonuses: TalentHasteExcessAtkBonus[] = [],
 ): CookingAdjustment[] {
   const adjustments: CookingAdjustment[] = [];
   const working = { ...finalStats };
@@ -225,6 +228,21 @@ export function computeCookingAdjustments(
     const finalMultiplierAddend = working[statId] * (value / 10000);
     working[statId] += finalMultiplierAddend;
     adjustments.push({ statId, finalMultiplierAddend });
+  }
+
+  // 最終ファスト%の閾値超過分1%につき攻撃力+N%(例: ディバインアーチャー「臣狼の爪」35%超過分
+  // 1%につき+0.2%)。料理の攻撃力加算と同じく攻撃力最終値への加算で、適応力等の攻撃力アップ系
+  // バフは乗らない。ファスト%はここまでの調整(HP変動・ステ補正等)適用済みの最終値、加算量の
+  // 基準は料理系の調整を含まない最終攻撃力(finalStats)。攻撃力の表示に合わせて整数に切り捨てる。
+  for (const b of hasteExcessAtkBonuses) {
+    const excess = working.haste - b.thresholdPercent;
+    if (excess <= 0) continue;
+    const addend = Math.floor(
+      (finalStats[cookingAtkStatId] * b.atkPercentPerHastePercent * excess) / 100,
+    );
+    if (addend === 0) continue;
+    working[cookingAtkStatId] += addend;
+    adjustments.push({ statId: cookingAtkStatId, addend });
   }
 
   return adjustments;

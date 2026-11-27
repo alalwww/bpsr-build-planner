@@ -699,6 +699,50 @@ describe('calculateRawStats', () => {
     });
   });
 
+  it('reports hasteExcessAtkBonuses for an active R2 ability (divineArcher "臣狼の爪", talentId 1106)', () => {
+    // src/data/talent-tree.json: nodes["1106"].effects = [[3, 2203070, 1]] (stage:1 = R2)
+    // TALENT_HASTE_EXCESS_ATK_BONUS[2203070] = ファスト35%超過分1%につき攻撃力+0.2%
+    const input: CalculateRawStatsInput = {
+      ...baseInput(),
+      profession: PROFESSIONS.divineArcher,
+      talentR2EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentR1EnabledIds: new Set([2]),
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 1106,
+            stage: 1,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+        [
+          2,
+          {
+            id: 2,
+            talentId: 1,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+    };
+
+    const result = calculateRawStats(input);
+
+    expect(result.hasteExcessAtkBonuses).toEqual([
+      { thresholdPercent: 35, atkPercentPerHastePercent: 0.2 },
+    ]);
+  });
+
   it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+10000)', () => {
     // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
     // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 10000 }

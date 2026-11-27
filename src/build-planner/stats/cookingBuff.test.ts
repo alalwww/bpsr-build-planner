@@ -171,6 +171,53 @@ describe('computeCookingAdjustments', () => {
     expect(17.2 + (adjustments[1].finalMultiplierAddend ?? 0)).toBeCloseTo(21.328, 10);
     expect(5 + (adjustments[2].finalMultiplierAddend ?? 0)).toBeCloseTo(4, 10);
   });
+
+  it('adds atk by the final haste % over the threshold, based on pre-cooking final atk (臣狼の爪)', () => {
+    // ファスト30% + HP変動10% = 40% → 35%超過分5% × 0.2% = 攻撃力+1%。
+    // 基準は料理系調整前の攻撃力(1000)。適応力(+20%)・料理加算(+50)は基準に含めない。
+    const finalStats = { ...zeroStats(), atk: 1000, haste: 30 };
+    const adjustments = computeCookingAdjustments(
+      finalStats,
+      'atk',
+      50,
+      0,
+      0,
+      10,
+      20,
+      zeroStats(),
+      {},
+      0,
+      {},
+      [{ thresholdPercent: 35, atkPercentPerHastePercent: 0.2 }],
+    );
+
+    expect(adjustments).toEqual([
+      { statId: 'atk', multiplier: 1.2 },
+      { statId: 'atk', addend: 50 },
+      { statId: 'haste', addend: 10 },
+      { statId: 'atk', addend: 10 },
+    ]);
+  });
+
+  it('skips the haste-excess atk bonus when final haste does not exceed the threshold', () => {
+    const finalStats = { ...zeroStats(), atk: 1000, haste: 35 };
+    const adjustments = computeCookingAdjustments(
+      finalStats,
+      'atk',
+      0,
+      0,
+      0,
+      0,
+      0,
+      zeroStats(),
+      {},
+      0,
+      {},
+      [{ thresholdPercent: 35, atkPercentPerHastePercent: 0.2 }],
+    );
+
+    expect(adjustments).toEqual([]);
+  });
 });
 
 describe('料理の精鋭ダメージ → 汎用ダメージアップ(damageBonus)', () => {

@@ -80,12 +80,13 @@ import {
   TALENT_FINAL_PCT_MULTIPLIER_TO_STAT,
   TALENT_THRESHOLD_BONUS,
   TALENT_FLAT_PCT_TO_STAT,
+  TALENT_HASTE_EXCESS_ATK_BONUS,
   TALENT_HIGHEST_OF_FINAL_PCT,
   TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS,
   TALENT_RAW_FLAT_TO_STAT,
   TALENT_TYPE1_ONLY_FINAL_PCT,
 } from './attrMaps';
-import type { TalentThresholdBonus } from './attrMaps';
+import type { TalentHasteExcessAtkBonus, TalentThresholdBonus } from './attrMaps';
 import {
   calcModuleEffectLevels,
   enchantEffectsById,
@@ -255,6 +256,10 @@ export interface CalculateRawStatsResult {
   // すべての最終調整が終わった後の値に乗算するため、highestStatFinalPctBonusと同様に
   // rawStats自体には含めず呼び出し側(computeCookingAdjustments)に返す。
   finalPctMultiplierBonus: Partial<Record<StatId, number>>;
+  // アビリティ(例: ディバインアーチャー「臣狼の爪」)による、最終ファスト%の閾値超過分に応じた
+  // 攻撃力最終値への加算。最終ファスト%確定後にしか計算できないため、呼び出し側
+  // (computeCookingAdjustments)に返す。
+  hasteExcessAtkBonuses: TalentHasteExcessAtkBonus[];
 }
 
 // 装備・精錬・アビリティ・装着効果・バトルイマジン・モジュール・冒険者レベル・
@@ -332,6 +337,8 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
   let luckyHitDamageRatioBonus = 0;
   // 最終%表示値への乗算係数(例: 「追撃の風・右刃」)。computeCookingAdjustmentsで最後に乗算する。
   const finalPctMultiplierBonus: Partial<Record<StatId, number>> = {};
+  // 最終ファスト%の閾値超過分に応じた攻撃力最終値への加算(例: 「臣狼の爪」)。
+  const hasteExcessAtkBonuses: TalentHasteExcessAtkBonus[] = [];
   // 基礎ステータスの最終実数値が閾値以上の場合のみ有効な効果(例: 「万能の息吹」)。
   // 実数値確定後(pctPerRatingBonusesと同じタイミング)に判定する。
   const thresholdBonuses: TalentThresholdBonus[] = [];
@@ -565,6 +572,10 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
           // (例: ビートパフォーマー「幸運相乗」)。
           const luckyHitDamageRatio = TALENT_LUCKY_HIT_DAMAGE_RATIO_BONUS[eff[1]];
           if (luckyHitDamageRatio) luckyHitDamageRatioBonus += luckyHitDamageRatio;
+          // 型に関わらず常時有効な、最終ファスト%の閾値超過分に応じた攻撃力最終値への加算
+          // (例: ディバインアーチャー「臣狼の爪」)。計算は最終ファスト%確定後に行う。
+          const hasteExcessAtk = TALENT_HASTE_EXCESS_ATK_BONUS[eff[1]];
+          if (hasteExcessAtk) hasteExcessAtkBonuses.push(hasteExcessAtk);
         } else if (eff[0] === TALENT_EFFECT_TYPE_CONVERSION_RATE) {
           // メインステータス→攻撃力/物理防御力/ファスト等への変換率ボーナス
           // (例: ゲイルランサー「筋力変換」)。eff = [4, 元ステータス種別(未使用), attrId, rateX10000]。
@@ -1033,6 +1044,7 @@ export function calculateRawStats(input: CalculateRawStatsInput): CalculateRawSt
     luckyHitDamageRatioBonus,
     hasteRealAdjusted,
     finalPctMultiplierBonus,
+    hasteExcessAtkBonuses,
   };
 }
 
