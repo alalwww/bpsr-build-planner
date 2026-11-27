@@ -189,6 +189,17 @@ export const TALENT_FINAL_PCT_ADDEND_TO_STAT: Partial<
   2201710: { stat: 'luck', value: 500 },
 };
 
+// アビリティ type=3 効果(BuffId参照)のうち、基礎ステータス(筋力/知力/敏捷等)の最終実数値が
+// 閾値以上の場合に、会心/ファスト/幸運/器用さ/万能いずれか1つの最終%表示値へ直接加算するもの
+// (finalPctAddendと同じ単位: 100 = 1%。TALENT_FINAL_PCT_ADDEND_TO_STATの条件付き版)。
+// 判定に使う実数値は%ボーナス・能力共鳴まで適用済みの最終値(キャラクターパネルの表示値)。
+// ヴァーダントオラクルR1アビリティ「万能の息吹」(talentId 539): 知力500pt以上で万能+4%。
+export const TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT: Partial<
+  Record<number, { conditionStat: StatId; threshold: number; stat: StatId; value: number }>
+> = {
+  2202430: { conditionStat: 'intellect', threshold: 500, stat: 'versatility', value: 400 },
+};
+
 // アビリティ type=3 効果(BuffId参照)のうち、会心/幸運等の最終%表示値(HP変動・鼓舞・
 // ステ補正等すべての調整が終わった後の値)への乗算ボーナス(単位: 1/10000、1200 → ×1.12)。
 // 同じステータスへの複数効果は係数を加算してから1回だけ乗算する(×(1 + Σvalue/10000)。

@@ -507,6 +507,45 @@ describe('calculateRawStats', () => {
     expect(result.rawStats.luck).toBe(BASE_STATS.luck);
   });
 
+  describe('threshold-gated final-% addend (verdantOracle R1 "万能の息吹", talentId 539: 知力500pt以上で万能+4%)', () => {
+    // src/data/talent-tree.json: nodes["539"].effects = [[3, 2202430, 1]] (stage:0 = R1)
+    // TALENT_THRESHOLD_FINAL_PCT_ADDEND_TO_STAT[2202430] = 知力>=500 → versatility +400
+    const inputWithIntellectAdd = (eventBuffValue: number): CalculateRawStatsInput => ({
+      ...baseInput(),
+      profession: PROFESSIONS.verdantOracle,
+      talentR1EnabledIds: new Set([1]),
+      r1NodeCount: 1,
+      talentNodesById: new Map([
+        [
+          1,
+          {
+            id: 1,
+            talentId: 539,
+            stage: 0,
+            bdType: 0,
+            preNodes: [],
+            nextNodes: [],
+            position: [0, 0],
+          },
+        ],
+      ]),
+      // イベントバフはクラスのメインステータス(ヴァーダントオラクルは知力)への平坦加算。
+      cookingBuff: { ...DEFAULT_COOKING_BUFF, eventBuffEnabled: true, eventBuffValue },
+    });
+
+    it('adds versatility +4% when final intellect reaches exactly 500', () => {
+      const result = calculateRawStats(inputWithIntellectAdd(500 - BASE_STATS.intellect));
+      expect(result.rawStats.intellect).toBe(500);
+      expect(result.finalPctAddend.versatility).toBe(400);
+    });
+
+    it('does not add versatility when final intellect is below 500', () => {
+      const result = calculateRawStats(inputWithIntellectAdd(499 - BASE_STATS.intellect));
+      expect(result.rawStats.intellect).toBe(499);
+      expect(result.finalPctAddend.versatility).toBeUndefined();
+    });
+  });
+
   it('adds a type=3 raw flat stat bonus to rawStats (frostMage R2 "高速詠唱", talentId 267: ファスト+10000)', () => {
     // src/data/talent-tree.json: nodes["267"].effects = [[3, 2204640, 1]]
     // TALENT_RAW_FLAT_TO_STAT[2204640] = { stat: 'haste', value: 10000 }
